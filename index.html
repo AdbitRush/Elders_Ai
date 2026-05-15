@@ -22,9 +22,14 @@
         .premium-card:hover { transform: translateY(-14px) scale(1.025); box-shadow: 0 40px 80px -16px rgba(183,121,31,0.5), 0 0 0 2px rgba(183,121,31,0.6), 0 8px 20px rgba(0,0,0,0.4); border-color: var(--accent); }
         .premium-card:hover .thumbnail-container img,
         .premium-card:hover .thumbnail-container svg { transform: scale(1.08); }
-        .thumbnail-container { height: 200px; width: 100%; overflow: hidden; position: relative; background: linear-gradient(135deg,#1a365d,#0a1628); }
+        .thumbnail-container { height: 200px; width: 100%; overflow: hidden; position: relative; background: linear-gradient(135deg,#0d1f38 0%,#1a365d 50%,#0d1f38 100%); background-size: 200% 100%; animation: shimmer 1.8s ease-in-out infinite; }
+        .thumbnail-container.loaded { animation: none; background: #0a1628; }
+        @keyframes shimmer { 0%,100%{background-position:0% 0%} 50%{background-position:100% 0%} }
         .thumbnail-container svg { transition: transform 0.5s ease; display:block; width:100%; height:100%; }
-        .thumbnail-img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s ease; }
+        .thumbnail-img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s ease, opacity 0.4s ease; opacity:0; }
+        .thumbnail-img.loaded { opacity:1; }
+        /* Safety: .hidden works even if Tailwind CDN fails */
+        .hidden { display: none !important; }
         .btn-premium { background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%); color: white; transition: all 0.25s; box-shadow: 0 2px 8px rgba(26,54,93,0.4); }
         .btn-premium:hover { background: linear-gradient(135deg, #2c5282 0%, #3b6cb5 100%); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(26,54,93,0.5); }
         /* Memory */
@@ -141,95 +146,95 @@
     <div id="homeScreen" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('memory')">
             <span id="hs-memory" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/elderly+woman+joyful+playing+memory+card+game+cozy+warm+living+room+golden+hour+cinematic+photography+lifestyle?width=600&height=400&nologo=true&seed=1001&model=flux" class="thumbnail-img" alt="memory" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/elderly+woman+joyful+playing+memory+card+game+cozy+warm+living+room+golden+hour+cinematic+photography+lifestyle?width=600&height=400&nologo=true&seed=1001&model=flux" class="thumbnail-img" alt="memory" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_memory_title">אימון זיכרון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_memory_desc">שיפור הזיכרון לטווח קצר.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('oddoneout')">
             <span id="hs-oddoneout" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/colorful+geometric+shapes+symbols+grid+visual+puzzle+brain+teaser+vibrant+studio+high+contrast?width=600&height=400&nologo=true&seed=1002&model=flux" class="thumbnail-img" alt="oddoneout" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/colorful+geometric+shapes+symbols+grid+visual+puzzle+brain+teaser+vibrant+studio+high+contrast?width=600&height=400&nologo=true&seed=1002&model=flux" class="thumbnail-img" alt="oddoneout" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_odd_title">יוצא דופן</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_odd_desc">מצאו את הסמל השונה.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('math')">
             <span id="hs-math" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/senior+man+cheerful+mental+arithmetic+math+calculation+bright+warm+home+lifestyle+photography?width=600&height=400&nologo=true&seed=1003&model=flux" class="thumbnail-img" alt="math" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/senior+man+cheerful+mental+arithmetic+math+calculation+bright+warm+home+lifestyle+photography?width=600&height=400&nologo=true&seed=1003&model=flux" class="thumbnail-img" alt="math" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_math_title">חשבון מהיר</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_math_desc">חיבור וחיסור קלים.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('wordsearch')">
             <span id="hs-wordsearch" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/word+search+puzzle+newspaper+pencil+morning+coffee+warm+cozy+overhead+flat+lay+photography?width=600&height=400&nologo=true&seed=1004&model=flux" class="thumbnail-img" alt="wordsearch" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/word+search+puzzle+newspaper+pencil+morning+coffee+warm+cozy+overhead+flat+lay+photography?width=600&height=400&nologo=true&seed=1004&model=flux" class="thumbnail-img" alt="wordsearch" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_words_title">חיפוש מילים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_words_desc">מצאו מילות סתר.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('simon')">
             <span id="hs-simon" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/neon+glowing+colorful+simon+says+electronic+buttons+dark+background+vibrant+retro+game?width=600&height=400&nologo=true&seed=1005&model=flux" class="thumbnail-img" alt="simon" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/neon+glowing+colorful+simon+says+electronic+buttons+dark+background+vibrant+retro+game?width=600&height=400&nologo=true&seed=1005&model=flux" class="thumbnail-img" alt="simon" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_simon_title">רצף צבעים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_simon_desc">חיזרו על הרצף המואר.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('sudoku')">
             <span id="hs-sudoku" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/sudoku+puzzle+newspaper+pencil+morning+coffee+cozy+warm+soft+natural+light+lifestyle?width=600&height=400&nologo=true&seed=1006&model=flux" class="thumbnail-img" alt="sudoku" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/sudoku+puzzle+newspaper+pencil+morning+coffee+cozy+warm+soft+natural+light+lifestyle?width=600&height=400&nologo=true&seed=1006&model=flux" class="thumbnail-img" alt="sudoku" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_sudoku_title">סודוקו יומי</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_sudoku_desc">פאזל לוגי 4×4.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('shapes')">
             <span id="hs-shapes" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/colorful+wooden+geometric+shapes+sorting+puzzle+bright+playful+brain+training+lifestyle+photography?width=600&height=400&nologo=true&seed=1007&model=flux" class="thumbnail-img" alt="shapes" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/colorful+wooden+geometric+shapes+sorting+puzzle+bright+playful+brain+training+lifestyle+photography?width=600&height=400&nologo=true&seed=1007&model=flux" class="thumbnail-img" alt="shapes" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_shapes_title">סדר וארגון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_shapes_desc">התאמת צורות למקומן.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('solitaire')">
             <span id="hs-solitaire" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/pyramid+solitaire+playing+cards+green+felt+table+classic+elegant+cinematic+photography?width=600&height=400&nologo=true&seed=1008&model=flux" class="thumbnail-img" alt="solitaire" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/pyramid+solitaire+playing+cards+green+felt+table+classic+elegant+cinematic+photography?width=600&height=400&nologo=true&seed=1008&model=flux" class="thumbnail-img" alt="solitaire" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_solitaire_title">סוליטר פירמידה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_solitaire_desc">זוגות קלפים = 13.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('trivia')">
             <span id="hs-trivia" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/quiz+show+dramatic+spotlight+glowing+question+mark+trivia+knowledge+game+exciting+stage?width=600&height=400&nologo=true&seed=1009&model=flux" class="thumbnail-img" alt="trivia" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/quiz+show+dramatic+spotlight+glowing+question+mark+trivia+knowledge+game+exciting+stage?width=600&height=400&nologo=true&seed=1009&model=flux" class="thumbnail-img" alt="trivia" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_trivia_title">טריוויה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_trivia_desc">ידע כללי ושאלות מרתקות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 10: Number Sequence -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('numseq')">
             <span id="hs-numseq" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/mathematical+number+sequence+glowing+colorful+digits+pattern+brain+training+vibrant+dark?width=600&height=400&nologo=true&seed=1010&model=flux" class="thumbnail-img" alt="numseq" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/mathematical+number+sequence+glowing+colorful+digits+pattern+brain+training+vibrant+dark?width=600&height=400&nologo=true&seed=1010&model=flux" class="thumbnail-img" alt="numseq" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_numseq_title">רצף מספרים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_numseq_desc">מצאו את המספר הבא ברצף. מחדד חשיבה לוגית.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 11: Word Unscramble -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('unscramble')">
             <span id="hs-unscramble" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/wooden+scrabble+letter+tiles+word+unscramble+anagram+game+cozy+warm+table+photography?width=600&height=400&nologo=true&seed=1011&model=flux" class="thumbnail-img" alt="unscramble" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/wooden+scrabble+letter+tiles+word+unscramble+anagram+game+cozy+warm+table+photography?width=600&height=400&nologo=true&seed=1011&model=flux" class="thumbnail-img" alt="unscramble" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_unscrbl_title">פענוח מילה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_unscrbl_desc">סדרו את האותיות לכדי מילה. מאמן שפה ומיקוד.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 12: Opposites Pairs -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('pairs')">
             <span id="hs-pairs" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/artistic+opposites+contrast+hot+cold+day+night+concept+photography+warm+tones+creative?width=600&height=400&nologo=true&seed=1012&model=flux" class="thumbnail-img" alt="pairs" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/artistic+opposites+contrast+hot+cold+day+night+concept+photography+warm+tones+creative?width=600&height=400&nologo=true&seed=1012&model=flux" class="thumbnail-img" alt="pairs" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_pairs_title">זוגות הפכים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_pairs_desc">חברו כל מילה להפכה. מאמן אוצר מילים ומיקוד.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 13: True or False -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('truefalse')">
             <span id="hs-truefalse" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/true+false+bold+checkmark+crossmark+quiz+decision+vibrant+colorful+graphic+design?width=600&height=400&nologo=true&seed=1013&model=flux" class="thumbnail-img" alt="truefalse" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/true+false+bold+checkmark+crossmark+quiz+decision+vibrant+colorful+graphic+design?width=600&height=400&nologo=true&seed=1013&model=flux" class="thumbnail-img" alt="truefalse" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_tf_title">נכון / לא נכון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_tf_desc">האמת או שקר? בחנו את הידע הכללי.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 14: Flag Quiz -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('flags')">
             <span id="hs-flags" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/world+flags+colorful+collection+globe+international+travel+countries+display+vibrant?width=600&height=400&nologo=true&seed=1014&model=flux" class="thumbnail-img" alt="flags" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/world+flags+colorful+collection+globe+international+travel+countries+display+vibrant?width=600&height=400&nologo=true&seed=1014&model=flux" class="thumbnail-img" alt="flags" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_flags_title">דגלי העולם</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_flags_desc">זהו את המדינה לפי הדגל.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 15: Proverbs -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('proverbs')">
             <span id="hs-proverbs" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/ancient+wisdom+open+book+candlelight+cozy+library+golden+parchment+quill+warm+glow?width=600&height=400&nologo=true&seed=1015&model=flux" class="thumbnail-img" alt="proverbs" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/ancient+wisdom+open+book+candlelight+cozy+library+golden+parchment+quill+warm+glow?width=600&height=400&nologo=true&seed=1015&model=flux" class="thumbnail-img" alt="proverbs" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_proverbs_title">השלם את הפתגם</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_proverbs_desc">מצאו את הסוף הנכון של הפתגם.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 16: Hangman -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('hangman')">
             <span id="hs-hangman" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/hangman+word+guessing+game+chalk+blackboard+classic+letters+vintage+atmospheric?width=600&height=400&nologo=true&seed=1016&model=flux" class="thumbnail-img" alt="hangman" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/hangman+word+guessing+game+chalk+blackboard+classic+letters+vintage+atmospheric?width=600&height=400&nologo=true&seed=1016&model=flux" class="thumbnail-img" alt="hangman" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_hangman_title">תלייה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_hangman_desc">נחשו את המילה לפני שיגמרו הניסיונות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 17: Word Recall -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('recall')">
             <span id="hs-recall" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/brain+memory+recall+training+senior+cognitive+focus+concentration+warm+lifestyle+calm?width=600&height=400&nologo=true&seed=1017&model=flux" class="thumbnail-img" alt="recall" loading="lazy" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/brain+memory+recall+training+senior+cognitive+focus+concentration+warm+lifestyle+calm?width=600&height=400&nologo=true&seed=1017&model=flux" class="thumbnail-img" alt="recall" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_recall_title">זיכרון תמונות</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_recall_desc">זכרו אילו פריטים ראיתם.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
     </div>
@@ -1692,6 +1697,14 @@ function _rotateAdTicker() {
 }
 _rotateAdTicker();
 setInterval(_rotateAdTicker, 6000);
+
+// Thumbnail image fade-in when Pollinations images load
+document.querySelectorAll('.thumbnail-img').forEach(img => {
+    const container = img.parentElement;
+    const done = () => { img.classList.add('loaded'); container.classList.add('loaded'); };
+    if (img.complete && img.naturalWidth > 0) { done(); }
+    else { img.addEventListener('load', done); img.addEventListener('error', () => { container.classList.add('loaded'); }); }
+});
 </script>
 </body>
 </html>
