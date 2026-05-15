@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --bg: #f8fafc; }
-        body { font-family: 'Assistant', sans-serif; background-color: var(--bg); color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; }
+        body { font-family: 'Assistant', sans-serif; background-color: var(--bg); color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; }
         button, [onclick] { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
         .premium-card { background: white; border-radius: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); cursor: pointer; overflow: hidden; border: 1px solid #e2e8f0; }
         .premium-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.12); border-color: var(--accent); }
@@ -59,6 +59,17 @@
         .goal-pip.done { background:#f59e0b; } .goal-pip.pending { background:#fef3c7; }
         /* Badge on game cards */
         .hs-badge { position:absolute;top:10px;right:10px;background:rgba(26,54,93,0.85);color:#fbbf24;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:9999px;backdrop-filter:blur(4px); }
+        /* ── Ad zones ─────────────────────────────────────── */
+        #adBar { position:fixed;bottom:0;left:0;right:0;height:52px;background:rgba(15,23,42,0.97);backdrop-filter:blur(8px);border-top:2px solid #b7791f;z-index:300;display:flex;align-items:center;padding:0 14px;gap:10px;transition:transform 0.35s ease; }
+        #adBar.closed { transform:translateY(100%); }
+        .ad-pill { font-size:9px;font-weight:800;color:#b7791f;border:1px solid #b7791f;border-radius:4px;padding:2px 6px;letter-spacing:0.5px;flex-shrink:0;text-transform:uppercase; }
+        #adContent { flex:1;overflow:hidden;text-align:center;color:#cbd5e1;font-size:13px;white-space:nowrap; }
+        #adFallback { display:inline-block;transition:opacity 0.5s; }
+        #adX { background:none;border:none;color:#64748b;font-size:20px;cursor:pointer;padding:4px 8px;flex-shrink:0;line-height:1;transition:color 0.2s; }
+        #adX:hover { color:#e2e8f0; }
+        /* Side zone — desktop only (≥1440px) */
+        #adSide { position:fixed;right:12px;top:50%;transform:translateY(-50%);width:160px;display:none;z-index:200;background:white;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.09); }
+        @media(min-width:1440px){#adSide{display:block}}
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -110,95 +121,95 @@
     <div id="homeScreen" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('memory')">
             <span id="hs-memory" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/happy+elderly+woman+smiling+playing+memory+card+game+cozy+warm+living+room?width=600&height=400&nologo=true&seed=1001&model=flux" class="thumbnail-img" alt=""></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/happy+elderly+woman+smiling+playing+memory+card+game+cozy+warm+living+room?width=600&height=400&nologo=true&seed=1001&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#dbeafe,#bfdbfe)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">🃏</div>')" alt=""></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_memory_title">אימון זיכרון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_memory_desc">שיפור הזיכרון לטווח קצר.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('oddoneout')">
             <span id="hs-oddoneout" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/colorful+geometric+symbols+grid+visual+puzzle+brain+teaser+game?width=600&height=400&nologo=true&seed=1002&model=flux" class="thumbnail-img" alt=""></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/colorful+geometric+symbols+grid+visual+puzzle+brain+teaser+game?width=600&height=400&nologo=true&seed=1002&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#fef9c3,#fef08a)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#fef9c3,#fef08a)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">🔍</div>')" alt=""></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_odd_title">יוצא דופן</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_odd_desc">מצאו את הסמל השונה.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('math')">
             <span id="hs-math" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/senior+man+joyful+doing+mental+arithmetic+math+calculation+bright+warm?width=600&height=400&nologo=true&seed=1003&model=flux" class="thumbnail-img" alt=""></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/senior+man+joyful+doing+mental+arithmetic+math+calculation+bright+warm?width=600&height=400&nologo=true&seed=1003&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#dcfce7,#bbf7d0)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">➕</div>')" alt=""></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_math_title">חשבון מהיר</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_math_desc">חיבור וחיסור קלים.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('wordsearch')">
             <span id="hs-wordsearch" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/word+search+puzzle+paper+grid+pencil+morning+coffee+warm+cozy?width=600&height=400&nologo=true&seed=1004&model=flux" class="thumbnail-img" alt=""></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/word+search+puzzle+paper+grid+pencil+morning+coffee+warm+cozy?width=600&height=400&nologo=true&seed=1004&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#ede9fe,#ddd6fe)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">📝</div>')" alt=""></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_words_title">חיפוש מילים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_words_desc">מצאו מילות סתר.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('simon')">
             <span id="hs-simon" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/simon+says+colorful+glowing+neon+light+buttons+electronic+game+vibrant?width=600&height=400&nologo=true&seed=1005&model=flux" class="thumbnail-img" alt=""></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/simon+says+colorful+glowing+neon+light+buttons+electronic+game+vibrant?width=600&height=400&nologo=true&seed=1005&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#fce7f3,#fbcfe8)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">🌈</div>')" alt=""></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_simon_title">רצף צבעים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_simon_desc">חיזרו על הרצף המואר.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('sudoku')">
             <span id="hs-sudoku" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/sudoku+number+puzzle+grid+pencil+newspaper+morning+cozy+warm+light?width=600&height=400&nologo=true&seed=1006&model=flux" class="thumbnail-img" alt=""></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/sudoku+number+puzzle+grid+pencil+newspaper+morning+cozy+warm+light?width=600&height=400&nologo=true&seed=1006&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#e0f2fe,#bae6fd)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">🔢</div>')" alt=""></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_sudoku_title">סודוקו יומי</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_sudoku_desc">פאזל לוגי 4×4.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('shapes')">
             <span id="hs-shapes" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/colorful+wooden+geometric+shapes+sorting+puzzle+bright+playful+brain+training?width=600&height=400&nologo=true&seed=1007&model=flux" class="thumbnail-img" alt=""></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/colorful+wooden+geometric+shapes+sorting+puzzle+bright+playful+brain+training?width=600&height=400&nologo=true&seed=1007&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#fff7ed,#fed7aa)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#fff7ed,#fed7aa)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">🔷</div>')" alt=""></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_shapes_title">סדר וארגון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_shapes_desc">התאמת צורות למקומן.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('solitaire')">
             <span id="hs-solitaire" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/playing+cards+pyramid+solitaire+game+green+felt+table+classic+elegant?width=600&height=400&nologo=true&seed=1008&model=flux" class="thumbnail-img" alt=""></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/playing+cards+pyramid+solitaire+game+green+felt+table+classic+elegant?width=600&height=400&nologo=true&seed=1008&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#f0fdf4,#bbf7d0)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#f0fdf4,#bbf7d0)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">♦️</div>')" alt=""></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_solitaire_title">סוליטר פירמידה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_solitaire_desc">זוגות קלפים = 13.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('trivia')">
             <span id="hs-trivia" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/quiz+show+glowing+spotlight+question+mark+trivia+knowledge+game+exciting?width=600&height=400&nologo=true&seed=1009&model=flux" class="thumbnail-img" alt=""></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/quiz+show+glowing+spotlight+question+mark+trivia+knowledge+game+exciting?width=600&height=400&nologo=true&seed=1009&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#fefce8,#fef08a)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#fefce8,#fef08a)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">❓</div>')" alt=""></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_trivia_title">טריוויה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_trivia_desc">ידע כללי ושאלות מרתקות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 10: Number Sequence -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('numseq')">
             <span id="hs-numseq" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/number+sequence+mathematical+colorful+glowing+digits+pattern+brain+training?width=600&height=400&nologo=true&seed=1010&model=flux" class="thumbnail-img" alt="" loading="lazy"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/number+sequence+mathematical+colorful+glowing+digits+pattern+brain+training?width=600&height=400&nologo=true&seed=1010&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#dbeafe,#bfdbfe)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">📊</div>')" alt="" loading="lazy"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_numseq_title">רצף מספרים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_numseq_desc">מצאו את המספר הבא ברצף. מחדד חשיבה לוגית.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 11: Word Unscramble -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('unscramble')">
             <span id="hs-unscramble" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/scrabble+wooden+letter+tiles+word+unscramble+anagram+game+cozy+warm?width=600&height=400&nologo=true&seed=1011&model=flux" class="thumbnail-img" alt="" loading="lazy"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/scrabble+wooden+letter+tiles+word+unscramble+anagram+game+cozy+warm?width=600&height=400&nologo=true&seed=1011&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#fef3c7,#fde68a)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#fef3c7,#fde68a)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">🔤</div>')" alt="" loading="lazy"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_unscrbl_title">פענוח מילה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_unscrbl_desc">סדרו את האותיות לכדי מילה. מאמן שפה ומיקוד.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 12: Opposites Pairs -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('pairs')">
             <span id="hs-pairs" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/opposites+contrast+concept+hot+cold+day+night+artistic+warm+tones?width=600&height=400&nologo=true&seed=1012&model=flux" class="thumbnail-img" alt="" loading="lazy"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/opposites+contrast+concept+hot+cold+day+night+artistic+warm+tones?width=600&height=400&nologo=true&seed=1012&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#ffe4e6,#fecdd3)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#ffe4e6,#fecdd3)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">🔗</div>')" alt="" loading="lazy"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_pairs_title">זוגות הפכים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_pairs_desc">חברו כל מילה להפכה. מאמן אוצר מילים ומיקוד.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 13: True or False -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('truefalse')">
             <span id="hs-truefalse" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/true+false+green+checkmark+red+crossmark+quiz+decision+vibrant+colorful?width=600&height=400&nologo=true&seed=1013&model=flux" class="thumbnail-img" alt="" loading="lazy"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/true+false+green+checkmark+red+crossmark+quiz+decision+vibrant+colorful?width=600&height=400&nologo=true&seed=1013&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#dcfce7,#bbf7d0)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">✅</div>')" alt="" loading="lazy"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_tf_title">נכון / לא נכון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_tf_desc">האמת או שקר? בחנו את הידע הכללי.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 14: Flag Quiz -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('flags')">
             <span id="hs-flags" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/world+flags+international+colorful+collection+globe+countries+travel?width=600&height=400&nologo=true&seed=1014&model=flux" class="thumbnail-img" alt="" loading="lazy"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/world+flags+international+colorful+collection+globe+countries+travel?width=600&height=400&nologo=true&seed=1014&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#e0f2fe,#bae6fd)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">🚩</div>')" alt="" loading="lazy"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_flags_title">דגלי העולם</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_flags_desc">זהו את המדינה לפי הדגל.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 15: Proverbs -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('proverbs')">
             <span id="hs-proverbs" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/ancient+wisdom+book+open+proverbs+quotes+candlelight+cozy+library+golden?width=600&height=400&nologo=true&seed=1015&model=flux" class="thumbnail-img" alt="" loading="lazy"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/ancient+wisdom+book+open+proverbs+quotes+candlelight+cozy+library+golden?width=600&height=400&nologo=true&seed=1015&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#fef3c7,#fde68a)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#fef3c7,#fde68a)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">📖</div>')" alt="" loading="lazy"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_proverbs_title">השלם את הפתגם</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_proverbs_desc">מצאו את הסוף הנכון של הפתגם.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 16: Hangman -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('hangman')">
             <span id="hs-hangman" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/hangman+word+guessing+game+chalk+blackboard+stick+figure+letters+classic?width=600&height=400&nologo=true&seed=1016&model=flux" class="thumbnail-img" alt="" loading="lazy"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/hangman+word+guessing+game+chalk+blackboard+stick+figure+letters+classic?width=600&height=400&nologo=true&seed=1016&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#f1f5f9,#e2e8f0)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#f1f5f9,#e2e8f0)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">🪢</div>')" alt="" loading="lazy"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_hangman_title">תלייה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_hangman_desc">נחשו את המילה לפני שיגמרו הניסיונות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 17: Word Recall -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('recall')">
             <span id="hs-recall" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/memory+recall+brain+training+senior+person+remember+cognitive+warm+lifestyle?width=600&height=400&nologo=true&seed=1017&model=flux" class="thumbnail-img" alt="" loading="lazy"></div>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/memory+recall+brain+training+senior+person+remember+cognitive+warm+lifestyle?width=600&height=400&nologo=true&seed=1017&model=turbo" class="thumbnail-img" style="background:linear-gradient(135deg,#f3e8ff,#e9d5ff)" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#f3e8ff,#e9d5ff)';this.parentElement.insertAdjacentHTML('beforeend','<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:3.5rem;position:absolute;inset:0\">🧠</div>')" alt="" loading="lazy"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_recall_title">זיכרון תמונות</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_recall_desc">זכרו אילו פריטים ראיתם.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
     </div>
@@ -232,6 +243,37 @@
             <button id="nextLevelBtn" class="w-full bg-[#1a365d] text-white py-3.5 rounded-xl text-lg font-bold hover:bg-[#2c5282] transition" data-i18n="next_level">השלב הבא</button>
             <button onclick="showHome()" class="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-bold hover:bg-gray-200 transition" data-i18n="back_menu">חזרה לתפריט</button>
         </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     BOTTOM AD BAR — thin fixed strip, dismissible
+     TO ACTIVATE GOOGLE ADSENSE:
+       1. Sign up at https://adsense.google.com
+       2. Verify domain: adbitrush.github.io
+       3. Replace the #adFallback div below with your AdSense <ins> tag:
+          <ins class="adsbygoogle" style="display:inline-block;width:468px;height:60px"
+               data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+               data-ad-slot="YOUR_SLOT_ID"></ins>
+          <script>(adsbygoogle=window.adsbygoogle||[]).push({});<\/script>
+     ═══════════════════════════════════════════════════════════════════ -->
+<div id="adBar">
+    <span class="ad-pill">Ad</span>
+    <div id="adContent">
+        <span id="adFallback"></span>
+    </div>
+    <button id="adX" onclick="document.getElementById('adBar').classList.add('closed')" title="סגור / Close">✕</button>
+</div>
+
+<!-- RIGHT SIDE AD ZONE — visible only on screens ≥1440px
+     Replace inner div with: <ins class="adsbygoogle" style="display:inline-block;width:160px;height:250px"
+     data-ad-client="ca-pub-YOUR_ID" data-ad-slot="YOUR_SLOT"></ins>
+     <script>(adsbygoogle=window.adsbygoogle||[]).push({});<\/script>  -->
+<div id="adSide">
+    <div style="padding:5px 0;background:#1a365d;color:#b7791f;font-size:9px;font-weight:800;text-align:center;letter-spacing:1px">AD</div>
+    <div id="adSideContent" style="min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;gap:6px">
+        <div style="font-size:11px;color:#94a3b8;text-align:center;line-height:1.5">מקום פרסום<br><span style="font-size:10px">160×250</span></div>
+        <div style="font-size:10px;color:#cbd5e1;text-align:center;border:1px dashed #e2e8f0;border-radius:6px;padding:8px;width:100%">ממתין ל-AdSense</div>
     </div>
 </div>
 
@@ -1422,6 +1464,37 @@ Retention.renderBar();
 refreshHSBadges();
 renderDailyQuote();
 _routeFromHash();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// AD TICKER ROTATION  (replace with AdSense when approved)
+// ═══════════════════════════════════════════════════════════════════════════════
+const _adMsgs = {
+    he: [
+        "🌟 שתפו עם חברים ובני משפחה — כולם מוזמנים לשחק בחינם",
+        "💡 אתר זה נוצר לאהבת הגיל השלישי — ללא עלות, ללא מעקב",
+        "🧠 מחקרים מראים: אימון יומי משפר זיכרון ומונע דעיכה קוגניטיבית",
+        "❤️ שתפו עם הרופא — פלטפורמת Brain Training חינמית לחלוטין",
+        "🎯 10 דקות ביום — ההשקעה הטובה ביותר שאפשר לעשות למוח",
+    ],
+    en: [
+        "🌟 Share with friends and family — everyone plays for free",
+        "💡 Built for seniors with love — no cost, no tracking, no ads",
+        "🧠 Studies show: daily training improves memory and prevents decline",
+        "❤️ Recommend to your doctor — a free Brain Training platform",
+        "🎯 10 minutes a day — the best investment you can make for your brain",
+    ],
+};
+let _adIdx = 0;
+function _rotateAdTicker() {
+    const msgs = _adMsgs[currentLang] || _adMsgs.he;
+    const el = document.getElementById('adFallback');
+    if(!el) return;
+    el.style.opacity = '0';
+    setTimeout(() => { el.textContent = msgs[_adIdx % msgs.length]; el.style.opacity = '1'; }, 500);
+    _adIdx++;
+}
+_rotateAdTicker();
+setInterval(_rotateAdTicker, 6000);
 </script>
 </body>
 </html>
