@@ -10,7 +10,12 @@
         :root { --primary: #1a365d; --accent: #b7791f; --bg: #f8fafc; }
         body { font-family: 'Assistant', sans-serif; background-color: var(--bg); color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; }
         button, [onclick] { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-        .premium-card { background: white; border-radius: 1.25rem; transition: all 0.35s cubic-bezier(.22,.68,0,1.2); box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06); cursor: pointer; overflow: hidden; border: 1px solid #e2e8f0; }
+        /* Fallback grid — works even when Tailwind CDN fails */
+        #homeScreen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+        @media (min-width: 768px)  { #homeScreen { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (min-width: 1024px) { #homeScreen { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+        @media (min-width: 1280px) { #homeScreen { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+        .premium-card { background: white; border-radius: 1.25rem; transition: all 0.35s cubic-bezier(.22,.68,0,1.2); box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06); cursor: pointer; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; height: 100%; position: relative; }
         .premium-card:hover { transform: translateY(-10px) scale(1.015); box-shadow: 0 24px 40px -8px rgba(26,54,93,0.22), 0 8px 16px -4px rgba(0,0,0,0.1); border-color: var(--accent); }
         .thumbnail-container { height: 200px; width: 100%; overflow: hidden; position: relative; }
         .thumbnail-container svg { transition: transform 0.5s ease; }
@@ -959,18 +964,25 @@ function answerMath(sel,cor) {
 // ═══════════════════════════════════════════════════════════════════════════════
 function initWordSearch(container) {
     const state=gameState.wordsearch,pool=i18nData[currentLang].ws_pool;
-    const wc=Math.min(4+Math.floor(state.level/3),6),words=shuffle([...pool]).slice(0,wc);
     const size=6+Math.min(Math.floor(state.level/5),2);
+    const fittingPool=pool.filter(w=>[...w].length<=size);
+    const wc=Math.min(4+Math.floor(state.level/3),6);
+    const candidates=shuffle([...fittingPool]).slice(0,wc*2);
     let grid=Array(size).fill(null).map(()=>Array(size).fill(''));
-    words.forEach(word=>{
+    const placedWords=[];
+    candidates.forEach(word=>{
+        if(placedWords.length>=wc)return;
+        const chars=[...word];
         let placed=false,att=0;
-        while(!placed&&att<50){
+        while(!placed&&att<100){
             const isH=Math.random()>.5,r=Math.floor(Math.random()*size),c=Math.floor(Math.random()*size);
-            if(isH&&c+word.length<=size){let ok=true;for(let i=0;i<word.length;i++)if(grid[r][c+i]!==''&&grid[r][c+i]!==word[i])ok=false;if(ok){for(let i=0;i<word.length;i++)grid[r][c+i]=word[i];placed=true;}}
-            else if(!isH&&r+word.length<=size){let ok=true;for(let i=0;i<word.length;i++)if(grid[r+i][c]!==''&&grid[r+i][c]!==word[i])ok=false;if(ok){for(let i=0;i<word.length;i++)grid[r+i][c]=word[i];placed=true;}}
+            if(isH&&c+chars.length<=size){let ok=true;for(let i=0;i<chars.length;i++)if(grid[r][c+i]!==''&&grid[r][c+i]!==chars[i])ok=false;if(ok){for(let i=0;i<chars.length;i++)grid[r][c+i]=chars[i];placed=true;}}
+            else if(!isH&&r+chars.length<=size){let ok=true;for(let i=0;i<chars.length;i++)if(grid[r+i][c]!==''&&grid[r+i][c]!==chars[i])ok=false;if(ok){for(let i=0;i<chars.length;i++)grid[r+i][c]=chars[i];placed=true;}}
             att++;
         }
+        if(placed)placedWords.push(word);
     });
+    const words=placedWords;
     const al=currentLang==='he'?'אבגדהוזחטיכלמנסעפצקרשת':'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     for(let r=0;r<size;r++)for(let c=0;c<size;c++)if(grid[r][c]==='')grid[r][c]=al[Math.floor(Math.random()*al.length)];
     state.selectedCells=[]; state.foundWords=0; state.words=words;
