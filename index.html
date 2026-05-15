@@ -828,17 +828,23 @@ function loadGame(gameId, level=1) {
 function levelComplete() {
     if(!gameState.active) return;
     const data=Retention.recordWin();
-    const lvl=gameState[gameState.currentId].level;
-    const isNewBest=checkHS(gameState.currentId, lvl);
+    const id=gameState.currentId;
+    const gs=gameState[id];
+    const sc=gs._sessionScore;
+    const lvl=gs.level;
+    const isNewBest=checkHS(id, sc ? sc.correct : lvl);
     sfxWin(); launchConfetti();
     const modal=document.getElementById('modal');
     document.getElementById('modalTitle').innerText=t('win_title');
-    document.getElementById('modalBody').innerText=t('win_generic');
+    const isHe=currentLang==='he';
+    document.getElementById('modalBody').innerText=sc
+        ? `${sc.correct}/${sc.total} ${isHe?'תשובות נכונות ✓':'correct answers ✓'}`
+        : t('win_generic');
     document.getElementById('newBestBanner').classList.toggle('hidden',!isNewBest);
     const nudgeEl=document.getElementById('wellnessNudge'); nudgeEl.classList.add('hidden'); nudgeEl.innerText='';
     Retention.maybeWellnessNudge();
     const nextBtn=document.getElementById('nextLevelBtn');
-    nextBtn.onclick=()=>{modal.classList.add('hidden');loadGame(gameState.currentId,lvl+1);};
+    nextBtn.onclick=()=>{modal.classList.add('hidden');if(sc)delete gs._sessionScore;loadGame(id,lvl+1);};
     modal.classList.remove('hidden');
 }
 
@@ -866,37 +872,86 @@ function flipMemory(i) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// GAME 2: ODD ONE OUT
+// GAME 2: ODD ONE OUT — 10-round session
 // ═══════════════════════════════════════════════════════════════════════════════
 function initOddOneOut(container) {
+    const gs=gameState.oddoneout;
+    gs._sq=10; gs._si=0; gs._ss=0;
+    _oddNext(container);
+}
+function _oddNext(container) {
+    if(!gameState.active||gameState.currentId!=='oddoneout')return;
+    const gs=gameState.oddoneout;
+    if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
     const p=ODD_SETS[Math.floor(Math.random()*ODD_SETS.length)];
     const main=p[0],odd=p[Math.floor(Math.random()*(p.length-1))+1],oi=Math.floor(Math.random()*16);
-    let html=`<div class="grid grid-cols-4 gap-4 bg-gray-50 p-6 rounded-2xl border">`;
-    for(let i=0;i<16;i++){const isOdd=(i===oi);html+=`<div onclick="clickOdd(${isOdd})" class="w-16 h-16 md:w-20 md:h-20 bg-white border shadow-sm rounded-xl flex items-center justify-center text-4xl md:text-5xl cursor-pointer hover:bg-amber-50 transition transform hover:scale-105">${isOdd?odd:main}</div>`;}
-    container.innerHTML=html+`</div>`;
+    const isHe=currentLang==='he';
+    let html=`<div class="w-full max-w-sm mx-auto">
+        <div class="flex justify-between text-sm font-bold text-gray-400 mb-4">
+            <span>${isHe?'סיבוב':'Round'} ${gs._si+1}/${gs._sq}</span>
+            <span class="text-green-600">✓ ${gs._ss}</span>
+        </div>
+        <div class="grid grid-cols-4 gap-3 bg-gray-50 p-4 rounded-2xl border">`;
+    for(let i=0;i<16;i++){const isOdd=(i===oi);html+=`<div onclick="clickOdd(${isOdd},this)" class="w-14 h-14 md:w-18 md:h-18 bg-white border shadow-sm rounded-xl flex items-center justify-center text-3xl md:text-4xl cursor-pointer hover:bg-amber-50 transition hover:scale-105 active:scale-95">${isOdd?odd:main}</div>`;}
+    container.innerHTML=html+`</div></div>`;
 }
-function clickOdd(isOdd) {
-    if(isOdd){sfxCorrect();levelComplete();}else{sfxWrong();const c=document.getElementById('gameContent').firstElementChild;c.classList.add('bg-red-50');setTimeout(()=>c.classList.remove('bg-red-50'),300);}
+function clickOdd(isOdd, el) {
+    if(!gameState.active||gameState.currentId!=='oddoneout')return;
+    const gs=gameState.oddoneout;
+    if(isOdd){
+        sfxCorrect(); gs._ss++;
+        el.classList.replace('bg-white','bg-green-100');
+        setTimeout(()=>{gs._si++;_oddNext(document.getElementById('gameContent'));},500);
+    } else {
+        sfxWrong();
+        el.classList.replace('bg-white','bg-red-100');
+        setTimeout(()=>el.classList.replace('bg-red-100','bg-white'),400);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// GAME 3: QUICK MATH
+// GAME 3: QUICK MATH — 10-question session
 // ═══════════════════════════════════════════════════════════════════════════════
 function initMath(container) {
-    const state=gameState.math,maxVal=10+(state.level*3),isAdd=Math.random()>0.4;
+    const gs=gameState.math;
+    gs._sq=10; gs._si=0; gs._ss=0;
+    _mathNext(container);
+}
+function _mathNext(container) {
+    if(!gameState.active||gameState.currentId!=='math')return;
+    const gs=gameState.math;
+    if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
+    const maxVal=10+(gs.level*3),isAdd=Math.random()>0.4;
     let a,b,answer;
     if(isAdd){a=Math.floor(Math.random()*maxVal)+1;b=Math.floor(Math.random()*maxVal)+1;answer=a+b;}
     else{a=Math.floor(Math.random()*maxVal)+5;b=Math.floor(Math.random()*a);answer=a-b;}
-    let options=new Set([answer]);
-    while(options.size<4){const f=answer+(Math.floor(Math.random()*7)-3);if(f>=0&&f!==answer)options.add(f);}
-    const opts=shuffle(Array.from(options));
-    let html=`<div class="text-6xl font-bold mb-10 text-slate-800" dir="ltr">${a} ${isAdd?'+':'-'} ${b} = ?</div><div class="grid grid-cols-2 gap-6 w-full max-w-sm">`;
-    opts.forEach(opt=>{html+=`<button onclick="answerMath(${opt},${answer})" class="bg-blue-50 border-2 border-blue-200 hover:border-blue-500 text-3xl font-bold py-6 rounded-2xl transition shadow-sm">${opt}</button>`;});
-    container.innerHTML=html+`</div>`;
+    let opts=new Set([answer]);
+    while(opts.size<4){const f=answer+(Math.floor(Math.random()*9)-4);if(f>=0&&f!==answer)opts.add(f);}
+    const optsArr=shuffle(Array.from(opts));
+    const isHe=currentLang==='he';
+    container.innerHTML=`<div class="w-full max-w-sm mx-auto text-center">
+        <div class="flex justify-between text-sm font-bold text-gray-400 mb-5">
+            <span>${isHe?'שאלה':'Q'} ${gs._si+1}/${gs._sq}</span>
+            <span class="text-green-600">✓ ${gs._ss}</span>
+        </div>
+        <div class="text-6xl font-bold mb-10 text-slate-800" dir="ltr">${a} ${isAdd?'+':'-'} ${b} = ?</div>
+        <div class="grid grid-cols-2 gap-5 w-full">
+            ${optsArr.map(opt=>`<button onclick="answerMath(${opt},${answer})" class="bg-blue-50 border-2 border-blue-200 hover:border-blue-500 text-3xl font-bold py-6 rounded-2xl transition shadow-sm active:scale-95">${opt}</button>`).join('')}
+        </div></div>`;
 }
 function answerMath(sel,cor) {
-    if(sel===cor){sfxCorrect();levelComplete();}
-    else{sfxWrong();event.target.classList.replace('bg-blue-50','bg-red-100');event.target.classList.replace('border-blue-200','border-red-300');setTimeout(()=>{event.target.classList.replace('bg-red-100','bg-blue-50');event.target.classList.replace('border-red-300','border-blue-200');},500);}
+    if(!gameState.active||gameState.currentId!=='math')return;
+    const gs=gameState.math;
+    const btn=event.target;
+    if(sel===cor){
+        sfxCorrect(); gs._ss++;
+        btn.classList.replace('bg-blue-50','bg-green-100'); btn.classList.replace('border-blue-200','border-green-400');
+        setTimeout(()=>{gs._si++;_mathNext(document.getElementById('gameContent'));},500);
+    } else {
+        sfxWrong();
+        btn.classList.replace('bg-blue-50','bg-red-100'); btn.classList.replace('border-blue-200','border-red-300');
+        setTimeout(()=>{btn.classList.replace('bg-red-100','bg-blue-50');btn.classList.replace('border-red-300','border-blue-200');},600);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1005,28 +1060,70 @@ function clickSimon(id) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// GAME 6: SUDOKU (BUG 2 fixed — valid base solution)
+// GAME 6: SUDOKU 9×9
 // ═══════════════════════════════════════════════════════════════════════════════
-function initSudoku(container) {
-    const base=[[1,2,3,4],[3,4,1,2],[2,1,4,3],[4,3,2,1]];
-    const nums=shuffle([1,2,3,4]),map={1:nums[0],2:nums[1],3:nums[2],4:nums[3]};
-    let solution=base.map(row=>row.map(v=>map[v]));
-    let puzzle=JSON.parse(JSON.stringify(solution));
-    const holes=Math.min(4+gameState.sudoku.level,10); let removed=0;
-    while(removed<holes){const r=Math.floor(Math.random()*4),c=Math.floor(Math.random()*4);if(puzzle[r][c]!==0){puzzle[r][c]=0;removed++;}}
-    gameState.sudoku.puzzle=puzzle; gameState.sudoku.solution=solution; gameState.sudoku.selectedRow=-1; gameState.sudoku.selectedCol=-1;
-    let html=`<div class="flex flex-col items-center gap-8"><div class="grid grid-cols-4 gap-1 bg-slate-800 p-2 rounded-xl">`;
-    for(let r=0;r<4;r++)for(let c=0;c<4;c++){const v=puzzle[r][c];html+=`<div id="sudo-${r}-${c}" class="sudoku-cell ${v!==0?'fixed':''} w-16 h-16 md:w-20 md:h-20 bg-white flex items-center justify-center text-3xl font-bold rounded-sm" onclick="selectSudoku(${r},${c})">${v!==0?v:''}</div>`;}
-    html+=`</div><div class="flex gap-4">`;
-    for(let i=1;i<=4;i++)html+=`<button onclick="fillSudoku(${i})" class="w-16 h-16 bg-blue-100 border-2 border-blue-300 rounded-xl text-3xl font-bold text-blue-800 hover:bg-blue-200">${i}</button>`;
-    container.innerHTML=html+`</div></div>`;
+function _sudokuGen9() {
+    const base=[[1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],
+                [2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],[8,9,1,2,3,4,5,6,7],
+                [3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8]];
+    const nm=shuffle([1,2,3,4,5,6,7,8,9]);
+    let g=base.map(row=>row.map(v=>nm[v-1]));
+    for(let b=0;b<3;b++){const p=shuffle([0,1,2]);const sl=g.slice(b*3,b*3+3);g[b*3]=sl[p[0]];g[b*3+1]=sl[p[1]];g[b*3+2]=sl[p[2]];}
+    for(let b=0;b<3;b++){const p=shuffle([0,1,2]);g=g.map(row=>{const n=[...row];n[b*3]=row[b*3+p[0]];n[b*3+1]=row[b*3+p[1]];n[b*3+2]=row[b*3+p[2]];return n;});}
+    return g;
 }
-function selectSudoku(r,c){if(gameState.sudoku.puzzle[r][c]!==0)return;document.querySelectorAll('.sudoku-cell').forEach(el=>el.classList.remove('selected'));document.getElementById(`sudo-${r}-${c}`).classList.add('selected');gameState.sudoku.selectedRow=r;gameState.sudoku.selectedCol=c;}
-function fillSudoku(num){
-    const r=gameState.sudoku.selectedRow,c=gameState.sudoku.selectedCol;if(r===-1||c===-1)return;
-    const el=document.getElementById(`sudo-${r}-${c}`); el.innerText=num;
-    if(gameState.sudoku.solution[r][c]===num){sfxCorrect();el.classList.remove('error','selected');el.classList.add('text-green-600');let win=true;for(let row=0;row<4;row++)for(let col=0;col<4;col++)if(document.getElementById(`sudo-${row}-${col}`).innerText!=gameState.sudoku.solution[row][col])win=false;if(win)setTimeout(()=>levelComplete(),500);}
-    else{sfxWrong();el.classList.add('error');}
+function initSudoku(container) {
+    const gs=gameState.sudoku;
+    const sol=_sudokuGen9();
+    const holes=Math.min(25+gs.level*3,52);
+    const puz=sol.map(r=>[...r]);
+    const given=Array(9).fill(null).map(()=>Array(9).fill(true));
+    let rem=0;
+    for(const pos of shuffle([...Array(81).keys()])){if(rem>=holes)break;const r=Math.floor(pos/9),c=pos%9;puz[r][c]=0;given[r][c]=false;rem++;}
+    gs.sol=sol; gs.filled=puz; gs.given=given; gs.sr=-1; gs.sc=-1;
+    _sudokuRender(container);
+}
+function _sudokuRender(c) {
+    if(!gameState.active||gameState.currentId!=='sudoku')return;
+    const gs=gameState.sudoku;
+    const sr=gs.sr,sc_=gs.sc,sbr=sr>=0?Math.floor(sr/3):-1,sbc=sc_>=0?Math.floor(sc_/3):-1;
+    const svn=sr>=0&&sc_>=0?gs.filled[sr][sc_]:0;
+    let cells='';
+    for(let r=0;r<9;r++){
+        for(let cc=0;cc<9;cc++){
+            const v=gs.filled[r][cc];
+            const isSel=r===sr&&cc===sc_;
+            const inGrp=r===sr||cc===sc_||(Math.floor(r/3)===sbr&&Math.floor(cc/3)===sbc);
+            const isSameN=!isSel&&svn>0&&v===svn;
+            const isGiven=gs.given[r][cc];
+            const brR=cc===2||cc===5?'border-r-2 border-r-slate-500':'border-r border-r-slate-200';
+            const brB=r===2||r===5?'border-b-2 border-b-slate-500':'border-b border-b-slate-200';
+            let conflict=false;
+            if(v>0&&!isGiven){for(let i=0;i<9;i++){if(i!==cc&&gs.filled[r][i]===v)conflict=true;if(i!==r&&gs.filled[i][cc]===v)conflict=true;}const br=Math.floor(r/3),bc=Math.floor(cc/3);for(let dr=0;dr<3;dr++)for(let dc=0;dc<3;dc++){const nr=br*3+dr,nc=bc*3+dc;if((nr!==r||nc!==cc)&&gs.filled[nr][nc]===v)conflict=true;}}
+            let bg=isSel?'bg-blue-400':isSameN?'bg-blue-200':inGrp?'bg-blue-50':'bg-white';
+            const clr=isGiven?'text-slate-800 font-bold':'text-blue-700 font-semibold';
+            const err=conflict&&!isGiven?'text-red-500 font-bold':'';
+            cells+=`<div onclick="selectSudoku9(${r},${cc})" class="${bg} ${brR} ${brB} flex items-center justify-center cursor-pointer select-none transition-colors" style="width:clamp(30px,9.5vw,38px);height:clamp(30px,9.5vw,38px);font-size:clamp(12px,2.8vw,16px)"><span class="${err||clr}">${v||''}</span></div>`;
+        }
+    }
+    const numBtns=[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="fillSudoku9(${n})" class="w-9 h-9 bg-slate-100 border border-slate-300 rounded-lg text-sm font-bold text-slate-700 hover:bg-blue-100 hover:border-blue-400 active:scale-95 transition">${n}</button>`).join('');
+    const isHe=currentLang==='he';
+    c.innerHTML=`<div class="flex flex-col items-center gap-4">
+        <div class="text-sm text-gray-400 font-bold">${isHe?'רמה':'Level'} ${gameState.sudoku.level} — ${isHe?'בחרו תא ואז מספר':'Tap a cell, then a number'}</div>
+        <div class="grid border-2 border-slate-700 rounded-lg overflow-hidden bg-slate-200" style="grid-template-columns:repeat(9,1fr)">${cells}</div>
+        <div class="flex gap-1.5 flex-wrap justify-center">${numBtns}<button onclick="fillSudoku9(0)" class="w-9 h-9 bg-red-50 border border-red-300 rounded-lg text-sm font-bold text-red-400 hover:bg-red-100 active:scale-95 transition">✕</button></div>
+    </div>`;
+}
+function selectSudoku9(r,c){gameState.sudoku.sr=r;gameState.sudoku.sc=c;_sudokuRender(document.getElementById('gameContent'));}
+function fillSudoku9(num) {
+    const gs=gameState.sudoku;
+    const r=gs.sr,c=gs.sc;
+    if(r===-1||c===-1||gs.given[r][c])return;
+    gs.filled[r][c]=num;
+    if(num>0&&gs.sol[r][c]===num)sfxCorrect();else if(num>0)sfxWrong();
+    let win=num>0;
+    if(win)for(let rr=0;rr<9;rr++)for(let cc=0;cc<9;cc++)if(gs.filled[rr][cc]!==gs.sol[rr][cc])win=false;
+    if(win)setTimeout(()=>levelComplete(),600);else _sudokuRender(document.getElementById('gameContent'));
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1081,20 +1178,22 @@ function checkSolitaireWin(){if(gameState.solitaire.removed>=gameState.solitaire
 // ═══════════════════════════════════════════════════════════════════════════════
 function initTrivia(container){
     const state=gameState.trivia;
-    state.questions=shuffle([...i18nData[currentLang].trivia_pool]).slice(0,4); // trivia_pool ✓
-    state.current=0; renderTriviaQuestion(container);
+    state.questions=shuffle([...i18nData[currentLang].trivia_pool]).slice(0,10);
+    state.current=0; state.score=0; renderTriviaQuestion(container);
 }
 function renderTriviaQuestion(container){
     if(!gameState.active)return;
     const state=gameState.trivia;
-    if(state.current>=state.questions.length){levelComplete();return;}
+    if(state.current>=state.questions.length){state._sessionScore={correct:state.score,total:state.questions.length};levelComplete();return;}
     const q=state.questions[state.current];
-    let html=`<div class="max-w-xl w-full"><div class="text-sm font-bold text-gray-400 mb-2">${currentLang==='he'?'שאלה':'Question'} ${state.current+1}/${state.questions.length}</div><h3 class="text-2xl md:text-3xl font-bold mb-8 text-center text-[#1a365d] bg-blue-50 p-5 rounded-xl">${q.q}</h3><div class="flex flex-col gap-3">`;
+    const isHe=currentLang==='he';
+    let html=`<div class="max-w-xl w-full"><div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${isHe?'שאלה':'Question'} ${state.current+1}/${state.questions.length}</span><span class="text-green-600">✓ ${state.score}</span></div><h3 class="text-2xl md:text-3xl font-bold mb-8 text-center text-[#1a365d] bg-blue-50 p-5 rounded-xl">${q.q}</h3><div class="flex flex-col gap-3">`;
     q.opts.forEach((opt,idx)=>{html+=`<button onclick="answerTrivia(${idx},${q.a})" class="bg-white border-2 border-gray-200 hover:border-[#b7791f] text-xl p-4 rounded-xl text-right md:text-center transition shadow-sm">${opt}</button>`;});
     container.innerHTML=html+`</div></div>`;
 }
 function answerTrivia(sel,cor){
-    const isC=sel===cor; if(isC)sfxCorrect();else sfxWrong();
+    const isC=sel===cor;
+    if(isC){sfxCorrect();gameState.trivia.score++;}else sfxWrong();
     event.target.classList.replace('border-gray-200',isC?'border-green-500':'border-red-500');
     event.target.classList.add(isC?'bg-green-50':'bg-red-50');
     setTimeout(()=>{gameState.trivia.current++;renderTriviaQuestion(document.getElementById('gameContent'));},700);
@@ -1111,40 +1210,78 @@ const _SEQ_GENERATORS = [
     (lvl) => { const step=5+lvl*2,s=Math.floor(Math.random()*5)+1; return {seq:[s,s+step,s+2*step,s+3*step],next:s+4*step,type:'+'} },
 ];
 function initNumSeq(container){
-    const state=gameState.numseq,gen=_SEQ_GENERATORS[Math.floor(Math.random()*_SEQ_GENERATORS.length)];
-    const {seq,next}=gen(state.level);
-    // Build distractors close to answer
+    const gs=gameState.numseq;
+    gs._sq=10; gs._si=0; gs._ss=0;
+    _numseqNext(container);
+}
+function _numseqNext(container){
+    if(!gameState.active||gameState.currentId!=='numseq')return;
+    const gs=gameState.numseq;
+    if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
+    const gen=_SEQ_GENERATORS[Math.floor(Math.random()*_SEQ_GENERATORS.length)];
+    const {seq,next}=gen(gs.level);
     let opts=new Set([next]);
-    while(opts.size<4){const d=next+(Math.floor(Math.random()*8)-4);if(d!==next&&d>0)opts.add(d);}
+    while(opts.size<4){const d=next+(Math.floor(Math.random()*10)-5);if(d!==next&&d>0)opts.add(d);}
     const optsArr=shuffle(Array.from(opts));
-    let html=`<div class="text-center"><div class="flex items-center gap-3 md:gap-5 mb-10 flex-wrap justify-center">`;
-    seq.forEach(n=>{html+=`<div class="w-16 h-16 md:w-20 md:h-20 bg-slate-100 border-2 border-slate-300 rounded-xl flex items-center justify-center text-3xl md:text-4xl font-bold text-slate-800">${n}</div>`;});
-    html+=`<div class="w-16 h-16 md:w-20 md:h-20 bg-amber-50 border-2 border-dashed border-amber-400 rounded-xl flex items-center justify-center text-3xl font-bold text-amber-400">?</div></div>`;
-    html+=`<div class="grid grid-cols-2 gap-4 max-w-xs mx-auto">`;
-    optsArr.forEach(opt=>{html+=`<button onclick="answerNumSeq(${opt},${next})" class="bg-blue-50 border-2 border-blue-200 hover:border-blue-500 text-3xl font-bold py-5 rounded-2xl transition shadow-sm">${opt}</button>`;});
-    container.innerHTML=html+`</div></div>`;
+    const isHe=currentLang==='he';
+    container.innerHTML=`<div class="w-full max-w-sm mx-auto text-center">
+        <div class="flex justify-between text-sm font-bold text-gray-400 mb-5">
+            <span>${isHe?'שאלה':'Q'} ${gs._si+1}/${gs._sq}</span>
+            <span class="text-green-600">✓ ${gs._ss}</span>
+        </div>
+        <div class="flex items-center gap-2 md:gap-4 mb-10 flex-wrap justify-center">
+            ${seq.map(n=>`<div class="w-14 h-14 md:w-18 md:h-18 bg-slate-100 border-2 border-slate-300 rounded-xl flex items-center justify-center text-2xl md:text-3xl font-bold text-slate-800">${n}</div>`).join('<span class="text-gray-400 font-bold">→</span>')}
+            <span class="text-gray-400 font-bold">→</span>
+            <div class="w-14 h-14 md:w-18 md:h-18 bg-amber-50 border-2 border-dashed border-amber-400 rounded-xl flex items-center justify-center text-2xl font-bold text-amber-400">?</div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            ${optsArr.map(opt=>`<button onclick="answerNumSeq(${opt},${next})" class="bg-blue-50 border-2 border-blue-200 hover:border-blue-500 text-3xl font-bold py-5 rounded-2xl transition shadow-sm active:scale-95">${opt}</button>`).join('')}
+        </div></div>`;
 }
 function answerNumSeq(sel,cor){
-    if(sel===cor){sfxCorrect();levelComplete();}
-    else{sfxWrong();event.target.classList.replace('bg-blue-50','bg-red-100');event.target.classList.replace('border-blue-200','border-red-300');setTimeout(()=>{event.target.classList.replace('bg-red-100','bg-blue-50');event.target.classList.replace('border-red-300','border-blue-200');},500);}
+    if(!gameState.active||gameState.currentId!=='numseq')return;
+    const gs=gameState.numseq;
+    const btn=event.target;
+    if(sel===cor){
+        sfxCorrect(); gs._ss++;
+        btn.classList.replace('bg-blue-50','bg-green-100'); btn.classList.replace('border-blue-200','border-green-400');
+        setTimeout(()=>{gs._si++;_numseqNext(document.getElementById('gameContent'));},500);
+    } else {
+        sfxWrong();
+        btn.classList.replace('bg-blue-50','bg-red-100'); btn.classList.replace('border-blue-200','border-red-300');
+        setTimeout(()=>{btn.classList.replace('bg-red-100','bg-blue-50');btn.classList.replace('border-red-300','border-blue-200');},600);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// NEW GAME 11: WORD UNSCRAMBLE
+// NEW GAME 11: WORD UNSCRAMBLE — 7-word session
 // ═══════════════════════════════════════════════════════════════════════════════
 function initUnscramble(container){
     const state=gameState.unscramble;
+    state._sq=7; state._si=0; state._ss=0;
+    _unscrambleNext(container);
+}
+function _unscrambleNext(container){
+    if(!gameState.active||gameState.currentId!=='unscramble')return;
+    const state=gameState.unscramble;
+    if(state._si>=state._sq){state._sessionScore={correct:state._ss,total:state._sq};levelComplete();return;}
     const pool=i18nData[currentLang].unscramble_pool;
     const item=pool[Math.floor(Math.random()*pool.length)];
     const word=item.word, letters=shuffle(word.split(''));
     state.word=word; state.answer=[]; state.letterEls=letters;
+    const isHe=currentLang==='he';
     let tilesHtml=letters.map((l,i)=>`<span class="letter-tile" id="lt-${i}" onclick="pickLetter('${l}',${i})">${l}</span>`).join('');
     let ansHtml=word.split('').map((_,i)=>`<span class="answer-tile" id="at-${i}">&nbsp;</span>`).join('');
-    let html=`<div class="text-center"><div class="text-gray-400 text-base mb-4">${currentLang==='he'?'רמז':'Hint'}: <span class="font-semibold text-gray-600">${item.hint}</span></div>
-    <div class="flex flex-wrap justify-center gap-1 mb-8">${tilesHtml}</div>
-    <div class="flex flex-wrap justify-center gap-1 mb-6 min-h-[60px]">${ansHtml}</div>
-    <button onclick="clearUnscramble()" class="px-5 py-2 bg-gray-100 rounded-xl text-gray-600 font-bold hover:bg-gray-200 transition text-sm">${currentLang==='he'?'נקה':'Clear'}</button></div>`;
-    container.innerHTML=html;
+    container.innerHTML=`<div class="text-center">
+        <div class="flex justify-between text-sm font-bold text-gray-400 mb-4 px-2">
+            <span>${isHe?'מילה':'Word'} ${state._si+1}/${state._sq}</span>
+            <span class="text-green-600">&#10003; ${state._ss}</span>
+        </div>
+        <div class="text-gray-400 text-base mb-4">${isHe?'רמז':'Hint'}: <span class="font-semibold text-gray-600">${item.hint}</span></div>
+        <div class="flex flex-wrap justify-center gap-1 mb-8">${tilesHtml}</div>
+        <div class="flex flex-wrap justify-center gap-1 mb-6 min-h-[60px]">${ansHtml}</div>
+        <button onclick="clearUnscramble()" class="px-5 py-2 bg-gray-100 rounded-xl text-gray-600 font-bold hover:bg-gray-200 transition text-sm">${isHe?'נקה':'Clear'}</button>
+    </div>`;
 }
 function pickLetter(letter,idx){
     const state=gameState.unscramble;
@@ -1157,8 +1294,12 @@ function pickLetter(letter,idx){
     if(state.answer.length===state.word.length){
         const formed=state.answer.map(x=>x.letter).join('');
         setTimeout(()=>{
-            if(formed===state.word){sfxCorrect();setTimeout(()=>levelComplete(),400);}
-            else{sfxWrong();clearUnscramble();document.getElementById('gameContent').querySelector('.answer-tile')?.parentElement?.classList?.add('animate-pulse');setTimeout(()=>document.getElementById('gameContent').querySelector('.answer-tile')?.parentElement?.classList?.remove('animate-pulse'),600);}
+            if(formed===state.word){
+                sfxCorrect(); state._ss++;
+                setTimeout(()=>{state._si++;_unscrambleNext(document.getElementById('gameContent'));},400);
+            } else {
+                sfxWrong(); clearUnscramble();
+            }
         },300);
     }
 }
@@ -1166,9 +1307,8 @@ function clearUnscramble(){
     const state=gameState.unscramble;
     state.answer=[];
     state.letterEls.forEach((_,i)=>{const el=document.getElementById(`lt-${i}`);if(el)el.classList.remove('used');});
-    state.word.split('').forEach((_,i)=>{const el=document.getElementById(`at-${i}`);if(el)el.innerText=' ';});
+    state.word.split('').forEach((_,i)=>{const el=document.getElementById(`at-${i}`);if(el)el.innerText=' ';});
 }
-
 // ═══════════════════════════════════════════════════════════════════════════════
 // NEW GAME 12: OPPOSITES PAIRS
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1211,17 +1351,17 @@ function clickPair(i){
 function initTrueFalse(c) {
     const gs = gameState.truefalse;
     gs.pool = shuffle([...i18nData[currentLang].tf_pool]);
-    gs.idx = 0; gs.perLevel = 8;
+    gs.idx = 0; gs.perLevel = 8; gs.score = 0;
     _tfNext(c);
 }
 function _tfNext(c) {
     if(!gameState.active || gameState.currentId !== 'truefalse') return;
     const gs = gameState.truefalse;
-    if(gs.idx >= gs.perLevel) { levelComplete(); return; }
+    if(gs.idx >= gs.perLevel) { gs._sessionScore={correct:gs.score,total:gs.perLevel}; levelComplete(); return; }
     const item = gs.pool[gs.idx % gs.pool.length];
     const isHe = currentLang === 'he';
     c.innerHTML = `<div class="max-w-xl w-full text-center">
-        <div class="text-sm font-bold text-gray-400 mb-4">${isHe?'שאלה':'Question'} ${gs.idx+1}/${gs.perLevel}</div>
+        <div class="flex justify-between text-sm font-bold text-gray-400 mb-4"><span>${isHe?'שאלה':'Q'} ${gs.idx+1}/${gs.perLevel}</span><span class="text-green-600">&#10003; ${gs.score}</span></div>
         <div class="text-2xl md:text-3xl font-bold text-[#1a365d] bg-blue-50 border border-blue-200 p-6 rounded-2xl mb-8 leading-relaxed">${item.s}</div>
         <div class="flex gap-4 justify-center">
             <button onclick="answerTF(true,${item.a})" class="flex-1 py-5 text-xl font-bold rounded-2xl bg-green-500 text-white hover:bg-green-600 active:scale-95 transition shadow-lg" style="max-width:180px">${isHe?'✅ נכון':'✅ True'}</button>
@@ -1232,7 +1372,7 @@ function _tfNext(c) {
 function answerTF(sel, correct) {
     if(!gameState.active || gameState.currentId !== 'truefalse') return;
     const gs = gameState.truefalse;
-    if(sel === correct) sfxCorrect(); else sfxWrong();
+    if(sel === correct) { sfxCorrect(); gs.score++; } else sfxWrong();
     gs.idx++;
     setTimeout(() => _tfNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);
 }
@@ -1243,17 +1383,17 @@ function answerTF(sel, correct) {
 function initFlags(c) {
     const gs = gameState.flags;
     gs.pool = shuffle([...i18nData[currentLang].flags_pool]);
-    gs.idx = 0; gs.perLevel = 10;
+    gs.idx = 0; gs.perLevel = 10; gs.score = 0;
     _flagNext(c);
 }
 function _flagNext(c) {
     if(!gameState.active || gameState.currentId !== 'flags') return;
     const gs = gameState.flags;
-    if(gs.idx >= gs.perLevel) { levelComplete(); return; }
+    if(gs.idx >= gs.perLevel) { gs._sessionScore={correct:gs.score,total:gs.perLevel}; levelComplete(); return; }
     const item = gs.pool[gs.idx % gs.pool.length];
     const isHe = currentLang === 'he';
     c.innerHTML = `<div class="max-w-md w-full text-center">
-        <div class="text-sm font-bold text-gray-400 mb-4">${isHe?'שאלה':'Question'} ${gs.idx+1}/${gs.perLevel}</div>
+        <div class="flex justify-between text-sm font-bold text-gray-400 mb-4"><span>${isHe?'שאלה':'Q'} ${gs.idx+1}/${gs.perLevel}</span><span class="text-green-600">&#10003; ${gs.score}</span></div>
         <div class="text-8xl mb-6 select-none leading-none" style="font-family:serif;font-size:clamp(4rem,20vw,8rem)">${item.flag}</div>
         <div class="flex flex-col gap-3">${item.opts.map((o,i)=>`<button onclick="answerFlag(${i},${item.a})" class="py-4 text-xl font-bold rounded-xl border-2 border-gray-200 bg-white hover:border-[#b7791f] hover:bg-amber-50 active:scale-95 transition">${o}</button>`).join('')}</div>
     </div>`;
@@ -1261,7 +1401,7 @@ function _flagNext(c) {
 function answerFlag(sel, correct) {
     if(!gameState.active || gameState.currentId !== 'flags') return;
     const gs = gameState.flags;
-    if(sel === correct) sfxCorrect(); else sfxWrong();
+    if(sel === correct) { sfxCorrect(); gs.score++; } else sfxWrong();
     gs.idx++;
     setTimeout(() => _flagNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);
 }
@@ -1272,17 +1412,17 @@ function answerFlag(sel, correct) {
 function initProverbs(c) {
     const gs = gameState.proverbs;
     gs.pool = shuffle([...i18nData[currentLang].proverbs_pool]);
-    gs.idx = 0; gs.perLevel = 6;
+    gs.idx = 0; gs.perLevel = 6; gs.score = 0;
     _provNext(c);
 }
 function _provNext(c) {
     if(!gameState.active || gameState.currentId !== 'proverbs') return;
     const gs = gameState.proverbs;
-    if(gs.idx >= gs.perLevel) { levelComplete(); return; }
+    if(gs.idx >= gs.perLevel) { gs._sessionScore={correct:gs.score,total:gs.perLevel}; levelComplete(); return; }
     const item = gs.pool[gs.idx % gs.pool.length];
     const isHe = currentLang === 'he';
     c.innerHTML = `<div class="max-w-xl w-full text-center">
-        <div class="text-sm font-bold text-gray-400 mb-4">${isHe?'פתגם':'Proverb'} ${gs.idx+1}/${gs.perLevel}</div>
+        <div class="flex justify-between text-sm font-bold text-gray-400 mb-4"><span>${isHe?'פתגם':'Proverb'} ${gs.idx+1}/${gs.perLevel}</span><span class="text-green-600">&#10003; ${gs.score}</span></div>
         <div class="text-xl md:text-2xl font-bold text-[#1a365d] bg-amber-50 border border-amber-200 p-6 rounded-2xl mb-8 leading-relaxed italic">"${item.q}"</div>
         <div class="grid grid-cols-2 gap-3">${item.opts.map((o,i)=>`<button onclick="answerProv(${i},${item.a})" class="py-4 px-3 text-lg font-bold rounded-xl border-2 border-gray-200 bg-white hover:border-[#1a365d] hover:bg-blue-50 active:scale-95 transition">${o}</button>`).join('')}</div>
     </div>`;
@@ -1290,7 +1430,7 @@ function _provNext(c) {
 function answerProv(sel, correct) {
     if(!gameState.active || gameState.currentId !== 'proverbs') return;
     const gs = gameState.proverbs;
-    if(sel === correct) sfxCorrect(); else sfxWrong();
+    if(sel === correct) { sfxCorrect(); gs.score++; } else sfxWrong();
     gs.idx++;
     setTimeout(() => _provNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);
 }
