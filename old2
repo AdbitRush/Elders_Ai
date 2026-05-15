@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>זהב של משחקים - Golden Games</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --accent: #b7791f;
+            --bg: #f8fafc;
+        }
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--bg);
+            color: #1e293b;
+            line-height: 1.6;
+            user-select: none;
+            transition: all 0.3s;
+        }
+        .premium-card {
+            background: white;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .premium-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent);
+        }
+        .thumbnail-container {
+            height: 200px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .thumbnail-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+        .premium-card:hover .thumbnail-img {
+            transform: scale(1.1);
+        }
+        .btn-premium {
+            background-color: var(--primary);
+            color: white;
+            transition: all 0.2s;
+        }
+        .btn-premium:hover {
+            background-color: #2c5282;
+            transform: scale(1.02);
+        }
+        
+        /* Memory Game */
+        .card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .card-inner.flipped { transform: rotateY(180deg); }
+        .card-face {
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        .card-back { transform: rotateY(180deg); }
+
+        /* Word Search */
+        .ws-cell {
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .ws-cell.selected { background-color: #fef08a; color: #854d0e; border-color: #eab308; }
+        .ws-cell.found { background-color: #bbf7d0; color: #166534; border-color: #22c55e; }
+        
+        /* Sudoku */
+        .sudoku-cell {
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .sudoku-cell.selected { background-color: #bfdbfe; }
+        .sudoku-cell.fixed { background-color: #f1f5f9; color: #475569; font-weight: bold; cursor: default; }
+        .sudoku-cell.error { color: #ef4444; }
+
+        /* Solitaire Cards */
+        .playing-card {
+            background: white;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .playing-card.selected {
+            transform: translateY(-5px);
+            border: 2px solid var(--accent);
+            box-shadow: 0 10px 15px rgba(183, 121, 31, 0.3);
+        }
+        .red-suit { color: #e53e3e; }
+        .black-suit { color: #1a202c; }
+
+        /* Simon Sequence Game */
+        .simon-btn {
+            transition: filter 0.2s, transform 0.1s;
+            filter: brightness(0.7);
+            cursor: pointer;
+        }
+        .simon-btn.active {
+            filter: brightness(1.3);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+        .simon-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-[#1a365d] text-white py-4 shadow-xl">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-[#b7791f] rounded-full flex items-center justify-center font-bold text-xl">ז</div>
+                <h1 class="text-2xl font-semibold tracking-tight" data-i18n="site_title">זהב של משחקים</h1>
+            </div>
+            <div class="flex gap-4 items-center">
+                <span id="levelIndicator" class="hidden font-bold text-[#b7791f] bg-white px-3 py-1 rounded-full text-sm mr-4"></span>
+                <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-[#2c5282] text-white border border-[#4299e1] rounded p-1 cursor-pointer outline-none">
+                    <option value="he">עברית</option>
+                    <option value="en">English</option>
+                </select>
+                <button onclick="showHome()" id="backBtn" class="hidden bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm transition" data-i18n="back_menu">חזרה לתפריט</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero" class="bg-white border-b border-gray-200 py-10 mb-8">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4" data-i18n="hero_title">אימון יומיומי למוח חד וצלול</h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto italic" data-i18n="hero_subtitle">
+                "המוח הוא שריר, וככל שמאמנים אותו הוא נשאר חזק יותר."
+            </p>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-6 pb-12">
+        
+        <!-- Main Game Grid (9 Games) -->
+        <div id="homeScreen" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- 1. Memory -->
+            <div class="premium-card flex flex-col h-full" onclick="loadGame('memory')">
+                <div class="thumbnail-container">
+                    <img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&w=600&q=80" alt="Memory Cards" class="thumbnail-img">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-800" data-i18n="game_memory_title">אימון זיכרון</h3>
+                    <p class="text-gray-600 flex-grow" data-i18n="game_memory_desc">שיפור הזיכרון לטווח קצר באמצעות התאמת זוגות של סמלים.</p>
+                    <button class="mt-6 btn-premium py-3 rounded-lg font-bold" data-i18n="btn_start">התחל אימון</button>
+                </div>
+            </div>
+
+            <!-- 2. Odd One Out -->
+            <div class="premium-card flex flex-col h-full" onclick="loadGame('oddoneout')">
+                <div class="thumbnail-container">
+                    <img src="https://images.unsplash.com/photo-1509343256512-d77a5cb3791d?auto=format&fit=crop&w=600&q=80" alt="Odd One Out" class="thumbnail-img">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-800" data-i18n="game_odd_title">יוצא דופן</h3>
+                    <p class="text-gray-600 flex-grow" data-i18n="game_odd_desc">מצאו את התמונה השונה. אימון מעולה להבחנה חזותית ומיקוד.</p>
+                    <button class="mt-6 btn-premium py-3 rounded-lg font-bold" data-i18n="btn_start">התחל אימון</button>
+                </div>
+            </div>
+
+            <!-- 3. Math -->
+            <div class="premium-card flex flex-col h-full" onclick="loadGame('math')">
+                <div class="thumbnail-container">
+                    <img src="https://images.unsplash.com/photo-1518133835878-5a93ac3f000c?auto=format&fit=crop&w=600&q=80" alt="Quick Math" class="thumbnail-img">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-800" data-i18n="game_math_title">חשבון מהיר</h3>
+                    <p class="text-gray-600 flex-grow" data-i18n="game_math_desc">תרגול קליל של חיבור וחיסור לשמירה על חדות מחשבתית.</p>
+                    <button class="mt-6 btn-premium py-3 rounded-lg font-bold" data-i18n="btn_start">התחל אימון</button>
+                </div>
+            </div>
+
+            <!-- 4. Word Search -->
+            <div class="premium-card flex flex-col h-full" onclick="loadGame('wordsearch')">
+                <div class="thumbnail-container">
+                    <img src="https://images.unsplash.com/photo-1516383740770-fbcc5ccbece0?auto=format&fit=crop&w=600&q=80" alt="Word Search" class="thumbnail-img">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-800" data-i18n="game_words_title">חיפוש מילים</h3>
+                    <p class="text-gray-600 flex-grow" data-i18n="game_words_desc">משחק מילים מרגיע שעוזר לשמור על אוצר המילים וחדות הראייה.</p>
+                    <button class="mt-6 btn-premium py-3 rounded-lg font-bold" data-i18n="btn_start">התחל אימון</button>
+                </div>
+            </div>
+
+            <!-- 5. Simon Sequence -->
+            <div class="premium-card flex flex-col h-full" onclick="loadGame('simon')">
+                <div class="thumbnail-container">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=600&q=80" alt="Simon Game" class="thumbnail-img">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-800" data-i18n="game_simon_title">רצף צבעים</h3>
+                    <p class="text-gray-600 flex-grow" data-i18n="game_simon_desc">חיזרו על הרצף המואר. מאמן את זיכרון העבודה בצורה מהנה.</p>
+                    <button class="mt-6 btn-premium py-3 rounded-lg font-bold" data-i18n="btn_start">התחל אימון</button>
+                </div>
+            </div>
+
+            <!-- 6. Sudoku -->
+            <div class="premium-card flex flex-col h-full" onclick="loadGame('sudoku')">
+                <div class="thumbnail-container">
+                    <img src="https://images.unsplash.com/photo-1640552435099-272ec86a1df8?auto=format&fit=crop&w=600&q=80" alt="Sudoku" class="thumbnail-img">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-800" data-i18n="game_sudoku_title">סודוקו יומי</h3>
+                    <p class="text-gray-600 flex-grow" data-i18n="game_sudoku_desc">אתגר למחשבה לוגית. פאזל ידידותי למתחילים לאימון החשיבה.</p>
+                    <button class="mt-6 btn-premium py-3 rounded-lg font-bold" data-i18n="btn_start">התחל אימון</button>
+                </div>
+            </div>
+
+            <!-- 7. Shapes -->
+            <div class="premium-card flex flex-col h-full" onclick="loadGame('shapes')">
+                <div class="thumbnail-container">
+                    <img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=600&q=80" alt="Shapes" class="thumbnail-img">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-800" data-i18n="game_shapes_title">סדר וארגון</h3>
+                    <p class="text-gray-600 flex-grow" data-i18n="game_shapes_desc">התאמת צורות למקומן. משפר תפיסה מרחבית וריכוז.</p>
+                    <button class="mt-6 btn-premium py-3 rounded-lg font-bold" data-i18n="btn_start">התחל אימון</button>
+                </div>
+            </div>
+
+            <!-- 8. Solitaire (Pyramid) -->
+            <div class="premium-card flex flex-col h-full" onclick="loadGame('solitaire')">
+                <div class="thumbnail-container">
+                    <img src="https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?auto=format&fit=crop&w=600&q=80" alt="Solitaire" class="thumbnail-img">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-800" data-i18n="game_solitaire_title">סוליטר פירמידה</h3>
+                    <p class="text-gray-600 flex-grow" data-i18n="game_solitaire_desc">מצאו זוגות קלפים שסכומם 13. מצוין לאימון חישוב מהיר וראייה מרחבית.</p>
+                    <button class="mt-6 btn-premium py-3 rounded-lg font-bold" data-i18n="btn_start">התחל אימון</button>
+                </div>
+            </div>
+
+            <!-- 9. Trivia -->
+            <div class="premium-card flex flex-col h-full" onclick="loadGame('trivia')">
+                <div class="thumbnail-container">
+                    <img src="https://images.unsplash.com/photo-1518605389454-e0b6770f38d3?auto=format&fit=crop&w=600&q=80" alt="Trivia" class="thumbnail-img">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-800" data-i18n="game_trivia_title">טריוויה ידע כללי</h3>
+                    <p class="text-gray-600 flex-grow" data-i18n="game_trivia_desc">מבחן ידע כללי קליל ומהנה לשמירה על חדות המחשבה.</p>
+                    <button class="mt-6 btn-premium py-3 rounded-lg font-bold" data-i18n="btn_start">התחל אימון</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Canvas -->
+        <div id="gameView" class="hidden">
+            <div class="bg-white p-6 md:p-10 rounded-2xl shadow-2xl min-h-[500px]">
+                <div class="text-center mb-8 border-b pb-4 relative">
+                    <h2 id="gameTitle" class="text-3xl font-bold text-slate-800"></h2>
+                    <p id="gameInstructions" class="text-gray-500 mt-2 text-lg"></p>
+                </div>
+                <div id="gameContent" class="flex flex-col items-center justify-center min-h-[400px]">
+                    <!-- Game specific HTML injected here -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-100 border-t border-gray-200 py-6 text-center mt-auto">
+        <div class="text-gray-500 font-medium" data-i18n="footer_rights">זהב של משחקים © 2026</div>
+        <p class="text-sm text-gray-400 mt-2" data-i18n="footer_desc">ללא פרסומות וללא איסוף נתונים - רק הנאה ואימון.</p>
+    </footer>
+
+    <!-- Universal Modal (Win/Level Up) -->
+    <div id="modal" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-10 max-w-md w-full text-center shadow-2xl border-t-8 border-[#b7791f]">
+            <div id="modalIcon" class="text-6xl mb-4">🏆</div>
+            <h3 id="modalTitle" class="text-3xl font-bold mb-4 text-[#1a365d]">כל הכבוד!</h3>
+            <p id="modalBody" class="text-xl text-gray-600 mb-8"></p>
+            <div class="flex flex-col gap-3">
+                <button id="nextLevelBtn" class="w-full bg-[#1a365d] text-white py-4 rounded-xl text-xl font-bold hover:bg-[#2c5282] transition" data-i18n="next_level">השלב הבא</button>
+                <button onclick="showHome()" class="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-bold hover:bg-gray-200 transition" data-i18n="back_menu">חזרה לתפריט</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Internationalization & Data ---
+        const i18nData = {
+            he: {
+                site_title: "זהב של משחקים",
+                back_menu: "חזרה לתפריט",
+                next_level: "המשך לשלב הבא",
+                level_str: "שלב",
+                hero_title: "אימון יומיומי למוח חד וצלול",
+                hero_subtitle: '"המוח הוא שריר, וככל שמאמנים אותו הוא נשאר חזק יותר."',
+                btn_start: "התחל אימון",
+                footer_rights: "זהב של משחקים © 2026",
+                footer_desc: "ללא פרסומות וללא איסוף נתונים - נוצר באהבה לגיל השלישי.",
+                
+                game_memory_title: "אימון זיכרון",
+                game_memory_desc: "שיפור הזיכרון לטווח קצר באמצעות התאמת זוגות של סמלים.",
+                game_odd_title: "יוצא דופן",
+                game_odd_desc: "מצאו את התמונה השונה. אימון מעולה להבחנה חזותית ומיקוד.",
+                game_math_title: "חשבון מהיר",
+                game_math_desc: "תרגול קליל של חיבור וחיסור לשמירה על חדות מחשבתית.",
+                game_words_title: "חיפוש מילים",
+                game_words_desc: "משחק מילים מרגיע שעוזר לשמור על אוצר המילים וחדות הראייה.",
+                game_simon_title: "רצף צבעים",
+                game_simon_desc: "חיזרו על הרצף המואר. מאמן את זיכרון העבודה בצורה מהנה.",
+                game_sudoku_title: "סודוקו יומי",
+                game_sudoku_desc: "אתגר למחשבה לוגית. פאזל ידידותי למתחילים לאימון החשיבה.",
+                game_shapes_title: "סדר וארגון",
+                game_shapes_desc: "התאמת צורות למקומן. משפר תפיסה מרחבית וריכוז.",
+                game_solitaire_title: "סוליטר פירמידה",
+                game_solitaire_desc: "מצאו זוגות קלפים שסכומם 13. מצוין לאימון חישוב מהיר.",
+                game_trivia_title: "טריוויה ידע כללי",
+                game_trivia_desc: "מבחן ידע כללי קליל ומהנה לשמירה על חדות המחשבה.",
+                
+                inst_memory: "מצאו את כל הזוגות התואמים",
+                inst_odd: "לחצו על הסמל ששונה מכל השאר",
+                inst_math: "בחרו את התשובה הנכונה לתרגיל",
+                inst_words: "לחצו על האותיות כדי למצוא את המילים המסתתרות",
+                inst_simon: "חזרו על הרצף על ידי לחיצה על הצבעים",
+                inst_sudoku: "בחרו משבצת ריקה ולחצו על המספר המתאים",
+                inst_shapes: "לחצו על צורה ואז לחצו על המקום המתאים לה",
+                inst_solitaire: "בחרו שני קלפים שסכומם 13 (מלך שווה 13 ומוסר לבד)",
+                inst_trivia: "בחרו את התשובה הנכונה מבין האפשרויות",
+
+                win_title: "כל הכבוד!",
+                win_generic: "השלמתם את השלב בהצלחה! מוכנים לאתגר הבא?",
+                
+                // Huge dynamic dictionaries
+                ws_pool: ["שלום", "זהב", "נכד", "שבת", "טיול", "שמחה", "משפחה", "אהבה", "בריאות", "חיוך", "שמש", "פרח", "ספר", "אביב", "תקווה", "אור", "מנגינה", "חלום"],
+                trivia_pool: [
+                    { q: "מהי עיר הבירה של ישראל?", opts: ["תל אביב", "חיפה", "ירושלים", "אילת"], a: 2 },
+                    { q: "מי היה ראש הממשלה הראשון של ישראל?", opts: ["מנחם בגין", "דוד בן גוריון", "יצחק רבין", "לוי אשכול"], a: 1 },
+                    { q: "איזה ים נמצא בדרום הארץ?", opts: ["הים התיכון", "ים המלח", "הים האדום", "ים כנרת"], a: 2 },
+                    { q: "כמה שעות יש ביממה?", opts: ["12", "24", "48", "60"], a: 1 },
+                    { q: "איזה צמח מזוהה עם חג הסוכות?", opts: ["שושנה", "הדס", "כלנית", "רקפת"], a: 1 },
+                    { q: "איזה חודש בא אחרי תשרי?", opts: ["טבת", "אייר", "חשוון", "כסלו"], a: 2 }
+                ]
+            },
+            en: {
+                site_title: "Golden Games",
+                back_menu: "Back to Menu",
+                next_level: "Next Level",
+                level_str: "Level",
+                hero_title: "Daily Brain Training",
+                hero_subtitle: '"The brain is a muscle, train it to keep it strong."',
+                btn_start: "Start Game",
+                footer_rights: "Golden Games © 2026",
+                footer_desc: "Ad-free, no tracking - made with love for seniors.",
+                
+                game_memory_title: "Memory Match",
+                game_memory_desc: "Improve short-term memory by matching pairs of symbols.",
+                game_odd_title: "Odd One Out",
+                game_odd_desc: "Find the image that is different. Great for visual acuity.",
+                game_math_title: "Quick Math",
+                game_math_desc: "Simple addition and subtraction to keep the mind sharp.",
+                game_words_title: "Word Search",
+                game_words_desc: "Relaxing word game to maintain vocabulary and visual acuity.",
+                game_simon_title: "Color Sequence",
+                game_simon_desc: "Repeat the color sequence. A classic memory game.",
+                game_sudoku_title: "Daily Sudoku",
+                game_sudoku_desc: "A beginner-friendly logical puzzle for brain training.",
+                game_shapes_title: "Shape Sorter",
+                game_shapes_desc: "Match shapes to their slots. Improves spatial awareness.",
+                game_solitaire_title: "Pyramid Solitaire",
+                game_solitaire_desc: "Find pairs of cards that add up to 13. Great math practice.",
+                game_trivia_title: "General Trivia",
+                game_trivia_desc: "A fun and light general knowledge quiz to stay sharp.",
+
+                inst_memory: "Find all the matching pairs",
+                inst_odd: "Click the symbol that is different from the rest",
+                inst_math: "Select the correct answer",
+                inst_words: "Click the letters to find the hidden words",
+                inst_simon: "Repeat the sequence by clicking the colors",
+                inst_sudoku: "Select an empty square and click the matching number",
+                inst_shapes: "Click a shape, then click its correct empty slot",
+                inst_solitaire: "Select two cards that add up to 13 (Kings are 13 alone)",
+                inst_trivia: "Select the correct answer from the options below",
+
+                win_title: "Well Done!",
+                win_generic: "You completed this level! Ready for the next one?",
+
+                ws_pool: ["PEACE", "GOLD", "LOVE", "BOOK", "SUN", "FAMILY", "HEALTH", "SMILE", "SPRING", "HOPE", "LIGHT", "DREAM", "MUSIC", "FLOWER", "HAPPY"],
+                trivia_pool: [
+                    { q: "What is the largest ocean on Earth?", opts: ["Atlantic", "Indian", "Pacific", "Arctic"], a: 2 },
+                    { q: "Who was the first person to walk on the moon?", opts: ["Yuri Gagarin", "Neil Armstrong", "Buzz Aldrin", "John Glenn"], a: 1 },
+                    { q: "Which planet is known as the Red Planet?", opts: ["Venus", "Mars", "Jupiter", "Saturn"], a: 1 },
+                    { q: "How many hours are in a day?", opts: ["12", "24", "48", "60"], a: 1 },
+                    { q: "What is the capital of France?", opts: ["London", "Berlin", "Madrid", "Paris"], a: 3 },
+                    { q: "How many days in a week?", opts: ["5", "6", "7", "8"], a: 2 }
+                ]
+            }
+        };
+
+        let currentLang = 'he';
+        let gameState = { active: false, currentId: null };
+
+        // Massive reusable asset pools for procedural generation
+        const ALL_EMOJIS = ['🌿', '🎻', '🏺', '⛵', '🏠', '🍎', '🌻', '🚗', '🎸', '🚲', '🐶', '🐱', '🦋', '⚽', '🎨', '🚀', '⭐', '🎈', '🎁', '🎂'];
+        const SHAPE_EMOJIS = ['⚪','🟦','🔺','⭐','♦️','🟩','🌙','❤️','💠','🔶'];
+        const ODD_SETS = [['🚗','🚙','🚕'], ['🌻','🌼','🏵️'], ['😸','😹','😺'], ['🍎','🍅','🍒'], ['🟩','🟢','⬛'], ['🌞','🌝','☀️'], ['📘','📗','📕'], ['🌲','🌳','🌴']];
+
+        // Utility: Array shuffler
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18nData[lang][key]) {
+                    el.innerText = i18nData[lang][key];
+                }
+            });
+
+            if (gameState.active) {
+                // Keep playing, just translate static strings. Data might be in old lang until next level.
+                updateLevelDisplay();
+            }
+        }
+
+        function t(key) {
+            return i18nData[currentLang][key] || key;
+        }
+
+        function updateLevelDisplay() {
+            const ind = document.getElementById('levelIndicator');
+            if (gameState.active && gameState[gameState.currentId] && gameState[gameState.currentId].level) {
+                ind.innerText = `${t('level_str')} ${gameState[gameState.currentId].level}`;
+                ind.classList.remove('hidden');
+            } else {
+                ind.classList.add('hidden');
+            }
+        }
+
+        // --- Navigation ---
+        function showHome() {
+            document.getElementById('homeScreen').classList.remove('hidden');
+            document.getElementById('hero').classList.remove('hidden');
+            document.getElementById('gameView').classList.add('hidden');
+            document.getElementById('backBtn').classList.add('hidden');
+            document.getElementById('modal').classList.add('hidden');
+            document.getElementById('levelIndicator').classList.add('hidden');
+            gameState.active = false; 
+            gameState.currentId = null;
+        }
+
+        function loadGame(gameId, level = 1) {
+            document.getElementById('homeScreen').classList.add('hidden');
+            document.getElementById('hero').classList.add('hidden');
+            document.getElementById('gameView').classList.remove('hidden');
+            document.getElementById('backBtn').classList.remove('hidden');
+            if(level === 1) window.scrollTo(0,0);
+
+            const content = document.getElementById('gameContent');
+            content.innerHTML = ''; 
+            gameState.active = true;
+            gameState.currentId = gameId;
+
+            // Initialize level state if not exists
+            if (!gameState[gameId] || level === 1) {
+                gameState[gameId] = { level: level };
+            } else {
+                gameState[gameId].level = level;
+            }
+
+            updateLevelDisplay();
+
+            const titleMap = {
+                'memory': 'game_memory_title', 'oddoneout': 'game_odd_title',
+                'math': 'game_math_title', 'wordsearch': 'game_words_title',
+                'simon': 'game_simon_title', 'sudoku': 'game_sudoku_title',
+                'shapes': 'game_shapes_title', 'solitaire': 'game_solitaire_title',
+                'trivia': 'game_trivia_title'
+            };
+            const instMap = {
+                'memory': 'inst_memory', 'oddoneout': 'inst_odd',
+                'math': 'inst_math', 'wordsearch': 'inst_words',
+                'simon': 'inst_simon', 'sudoku': 'inst_sudoku',
+                'shapes': 'inst_shapes', 'solitaire': 'inst_solitaire',
+                'trivia': 'inst_trivia'
+            };
+            
+            document.getElementById('gameTitle').innerText = t(titleMap[gameId]);
+            document.getElementById('gameInstructions').innerText = t(instMap[gameId]);
+
+            // Launch Game Setup Logic
+            if(gameId === 'memory') initMemory(content);
+            if(gameId === 'oddoneout') initOddOneOut(content);
+            if(gameId === 'math') initMath(content);
+            if(gameId === 'wordsearch') initWordSearch(content);
+            if(gameId === 'simon') initSimon(content);
+            if(gameId === 'sudoku') initSudoku(content);
+            if(gameId === 'shapes') initShapes(content);
+            if(gameId === 'solitaire') initSolitaire(content);
+            if(gameId === 'trivia') initTrivia(content);
+        }
+
+        function levelComplete() {
+            if(!gameState.active) return;
+            const modal = document.getElementById('modal');
+            document.getElementById('modalTitle').innerText = t('win_title');
+            document.getElementById('modalBody').innerText = t('win_generic');
+            
+            const nextBtn = document.getElementById('nextLevelBtn');
+            nextBtn.onclick = () => {
+                modal.classList.add('hidden');
+                loadGame(gameState.currentId, gameState[gameState.currentId].level + 1);
+            };
+            
+            modal.classList.remove('hidden');
+        }
+
+        // --- 1. Memory (Infinite Levels) ---
+        function initMemory(container) {
+            let state = gameState.memory;
+            // Increase pairs with level (min 3, max 10 to fit screen comfortably)
+            state.pairs = Math.min(3 + Math.floor(state.level / 2), 10);
+            state.flipped = [];
+            state.matched = 0;
+            
+            const selectedIcons = shuffle([...ALL_EMOJIS]).slice(0, state.pairs);
+            const cards = shuffle([...selectedIcons, ...selectedIcons]);
+            
+            let html = `<div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full max-w-2xl">`;
+            cards.forEach((icon, i) => {
+                html += `
+                    <div class="aspect-square relative text-3xl md:text-5xl">
+                        <div class="card-inner w-full h-full" data-val="${icon}" id="m-card-${i}" onclick="flipMemory(${i})">
+                            <div class="card-face w-full h-full absolute bg-slate-700 text-white font-bold rounded-xl shadow-md">?</div>
+                            <div class="card-face card-back w-full h-full absolute bg-white border-4 border-slate-700 rounded-xl shadow-md">${icon}</div>
+                        </div>
+                    </div>`;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function flipMemory(i) {
+            const card = document.getElementById(`m-card-${i}`);
+            const state = gameState.memory;
+            if (state.flipped.length === 2 || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+            card.classList.add('flipped');
+            state.flipped.push(card);
+
+            if (state.flipped.length === 2) {
+                const [c1, c2] = state.flipped;
+                if (c1.dataset.val === c2.dataset.val) {
+                    c1.classList.add('matched'); c2.classList.add('matched');
+                    state.matched++;
+                    state.flipped = [];
+                    if (state.matched === state.pairs) setTimeout(() => levelComplete(), 600);
+                } else {
+                    setTimeout(() => {
+                        c1.classList.remove('flipped'); c2.classList.remove('flipped');
+                        state.flipped = [];
+                    }, 1000);
+                }
+            }
+        }
+
+        // --- 2. Odd One Out (Infinite Levels) ---
+        function initOddOneOut(container) {
+            let state = gameState.oddoneout;
+            
+            // Generate dynamic set
+            const p = ODD_SETS[Math.floor(Math.random() * ODD_SETS.length)];
+            const mainEmoji = p[0];
+            const oddEmoji = p[Math.floor(Math.random() * (p.length-1)) + 1];
+            
+            const gridSize = 16; // fixed 4x4 for visual consistency
+            const oddIndex = Math.floor(Math.random() * gridSize);
+            
+            let html = `<div class="grid grid-cols-4 gap-4 bg-gray-50 p-6 rounded-2xl border">`;
+            for(let i=0; i<gridSize; i++) {
+                const isOdd = (i === oddIndex);
+                const emoji = isOdd ? oddEmoji : mainEmoji;
+                html += `<div onclick="clickOdd(${isOdd})" class="w-16 h-16 md:w-20 md:h-20 bg-white border shadow-sm rounded-xl flex items-center justify-center text-4xl md:text-5xl cursor-pointer hover:bg-amber-50 transition transform hover:scale-105">${emoji}</div>`;
+            }
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function clickOdd(isOdd) {
+            if(isOdd) {
+                levelComplete();
+            } else {
+                const container = document.getElementById('gameContent').firstElementChild;
+                container.classList.add('bg-red-50');
+                setTimeout(() => container.classList.remove('bg-red-50'), 300);
+            }
+        }
+
+        // --- 3. Quick Math (Infinite Levels) ---
+        function initMath(container) {
+            let state = gameState.math;
+            
+            // Difficulty scales with level
+            const maxVal = 10 + (state.level * 3);
+            const isAddition = Math.random() > 0.4;
+            
+            let a, b, answer;
+            if(isAddition) {
+                a = Math.floor(Math.random() * maxVal) + 1;
+                b = Math.floor(Math.random() * maxVal) + 1;
+                answer = a + b;
+            } else {
+                a = Math.floor(Math.random() * maxVal) + 5;
+                b = Math.floor(Math.random() * a); 
+                answer = a - b;
+            }
+
+            const symbol = isAddition ? '+' : '-';
+            const questionStr = `${a} ${symbol} ${b} = ?`;
+
+            let options = new Set();
+            options.add(answer);
+            while(options.size < 4) {
+                let fake = answer + (Math.floor(Math.random() * 7) - 3);
+                if(fake >= 0 && fake !== answer) options.add(fake);
+            }
+            const optsArr = shuffle(Array.from(options));
+
+            let html = `<div class="text-6xl font-bold mb-10 text-slate-800" dir="ltr">${questionStr}</div>`;
+            html += `<div class="grid grid-cols-2 gap-6 w-full max-w-sm">`;
+            optsArr.forEach(opt => {
+                html += `<button onclick="answerMath(${opt}, ${answer})" class="bg-blue-50 border-2 border-blue-200 hover:border-blue-500 text-3xl font-bold py-6 rounded-2xl transition shadow-sm">${opt}</button>`;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function answerMath(selected, correct) {
+            if(selected === correct) {
+                levelComplete();
+            } else {
+                event.target.classList.replace('bg-blue-50', 'bg-red-100');
+                event.target.classList.replace('border-blue-200', 'border-red-300');
+                setTimeout(() => {
+                    event.target.classList.replace('bg-red-100', 'bg-blue-50');
+                    event.target.classList.replace('border-red-300', 'border-blue-200');
+                }, 500);
+            }
+        }
+
+        // --- 4. Word Search (Procedural Generation) ---
+        function initWordSearch(container) {
+            let state = gameState.wordsearch;
+            const fullPool = i18nData[currentLang].ws_pool;
+            // Pick 4-5 words
+            const wordsCount = Math.min(4 + Math.floor(state.level / 3), 6);
+            const selectedWords = shuffle([...fullPool]).slice(0, wordsCount);
+            
+            const size = 6 + Math.min(Math.floor(state.level / 5), 2); // 6x6, max 8x8
+            let grid = Array(size).fill(null).map(()=>Array(size).fill(''));
+            
+            // Simple generator: place horizontally or vertically
+            selectedWords.forEach(word => {
+                let placed = false;
+                let attempts = 0;
+                while(!placed && attempts < 50) {
+                    const isHoriz = Math.random() > 0.5;
+                    const r = Math.floor(Math.random() * size);
+                    const c = Math.floor(Math.random() * size);
+                    
+                    if(isHoriz && c + word.length <= size) {
+                        let canPlace = true;
+                        for(let i=0; i<word.length; i++) if(grid[r][c+i] !== '' && grid[r][c+i] !== word[i]) canPlace = false;
+                        if(canPlace) {
+                            for(let i=0; i<word.length; i++) grid[r][c+i] = word[i];
+                            placed = true;
+                        }
+                    } else if (!isHoriz && r + word.length <= size) {
+                        let canPlace = true;
+                        for(let i=0; i<word.length; i++) if(grid[r+i][c] !== '' && grid[r+i][c] !== word[i]) canPlace = false;
+                        if(canPlace) {
+                            for(let i=0; i<word.length; i++) grid[r+i][c] = word[i];
+                            placed = true;
+                        }
+                    }
+                    attempts++;
+                }
+            });
+
+            // Fill empty
+            const alphabet = currentLang === 'he' ? 'אבגדהוזחטיכלמנסעפצקרשת' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            for(let r=0; r<size; r++) {
+                for(let c=0; c<size; c++) {
+                    if(grid[r][c] === '') grid[r][c] = alphabet[Math.floor(Math.random() * alphabet.length)];
+                }
+            }
+
+            state.selectedCells = [];
+            state.foundWords = 0;
+            state.words = selectedWords;
+
+            let html = `<div class="flex flex-col md:flex-row gap-10 items-center">
+                <div class="bg-white border-4 border-slate-800 p-2 md:p-6 rounded-xl shadow-lg">
+                    <div class="grid gap-2 text-2xl md:text-3xl font-bold font-mono" style="grid-template-columns: repeat(${size}, minmax(0, 1fr));">`;
+            
+            grid.forEach((row, r) => {
+                row.forEach((letter, c) => {
+                    html += `<div class="ws-cell w-10 h-10 md:w-14 md:h-14 flex items-center justify-center border border-gray-200 rounded-lg bg-gray-50 hover:bg-gray-200" 
+                                  onclick="clickWsCell(this, '${letter}')">${letter}</div>`;
+                });
+            });
+
+            html += `</div></div><div class="flex flex-col gap-3 text-xl font-bold w-48 text-center" id="ws-wordlist">`;
+            selectedWords.forEach(w => {
+                html += `<div class="bg-gray-100 p-3 rounded-lg border text-gray-500 transition-colors" id="word-${w}">${w}</div>`;
+            });
+            html += `</div></div>`;
+            container.innerHTML = html;
+        }
+
+        function clickWsCell(el, letter) {
+            if(el.classList.contains('found')) return;
+            if(el.classList.contains('selected')) {
+                el.classList.remove('selected');
+                gameState.wordsearch.selectedCells = gameState.wordsearch.selectedCells.filter(c => c.el !== el);
+            } else {
+                el.classList.add('selected');
+                gameState.wordsearch.selectedCells.push({el: el, char: letter});
+            }
+            checkWordSearch();
+        }
+
+        function checkWordSearch() {
+            const state = gameState.wordsearch;
+            const currentStr = state.selectedCells.map(c => c.char).join('');
+            const currentStrRev = state.selectedCells.map(c => c.char).reverse().join('');
+            
+            let matchedWord = null;
+            if(state.words.includes(currentStr)) matchedWord = currentStr;
+            if(state.words.includes(currentStrRev)) matchedWord = currentStrRev;
+
+            if(matchedWord) {
+                state.selectedCells.forEach(c => {
+                    c.el.classList.remove('selected');
+                    c.el.classList.add('found');
+                });
+                document.getElementById(`word-${matchedWord}`).classList.replace('bg-gray-100', 'bg-green-100');
+                document.getElementById(`word-${matchedWord}`).classList.replace('text-gray-500', 'text-green-700');
+                
+                state.words = state.words.filter(w => w !== matchedWord);
+                state.selectedCells = [];
+                state.foundWords++;
+                
+                // End level if all found
+                if(state.words.length === 0) {
+                    setTimeout(() => levelComplete(), 500);
+                }
+            }
+        }
+
+        // --- 5. Simon (Infinite Sequences) ---
+        function initSimon(container) {
+            // Keep the same sequence across levels during a single play session
+            if(!gameState.simon.sequence) {
+                gameState.simon.sequence = [];
+            }
+            gameState.simon.userIndex = 0;
+            gameState.simon.waitingForUser = false;
+            
+            const colors = [
+                {id: 0, c: 'bg-red-500'}, {id: 1, c: 'bg-blue-500'}, 
+                {id: 2, c: 'bg-green-500'}, {id: 3, c: 'bg-yellow-400'}
+            ];
+
+            let html = `<div class="grid grid-cols-2 gap-4 max-w-xs mx-auto">`;
+            colors.forEach(col => {
+                html += `<div id="simon-${col.id}" class="simon-btn w-24 h-24 md:w-32 md:h-32 rounded-2xl ${col.c}" onclick="clickSimon(${col.id})"></div>`;
+            });
+            html += `</div>`;
+            
+            container.innerHTML = html;
+            setTimeout(() => playSimonSequence(), 800);
+        }
+
+        async function playSimonSequence() {
+            if(!gameState.active) return;
+            const state = gameState.simon;
+            state.waitingForUser = false;
+            state.userIndex = 0;
+            
+            // Add new color to sequence
+            state.sequence.push(Math.floor(Math.random() * 4));
+            
+            for(let i=0; i<state.sequence.length; i++) {
+                if(!gameState.active) return;
+                await new Promise(r => setTimeout(r, 500));
+                await flashSimon(state.sequence[i]);
+            }
+            
+            if(!gameState.active) return;
+            state.waitingForUser = true;
+        }
+
+        async function flashSimon(id) {
+            if(!gameState.active) return;
+            const el = document.getElementById(`simon-${id}`);
+            el.classList.add('active');
+            await new Promise(r => setTimeout(r, 400));
+            el.classList.remove('active');
+        }
+
+        function clickSimon(id) {
+            const state = gameState.simon;
+            if(!state.waitingForUser) return;
+            
+            flashSimon(id);
+            
+            if(id === state.sequence[state.userIndex]) {
+                state.userIndex++;
+                if(state.userIndex === state.sequence.length) {
+                    state.waitingForUser = false;
+                    setTimeout(() => levelComplete(), 500); // Win level, move to next
+                }
+            } else {
+                // Mistake
+                state.waitingForUser = false;
+                state.sequence.pop(); // Remove the latest
+                const container = document.getElementById('gameContent').firstElementChild;
+                container.classList.add('animate-pulse', 'bg-red-100');
+                setTimeout(() => {
+                    container.classList.remove('animate-pulse', 'bg-red-100');
+                    playSimonSequence(); // replay without advancing level
+                }, 1000);
+            }
+        }
+
+        // --- 6. Sudoku (Procedural Shuffler) ---
+        function initSudoku(container) {
+            // Base valid solution
+            const baseSolution = [
+                [1, 4, 3, 2],
+                [2, 3, 4, 1],
+                [3, 1, 4, 2],
+                [4, 2, 1, 3]
+            ];
+            
+            // Shuffle numbers mapping (e.g. 1 becomes 3) -> preserves validity!
+            const nums = shuffle([1, 2, 3, 4]);
+            const map = {1: nums[0], 2: nums[1], 3: nums[2], 4: nums[3]};
+            
+            let solution = [
+                [map[1], map[4], map[3], map[2]],
+                [map[2], map[3], map[4], map[1]],
+                [map[3], map[1], map[4], map[2]],
+                [map[4], map[2], map[1], map[3]]
+            ];
+
+            // Remove items based on level
+            let puzzle = JSON.parse(JSON.stringify(solution));
+            const holes = Math.min(4 + gameState.sudoku.level, 10);
+            let removed = 0;
+            while(removed < holes) {
+                let r = Math.floor(Math.random() * 4);
+                let c = Math.floor(Math.random() * 4);
+                if(puzzle[r][c] !== 0) {
+                    puzzle[r][c] = 0;
+                    removed++;
+                }
+            }
+
+            gameState.sudoku.puzzle = puzzle;
+            gameState.sudoku.solution = solution;
+            gameState.sudoku.selectedRow = -1;
+            gameState.sudoku.selectedCol = -1;
+
+            let html = `<div class="flex flex-col items-center gap-8">
+                <div class="grid grid-cols-4 gap-1 bg-slate-800 p-2 rounded-xl">`;
+            
+            for(let r=0; r<4; r++){
+                for(let c=0; c<4; c++){
+                    const val = puzzle[r][c];
+                    const classes = val !== 0 ? 'fixed' : '';
+                    const display = val !== 0 ? val : '';
+                    html += `<div id="sudo-${r}-${c}" class="sudoku-cell ${classes} w-16 h-16 md:w-20 md:h-20 bg-white flex items-center justify-center text-3xl font-bold rounded-sm"
+                                  onclick="selectSudoku(${r},${c})">${display}</div>`;
+                }
+            }
+            html += `</div><div class="flex gap-4">`;
+            for(let i=1; i<=4; i++){
+                html += `<button onclick="fillSudoku(${i})" class="w-16 h-16 bg-blue-100 border-2 border-blue-300 rounded-xl text-3xl font-bold text-blue-800 hover:bg-blue-200">${i}</button>`;
+            }
+            html += `</div></div>`;
+            container.innerHTML = html;
+        }
+
+        function selectSudoku(r, c) {
+            if(gameState.sudoku.puzzle[r][c] !== 0) return;
+            document.querySelectorAll('.sudoku-cell').forEach(el => el.classList.remove('selected'));
+            document.getElementById(`sudo-${r}-${c}`).classList.add('selected');
+            gameState.sudoku.selectedRow = r;
+            gameState.sudoku.selectedCol = c;
+        }
+
+        function fillSudoku(num) {
+            const r = gameState.sudoku.selectedRow;
+            const c = gameState.sudoku.selectedCol;
+            if(r === -1 || c === -1) return;
+
+            const el = document.getElementById(`sudo-${r}-${c}`);
+            el.innerText = num;
+            
+            if(gameState.sudoku.solution[r][c] === num) {
+                el.classList.remove('error', 'selected');
+                el.classList.add('text-green-600');
+                
+                // check win
+                let win = true;
+                for(let row=0; row<4; row++){
+                    for(let col=0; col<4; col++){
+                        if(document.getElementById(`sudo-${row}-${col}`).innerText != gameState.sudoku.solution[row][col]) win = false;
+                    }
+                }
+                if(win) setTimeout(() => levelComplete(), 500);
+
+            } else {
+                el.classList.add('error');
+            }
+        }
+
+        // --- 7. Shapes (Infinite Levels) ---
+        function initShapes(container) {
+            let state = gameState.shapes;
+            const count = Math.min(4 + Math.floor(state.level/3), 8);
+            const items = shuffle([...SHAPE_EMOJIS]).slice(0, count).map((icon, id) => ({id, icon}));
+            
+            state.selected = null;
+            state.placed = 0;
+            state.total = count;
+            
+            let gridClass = count > 4 ? 'grid-cols-3 md:grid-cols-4' : 'grid-cols-2';
+
+            let html = `
+                <div class="flex flex-col md:flex-row justify-around w-full items-center gap-10">
+                    <div id="shapePick" class="grid ${gridClass} gap-6">
+                        ${items.map(i => `<div onclick="selectShape(${i.id}, this)" class="w-16 h-16 md:w-20 md:h-20 bg-white border-4 border-gray-200 rounded-2xl flex items-center justify-center text-3xl md:text-4xl cursor-pointer hover:border-amber-500 transition shadow-sm">${i.icon}</div>`).join('')}
+                    </div>
+                    <div class="text-5xl text-gray-300 hidden md:block">${currentLang==='he'?'⬅️':'➡️'}</div>
+                    <div id="shapeDrop" class="grid ${gridClass} gap-6">
+                        ${shuffle([...items]).map(i => `<div onclick="dropShape(${i.id}, this)" class="w-16 h-16 md:w-20 md:h-20 border-4 border-dashed border-gray-300 rounded-2xl flex items-center justify-center text-2xl font-bold cursor-pointer"></div>`).join('')}
+                    </div>
+                </div>`;
+            container.innerHTML = html;
+        }
+
+        function selectShape(id, el) {
+            document.querySelectorAll('#shapePick div').forEach(d => d.classList.remove('border-amber-500', 'bg-amber-50'));
+            el.classList.add('border-amber-500', 'bg-amber-50');
+            gameState.shapes.selected = { id, icon: el.innerText, el };
+        }
+
+        function dropShape(id, el) {
+            const state = gameState.shapes;
+            if (state.selected && state.selected.id === id) {
+                el.innerText = state.selected.icon;
+                el.classList.remove('border-dashed');
+                el.classList.add('border-solid', 'border-green-500', 'bg-green-50');
+                state.selected.el.style.visibility = 'hidden';
+                state.selected = null;
+                state.placed++;
+                
+                if (state.placed === state.total) setTimeout(() => levelComplete(), 500);
+            }
+        }
+
+        // --- 8. Solitaire (Procedural Pyramid) ---
+        function initSolitaire(container) {
+            let state = gameState.solitaire;
+            
+            // Base pairs that sum to 13
+            const pairOptions = [[1,12],[2,11],[3,10],[4,9],[5,8],[6,7],[13,13]];
+            
+            // Draw N pairs based on level
+            const pairsCount = Math.min(5 + state.level, 10);
+            let drawnCards = [];
+            for(let i=0; i<pairsCount; i++) {
+                const pair = pairOptions[Math.floor(Math.random() * pairOptions.length)];
+                drawnCards.push(pair[0]);
+                // If it's a King(13), it clears itself, no need to force a second 13 unless we want pairs of kings.
+                // For simplicity, we just add the exact pair values.
+                if(pair[0] !== 13) drawnCards.push(pair[1]); 
+            }
+
+            const deck = shuffle(drawnCards).map(v => {
+                let display = v;
+                if(v==1) display = 'A'; if(v==11) display = 'J'; if(v==12) display = 'Q'; if(v==13) display = 'K';
+                return { val: v, label: display, suit: Math.random()>0.5?'♥':'♠' };
+            });
+
+            state.cards = deck;
+            state.selected = null;
+            state.removed = 0;
+
+            let html = `<div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3">`;
+            deck.forEach((card, i) => {
+                const color = card.suit === '♥' ? 'red-suit' : 'black-suit';
+                html += `<div id="sol-card-${i}" class="playing-card w-16 h-24 md:w-20 md:h-28 text-2xl md:text-3xl ${color}" onclick="clickSolitaire(${i})">
+                            <div class="flex flex-col items-center">
+                                <span>${card.label}</span>
+                                <span class="text-xl md:text-2xl">${card.suit}</span>
+                            </div>
+                         </div>`;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function clickSolitaire(i) {
+            const state = gameState.solitaire;
+            const el = document.getElementById(`sol-card-${i}`);
+            const card = state.cards[i];
+
+            if(el.style.visibility === 'hidden') return;
+
+            if(card.val === 13) {
+                el.style.visibility = 'hidden';
+                state.removed++; // 1 card removed
+                checkSolitaireWin();
+                return;
+            }
+
+            if(!state.selected) {
+                state.selected = { index: i, el, val: card.val };
+                el.classList.add('selected');
+            } else {
+                if(state.selected.index === i) {
+                    el.classList.remove('selected');
+                    state.selected = null;
+                } else if(state.selected.val + card.val === 13) {
+                    el.style.visibility = 'hidden';
+                    state.selected.el.style.visibility = 'hidden';
+                    state.selected = null;
+                    state.removed += 2; // 2 cards removed
+                    checkSolitaireWin();
+                } else {
+                    state.selected.el.classList.remove('selected');
+                    state.selected = { index: i, el, val: card.val };
+                    el.classList.add('selected');
+                }
+            }
+        }
+
+        function checkSolitaireWin() {
+            if(gameState.solitaire.removed >= gameState.solitaire.cards.length) {
+                setTimeout(() => levelComplete(), 500);
+            }
+        }
+
+        // --- 9. Trivia (Infinite loops from pool) ---
+        function initTrivia(container) {
+            let state = gameState.trivia;
+            const pool = i18nData[currentLang].trivia_qs;
+            
+            // Randomly select 4 questions for this level
+            state.questions = shuffle([...pool]).slice(0, 4);
+            state.current = 0;
+            
+            renderTriviaQuestion(container);
+        }
+
+        function renderTriviaQuestion(container) {
+            if(!gameState.active) return;
+            const state = gameState.trivia;
+            
+            if(state.current >= state.questions.length) {
+                levelComplete();
+                return;
+            }
+
+            const q = state.questions[state.current];
+            let html = `
+                <div class="max-w-xl w-full">
+                    <div class="text-sm font-bold text-gray-400 mb-2">${currentLang==='he'?'שאלה':'Question'} ${state.current+1} / ${state.questions.length}</div>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-8 text-center text-[#1a365d] bg-blue-50 p-6 rounded-xl">${q.q}</h3>
+                    <div class="flex flex-col gap-4">
+            `;
+            q.opts.forEach((opt, idx) => {
+                html += `<button onclick="answerTrivia(${idx}, ${q.a})" class="bg-white border-2 border-gray-200 hover:border-[#b7791f] text-xl p-4 rounded-xl text-right md:text-center transition shadow-sm">${opt}</button>`;
+            });
+            html += `</div></div>`;
+            container.innerHTML = html;
+        }
+
+        function answerTrivia(selectedIdx, correctIdx) {
+            const state = gameState.trivia;
+            const isCorrect = selectedIdx === correctIdx;
+            
+            // Visual feedback
+            event.target.classList.replace('border-gray-200', isCorrect ? 'border-green-500' : 'border-red-500');
+            event.target.classList.add(isCorrect ? 'bg-green-50' : 'bg-red-50');
+            
+            setTimeout(() => {
+                state.current++;
+                renderTriviaQuestion(document.getElementById('gameContent'));
+            }, 600);
+        }
+
+        // Initialize
+        changeLanguage('he');
+    </script>
+</body>
+</html>
