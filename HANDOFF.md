@@ -13,126 +13,151 @@
 
 ---
 
-## 📦 מה בנוי (index.html — ~1700 שורות)
+## ⚠️ מצב נוכחי — קריטי לסשן הבא
 
-### 17 משחקים (כולם production-ready):
-| # | ID | שם | קוגניציה | עומק |
-|---|----|----|-----------|------|
-| 1 | memory | אימון זיכרון | זיכרון קצר-טווח | מרובה רמות |
-| 2 | oddoneout | יוצא דופן | קשב ויזואלי | **10 סיבובים/סשן** |
-| 3 | math | חשבון מהיר | עיבוד מידע | **10 שאלות/סשן** |
-| 4 | wordsearch | חיפוש מילים | שפה ודפוסים | מרובה רמות |
-| 5 | simon | רצף צבעים | זיכרון עבודה | ∞ רמות, גיים-אובר בכישלון |
-| 6 | sudoku | סודוקו יומי | היסק לוגי | **9×9 מלא** |
-| 7 | shapes | סדר וארגון | מרחבי | מרובה רמות |
-| 8 | solitaire | סוליטר פירמידה | פונקציה ניהולית | מרובה רמות |
-| 9 | trivia | טריוויה | זיכרון ארוך-טווח | **10 שאלות/סשן** |
-| 10 | numseq | רצף מספרים | לוגיקה | **10 שאלות/סשן** |
-| 11 | unscramble | פענוח מילה | שפה | **7 מילים/סשן** |
-| 12 | pairs | זוגות הפכים | אוצר מילים | מרובה רמות |
-| 13 | truefalse | נכון / לא נכון | ידע כללי | **8 שאלות/סשן + ניקוד** |
-| 14 | flags | דגלי העולם | זיהוי ויזואלי | **10 שאלות/סשן + ניקוד** |
-| 15 | proverbs | השלם את הפתגם | זיכרון תרבותי | **6 פתגמים/סשן + ניקוד** |
-| 16 | hangman | תלייה | שפה + ניחוש | מרובה מילים |
-| 17 | recall | זיכרון תמונות | שחזור זיכרון | מרובה רמות |
+### 1. משחקים לא נפתחים — סיבת השורש
+**סיבה:** כפתור "התחל אימון" לא קיבל `onclick` משלו — רק ה-`div` עטפן קיבל onclick.
+בגלגול שונה של Tailwind CDN או מכשיר מסוים, הקליק לא הגיע ל-div.
 
-### תשתיות:
-- **Pollinations Flux thumbnails** — כל 17 כרטיסים: `<img>` from Pollinations.ai free API (seed-stable)
-- **Shimmer skeleton** — thumbnail-container מציג shimmer animation עד שהתמונה נטענת, אחר כך fade-in
-- **`.hidden { display:none !important; }` CSS fallback** — משחקים עובדים גם אם Tailwind CDN נכשל
-- **CSS grid fallback** — #homeScreen תמיד מציג גריד גם אם Tailwind CDN נכשל
-- **Retention Engine** — streak יומי, יעד 3 משחקים, ברכה לפי שעה, wellness nudges
-- **Session Scores** — `levelComplete()` מציג X/Y תשובות נכונות לכל משחק session-based
-- **High Scores** — localStorage לכל 17 משחקים + badge על הכרטיסים
-- **Deep Links** — `/#gameId` + `?lang=en` לאנגלית
-- **Sound Engine** — Web Audio API (ללא קבצים חיצוניים)
-- **Confetti** — CSS animation ב-levelComplete
-- **i18n** — עברית RTL + אנגלית LTR, `changeLanguage()`
-- **Mobile** — touch-action, viewport, touch targets ≥44px
-- **Hero** — dark navy gradient, premium dark theme
+**תיקון שנעשה (Session 37):**
+- הוספנו `onclick="loadGame('id')"` ישירות לכל 17 כפתורות "התחל אימון"
+- הפונקציות `loadGame()` ו-`showHome()` ממומשות עם null-checks כך שלא קורסות אם אלמנט חסר
+- `_el(id)` helper function נוספה
 
-### פרסומות:
-- **פס תחתון קבוע** (`#adBar`, 52px, dismissible) — ticker מסתובב כל 6 שניות
-- **אזור צד** (`#adSide`, 160×250, נראה בלבד ≥1440px רוחב)
-- **תשתית AdSense מוכנה** — קוד מוכן כ-comment, מחכה לאישור חשבון
+### 2. האם זה עובד עכשיו?
+**צריך לבדוק בדפדפן אחרי deploy.** GitHub Pages לוקח 1-3 דקות.
+עשה hard-refresh: `Ctrl+Shift+R` (Windows) / `Cmd+Shift+R` (Mac).
 
 ---
 
-## 🐛 בעיות שנפתרו (Session 37 — 2026-05-15)
+## 🏗️ ארכיטקטורה נוכחית (בעיה!)
+**כל הקוד נמצא בקובץ אחד** `index.html` — 1700+ שורות.
+זה לא מודולרי, קשה לתחזוקה, וקשה לבדוק כל משחק.
 
-| בעיה | פתרון |
-|------|-------|
-| גריד שבור — "חלון אחד וכל השאר מתחת לשני" | **תוספת `</div>` בכל 17 כרטיסים** סגרה את `.premium-card` לפני `.p-5` → הסרנו את ה-div הזה |
-| תמונות AI נעלמו | Pollinations Flux API images שוחזרו עם כל 17 prompts ו-seeds |
-| תמונות טוענות לאט (Pollinations יכול לקחת 30-60 שניות) | shimmer skeleton animation + fade-in כשהתמונה נטענת |
-| משחקים לא עובדים אם Tailwind CDN נכשל | `.hidden { display:none !important; }` CSS fallback נוסף |
-| Word Search — מילים לא ניתנות למציאה | filter pool לפי גודל grid + tracking רק מילים שהוצבו |
+## 🚀 NEXT SESSION — ריפקטור מודולרי (מבנה מוצע)
+
+```
+Elders_Ai/
+├── index.html              ← shell בלבד (HTML structure, no game JS)
+├── css/
+│   └── main.css            ← כל ה-CSS
+├── js/
+│   ├── core.js             ← i18n, routing, gameState, retention, utils
+│   ├── games/
+│   │   ├── memory.js
+│   │   ├── wordsearch.js
+│   │   ├── math.js
+│   │   ├── simon.js
+│   │   ├── sudoku.js
+│   │   ├── shapes.js
+│   │   ├── solitaire.js
+│   │   ├── trivia.js
+│   │   ├── numseq.js
+│   │   ├── unscramble.js
+│   │   ├── pairs.js
+│   │   ├── truefalse.js
+│   │   ├── flags.js
+│   │   ├── proverbs.js
+│   │   ├── hangman.js
+│   │   ├── recall.js
+│   │   └── oddoneout.js
+│   └── ads.js              ← ad ticker rotation
+└── images/
+    ├── memory/thumb.jpg    ← תמונה מוכנה (600×400px)
+    ├── oddoneout/thumb.jpg
+    ├── math/thumb.jpg
+    ... (17 תיקיות)
+```
+
+### איך להתחיל את הריפקטור:
+1. צור קבצי `.js` ריקים לכל משחק
+2. העבר כל `function init{Game}()` לקובץ שלו
+3. עדכן `index.html` לטעון קבצים: `<script src="js/games/memory.js"></script>`
+4. בדוק כל משחק בנפרד אחרי כל העברה
 
 ---
 
-## ⚠️ ידוע — Pollinations Images
+## 📁 תיקיות תמונות — מוכנות
 
-- Pollinations.ai **מייצר תמונות on-demand** — הפעם הראשונה שכל URL נטען עשויה לקחת 15-60 שניות
-- לאחר הגנרציה הראשונה, Pollinations **מcache** את התמונות לפי seed → טעינות חוזרות מהירות
-- כל 17 seeds קבועות (1001-1017) → אותן תמונות בכל פעם
-- **Shimmer animation** מחביאה את ה-latency
-- אם Pollinations API נופל: onerror handler → gradient כחול-כהה (לא broken image)
+```
+images/memory/     ← תמונה למשחק זיכרון (שים thumb.jpg)
+images/oddoneout/  ← תמונה ליוצא דופן
+images/math/       ← תמונה לחשבון מהיר
+images/wordsearch/ ← תמונה לחיפוש מילים
+images/simon/      ← תמונה לרצף צבעים
+images/sudoku/     ← תמונה לסודוקו
+images/shapes/     ← תמונה לסדר וארגון
+images/solitaire/  ← תמונה לסוליטר
+images/trivia/     ← תמונה לטריוויה
+images/numseq/     ← תמונה לרצף מספרים
+images/unscramble/ ← תמונה לפענוח מילה
+images/pairs/      ← תמונה לזוגות הפכים
+images/truefalse/  ← תמונה לנכון/לא נכון
+images/flags/      ← תמונה לדגלי העולם
+images/proverbs/   ← תמונה לפתגמים
+images/hangman/    ← תמונה לתלייה
+images/recall/     ← תמונה לזיכרון תמונות
+```
+
+**כשמוסיפים תמונה:** שנה בקוד מ-`src="https://image.pollinations.ai/..."` ל-`src="images/memory/thumb.jpg"`
+ראה `images/README.md` לפרטים.
 
 ---
 
-## 🏦 הפעלת Google AdSense (כשתרצה)
+## 📦 מה בנוי (17 משחקים — כולם production-ready)
 
-1. פתח חשבון ב-https://adsense.google.com
-2. הוסף את הדומיין: `adbitrush.github.io`
-3. אמת בעלות על ידי הוספת `<meta>` tag ל-`<head>`
-4. קבל אישור (לוקח ~2 שבועות)
-5. צור Ad Unit מסוג **Display** (468×60 להגדרת ה-bar, 160×250 לצד)
-6. בקוד: חפש `TO ACTIVATE GOOGLE ADSENSE` בשני מקומות ב-index.html
+| # | ID | שם | מצב |
+|---|----|----|-----|
+| 1 | memory | אימון זיכרון | ✅ |
+| 2 | oddoneout | יוצא דופן | ✅ |
+| 3 | math | חשבון מהיר | ✅ |
+| 4 | wordsearch | חיפוש מילים | ✅ |
+| 5 | simon | רצף צבעים | ✅ |
+| 6 | sudoku | סודוקו יומי | ✅ |
+| 7 | shapes | סדר וארגון | ✅ |
+| 8 | solitaire | סוליטר פירמידה | ✅ |
+| 9 | trivia | טריוויה | ✅ |
+| 10 | numseq | רצף מספרים | ✅ |
+| 11 | unscramble | פענוח מילה | ✅ |
+| 12 | pairs | זוגות הפכים | ✅ |
+| 13 | truefalse | נכון / לא נכון | ✅ |
+| 14 | flags | דגלי העולם | ✅ |
+| 15 | proverbs | השלם את הפתגם | ✅ |
+| 16 | hangman | תלייה | ✅ |
+| 17 | recall | זיכרון תמונות | ✅ |
 
 ---
 
-## 🧱 ארכיטקטורה
+## 🧱 ארכיטקטורה נוכחית
 
 ```
 Stack:    HTML + Vanilla JS + Tailwind CSS CDN
-Font:     Assistant (Google Fonts) — מותאם לעברית
+Font:     Assistant (Google Fonts)
 Colors:   --primary: #1a365d | --accent: #b7791f | --bg: #070d1c
 i18n:     t('key') → i18nData[currentLang][key]
 Routing:  location.hash = gameId | hashchange listener
 Storage:  localStorage (gg_streak, gg_today_count, gg_total_games, gg_last_date, gg_hs_{id})
 Games:    loadGame(id) → init{Game}(container) → levelComplete()
-Session:  gs._sq (total), gs._si (index), gs._ss (score) → gs._sessionScore={correct,total}
-Images:   https://image.pollinations.ai/prompt/{prompt}?width=600&height=400&nologo=true&seed={1001-1017}&model=flux
+Images:   Pollinations Flux API (free, seed-stable) — fallback: images/ folder
 ```
 
 ---
 
-## 🚀 NEXT SESSION PRIORITIES
+## 🏦 הפעלת Google AdSense
 
-### 🔴 CRITICAL — לפני פרסום רחב:
-1. **בדוק כל 17 משחקים ידנית** — לחץ כל כרטיס ושחק עד סיום/level complete
-2. **בדוק על נייד** (iOS Safari + Android Chrome) — touch targets, RTL, scroll
-3. **Pollinations image quality** — אם תמונות כלשהן נראות גרועות, שנה את ה-prompt באותו כרטיס (seed ו-model=flux)
-
-### 🟧 גבוה:
-4. **PWA** — `manifest.json` + service worker → ניתן להתקין כ-app ממסך הבית
-5. **Hard-refresh cache buster** — הוסף `?v=2` ל-Tailwind CDN URL כדי למנוע cache issues
-
-### 🟨 בינוני:
-6. **Social Share** — "שתף את התוצאה שלי" בסיום כל משחק
-7. **עוד 5 משחקים** — Crossword, Anagram, Category Sort, Photo Match
-8. **Pairs + Shapes** — המר ל-session mode (כרגע level-based)
-
-### 🟦 אופציונלי:
-9. **Google AdSense** — אחרי קבלת אישור חשבון
-10. **Analytics קל** (Plausible/Umami — privacy-first)
+1. פתח חשבון ב-https://adsense.google.com
+2. הוסף דומיין: `adbitrush.github.io`
+3. אמת בעלות (`<meta>` tag ב-`<head>`)
+4. קבל אישור (~2 שבועות)
+5. בקוד: חפש `TO ACTIVATE GOOGLE ADSENSE`
 
 ---
 
-## 📋 Git Log (עיקרי Session 37)
+## 📋 Git Log (Session 37)
 
 ```
+ef4b146  fix(ux): shimmer skeleton + .hidden CSS safety + eager image loading
 d18cc6c  feat(thumbnails): restore Pollinations Flux AI images for all 17 game cards
 9b9de6c  fix(grid): remove extra </div> closing premium-card prematurely in all 17 game cards
-d31404e  feat(design): premium dark navy redesign — gold glow, glassmorphism cards, gradient hero
+d31404e  feat(design): premium dark navy redesign — gold glow, glassmorphism cards
 ```
