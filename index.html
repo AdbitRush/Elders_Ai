@@ -566,15 +566,18 @@ function showHome() {
     document.getElementById('levelIndicator').classList.add('hidden');
     document.getElementById('personalBest').classList.add('hidden');
     gameState.active=false; gameState.currentId=null;
+    history.pushState(null, '', location.pathname + location.search);
     Retention.renderBar(); refreshHSBadges();
 }
 
 function loadGame(gameId, level=1) {
+    const validIds=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs'];
+    if(!validIds.includes(gameId)) return;
     document.getElementById('homeScreen').classList.add('hidden');
     document.getElementById('hero').classList.add('hidden');
     document.getElementById('gameView').classList.remove('hidden');
     document.getElementById('backBtn').classList.remove('hidden');
-    if(level===1) window.scrollTo(0,0);
+    if(level===1){window.scrollTo(0,0); history.replaceState(null,'','#'+gameId);}
     const content=document.getElementById('gameContent'); content.innerHTML='';
     gameState.active=true; gameState.currentId=gameId;
     if(!gameState[gameId]||level===1) gameState[gameId]={level}; else gameState[gameId].level=level;
@@ -962,12 +965,29 @@ function renderDailyQuote(){
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// DEEP LINK ROUTING  (hash = game id, e.g. #memory  or  #trivia)
+// ═══════════════════════════════════════════════════════════════════════════════
+const _VALID_GAMES=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs'];
+
+function _routeFromHash(){
+    const h=location.hash.replace('#','').toLowerCase();
+    if(_VALID_GAMES.includes(h)) loadGame(h);
+    else showHome();
+}
+
+window.addEventListener('hashchange', _routeFromHash);
+window.addEventListener('popstate', ()=>{ if(!location.hash) showHome(); });
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════════════════
-changeLanguage('he');
+const _initLang = new URLSearchParams(location.search).get('lang') || 'he';
+changeLanguage(_initLang);
+document.getElementById('langSelect').value = _initLang;
 Retention.renderBar();
 refreshHSBadges();
 renderDailyQuote();
+_routeFromHash();
 </script>
 </body>
 </html>
