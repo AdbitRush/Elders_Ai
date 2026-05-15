@@ -7,21 +7,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #1a365d; --accent: #b7791f; --bg: #f8fafc; }
-        body { font-family: 'Assistant', sans-serif; background-color: var(--bg); color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; }
+        :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
+        body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; }
         button, [onclick] { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
         /* Fallback grid — works even when Tailwind CDN fails */
         #homeScreen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
         @media (min-width: 768px)  { #homeScreen { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
         @media (min-width: 1024px) { #homeScreen { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
         @media (min-width: 1280px) { #homeScreen { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-        .premium-card { background: white; border-radius: 1.25rem; transition: all 0.35s cubic-bezier(.22,.68,0,1.2); box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06); cursor: pointer; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; height: 100%; position: relative; }
-        .premium-card:hover { transform: translateY(-10px) scale(1.015); box-shadow: 0 24px 40px -8px rgba(26,54,93,0.22), 0 8px 16px -4px rgba(0,0,0,0.1); border-color: var(--accent); }
-        .thumbnail-container { height: 200px; width: 100%; overflow: hidden; position: relative; }
-        .thumbnail-container svg { transition: transform 0.5s ease; }
-        .premium-card:hover .thumbnail-container svg { transform: scale(1.04); }
-        .btn-premium { background-color: var(--primary); color: white; transition: all 0.2s; }
-        .btn-premium:hover { background-color: #2c5282; transform: scale(1.02); }
+        /* Premium card — glass-white on dark background */
+        .premium-card { background: rgba(255,255,255,0.96); border-radius: 1.4rem; transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s ease, border-color 0.25s ease; box-shadow: 0 4px 24px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3); cursor: pointer; overflow: hidden; border: 1.5px solid rgba(255,255,255,0.12); display: flex; flex-direction: column; height: 100%; position: relative; }
+        .premium-card::before { content:''; position:absolute; inset:0; border-radius:1.4rem; background: linear-gradient(135deg, rgba(183,121,31,0.12) 0%, transparent 60%); opacity:0; transition:opacity 0.35s; pointer-events:none; z-index:1; }
+        .premium-card:hover::before { opacity:1; }
+        .premium-card:hover { transform: translateY(-14px) scale(1.025); box-shadow: 0 40px 80px -16px rgba(183,121,31,0.5), 0 0 0 2px rgba(183,121,31,0.6), 0 8px 20px rgba(0,0,0,0.4); border-color: var(--accent); }
+        .premium-card:hover .thumbnail-container svg { transform: scale(1.06); }
+        .thumbnail-container { height: 185px; width: 100%; overflow: hidden; position: relative; }
+        .thumbnail-container svg { transition: transform 0.5s ease; display:block; width:100%; height:100%; }
+        .btn-premium { background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%); color: white; transition: all 0.25s; box-shadow: 0 2px 8px rgba(26,54,93,0.4); }
+        .btn-premium:hover { background: linear-gradient(135deg, #2c5282 0%, #3b6cb5 100%); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(26,54,93,0.5); }
         /* Memory */
         .card-inner { transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
         .card-inner.flipped { transform: rotateY(180deg); }
@@ -80,41 +83,43 @@
 <body class="min-h-screen flex flex-col">
 
 <!-- Navbar -->
-<nav class="bg-[#1a365d] text-white py-4 shadow-xl">
+<nav style="background:rgba(5,10,25,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(183,121,31,0.3);box-shadow:0 4px 32px rgba(0,0,0,0.6)" class="text-white py-4 sticky top-0 z-50">
     <div class="container mx-auto px-6 flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-[#b7791f] rounded-full flex items-center justify-content font-bold text-xl flex items-center justify-center">ז</div>
-            <h1 class="text-2xl font-semibold tracking-tight" data-i18n="site_title">זהב של משחקים</h1>
+            <div style="background:linear-gradient(135deg,#b7791f,#f6c048);box-shadow:0 0 16px rgba(183,121,31,0.6)" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl text-white">ז</div>
+            <h1 class="text-2xl font-bold tracking-tight" style="background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="site_title">זהב של משחקים</h1>
         </div>
         <div class="flex gap-4 items-center">
-            <span id="levelIndicator" class="hidden font-bold text-[#b7791f] bg-white px-3 py-1 rounded-full text-sm"></span>
+            <span id="levelIndicator" class="hidden font-bold text-[#f6c048] bg-white/10 border border-[#f6c048]/40 px-3 py-1 rounded-full text-sm"></span>
             <span id="personalBest" class="hidden font-bold text-amber-300 text-sm"></span>
-            <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-[#2c5282] text-white border border-[#4299e1] rounded p-1 cursor-pointer outline-none">
+            <select id="langSelect" onchange="changeLanguage(this.value)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2)" class="text-white rounded px-2 py-1 cursor-pointer outline-none text-sm">
                 <option value="he">עברית</option>
                 <option value="en">English</option>
             </select>
-            <button onclick="showHome()" id="backBtn" class="hidden bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm transition" data-i18n="back_menu">חזרה לתפריט</button>
+            <button onclick="showHome()" id="backBtn" class="hidden px-4 py-2 rounded-lg text-sm transition" style="background:rgba(183,121,31,0.2);border:1px solid rgba(183,121,31,0.4);color:#f6c048" data-i18n="back_menu">חזרה לתפריט</button>
         </div>
     </div>
 </nav>
 
 <!-- Hero -->
-<header id="hero" class="bg-gradient-to-br from-[#0f2744] via-[#1a365d] to-[#1e4a7a] border-b border-[#2c5282] py-10 mb-8">
-    <div class="container mx-auto px-6 text-center">
-        <h2 class="text-4xl font-bold text-white mb-2 drop-shadow" data-i18n="hero_title">אימון יומיומי למוח חד וצלול</h2>
-        <p id="dailyQuote" class="text-lg text-blue-200 max-w-2xl mx-auto italic mb-4"></p>
+<header id="hero" style="background:linear-gradient(160deg,#0a1628 0%,#0f2744 50%,#112a50 100%);border-bottom:1px solid rgba(183,121,31,0.2)" class="py-12 mb-8 relative overflow-hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(183,121,31,0.12) 0%,transparent 70%);pointer-events:none"></div>
+    <div class="container mx-auto px-6 text-center relative">
+        <div style="font-size:2.8rem;margin-bottom:0.5rem;filter:drop-shadow(0 0 20px rgba(246,192,72,0.4))">🧠</div>
+        <h2 class="text-4xl font-bold mb-2 drop-shadow" style="background:linear-gradient(135deg,#fff 0%,#f6c048 60%,#b7791f 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="hero_title">אימון יומיומי למוח חד וצלול</h2>
+        <p id="dailyQuote" class="text-base max-w-2xl mx-auto italic mb-4" style="color:rgba(210,220,255,0.8)"></p>
         <!-- Retention Dashboard -->
-        <div id="retentionBar" class="hidden mt-4 pt-4 border-t border-white/20">
-            <div class="flex flex-wrap justify-center items-center gap-4">
+        <div id="retentionBar" class="hidden mt-5 pt-4" style="border-top:1px solid rgba(255,255,255,0.12)">
+            <div class="flex flex-wrap justify-center items-center gap-3">
                 <span id="greetingText" class="text-lg font-semibold text-white"></span>
-                <div class="streak-pill"><span id="streakIcon" class="text-xl">⭐</span><span id="streakText" class="font-bold text-amber-700 text-sm"></span></div>
-                <div class="flex items-center gap-2 bg-blue-50 border border-blue-200 px-4 py-2 rounded-full">
-                    <span id="dailyGoalText" class="font-bold text-blue-700 text-sm"></span>
+                <div class="streak-pill" style="background:rgba(255,251,235,0.1);border:1px solid rgba(251,191,36,0.4)"><span id="streakIcon" class="text-xl">⭐</span><span id="streakText" class="font-bold text-amber-300 text-sm"></span></div>
+                <div class="flex items-center gap-2 px-4 py-2 rounded-full" style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3)">
+                    <span id="dailyGoalText" class="font-bold text-blue-300 text-sm"></span>
                     <span id="dailyGoalDots" class="flex gap-1 items-center"></span>
                 </div>
-                <div class="hidden sm:flex items-center gap-2 bg-purple-50 border border-purple-200 px-4 py-2 rounded-full">
-                    <span class="text-sm text-purple-700">🎮</span>
-                    <span id="totalGamesText" class="font-bold text-purple-700 text-sm"></span>
+                <div class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full" style="background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3)">
+                    <span class="text-sm text-purple-300">🎮</span>
+                    <span id="totalGamesText" class="font-bold text-purple-300 text-sm"></span>
                 </div>
             </div>
         </div>
@@ -122,7 +127,15 @@
 </header>
 
 <main class="flex-grow container mx-auto px-6 pb-12">
-    <!-- 12-Game Grid -->
+    <!-- Game Grid Header -->
+    <div id="homeScreen-header" class="flex items-center justify-between mb-6">
+        <div>
+            <h3 style="font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="section_games">17 משחקי אימון</h3>
+            <p style="font-size:0.8rem;color:rgba(180,200,255,0.6);margin-top:2px" data-i18n="section_games_sub">לחצו על משחק להתחיל</p>
+        </div>
+        <div style="width:48px;height:2px;background:linear-gradient(90deg,#b7791f,#f6c048,transparent);border-radius:2px"></div>
+    </div>
+    <!-- 17-Game Grid -->
     <div id="homeScreen" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('memory')">
             <span id="hs-memory" class="hs-badge hidden"></span>
@@ -221,8 +234,8 @@
 
     <!-- Game Canvas -->
     <div id="gameView" class="hidden">
-        <div class="bg-white p-6 md:p-10 rounded-2xl shadow-2xl min-h-[500px]">
-            <div class="text-center mb-6 border-b pb-4">
+        <div style="background:rgba(255,255,255,0.97);border-radius:1.75rem;box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(183,121,31,0.25),0 0 40px rgba(183,121,31,0.08);overflow:hidden" class="p-6 md:p-10 min-h-[500px]">
+            <div class="text-center mb-6 pb-5" style="border-bottom:1px solid rgba(0,0,0,0.08)">
                 <h2 id="gameTitle" class="text-3xl font-bold text-slate-800"></h2>
                 <p id="gameInstructions" class="text-gray-500 mt-1 text-base"></p>
             </div>
@@ -291,6 +304,7 @@ const i18nData = {
 he: {
     site_title:"זהב של משחקים", back_menu:"חזרה לתפריט", next_level:"המשך לשלב הבא",
     level_str:"שלב", hero_title:"אימון יומיומי למוח חד וצלול", btn_start:"התחל אימון",
+    section_games:"17 משחקי אימון", section_games_sub:"לחצו על משחק להתחיל",
     footer_rights:"זהב של משחקים © 2026", footer_desc:"ללא פרסומות וללא איסוף נתונים - נוצר באהבה לגיל השלישי.",
     game_memory_title:"אימון זיכרון", game_memory_desc:"שיפור הזיכרון לטווח קצר.",
     game_odd_title:"יוצא דופן", game_odd_desc:"מצאו את הסמל השונה.",
@@ -469,6 +483,7 @@ he: {
 en: {
     site_title:"Golden Games", back_menu:"Back to Menu", next_level:"Next Level",
     level_str:"Level", hero_title:"Daily Brain Training", btn_start:"Start Game",
+    section_games:"17 Brain Games", section_games_sub:"Click a game to start",
     footer_rights:"Golden Games © 2026", footer_desc:"Ad-free, no tracking - made with love for seniors.",
     game_memory_title:"Memory Match", game_memory_desc:"Improve short-term memory.",
     game_odd_title:"Odd One Out", game_odd_desc:"Find the different symbol.",
@@ -784,6 +799,7 @@ function updateLevelDisplay() {
 
 function showHome() {
     document.getElementById('homeScreen').classList.remove('hidden');
+    document.getElementById('homeScreen-header').classList.remove('hidden');
     document.getElementById('hero').classList.remove('hidden');
     document.getElementById('gameView').classList.add('hidden');
     document.getElementById('backBtn').classList.add('hidden');
@@ -799,6 +815,7 @@ function loadGame(gameId, level=1) {
     const validIds=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall'];
     if(!validIds.includes(gameId)) return;
     document.getElementById('homeScreen').classList.add('hidden');
+    document.getElementById('homeScreen-header').classList.add('hidden');
     document.getElementById('hero').classList.add('hidden');
     document.getElementById('gameView').classList.remove('hidden');
     document.getElementById('backBtn').classList.remove('hidden');
