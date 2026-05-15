@@ -8,7 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --bg: #f8fafc; }
-        body { font-family: 'Assistant', sans-serif; background-color: var(--bg); color: #1e293b; line-height: 1.6; user-select: none; }
+        body { font-family: 'Assistant', sans-serif; background-color: var(--bg); color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; }
+        button, [onclick] { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
         .premium-card { background: white; border-radius: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); cursor: pointer; overflow: hidden; border: 1px solid #e2e8f0; }
         .premium-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.12); border-color: var(--accent); }
         .thumbnail-container { height: 180px; width: 100%; overflow: hidden; position: relative; }
@@ -170,6 +171,36 @@
             <div class="thumbnail-container bg-gradient-to-br from-rose-100 to-pink-200 flex items-center justify-center"><div class="text-6xl">🔗</div></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_pairs_title">זוגות הפכים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_pairs_desc">חברו כל מילה להפכה. מאמן אוצר מילים ומיקוד.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
         </div>
+        <!-- NEW GAME 13: True or False -->
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('truefalse')">
+            <span id="hs-truefalse" class="hs-badge hidden"></span>
+            <div class="thumbnail-container bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center"><div class="text-6xl">✅</div></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_tf_title">נכון / לא נכון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_tf_desc">האמת או שקר? בחנו את הידע הכללי.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
+        <!-- NEW GAME 14: Flag Quiz -->
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('flags')">
+            <span id="hs-flags" class="hs-badge hidden"></span>
+            <div class="thumbnail-container bg-gradient-to-br from-sky-100 to-blue-200 flex items-center justify-center"><div class="text-6xl">🚩</div></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_flags_title">דגלי העולם</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_flags_desc">זהו את המדינה לפי הדגל.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
+        <!-- NEW GAME 15: Proverbs -->
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('proverbs')">
+            <span id="hs-proverbs" class="hs-badge hidden"></span>
+            <div class="thumbnail-container bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center"><div class="text-6xl">📖</div></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_proverbs_title">השלם את הפתגם</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_proverbs_desc">מצאו את הסוף הנכון של הפתגם.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
+        <!-- NEW GAME 16: Hangman -->
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('hangman')">
+            <span id="hs-hangman" class="hs-badge hidden"></span>
+            <div class="thumbnail-container bg-gradient-to-br from-slate-100 to-gray-200 flex items-center justify-center"><div class="text-6xl">🪢</div></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_hangman_title">תלייה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_hangman_desc">נחשו את המילה לפני שיגמרו הניסיונות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
+        <!-- NEW GAME 17: Word Recall -->
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('recall')">
+            <span id="hs-recall" class="hs-badge hidden"></span>
+            <div class="thumbnail-container bg-gradient-to-br from-violet-100 to-purple-200 flex items-center justify-center"><div class="text-6xl">🧠</div></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_recall_title">זיכרון תמונות</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_recall_desc">זכרו אילו פריטים ראיתם.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
     </div>
 
     <!-- Game Canvas -->
@@ -312,7 +343,80 @@ he: {
         {q:"מה הוא אוקסיגן באנגלית?",opts:["Hydrogen","Carbon","Oxygen","Nitrogen"],a:2},
         {q:"כמה שמות יש לאברהם אבינו במקרא?",opts:["1","2","3","4"],a:1},
         {q:"בכמה שפות כתובה המגילת ספרי המלוכה של בריטניה?",opts:["1","2","3","4"],a:0},
-    ]
+    ],
+    game_tf_title:"נכון / לא נכון", game_tf_desc:"האמת או שקר? בחנו את הידע הכללי שלכם.",
+    game_flags_title:"דגלי העולם", game_flags_desc:"זהו את המדינה לפי הדגל שלה.",
+    game_proverbs_title:"השלם את הפתגם", game_proverbs_desc:"מצאו את הסוף הנכון של הפתגם.",
+    game_hangman_title:"תלייה", game_hangman_desc:"נחשו את המילה לפני שיגמרו הניסיונות.",
+    game_recall_title:"זיכרון תמונות", game_recall_desc:"זכרו אילו פריטים ראיתם והבחינו אותם.",
+    inst_tf:"קראו את המשפט ובחרו — נכון או לא נכון",
+    inst_flags:"הסתכלו על הדגל ובחרו את שם המדינה הנכון",
+    inst_proverbs:"קראו את תחילת הפתגם והשלימו אותו",
+    inst_hangman:"נחשו אות אחר אות כדי לגלות את המילה המסתורית",
+    inst_recall:"למדו את הפריטים, ואז בחרו אותם מבין כל האפשרויות",
+    tf_pool:[
+        {s:"ירושלים היא עיר הבירה של ישראל",a:true},{s:"שמש היא כוכב",a:true},
+        {s:"לאוקטופוס יש 8 ידיים",a:true},{s:"פריז היא בירת גרמניה",a:false},
+        {s:"לשנה רגילה יש 365 ימים",a:true},{s:"לשבוע יש 8 ימים",a:false},
+        {s:"יהלום הוא החומר הקשה ביותר בטבע",a:true},{s:"נחש הוא יונק",a:false},
+        {s:"ים המלח מלוח יותר מהאוקיינוס",a:true},{s:"קנגורו הוא חיה מאפריקה",a:false},
+        {s:"הנילוס הוא הנהר הארוך ביותר בעולם",a:true},{s:"לדקה יש 100 שניות",a:false},
+        {s:"לדבורה יש 6 רגליים",a:true},{s:"רוסיה היא המדינה הגדולה ביותר בעולם",a:true},
+        {s:"לקילומטר יש 1000 מטרים",a:true},{s:"כרישים הם יונקים",a:false},
+        {s:"לשנה יש 52 שבועות",a:true},{s:"ירח הוא כוכב",a:false},
+        {s:"כסף הוא מתכת",a:true},{s:"אדם יכול לנשום מתחת למים",a:false},
+        {s:"לפיל יש 4 רגליים",a:true},{s:"גשם יורד מהשמים",a:true},
+        {s:"תפוחים גדלים מתחת לאדמה",a:false},{s:"לחודש פברואר יש 28 ימים בשנה רגילה",a:true},
+        {s:"לשעה יש 60 דקות",a:true},{s:"קוקוס הוא פרי",a:true},
+        {s:"ירח גדול מכדור הארץ",a:false},{s:"לדג יש זימים",a:true},
+        {s:"קוואלה גרה בקוריאה",a:false},{s:"לחצי שעה יש 30 דקות",a:true},
+    ],
+    flags_pool:[
+        {flag:"🇮🇱",opts:["ירדן","ישראל","מצרים","סוריה"],a:1},
+        {flag:"🇺🇸",opts:["קנדה","אוסטרליה","ארצות הברית","ניו זילנד"],a:2},
+        {flag:"🇫🇷",opts:["בלגיה","צרפת","לוקסמבורג","הולנד"],a:1},
+        {flag:"🇩🇪",opts:["אוסטריה","שוויץ","גרמניה","הונגריה"],a:2},
+        {flag:"🇬🇧",opts:["אירלנד","אוסטרליה","קנדה","בריטניה"],a:3},
+        {flag:"🇮🇹",opts:["ספרד","פורטוגל","איטליה","יוון"],a:2},
+        {flag:"🇯🇵",opts:["קוריאה","סין","יפן","טייוואן"],a:2},
+        {flag:"🇷🇺",opts:["הולנד","פולין","רוסיה","בלגיה"],a:2},
+        {flag:"🇧🇷",opts:["ארגנטינה","מקסיקו","ברזיל","קולומביה"],a:2},
+        {flag:"🇨🇦",opts:["ארצות הברית","קנדה","אוסטרליה","ניו זילנד"],a:1},
+        {flag:"🇦🇺",opts:["ניו זילנד","אירלנד","אוסטרליה","קנדה"],a:2},
+        {flag:"🇪🇸",opts:["פורטוגל","איטליה","ספרד","יוון"],a:2},
+        {flag:"🇸🇦",opts:["ירדן","מצרים","ערב הסעודית","עיראק"],a:2},
+        {flag:"🇨🇳",opts:["יפן","קוריאה","וייטנאם","סין"],a:3},
+        {flag:"🇲🇽",opts:["קולומביה","פרו","מקסיקו","ארגנטינה"],a:2},
+        {flag:"🇬🇷",opts:["קפריסין","מלטה","פורטוגל","יוון"],a:3},
+        {flag:"🇹🇷",opts:["אזרבייג'ן","איראן","טורקיה","קזחסטן"],a:2},
+        {flag:"🇳🇱",opts:["לוקסמבורג","בלגיה","גרמניה","הולנד"],a:3},
+        {flag:"🇸🇪",opts:["נורווגיה","פינלנד","שוודיה","דנמרק"],a:2},
+        {flag:"🇵🇱",opts:["הולנד","אוסטריה","פולין","בלגיה"],a:2},
+    ],
+    proverbs_pool:[
+        {q:"אין עשן בלי ___",opts:["אש","מים","ענן","רוח"],a:0},
+        {q:"ואהבת לרעך ___",opts:["כמוך","כנפשך","כאחיך","כלבך"],a:0},
+        {q:"מה ששנוא עליך, לחברך לא ___",opts:["תעשה","תגיד","תחשוב","תתן"],a:0},
+        {q:"אמור לי מי חבריך, ואמור לך מי ___",opts:["אתה","מוצאך","ביתך","שמך"],a:0},
+        {q:"גלגל חוזר ___",opts:["בעולם","בחיים","בשמים","בלב"],a:0},
+        {q:"טוב שם משמן ___",opts:["טוב","יקר","מבושם","מתוק"],a:0},
+        {q:"כל הפוסל, במומו ___",opts:["פוסל","קורא","חושב","מאמין"],a:0},
+        {q:"אין חכם כבעל ___",opts:["ניסיון","עושר","ספרים","חכמה"],a:0},
+        {q:"כבד את אביך ואת ___",opts:["אמך","רבך","אחיך","ידידיך"],a:0},
+        {q:"כסף קונה ___",opts:["הכל","שמחה","אהבה","חיים"],a:0},
+        {q:"אחד המדבר, שניים ___",opts:["שומעים","מסכימים","ממתינים","מדברים"],a:0},
+        {q:"חבל על דאבדין, ___",opts:["ולא משתכחין","ולא חוזרין","ולא מתחרטין","ולא מחליפין"],a:0},
+    ],
+    hangman_pool:[
+        {word:"שלום",hint:"ברכה"},{word:"ספר",hint:"קריאה"},{word:"שמחה",hint:"רגש חיובי"},
+        {word:"חלום",hint:"בשינה"},{word:"תפוח",hint:"פרי"},{word:"מטבח",hint:"חדר לבישול"},
+        {word:"ירח",hint:"בשמים בלילה"},{word:"גשם",hint:"מים מהשמים"},{word:"אהבה",hint:"רגש חזק"},
+        {word:"פרח",hint:"צמח יפה"},{word:"מנגינה",hint:"לחן מוזיקלי"},{word:"רחוב",hint:"דרך בעיר"},
+        {word:"כוכב",hint:"בשמים בלילה"},{word:"חתול",hint:"חיית מחמד"},{word:"בית",hint:"מגורים"},
+        {word:"דגל",hint:"סמל לאומי"},{word:"שמש",hint:"כוכב ביום"},{word:"ים",hint:"מים גדולים"},
+        {word:"עוגה",hint:"מתוק"},{word:"ילד",hint:"קטן"},
+    ],
+    recall_pool:["🍎 תפוח","🚗 מכונית","🌸 פרח","📚 ספר","🐕 כלב","☕ קפה","🎸 גיטרה","⚽ כדור","🍕 פיצה","🌙 ירח","🏠 בית","🚀 רקטה","🎂 עוגה","🌺 ורד","🦁 אריה","🍇 ענבים","🎈 בלון","🏆 גביע","🦋 פרפר","🎭 מסכה","🎻 כינור","🐠 דג","🌿 עשב","🎪 קרקס","🎨 ציור"],
 },
 en: {
     site_title:"Golden Games", back_menu:"Back to Menu", next_level:"Next Level",
@@ -418,7 +522,80 @@ en: {
         {q:"What is the tallest mountain in the world?",opts:["K2","Kilimanjaro","Mont Blanc","Everest"],a:3},
         {q:"How many sides does a hexagon have?",opts:["5","6","7","8"],a:1},
         {q:"What is the national animal of Australia?",opts:["Koala","Platypus","Kangaroo","Dingo"],a:2},
-    ]
+    ],
+    game_tf_title:"True or False", game_tf_desc:"Test your knowledge — is each statement true or false?",
+    game_flags_title:"Flag Quiz", game_flags_desc:"Name the country from its flag.",
+    game_proverbs_title:"Complete the Proverb", game_proverbs_desc:"Fill in the missing word to finish the saying.",
+    game_hangman_title:"Hangman", game_hangman_desc:"Guess the hidden word before you run out of chances.",
+    game_recall_title:"Picture Recall", game_recall_desc:"Remember the items shown, then pick them out.",
+    inst_tf:"Read the statement and choose — True or False",
+    inst_flags:"Look at the flag and choose the correct country name",
+    inst_proverbs:"Read the beginning of the proverb and complete it",
+    inst_hangman:"Guess the hidden word one letter at a time",
+    inst_recall:"Study the items shown, then pick them from the larger group",
+    tf_pool:[
+        {s:"Paris is the capital of France",a:true},{s:"The Sun is a star",a:true},
+        {s:"An octopus has 8 arms",a:true},{s:"A week has 8 days",a:false},
+        {s:"A diamond is the hardest natural material",a:true},{s:"A snake is a mammal",a:false},
+        {s:"A shark is a fish",a:true},{s:"A kangaroo is native to Africa",a:false},
+        {s:"The Nile is the longest river in the world",a:true},{s:"A minute has 100 seconds",a:false},
+        {s:"A bee has 6 legs",a:true},{s:"Russia is the largest country in the world",a:true},
+        {s:"A kilometer has 1000 meters",a:true},{s:"The Moon is larger than Earth",a:false},
+        {s:"A year has 52 weeks",a:true},{s:"Silver is a metal",a:true},
+        {s:"An elephant has 4 legs",a:true},{s:"Apples grow underground",a:false},
+        {s:"February has 28 days in a regular year",a:true},{s:"An hour has 60 minutes",a:true},
+        {s:"A coconut is a fruit",a:true},{s:"A fish has gills",a:true},
+        {s:"A koala lives in Japan",a:false},{s:"The Dead Sea is saltier than the ocean",a:true},
+        {s:"Water boils at 100°C",a:true},{s:"Jupiter is the largest planet",a:true},
+        {s:"A spider has 6 legs",a:false},{s:"Gold is a metal",a:true},
+        {s:"The human body has 206 bones",a:true},{s:"A bat is a bird",a:false},
+    ],
+    flags_pool:[
+        {flag:"🇺🇸",opts:["Canada","Australia","USA","New Zealand"],a:2},
+        {flag:"🇬🇧",opts:["Ireland","Australia","Canada","UK"],a:3},
+        {flag:"🇫🇷",opts:["Belgium","Luxembourg","France","Netherlands"],a:2},
+        {flag:"🇩🇪",opts:["Austria","Switzerland","Germany","Hungary"],a:2},
+        {flag:"🇮🇹",opts:["Spain","Portugal","Greece","Italy"],a:3},
+        {flag:"🇯🇵",opts:["Korea","China","Taiwan","Japan"],a:3},
+        {flag:"🇷🇺",opts:["Netherlands","Poland","Belgium","Russia"],a:3},
+        {flag:"🇧🇷",opts:["Argentina","Mexico","Colombia","Brazil"],a:3},
+        {flag:"🇨🇦",opts:["USA","New Zealand","Canada","Australia"],a:2},
+        {flag:"🇦🇺",opts:["New Zealand","Ireland","Canada","Australia"],a:3},
+        {flag:"🇪🇸",opts:["Portugal","Italy","Greece","Spain"],a:3},
+        {flag:"🇨🇳",opts:["Japan","Korea","Vietnam","China"],a:3},
+        {flag:"🇲🇽",opts:["Colombia","Peru","Argentina","Mexico"],a:3},
+        {flag:"🇬🇷",opts:["Cyprus","Malta","Portugal","Greece"],a:3},
+        {flag:"🇮🇱",opts:["Jordan","Egypt","Syria","Israel"],a:3},
+        {flag:"🇹🇷",opts:["Azerbaijan","Iran","Kazakhstan","Turkey"],a:3},
+        {flag:"🇳🇱",opts:["Luxembourg","Belgium","Germany","Netherlands"],a:3},
+        {flag:"🇸🇪",opts:["Norway","Finland","Denmark","Sweden"],a:3},
+        {flag:"🇵🇱",opts:["Netherlands","Austria","Belgium","Poland"],a:3},
+        {flag:"🇸🇦",opts:["Jordan","Egypt","Iraq","Saudi Arabia"],a:3},
+    ],
+    proverbs_pool:[
+        {q:"A stitch in time saves ___",opts:["nine","time","money","trouble"],a:0},
+        {q:"The early bird catches the ___",opts:["worm","fish","prize","sun"],a:0},
+        {q:"Actions speak louder than ___",opts:["words","thoughts","deeds","dreams"],a:0},
+        {q:"All that glitters is not ___",opts:["gold","silver","real","bright"],a:0},
+        {q:"Better late than ___",opts:["never","early","good","sorry"],a:0},
+        {q:"Two wrongs don't make a ___",opts:["right","wrong","deal","pair"],a:0},
+        {q:"The pen is mightier than the ___",opts:["sword","gun","knife","spear"],a:0},
+        {q:"Where there's smoke, there's ___",opts:["fire","trouble","danger","people"],a:0},
+        {q:"Practice makes ___",opts:["perfect","sense","progress","better"],a:0},
+        {q:"An apple a day keeps the ___ away",opts:["doctor","dentist","illness","sickness"],a:0},
+        {q:"Don't count your chickens before they ___",opts:["hatch","fly","grow","sing"],a:0},
+        {q:"You can't judge a book by its ___",opts:["cover","title","author","size"],a:0},
+    ],
+    hangman_pool:[
+        {word:"APPLE",hint:"a fruit"},{word:"HOUSE",hint:"where you live"},{word:"MUSIC",hint:"sounds and melody"},
+        {word:"BREAD",hint:"baked food"},{word:"CLOCK",hint:"tells the time"},{word:"SMILE",hint:"happy expression"},
+        {word:"WATER",hint:"you drink it"},{word:"HEART",hint:"love symbol"},{word:"CLOUD",hint:"in the sky"},
+        {word:"PIANO",hint:"musical instrument"},{word:"RIVER",hint:"flowing water"},{word:"DANCE",hint:"move to music"},
+        {word:"HONEY",hint:"sweet, from bees"},{word:"DREAM",hint:"happens during sleep"},{word:"LIGHT",hint:"opposite of dark"},
+        {word:"PEACE",hint:"no war"},{word:"OCEAN",hint:"large body of water"},{word:"FLOWER",hint:"plant bloom"},
+        {word:"CHAIR",hint:"you sit on it"},{word:"TRAIN",hint:"travels on tracks"},
+    ],
+    recall_pool:["🍎 Apple","🚗 Car","🌸 Flower","📚 Book","🐕 Dog","☕ Coffee","🎸 Guitar","⚽ Ball","🍕 Pizza","🌙 Moon","🏠 House","🚀 Rocket","🎂 Cake","🌺 Rose","🦁 Lion","🍇 Grapes","🎈 Balloon","🏆 Trophy","🦋 Butterfly","🎭 Mask","🎻 Violin","🐠 Fish","🌿 Grass","🎪 Circus","🎨 Painting"],
 }};
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -469,7 +646,7 @@ function checkHS(gameId, level) {
     return false;
 }
 function refreshHSBadges() {
-    const games=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs'];
+    const games=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall'];
     games.forEach(id => {
         const hs = getHS(id); const el = document.getElementById('hs-'+id);
         if (el) { if (hs>0) { el.innerText=`🏅 ${hs}`; el.classList.remove('hidden'); } else { el.classList.add('hidden'); } }
@@ -571,7 +748,7 @@ function showHome() {
 }
 
 function loadGame(gameId, level=1) {
-    const validIds=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs'];
+    const validIds=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall'];
     if(!validIds.includes(gameId)) return;
     document.getElementById('homeScreen').classList.add('hidden');
     document.getElementById('hero').classList.add('hidden');
@@ -582,8 +759,8 @@ function loadGame(gameId, level=1) {
     gameState.active=true; gameState.currentId=gameId;
     if(!gameState[gameId]||level===1) gameState[gameId]={level}; else gameState[gameId].level=level;
     updateLevelDisplay();
-    const titleMap={memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',simon:'game_simon_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title'};
-    const instMap ={memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',simon:'inst_simon',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs'};
+    const titleMap={memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',simon:'game_simon_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title'};
+    const instMap ={memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',simon:'inst_simon',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall'};
     document.getElementById('gameTitle').innerText=t(titleMap[gameId]);
     document.getElementById('gameInstructions').innerText=t(instMap[gameId]);
     if(gameId==='memory')     initMemory(content);
@@ -598,6 +775,11 @@ function loadGame(gameId, level=1) {
     if(gameId==='numseq')     initNumSeq(content);
     if(gameId==='unscramble') initUnscramble(content);
     if(gameId==='pairs')      initPairs(content);
+    if(gameId==='truefalse')  initTrueFalse(content);
+    if(gameId==='flags')      initFlags(content);
+    if(gameId==='proverbs')   initProverbs(content);
+    if(gameId==='hangman')    initHangman(content);
+    if(gameId==='recall')     initRecall(content);
 }
 
 function levelComplete() {
@@ -956,6 +1138,258 @@ function clickPair(i){
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// GAME 13 — TRUE / FALSE
+// ═══════════════════════════════════════════════════════════════════════════════
+function initTrueFalse(c) {
+    const gs = gameState.truefalse;
+    gs.pool = shuffle([...i18nData[currentLang].tf_pool]);
+    gs.idx = 0; gs.perLevel = 8;
+    _tfNext(c);
+}
+function _tfNext(c) {
+    if(!gameState.active || gameState.currentId !== 'truefalse') return;
+    const gs = gameState.truefalse;
+    if(gs.idx >= gs.perLevel) { levelComplete(); return; }
+    const item = gs.pool[gs.idx % gs.pool.length];
+    const isHe = currentLang === 'he';
+    c.innerHTML = `<div class="max-w-xl w-full text-center">
+        <div class="text-sm font-bold text-gray-400 mb-4">${isHe?'שאלה':'Question'} ${gs.idx+1}/${gs.perLevel}</div>
+        <div class="text-2xl md:text-3xl font-bold text-[#1a365d] bg-blue-50 border border-blue-200 p-6 rounded-2xl mb-8 leading-relaxed">${item.s}</div>
+        <div class="flex gap-4 justify-center">
+            <button onclick="answerTF(true,${item.a})" class="flex-1 py-5 text-xl font-bold rounded-2xl bg-green-500 text-white hover:bg-green-600 active:scale-95 transition shadow-lg" style="max-width:180px">${isHe?'✅ נכון':'✅ True'}</button>
+            <button onclick="answerTF(false,${item.a})" class="flex-1 py-5 text-xl font-bold rounded-2xl bg-red-500 text-white hover:bg-red-600 active:scale-95 transition shadow-lg" style="max-width:180px">${isHe?'❌ לא נכון':'❌ False'}</button>
+        </div>
+    </div>`;
+}
+function answerTF(sel, correct) {
+    if(!gameState.active || gameState.currentId !== 'truefalse') return;
+    const gs = gameState.truefalse;
+    if(sel === correct) sfxCorrect(); else sfxWrong();
+    gs.idx++;
+    setTimeout(() => _tfNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// GAME 14 — FLAG QUIZ
+// ═══════════════════════════════════════════════════════════════════════════════
+function initFlags(c) {
+    const gs = gameState.flags;
+    gs.pool = shuffle([...i18nData[currentLang].flags_pool]);
+    gs.idx = 0; gs.perLevel = 10;
+    _flagNext(c);
+}
+function _flagNext(c) {
+    if(!gameState.active || gameState.currentId !== 'flags') return;
+    const gs = gameState.flags;
+    if(gs.idx >= gs.perLevel) { levelComplete(); return; }
+    const item = gs.pool[gs.idx % gs.pool.length];
+    const isHe = currentLang === 'he';
+    c.innerHTML = `<div class="max-w-md w-full text-center">
+        <div class="text-sm font-bold text-gray-400 mb-4">${isHe?'שאלה':'Question'} ${gs.idx+1}/${gs.perLevel}</div>
+        <div class="text-8xl mb-6 select-none leading-none" style="font-family:serif;font-size:clamp(4rem,20vw,8rem)">${item.flag}</div>
+        <div class="flex flex-col gap-3">${item.opts.map((o,i)=>`<button onclick="answerFlag(${i},${item.a})" class="py-4 text-xl font-bold rounded-xl border-2 border-gray-200 bg-white hover:border-[#b7791f] hover:bg-amber-50 active:scale-95 transition">${o}</button>`).join('')}</div>
+    </div>`;
+}
+function answerFlag(sel, correct) {
+    if(!gameState.active || gameState.currentId !== 'flags') return;
+    const gs = gameState.flags;
+    if(sel === correct) sfxCorrect(); else sfxWrong();
+    gs.idx++;
+    setTimeout(() => _flagNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// GAME 15 — PROVERBS
+// ═══════════════════════════════════════════════════════════════════════════════
+function initProverbs(c) {
+    const gs = gameState.proverbs;
+    gs.pool = shuffle([...i18nData[currentLang].proverbs_pool]);
+    gs.idx = 0; gs.perLevel = 6;
+    _provNext(c);
+}
+function _provNext(c) {
+    if(!gameState.active || gameState.currentId !== 'proverbs') return;
+    const gs = gameState.proverbs;
+    if(gs.idx >= gs.perLevel) { levelComplete(); return; }
+    const item = gs.pool[gs.idx % gs.pool.length];
+    const isHe = currentLang === 'he';
+    c.innerHTML = `<div class="max-w-xl w-full text-center">
+        <div class="text-sm font-bold text-gray-400 mb-4">${isHe?'פתגם':'Proverb'} ${gs.idx+1}/${gs.perLevel}</div>
+        <div class="text-xl md:text-2xl font-bold text-[#1a365d] bg-amber-50 border border-amber-200 p-6 rounded-2xl mb-8 leading-relaxed italic">"${item.q}"</div>
+        <div class="grid grid-cols-2 gap-3">${item.opts.map((o,i)=>`<button onclick="answerProv(${i},${item.a})" class="py-4 px-3 text-lg font-bold rounded-xl border-2 border-gray-200 bg-white hover:border-[#1a365d] hover:bg-blue-50 active:scale-95 transition">${o}</button>`).join('')}</div>
+    </div>`;
+}
+function answerProv(sel, correct) {
+    if(!gameState.active || gameState.currentId !== 'proverbs') return;
+    const gs = gameState.proverbs;
+    if(sel === correct) sfxCorrect(); else sfxWrong();
+    gs.idx++;
+    setTimeout(() => _provNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// GAME 16 — HANGMAN
+// ═══════════════════════════════════════════════════════════════════════════════
+const _HE_KB = ['א','ב','ג','ד','ה','ו','ז','ח','ט','י','כ','ל','מ','נ','ס','ע','פ','צ','ק','ר','ש','ת'];
+const _EN_KB = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const _HM_NORM = {'ך':'כ','ם':'מ','ן':'נ','ף':'פ','ץ':'צ'};
+function _hmNorm(ch) { return _HM_NORM[ch] || ch; }
+
+function initHangman(c) {
+    const gs = gameState.hangman;
+    if(!gs.pool || gs.level === 1) {
+        gs.pool = shuffle([...i18nData[currentLang].hangman_pool]);
+        gs.wordIdx = 0;
+    } else {
+        gs.wordIdx = (gs.wordIdx||0) + 1;
+    }
+    _hmStart(c);
+}
+function _hmStart(c) {
+    const gs = gameState.hangman;
+    const item = gs.pool[gs.wordIdx % gs.pool.length];
+    gs.word = item.word;
+    gs.hint = item.hint;
+    gs.guessed = new Set();
+    gs.wrong = 0;
+    gs.maxWrong = 6;
+    _hmRender(c);
+}
+function _hmRender(c) {
+    const gs = gameState.hangman;
+    const isHe = currentLang === 'he';
+    const kb = isHe ? _HE_KB : _EN_KB;
+    const hmParts = [
+        `<circle cx="80" cy="36" r="13" stroke="#1a365d" stroke-width="3" fill="none" ${gs.wrong<1?'style="display:none"':''}/>`,
+        `<line x1="80" y1="49" x2="80" y2="90" stroke="#1a365d" stroke-width="3" stroke-linecap="round" ${gs.wrong<2?'style="display:none"':''}/>`,
+        `<line x1="80" y1="63" x2="57" y2="82" stroke="#1a365d" stroke-width="3" stroke-linecap="round" ${gs.wrong<3?'style="display:none"':''}/>`,
+        `<line x1="80" y1="63" x2="103" y2="82" stroke="#1a365d" stroke-width="3" stroke-linecap="round" ${gs.wrong<4?'style="display:none"':''}/>`,
+        `<line x1="80" y1="90" x2="57" y2="115" stroke="#1a365d" stroke-width="3" stroke-linecap="round" ${gs.wrong<5?'style="display:none"':''}/>`,
+        `<line x1="80" y1="90" x2="103" y2="115" stroke="#1a365d" stroke-width="3" stroke-linecap="round" ${gs.wrong<6?'style="display:none"':''}/>`,
+    ].join('');
+    const blanks = [...gs.word].map(ch => {
+        const revealed = gs.guessed.has(_hmNorm(ch));
+        return revealed
+            ? `<span style="margin:0 4px;font-size:2rem;font-weight:bold;color:#1a365d;border-bottom:4px solid #1a365d;min-width:32px;display:inline-block;text-align:center">${ch}</span>`
+            : `<span style="margin:0 4px;font-size:2rem;border-bottom:4px solid #94a3b8;min-width:32px;display:inline-block;text-align:center">&nbsp;</span>`;
+    }).join('');
+    const gameOver = gs.wrong >= gs.maxWrong;
+    const letterBtns = kb.map(l => {
+        const used = gs.guessed.has(l);
+        const found = used && [...gs.word].some(ch => _hmNorm(ch) === l);
+        const missed = used && !found;
+        return `<button onclick="guessLetter('${l}')" ${used?'disabled':''} class="m-0.5 rounded-lg font-bold transition text-sm ${missed?'bg-red-100 text-red-400 border border-red-200 cursor-default':found?'bg-green-100 text-green-600 border border-green-200 cursor-default':'bg-gray-100 hover:bg-[#1a365d] hover:text-white border border-gray-300 active:scale-95'}" style="width:clamp(32px,8vw,42px);height:clamp(32px,8vw,42px)">${l}</button>`;
+    }).join('');
+    c.innerHTML = `<div class="w-full max-w-2xl">
+        <div class="flex flex-col md:flex-row gap-4 items-center justify-center mb-4">
+            <svg viewBox="0 0 140 130" width="120" height="120" style="min-width:110px;flex-shrink:0">
+                <line x1="10" y1="128" x2="130" y2="128" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                <line x1="30" y1="128" x2="30" y2="5" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                <line x1="30" y1="5" x2="80" y2="5" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                <line x1="80" y1="5" x2="80" y2="23" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+                ${hmParts}
+            </svg>
+            <div class="text-center flex-1">
+                <div class="text-base text-gray-500 mb-2">${isHe?'רמז':'Hint'}: <span class="font-bold text-[#b7791f]">${gs.hint}</span></div>
+                <div class="flex flex-wrap justify-center items-end gap-1 my-3" ${isHe?'dir="rtl"':''}>${blanks}</div>
+                <div class="text-sm font-bold mt-2 ${gs.wrong>=5?'text-red-500':'text-gray-500'}">${isHe?'שגיאות':'Mistakes'}: ${gs.wrong}/${gs.maxWrong}</div>
+                ${gameOver ? `<div class="mt-3 font-bold text-lg text-red-600">${isHe?'המילה הייתה: ':'The word was: '}<span class="text-[#1a365d]">${gs.word}</span></div>
+                <button onclick="_hmNext()" class="mt-3 py-3 px-6 rounded-xl bg-[#1a365d] text-white font-bold text-base hover:bg-[#2c5282] transition">${isHe?'🔄 מילה חדשה':'🔄 New Word'}</button>` : ''}
+            </div>
+        </div>
+        ${!gameOver ? `<div class="flex flex-wrap justify-center mt-2">${letterBtns}</div>` : ''}
+    </div>`;
+}
+function guessLetter(l) {
+    if(!gameState.active || gameState.currentId !== 'hangman') return;
+    const gs = gameState.hangman;
+    if(gs.guessed.has(l)) return;
+    gs.guessed.add(l);
+    const found = [...gs.word].some(ch => _hmNorm(ch) === l);
+    if(found) {
+        sfxCorrect();
+        if([...gs.word].every(ch => gs.guessed.has(_hmNorm(ch)))) { setTimeout(()=>levelComplete(), 500); return; }
+    } else { gs.wrong++; sfxWrong(); }
+    _hmRender(document.getElementById('gameContent'));
+}
+function _hmNext() {
+    if(!gameState.active) return;
+    const gs = gameState.hangman;
+    gs.wordIdx = (gs.wordIdx||0) + 1;
+    _hmStart(document.getElementById('gameContent'));
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// GAME 17 — WORD RECALL
+// ═══════════════════════════════════════════════════════════════════════════════
+function initRecall(c) {
+    if(!gameState.active) return;
+    const gs = gameState.recall;
+    const level = gs.level || 1;
+    const showCount = Math.min(3 + level, 8);
+    const pool = shuffle([...i18nData[currentLang].recall_pool]);
+    gs.targets = pool.slice(0, showCount);
+    gs.distractors = pool.slice(showCount, showCount + showCount + 2);
+    gs.selected = new Set();
+    _recallStudy(c);
+}
+function _recallStudy(c) {
+    const gs = gameState.recall;
+    const isHe = currentLang === 'he';
+    const items = gs.targets.map(it => {
+        const [em, ...words] = it.split(' ');
+        return `<div class="flex flex-col items-center gap-1 p-3 bg-white rounded-xl border-2 border-blue-200 shadow-sm"><div style="font-size:2.2rem">${em}</div><div class="text-sm font-bold text-gray-700 text-center">${words.join(' ')}</div></div>`;
+    }).join('');
+    c.innerHTML = `<div class="max-w-xl w-full text-center">
+        <div class="text-xl font-bold text-[#1a365d] mb-3">${isHe?'📖 זכרו את הפריטים האלה:':'📖 Study these items:'}</div>
+        <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-6">${items}</div>
+        <button onclick="_recallTest()" class="py-4 px-8 rounded-xl bg-[#1a365d] text-white font-bold text-xl hover:bg-[#2c5282] transition shadow-lg">${isHe?'✅ זכרתי! קדימה':'✅ Got them! Continue'}</button>
+    </div>`;
+}
+function _recallTest() {
+    if(!gameState.active) return;
+    const gs = gameState.recall;
+    const isHe = currentLang === 'he';
+    gs.selected = new Set();
+    gs._all = shuffle([...gs.targets, ...gs.distractors]);
+    const itemsHtml = gs._all.map((it, i) => {
+        const [em, ...words] = it.split(' ');
+        return `<div onclick="_toggleRecall(${i},this)" class="recall-item flex flex-col items-center gap-1 p-3 bg-white rounded-xl border-2 border-gray-200 shadow-sm cursor-pointer hover:border-blue-400 hover:bg-blue-50 active:scale-95 transition select-none"><div style="font-size:2rem;pointer-events:none">${em}</div><div class="text-xs font-bold text-gray-600 text-center pointer-events-none">${words.join(' ')}</div></div>`;
+    }).join('');
+    const c = document.getElementById('gameContent');
+    c.innerHTML = `<div class="max-w-xl w-full text-center">
+        <div class="text-xl font-bold text-[#1a365d] mb-3">${isHe?'🔍 בחרו את הפריטים שראיתם:':'🔍 Select the items you saw:'}</div>
+        <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-6">${itemsHtml}</div>
+        <button onclick="_checkRecall()" class="py-4 px-8 rounded-xl bg-[#b7791f] text-white font-bold text-xl hover:opacity-90 active:scale-95 transition shadow-lg">${isHe?'✅ בדיקה':'✅ Check'}</button>
+    </div>`;
+}
+function _toggleRecall(idx, el) {
+    const gs = gameState.recall;
+    if(gs.selected.has(idx)) { gs.selected.delete(idx); el.classList.remove('border-blue-500','bg-blue-100'); el.classList.add('border-gray-200'); }
+    else { gs.selected.add(idx); el.classList.add('border-blue-500','bg-blue-100'); el.classList.remove('border-gray-200'); }
+}
+function _checkRecall() {
+    if(!gameState.active) return;
+    const gs = gameState.recall;
+    const isHe = currentLang === 'he';
+    const targetSet = new Set(gs.targets);
+    let correct = 0, wrong = 0;
+    gs.selected.forEach(i => { if(targetSet.has(gs._all[i])) correct++; else wrong++; });
+    const missed = gs.targets.length - correct;
+    if(wrong === 0 && missed === 0) { sfxWin(); setTimeout(()=>levelComplete(), 400); }
+    else if(correct >= Math.ceil(gs.targets.length * 0.7) && wrong <= 1) { sfxCorrect(); setTimeout(()=>levelComplete(), 400); }
+    else {
+        sfxWrong();
+        const c = document.getElementById('gameContent');
+        const msg = isHe ? `מצאתם ${correct} מתוך ${gs.targets.length}` : `Found ${correct} of ${gs.targets.length}`;
+        const info = document.createElement('div');
+        info.className = 'mt-4 text-orange-600 font-bold text-lg';
+        info.innerHTML = `${msg}<br><button onclick="initRecall(document.getElementById('gameContent'))" class="mt-3 py-3 px-6 rounded-xl bg-[#1a365d] text-white font-bold text-base hover:bg-[#2c5282] transition">${isHe?'🔄 נסו שוב':'🔄 Try Again'}</button>`;
+        c.appendChild(info);
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // DAILY QUOTE
 // ═══════════════════════════════════════════════════════════════════════════════
 function renderDailyQuote(){
@@ -967,7 +1401,7 @@ function renderDailyQuote(){
 // ═══════════════════════════════════════════════════════════════════════════════
 // DEEP LINK ROUTING  (hash = game id, e.g. #memory  or  #trivia)
 // ═══════════════════════════════════════════════════════════════════════════════
-const _VALID_GAMES=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs'];
+const _VALID_GAMES=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall'];
 
 function _routeFromHash(){
     const h=location.hash.replace('#','').toLowerCase();
