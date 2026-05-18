@@ -1,5 +1,5 @@
 # HANDOFF — Golden Games (Elders_Ai)
-**תאריך עדכון:** 2026-05-18 | **סטטוס:** 🟢 חי ב-GitHub Pages
+**תאריך עדכון:** 2026-05-19 | **סטטוס:** 🟢 חי ב-GitHub Pages
 
 ---
 
@@ -9,30 +9,23 @@
 |---|---|
 | **אתר חי** | https://adbitrush.github.io/Elders_Ai/ |
 | **ריפו** | https://github.com/AdbitRush/Elders_Ai |
-| **לינק ישיר למשחק** | `/#gameId` למשל `/#trivia`, `/#tetris` |
+| **לינק ישיר למשחק** | `/#gameId` למשל `/#tetris`, `/#simon` |
 
 ---
 
-## ✅ מה בוצע בסשן 38
+## ✅ מה בוצע (Session 38-39)
 
-### 1. טטריס (משחק #18) — חדש לגמרי
-- Canvas-based, 10×20 לוח, 7 טטרומינו עם צבעי ניאון
-- Ghost piece (הצל), high score, score/lines/level counter
-- שליטה: מקלדת (←→↑↓ + Space) + מגע (swipe + כפתורים)
-- `window._gameCleanup` לניקוי RAF כשיוצאים מהמשחק
-- נוסף ל-validIds, titleMap, instMap, _VALID_GAMES, i18n (HE+EN)
-- תיקיה `images/tetris/` נוצרה
+### Session 38
+- **טטריס** (#18) — canvas, 7 טטרומינו, ghost piece, מקלדת + swipe + כפתורים
+- **סודוקו** — inline CSS borders (אמינים), dark navy theme
+- **ABR_Ai Inspector** — try/except מונע 500, fetch error handling משופר
 
-### 2. סודוקו — עיצוב מחדש
-- **קווי ה-3×3 כעת מבוססים על inline CSS** (לא Tailwind) — אמינים ב-100%
-- ערכת צבעים: רקע כחול כהה (#0a1628), תאים נבחרים (#1d4ed8), קווי ריבוע (#3b82f6)
-- תאים גדולים יותר: clamp(34px,9.8vw,44px)
-- glow effect סביב הלוח
-
-### 3. ABR_Ai — Ad Inspector 500 Error
-- `intel_ad_detail` עוטף try/except — אף פעם לא יזרוק 500 לדרואר
-- שני fetch handlers בודקים HTTP status לפני innerHTML
-- Inspector עובד על כל 23,264 מודעות שנבדקו
+### Session 39
+- **ריפקטור מודולרי** — `index.html` 1811→983 שורות, 18 קבצי `js/games/*.js`
+  - כל משחק בקובץ נפרד: `js/games/{id}.js`
+  - shared globals (i18nData, gameState, routing, shuffle, sfx) נשארים ב-index.html
+  - 18 `<script src="js/games/id.js">` נטענים אחרי inline script
+- **Simon** — i18n bilingual (HE/EN), visual upgrade (neon glow on flash, dark buttons)
 
 ---
 
@@ -44,8 +37,8 @@
 | 2 | oddoneout | יוצא דופן | ✅ |
 | 3 | math | חשבון מהיר | ✅ |
 | 4 | wordsearch | חיפוש מילים | ✅ |
-| 5 | simon | רצף צבעים | ✅ |
-| 6 | sudoku | סודוקו יומי | ✅ עיצוב חדש |
+| 5 | simon | רצף צבעים | ✅ neon glow |
+| 6 | sudoku | סודוקו יומי | ✅ dark theme |
 | 7 | shapes | סדר וארגון | ✅ |
 | 8 | solitaire | סוליטר פירמידה | ✅ |
 | 9 | trivia | טריוויה | ✅ |
@@ -57,53 +50,72 @@
 | 15 | proverbs | השלם את הפתגם | ✅ |
 | 16 | hangman | תלייה | ✅ |
 | 17 | recall | זיכרון תמונות | ✅ |
-| 18 | tetris | טטריס | ✅ חדש! |
+| 18 | tetris | טטריס | ✅ |
+
+---
+
+## 🏗️ מבנה קבצים
+
+```
+Elders_Ai/
+├── index.html              ← shell + shared globals (983 שורות)
+├── js/
+│   └── games/
+│       ├── memory.js
+│       ├── oddoneout.js
+│       ├── math.js
+│       ├── wordsearch.js
+│       ├── simon.js        ← updated: neon glow + bilingual
+│       ├── sudoku.js       ← updated: inline CSS borders + dark theme
+│       ├── shapes.js
+│       ├── solitaire.js
+│       ├── trivia.js
+│       ├── numseq.js
+│       ├── unscramble.js
+│       ├── pairs.js
+│       ├── truefalse.js
+│       ├── flags.js
+│       ├── proverbs.js
+│       ├── hangman.js
+│       ├── recall.js
+│       └── tetris.js
+└── images/
+    └── {game}/thumb.jpg   ← כשמוסיפים תמונה מקומית
+```
+
+### ארכיטקטורה
+```
+Stack:    HTML + Vanilla JS + Tailwind CSS CDN
+i18n:     t('key') → i18nData[currentLang][key]
+Routing:  location.hash = gameId | hashchange listener
+Storage:  localStorage (gg_streak, gg_today_count, gg_total_games, gg_hs_{id})
+Games:    loadGame(id) → init{Game}(container) → levelComplete()
+Cleanup:  window._gameCleanup() → called by showHome() + loadGame()
+```
 
 ---
 
 ## 🚀 NEXT SESSION — מה עוד צריך
 
 ### עדיפות גבוהה
-- **בדיקה ידנית** של כל 18 משחקים בדפדפן אחרי deploy (Ctrl+Shift+R)
-- **ריפקטור מודולרי** — לפצל ל-`js/games/*.js` (1700+ שורות בקובץ אחד)
+- **בדיקה ידנית** — לפתוח כל 18 משחקים בדפדפן אחרי Ctrl+Shift+R
+- **Memory** — שיפור ויזואלי: matched state גלוי יותר, נושא כהה
+- **WordSearch** — שיפור ויזואלי: dark cells
+- **Solitaire** — שיפור ויזואלי: cards nicer
 
 ### עדיפות בינונית
-- **שיפור ויזואלי** לשאר המשחקים (Simon, Memory, WordSearch)
-- **PWA** — manifest.json + service worker
+- **PWA** — manifest.json + service worker (offline support)
+- **Google AdSense** — אחרי 2 שבועות טראפיק
 
 ### עדיפות נמוכה
-- **תמונות מוכנות** — להחליף Pollinations ב-images/ מקומי כשיש
-- **Google AdSense** — לאחר 2 שבועות טראפיק
+- **תמונות מקומיות** — החלפת Pollinations ב-images/ לפי game
 
 ---
 
-## 🏗️ ארכיטקטורה
+## 📋 Git Log (Session 39)
 
 ```
-Stack:    HTML + Vanilla JS + Tailwind CSS CDN
-Font:     Assistant (Google Fonts)
-Colors:   --primary: #1a365d | --accent: #b7791f | --bg: #070d1c
-i18n:     t('key') → i18nData[currentLang][key]
-Routing:  location.hash = gameId | hashchange listener
-Storage:  localStorage (gg_streak, gg_today_count, gg_total_games, gg_last_date, gg_hs_{id})
-Games:    loadGame(id) → init{Game}(container) → levelComplete()
-Cleanup:  window._gameCleanup() → called by showHome() + loadGame()
-Images:   Pollinations Flux API (seed-stable) — fallback: images/ folder
-```
-
----
-
-## 📁 תיקיות תמונות — מוכנות (18)
-
-`images/memory/ oddoneout/ math/ wordsearch/ simon/ sudoku/ shapes/ solitaire/ trivia/ numseq/ unscramble/ pairs/ truefalse/ flags/ proverbs/ hangman/ recall/ tetris/`
-
-כשמוסיפים תמונה: `src="images/{game}/thumb.jpg"` במקום Pollinations.
-
----
-
-## 📋 Git Log (Session 38)
-
-```
+cd6bc1a  refactor(modular): split 18 games into js/games/*.js — index.html 1811→983 lines
+52c83a0  chore(session38): update HANDOFF
 a8fe6ea  feat(session38): Tetris game + Sudoku dark theme + inspector error guard
-8b050ab  fix(ux): shimmer skeleton + .hidden CSS safety + eager image loading
 ```

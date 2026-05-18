@@ -4,30 +4,47 @@
 function initSimon(container) {
     if(!gameState.simon.sequence)gameState.simon.sequence=[];
     gameState.simon.userIndex=0; gameState.simon.waitingForUser=false;
-    const colors=[{id:0,c:'bg-red-500'},{id:1,c:'bg-blue-500'},{id:2,c:'bg-green-500'},{id:3,c:'bg-yellow-400'}];
-    let html=`<div class="flex flex-col items-center gap-5 w-full"><div id="simon-score" class="text-2xl font-bold text-slate-700">רמה 1...</div><div class="grid grid-cols-2 gap-4 max-w-xs w-full">`;
-    colors.forEach(col=>{html+=`<div id="simon-${col.id}" class="simon-btn w-28 h-28 md:w-36 md:h-36 rounded-2xl ${col.c}" onclick="clickSimon(${col.id})"></div>`;});
+    const isHe=currentLang==='he';
+    const colors=[
+        {id:0,color:'#ef4444',glow:'rgba(239,68,68,0.7)'},
+        {id:1,color:'#3b82f6',glow:'rgba(59,130,246,0.7)'},
+        {id:2,color:'#22c55e',glow:'rgba(34,197,94,0.7)'},
+        {id:3,color:'#eab308',glow:'rgba(234,179,8,0.7)'}
+    ];
+    let html=`<div style="display:flex;flex-direction:column;align-items:center;gap:20px;width:100%">
+        <div id="simon-score" style="font-size:20px;font-weight:800;color:#1e293b;letter-spacing:0.05em">${isHe?'רמה 1...':'Level 1...'}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:280px;width:100%">`;
+    colors.forEach(col=>{
+        html+=`<div id="simon-${col.id}" onclick="clickSimon(${col.id})"
+            style="width:100%;aspect-ratio:1;border-radius:20px;background:${col.color};filter:brightness(0.55);cursor:pointer;transition:filter 0.15s,transform 0.1s,box-shadow 0.15s;box-shadow:0 4px 12px rgba(0,0,0,0.3)"
+            onmousedown="this.style.transform='scale(0.94)'" onmouseup="this.style.transform='scale(1)'"></div>`;
+    });
     html+=`</div></div>`;
     container.innerHTML=html;
+    container._simonColors=colors;
     setTimeout(()=>playSimonSequence(),800);
 }
 async function playSimonSequence() {
     if(!gameState.active)return;
+    const isHe=currentLang==='he';
     const state=gameState.simon; state.waitingForUser=false; state.userIndex=0;
     state.sequence.push(Math.floor(Math.random()*4));
     const scEl=document.getElementById('simon-score');
-    if(scEl){scEl.innerText=`רמה ${state.sequence.length}...`;scEl.style.color='';}
+    if(scEl){scEl.innerText=isHe?`רמה ${state.sequence.length}...`:`Level ${state.sequence.length}...`; scEl.style.color='';}
     for(let i=0;i<state.sequence.length;i++){if(!gameState.active)return;await new Promise(r=>setTimeout(r,500));await flashSimon(state.sequence[i]);}
     if(!gameState.active)return; state.waitingForUser=true;
-    if(scEl) scEl.innerText=`רמה ${state.sequence.length} — תורך! 👆`;
+    if(scEl) scEl.innerText=isHe?`רמה ${state.sequence.length} — תורך! 👆`:`Level ${state.sequence.length} — Your turn! 👆`;
 }
 async function flashSimon(id) {
     if(!gameState.active)return;
     const el=document.getElementById(`simon-${id}`);
-    el.classList.add('active'); _tone(220+id*110,0.25);
-    await new Promise(r=>setTimeout(r,400)); el.classList.remove('active');
+    const glows=['rgba(239,68,68,0.8)','rgba(59,130,246,0.8)','rgba(34,197,94,0.8)','rgba(234,179,8,0.8)'];
+    el.style.filter='brightness(1.4)'; el.style.boxShadow=`0 0 28px 8px ${glows[id]},0 4px 12px rgba(0,0,0,0.3)`; _tone(220+id*110,0.25);
+    await new Promise(r=>setTimeout(r,400));
+    el.style.filter='brightness(0.55)'; el.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)';
 }
 function clickSimon(id) {
+    const isHe=currentLang==='he';
     const state=gameState.simon; if(!state.waitingForUser)return;
     flashSimon(id);
     if(id===state.sequence[state.userIndex]){
@@ -36,7 +53,7 @@ function clickSimon(id) {
             state.waitingForUser=false;
             const lv=state.sequence.length;
             const scEl=document.getElementById('simon-score');
-            if(scEl){scEl.innerText=`✓ רמה ${lv}!`;scEl.style.color='#16a34a';}
+            if(scEl){scEl.innerText=`✓ ${isHe?`רמה ${lv}!`:`Level ${lv}!`}`; scEl.style.color='#16a34a';}
             sfxCorrect();
             setTimeout(()=>{if(scEl)scEl.style.color='';playSimonSequence();},700);
         }
@@ -46,11 +63,18 @@ function clickSimon(id) {
         const score=state.sequence.length;
         state.sequence=[];
         const gc=document.getElementById('gameContent');
-        if(gc.firstElementChild) gc.firstElementChild.classList.add('bg-red-50');
         setTimeout(()=>{
             const hs=checkHS('simon',score);
             Retention.recordWin();
-            gc.innerHTML=`<div class="text-center py-8 px-4 max-w-sm mx-auto"><div style="font-size:4rem">🎉</div><div class="text-3xl font-bold mt-3 text-slate-800">כל הכבוד!</div><div class="text-xl mt-3 text-gray-600">הגעת לרמה <strong class="text-[#1a365d] text-2xl">${score}</strong></div>${hs?`<div class="mt-2 text-amber-600 font-bold text-lg">⭐ שיא אישי חדש!</div>`:''}<div class="flex gap-3 justify-center mt-6 flex-wrap"><button onclick="loadGame('simon')" class="btn-premium py-3 px-8 rounded-xl font-bold">שחק שוב</button><button onclick="showHome()" class="bg-gray-200 hover:bg-gray-300 py-3 px-8 rounded-xl font-bold text-gray-700 transition">תפריט</button></div></div>`;
+            gc.innerHTML=`<div class="text-center py-8 px-4 max-w-sm mx-auto">
+                <div style="font-size:4rem">🎉</div>
+                <div class="text-3xl font-bold mt-3 text-slate-800">${isHe?'כל הכבוד!':'Great job!'}</div>
+                <div class="text-xl mt-3 text-gray-600">${isHe?`הגעת לרמה`:'You reached level'} <strong class="text-[#1a365d] text-2xl">${score}</strong></div>
+                ${hs?`<div class="mt-2 text-amber-600 font-bold text-lg">${isHe?'⭐ שיא אישי חדש!':'⭐ New personal best!'}</div>`:''}
+                <div class="flex gap-3 justify-center mt-6 flex-wrap">
+                    <button onclick="loadGame('simon')" class="btn-premium py-3 px-8 rounded-xl font-bold">${isHe?'שחק שוב':'Play Again'}</button>
+                    <button onclick="showHome()" class="bg-gray-200 hover:bg-gray-300 py-3 px-8 rounded-xl font-bold text-gray-700 transition">${isHe?'תפריט':'Menu'}</button>
+                </div></div>`;
         },800);
     }
 }
