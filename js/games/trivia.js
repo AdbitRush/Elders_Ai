@@ -3,7 +3,9 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 function initTrivia(container){
     const state=gameState.trivia;
-    state.questions=shuffle([...i18nData[currentLang].trivia_pool]).slice(0,10);
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
+    const _tq=_d==='easy'?6:_d==='hard'?12:10;
+    state.questions=shuffle([...i18nData[currentLang].trivia_pool]).slice(0,_tq);
     state.current=0; state.score=0; renderTriviaQuestion(container);
 }
 function renderTriviaQuestion(container){

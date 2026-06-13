@@ -3,8 +3,9 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 function initProverbs(c) {
     const gs = gameState.proverbs;
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
     gs.pool = shuffle([...i18nData[currentLang].proverbs_pool]);
-    gs.idx = 0; gs.perLevel = 6; gs.score = 0;
+    gs.idx = 0; gs.perLevel = _d==='easy'?4:_d==='hard'?9:6; gs.score = 0;
     _provNext(c);
 }
 function _provNext(c) {

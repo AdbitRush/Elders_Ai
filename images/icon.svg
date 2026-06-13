@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#070d1c"/>
+  <!-- Gold ring -->
+  <circle cx="256" cy="256" r="240" fill="none" stroke="#b7791f" stroke-width="12"/>
+  <!-- Brain shape (simplified) -->
+  <g transform="translate(256,256)">
+    <!-- Left hemisphere -->
+    <path d="M-10,-80 C-60,-80 -110,-50 -110,0 C-110,30 -90,55 -60,65 C-50,68 -45,75 -45,85 L-10,85 L-10,-80Z"
+          fill="#b7791f" opacity="0.9"/>
+    <!-- Right hemisphere -->
+    <path d="M10,-80 C60,-80 110,-50 110,0 C110,30 90,55 60,65 C50,68 45,75 45,85 L10,85 L10,-80Z"
+          fill="#f6c048" opacity="0.9"/>
+    <!-- Center line -->
+    <rect x="-4" y="-80" width="8" height="165" fill="#070d1c" rx="4"/>
+    <!-- Brain folds left -->
+    <path d="M-30,-60 Q-70,-40 -65,-10" stroke="#fcd34d" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M-50,10 Q-90,25 -80,50" stroke="#fcd34d" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <!-- Brain folds right -->
+    <path d="M30,-60 Q70,-40 65,-10" stroke="#92400e" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M50,10 Q90,25 80,50" stroke="#92400e" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- Stars / sparkles -->
+  <text x="256" y="430" font-size="48" text-anchor="middle" fill="#f6c048">★ ★ ★</text>
+</svg>

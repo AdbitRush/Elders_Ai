@@ -13,8 +13,10 @@ function _sudokuGen9() {
 }
 function initSudoku(container) {
     const gs=gameState.sudoku;
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
+    const _hAdj=_d==='easy'?-10:_d==='hard'?10:0;
     const sol=_sudokuGen9();
-    const holes=Math.min(25+gs.level*3,52);
+    const holes=Math.min(Math.max(15,25+gs.level*3+_hAdj),56);
     const puz=sol.map(r=>[...r]);
     const given=Array(9).fill(null).map(()=>Array(9).fill(true));
     let rem=0;

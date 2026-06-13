@@ -2,7 +2,10 @@
 // GAME 7: SHAPES
 // ═══════════════════════════════════════════════════════════════════════════════
 function initShapes(container) {
-    const state=gameState.shapes,count=Math.min(4+Math.floor(state.level/3),8);
+    const state=gameState.shapes;
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
+    const _adj=_d==='easy'?-1:_d==='hard'?2:0;
+    const count=Math.min(Math.max(2,4+Math.floor(state.level/3)+_adj),_d==='hard'?10:8);
     const items=shuffle([...SHAPE_EMOJIS]).slice(0,count).map((icon,id)=>({id,icon}));
     state.selected=null; state.placed=0; state.total=count; state.items=items;
     const gc=count>4?'grid-cols-3 md:grid-cols-4':'grid-cols-2';

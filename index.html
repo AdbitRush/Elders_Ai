@@ -142,12 +142,18 @@
 
 <main class="flex-grow container mx-auto px-6 pb-12">
     <!-- Game Grid Header -->
-    <div id="homeScreen-header" class="flex items-center justify-between mb-6">
-        <div>
-            <h3 style="font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="section_games">17 משחקי אימון</h3>
-            <p style="font-size:0.8rem;color:rgba(180,200,255,0.6);margin-top:2px" data-i18n="section_games_sub">לחצו על משחק להתחיל</p>
+    <div id="homeScreen-header" class="flex flex-col gap-4 mb-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 style="font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="section_games">18 משחקי אימון</h3>
+                <p style="font-size:0.8rem;color:rgba(180,200,255,0.6);margin-top:2px" data-i18n="section_games_sub">לחצו על משחק להתחיל</p>
+            </div>
+            <div style="width:48px;height:2px;background:linear-gradient(90deg,#b7791f,#f6c048,transparent);border-radius:2px"></div>
         </div>
-        <div style="width:48px;height:2px;background:linear-gradient(90deg,#b7791f,#f6c048,transparent);border-radius:2px"></div>
+        <!-- Difficulty selector -->
+        <div id="diff-selector" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="font-size:0.8rem;font-weight:700;color:rgba(180,200,255,0.7)">רמת קושי / Difficulty:</span>
+        </div>
     </div>
     <!-- 17-Game Grid -->
     <div id="homeScreen" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
@@ -281,6 +287,7 @@
         <div class="flex flex-col gap-3">
             <button id="nextLevelBtn" class="w-full bg-[#1a365d] text-white py-3.5 rounded-xl text-lg font-bold hover:bg-[#2c5282] transition" data-i18n="next_level">השלב הבא</button>
             <button onclick="showHome()" class="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-bold hover:bg-gray-200 transition" data-i18n="back_menu">חזרה לתפריט</button>
+            <div id="modalShareBtn" class="mt-1 flex justify-center"></div>
         </div>
     </div>
 </div>
@@ -887,6 +894,12 @@ function levelComplete() {
     Retention.maybeWellnessNudge();
     const nextBtn=document.getElementById('nextLevelBtn');
     nextBtn.onclick=()=>{modal.classList.add('hidden');if(sc)delete gs._sessionScore;loadGame(id,lvl+1);};
+    // Share button
+    const shareDiv=document.getElementById('modalShareBtn');
+    if(shareDiv&&typeof Share!=='undefined'){
+        const shareScore=sc?sc.correct:lvl;
+        Share.renderBtn(shareDiv,id,shareScore);
+    }
     modal.classList.remove('hidden');
 }
 
@@ -932,9 +945,13 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-// ── Inject skill badges after modules load ────────────────────────────────────
+// ── Inject skill badges + difficulty selector after modules load ──────────────
 window.addEventListener('load', () => {
     if (typeof Categories !== 'undefined') Categories.injectAllBadges();
+    if (typeof Difficulty !== 'undefined') {
+        const diffEl = document.getElementById('diff-selector');
+        if (diffEl) Difficulty.renderSelector(diffEl);
+    }
 });
 
 // ═══════════════════════════════════════════════════════════════════════════════

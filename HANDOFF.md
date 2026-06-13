@@ -15,7 +15,18 @@
 
 ## ✅ מה בוצע (Session 40)
 
-### Session 40
+### Session 40 (חלק ב׳ — מחובר במלואו)
+- **Difficulty** — Easy/Normal/Hard מחובר לכל 18 משחקים + סלקטור ב-homescreen
+  - memory: פחות/יותר זוגות; simon: מהירות flash; tetris: מהירות נפילה
+  - שאר המשחקים: כמות שאלות/מילים/שלבים מתכווננת לפי קושי
+- **Share button** — מופיע בכל מודל ניצחון + Simon result screen
+- **PWA icon** — images/icon.svg (SVG) + manifest.json מעודכן
+- **WordSearch** — dark theme cells (slate-700/slate-800)
+- **Solitaire** — 4 suits (♥♦♠♣), flex card layout, premium shadows
+- **Recall (Hard)** — countdown timer 4 שניות, אחר כך עובר אוטומטית לשלב הבדיקה
+- **Hangman** — lives color changes to amber/red as mistakes increase
+
+### Session 40 (חלק א׳ — skeletons)
 - **15 שיפורים** — ניתוח + skeleton code לכל חלק
 - **תיקון באגים** — refreshHSBadges כלל Tetris; i18n "17"→"18"; matched-card CSS
 - **PWA** — manifest.json + sw.js (offline + installable)

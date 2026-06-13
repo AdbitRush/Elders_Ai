@@ -14,6 +14,8 @@ function initHangman(c) {
     } else {
         gs.wordIdx = (gs.wordIdx||0) + 1;
     }
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
+    gs._diff=_d;
     _hmStart(c);
 }
 function _hmStart(c) {
@@ -23,7 +25,8 @@ function _hmStart(c) {
     gs.hint = item.hint;
     gs.guessed = new Set();
     gs.wrong = 0;
-    gs.maxWrong = 6;
+    const _d=gs._diff||'normal';
+    gs.maxWrong = _d==='easy'?8:_d==='hard'?4:6;
     _hmRender(c);
 }
 function _hmRender(c) {
@@ -51,6 +54,7 @@ function _hmRender(c) {
         const missed = used && !found;
         return `<button onclick="guessLetter('${l}')" ${used?'disabled':''} class="m-0.5 rounded-lg font-bold transition text-sm ${missed?'bg-red-100 text-red-400 border border-red-200 cursor-default':found?'bg-green-100 text-green-600 border border-green-200 cursor-default':'bg-gray-100 hover:bg-[#1a365d] hover:text-white border border-gray-300 active:scale-95'}" style="width:clamp(32px,8vw,42px);height:clamp(32px,8vw,42px)">${l}</button>`;
     }).join('');
+    const livesColor=gs.wrong>=gs.maxWrong-1?'#ef4444':gs.wrong>=gs.maxWrong-2?'#f59e0b':'#64748b';
     c.innerHTML = `<div class="w-full max-w-2xl">
         <div class="flex flex-col md:flex-row gap-4 items-center justify-center mb-4">
             <svg viewBox="0 0 140 130" width="120" height="120" style="min-width:110px;flex-shrink:0">
@@ -63,7 +67,7 @@ function _hmRender(c) {
             <div class="text-center flex-1">
                 <div class="text-base text-gray-500 mb-2">${isHe?'רמז':'Hint'}: <span class="font-bold text-[#b7791f]">${gs.hint}</span></div>
                 <div class="flex flex-wrap justify-center items-end gap-1 my-3" ${isHe?'dir="rtl"':''}>${blanks}</div>
-                <div class="text-sm font-bold mt-2 ${gs.wrong>=5?'text-red-500':'text-gray-500'}">${isHe?'שגיאות':'Mistakes'}: ${gs.wrong}/${gs.maxWrong}</div>
+                <div class="text-sm font-bold mt-2" style="color:${livesColor}">${isHe?'שגיאות':'Mistakes'}: ${gs.wrong}/${gs.maxWrong}</div>
                 ${gameOver ? `<div class="mt-3 font-bold text-lg text-red-600">${isHe?'המילה הייתה: ':'The word was: '}<span class="text-[#1a365d]">${gs.word}</span></div>
                 <button onclick="_hmNext()" class="mt-3 py-3 px-6 rounded-xl bg-[#1a365d] text-white font-bold text-base hover:bg-[#2c5282] transition">${isHe?'🔄 מילה חדשה':'🔄 New Word'}</button>` : ''}
             </div>

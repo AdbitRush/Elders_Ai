@@ -5,25 +5,44 @@ function initRecall(c) {
     if(!gameState.active) return;
     const gs = gameState.recall;
     const level = gs.level || 1;
-    const showCount = Math.min(3 + level, 8);
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
+    const _adj=_d==='easy'?-1:_d==='hard'?2:0;
+    const showCount = Math.min(Math.max(2, 3 + level + _adj), _d==='hard'?10:8);
     const pool = shuffle([...i18nData[currentLang].recall_pool]);
     gs.targets = pool.slice(0, showCount);
     gs.distractors = pool.slice(showCount, showCount + showCount + 2);
     gs.selected = new Set();
+    gs._diff = _d;
     _recallStudy(c);
 }
 function _recallStudy(c) {
     const gs = gameState.recall;
     const isHe = currentLang === 'he';
+    const _d = gs._diff || 'normal';
     const items = gs.targets.map(it => {
         const [em, ...words] = it.split(' ');
         return `<div class="flex flex-col items-center gap-1 p-3 bg-white rounded-xl border-2 border-blue-200 shadow-sm"><div style="font-size:2.2rem">${em}</div><div class="text-sm font-bold text-gray-700 text-center">${words.join(' ')}</div></div>`;
     }).join('');
+    // Hard mode: auto-advance after 4 seconds instead of user clicking
+    const autoMs = _d==='hard' ? 4000 : 0;
     c.innerHTML = `<div class="max-w-xl w-full text-center">
         <div class="text-xl font-bold text-[#1a365d] mb-3">${isHe?'📖 זכרו את הפריטים האלה:':'📖 Study these items:'}</div>
         <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-6">${items}</div>
-        <button onclick="_recallTest()" class="py-4 px-8 rounded-xl bg-[#1a365d] text-white font-bold text-xl hover:bg-[#2c5282] transition shadow-lg">${isHe?'✅ זכרתי! קדימה':'✅ Got them! Continue'}</button>
+        ${autoMs>0
+          ? `<div id="recall-timer" class="text-amber-600 font-bold text-lg mb-3">${isHe?`⏱️ ${autoMs/1000} שניות...`:`⏱️ ${autoMs/1000}s...`}</div>
+             <button id="recall-go-btn" onclick="_recallTest()" class="py-4 px-8 rounded-xl bg-[#1a365d] text-white font-bold text-xl hover:bg-[#2c5282] transition shadow-lg">${isHe?'✅ זכרתי! קדימה':'✅ Got them! Continue'}</button>`
+          : `<button onclick="_recallTest()" class="py-4 px-8 rounded-xl bg-[#1a365d] text-white font-bold text-xl hover:bg-[#2c5282] transition shadow-lg">${isHe?'✅ זכרתי! קדימה':'✅ Got them! Continue'}</button>`
+        }
     </div>`;
+    if(autoMs>0) {
+        let secs=autoMs/1000;
+        const timer=document.getElementById('recall-timer');
+        const iv=setInterval(()=>{
+            secs--;
+            if(timer)timer.textContent=isHe?`⏱️ ${secs} שניות...`:`⏱️ ${secs}s...`;
+            if(secs<=0){clearInterval(iv);_recallTest();}
+        },1000);
+    }
 }
 function _recallTest() {
     if(!gameState.active) return;

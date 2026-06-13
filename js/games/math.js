@@ -3,19 +3,23 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 function initMath(container) {
     const gs=gameState.math;
-    gs._sq=10; gs._si=0; gs._ss=0;
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
+    gs._sq=_d==='easy'?6:_d==='hard'?15:10; gs._si=0; gs._ss=0; gs._diff=_d;
     _mathNext(container);
 }
 function _mathNext(container) {
     if(!gameState.active||gameState.currentId!=='math')return;
     const gs=gameState.math;
     if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
-    const maxVal=10+(gs.level*3),isAdd=Math.random()>0.4;
+    const _d=gs._diff||'normal';
+    const maxVal=_d==='easy'?6+(gs.level*2):_d==='hard'?14+(gs.level*4):10+(gs.level*3);
+    const isAdd=Math.random()>(_d==='easy'?0.2:0.4);
     let a,b,answer;
     if(isAdd){a=Math.floor(Math.random()*maxVal)+1;b=Math.floor(Math.random()*maxVal)+1;answer=a+b;}
     else{a=Math.floor(Math.random()*maxVal)+5;b=Math.floor(Math.random()*a);answer=a-b;}
     let opts=new Set([answer]);
-    while(opts.size<4){const f=answer+(Math.floor(Math.random()*9)-4);if(f>=0&&f!==answer)opts.add(f);}
+    const spread=_d==='easy'?3:_d==='hard'?6:4;
+    while(opts.size<4){const f=answer+(Math.floor(Math.random()*spread*2+1)-spread);if(f>=0&&f!==answer)opts.add(f);}
     const optsArr=shuffle(Array.from(opts));
     const isHe=currentLang==='he';
     container.innerHTML=`<div class="w-full max-w-sm mx-auto text-center">

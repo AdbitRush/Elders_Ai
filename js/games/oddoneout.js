@@ -3,7 +3,8 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 function initOddOneOut(container) {
     const gs=gameState.oddoneout;
-    gs._sq=10; gs._si=0; gs._ss=0;
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
+    gs._sq=_d==='easy'?6:_d==='hard'?14:10; gs._si=0; gs._ss=0;
     _oddNext(container);
 }
 function _oddNext(container) {

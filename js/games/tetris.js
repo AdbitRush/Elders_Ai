@@ -65,14 +65,16 @@ window.initTetris=function(container){
     function drop(){if(valid(cur.shape,cur.x,cur.y+1))cur.y++;else lock();}
     function hardDrop(){while(valid(cur.shape,cur.x,cur.y+1))cur.y++;lock();}
 
-    let lastT=0,dropInterval=Math.max(100,800-level*60);
+    const _dtet=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
+    const _baseDrop=_dtet==='easy'?1100:_dtet==='hard'?500:800;
+    let lastT=0,dropInterval=Math.max(100,_baseDrop-level*60);
     function loop(t){if(gameOver){
         if(score>0&&window.gameState&&window.gameState.tetris){window.gameState.tetris._sessionScore=score;}
         draw();
         // auto-restart or show home after delay
         setTimeout(()=>{if(window.gameState&&window.gameState.active&&window.gameState.currentId==='tetris')window.levelComplete&&levelComplete();},1800);
         return;}
-        dropInterval=Math.max(100,800-((window.gameState&&window.gameState.tetris&&window.gameState.tetris.level)||1)*60);
+        dropInterval=Math.max(100,_baseDrop-((window.gameState&&window.gameState.tetris&&window.gameState.tetris.level)||1)*60);
         if(t-lastT>dropInterval){drop();lastT=t;}
         draw();raf=requestAnimationFrame(loop);}
     raf=requestAnimationFrame(loop);

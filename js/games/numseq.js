@@ -10,7 +10,8 @@ const _SEQ_GENERATORS = [
 ];
 function initNumSeq(container){
     const gs=gameState.numseq;
-    gs._sq=10; gs._si=0; gs._ss=0;
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
+    gs._sq=_d==='easy'?6:_d==='hard'?14:10; gs._si=0; gs._ss=0;
     _numseqNext(container);
 }
 function _numseqNext(container){

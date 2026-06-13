@@ -3,7 +3,8 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 function initUnscramble(container){
     const state=gameState.unscramble;
-    state._sq=7; state._si=0; state._ss=0;
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
+    state._sq=_d==='easy'?5:_d==='hard'?10:7; state._si=0; state._ss=0; state._diff=_d;
     _unscrambleNext(container);
 }
 function _unscrambleNext(container){
@@ -11,7 +12,11 @@ function _unscrambleNext(container){
     const state=gameState.unscramble;
     if(state._si>=state._sq){state._sessionScore={correct:state._ss,total:state._sq};levelComplete();return;}
     const pool=i18nData[currentLang].unscramble_pool;
-    const item=pool[Math.floor(Math.random()*pool.length)];
+    // easy → shorter words, hard → longer words
+    const _d=state._diff||'normal';
+    const filtered=_d==='easy'?pool.filter(p=>[...p.word].length<=4):_d==='hard'?pool.filter(p=>[...p.word].length>=4):pool;
+    const src=filtered.length>0?filtered:pool;
+    const item=src[Math.floor(Math.random()*src.length)];
     const word=item.word, letters=shuffle(word.split(''));
     state.word=word; state.answer=[]; state.letterEls=letters;
     const isHe=currentLang==='he';

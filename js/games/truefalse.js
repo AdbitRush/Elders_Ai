@@ -3,8 +3,9 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 function initTrueFalse(c) {
     const gs = gameState.truefalse;
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
     gs.pool = shuffle([...i18nData[currentLang].tf_pool]);
-    gs.idx = 0; gs.perLevel = 8; gs.score = 0;
+    gs.idx = 0; gs.perLevel = _d==='easy'?6:_d==='hard'?12:8; gs.score = 0;
     _tfNext(c);
 }
 function _tfNext(c) {

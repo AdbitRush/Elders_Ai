@@ -3,8 +3,9 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 function initFlags(c) {
     const gs = gameState.flags;
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
     gs.pool = shuffle([...i18nData[currentLang].flags_pool]);
-    gs.idx = 0; gs.perLevel = 10; gs.score = 0;
+    gs.idx = 0; gs.perLevel = _d==='easy'?6:_d==='hard'?14:10; gs.score = 0;
     _flagNext(c);
 }
 function _flagNext(c) {
