@@ -1,5 +1,5 @@
 # HANDOFF — Golden Games (Elders_Ai)
-**תאריך עדכון:** 2026-05-19 | **סטטוס:** 🟢 חי ב-GitHub Pages
+**תאריך עדכון:** 2026-06-13 | **סטטוס:** 🟢 חי ב-GitHub Pages
 
 ---
 
@@ -10,6 +10,23 @@
 | **אתר חי** | https://adbitrush.github.io/Elders_Ai/ |
 | **ריפו** | https://github.com/AdbitRush/Elders_Ai |
 | **לינק ישיר למשחק** | `/#gameId` למשל `/#tetris`, `/#simon` |
+
+---
+
+## ✅ מה בוצע (Session 40)
+
+### Session 40
+- **15 שיפורים** — ניתוח + skeleton code לכל חלק
+- **תיקון באגים** — refreshHSBadges כלל Tetris; i18n "17"→"18"; matched-card CSS
+- **PWA** — manifest.json + sw.js (offline + installable)
+- **js/stats.js** — לוח שיאים + modal
+- **js/difficulty.js** — Easy/Normal/Hard + multipliers
+- **js/share.js** — Web Share API + clipboard fallback + toast
+- **js/categories.js** — תגיות מיומנויות קוגניטיביות על כל קלף
+- **js/accessibility.js** — ARIA live, trap focus, keyboard nav
+- **js/lazy-loader.js** — skeleton לטעינה עצלה (לא מופעל עדיין)
+- **css/style.css** — קובץ עיצוב חיצוני (memory/wordsearch/solitaire dark styles)
+- **📊 כפתור Scoreboard** — navbar
 
 ---
 

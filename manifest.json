@@ -1,0 +1,20 @@
+{
+  "name": "זהב של משחקים — Golden Games",
+  "short_name": "Golden Games",
+  "description": "Daily brain training for seniors — 18 games, free & offline",
+  "start_url": "/Elders_Ai/",
+  "scope": "/Elders_Ai/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#060c1a",
+  "theme_color": "#b7791f",
+  "lang": "he",
+  "dir": "rtl",
+  "categories": ["games", "education", "health"],
+  "icons": [
+    { "src": "images/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>זהב של משחקים - Golden Games</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#b7791f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; }
@@ -100,6 +105,7 @@
         <div class="flex gap-4 items-center">
             <span id="levelIndicator" class="hidden font-bold text-[#f6c048] bg-white/10 border border-[#f6c048]/40 px-3 py-1 rounded-full text-sm"></span>
             <span id="personalBest" class="hidden font-bold text-amber-300 text-sm"></span>
+            <button onclick="if(typeof Stats!=='undefined')Stats.showModal()" title="Scoreboard" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer" aria-label="Open scoreboard">📊</button>
             <select id="langSelect" onchange="changeLanguage(this.value)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2)" class="text-white rounded px-2 py-1 cursor-pointer outline-none text-sm">
                 <option value="he">עברית</option>
                 <option value="en">English</option>
@@ -318,7 +324,7 @@ const i18nData = {
 he: {
     site_title:"זהב של משחקים", back_menu:"חזרה לתפריט", next_level:"המשך לשלב הבא",
     level_str:"שלב", hero_title:"אימון יומיומי למוח חד וצלול", btn_start:"התחל אימון",
-    section_games:"17 משחקי אימון", section_games_sub:"לחצו על משחק להתחיל",
+    section_games:"18 משחקי אימון", section_games_sub:"לחצו על משחק להתחיל",
     footer_rights:"זהב של משחקים © 2026", footer_desc:"ללא פרסומות וללא איסוף נתונים - נוצר באהבה לגיל השלישי.",
     game_memory_title:"אימון זיכרון", game_memory_desc:"שיפור הזיכרון לטווח קצר.",
     game_odd_title:"יוצא דופן", game_odd_desc:"מצאו את הסמל השונה.",
@@ -499,7 +505,7 @@ he: {
 en: {
     site_title:"Golden Games", back_menu:"Back to Menu", next_level:"Next Level",
     level_str:"Level", hero_title:"Daily Brain Training", btn_start:"Start Game",
-    section_games:"17 Brain Games", section_games_sub:"Click a game to start",
+    section_games:"18 Brain Games", section_games_sub:"Click a game to start",
     footer_rights:"Golden Games © 2026", footer_desc:"Ad-free, no tracking - made with love for seniors.",
     game_memory_title:"Memory Match", game_memory_desc:"Improve short-term memory.",
     game_odd_title:"Odd One Out", game_odd_desc:"Find the different symbol.",
@@ -727,7 +733,7 @@ function checkHS(gameId, level) {
     return false;
 }
 function refreshHSBadges() {
-    const games=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall'];
+    const games=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris'];
     games.forEach(id => {
         const hs = getHS(id); const el = document.getElementById('hs-'+id);
         if (el) { if (hs>0) { el.innerText=`🏅 ${hs}`; el.classList.remove('hidden'); } else { el.classList.add('hidden'); } }
@@ -918,6 +924,19 @@ refreshHSBadges();
 renderDailyQuote();
 _routeFromHash();
 
+// ── PWA: Service Worker registration ──────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/Elders_Ai/sw.js')
+            .catch(() => {}); // fail silently in local dev
+    });
+}
+
+// ── Inject skill badges after modules load ────────────────────────────────────
+window.addEventListener('load', () => {
+    if (typeof Categories !== 'undefined') Categories.injectAllBadges();
+});
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // AD TICKER ROTATION  (replace with AdSense when approved)
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -961,6 +980,13 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
 <!-- ═══════════════════════════════════════════════════════════════════════════
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- ── New modules (Session 40) ──────────────────────────────── -->
+<script src="js/stats.js"></script>
+<script src="js/difficulty.js"></script>
+<script src="js/share.js"></script>
+<script src="js/categories.js"></script>
+<script src="js/accessibility.js"></script>
+<!-- ── Game modules ────────────────────────────────────────── -->
 <script src="js/games/memory.js"></script>
 <script src="js/games/oddoneout.js"></script>
 <script src="js/games/math.js"></script>
