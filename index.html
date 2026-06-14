@@ -983,7 +983,7 @@ function _rotateAdTicker() {
     _adIdx++;
 }
 _rotateAdTicker();
-setInterval(_rotateAdTicker, 6000);
+window._adTickerIv = setInterval(_rotateAdTicker, 6000);
 
 // Thumbnail image fade-in when Pollinations images load
 document.querySelectorAll('.thumbnail-img').forEach(img => {
@@ -998,6 +998,7 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
+<script src="js/affiliate.js"></script>
 <script src="js/stats.js"></script>
 <script src="js/difficulty.js"></script>
 <script src="js/share.js"></script>

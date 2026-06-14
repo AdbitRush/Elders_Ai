@@ -1,0 +1,189 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   HOOKS — engagement layer styles (profile, achievements, daily challenge…)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Font-size accessibility classes ─────────────────────────────────────── */
+body.font-lg  { font-size: 110%; }
+body.font-xl  { font-size: 125%; }
+body.font-lg  .premium-card h3 { font-size: 1.35rem; }
+body.font-xl  .premium-card h3 { font-size: 1.55rem; }
+body.font-lg  .premium-card p  { font-size: 1rem; }
+body.font-xl  .premium-card p  { font-size: 1.1rem; }
+
+/* ── High-contrast mode ───────────────────────────────────────────────────── */
+body.high-contrast .premium-card { background: #fff; border: 3px solid #000; }
+body.high-contrast .premium-card h3 { color: #000 !important; }
+body.high-contrast .premium-card p  { color: #000 !important; }
+body.high-contrast button.btn-premium { background: #000 !important; color: #fff !important; }
+
+/* ── Profile chip (navbar) ────────────────────────────────────────────────── */
+#profile-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(183,121,31,0.12); border: 1px solid rgba(183,121,31,0.35);
+  border-radius: 9999px; padding: 4px 10px 4px 6px;
+  cursor: pointer; transition: background 0.2s;
+}
+#profile-chip:hover { background: rgba(183,121,31,0.22); }
+#profile-chip .av  { font-size: 1.2rem; line-height: 1; }
+#profile-chip .nm  { color: #f6c048; font-weight: 700; font-size: 0.85rem; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── Brain Health Score widget ────────────────────────────────────────────── */
+#brain-score-widget {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3);
+  border-radius: 9999px; padding: 6px 16px; margin-top: 0.5rem;
+}
+#brain-score-bar-wrap { width: 100px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+#brain-score-bar      { height: 100%; border-radius: 4px; transition: width 1s ease; background: linear-gradient(90deg, #10b981, #34d399); }
+
+/* ── Daily Challenge banner ───────────────────────────────────────────────── */
+#daily-challenge-banner {
+  background: linear-gradient(135deg, rgba(183,121,31,0.15), rgba(246,192,72,0.08));
+  border: 1px solid rgba(183,121,31,0.4); border-radius: 1rem;
+  padding: 0.9rem 1.25rem; margin-bottom: 1.25rem;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.dc-game-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 9999px; padding: 4px 12px;
+  font-size: 0.8rem; font-weight: 700; color: #e2e8f0; cursor: pointer;
+  transition: all 0.2s;
+}
+.dc-game-pill:hover { background: rgba(183,121,31,0.2); border-color: #b7791f; }
+.dc-game-pill.done  { background: rgba(16,185,129,0.15); border-color: #10b981; color: #6ee7b7; }
+/* Gold glow on daily challenge cards */
+.premium-card.dc-highlight { box-shadow: 0 0 0 3px #f6c048, 0 4px 24px rgba(246,192,72,0.35) !important; }
+.dc-crown-badge {
+  position: absolute; top: 8px; left: 10px; font-size: 1.1rem;
+  z-index: 5; filter: drop-shadow(0 0 6px rgba(246,192,72,0.8));
+}
+
+/* ── Tips carousel ────────────────────────────────────────────────────────── */
+#tips-carousel {
+  background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2);
+  border-radius: 0.9rem; padding: 0.65rem 1rem; margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 10px;
+}
+#tips-text { flex: 1; font-size: 0.85rem; color: rgba(186,214,255,0.85); font-style: italic; transition: opacity 0.4s; }
+
+/* ── Favorites pin button ─────────────────────────────────────────────────── */
+.pin-btn {
+  position: absolute; top: 8px; left: 8px; z-index: 10;
+  background: rgba(6,12,26,0.7); border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 50%; width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+  backdrop-filter: blur(4px);
+}
+.pin-btn:hover { background: rgba(183,121,31,0.5); border-color: #f6c048; }
+.pin-btn.pinned { background: rgba(183,121,31,0.8); border-color: #f6c048; }
+
+/* ── Last-played label ────────────────────────────────────────────────────── */
+.last-played-label {
+  font-size: 0.68rem; color: rgba(100,116,139,0.85);
+  padding: 0 1.25rem 0.5rem; margin-top: -6px;
+}
+
+/* ── Accessibility floating button ───────────────────────────────────────── */
+#a11y-fab {
+  position: fixed; bottom: 68px; left: 14px; z-index: 400;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(10,22,40,0.9); border: 1.5px solid rgba(183,121,31,0.4);
+  color: #f6c048; font-size: 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5); transition: all 0.2s;
+  backdrop-filter: blur(8px);
+}
+#a11y-fab:hover { background: rgba(183,121,31,0.3); border-color: #f6c048; transform: scale(1.08); }
+
+/* ── Accessibility panel drawer ──────────────────────────────────────────── */
+#a11y-panel {
+  position: fixed; bottom: 120px; left: 14px; z-index: 401;
+  background: rgba(10,22,40,0.97); border: 1.5px solid rgba(183,121,31,0.4);
+  border-radius: 1rem; padding: 1rem; min-width: 200px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6); backdrop-filter: blur(12px);
+  display: none; flex-direction: column; gap: 10px;
+}
+#a11y-panel.open { display: flex; }
+.a11y-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.a11y-label { font-size: 0.82rem; font-weight: 700; color: #93c5fd; }
+.a11y-toggle {
+  position: relative; width: 40px; height: 22px;
+  background: rgba(255,255,255,0.1); border-radius: 11px; cursor: pointer;
+  transition: background 0.25s; border: 1px solid rgba(255,255,255,0.15);
+}
+.a11y-toggle.on { background: #10b981; }
+.a11y-toggle::after {
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 16px; height: 16px; border-radius: 50%; background: #fff;
+  transition: left 0.25s;
+}
+.a11y-toggle.on::after { left: 21px; }
+.font-size-btns { display: flex; gap: 4px; }
+.font-size-btn {
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+  color: #e2e8f0; border-radius: 6px; padding: 2px 8px; cursor: pointer;
+  font-weight: 700; transition: all 0.15s;
+}
+.font-size-btn.active, .font-size-btn:hover { background: rgba(183,121,31,0.3); border-color: #b7791f; color: #f6c048; }
+
+/* ── Achievement badge notification ──────────────────────────────────────── */
+@keyframes badgeSlideIn {
+  from { opacity: 0; transform: translateX(-50%) scale(0.6) translateY(-20px); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+}
+
+/* ── Milestone full-screen celebration ───────────────────────────────────── */
+#milestone-overlay {
+  position: fixed; inset: 0; background: rgba(6,12,26,0.9);
+  z-index: 2000; display: flex; align-items: center; justify-content: center;
+  padding: 1rem; backdrop-filter: blur(8px);
+}
+#milestone-box {
+  background: linear-gradient(160deg,#0a1628,#112a50);
+  border: 2px solid #f6c048; border-radius: 2rem;
+  padding: 3rem 2.5rem; max-width: 420px; width: 100%; text-align: center;
+  box-shadow: 0 0 60px rgba(246,192,72,0.3);
+  animation: badgeSlideIn 0.5s cubic-bezier(.22,.68,0,1.2) forwards;
+}
+
+/* ── Holiday banner ───────────────────────────────────────────────────────── */
+#holiday-banner {
+  background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(196,181,253,0.08));
+  border: 1px solid rgba(139,92,246,0.35); border-radius: 0.9rem;
+  padding: 0.65rem 1.25rem; margin-bottom: 0.75rem;
+  font-size: 0.9rem; font-weight: 700; color: #c4b5fd;
+  text-align: center; display: none;
+}
+
+/* ── Weekly summary card ─────────────────────────────────────────────────── */
+#weekly-summary-modal .summary-stat {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.75rem; padding: 0.9rem; text-align: center;
+}
+#weekly-summary-modal .summary-stat .num {
+  font-size: 1.8rem; font-weight: 800; color: #f6c048; display: block;
+}
+#weekly-summary-modal .summary-stat .lbl {
+  font-size: 0.78rem; color: rgba(148,163,184,0.8); margin-top: 2px;
+}
+
+/* ── WhatsApp share button ───────────────────────────────────────────────── */
+.wa-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #25D366; color: #fff; border: none;
+  border-radius: 9999px; padding: 0.5rem 1.25rem;
+  font-weight: 700; font-size: 0.9rem; cursor: pointer;
+  transition: opacity 0.2s; text-decoration: none;
+}
+.wa-btn:hover { opacity: 0.88; }
+
+/* ── Tutorial overlay ────────────────────────────────────────────────────── */
+#tutorial-overlay {
+  position: fixed; inset: 0; background: rgba(6,12,26,0.88);
+  z-index: 1500; display: flex; align-items: center; justify-content: center;
+  padding: 1rem; backdrop-filter: blur(6px);
+}
+.tutorial-step { display: none; }
+.tutorial-step.active { display: block; }
