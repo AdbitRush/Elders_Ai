@@ -90,5 +90,10 @@ const Profile = (() => {
     setTimeout(() => document.getElementById('_pname')?.focus(), 350);
   }
 
-  return { get, set, hasName, greeting, updateGreetingEl, showFirstVisitModal };
+  function edit() {
+    localStorage.removeItem(K_SEEN);
+    showFirstVisitModal(updateGreetingEl);
+  }
+
+  return { get, set, hasName, greeting, updateGreetingEl, showFirstVisitModal, edit };
 })();

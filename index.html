@@ -11,6 +11,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/hooks.css">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; }
@@ -106,6 +107,10 @@
             <span id="levelIndicator" class="hidden font-bold text-[#f6c048] bg-white/10 border border-[#f6c048]/40 px-3 py-1 rounded-full text-sm"></span>
             <span id="personalBest" class="hidden font-bold text-amber-300 text-sm"></span>
             <button onclick="if(typeof Stats!=='undefined')Stats.showModal()" title="Scoreboard" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer" aria-label="Open scoreboard">📊</button>
+            <button onclick="if(typeof Achievements!=='undefined')Achievements.showModal()" title="Achievements" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer" aria-label="Open achievements">🏅</button>
+            <button id="profile-chip" onclick="if(typeof Profile!=='undefined')Profile.edit()" style="display:flex;align-items:center;gap:6px;background:rgba(183,121,31,0.12);border:1px solid rgba(183,121,31,0.35);border-radius:9999px;padding:4px 10px 4px 6px;cursor:pointer;color:inherit" aria-label="Edit profile">
+                <span class="av">⭐</span><span class="nm" style="color:#f6c048;font-weight:700;font-size:0.85rem">פרופיל</span>
+            </button>
             <select id="langSelect" onchange="changeLanguage(this.value)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2)" class="text-white rounded px-2 py-1 cursor-pointer outline-none text-sm">
                 <option value="he">עברית</option>
                 <option value="en">English</option>
@@ -150,6 +155,8 @@
             </div>
             <div style="width:48px;height:2px;background:linear-gradient(90deg,#b7791f,#f6c048,transparent);border-radius:2px"></div>
         </div>
+        <!-- Daily Challenge banner -->
+        <div id="dc-banner-slot"></div>
         <!-- Difficulty selector -->
         <div id="diff-selector" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
             <span style="font-size:0.8rem;font-weight:700;color:rgba(180,200,255,0.7)">רמת קושי / Difficulty:</span>
@@ -836,6 +843,8 @@ function showHome() {
     gameState.active=false; gameState.currentId=null;
     history.pushState(null, '', location.pathname + location.search);
     Retention.renderBar(); refreshHSBadges();
+    if(typeof Profile!=='undefined') Profile.updateGreetingEl();
+    if(typeof DailyChallenge!=='undefined'){const slot=_el('dc-banner-slot');if(slot)DailyChallenge.injectBanner(slot);}
 }
 
 function _el(id){return document.getElementById(id);}
@@ -900,6 +909,8 @@ function levelComplete() {
         const shareScore=sc?sc.correct:lvl;
         Share.renderBtn(shareDiv,id,shareScore);
     }
+    if(typeof DailyChallenge!=='undefined') DailyChallenge.markDone(id);
+    if(typeof Achievements!=='undefined') Achievements.check();
     modal.classList.remove('hidden');
 }
 
@@ -947,10 +958,27 @@ if ('serviceWorker' in navigator) {
 
 // ── Inject skill badges + difficulty selector after modules load ──────────────
 window.addEventListener('load', () => {
+    // Stamp data-game on every card so DailyChallenge can highlight them
+    document.querySelectorAll('.premium-card').forEach(card => {
+        const m = card.getAttribute('onclick')?.match(/loadGame\('(\w+)'\)/);
+        if (m) card.dataset.game = m[1];
+    });
     if (typeof Categories !== 'undefined') Categories.injectAllBadges();
     if (typeof Difficulty !== 'undefined') {
         const diffEl = document.getElementById('diff-selector');
         if (diffEl) Difficulty.renderSelector(diffEl);
+    }
+    if (typeof Profile !== 'undefined') {
+        Profile.showFirstVisitModal(() => {
+            Profile.updateGreetingEl();
+            const slot = document.getElementById('dc-banner-slot');
+            if (slot && typeof DailyChallenge !== 'undefined') DailyChallenge.injectBanner(slot);
+        });
+        Profile.updateGreetingEl();
+    }
+    if (typeof DailyChallenge !== 'undefined') {
+        const slot = document.getElementById('dc-banner-slot');
+        if (slot) DailyChallenge.injectBanner(slot);
     }
 });
 
@@ -999,6 +1027,9 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
 <script src="js/affiliate.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/achievements.js"></script>
+<script src="js/daily-challenge.js"></script>
 <script src="js/stats.js"></script>
 <script src="js/difficulty.js"></script>
 <script src="js/share.js"></script>
