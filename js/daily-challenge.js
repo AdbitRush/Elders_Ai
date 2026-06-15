@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 const DailyChallenge = (() => {
   const ALL_GAMES = ['memory','oddoneout','math','wordsearch','simon','sudoku','shapes',
-                     'trivia','numseq','unscramble','pairs','truefalse','flags','proverbs',
+                     'solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs',
                      'hangman','recall','tetris'];
 
   function _today() { return new Date().toISOString().slice(0,10); }

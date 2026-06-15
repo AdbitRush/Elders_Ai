@@ -141,6 +141,7 @@
                     <span id="totalGamesText" class="font-bold text-purple-300 text-sm"></span>
                 </div>
             </div>
+            <div id="brain-score-slot" class="flex justify-center mt-3"></div>
         </div>
     </div>
 </header>
@@ -148,6 +149,7 @@
 <main class="flex-grow container mx-auto px-6 pb-12">
     <!-- Game Grid Header -->
     <div id="homeScreen-header" class="flex flex-col gap-4 mb-6">
+        <div id="holiday-slot"></div>
         <div class="flex items-center justify-between">
             <div>
                 <h3 style="font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="section_games">18 משחקי אימון</h3>
@@ -157,6 +159,8 @@
         </div>
         <!-- Daily Challenge banner -->
         <div id="dc-banner-slot"></div>
+        <!-- Tips carousel -->
+        <div id="tips-slot"></div>
         <!-- Difficulty selector -->
         <div id="diff-selector" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
             <span style="font-size:0.8rem;font-weight:700;color:rgba(180,200,255,0.7)">רמת קושי / Difficulty:</span>
@@ -845,6 +849,9 @@ function showHome() {
     Retention.renderBar(); refreshHSBadges();
     if(typeof Profile!=='undefined') Profile.updateGreetingEl();
     if(typeof DailyChallenge!=='undefined'){const slot=_el('dc-banner-slot');if(slot)DailyChallenge.injectBanner(slot);}
+    if(typeof BrainScore!=='undefined'){const bsSlot=_el('brain-score-slot');if(bsSlot)BrainScore.renderWidget(bsSlot);}
+    if(typeof Holiday!=='undefined') Holiday.injectBanner(_el('holiday-slot'));
+    if(typeof Favorites!=='undefined') Favorites.injectButtons();
 }
 
 function _el(id){return document.getElementById(id);}
@@ -858,6 +865,7 @@ function loadGame(gameId, level=1) {
     const content=document.getElementById('gameContent'); content.innerHTML='';
     gameState.active=true; gameState.currentId=gameId;
     if(!gameState[gameId]||level===1) gameState[gameId]={level}; else gameState[gameId].level=level;
+    if(level===1&&typeof Favorites!=='undefined') Favorites.recordPlay(gameId);
     updateLevelDisplay();
     const titleMap={memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',simon:'game_simon_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title',tetris:'game_tetris_title'};
     const instMap ={memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',simon:'inst_simon',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall',tetris:'inst_tetris'};
@@ -911,6 +919,7 @@ function levelComplete() {
     }
     if(typeof DailyChallenge!=='undefined') DailyChallenge.markDone(id);
     if(typeof Achievements!=='undefined') Achievements.check();
+    if(typeof Holiday!=='undefined') Holiday.checkMilestone(data.totalGames);
     modal.classList.remove('hidden');
 }
 
@@ -980,6 +989,12 @@ window.addEventListener('load', () => {
         const slot = document.getElementById('dc-banner-slot');
         if (slot) DailyChallenge.injectBanner(slot);
     }
+    const bsSlot = document.getElementById('brain-score-slot');
+    if (bsSlot && typeof BrainScore !== 'undefined') BrainScore.renderWidget(bsSlot);
+    const tSlot = document.getElementById('tips-slot');
+    if (tSlot && typeof Tips !== 'undefined') Tips.inject(tSlot);
+    if (typeof Holiday !== 'undefined') Holiday.injectBanner(document.getElementById('holiday-slot'));
+    if (typeof Favorites !== 'undefined') Favorites.injectButtons();
 });
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1028,6 +1043,7 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
 <script src="js/affiliate.js"></script>
 <script src="js/profile.js"></script>
+<script src="js/brainscore.js"></script>
 <script src="js/achievements.js"></script>
 <script src="js/daily-challenge.js"></script>
 <script src="js/stats.js"></script>
@@ -1035,6 +1051,9 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
 <script src="js/share.js"></script>
 <script src="js/categories.js"></script>
 <script src="js/accessibility.js"></script>
+<script src="js/tips.js"></script>
+<script src="js/favorites.js"></script>
+<script src="js/holiday.js"></script>
 <!-- ── Game modules ────────────────────────────────────────── -->
 <script src="js/games/memory.js"></script>
 <script src="js/games/oddoneout.js"></script>
