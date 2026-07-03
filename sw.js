@@ -4,7 +4,7 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v5';
+const CACHE = 'golden-games-v6';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
 const SHELL = [
@@ -15,6 +15,30 @@ const SHELL = [
   './css/premium.css',
   './manifest.json',
   './images/icon.svg',
+  './images/cards/memory.jpg',
+  './images/cards/oddoneout.jpg',
+  './images/cards/math.jpg',
+  './images/cards/wordsearch.jpg',
+  './images/cards/simon.jpg',
+  './images/cards/sudoku.jpg',
+  './images/cards/shapes.jpg',
+  './images/cards/solitaire.jpg',
+  './images/cards/trivia.jpg',
+  './images/cards/numseq.jpg',
+  './images/cards/unscramble.jpg',
+  './images/cards/pairs.jpg',
+  './images/cards/truefalse.jpg',
+  './images/cards/flags.jpg',
+  './images/cards/proverbs.jpg',
+  './images/cards/hangman.jpg',
+  './images/cards/recall.jpg',
+  './images/cards/tetris.jpg',
+  './images/cards/colormatch.jpg',
+  './images/cards/digitspan.jpg',
+  './images/cards/clock.jpg',
+  './images/cards/counting.jpg',
+  './images/cards/category.jpg',
+  './images/cards/letters.jpg',
   './js/stats.js',
   './js/difficulty.js',
   './js/levels.js',
