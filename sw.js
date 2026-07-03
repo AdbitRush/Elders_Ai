@@ -1,35 +1,50 @@
-// Golden Games — Service Worker v1
-// Caches shell + all game modules for offline play
+// Golden Games — Service Worker v2 (F5)
+// v2 fixes: relative paths (v1 hardcoded /Elders_Ai/ → install failed on any
+// other deployment path); 10 modules loaded by index.html were missing from
+// the cache; navigations are now network-first so site updates actually reach
+// installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v1';
+const CACHE = 'golden-games-v2';
 
+// Relative URLs — resolved against the SW's own location, deployment-path agnostic
 const SHELL = [
-  '/Elders_Ai/',
-  '/Elders_Ai/index.html',
-  '/Elders_Ai/css/style.css',
-  '/Elders_Ai/js/stats.js',
-  '/Elders_Ai/js/difficulty.js',
-  '/Elders_Ai/js/share.js',
-  '/Elders_Ai/js/categories.js',
-  '/Elders_Ai/js/accessibility.js',
-  '/Elders_Ai/js/games/memory.js',
-  '/Elders_Ai/js/games/oddoneout.js',
-  '/Elders_Ai/js/games/math.js',
-  '/Elders_Ai/js/games/wordsearch.js',
-  '/Elders_Ai/js/games/simon.js',
-  '/Elders_Ai/js/games/sudoku.js',
-  '/Elders_Ai/js/games/shapes.js',
-  '/Elders_Ai/js/games/solitaire.js',
-  '/Elders_Ai/js/games/trivia.js',
-  '/Elders_Ai/js/games/numseq.js',
-  '/Elders_Ai/js/games/unscramble.js',
-  '/Elders_Ai/js/games/pairs.js',
-  '/Elders_Ai/js/games/truefalse.js',
-  '/Elders_Ai/js/games/flags.js',
-  '/Elders_Ai/js/games/proverbs.js',
-  '/Elders_Ai/js/games/hangman.js',
-  '/Elders_Ai/js/games/recall.js',
-  '/Elders_Ai/js/games/tetris.js',
+  './',
+  './index.html',
+  './css/style.css',
+  './css/hooks.css',
+  './manifest.json',
+  './images/icon.svg',
+  './js/stats.js',
+  './js/difficulty.js',
+  './js/share.js',
+  './js/categories.js',
+  './js/accessibility.js',
+  './js/achievements.js',
+  './js/affiliate.js',
+  './js/brainscore.js',
+  './js/daily-challenge.js',
+  './js/favorites.js',
+  './js/holiday.js',
+  './js/profile.js',
+  './js/tips.js',
+  './js/games/memory.js',
+  './js/games/oddoneout.js',
+  './js/games/math.js',
+  './js/games/wordsearch.js',
+  './js/games/simon.js',
+  './js/games/sudoku.js',
+  './js/games/shapes.js',
+  './js/games/solitaire.js',
+  './js/games/trivia.js',
+  './js/games/numseq.js',
+  './js/games/unscramble.js',
+  './js/games/pairs.js',
+  './js/games/truefalse.js',
+  './js/games/flags.js',
+  './js/games/proverbs.js',
+  './js/games/hangman.js',
+  './js/games/recall.js',
+  './js/games/tetris.js',
 ];
 
 self.addEventListener('install', e => {
@@ -55,6 +70,19 @@ self.addEventListener('fetch', e => {
     e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
     return;
   }
+  // Navigations (the HTML shell): network-first so deploys reach installed
+  // users on their next online visit; cached shell only when offline.
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).then(res => {
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+        return res;
+      }).catch(() => caches.match(e.request).then(c => c || caches.match('./index.html')))
+    );
+    return;
+  }
+  // Static assets: cache-first with runtime fill
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
