@@ -187,3 +187,27 @@ body.high-contrast button.btn-premium { background: #000 !important; color: #fff
 }
 .tutorial-step { display: none; }
 .tutorial-step.active { display: block; }
+
+/* ── Level progression (F5) ─────────────────────────────────────────────── */
+.premium-card { position: relative; }
+.gg-level-chip {
+  position: absolute; top: 10px; left: 10px; z-index: 5;
+  background: linear-gradient(135deg, #b7791f, #f6c048);
+  color: #1a2035; font-weight: 800; font-size: 0.82rem;
+  padding: 3px 12px; border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(246, 192, 72, 0.45);
+  pointer-events: none;
+  animation: gg-chip-pop .4s ease;
+}
+[dir="rtl"] .gg-level-chip { left: auto; right: 10px; }
+@keyframes gg-chip-pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.12); }
+  100% { transform: scale(1); opacity: 1; }
+}
+#nextLevelBtn {
+  background: linear-gradient(135deg, #1a365d, #2c5282) !important;
+  box-shadow: 0 4px 16px rgba(44, 82, 130, 0.4);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+#nextLevelBtn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 22px rgba(44, 82, 130, 0.55); }

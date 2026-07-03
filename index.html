@@ -267,6 +267,36 @@
             <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/colorful+neon+tetris+blocks+falling+dark+background+retro+arcade+game+vibrant+glow+cinematic?width=600&height=400&nologo=true&seed=1018&model=flux" class="thumbnail-img" loading="lazy" decoding="async" alt="tetris" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#0d1f38,#1a365d)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_tetris_title">טטריס</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_tetris_desc">הרכיבו שורות שלמות עם הצורות הנופלות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('tetris')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('colormatch')" style="cursor:pointer">
+            <span id="hs-colormatch" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/rainbow+color+swatches+bold+typography+word+art+vibrant+studio+design?width=600&height=400&nologo=true&seed=1019&model=flux" class="thumbnail-img" loading="lazy" decoding="async" alt="colormatch" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_colormatch_title">צבע ומילה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_colormatch_desc">הקישו על הצבע — לא על המילה!</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('colormatch')" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('digitspan')" style="cursor:pointer">
+            <span id="hs-digitspan" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/large+glowing+numbers+display+memory+brain+neon+blue+digits+dark+background?width=600&height=400&nologo=true&seed=1020&model=flux" class="thumbnail-img" loading="lazy" decoding="async" alt="digitspan" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_digitspan_title">זיכרון מספרים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_digitspan_desc">זכרו את המספר והקלידו אותו.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('digitspan')" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('clock')" style="cursor:pointer">
+            <span id="hs-clock" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/beautiful+classic+analog+wall+clock+roman+numerals+warm+wood+cozy+home?width=600&height=400&nologo=true&seed=1021&model=flux" class="thumbnail-img" loading="lazy" decoding="async" alt="clock" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_clock_title">קריאת שעון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_clock_desc">מה השעה? קראו את השעון.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('clock')" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('counting')" style="cursor:pointer">
+            <span id="hs-counting" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/colorful+butterflies+flowers+meadow+pattern+counting+bright+cheerful+illustration?width=600&height=400&nologo=true&seed=1022&model=flux" class="thumbnail-img" loading="lazy" decoding="async" alt="counting" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_counting_title">ספירה מהירה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_counting_desc">כמה פרפרים בתמונה? ספרו מהר!</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('counting')" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('category')" style="cursor:pointer">
+            <span id="hs-category" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/organized+colorful+groups+of+fruits+vegetables+objects+sorted+neat+flat+lay?width=600&height=400&nologo=true&seed=1023&model=flux" class="thumbnail-img" loading="lazy" decoding="async" alt="category" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_category_title">קטגוריות</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_category_desc">איזו מילה שייכת לקטגוריה?</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('category')" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('letters')" style="cursor:pointer">
+            <span id="hs-letters" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="https://image.pollinations.ai/prompt/wooden+alphabet+letter+blocks+scrabble+tiles+warm+light+word+puzzle?width=600&height=400&nologo=true&seed=1024&model=flux" class="thumbnail-img" loading="lazy" decoding="async" alt="letters" onerror="this.style.cssText=this.style.cssText+';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_letters_title">אות חסרה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_letters_desc">השלימו את האות החסרה במילה.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('letters')" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
     </div>
 
     <!-- Game Canvas -->
@@ -450,6 +480,12 @@ he: {
     game_hangman_title:"תלייה", game_hangman_desc:"נחשו את המילה לפני שיגמרו הניסיונות.",
     game_recall_title:"זיכרון תמונות", game_recall_desc:"זכרו אילו פריטים ראיתם והבחינו אותם.",
     game_tetris_title:"טטריס", game_tetris_desc:"הרכיבו שורות שלמות עם הצורות הנופלות.",
+    game_colormatch_title:"צבע ומילה", game_colormatch_desc:"הקישו על הצבע — לא על המילה!",
+    game_digitspan_title:"זיכרון מספרים", game_digitspan_desc:"זכרו את המספר והקלידו אותו.",
+    game_clock_title:"קריאת שעון", game_clock_desc:"מה השעה? קראו את השעון.",
+    game_counting_title:"ספירה מהירה", game_counting_desc:"כמה פרפרים בתמונה? ספרו מהר!",
+    game_category_title:"קטגוריות", game_category_desc:"איזו מילה שייכת לקטגוריה?",
+    game_letters_title:"אות חסרה", game_letters_desc:"השלימו את האות החסרה במילה.",
     inst_tetris:"הזזה: חצי שמאל/ימין | סיבוב: חץ למעלה | האצה: חץ למטה",
     inst_tf:"קראו את המשפט ובחרו — נכון או לא נכון",
     inst_flags:"הסתכלו על הדגל ובחרו את שם המדינה הנכון",
@@ -632,6 +668,12 @@ en: {
     game_hangman_title:"Hangman", game_hangman_desc:"Guess the hidden word before you run out of chances.",
     game_recall_title:"Picture Recall", game_recall_desc:"Remember the items shown, then pick them out.",
     game_tetris_title:"Tetris", game_tetris_desc:"Stack falling shapes to complete full lines.",
+    game_colormatch_title:"Color Match", game_colormatch_desc:"Tap the ink color — not the word!",
+    game_digitspan_title:"Number Memory", game_digitspan_desc:"Memorize the number and type it back.",
+    game_clock_title:"Clock Reading", game_clock_desc:"What time is it? Read the clock.",
+    game_counting_title:"Quick Count", game_counting_desc:"Count the target symbols in the grid.",
+    game_category_title:"Categories", game_category_desc:"Pick the word that fits the category.",
+    game_letters_title:"Missing Letter", game_letters_desc:"Complete the missing letter in the word.",
     inst_tetris:"Move: ← → | Rotate: ↑ | Drop: ↓ | Touch: swipe or tap buttons",
     inst_tf:"Read the statement and choose — True or False",
     inst_flags:"Look at the flag and choose the correct country name",
@@ -751,7 +793,7 @@ function checkHS(gameId, level) {
     return false;
 }
 function refreshHSBadges() {
-    const games=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris'];
+    const games=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters'];
     games.forEach(id => {
         const hs = getHS(id); const el = document.getElementById('hs-'+id);
         if (el) { if (hs>0) { el.innerText=`🏅 ${hs}`; el.classList.remove('hidden'); } else { el.classList.add('hidden'); } }
@@ -847,6 +889,7 @@ function showHome() {
     gameState.active=false; gameState.currentId=null;
     history.pushState(null, '', location.pathname + location.search);
     Retention.renderBar(); refreshHSBadges();
+    if(typeof Levels!=='undefined') Levels.injectBadges();
     if(typeof Profile!=='undefined') Profile.updateGreetingEl();
     if(typeof DailyChallenge!=='undefined'){const slot=_el('dc-banner-slot');if(slot)DailyChallenge.injectBanner(slot);}
     if(typeof BrainScore!=='undefined'){const bsSlot=_el('brain-score-slot');if(bsSlot)BrainScore.renderWidget(bsSlot);}
@@ -855,8 +898,10 @@ function showHome() {
 }
 
 function _el(id){return document.getElementById(id);}
-function loadGame(gameId, level=1) {
-    const validIds=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris'];
+function loadGame(gameId, level=0) {
+    // Resume at the highest level reached (persistent) unless a level is given
+    if(!level) level = (typeof Levels!=='undefined') ? Levels.get(gameId) : 1;
+    const validIds=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters'];
     if(!validIds.includes(gameId)) return;
     ['homeScreen','homeScreen-header','hero'].forEach(id=>{const e=_el(id);if(e)e.classList.add('hidden');});
     ['gameView','backBtn'].forEach(id=>{const e=_el(id);if(e)e.classList.remove('hidden');});
@@ -867,7 +912,7 @@ function loadGame(gameId, level=1) {
     if(!gameState[gameId]||level===1) gameState[gameId]={level}; else gameState[gameId].level=level;
     if(level===1&&typeof Favorites!=='undefined') Favorites.recordPlay(gameId);
     updateLevelDisplay();
-    const titleMap={memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',simon:'game_simon_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title',tetris:'game_tetris_title'};
+    const titleMap={memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',simon:'game_simon_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title',tetris:'game_tetris_title',colormatch:'game_colormatch_title',digitspan:'game_digitspan_title',clock:'game_clock_title',counting:'game_counting_title',category:'game_category_title',letters:'game_letters_title'};
     const instMap ={memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',simon:'inst_simon',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall',tetris:'inst_tetris'};
     document.getElementById('gameTitle').innerText=t(titleMap[gameId]);
     document.getElementById('gameInstructions').innerText=t(instMap[gameId]);
@@ -889,6 +934,12 @@ function loadGame(gameId, level=1) {
     if(gameId==='hangman')    initHangman(content);
     if(gameId==='recall')     initRecall(content);
     if(gameId==='tetris')     initTetris(content);
+    if(gameId==='colormatch') initColorMatch(content);
+    if(gameId==='digitspan') initDigitSpan(content);
+    if(gameId==='clock') initClock(content);
+    if(gameId==='counting') initCounting(content);
+    if(gameId==='category') initCategory(content);
+    if(gameId==='letters') initLetters(content);
 }
 
 function levelComplete() {
@@ -901,8 +952,14 @@ function levelComplete() {
     const isNewBest=checkHS(id, sc ? sc.correct : lvl);
     sfxWin(); launchConfetti();
     const modal=document.getElementById('modal');
-    document.getElementById('modalTitle').innerText=t('win_title');
     const isHe=currentLang==='he';
+    // Persist progress + milestone celebration every 5 levels
+    const _milestone=(typeof Levels!=='undefined')&&Levels.isMilestone(lvl);
+    if(typeof Levels!=='undefined') Levels.saveReached(id,lvl+1);
+    if(_milestone){setTimeout(launchConfetti,500);setTimeout(launchConfetti,1000);}
+    document.getElementById('modalTitle').innerText=_milestone
+        ? (isHe?`🏆 מדהים! השלמת שלב ${lvl}!`:`🏆 Amazing! Level ${lvl} complete!`)
+        : t('win_title');
     document.getElementById('modalBody').innerText=sc
         ? `${sc.correct}/${sc.total} ${isHe?'תשובות נכונות ✓':'correct answers ✓'}`
         : t('win_generic');
@@ -910,6 +967,7 @@ function levelComplete() {
     const nudgeEl=document.getElementById('wellnessNudge'); nudgeEl.classList.add('hidden'); nudgeEl.innerText='';
     Retention.maybeWellnessNudge();
     const nextBtn=document.getElementById('nextLevelBtn');
+    nextBtn.innerText=isHe?`⭐ לשלב ${lvl+1}`:`⭐ Level ${lvl+1}`;
     nextBtn.onclick=()=>{modal.classList.add('hidden');if(sc)delete gs._sessionScore;loadGame(id,lvl+1);};
     // Share button
     const shareDiv=document.getElementById('modalShareBtn');
@@ -935,7 +993,7 @@ function renderDailyQuote(){
 // ═══════════════════════════════════════════════════════════════════════════════
 // DEEP LINK ROUTING  (hash = game id, e.g. #memory  or  #trivia)
 // ═══════════════════════════════════════════════════════════════════════════════
-const _VALID_GAMES=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris'];
+const _VALID_GAMES=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters'];
 
 function _routeFromHash(){
     const h=location.hash.replace('#','').toLowerCase();
@@ -955,7 +1013,10 @@ document.getElementById('langSelect').value = _initLang;
 Retention.renderBar();
 refreshHSBadges();
 renderDailyQuote();
-_routeFromHash();
+// Initial deep-link routing must wait for the game modules (script tags below)
+// — running it at parse time threw "initX is not defined" on any /#game link
+// and killed the rest of this script (card stamping, badges, profile init).
+_onDomReady(_routeFromHash);
 
 // DOM-ready runner — window 'load' can be blocked indefinitely by a slow
 // external card image (pollinations.ai generates on demand), which used to
@@ -981,6 +1042,7 @@ _onDomReady(() => {
         if (m) card.dataset.game = m[1];
     });
     if (typeof Categories !== 'undefined') Categories.injectAllBadges();
+    if (typeof Levels !== 'undefined') Levels.injectBadges();
     if (typeof Difficulty !== 'undefined') {
         const diffEl = document.getElementById('diff-selector');
         if (diffEl) Difficulty.renderSelector(diffEl);
@@ -1056,6 +1118,7 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
 <script src="js/daily-challenge.js"></script>
 <script src="js/stats.js"></script>
 <script src="js/difficulty.js"></script>
+<script src="js/levels.js"></script>
 <script src="js/share.js"></script>
 <script src="js/categories.js"></script>
 <script src="js/accessibility.js"></script>
@@ -1081,5 +1144,11 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
 <script src="js/games/hangman.js"></script>
 <script src="js/games/recall.js"></script>
 <script src="js/games/tetris.js"></script>
+<script src="js/games/colormatch.js"></script>
+<script src="js/games/digitspan.js"></script>
+<script src="js/games/clock.js"></script>
+<script src="js/games/counting.js"></script>
+<script src="js/games/category.js"></script>
+<script src="js/games/letters.js"></script>
 </body>
 </html>

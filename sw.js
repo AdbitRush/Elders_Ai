@@ -4,7 +4,7 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v2';
+const CACHE = 'golden-games-v4';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
 const SHELL = [
@@ -16,6 +16,7 @@ const SHELL = [
   './images/icon.svg',
   './js/stats.js',
   './js/difficulty.js',
+  './js/levels.js',
   './js/share.js',
   './js/categories.js',
   './js/accessibility.js',
@@ -45,6 +46,12 @@ const SHELL = [
   './js/games/hangman.js',
   './js/games/recall.js',
   './js/games/tetris.js',
+  './js/games/colormatch.js',
+  './js/games/digitspan.js',
+  './js/games/clock.js',
+  './js/games/counting.js',
+  './js/games/category.js',
+  './js/games/letters.js',
 ];
 
 self.addEventListener('install', e => {
