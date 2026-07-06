@@ -108,6 +108,7 @@
         <div class="flex gap-4 items-center">
             <span id="levelIndicator" class="hidden font-bold text-[#f6c048] bg-white/10 border border-[#f6c048]/40 px-3 py-1 rounded-full text-sm"></span>
             <span id="personalBest" class="hidden font-bold text-amber-300 text-sm"></span>
+            <button id="textsize-btn" onclick="if(typeof TextSize!=='undefined')TextSize.cycle()" title="Text size" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer;white-space:nowrap" aria-label="Change text size">🔠 A</button>
             <button onclick="if(typeof Stats!=='undefined')Stats.showModal()" title="Scoreboard" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer" aria-label="Open scoreboard">📊</button>
             <button onclick="if(typeof Achievements!=='undefined')Achievements.showModal()" title="Achievements" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer" aria-label="Open achievements">🏅</button>
             <button id="profile-chip" onclick="if(typeof Profile!=='undefined')Profile.edit()" style="display:flex;align-items:center;gap:6px;background:rgba(183,121,31,0.12);border:1px solid rgba(183,121,31,0.35);border-radius:9999px;padding:4px 10px 4px 6px;cursor:pointer;color:inherit" aria-label="Edit profile">
@@ -1235,6 +1236,7 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
 <script src="js/profile.js"></script>
 <script src="js/brainscore.js"></script>
 <script src="js/achievements.js"></script>
+<script src="js/textsize.js"></script>
 <script src="js/daily-challenge.js"></script>
 <script src="js/stats.js"></script>
 <script src="js/difficulty.js"></script>

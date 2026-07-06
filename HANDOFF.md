@@ -1,4 +1,10 @@
 # HANDOFF — Golden Games (Elders_Ai)
+
+## 2026-07-07 — Text-size toggle (seniors accessibility)
+- `js/textsize.js` — navbar 🔠 button cycles A → A+ → A++ (100/115/130% via `html{font-size}`,
+  scales all rem/Tailwind sizes). Persists in localStorage (`gg-textsize`), applies on load.
+- sw.js cache bumped v9→v10 + textsize.js precached. Verified in browser: scaling + persistence.
+
 **תאריך עדכון:** 2026-06-13 | **סטטוס:** 🟢 חי ב-GitHub Pages
 
 ---
