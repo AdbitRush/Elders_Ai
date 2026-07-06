@@ -116,6 +116,10 @@
             <select id="langSelect" onchange="changeLanguage(this.value)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2)" class="text-white rounded px-2 py-1 cursor-pointer outline-none text-sm">
                 <option value="he">עברית</option>
                 <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="el">Ελληνικά</option>
             </select>
             <button onclick="showHome()" id="backBtn" class="hidden px-4 py-2 rounded-lg text-sm transition" style="background:rgba(183,121,31,0.2);border:1px solid rgba(183,121,31,0.4);color:#f6c048" data-i18n="back_menu">חזרה לתפריט</button>
         </div>
@@ -867,6 +871,118 @@ const SHAPE_EMOJIS=['⚪','🟦','🔺','⭐','♦️','🟩','🌙','❤️','�
 const ODD_SETS=[['🚗','🚙','🚕'],['🌻','🌼','🏵️'],['😸','😹','😺'],['🍎','🍅','🍒'],['🟩','🟢','⬛'],['🌞','🌝','☀️'],['📘','📗','📕'],['🌲','🌳','🌴']];
 function shuffle(a){let n=a.length,i;while(n){i=Math.floor(Math.random()*n--);[a[n],a[i]]=[a[i],a[n]];}return a;}
 function t(k){return i18nData[currentLang][k]||k;}
+
+// ── Extra UI languages (ES/FR/DE/EL): English content base + translated chrome.
+// Game-content pools (words, trivia…) inherit English so every game stays playable;
+// only the visible interface is localized. Add a language = add a block here.
+i18nData.es = Object.assign({}, i18nData.en, {
+  site_title:"Juegos Dorados", back_menu:"Volver al menú", next_level:"Siguiente nivel",
+  level_str:"Nivel", hero_title:"Entrenamiento diario para el cerebro", btn_start:"Empezar",
+  section_games:"Juegos mentales", section_games_sub:"Elige un juego para empezar",
+  footer_rights:"Juegos Dorados © 2026", footer_desc:"Sin anuncios, sin rastreo — hecho con cariño para mayores.",
+  game_memory_title:"Memoria", game_memory_desc:"Mejora la memoria a corto plazo.",
+  game_odd_title:"El diferente", game_odd_desc:"Encuentra el símbolo distinto.",
+  game_math_title:"Cálculo rápido", game_math_desc:"Sumas y restas sencillas.",
+  game_words_title:"Sopa de letras", game_words_desc:"Encuentra palabras ocultas.",
+  game_simon_title:"Secuencia de colores", game_simon_desc:"Repite el patrón de colores.",
+  game_sudoku_title:"Sudoku diario", game_sudoku_desc:"Puzle 4×4 para principiantes.",
+  game_shapes_title:"Clasifica formas", game_shapes_desc:"Coloca las formas en su lugar.",
+  game_solitaire_title:"Solitario pirámide", game_solitaire_desc:"Parejas de cartas que suman 13.",
+  game_trivia_title:"Trivia", game_trivia_desc:"Preguntas de cultura general.",
+  game_numseq_title:"Secuencia numérica", game_numseq_desc:"Encuentra el siguiente número.",
+  game_unscrbl_title:"Ordena la palabra", game_unscrbl_desc:"Reordena las letras para formar una palabra.",
+  game_pairs_title:"Parejas de opuestos", game_pairs_desc:"Une cada palabra con su opuesto.",
+  inst_memory:"Encuentra todas las parejas iguales", inst_odd:"Pulsa el símbolo diferente",
+  inst_math:"Selecciona la respuesta correcta", inst_words:"Pulsa letras contiguas para hallar palabras",
+  inst_simon:"Repite la secuencia pulsando los colores", inst_sudoku:"Elige una casilla vacía y pulsa el número",
+  inst_shapes:"Pulsa una forma y luego su hueco", inst_solitaire:"Elige dos cartas que sumen 13 (Rey = 13 solo)",
+  inst_trivia:"Selecciona la respuesta correcta", inst_numseq:"¿Qué número sigue? Pulsa la respuesta",
+  inst_unscrbl:"Pulsa las letras en el orden correcto", inst_pairs:"Une una palabra con su opuesto",
+  win_title:"¡Bien hecho!", win_generic:"¡Completaste este nivel!", new_best:"🏅 ¡Nuevo récord personal!",
+  greeting_morning:"Buenos días ☀️", greeting_afternoon:"Buenas tardes 🌤️", greeting_evening:"Buenas noches 🌙", greeting_night:"Buenas noches 🌟",
+  streak_label:"días seguidos", goal_label:"Jugadas", goal_of:"de 3 hoy", total_games:"Partidas totales",
+});
+i18nData.fr = Object.assign({}, i18nData.en, {
+  site_title:"Jeux d'Or", back_menu:"Retour au menu", next_level:"Niveau suivant",
+  level_str:"Niveau", hero_title:"Entraînement cérébral quotidien", btn_start:"Commencer",
+  section_games:"Jeux cérébraux", section_games_sub:"Cliquez sur un jeu pour commencer",
+  footer_rights:"Jeux d'Or © 2026", footer_desc:"Sans publicité, sans suivi — fait avec amour pour les aînés.",
+  game_memory_title:"Mémoire", game_memory_desc:"Améliorez la mémoire à court terme.",
+  game_odd_title:"L'intrus", game_odd_desc:"Trouvez le symbole différent.",
+  game_math_title:"Calcul rapide", game_math_desc:"Additions et soustractions simples.",
+  game_words_title:"Mots cachés", game_words_desc:"Trouvez les mots cachés.",
+  game_simon_title:"Séquence de couleurs", game_simon_desc:"Répétez la séquence de couleurs.",
+  game_sudoku_title:"Sudoku quotidien", game_sudoku_desc:"Puzzle 4×4 pour débutants.",
+  game_shapes_title:"Trieur de formes", game_shapes_desc:"Placez les formes à leur place.",
+  game_solitaire_title:"Solitaire pyramide", game_solitaire_desc:"Paires de cartes qui font 13.",
+  game_trivia_title:"Quiz", game_trivia_desc:"Questions de culture générale.",
+  game_numseq_title:"Suite de nombres", game_numseq_desc:"Trouvez le nombre suivant.",
+  game_unscrbl_title:"Mot mêlé", game_unscrbl_desc:"Réarrangez les lettres pour former un mot.",
+  game_pairs_title:"Paires d'opposés", game_pairs_desc:"Associez chaque mot à son contraire.",
+  inst_memory:"Trouvez toutes les paires identiques", inst_odd:"Cliquez sur le symbole différent",
+  inst_math:"Choisissez la bonne réponse", inst_words:"Cliquez des lettres voisines pour trouver les mots",
+  inst_simon:"Répétez la séquence en cliquant les couleurs", inst_sudoku:"Choisissez une case vide puis le chiffre",
+  inst_shapes:"Cliquez une forme puis son emplacement", inst_solitaire:"Deux cartes qui font 13 (Roi = 13 seul)",
+  inst_trivia:"Choisissez la bonne réponse", inst_numseq:"Quel nombre suit ? Cliquez la réponse",
+  inst_unscrbl:"Cliquez les lettres dans le bon ordre", inst_pairs:"Associez un mot à son contraire",
+  win_title:"Bravo !", win_generic:"Vous avez terminé ce niveau !", new_best:"🏅 Nouveau record personnel !",
+  greeting_morning:"Bonjour ☀️", greeting_afternoon:"Bon après-midi 🌤️", greeting_evening:"Bonsoir 🌙", greeting_night:"Bonne nuit 🌟",
+  streak_label:"jours d'affilée", goal_label:"Parties", goal_of:"sur 3 aujourd'hui", total_games:"Parties totales",
+});
+i18nData.de = Object.assign({}, i18nData.en, {
+  site_title:"Goldene Spiele", back_menu:"Zurück zum Menü", next_level:"Nächste Stufe",
+  level_str:"Stufe", hero_title:"Tägliches Gehirntraining", btn_start:"Starten",
+  section_games:"Gehirnspiele", section_games_sub:"Auf ein Spiel klicken zum Starten",
+  footer_rights:"Goldene Spiele © 2026", footer_desc:"Werbefrei, kein Tracking — mit Liebe für Senioren gemacht.",
+  game_memory_title:"Gedächtnis", game_memory_desc:"Kurzzeitgedächtnis verbessern.",
+  game_odd_title:"Das Andere", game_odd_desc:"Finde das abweichende Symbol.",
+  game_math_title:"Schnelles Rechnen", game_math_desc:"Einfaches Addieren und Subtrahieren.",
+  game_words_title:"Wortsuche", game_words_desc:"Finde versteckte Wörter.",
+  game_simon_title:"Farbfolge", game_simon_desc:"Wiederhole die Farbfolge.",
+  game_sudoku_title:"Tägliches Sudoku", game_sudoku_desc:"Anfängerfreundliches 4×4-Rätsel.",
+  game_shapes_title:"Formen sortieren", game_shapes_desc:"Formen den Feldern zuordnen.",
+  game_solitaire_title:"Pyramiden-Solitär", game_solitaire_desc:"Kartenpaare, die 13 ergeben.",
+  game_trivia_title:"Quiz", game_trivia_desc:"Fragen zum Allgemeinwissen.",
+  game_numseq_title:"Zahlenfolge", game_numseq_desc:"Finde die nächste Zahl.",
+  game_unscrbl_title:"Wort ordnen", game_unscrbl_desc:"Ordne die Buchstaben zu einem Wort.",
+  game_pairs_title:"Gegensatzpaare", game_pairs_desc:"Ordne jedes Wort seinem Gegenteil zu.",
+  inst_memory:"Finde alle passenden Paare", inst_odd:"Klicke das abweichende Symbol",
+  inst_math:"Wähle die richtige Antwort", inst_words:"Klicke benachbarte Buchstaben für versteckte Wörter",
+  inst_simon:"Wiederhole die Folge durch Klicken der Farben", inst_sudoku:"Wähle ein leeres Feld, dann die Zahl",
+  inst_shapes:"Klicke eine Form, dann ihr Feld", inst_solitaire:"Zwei Karten, die 13 ergeben (König = 13 allein)",
+  inst_trivia:"Wähle die richtige Antwort", inst_numseq:"Welche Zahl folgt? Klicke die Antwort",
+  inst_unscrbl:"Klicke die Buchstaben in der richtigen Reihenfolge", inst_pairs:"Ordne ein Wort seinem Gegenteil zu",
+  win_title:"Gut gemacht!", win_generic:"Du hast diese Stufe geschafft!", new_best:"🏅 Neuer persönlicher Rekord!",
+  greeting_morning:"Guten Morgen ☀️", greeting_afternoon:"Guten Tag 🌤️", greeting_evening:"Guten Abend 🌙", greeting_night:"Gute Nacht 🌟",
+  streak_label:"Tage in Folge", goal_label:"Gespielt", goal_of:"von 3 heute", total_games:"Spiele gesamt",
+});
+i18nData.el = Object.assign({}, i18nData.en, {
+  site_title:"Χρυσά Παιχνίδια", back_menu:"Πίσω στο μενού", next_level:"Επόμενο επίπεδο",
+  level_str:"Επίπεδο", hero_title:"Καθημερινή εξάσκηση για το μυαλό", btn_start:"Έναρξη",
+  section_games:"Παιχνίδια μυαλού", section_games_sub:"Πατήστε ένα παιχνίδι για να ξεκινήσετε",
+  footer_rights:"Χρυσά Παιχνίδια © 2026", footer_desc:"Χωρίς διαφημίσεις, χωρίς παρακολούθηση — με αγάπη για ηλικιωμένους.",
+  game_memory_title:"Μνήμη", game_memory_desc:"Βελτιώστε τη βραχυπρόθεσμη μνήμη.",
+  game_odd_title:"Το διαφορετικό", game_odd_desc:"Βρείτε το διαφορετικό σύμβολο.",
+  game_math_title:"Γρήγοροι υπολογισμοί", game_math_desc:"Απλές προσθέσεις και αφαιρέσεις.",
+  game_words_title:"Κρυμμένες λέξεις", game_words_desc:"Βρείτε κρυμμένες λέξεις.",
+  game_simon_title:"Ακολουθία χρωμάτων", game_simon_desc:"Επαναλάβετε το μοτίβο χρωμάτων.",
+  game_sudoku_title:"Καθημερινό Sudoku", game_sudoku_desc:"Εύκολο παζλ 4×4.",
+  game_shapes_title:"Ταξινόμηση σχημάτων", game_shapes_desc:"Τοποθετήστε τα σχήματα στη θέση τους.",
+  game_solitaire_title:"Πασιέντζα πυραμίδα", game_solitaire_desc:"Ζευγάρια καρτών που κάνουν 13.",
+  game_trivia_title:"Ερωτήσεις", game_trivia_desc:"Ερωτήσεις γενικών γνώσεων.",
+  game_numseq_title:"Ακολουθία αριθμών", game_numseq_desc:"Βρείτε τον επόμενο αριθμό.",
+  game_unscrbl_title:"Αναγραμματισμός", game_unscrbl_desc:"Βάλτε τα γράμματα στη σωστή σειρά.",
+  game_pairs_title:"Ζευγάρια αντιθέτων", game_pairs_desc:"Ταιριάξτε κάθε λέξη με το αντίθετό της.",
+  inst_memory:"Βρείτε όλα τα ίδια ζευγάρια", inst_odd:"Πατήστε το διαφορετικό σύμβολο",
+  inst_math:"Επιλέξτε τη σωστή απάντηση", inst_words:"Πατήστε γειτονικά γράμματα για κρυμμένες λέξεις",
+  inst_simon:"Επαναλάβετε την ακολουθία πατώντας τα χρώματα", inst_sudoku:"Επιλέξτε άδειο τετράγωνο και μετά τον αριθμό",
+  inst_shapes:"Πατήστε ένα σχήμα και μετά τη θέση του", inst_solitaire:"Δύο κάρτες που κάνουν 13 (Ρήγας = 13 μόνος)",
+  inst_trivia:"Επιλέξτε τη σωστή απάντηση", inst_numseq:"Ποιος αριθμός ακολουθεί; Πατήστε την απάντηση",
+  inst_unscrbl:"Πατήστε τα γράμματα με τη σωστή σειρά", inst_pairs:"Ταιριάξτε μια λέξη με το αντίθετό της",
+  win_title:"Μπράβο!", win_generic:"Ολοκληρώσατε αυτό το επίπεδο!", new_best:"🏅 Νέο ατομικό ρεκόρ!",
+  greeting_morning:"Καλημέρα ☀️", greeting_afternoon:"Καλό απόγευμα 🌤️", greeting_evening:"Καλησπέρα 🌙", greeting_night:"Καληνύχτα 🌟",
+  streak_label:"σερί ημερών", goal_label:"Παίχτηκαν", goal_of:"από 3 σήμερα", total_games:"Σύνολο παιχνιδιών",
+});
 
 function changeLanguage(lang) {
     currentLang=lang; document.documentElement.lang=lang; document.documentElement.dir=lang==='he'?'rtl':'ltr';
