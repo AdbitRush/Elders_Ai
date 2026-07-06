@@ -9,6 +9,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/hooks.css">
@@ -979,6 +980,7 @@ function levelComplete() {
     if(typeof DailyChallenge!=='undefined') DailyChallenge.markDone(id);
     if(typeof Achievements!=='undefined') Achievements.check();
     if(typeof Holiday!=='undefined') Holiday.checkMilestone(data.totalGames);
+    if(typeof Sync!=='undefined') Sync.push();
     modal.classList.remove('hidden');
 }
 
@@ -1014,6 +1016,7 @@ document.getElementById('langSelect').value = _initLang;
 Retention.renderBar();
 refreshHSBadges();
 renderDailyQuote();
+if (typeof Sync !== 'undefined') Sync.init();
 // Initial deep-link routing must wait for the game modules (script tags below)
 // — running it at parse time threw "initX is not defined" on any /#game link
 // and killed the rest of this script (card stamping, badges, profile init).
@@ -1126,6 +1129,8 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
 <script src="js/tips.js"></script>
 <script src="js/favorites.js"></script>
 <script src="js/holiday.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/fx.js"></script>
 <!-- ── Game modules ────────────────────────────────────────── -->
 <script src="js/games/memory.js"></script>
 <script src="js/games/oddoneout.js"></script>
