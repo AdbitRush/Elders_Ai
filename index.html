@@ -18,6 +18,11 @@
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; }
         button, [onclick] { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+        /* FIX: language dropdown was white-on-white (options inherit white text
+           onto the native white dropdown list) — force solid dark everywhere */
+        #langSelect { background:#141b2e !important; color:#fff !important; }
+        #langSelect option { background:#141b2e !important; color:#ffffff !important; }
+        select, select option { color-scheme: dark; }
         /* Fallback grid — works even when Tailwind CDN fails */
         #homeScreen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
         @media (min-width: 768px)  { #homeScreen { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
