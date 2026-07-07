@@ -1237,6 +1237,18 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
 <script src="js/brainscore.js"></script>
 <script src="js/achievements.js"></script>
 <script src="js/textsize.js"></script>
+<script>
+/* staggered entrance for game cards — no-JS never hides anything */
+if ('IntersectionObserver' in window) {
+  document.body.classList.add('reveal-ready');
+  var _cio = new IntersectionObserver(function(es){
+    es.forEach(function(e,i){
+      if (e.isIntersecting){ e.target.style.transitionDelay=(Math.min(i,6)*55)+'ms'; e.target.classList.add('in'); _cio.unobserve(e.target); }
+    });
+  }, {rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
+}
+</script>
 <script src="js/daily-challenge.js"></script>
 <script src="js/stats.js"></script>
 <script src="js/difficulty.js"></script>

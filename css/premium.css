@@ -229,3 +229,23 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* ── Design details (2026-07-07): entrance, gold sweep, press feedback ────── */
+@media (prefers-reduced-motion: no-preference) {
+  body.reveal-ready .premium-card { opacity: 0; transform: translateY(22px) scale(.98); }
+  body.reveal-ready .premium-card.in {
+    opacity: 1; transform: none;
+    transition: opacity .55s ease, transform .55s cubic-bezier(.2,.7,.3,1);
+  }
+}
+/* gold light sweep across the thumbnail on hover */
+.premium-card .thumbnail-container { position: relative; }
+.premium-card .thumbnail-container::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 40%, rgba(246,192,72,.28) 50%, transparent 60%);
+  transform: translateX(-120%);
+}
+.premium-card:hover .thumbnail-container::after { transition: transform .8s ease; transform: translateX(120%); }
+/* tactile press feedback for big senior-friendly buttons */
+.btn-premium:active { transform: scale(.96); }
+.premium-card:active { transform: translateY(-2px) scale(.995); }
