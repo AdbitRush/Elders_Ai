@@ -304,6 +304,16 @@
             <div class="thumbnail-container"><img src="images/cards/letters.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="letters" onerror="if(!this._r){this._r=1;this.src='https://image.pollinations.ai/prompt/wooden+alphabet+letter+blocks+scrabble+tiles+warm+light+word+puzzle,+luxury+editorial+photography,+soft+golden+hour+light,+rich+warm+color+grade,+shallow+depth+of+field,+high+end+magazine+quality?width=600&height=400&nologo=true&seed=1024&model=flux';}else{this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)';}"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_letters_title">אות חסרה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_letters_desc">השלימו את האות החסרה במילה.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('letters')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('lifesim')" style="cursor:pointer">
+            <span id="hs-lifesim" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/lifesim.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="lifesim" onerror="if(!this._r){this._r=1;this.src='https://image.pollinations.ai/prompt/vintage+time+machine+nostalgia+dance+hall+1960s+joyful+elderly+and+young+people+swapping+lives+golden+light+cinematic,+luxury+editorial+photography,+rich+warm+color+grade,+shallow+depth+of+field?width=600&height=400&nologo=true&seed=2501&model=flux';}else{this.style.cssText+=';background:linear-gradient(135deg,#3b0764,#9d174d)';}"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_lifesim_title">מסע בזמן</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_lifesim_desc">מבוגרים משחקים צעירים, צעירים משחקים סבתא.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('lifesim')" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('safari')" style="cursor:pointer">
+            <span id="hs-safari" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/safari.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="safari" onerror="if(!this._r){this._r=1;this.src='https://image.pollinations.ai/prompt/african+savanna+safari+giraffe+lion+elephant+zebra+golden+hour+wildlife+spectacular+vivid,+luxury+editorial+photography,+rich+warm+color+grade,+shallow+depth+of+field?width=600&height=400&nologo=true&seed=2502&model=flux';}else{this.style.cssText+=';background:linear-gradient(135deg,#7dd3fc,#b98a3f)';}"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_safari_title">ספארי חי</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_safari_desc">חיות נעות בסוואנה — מצאו אותן!</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('safari')" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
     </div>
 
     <!-- Game Canvas -->
@@ -379,7 +389,7 @@ const i18nData = {
 he: {
     site_title:"זהב של משחקים", back_menu:"חזרה לתפריט", next_level:"המשך לשלב הבא",
     level_str:"שלב", hero_title:"אימון יומיומי למוח חד וצלול", btn_start:"התחל אימון",
-    section_games:"18 משחקי אימון", section_games_sub:"לחצו על משחק להתחיל",
+    section_games:"26 משחקי אימון", section_games_sub:"לחצו על משחק להתחיל",
     footer_rights:"זהב של משחקים © 2026", footer_desc:"ללא פרסומות וללא איסוף נתונים - נוצר באהבה לגיל השלישי.",
     game_memory_title:"אימון זיכרון", game_memory_desc:"שיפור הזיכרון לטווח קצר.",
     game_odd_title:"יוצא דופן", game_odd_desc:"מצאו את הסמל השונה.",
@@ -566,7 +576,7 @@ he: {
 en: {
     site_title:"Golden Games", back_menu:"Back to Menu", next_level:"Next Level",
     level_str:"Level", hero_title:"Daily Brain Training", btn_start:"Start Game",
-    section_games:"18 Brain Games", section_games_sub:"Click a game to start",
+    section_games:"26 Brain Games", section_games_sub:"Click a game to start",
     footer_rights:"Golden Games © 2026", footer_desc:"Ad-free, no tracking - made with love for seniors.",
     game_memory_title:"Memory Match", game_memory_desc:"Improve short-term memory.",
     game_odd_title:"Odd One Out", game_odd_desc:"Find the different symbol.",
@@ -800,7 +810,7 @@ function checkHS(gameId, level) {
     return false;
 }
 function refreshHSBadges() {
-    const games=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters'];
+    const games=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
     games.forEach(id => {
         const hs = getHS(id); const el = document.getElementById('hs-'+id);
         if (el) { if (hs>0) { el.innerText=`🏅 ${hs}`; el.classList.remove('hidden'); } else { el.classList.add('hidden'); } }
@@ -1020,7 +1030,7 @@ function _el(id){return document.getElementById(id);}
 function loadGame(gameId, level=0) {
     // Resume at the highest level reached (persistent) unless a level is given
     if(!level) level = (typeof Levels!=='undefined') ? Levels.get(gameId) : 1;
-    const validIds=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters'];
+    const validIds=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
     if(!validIds.includes(gameId)) return;
     ['homeScreen','homeScreen-header','hero'].forEach(id=>{const e=_el(id);if(e)e.classList.add('hidden');});
     ['gameView','backBtn'].forEach(id=>{const e=_el(id);if(e)e.classList.remove('hidden');});
@@ -1031,8 +1041,8 @@ function loadGame(gameId, level=0) {
     if(!gameState[gameId]||level===1) gameState[gameId]={level}; else gameState[gameId].level=level;
     if(level===1&&typeof Favorites!=='undefined') Favorites.recordPlay(gameId);
     updateLevelDisplay();
-    const titleMap={memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',simon:'game_simon_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title',tetris:'game_tetris_title',colormatch:'game_colormatch_title',digitspan:'game_digitspan_title',clock:'game_clock_title',counting:'game_counting_title',category:'game_category_title',letters:'game_letters_title'};
-    const instMap ={memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',simon:'inst_simon',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall',tetris:'inst_tetris'};
+    const titleMap={memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',simon:'game_simon_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title',tetris:'game_tetris_title',colormatch:'game_colormatch_title',digitspan:'game_digitspan_title',clock:'game_clock_title',counting:'game_counting_title',category:'game_category_title',letters:'game_letters_title',lifesim:'game_lifesim_title',safari:'game_safari_title'};
+    const instMap ={memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',simon:'inst_simon',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall',tetris:'inst_tetris',lifesim:'inst_lifesim',safari:'inst_safari'};
     document.getElementById('gameTitle').innerText=t(titleMap[gameId]);
     document.getElementById('gameInstructions').innerText=t(instMap[gameId]);
     if(gameId==='memory')     initMemory(content);
@@ -1059,6 +1069,8 @@ function loadGame(gameId, level=0) {
     if(gameId==='counting') initCounting(content);
     if(gameId==='category') initCategory(content);
     if(gameId==='letters') initLetters(content);
+    if(gameId==='lifesim') initLifeSim(content);
+    if(gameId==='safari') initSafari(content);
 }
 
 function levelComplete() {
@@ -1113,7 +1125,7 @@ function renderDailyQuote(){
 // ═══════════════════════════════════════════════════════════════════════════════
 // DEEP LINK ROUTING  (hash = game id, e.g. #memory  or  #trivia)
 // ═══════════════════════════════════════════════════════════════════════════════
-const _VALID_GAMES=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters'];
+const _VALID_GAMES=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
 
 function _routeFromHash(){
     const h=location.hash.replace('#','').toLowerCase();
@@ -1288,5 +1300,7 @@ if ('IntersectionObserver' in window) {
 <script src="js/games/counting.js"></script>
 <script src="js/games/category.js"></script>
 <script src="js/games/letters.js"></script>
+<script src="js/games/lifesim.js"></script>
+<script src="js/games/safari.js"></script>
 </body>
 </html>

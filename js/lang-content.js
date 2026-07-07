@@ -224,4 +224,23 @@
       if (!i18nData[lang][k] && i18nData.en && i18nData.en[k]) i18nData[lang][k] = i18nData.en[k];
     }
   }
+
+  // ── UI keys for the two simulation games (all 6 languages) ──
+  const SIM = {
+    he: {game_lifesim_title:"מסע בזמן", game_lifesim_desc:"מבוגרים משחקים צעירים, צעירים משחקים סבתא.", inst_lifesim:"בחרו תקופה, קבלו החלטות ואספו זיכרונות ❤",
+         game_safari_title:"ספארי חי", game_safari_desc:"חיות נעות בסוואנה — מצאו אותן!", inst_safari:"הקשיבו למשימה והקישו על החיה הנכונה בזמן שהיא זזה"},
+    en: {game_lifesim_title:"Time Journey", game_lifesim_desc:"Seniors play young, youngsters play grandma.", inst_lifesim:"Pick an era, make choices, collect memories ❤",
+         game_safari_title:"Living Safari", game_safari_desc:"Animals roam the savanna — spot them!", inst_safari:"Read the task and tap the right animal as it moves"},
+    es: {game_lifesim_title:"Viaje en el tiempo", game_lifesim_desc:"Los mayores juegan a ser jóvenes y al revés.", inst_lifesim:"Elige una época, toma decisiones, colecciona recuerdos ❤",
+         game_safari_title:"Safari vivo", game_safari_desc:"Los animales recorren la sabana — ¡encuéntralos!", inst_safari:"Lee la tarea y toca el animal correcto mientras se mueve"},
+    fr: {game_lifesim_title:"Voyage dans le temps", game_lifesim_desc:"Les aînés jouent les jeunes, et inversement.", inst_lifesim:"Choisissez une époque, décidez, collectez des souvenirs ❤",
+         game_safari_title:"Safari vivant", game_safari_desc:"Les animaux parcourent la savane — trouvez-les !", inst_safari:"Lisez la consigne et touchez le bon animal en mouvement"},
+    de: {game_lifesim_title:"Zeitreise", game_lifesim_desc:"Senioren spielen jung, Junge spielen Oma.", inst_lifesim:"Wähle eine Ära, triff Entscheidungen, sammle Erinnerungen ❤",
+         game_safari_title:"Lebende Safari", game_safari_desc:"Tiere ziehen durch die Savanne — finde sie!", inst_safari:"Lies die Aufgabe und tippe das richtige Tier an"},
+    el: {game_lifesim_title:"Ταξίδι στον χρόνο", game_lifesim_desc:"Οι μεγάλοι παίζουν νέους, οι νέοι παίζουν γιαγιά.", inst_lifesim:"Διάλεξε εποχή, πάρε αποφάσεις, μάζεψε αναμνήσεις ❤",
+         game_safari_title:"Ζωντανό σαφάρι", game_safari_desc:"Ζώα κινούνται στη σαβάνα — βρες τα!", inst_safari:"Διάβασε την αποστολή και άγγιξε το σωστό ζώο"},
+  };
+  for (const [lang, kv] of Object.entries(SIM)) {
+    if (i18nData[lang]) Object.assign(i18nData[lang], kv);
+  }
 })();
