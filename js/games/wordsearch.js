@@ -25,7 +25,7 @@ function initWordSearch(container) {
         if(placed)placedWords.push(word);
     });
     const words=placedWords;
-    const al=currentLang==='he'?'אבגדהוזחטיכלמנסעפצקרשת':'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const al=currentLang==='he'?'אבגדהוזחטיכלמנסעפצקרשת':(currentLang==='el'?'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ':'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
     for(let r=0;r<size;r++)for(let c=0;c<size;c++)if(grid[r][c]==='')grid[r][c]=al[Math.floor(Math.random()*al.length)];
     state.selectedCells=[]; state.foundWords=0; state.words=words;
     let html=`<div class="flex flex-col md:flex-row gap-8 items-center"><div class="bg-slate-800 border-4 border-slate-600 p-2 md:p-4 rounded-xl shadow-lg"><div class="grid gap-1 text-xl font-bold font-mono" style="grid-template-columns:repeat(${size},minmax(0,1fr));">`;
