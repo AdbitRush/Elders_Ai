@@ -40,7 +40,7 @@ const Tips = (() => {
   function _rotate() {
     if (typeof gameState !== 'undefined' && gameState.active) return;
     const lang = typeof currentLang !== 'undefined' ? currentLang : 'he';
-    const pool = DATA[lang] || DATA.he;
+    const pool = DATA[lang] || DATA.en || DATA.he;
     const el   = document.getElementById('tips-text');
     if (!el) { clearInterval(_iv); return; }
     el.style.opacity = '0';

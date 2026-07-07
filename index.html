@@ -880,7 +880,7 @@ const Retention = {
 // ═══════════════════════════════════════════════════════════════════════════════
 // CORE
 // ═══════════════════════════════════════════════════════════════════════════════
-let currentLang='he';
+let currentLang=localStorage.getItem('gg-lang')||'he';
 let gameState={active:false,currentId:null};
 const ALL_EMOJIS=['🌿','🎻','🏺','⛵','🏠','🍎','🌻','🚗','🎸','🚲','🐶','🐱','🦋','⚽','🎨','🚀','⭐','🎈','🎁','🎂'];
 const SHAPE_EMOJIS=['⚪','🟦','🔺','⭐','♦️','🟩','🌙','❤️','💠','🔶'];
@@ -1001,10 +1001,13 @@ i18nData.el = Object.assign({}, i18nData.en, {
 });
 
 function changeLanguage(lang) {
-    currentLang=lang; document.documentElement.lang=lang; document.documentElement.dir=lang==='he'?'rtl':'ltr';
+    currentLang=lang; localStorage.setItem('gg-lang',lang);
+    document.documentElement.lang=lang; document.documentElement.dir=lang==='he'?'rtl':'ltr';
     document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(i18nData[lang][k])el.innerText=i18nData[lang][k];});
     if(gameState.active) updateLevelDisplay();
     if(!document.getElementById('homeScreen').classList.contains('hidden')) Retention.renderBar();
+    if(typeof Tips!=='undefined'&&Tips.render) Tips.render();
+    if(typeof _adRender==='function') _adRender();
 }
 function updateLevelDisplay() {
     const ind=document.getElementById('levelIndicator');
@@ -1144,7 +1147,7 @@ window.addEventListener('popstate', ()=>{ if(!location.hash) showHome(); });
 // ═══════════════════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════════════════
-const _initLang = new URLSearchParams(location.search).get('lang') || 'he';
+const _initLang = new URLSearchParams(location.search).get('lang') || localStorage.getItem('gg-lang') || 'he';
 changeLanguage(_initLang);
 document.getElementById('langSelect').value = _initLang;
 Retention.renderBar();
@@ -1226,7 +1229,7 @@ const _adMsgs = {
 };
 let _adIdx = 0;
 function _rotateAdTicker() {
-    const msgs = _adMsgs[currentLang] || _adMsgs.he;
+    const msgs = _adMsgs[currentLang] || _adMsgs.en || _adMsgs.he;
     const el = document.getElementById('adFallback');
     if(!el) return;
     el.style.opacity = '0';
