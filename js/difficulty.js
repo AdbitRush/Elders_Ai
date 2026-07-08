@@ -54,13 +54,23 @@ const Difficulty = (() => {
     }
   }
 
+  const LABELS = {
+    he: { easy: 'קל',      normal: 'רגיל',     hard: 'קשה' },
+    en: { easy: 'Easy',    normal: 'Normal',   hard: 'Hard' },
+    es: { easy: 'Fácil',   normal: 'Normal',   hard: 'Difícil' },
+    fr: { easy: 'Facile',  normal: 'Normal',   hard: 'Difficile' },
+    de: { easy: 'Leicht',  normal: 'Normal',   hard: 'Schwer' },
+    el: { easy: 'Εύκολο',  normal: 'Κανονικό', hard: 'Δύσκολο' },
+  };
+
   function renderSelector(container) {
-    const isHe = (typeof currentLang !== 'undefined') ? currentLang === 'he' : true;
+    const lang = (typeof currentLang !== 'undefined' && LABELS[currentLang]) ? currentLang : 'he';
     const current = get();
+    const L = LABELS[lang];
     const labels = {
-      easy:   isHe ? '🟢 קל'    : '🟢 Easy',
-      normal: isHe ? '🔵 רגיל'  : '🔵 Normal',
-      hard:   isHe ? '🔴 קשה'   : '🔴 Hard',
+      easy:   '🟢 ' + L.easy,
+      normal: '🔵 ' + L.normal,
+      hard:   '🔴 ' + L.hard,
     };
     container.innerHTML = `
       <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center">

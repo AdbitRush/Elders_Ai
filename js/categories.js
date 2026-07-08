@@ -48,12 +48,20 @@ const Categories = (() => {
     tetris:     ['spatial', 'planning'],
   };
 
+  // Native skill labels for es/fr/de/el (he/en live in SKILL_COLORS)
+  const SKILL_L10N = {
+    es: { memory:'Memoria', focus:'Concentración', perception:'Percepción', attention:'Atención', arithmetic:'Cálculo', speed:'Rapidez', language:'Lenguaje', sequence:'Secuencia', logic:'Lógica', planning:'Planificación', spatial:'Espacial', vocabulary:'Vocabulario', knowledge:'Conocimiento', geography:'Geografía', recall:'Recuerdo', pattern:'Patrones', spelling:'Ortografía' },
+    fr: { memory:'Mémoire', focus:'Concentration', perception:'Perception', attention:'Attention', arithmetic:'Calcul', speed:'Vitesse', language:'Langue', sequence:'Séquence', logic:'Logique', planning:'Planification', spatial:'Spatial', vocabulary:'Vocabulaire', knowledge:'Culture', geography:'Géographie', recall:'Rappel', pattern:'Motifs', spelling:'Orthographe' },
+    de: { memory:'Gedächtnis', focus:'Konzentration', perception:'Wahrnehmung', attention:'Aufmerksamkeit', arithmetic:'Rechnen', speed:'Tempo', language:'Sprache', sequence:'Reihenfolge', logic:'Logik', planning:'Planung', spatial:'Räumlich', vocabulary:'Wortschatz', knowledge:'Wissen', geography:'Geografie', recall:'Erinnern', pattern:'Muster', spelling:'Rechtschreibung' },
+    el: { memory:'Μνήμη', focus:'Συγκέντρωση', perception:'Αντίληψη', attention:'Προσοχή', arithmetic:'Αριθμητική', speed:'Ταχύτητα', language:'Γλώσσα', sequence:'Ακολουθία', logic:'Λογική', planning:'Σχεδιασμός', spatial:'Χωρική', vocabulary:'Λεξιλόγιο', knowledge:'Γνώσεις', geography:'Γεωγραφία', recall:'Ανάκληση', pattern:'Μοτίβα', spelling:'Ορθογραφία' },
+  };
+
   function badgesFor(gameId) {
-    const isHe = (typeof currentLang !== 'undefined') ? currentLang === 'he' : true;
+    const lang = (typeof currentLang !== 'undefined') ? currentLang : 'he';
     const skills = MAP[gameId] || [];
     return skills.map(sk => {
       const meta = SKILL_COLORS[sk] || { bg: '#f1f5f9', color: '#475569', label_he: sk, label_en: sk };
-      const label = isHe ? meta.label_he : meta.label_en;
+      const label = lang === 'he' ? meta.label_he : ((SKILL_L10N[lang] && SKILL_L10N[lang][sk]) || meta.label_en);
       return `<span class="skill-tag" style="background:${meta.bg};color:${meta.color}">${label}</span>`;
     }).join('');
   }

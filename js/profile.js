@@ -30,7 +30,7 @@ const Profile = (() => {
     if (chip) {
       const av = chip.querySelector('.av'), nm = chip.querySelector('.nm');
       if (av) av.textContent = avatar;
-      if (nm) nm.textContent = name || (typeof currentLang!=='undefined'&&currentLang==='he'?'פרופיל':'Profile');
+      if (nm) nm.textContent = name || ({he:'פרופיל',es:'Perfil',fr:'Profil',de:'Profil',el:'Προφίλ'}[typeof currentLang!=='undefined'?currentLang:'he']||'Profile');
     }
   }
 
