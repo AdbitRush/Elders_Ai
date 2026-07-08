@@ -3,101 +3,202 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Golden Games — Art Director Studio</title>
+<title>Art Direction — Golden Games</title>
 <style>
-:root{--bg:#0b1020;--card:#141b2e;--line:#26304d;--text:#e9edf8;--muted:#8a93ad;--gold:#f6c048;--green:#34d399}
+:root{
+  --bg:#0b0c0f; --surface:#121418; --surface2:#17191f; --line:#23262e;
+  --text:#e7e9ee; --muted:#8b909c; --faint:#5c616d;
+  --accent:#c9a227; --accent-ink:#171204;
+  --ok:#4ade80; --err:#f87171;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);padding:26px 18px 80px}
-.wrap{max-width:1080px;margin:0 auto}
-h1{font-size:1.5rem}h1 span{color:var(--gold)}
-.sub{color:var(--muted);font-size:.85rem;margin:6px 0 20px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
-.panel h3{font-size:.95rem;margin-bottom:10px;color:var(--gold)}
-textarea,input{width:100%;background:#0e1526;border:1px solid var(--line);color:var(--text);
- border-radius:9px;padding:9px 11px;font-size:.8rem;font-family:inherit}
-textarea{resize:vertical}
-.btn{font:inherit;font-weight:600;border:1px solid var(--line);background:#0e1526;color:var(--text);
- border-radius:9px;padding:8px 14px;cursor:pointer;font-size:.78rem}
-.btn:hover{border-color:var(--gold)}
-.btn.gold{background:linear-gradient(135deg,#b7791f,#f6c048);border:none;color:#1a1408}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
-.asset{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px;display:flex;flex-direction:column;gap:8px}
-.asset .nm{font-weight:700;font-size:.9rem}
-.asset textarea{font-size:.7rem;min-height:110px}
-.asset .row{display:flex;gap:7px;flex-wrap:wrap}
-.asset img{width:100%;border-radius:9px;border:1px solid var(--line)}
-.note{font-size:.7rem;color:var(--muted)}
-.keyrow{display:flex;gap:8px;align-items:center}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.mono{font-family:'Cascadia Code',Consolas,monospace;font-size:.82em}
+
+/* app bar */
+.appbar{position:sticky;top:0;z-index:10;background:rgba(11,12,15,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line)}
+.appbar .in{max-width:1160px;margin:0 auto;padding:0 24px;height:58px;display:flex;align-items:center;gap:14px}
+.mark{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,#b7791f,var(--accent));
+  display:grid;place-items:center;color:var(--accent-ink);font-weight:800;font-size:.78rem}
+.appbar b{font-size:.92rem;font-weight:600;letter-spacing:.01em}
+.appbar .crumb{color:var(--faint);font-size:.8rem}
+.appbar .right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;color:var(--muted);
+  border:1px solid var(--line);border-radius:99px;padding:5px 12px}
+.status i{width:6px;height:6px;border-radius:50%;background:var(--err);display:inline-block}
+.status.on i{background:var(--ok)}
+
+.wrap{max-width:1160px;margin:0 auto;padding:40px 24px 100px}
+.pagehead{margin-bottom:36px;max-width:640px}
+.overline{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-size:1.72rem;font-weight:600;letter-spacing:-.01em;margin:8px 0 10px}
+.lede{color:var(--muted);font-size:.92rem;line-height:1.65}
+
+/* sections */
+section{margin-bottom:28px}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.sec-h .n{font-size:.7rem;color:var(--faint);font-weight:600;letter-spacing:.08em}
+.sec-h h2{font-size:.95rem;font-weight:600}
+.sec-h .hint{color:var(--faint);font-size:.76rem;margin-left:auto}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+
+label{display:block;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;margin-bottom:8px}
+input[type=password],input[type=text],textarea{width:100%;background:var(--bg);border:1px solid var(--line);
+  color:var(--text);border-radius:7px;padding:10px 12px;font-size:.85rem;font-family:inherit;
+  transition:border-color .15s}
+input:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{resize:vertical;line-height:1.6}
+
+.btn{font:inherit;font-size:.78rem;font-weight:600;letter-spacing:.02em;cursor:pointer;
+  border:1px solid var(--line);background:transparent;color:var(--text);border-radius:7px;
+  padding:8px 16px;transition:all .15s}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.5;cursor:default}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.keyline{display:flex;gap:10px}
+.keyline input{flex:1}
+.fineprint{color:var(--faint);font-size:.74rem;margin-top:10px}
+
+/* asset table */
+.assets{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.thead{display:grid;grid-template-columns:220px 1fr 210px;gap:16px;padding:11px 20px;
+  background:var(--surface2);border-bottom:1px solid var(--line);
+  font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.row{display:grid;grid-template-columns:220px 1fr 210px;gap:16px;padding:14px 20px;
+  border-bottom:1px solid var(--line);background:var(--surface);align-items:start}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--surface2)}
+.row .name{font-weight:600;font-size:.86rem}
+.row .file{color:var(--faint);font-size:.72rem;margin-top:3px}
+.row .prompt-view{color:var(--muted);font-size:.78rem;line-height:1.55;max-height:3.1em;overflow:hidden;cursor:pointer}
+.row.open .prompt-view{display:none}
+.row .editor{display:none}
+.row.open .editor{display:block}
+.row .editor textarea{min-height:120px;font-size:.78rem}
+.row .acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.row .acts .btn{padding:6px 12px;font-size:.72rem}
+.result{grid-column:1/-1;padding-top:6px}
+.result img{max-width:420px;width:100%;border-radius:8px;border:1px solid var(--line);display:block}
+.result .r-acts{display:flex;gap:10px;align-items:center;margin-top:10px}
+.result .note{color:var(--faint);font-size:.74rem}
+.errnote{color:var(--err);font-size:.76rem}
+
+@media(max-width:820px){
+  .thead{display:none}
+  .row{grid-template-columns:1fr}
+  .row .acts{justify-content:flex-start}
+}
 </style>
 </head>
 <body>
+
+<div class="appbar">
+  <div class="in">
+    <div class="mark">GG</div>
+    <b>Golden Games</b><span class="crumb">/ Art Direction</span>
+    <div class="right">
+      <span class="status" id="keystatus"><i></i><span>API key not set</span></span>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
-  <h1>🎨 Golden Games <span>Art Director Studio</span></h1>
-  <p class="sub">Every visual asset of the game as an expert Nano Banana prompt — edit, save, copy, or generate & download directly.
-    Consistent art direction across all 26 games. Open this file locally or at <code>/art-studio.html</code>.</p>
-
-  <div class="panel">
-    <h3>🔑 Gemini API key (for direct generation with Nano Banana)</h3>
-    <div class="keyrow">
-      <input type="password" id="key" placeholder="paste key from aistudio.google.com → saved on this device only">
-      <button class="btn" onclick="saveKey()">💾 Save</button>
-    </div>
-    <p class="note" style="margin-top:6px">No key? Every prompt still works — copy it into Google AI Studio / any Nano Banana interface.</p>
+  <div class="pagehead">
+    <div class="overline">Visual Asset Pipeline</div>
+    <h1>Art Direction Studio</h1>
+    <p class="lede">A single source of truth for every visual asset in the game — 28 production-ready
+    prompts under one consistent art direction, engineered for Google's Nano&nbsp;Banana image model.
+    Edit, version, export, or generate final assets directly from this page.</p>
   </div>
 
-  <div class="panel">
-    <h3>🎬 Master Art Direction (applied to every prompt — edit to restyle the whole game)</h3>
-    <textarea id="master" rows="4"></textarea>
-    <div class="row" style="display:flex;gap:8px;margin-top:8px">
-      <button class="btn" onclick="saveMaster()">💾 Save style</button>
-      <button class="btn" onclick="resetMaster()">↩ Default style</button>
-      <button class="btn gold" onclick="exportPrompts()">⬇ Export all prompts (JSON)</button>
+  <section>
+    <div class="sec-h"><span class="n">01</span><h2>Generation credentials</h2>
+      <span class="hint">stored on this device only</span></div>
+    <div class="panel">
+      <label>Gemini API key</label>
+      <div class="keyline">
+        <input type="password" id="key" placeholder="AIza… — aistudio.google.com → Get API key">
+        <button class="btn" onclick="saveKey()">Save</button>
+      </div>
+      <p class="fineprint">Without a key every prompt still works — copy it into Google AI Studio or any
+      Nano&nbsp;Banana interface and generate there.</p>
     </div>
-  </div>
+  </section>
 
-  <div class="grid" id="assets"></div>
+  <section>
+    <div class="sec-h"><span class="n">02</span><h2>Master art direction</h2>
+      <span class="hint">appended to every prompt — edit once, restyle everything</span></div>
+    <div class="panel">
+      <textarea id="master" rows="3"></textarea>
+      <div class="btnrow">
+        <button class="btn" onclick="saveMaster()">Save direction</button>
+        <button class="btn" onclick="resetMaster()">Restore default</button>
+        <button class="btn primary" onclick="exportPrompts()">Export prompt book (JSON)</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="n">03</span><h2>Asset library</h2>
+      <span class="hint">click a prompt to edit · changes save automatically</span></div>
+    <div class="assets">
+      <div class="thead"><span>Asset</span><span>Prompt</span><span style="text-align:right">Actions</span></div>
+      <div id="assets"></div>
+    </div>
+  </section>
 </div>
 
 <script>
-const DEFAULT_MASTER = `Luxury editorial photography, soft golden hour light, rich warm color grade, shallow depth of field, high end magazine quality, joyful and dignified atmosphere celebrating senior life, photorealistic textures, no text, no watermarks, no logos. Aspect ratio 3:2, 600x400.`;
+const DEFAULT_MASTER = `Luxury editorial photography, soft golden hour light, rich warm color grade, shallow depth of field, high-end magazine quality, joyful and dignified atmosphere celebrating senior life, photorealistic textures, no text, no watermarks, no logos. Aspect ratio 3:2, 600x400.`;
 
 const ASSETS = [
-  {id:'memory',    nm:'🧠 Memory',        subj:'An elegant elderly woman laughing while flipping ornate memory cards on a walnut table, cozy warm living room, afternoon sun through linen curtains'},
-  {id:'oddoneout', nm:'🔍 Odd One Out',   subj:'A macro flat-lay of colorful geometric ceramic shapes in a perfect grid, one shape charmingly different, studio light on cream backdrop'},
-  {id:'math',      nm:'➕ Math',           subj:'A distinguished silver-haired man solving playful equations on a vintage chalkboard, chalk dust in sunbeams, warm study room'},
-  {id:'wordsearch',nm:'🔠 Word Search',   subj:'A close-up of weathered hands circling words on a beautiful letter-grid puzzle page, fountain pen, morning coffee steam nearby'},
-  {id:'simon',     nm:'🎵 Simon',         subj:'Four glowing arcade buttons (red, blue, green, yellow) on a retro wooden console, neon reflections, playful 1970s arcade mood'},
-  {id:'sudoku',    nm:'9️⃣ Sudoku',        subj:'An overhead shot of an elegant sudoku journal with brass pen, reading glasses, and espresso on marble, morning light'},
-  {id:'shapes',    nm:'🔷 Shapes',        subj:'Levitating translucent glass polygons casting colorful caustic light on a soft cream studio floor'},
-  {id:'solitaire', nm:'🃏 Solitaire',     subj:'A luxurious solitaire card spread mid-game on green felt, gilded card backs, brass lamp glow, gentleman club atmosphere'},
-  {id:'trivia',    nm:'❓ Trivia',         subj:'A joyful group of seniors at a pub-quiz table raising hands, brass quiz bell, chalkboard scoreboard behind, golden tavern light'},
-  {id:'numseq',    nm:'🔢 Number Sequence', subj:'Brass number tiles arranged in an ascending spiral on dark walnut, one tile glowing softly, mathematical elegance'},
-  {id:'unscramble',nm:'🔀 Unscramble',    subj:'Scattered vintage letterpress letter blocks mid-air rearranging into a word, warm bokeh, printing workshop'},
-  {id:'pairs',     nm:'👥 Opposite Pairs', subj:'Two vintage balance scales holding contrasting objects (sun/moon, fire/ice) in warm museum light'},
-  {id:'truefalse', nm:'⚖️ True/False',     subj:'An elegant brass balance scale with a green checkmark medallion and red X medallion, dramatic library backdrop'},
-  {id:'flags',     nm:'🌍 Flags',          subj:'A collection of small silk world flags in a brass stand on an explorer desk with an antique globe and maps, adventure mood'},
-  {id:'proverbs',  nm:'📜 Proverbs',       subj:'An open illuminated manuscript with calligraphy proverbs, wax seal, candlelight, wise and warm atmosphere'},
-  {id:'hangman',   nm:'🎯 Hangman',        subj:'Vintage wooden letter tiles on a rack with a chalk-drawn guessing game, playful parlor game evening scene'},
-  {id:'recall',    nm:'🧺 Recall',         subj:'A beautiful still life of memorable objects (apple, guitar, book, rose, coffee cup) arranged on a shelf, gallery lighting'},
-  {id:'tetris',    nm:'🧱 Tetris',         subj:'Glossy colorful blocks cascading into perfect rows, dramatic side light, retro-futuristic playful energy'},
-  {id:'colormatch',nm:'🌈 Color Match',    subj:'An artist palette with vivid paint swirls next to color word cards, bright studio, Stroop-test inspiration'},
-  {id:'digitspan', nm:'💭 Digit Span',     subj:'Glowing numbers floating above an open palm like fireflies at dusk, memory and magic mood'},
-  {id:'clock',     nm:'🕰 Clock',          subj:'A wall of beautiful antique clocks showing different times, brass pendulums, warm clockmaker workshop'},
-  {id:'counting',  nm:'🧮 Counting',       subj:'A vintage wooden abacus with amber beads mid-count, scattered walnuts beside it, cozy kitchen table light'},
-  {id:'category',  nm:'🗂 Category',       subj:'Beautifully organized collection drawers (fruits, tools, instruments) in a curiosity cabinet, museum light'},
-  {id:'letters',   nm:'🔤 Letters',        subj:'Oversized elegant serif letters standing like sculptures on a sunlit gallery floor, soft shadows'},
-  {id:'lifesim',   nm:'🕰 Time Journey',   subj:'A magical vintage time machine armchair between two worlds: a 1960s dance hall and a cozy grandparent living room, cinematic split scene'},
-  {id:'safari',    nm:'🦁 Living Safari',  subj:'A breathtaking African savanna at golden hour with giraffe, elephant, lion and zebra sharing the frame, acacia trees, warm epic wildlife scene'},
-  {id:'hero_bg',   nm:'🌅 Site hero background', subj:'An abstract deep navy background with soft golden light rays and floating dust particles, premium calm, subtle brain-neuron light pattern'},
-  {id:'icon_app',  nm:'📱 App icon',       subj:'A minimal premium app icon: golden letter with a subtle brain outline on deep navy gradient, rounded square, flat glossy finish'},
+  {id:'memory',    nm:'Memory',           subj:'An elegant elderly woman laughing while flipping ornate memory cards on a walnut table, cozy warm living room, afternoon sun through linen curtains'},
+  {id:'oddoneout', nm:'Odd One Out',      subj:'A macro flat-lay of colorful geometric ceramic shapes in a perfect grid, one shape charmingly different, studio light on cream backdrop'},
+  {id:'math',      nm:'Math',             subj:'A distinguished silver-haired man solving playful equations on a vintage chalkboard, chalk dust in sunbeams, warm study room'},
+  {id:'wordsearch',nm:'Word Search',      subj:'A close-up of weathered hands circling words on a beautiful letter-grid puzzle page, fountain pen, morning coffee steam nearby'},
+  {id:'simon',     nm:'Simon',            subj:'Four glowing arcade buttons in red, blue, green and yellow on a retro wooden console, neon reflections, playful 1970s arcade mood'},
+  {id:'sudoku',    nm:'Sudoku',           subj:'An overhead shot of an elegant sudoku journal with brass pen, reading glasses, and espresso on marble, morning light'},
+  {id:'shapes',    nm:'Shapes',           subj:'Levitating translucent glass polygons casting colorful caustic light on a soft cream studio floor'},
+  {id:'solitaire', nm:'Solitaire',        subj:'A luxurious solitaire card spread mid-game on green felt, gilded card backs, brass lamp glow, gentleman club atmosphere'},
+  {id:'trivia',    nm:'Trivia',           subj:'A joyful group of seniors at a pub-quiz table raising hands, brass quiz bell, chalkboard scoreboard behind, golden tavern light'},
+  {id:'numseq',    nm:'Number Sequence',  subj:'Brass number tiles arranged in an ascending spiral on dark walnut, one tile glowing softly, mathematical elegance'},
+  {id:'unscramble',nm:'Unscramble',       subj:'Scattered vintage letterpress letter blocks mid-air rearranging into a word, warm bokeh, printing workshop'},
+  {id:'pairs',     nm:'Opposite Pairs',   subj:'Two vintage balance scales holding contrasting objects — sun and moon, fire and ice — in warm museum light'},
+  {id:'truefalse', nm:'True / False',     subj:'An elegant brass balance scale with a green checkmark medallion and red X medallion, dramatic library backdrop'},
+  {id:'flags',     nm:'Flags',            subj:'A collection of small silk world flags in a brass stand on an explorer desk with an antique globe and maps, adventure mood'},
+  {id:'proverbs',  nm:'Proverbs',         subj:'An open illuminated manuscript with calligraphy proverbs, wax seal, candlelight, wise and warm atmosphere'},
+  {id:'hangman',   nm:'Hangman',          subj:'Vintage wooden letter tiles on a rack with a chalk-drawn guessing game, playful parlor game evening scene'},
+  {id:'recall',    nm:'Recall',           subj:'A beautiful still life of memorable objects — apple, guitar, book, rose, coffee cup — arranged on a shelf, gallery lighting'},
+  {id:'tetris',    nm:'Tetris',           subj:'Glossy colorful blocks cascading into perfect rows, dramatic side light, retro-futuristic playful energy'},
+  {id:'colormatch',nm:'Color Match',      subj:'An artist palette with vivid paint swirls next to color word cards, bright studio, Stroop-test inspiration'},
+  {id:'digitspan', nm:'Digit Span',       subj:'Glowing numbers floating above an open palm like fireflies at dusk, memory and magic mood'},
+  {id:'clock',     nm:'Clock',            subj:'A wall of beautiful antique clocks showing different times, brass pendulums, warm clockmaker workshop'},
+  {id:'counting',  nm:'Counting',         subj:'A vintage wooden abacus with amber beads mid-count, scattered walnuts beside it, cozy kitchen table light'},
+  {id:'category',  nm:'Category',         subj:'Beautifully organized collection drawers of fruits, tools and instruments in a curiosity cabinet, museum light'},
+  {id:'letters',   nm:'Letters',          subj:'Oversized elegant serif letters standing like sculptures on a sunlit gallery floor, soft shadows'},
+  {id:'lifesim',   nm:'Time Journey',     subj:'A magical vintage time machine armchair between two worlds — a 1960s dance hall and a cozy grandparent living room — cinematic split scene'},
+  {id:'safari',    nm:'Living Safari',    subj:'A breathtaking African savanna at golden hour with giraffe, elephant, lion and zebra sharing the frame, acacia trees, warm epic wildlife scene'},
+  {id:'hero_bg',   nm:'Hero background',  subj:'An abstract deep navy background with soft golden light rays and floating dust particles, premium calm, subtle brain-neuron light pattern'},
+  {id:'icon_app',  nm:'App icon',         subj:'A minimal premium app icon: golden letter with a subtle brain outline on deep navy gradient, rounded square, flat glossy finish'},
 ];
 
 const $ = id => document.getElementById(id);
 const store = { g:(k,d)=>localStorage.getItem('ggart-'+k) ?? d, s:(k,v)=>localStorage.setItem('ggart-'+k, v) };
-function saveKey(){ store.s('key', $('key').value.trim()); alert('Key saved on this device.'); }
+
+function syncKeyStatus(){
+  const el = $('keystatus'), has = !!store.g('key','');
+  el.classList.toggle('on', has);
+  el.querySelector('span').textContent = has ? 'API key configured' : 'API key not set';
+}
+function saveKey(){ store.s('key', $('key').value.trim()); syncKeyStatus(); }
 function saveMaster(){ store.s('master', $('master').value); render(); }
 function resetMaster(){ store.s('master', DEFAULT_MASTER); $('master').value = DEFAULT_MASTER; render(); }
-
 function promptFor(a){
   const saved = store.g('p-' + a.id, null);
   return saved !== null ? saved : (a.subj + '. ' + $('master').value);
@@ -105,32 +206,55 @@ function promptFor(a){
 
 function render(){
   $('assets').innerHTML = ASSETS.map(a => `
-    <div class="asset">
-      <div class="nm">${a.nm} <span class="note">→ images/cards/${a.id}.jpg</span></div>
-      <textarea id="p-${a.id}" onchange="store.s('p-${a.id}', this.value)">${promptFor(a)}</textarea>
-      <div class="row">
-        <button class="btn" onclick="copyP('${a.id}', this)">📋 Copy</button>
-        <button class="btn" onclick="resetP('${a.id}')">↩</button>
-        <button class="btn gold" onclick="genP('${a.id}', this)">🍌 Generate (Nano Banana)</button>
+    <div class="row" id="row-${a.id}">
+      <div>
+        <div class="name">${a.nm}</div>
+        <div class="file mono">images/cards/${a.id}.jpg</div>
       </div>
-      <div id="out-${a.id}"></div>
+      <div>
+        <div class="prompt-view" onclick="openRow('${a.id}')" title="Click to edit">${promptFor(a)}</div>
+        <div class="editor">
+          <textarea id="p-${a.id}" onchange="store.s('p-${a.id}', this.value)">${promptFor(a)}</textarea>
+        </div>
+      </div>
+      <div class="acts">
+        <button class="btn" onclick="toggleRow('${a.id}', this)">Edit</button>
+        <button class="btn" onclick="copyP('${a.id}', this)">Copy</button>
+        <button class="btn primary" onclick="genP('${a.id}', this)">Generate</button>
+      </div>
+      <div class="result" id="out-${a.id}" style="display:none"></div>
     </div>`).join('');
 }
-function copyP(id, btn){ navigator.clipboard.writeText($('p-'+id).value).then(()=>{btn.textContent='✔'; setTimeout(()=>btn.textContent='📋 Copy',1200);}); }
-function resetP(id){ localStorage.removeItem('ggart-p-'+id); render(); }
+function openRow(id){ const r = $('row-'+id); if(!r.classList.contains('open')) toggleRow(id, r.querySelector('.acts .btn')); }
+function toggleRow(id, btn){
+  const r = $('row-'+id); r.classList.toggle('open');
+  btn.textContent = r.classList.contains('open') ? 'Done' : 'Edit';
+  if (!r.classList.contains('open')){
+    r.querySelector('.prompt-view').textContent = $('p-'+id).value;
+  }
+}
+function copyP(id, btn){
+  navigator.clipboard.writeText($('p-'+id).value).then(()=>{
+    const o = btn.textContent; btn.textContent = 'Copied'; setTimeout(()=>btn.textContent = o, 1200); });
+}
 function exportPrompts(){
   const out = {master: $('master').value};
   ASSETS.forEach(a => out[a.id] = $('p-'+a.id).value);
   const el = document.createElement('a');
   el.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 2)], {type:'application/json'}));
-  el.download = 'golden-games-prompts.json'; el.click();
+  el.download = 'golden-games-prompt-book.json'; el.click();
 }
 
 async function genP(id, btn){
   const key = store.g('key','');
-  if (!key){ alert('Paste your Gemini API key first (top of the page).'); return; }
-  const old = btn.textContent; btn.textContent = '🍌 generating…'; btn.disabled = true;
-  const out = $('out-'+id); out.innerHTML = '';
+  const out = $('out-'+id);
+  if (!key){
+    out.style.display = 'block';
+    out.innerHTML = '<div class="errnote">Set the API key in section 01 first — or copy the prompt into AI Studio.</div>';
+    return;
+  }
+  const old = btn.textContent; btn.textContent = 'Generating…'; btn.disabled = true;
+  out.style.display = 'block'; out.innerHTML = '<div class="note" style="color:var(--faint);font-size:.76rem">Rendering with Nano Banana…</div>';
   try{
     const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=' + encodeURIComponent(key), {
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -139,19 +263,22 @@ async function genP(id, btn){
     if (d.error) throw new Error(d.error.message);
     const part = (d.candidates?.[0]?.content?.parts || []).find(p => p.inlineData || p.inline_data);
     const img = part && (part.inlineData || part.inline_data);
-    if (!img) throw new Error('no image in response');
+    if (!img) throw new Error('no image returned — try rewording the prompt');
     const src = 'data:' + (img.mimeType || img.mime_type || 'image/png') + ';base64,' + img.data;
     out.innerHTML = `<img src="${src}">
-      <div class="row" style="margin-top:6px">
-        <a class="btn gold" download="${id}.jpg" href="${src}" style="text-decoration:none">⬇ Download ${id}.jpg</a>
-        <span class="note">save into images/cards/ and push — the game uses it automatically</span>
+      <div class="r-acts">
+        <a class="btn primary" download="${id}.jpg" href="${src}" style="text-decoration:none">Download ${id}.jpg</a>
+        <span class="note">place in <span class="mono">images/cards/</span> and push — the game picks it up automatically</span>
       </div>`;
-  }catch(e){ out.innerHTML = `<div class="note" style="color:#fca5a5">⚠ ${String(e.message||e).slice(0,160)}</div>`; }
+  }catch(e){
+    out.innerHTML = `<div class="errnote">${String(e.message||e).slice(0,180)}</div>`;
+  }
   btn.textContent = old; btn.disabled = false;
 }
 
 $('master').value = store.g('master', DEFAULT_MASTER);
 if (store.g('key','')) $('key').value = store.g('key','');
+syncKeyStatus();
 render();
 </script>
 </body>
