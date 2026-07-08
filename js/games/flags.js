@@ -1,3 +1,9 @@
+// Windows has no flag-emoji glyphs — render real flag images from the emoji's
+// regional-indicator pair (🇺🇸 → "us" → flagcdn), emoji text as a fallback.
+function _flagUrl(emoji){
+    const code = [...emoji].map(ch => String.fromCharCode(ch.codePointAt(0) - 127397)).join('').toLowerCase();
+    return 'https://flagcdn.com/w320/' + code + '.png';
+}
 // ═══════════════════════════════════════════════════════════════════════════════
 // GAME 14: FLAG QUIZ
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -16,7 +22,10 @@ function _flagNext(c) {
     const isHe = currentLang === 'he';
     c.innerHTML = `<div class="max-w-md w-full text-center">
         <div class="flex justify-between text-sm font-bold text-gray-400 mb-4"><span>${isHe?'שאלה':'Q'} ${gs.idx+1}/${gs.perLevel}</span><span class="text-green-600">&#10003; ${gs.score}</span></div>
-        <div class="text-8xl mb-6 select-none leading-none" style="font-family:serif;font-size:clamp(4rem,20vw,8rem)">${item.flag}</div>
+        <div class="mb-6 select-none" style="display:flex;justify-content:center">
+            <img src="${_flagUrl(item.flag)}" alt="flag" style="height:clamp(90px,22vw,150px);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.15)"
+                 onerror="this.outerHTML='<div style=&quot;font-size:clamp(4rem,20vw,8rem)&quot;>'+decodeURIComponent('${encodeURIComponent(item.flag)}')+'</div>'">
+        </div>
         <div class="flex flex-col gap-3">${item.opts.map((o,i)=>`<button onclick="answerFlag(${i},${item.a})" class="py-4 text-xl font-bold rounded-xl border-2 border-gray-200 bg-white hover:border-[#b7791f] hover:bg-amber-50 active:scale-95 transition">${o}</button>`).join('')}</div>
     </div>`;
 }
