@@ -1,3 +1,15 @@
+## 2026-07-19 — Klondike Solitaire + sound toggle (Fable session)
+- **Game 27: Klondike** (`js/games/klondike.js`) — real classic solitaire, senior-friendly
+  click-to-move (tap card → tap destination, no dragging), Undo (100 steps), Hint
+  (foundation→tableau→waste priority), New deal, moves counter. Difficulty: easy/normal
+  = draw 1, hard = draw 3 + 3 redeals. Tap selected card again = auto-to-foundation.
+- **🔊 Sound toggle** in navbar (persists `gg-sound`; gates `_tone` so ALL sfx obey).
+- i18n: title/desc/inst in he/en/es/fr/de/el. Cache v20→v21 (+sw precache).
+- **Verified:** 26-game render sweep passed in ALL 6 languages (156/156, zero JS errors);
+  Klondike gameplay E2E (deal/draw/undo/hint/legal-move/win modal) in HE+EN.
+- Gotcha hit: SW served stale index during verification — cleared SW+caches to confirm;
+  real users get v21 via normal SW update cycle.
+
 # HANDOFF — Golden Games (Elders_Ai)
 
 ## 2026-07-07 — Text-size toggle (seniors accessibility)
