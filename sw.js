@@ -4,7 +4,7 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v20';
+const CACHE = 'golden-games-v21';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
 const SHELL = [
@@ -69,6 +69,7 @@ const SHELL = [
   './js/games/sudoku.js',
   './js/games/shapes.js',
   './js/games/solitaire.js',
+  './js/games/klondike.js',
   './js/games/trivia.js',
   './js/games/numseq.js',
   './js/games/unscramble.js',

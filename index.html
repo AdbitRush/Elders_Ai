@@ -114,6 +114,8 @@
             <span id="levelIndicator" class="hidden font-bold text-[#f6c048] bg-white/10 border border-[#f6c048]/40 px-3 py-1 rounded-full text-sm"></span>
             <span id="personalBest" class="hidden font-bold text-amber-300 text-sm"></span>
             <button id="textsize-btn" onclick="if(typeof TextSize!=='undefined')TextSize.cycle()" title="Text size" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer;white-space:nowrap" aria-label="Change text size">🔠 A</button>
+            <button id="sound-btn" onclick="(function(){const off=localStorage.getItem('gg-sound')==='off';localStorage.setItem('gg-sound',off?'on':'off');document.getElementById('sound-btn').innerText=off?'🔊':'🔇';})()" title="Sound on/off" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer;white-space:nowrap" aria-label="Toggle sound">🔊</button>
+            <script>if(localStorage.getItem('gg-sound')==='off')document.getElementById('sound-btn').innerText='🔇';</script>
             <button onclick="if(typeof Stats!=='undefined')Stats.showModal()" title="Scoreboard" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer" aria-label="Open scoreboard">📊</button>
             <button onclick="if(typeof Achievements!=='undefined')Achievements.showModal()" title="Achievements" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer" aria-label="Open achievements">🏅</button>
             <button id="profile-chip" onclick="if(typeof Profile!=='undefined')Profile.edit()" style="display:flex;align-items:center;gap:6px;background:rgba(183,121,31,0.12);border:1px solid rgba(183,121,31,0.35);border-radius:9999px;padding:4px 10px 4px 6px;cursor:pointer;color:inherit" aria-label="Edit profile">
@@ -214,6 +216,11 @@
             <span id="hs-shapes" class="hs-badge hidden"></span>
             <div class="thumbnail-container"><img src="images/cards/shapes.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="shapes" onerror="if(!this._r){this._r=1;this.src='https://image.pollinations.ai/prompt/colorful+wooden+geometric+shapes+sorting+puzzle+bright+playful+brain+training+lifestyle+photography,+luxury+editorial+photography,+soft+golden+hour+light,+rich+warm+color+grade,+shallow+depth+of+field,+high+end+magazine+quality?width=600&height=400&nologo=true&seed=1007&model=flux';}else{this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)';}"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_shapes_title">סדר וארגון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_shapes_desc">התאמת צורות למקומן.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('shapes')" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('klondike')" style="cursor:pointer">
+            <span id="hs-klondike" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/klondike.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="klondike" onerror="if(!this._r){this._r=1;this.src='https://image.pollinations.ai/prompt/classic+klondike+solitaire+card+game+spread+on+green+felt+table+red+and+black+cards+elegant,+luxury+editorial+photography,+soft+golden+hour+light,+rich+warm+color+grade,+shallow+depth+of+field,+high+end+magazine+quality?width=600&height=400&nologo=true&seed=2027&model=flux';}else{this.style.cssText+=';background:linear-gradient(135deg,#14532d,#166534)';}"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_klondike_title">סוליטר קלאסי</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_klondike_desc">הקלונדייק האמיתי — בלי גרירה, רק לחיצות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('klondike')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('solitaire')" style="cursor:pointer">
             <span id="hs-solitaire" class="hs-badge hidden"></span>
@@ -404,6 +411,7 @@ he: {
     game_sudoku_title:"סודוקו יומי", game_sudoku_desc:"פאזל לוגי 4×4.",
     game_shapes_title:"סדר וארגון", game_shapes_desc:"התאמת צורות למקומן.",
     game_solitaire_title:"סוליטר פירמידה", game_solitaire_desc:"זוגות קלפים = 13.",
+    game_klondike_title:"סוליטר קלאסי", game_klondike_desc:"הקלונדייק האמיתי — בלי גרירה, רק לחיצות.", inst_klondike:"לחצו על קלף ואז על היעד. סדרו כל סדרה מ-A עד K. יש כפתורי ביטול ורמז!",
     game_trivia_title:"טריוויה", game_trivia_desc:"ידע כללי ושאלות מרתקות.",
     game_numseq_title:"רצף מספרים", game_numseq_desc:"מצאו את המספר הבא ברצף.",
     game_unscrbl_title:"פענוח מילה", game_unscrbl_desc:"סדרו את האותיות לכדי מילה.",
@@ -591,6 +599,7 @@ en: {
     game_sudoku_title:"Daily Sudoku", game_sudoku_desc:"Beginner-friendly 4×4 puzzle.",
     game_shapes_title:"Shape Sorter", game_shapes_desc:"Match shapes to their slots.",
     game_solitaire_title:"Pyramid Solitaire", game_solitaire_desc:"Card pairs that add to 13.",
+    game_klondike_title:"Classic Solitaire", game_klondike_desc:"Real Klondike — no dragging, just taps.", inst_klondike:"Tap a card, then tap where it goes. Build each suit from A to K. Undo and Hint buttons included!",
     game_trivia_title:"Trivia", game_trivia_desc:"General knowledge questions.",
     game_numseq_title:"Number Sequence", game_numseq_desc:"Find the next number in the pattern.",
     game_unscrbl_title:"Word Unscramble", game_unscrbl_desc:"Rearrange the letters to form a word.",
@@ -773,6 +782,7 @@ en: {
 let _audioCtx = null;
 function _ctx() { if (!_audioCtx) _audioCtx = new (window.AudioContext||window.webkitAudioContext)(); return _audioCtx; }
 function _tone(freq, dur, type='sine', vol=0.25) {
+    if (localStorage.getItem('gg-sound') === 'off') return;  // global mute (navbar toggle)
     try {
         const ctx = _ctx(), osc = ctx.createOscillator(), gain = ctx.createGain();
         osc.connect(gain); gain.connect(ctx.destination);
@@ -815,7 +825,7 @@ function checkHS(gameId, level) {
     return false;
 }
 function refreshHSBadges() {
-    const games=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
+    const games=['klondike','memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
     games.forEach(id => {
         const hs = getHS(id); const el = document.getElementById('hs-'+id);
         if (el) { if (hs>0) { el.innerText=`🏅 ${hs}`; el.classList.remove('hidden'); } else { el.classList.add('hidden'); } }
@@ -904,6 +914,7 @@ i18nData.es = Object.assign({}, i18nData.en, {
   game_sudoku_title:"Sudoku diario", game_sudoku_desc:"Puzle 4×4 para principiantes.",
   game_shapes_title:"Clasifica formas", game_shapes_desc:"Coloca las formas en su lugar.",
   game_solitaire_title:"Solitario pirámide", game_solitaire_desc:"Parejas de cartas que suman 13.",
+  game_klondike_title:"Solitario clásico", game_klondike_desc:"Klondike de verdad — sin arrastrar, solo toques.", inst_klondike:"Toca una carta y luego su destino. Ordena cada palo de A a K. ¡Con Deshacer y Pista!",
   game_trivia_title:"Trivia", game_trivia_desc:"Preguntas de cultura general.",
   game_numseq_title:"Secuencia numérica", game_numseq_desc:"Encuentra el siguiente número.",
   game_unscrbl_title:"Ordena la palabra", game_unscrbl_desc:"Reordena las letras para formar una palabra.",
@@ -931,6 +942,7 @@ i18nData.fr = Object.assign({}, i18nData.en, {
   game_sudoku_title:"Sudoku quotidien", game_sudoku_desc:"Puzzle 4×4 pour débutants.",
   game_shapes_title:"Trieur de formes", game_shapes_desc:"Placez les formes à leur place.",
   game_solitaire_title:"Solitaire pyramide", game_solitaire_desc:"Paires de cartes qui font 13.",
+  game_klondike_title:"Solitaire classique", game_klondike_desc:"Le vrai Klondike — sans glisser, juste des clics.", inst_klondike:"Touchez une carte puis sa destination. Classez chaque couleur de l'As au Roi. Annuler et Indice inclus !",
   game_trivia_title:"Quiz", game_trivia_desc:"Questions de culture générale.",
   game_numseq_title:"Suite de nombres", game_numseq_desc:"Trouvez le nombre suivant.",
   game_unscrbl_title:"Mot mêlé", game_unscrbl_desc:"Réarrangez les lettres pour former un mot.",
@@ -958,6 +970,7 @@ i18nData.de = Object.assign({}, i18nData.en, {
   game_sudoku_title:"Tägliches Sudoku", game_sudoku_desc:"Anfängerfreundliches 4×4-Rätsel.",
   game_shapes_title:"Formen sortieren", game_shapes_desc:"Formen den Feldern zuordnen.",
   game_solitaire_title:"Pyramiden-Solitär", game_solitaire_desc:"Kartenpaare, die 13 ergeben.",
+  game_klondike_title:"Klassisches Solitär", game_klondike_desc:"Echtes Klondike — kein Ziehen, nur Tippen.", inst_klondike:"Karte antippen, dann das Ziel. Jede Farbe von Ass bis König ordnen. Mit Rückgängig und Tipp!",
   game_trivia_title:"Quiz", game_trivia_desc:"Fragen zum Allgemeinwissen.",
   game_numseq_title:"Zahlenfolge", game_numseq_desc:"Finde die nächste Zahl.",
   game_unscrbl_title:"Wort ordnen", game_unscrbl_desc:"Ordne die Buchstaben zu einem Wort.",
@@ -985,6 +998,7 @@ i18nData.el = Object.assign({}, i18nData.en, {
   game_sudoku_title:"Καθημερινό Sudoku", game_sudoku_desc:"Εύκολο παζλ 4×4.",
   game_shapes_title:"Ταξινόμηση σχημάτων", game_shapes_desc:"Τοποθετήστε τα σχήματα στη θέση τους.",
   game_solitaire_title:"Πασιέντζα πυραμίδα", game_solitaire_desc:"Ζευγάρια καρτών που κάνουν 13.",
+  game_klondike_title:"Κλασική πασιέντζα", game_klondike_desc:"Αληθινό Klondike — χωρίς σύρσιμο, μόνο αγγίγματα.", inst_klondike:"Αγγίξτε ένα χαρτί και μετά τον προορισμό. Χτίστε κάθε χρώμα από Άσο ως Ρήγα. Με Αναίρεση και Βοήθεια!",
   game_trivia_title:"Ερωτήσεις", game_trivia_desc:"Ερωτήσεις γενικών γνώσεων.",
   game_numseq_title:"Ακολουθία αριθμών", game_numseq_desc:"Βρείτε τον επόμενο αριθμό.",
   game_unscrbl_title:"Αναγραμματισμός", game_unscrbl_desc:"Βάλτε τα γράμματα στη σωστή σειρά.",
@@ -1041,7 +1055,7 @@ function _el(id){return document.getElementById(id);}
 function loadGame(gameId, level=0) {
     // Resume at the highest level reached (persistent) unless a level is given
     if(!level) level = (typeof Levels!=='undefined') ? Levels.get(gameId) : 1;
-    const validIds=['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
+    const validIds=['klondike','memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
     if(!validIds.includes(gameId)) return;
     ['homeScreen','homeScreen-header','hero'].forEach(id=>{const e=_el(id);if(e)e.classList.add('hidden');});
     ['gameView','backBtn'].forEach(id=>{const e=_el(id);if(e)e.classList.remove('hidden');});
@@ -1052,10 +1066,11 @@ function loadGame(gameId, level=0) {
     if(!gameState[gameId]||level===1) gameState[gameId]={level}; else gameState[gameId].level=level;
     if(level===1&&typeof Favorites!=='undefined') Favorites.recordPlay(gameId);
     updateLevelDisplay();
-    const titleMap={memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',simon:'game_simon_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title',tetris:'game_tetris_title',colormatch:'game_colormatch_title',digitspan:'game_digitspan_title',clock:'game_clock_title',counting:'game_counting_title',category:'game_category_title',letters:'game_letters_title',lifesim:'game_lifesim_title',safari:'game_safari_title'};
-    const instMap ={memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',simon:'inst_simon',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall',tetris:'inst_tetris',lifesim:'inst_lifesim',safari:'inst_safari'};
+    const titleMap={klondike:'game_klondike_title',memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',simon:'game_simon_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title',tetris:'game_tetris_title',colormatch:'game_colormatch_title',digitspan:'game_digitspan_title',clock:'game_clock_title',counting:'game_counting_title',category:'game_category_title',letters:'game_letters_title',lifesim:'game_lifesim_title',safari:'game_safari_title'};
+    const instMap ={klondike:'inst_klondike',memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',simon:'inst_simon',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall',tetris:'inst_tetris',lifesim:'inst_lifesim',safari:'inst_safari'};
     document.getElementById('gameTitle').innerText=t(titleMap[gameId]);
     document.getElementById('gameInstructions').innerText=t(instMap[gameId]);
+    if(gameId==='klondike')   initKlondike(content);
     if(gameId==='memory')     initMemory(content);
     if(gameId==='oddoneout')  initOddOneOut(content);
     if(gameId==='math')       initMath(content);
@@ -1279,12 +1294,12 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
-<script src="js/affiliate.js?v=20"></script>
-<script src="js/profile.js?v=20"></script>
-<script src="js/brainscore.js?v=20"></script>
-<script src="js/achievements.js?v=20"></script>
-<script src="js/lang-content.js?v=20"></script>
-<script src="js/textsize.js?v=20"></script>
+<script src="js/affiliate.js?v=21"></script>
+<script src="js/profile.js?v=21"></script>
+<script src="js/brainscore.js?v=21"></script>
+<script src="js/achievements.js?v=21"></script>
+<script src="js/lang-content.js?v=21"></script>
+<script src="js/textsize.js?v=21"></script>
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
 if ('IntersectionObserver' in window) {
@@ -1297,45 +1312,46 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
 }
 </script>
-<script src="js/daily-challenge.js?v=20"></script>
-<script src="js/stats.js?v=20"></script>
-<script src="js/difficulty.js?v=20"></script>
-<script src="js/levels.js?v=20"></script>
-<script src="js/share.js?v=20"></script>
-<script src="js/categories.js?v=20"></script>
-<script src="js/accessibility.js?v=20"></script>
-<script src="js/tips.js?v=20"></script>
-<script src="js/favorites.js?v=20"></script>
-<script src="js/holiday.js?v=20"></script>
-<script src="js/sync.js?v=20"></script>
-<script src="js/fx.js?v=20"></script>
-<script src="js/kbnav.js?v=20"></script>
+<script src="js/daily-challenge.js?v=21"></script>
+<script src="js/stats.js?v=21"></script>
+<script src="js/difficulty.js?v=21"></script>
+<script src="js/levels.js?v=21"></script>
+<script src="js/share.js?v=21"></script>
+<script src="js/categories.js?v=21"></script>
+<script src="js/accessibility.js?v=21"></script>
+<script src="js/tips.js?v=21"></script>
+<script src="js/favorites.js?v=21"></script>
+<script src="js/holiday.js?v=21"></script>
+<script src="js/sync.js?v=21"></script>
+<script src="js/fx.js?v=21"></script>
+<script src="js/kbnav.js?v=21"></script>
 <!-- ── Game modules ────────────────────────────────────────── -->
-<script src="js/games/memory.js?v=20"></script>
-<script src="js/games/oddoneout.js?v=20"></script>
-<script src="js/games/math.js?v=20"></script>
-<script src="js/games/wordsearch.js?v=20"></script>
-<script src="js/games/simon.js?v=20"></script>
-<script src="js/games/sudoku.js?v=20"></script>
-<script src="js/games/shapes.js?v=20"></script>
-<script src="js/games/solitaire.js?v=20"></script>
-<script src="js/games/trivia.js?v=20"></script>
-<script src="js/games/numseq.js?v=20"></script>
-<script src="js/games/unscramble.js?v=20"></script>
-<script src="js/games/pairs.js?v=20"></script>
-<script src="js/games/truefalse.js?v=20"></script>
-<script src="js/games/flags.js?v=20"></script>
-<script src="js/games/proverbs.js?v=20"></script>
-<script src="js/games/hangman.js?v=20"></script>
-<script src="js/games/recall.js?v=20"></script>
-<script src="js/games/tetris.js?v=20"></script>
-<script src="js/games/colormatch.js?v=20"></script>
-<script src="js/games/digitspan.js?v=20"></script>
-<script src="js/games/clock.js?v=20"></script>
-<script src="js/games/counting.js?v=20"></script>
-<script src="js/games/category.js?v=20"></script>
-<script src="js/games/letters.js?v=20"></script>
-<script src="js/games/lifesim.js?v=20"></script>
-<script src="js/games/safari.js?v=20"></script>
+<script src="js/games/klondike.js?v=21"></script>
+<script src="js/games/memory.js?v=21"></script>
+<script src="js/games/oddoneout.js?v=21"></script>
+<script src="js/games/math.js?v=21"></script>
+<script src="js/games/wordsearch.js?v=21"></script>
+<script src="js/games/simon.js?v=21"></script>
+<script src="js/games/sudoku.js?v=21"></script>
+<script src="js/games/shapes.js?v=21"></script>
+<script src="js/games/solitaire.js?v=21"></script>
+<script src="js/games/trivia.js?v=21"></script>
+<script src="js/games/numseq.js?v=21"></script>
+<script src="js/games/unscramble.js?v=21"></script>
+<script src="js/games/pairs.js?v=21"></script>
+<script src="js/games/truefalse.js?v=21"></script>
+<script src="js/games/flags.js?v=21"></script>
+<script src="js/games/proverbs.js?v=21"></script>
+<script src="js/games/hangman.js?v=21"></script>
+<script src="js/games/recall.js?v=21"></script>
+<script src="js/games/tetris.js?v=21"></script>
+<script src="js/games/colormatch.js?v=21"></script>
+<script src="js/games/digitspan.js?v=21"></script>
+<script src="js/games/clock.js?v=21"></script>
+<script src="js/games/counting.js?v=21"></script>
+<script src="js/games/category.js?v=21"></script>
+<script src="js/games/letters.js?v=21"></script>
+<script src="js/games/lifesim.js?v=21"></script>
+<script src="js/games/safari.js?v=21"></script>
 </body>
 </html>
