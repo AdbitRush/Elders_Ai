@@ -5,6 +5,7 @@
 // installed users (v1 was cache-first with a never-bumped cache name).
 
 const CACHE = 'golden-games-v22';
+const PREFIX = 'golden-games-';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
 const SHELL = [
@@ -100,7 +101,11 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      // Only our OWN generations: espresso, JokeStream and Golden Games are all
+      // served from adbitrush.github.io and Cache Storage is per-ORIGIN, so a
+      // blanket "delete everything that isn't mine" wiped the other apps' offline
+      // caches every time this one shipped an update.
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE && k.startsWith(PREFIX)).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
