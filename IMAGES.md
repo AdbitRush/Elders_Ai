@@ -60,40 +60,68 @@ If any one of them jumps out, it is wrong, however good it looks alone.
 
 ---
 
+## Two ways to do this, and they disagree
+
+`GRAPHICS_TODO.md` in this repo is a **per-card visual audit** — someone opened
+all 27 pictures and wrote down what is wrong with each. It found 13 with real
+defects (gibberish text, smeared card faces, clip-art) and judged the other 13
+good enough to keep. That audit is evidence and its defect list is reproduced in
+the Verdict column below; trust it over anything written here about a specific
+card.
+
+Where it and this file part company is **what the goal is**:
+
+| | Replace the 13 broken ones | Replace all 27 |
+|---|---|---|
+| Fixes | Cards that look corrupted | Cards that look corrupted **and** the grid that reads as a jumble |
+| Cost | 13 images | 27 images |
+| Risk | The grid still mixes three visual languages, so it still looks unplanned | More work for cards that are individually fine |
+
+**The recommendation here is all 27**, because the complaint that started this
+was that the site *"looks bad visually — style"*, and style is the thing 13
+replacements cannot fix: swapping the worst cards leaves a golden-hour portrait
+of a woman next to a neon "7 3 9" on a black ground, which is the actual
+problem. The 13 good pictures are good **in isolation**; three of them are the
+reason the other 24 cannot match anything.
+
+If time is short, the order that gets the most out of the least work is: the
+13 broken ones first (they read as *broken*, which costs trust), then the
+remaining 14 to unify the grid.
+
 ## The 27 game cards — `images/cards/<id>.jpg`
 
 Shown on the home grid; each is also the Open Graph image for that game's
 `/<lang>/<id>/` page, so it is what appears when someone shares the link.
 
-| id | Game | What the new picture should show | What it shows today |
-|---|---|---|---|
-| `klondike` | Classic Solitaire | A classic solitaire tableau part-dealt on green baize — seven columns, one ace moved up to the foundation. | classic klondike solitaire card game spread on green felt table red and black cards elegant |
-| `memory` | Memory Match | A dozen face-down cards laid in a neat grid on the felt, two turned face up beside each other showing the same simple symbol. | elderly woman joyful playing memory card game cozy warm living room golden hour cinematic photography lifestyle |
-| `oddoneout` | Odd One Out | Five identical smooth wooden shapes in a row and one that is plainly different — different colour, same size. | colorful geometric shapes symbols grid visual puzzle brain teaser vibrant studio high contrast |
-| `math` | Quick Math | A short sum written in pencil on squared paper, the pencil resting across it. | senior man cheerful mental arithmetic math calculation bright warm home lifestyle photography |
-| `wordsearch` | Word Search | A folded newspaper puzzle page with a letter grid, one word ringed in pencil, the pencil lying on top. | word search puzzle newspaper pencil morning coffee warm cozy overhead flat lay photography |
-| `sequence` | Color Sequence | Four coloured discs — red, green, blue, yellow — arranged in an arc on the felt, one of them lit from beneath. | neon glowing colorful sequence says electronic buttons dark background vibrant retro game |
-| `sudoku` | Daily Sudoku | A 9x9 grid printed on paper, part-filled in pencil, an eraser and a sharpened pencil beside it. | sudoku puzzle newspaper pencil morning coffee cozy warm soft natural light lifestyle |
-| `shapes` | Shape Sorter | A wooden shape-sorter board with circle, square and triangle holes, the matching blocks lying next to their slots. | colorful wooden geometric shapes sorting puzzle bright playful brain training lifestyle photography |
-| `solitaire` | Pyramid Solitaire | Playing cards arranged in a pyramid on green baize, a few pairs already removed and set aside. | pyramid solitaire playing cards green felt table classic elegant cinematic photography |
-| `trivia` | Trivia | A stack of question cards on the felt, the top one blank-faced, beside a small brass bell. | quiz show dramatic spotlight glowing question mark trivia knowledge game exciting stage |
-| `numseq` | Number Sequence | Wooden number tiles in a row — 2, 4, 6, 8 — with the next tile turned face down. | mathematical number sequence glowing colorful digits pattern brain training vibrant dark |
-| `unscramble` | Word Unscramble | Seven wooden letter tiles jumbled in a loose heap, three of them pushed aside into the start of a word. | wooden scrabble letter tiles word unscramble anagram game cozy warm table photography |
-| `pairs` | Opposites Pairs | Two small objects that are opposites resting side by side — a candle and an ice cube, or a key and a lock. | artistic opposites contrast hot cold day night concept photography warm tones creative |
-| `truefalse` | True or False | Two wooden paddles on the felt, one marked with a tick and one with a cross. | true false bold checkmark crossmark quiz decision vibrant colorful graphic design |
-| `flags` | Flag Quiz | A handful of small paper flags of different countries in a shallow bowl, one standing clear of the rest. | world flags colorful collection globe international travel countries display vibrant |
-| `proverbs` | Complete the Proverb | An open book with a ribbon marker on a warm table, a pair of reading glasses folded on the page. | ancient wisdom open book candlelight cozy library golden parchment quill warm glow |
-| `hangman` | Hangman | A small slate with chalk, a row of blank dashes drawn on it, one letter filled in, chalk stub beside it. | hangman word guessing game chalk blackboard classic letters vintage atmospheric |
-| `recall` | Picture Recall | Four photographs face down on the table and one face up, as though being memorised before being turned. | brain memory recall training senior cognitive focus concentration warm lifestyle calm |
-| `blocks` | Falling Blocks | Four brightly coloured wooden tetromino-shaped blocks stacked into a part-complete row on the felt. | colorful neon blocks blocks falling dark background retro arcade game vibrant glow cinematic |
-| `colormatch` | Color Match | A fan of paint colour swatches opened on the table, two chips of the same colour set apart from the rest. | rainbow color swatches bold typography word art vibrant studio design |
-| `digitspan` | Number Memory | Wooden number tiles in a short row — 7, 3, 9, 1 — with a card half-covering the last two. | large glowing numbers display memory brain neon blue digits dark background |
-| `clock` | Clock Reading | A small analogue clock face lying flat on the table, hands at a clear readable time, warm brass rim. | beautiful classic analog wall clock roman numerals warm wood cozy home |
-| `counting` | Quick Count | A scatter of identical small objects — buttons or acorns — with a few gathered into a counted pile. | colorful butterflies flowers meadow pattern counting bright cheerful illustration |
-| `category` | Categories | Three small groups of objects sorted apart on the table: fruit in one, tools in another, buttons in a third. | organized colorful groups of fruits vegetables objects sorted neat flat lay |
-| `letters` | Missing Letter | Wooden alphabet blocks in a loose row, a few turned to spell the beginning of a word. | wooden alphabet letter blocks scrabble tiles warm light word puzzle |
-| `lifesim` | lifesim | An open photo album on the table, a few loose black-and-white prints and a fountain pen beside it. | vintage time machine nostalgia dance hall 1960s joyful elderly and young people swapping lives golden light cinematic, luxury editorial photography, rich warm color grade, shallow depth of field |
-| `safari` | safari | Four small carved wooden animals — elephant, giraffe, lion, zebra — standing on the table in a line. | african savanna safari giraffe lion elephant zebra golden hour wildlife spectacular vivid, luxury editorial photography, rich warm color grade, shallow depth of field |
+| id | Game | Verdict | What the new picture should show | What it shows today |
+|---|---|---|---|---|
+| `klondike` | Classic Solitaire | 🔴 **broken** — card faces are smeared texture — no suits or numbers | A classic solitaire tableau part-dealt on green baize — seven columns, one ace moved up to the foundation. | classic klondike solitaire card game spread on green felt table red and black cards elegant |
+| `memory` | Memory Match | 🟢 usable — old woman with a puzzle — the gold standard | A dozen face-down cards laid in a neat grid on the felt, two turned face up beside each other showing the same simple symbol. | elderly woman joyful playing memory card game cozy warm living room golden hour cinematic photography lifestyle |
+| `oddoneout` | Odd One Out | 🔴 **broken** — toy lego grid, plastic gradients | Five identical smooth wooden shapes in a row and one that is plainly different — different colour, same size. | colorful geometric shapes symbols grid visual puzzle brain teaser vibrant studio high contrast |
+| `math` | Quick Math | 🟢 usable — old man drawing — hero quality | A short sum written in pencil on squared paper, the pencil resting across it. | senior man cheerful mental arithmetic math calculation bright warm home lifestyle photography |
+| `wordsearch` | Word Search | 🟢 usable — newspaper and coffee | A folded newspaper puzzle page with a letter grid, one word ringed in pencil, the pencil lying on top. | word search puzzle newspaper pencil morning coffee warm cozy overhead flat lay photography |
+| `sequence` | Color Sequence | 🟢 usable — neon keyboard, high contrast | Four coloured discs — red, green, blue, yellow — arranged in an arc on the felt, one of them lit from beneath. | neon glowing colorful sequence says electronic buttons dark background vibrant retro game |
+| `sudoku` | Daily Sudoku | 🟢 usable — journal and coffee | A 9x9 grid printed on paper, part-filled in pencil, an eraser and a sharpened pencil beside it. | sudoku puzzle newspaper pencil morning coffee cozy warm soft natural light lifestyle |
+| `shapes` | Shape Sorter | 🔴 **broken** — plastic toy blocks with nonsense icons | A wooden shape-sorter board with circle, square and triangle holes, the matching blocks lying next to their slots. | colorful wooden geometric shapes sorting puzzle bright playful brain training lifestyle photography |
+| `solitaire` | Pyramid Solitaire | 🟢 usable — clean green card table | Playing cards arranged in a pyramid on green baize, a few pairs already removed and set aside. | pyramid solitaire playing cards green felt table classic elegant cinematic photography |
+| `trivia` | Trivia | 🟢 usable — neon question mark, legible | A stack of question cards on the felt, the top one blank-faced, beside a small brass bell. | quiz show dramatic spotlight glowing question mark trivia knowledge game exciting stage |
+| `numseq` | Number Sequence | ⚪ not yet reviewed | Wooden number tiles in a row — 2, 4, 6, 8 — with the next tile turned face down. | mathematical number sequence glowing colorful digits pattern brain training vibrant dark |
+| `unscramble` | Word Unscramble | 🟢 usable — real wooden blocks | Seven wooden letter tiles jumbled in a loose heap, three of them pushed aside into the start of a word. | wooden scrabble letter tiles word unscramble anagram game cozy warm table photography |
+| `pairs` | Opposites Pairs | 🔴 **broken** — waxy uncanny split face | Two small objects that are opposites resting side by side — a candle and an ice cube, or a key and a lock. | artistic opposites contrast hot cold day night concept photography warm tones creative |
+| `truefalse` | True or False | 🔴 **broken** — box reads “Quuik”, plus two gibberish logos | Two wooden paddles on the felt, one marked with a tick and one with a cross. | true false bold checkmark crossmark quiz decision vibrant colorful graphic design |
+| `flags` | Flag Quiz | 🔴 **broken** — misshapen continents, gibberish text over China | A handful of small paper flags of different countries in a shallow bowl, one standing clear of the rest. | world flags colorful collection globe international travel countries display vibrant |
+| `proverbs` | Complete the Proverb | 🟢 usable — rich library light | An open book with a ribbon marker on a warm table, a pair of reading glasses folded on the page. | ancient wisdom open book candlelight cozy library golden parchment quill warm glow |
+| `hangman` | Hangman | 🔴 **broken** — chalkboard full of gibberish AI text — most urgent | A small slate with chalk, a row of blank dashes drawn on it, one letter filled in, chalk stub beside it. | hangman word guessing game chalk blackboard classic letters vintage atmospheric |
+| `recall` | Picture Recall | 🔴 **broken** — generic head-with-brain medical clip-art | Four photographs face down on the table and one face up, as though being memorised before being turned. | brain memory recall training senior cognitive focus concentration warm lifestyle calm |
+| `blocks` | Falling Blocks | 🔴 **broken** — neon cubes, 2000s wallpaper | Four brightly coloured wooden tetromino-shaped blocks stacked into a part-complete row on the felt. | colorful neon blocks blocks falling dark background retro arcade game vibrant glow cinematic |
+| `colormatch` | Color Match | 🔴 **broken** — fake word “SVATD” painted on the board | A fan of paint colour swatches opened on the table, two chips of the same colour set apart from the rest. | rainbow color swatches bold typography word art vibrant studio design |
+| `digitspan` | Number Memory | 🔴 **broken** — digits lost in a messy server rack, low contrast | Wooden number tiles in a short row — 7, 3, 9, 1 — with a card half-covering the last two. | large glowing numbers display memory brain neon blue digits dark background |
+| `clock` | Clock Reading | 🟢 usable — antique clock, warm | A small analogue clock face lying flat on the table, hands at a clear readable time, warm brass rim. | beautiful classic analog wall clock roman numerals warm wood cozy home |
+| `counting` | Quick Count | 🟢 usable — watercolour butterflies | A scatter of identical small objects — buttons or acorns — with a few gathered into a counted pile. | colorful butterflies flowers meadow pattern counting bright cheerful illustration |
+| `category` | Categories | 🟢 usable — vibrant produce | Three small groups of objects sorted apart on the table: fruit in one, tools in another, buttons in a third. | organized colorful groups of fruits vegetables objects sorted neat flat lay |
+| `letters` | Missing Letter | 🔴 **broken** — tiles show garbled non-letters | Wooden alphabet blocks in a loose row, a few turned to spell the beginning of a word. | wooden alphabet letter blocks scrabble tiles warm light word puzzle |
+| `lifesim` | lifesim | 🟢 usable — swing dancing, senior-relevant | An open photo album on the table, a few loose black-and-white prints and a fountain pen beside it. | vintage time machine nostalgia dance hall 1960s joyful elderly and young people swapping lives golden light cinematic, luxury editorial photography, rich warm color grade, shallow depth of field |
+| `safari` | safari | 🔴 **broken** — animals too small, muddy contrast | Four small carved wooden animals — elephant, giraffe, lion, zebra — standing on the table in a line. | african savanna safari giraffe lion elephant zebra golden hour wildlife spectacular vivid, luxury editorial photography, rich warm color grade, shallow depth of field |
 
 ---
 

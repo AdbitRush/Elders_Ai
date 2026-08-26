@@ -60,3 +60,13 @@ These destroy trust — seniors see broken text/wrong objects and think the site
 ## 🎨 Bonus polish (later, beyond cards)
 - Home grid card hover effects, subtle shadows — make the grid feel premium
 - Consistent warm color grade across all card images
+
+---
+
+> **See also `IMAGES.md`** — the full manifest of every picture in the app
+> (cards, icons, and the two sources fetched rather than stored), a single
+> house recipe so the 27 cards read as one set, and a per-game subject line.
+> The defect list below is folded into it as the Verdict column. The two files
+> disagree on scope: this one replaces the 13 broken cards, `IMAGES.md` argues
+> for all 27 on the grounds that the grid mixing three visual languages is the
+> actual complaint. Read both before generating anything.
