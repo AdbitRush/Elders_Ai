@@ -58,13 +58,46 @@ function _sudokuRender(c) {
     </div>`;
 }
 function selectSudoku9(r,c){gameState.sudoku.sr=r;gameState.sudoku.sc=c;_sudokuRender(document.getElementById('gameContent'));}
+// Is placing `v` at (r,c) legal — no repeat in its row, column or 3×3 box?
+// This is the actual rule of sudoku, and it is what the grid is judged on.
+function _sudokuLegal(g,r,c,v){
+    if(!v)return true;
+    for(let i=0;i<9;i++){
+        if(i!==c&&g[r][i]===v)return false;
+        if(i!==r&&g[i][c]===v)return false;
+    }
+    const br=Math.floor(r/3)*3, bc=Math.floor(c/3)*3;
+    for(let dr=0;dr<3;dr++)for(let dc=0;dc<3;dc++){
+        const nr=br+dr,nc=bc+dc;
+        if((nr!==r||nc!==c)&&g[nr][nc]===v)return false;
+    }
+    return true;
+}
+// Solved = every cell filled and every placement legal.
+function _sudokuSolved(g){
+    for(let r=0;r<9;r++)for(let c=0;c<9;c++){
+        if(!g[r][c])return false;
+        if(!_sudokuLegal(g,r,c,g[r][c]))return false;
+    }
+    return true;
+}
 function fillSudoku9(num) {
     const gs=gameState.sudoku;
     const r=gs.sr,c=gs.sc;
     if(r===-1||c===-1||gs.given[r][c])return;
     gs.filled[r][c]=num;
-    if(num>0&&gs.sol[r][c]===num)sfxCorrect();else if(num>0)sfxWrong();
-    let win=num>0;
-    if(win)for(let rr=0;rr<9;rr++)for(let cc=0;cc<9;cc++)if(gs.filled[rr][cc]!==gs.sol[rr][cc])win=false;
-    if(win)setTimeout(()=>levelComplete(),600);else _sudokuRender(document.getElementById('gameContent'));
+
+    // Judged against the RULES, not against the one solution we happened to
+    // generate. The puzzle is made by punching holes at random with no
+    // uniqueness check, so at higher levels (up to 56 holes, i.e. 25 givens) it
+    // very often has more than one valid solution. The old test compared the
+    // grid cell by cell to gs.sol, which meant a player who filled in a
+    // different but perfectly correct grid was told nothing — no win, no
+    // explanation, and no conflict shown anywhere on the board, because their
+    // answer was in fact legal. The same comparison drove the per-move sound,
+    // so a legal digit could be answered with the "wrong" buzzer.
+    if(num>0) (_sudokuLegal(gs.filled,r,c,num) ? sfxCorrect() : sfxWrong());
+
+    if(_sudokuSolved(gs.filled)) setTimeout(()=>levelComplete(),600);
+    else _sudokuRender(document.getElementById('gameContent'));
 }
