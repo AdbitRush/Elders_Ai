@@ -123,9 +123,10 @@ function jigsawLoadFile(file) {
 }
 
 // ── Jigsaw shape geometry ──────────────────────────────────────────────────
-// Builds a closed path for cell (r,c) with interlocking bumps/indents.
-// The bump decision for the seam between two neighbours is shared, so the
-// right edge of (r,c) and left edge of (r,c+1) always interlock.
+// Builds a closed path for cell (r,c) with BIG, prominent interlocking
+// bumps/indents. The bump decision for the seam between two neighbours is
+// shared, so the right edge of (r,c) and left edge of (r,c+1) always interlock.
+// Edge pieces have a FLAT outer side (frame) — bumps only on inner seams.
 function jigsawPathFor(ctx, r, c, rows, cols, pw, ph, pad, tab) {
   const ox = pad, oy = pad;
   // tab decisions — deterministic, shared along each seam
@@ -137,13 +138,13 @@ function jigsawPathFor(ctx, r, c, rows, cols, pw, ph, pad, tab) {
   function edge(x1, y1, x2, y2, bump, horiz) {
     if (horiz) {
       const mx = (x1 + x2) / 2;
-      if (bump) { ctx.lineTo(mx - tab, y1); ctx.bezierCurveTo(mx - tab, y1 - tab * 1.3, mx + tab, y1 - tab * 1.3, mx + tab, y1); }
-      else      { ctx.lineTo(mx - tab, y1); ctx.bezierCurveTo(mx - tab, y1 + tab * 0.7, mx + tab, y1 + tab * 0.7, mx + tab, y1); }
+      if (bump) { ctx.lineTo(mx - tab, y1); ctx.bezierCurveTo(mx - tab, y1 - tab * 1.6, mx + tab, y1 - tab * 1.6, mx + tab, y1); }
+      else      { ctx.lineTo(mx - tab, y1); ctx.bezierCurveTo(mx - tab, y1 + tab * 0.9, mx + tab, y1 + tab * 0.9, mx + tab, y1); }
       ctx.lineTo(x2, y2);
     } else {
       const my = (y1 + y2) / 2;
-      if (bump) { ctx.lineTo(x1, my - tab); ctx.bezierCurveTo(x1 + tab * 1.3, my - tab, x1 + tab * 1.3, my + tab, x1, my + tab); }
-      else      { ctx.lineTo(x1, my - tab); ctx.bezierCurveTo(x1 - tab * 0.7, my - tab, x1 - tab * 0.7, my + tab, x1, my + tab); }
+      if (bump) { ctx.lineTo(x1, my - tab); ctx.bezierCurveTo(x1 + tab * 1.6, my - tab, x1 + tab * 1.6, my + tab, x1, my + tab); }
+      else      { ctx.lineTo(x1, my - tab); ctx.bezierCurveTo(x1 - tab * 0.9, my - tab, x1 - tab * 0.9, my + tab, x1, my + tab); }
       ctx.lineTo(x2, y2);
     }
   }
@@ -202,8 +203,8 @@ function buildJigsawBoard(container, isHe) {
   const { rows, cols } = S;
   const n = rows * cols;
   const pw = 800 / cols, ph = 600 / rows;
-  const tab = Math.min(pw, ph) * 0.17;
-  const pad = Math.ceil(tab) + 4;
+  const tab = Math.min(pw, ph) * 0.30;   // BIG prominent bumps
+  const pad = Math.ceil(tab) + 6;
 
   // generate piece canvases (PNG keeps transparency for the tabs)
   const pieces = [];
@@ -341,14 +342,14 @@ function jigsawOutlineSVG(r, c, rows, cols, pw, ph, pad, tab, padPct) {
     if (horiz) {
       const mx = (x1 + x2) / 2;
       s += `L${(mx - tab).toFixed(1)},${y1.toFixed(1)} `;
-      if (bump) s += `C${(mx - tab).toFixed(1)},${(y1 - tab * 1.3).toFixed(1)} ${(mx + tab).toFixed(1)},${(y1 - tab * 1.3).toFixed(1)} ${(mx + tab).toFixed(1)},${y1.toFixed(1)} `;
-      else      s += `C${(mx - tab).toFixed(1)},${(y1 + tab * 0.7).toFixed(1)} ${(mx + tab).toFixed(1)},${(y1 + tab * 0.7).toFixed(1)} ${(mx + tab).toFixed(1)},${y1.toFixed(1)} `;
+      if (bump) s += `C${(mx - tab).toFixed(1)},${(y1 - tab * 1.6).toFixed(1)} ${(mx + tab).toFixed(1)},${(y1 - tab * 1.6).toFixed(1)} ${(mx + tab).toFixed(1)},${y1.toFixed(1)} `;
+      else      s += `C${(mx - tab).toFixed(1)},${(y1 + tab * 0.9).toFixed(1)} ${(mx + tab).toFixed(1)},${(y1 + tab * 0.9).toFixed(1)} ${(mx + tab).toFixed(1)},${y1.toFixed(1)} `;
       s += `L${x2.toFixed(1)},${y2.toFixed(1)} `;
     } else {
       const my = (y1 + y2) / 2;
       s += `L${x1.toFixed(1)},${(my - tab).toFixed(1)} `;
-      if (bump) s += `C${(x1 + tab * 1.3).toFixed(1)},${(my - tab).toFixed(1)} ${(x1 + tab * 1.3).toFixed(1)},${(my + tab).toFixed(1)} ${x1.toFixed(1)},${(my + tab).toFixed(1)} `;
-      else      s += `C${(x1 - tab * 0.7).toFixed(1)},${(my - tab).toFixed(1)} ${(x1 - tab * 0.7).toFixed(1)},${(my + tab).toFixed(1)} ${x1.toFixed(1)},${(my + tab).toFixed(1)} `;
+      if (bump) s += `C${(x1 + tab * 1.6).toFixed(1)},${(my - tab).toFixed(1)} ${(x1 + tab * 1.6).toFixed(1)},${(my + tab).toFixed(1)} ${x1.toFixed(1)},${(my + tab).toFixed(1)} `;
+      else      s += `C${(x1 - tab * 0.9).toFixed(1)},${(my - tab).toFixed(1)} ${(x1 - tab * 0.9).toFixed(1)},${(my + tab).toFixed(1)} ${x1.toFixed(1)},${(my + tab).toFixed(1)} `;
       s += `L${x2.toFixed(1)},${y2.toFixed(1)} `;
     }
     return s;
@@ -376,6 +377,51 @@ function wireJigsawEvents() {
     piece.addEventListener('dragend', () => {
       S.dragIdx = -1;
       piece.classList.remove('dragging');
+    });
+    // ── Touch/pointer drag (mobile!) — HTML5 drag doesn't work on phones ──
+    piece.addEventListener('pointerdown', function (e) {
+      const si = parseInt(piece.dataset.piece);
+      if (S.piecesArr[si].placed !== undefined) return;
+      // long-press threshold: immediate grab feels like scroll; 120ms is enough
+      S._pd = { si: si, x: e.clientX, y: e.clientY, moved: false, t: Date.now() };
+      piece.setPointerCapture && piece.setPointerCapture(e.pointerId);
+    });
+    piece.addEventListener('pointermove', function (e) {
+      if (!S._pd) return;
+      const dx = e.clientX - S._pd.x, dy = e.clientY - S._pd.y;
+      if (Math.abs(dx) > 8 || Math.abs(dy) > 8) S._pd.moved = true;
+      if (S._pd.moved && S._pd.ghost) {
+        S._pd.ghost.style.left = (e.clientX - S._pd.ghost.offsetWidth / 2) + 'px';
+        S._pd.ghost.style.top = (e.clientY - S._pd.ghost.offsetHeight / 2) + 'px';
+      } else if (S._pd.moved && !S._pd.ghost) {
+        // create floating ghost of the piece following the finger
+        const g = piece.cloneNode(true);
+        g.style.position = 'fixed';
+        g.style.zIndex = '9999';
+        g.style.pointerEvents = 'none';
+        g.style.width = '74px'; g.style.height = '74px';
+        g.style.left = (e.clientX - 37) + 'px';
+        g.style.top = (e.clientY - 37) + 'px';
+        g.style.filter = 'drop-shadow(0 8px 16px rgba(0,0,0,0.6))';
+        g.style.opacity = '0.9';
+        document.body.appendChild(g);
+        S._pd.ghost = g;
+        piece.style.opacity = '0.35';
+      }
+      e.preventDefault && e.preventDefault();
+    });
+    piece.addEventListener('pointerup', function (e) {
+      if (!S._pd) return;
+      const pd = S._pd; S._pd = null;
+      if (pd.ghost) { pd.ghost.remove(); piece.style.opacity = ''; }
+      if (!pd.moved) return; // it was a tap → handled by click handler
+      // find the slot under the finger
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      const slotEl = el && el.closest ? el.closest('.jig-slot') : null;
+      if (slotEl) {
+        const slotIdx = parseInt(slotEl.dataset.slot);
+        placeJigsawPiece(pd.si, slotIdx);
+      }
     });
     piece.addEventListener('click', () => {
       const si = parseInt(piece.dataset.piece);
