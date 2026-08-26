@@ -1,7 +1,8 @@
 # 🎨 Games Site — Graphic Improvement Plan (todo)
 
 > Goal: "האתר צריך להיות מרשים, לא כאילו ילד עשה אותו"
-> Created: 2026-08-26. Status: analysis done, images NOT yet replaced.
+> Created: 2026-08-26. Status: **13 broken cards replaced 2026-08-26 (e40c261).**
+> The 13 kept cards are still in their original styles — see `IMAGES.md`.
 
 ## ✅ Functional check — ALL 27 GAMES WORK (2026-08-26)
 
@@ -10,7 +11,20 @@ Automated smoke test (Playwright, mobile 420px):
 - **0 JS errors, 0 horizontal overflow, 0 broken images** across all 27 games
 - No game is "broken" functionally — the problem is purely VISUAL QUALITY of the card thumbnails
 
-## 🔴 Cards to REPLACE (13) — AI artifacts / childish / text gibberish
+## ✅ DONE 2026-08-26 (commit e40c261) — all 13 replaced
+
+Regenerated with `gemini-3.1-flash-image`, each one looked at before committing.
+Two were generated twice: **flags** (generic pennants read as bunting, not as a
+flag quiz — now an atlas with six correct real flags) and **digitspan** (an
+abacus reads as arithmetic, and was the darkest card in the grid — now four
+bright numbered tiles). Live on both hosts; `sw.js` at v34.
+
+The prompts avoid every failure in the list below by construction: no prompt
+asks for text the model cannot spell. Where a game really is about letters or
+numbers the objects carry it (blocks reading A B C, painted numerals, a hangman
+board with blank dashes); elsewhere nothing legible is in frame.
+
+## 🔴 The 13 that were broken (for the record)
 
 These destroy trust — seniors see broken text/wrong objects and think the site is broken.
 
