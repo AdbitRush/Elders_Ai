@@ -3,11 +3,11 @@
 // Arrow keys move a visible focus ring across the active game's clickable cells
 // (any element with onclick inside #gameContent); Enter/Space activates it.
 // Spatial: picks the nearest element in the pressed direction. Games with their
-// own keyboard (Tetris) are skipped. Touch/tap still works everywhere unchanged.
+// own keyboard (Blocks) are skipped. Touch/tap still works everywhere unchanged.
 // ═══════════════════════════════════════════════════════════════════════════════
 (function(){
   const ROOT_ID = 'gameContent';
-  const SKIP = new Set(['tetris']);          // has its own arrow handling
+  const SKIP = new Set(['blocks']);          // has its own arrow handling
   let els = [], fi = -1, lastGame = null;
 
   const root = () => document.getElementById(ROOT_ID);

@@ -1,35 +1,35 @@
 // ═══════════════════════════════════════════════════════════════════════════════
-// GAME 18: TETRIS  —  mobile-first controls + celebration FX (window.fx.*)
+// GAME 18: BLOCKS  —  mobile-first controls + celebration FX (window.fx.*)
 // ═══════════════════════════════════════════════════════════════════════════════
 (function(){
 const COLS=10,ROWS=20,SZ=28;
 const PIECES=[
-    {shape:[[1,1,1,1]],color:'#00f0f0'},           // I
-    {shape:[[1,1],[1,1]],color:'#f0f000'},          // O
-    {shape:[[0,1,0],[1,1,1]],color:'#a000f0'},      // T
-    {shape:[[0,1,1],[1,1,0]],color:'#00f000'},      // S
-    {shape:[[1,1,0],[0,1,1]],color:'#f00000'},      // Z
-    {shape:[[1,0,0],[1,1,1]],color:'#0000f0'},      // J
-    {shape:[[0,0,1],[1,1,1]],color:'#f0a000'},      // L
+    {shape:[[1,1,1,1]],color:'#c98a2b'},           // I
+    {shape:[[1,1],[1,1]],color:'#e0b352'},          // O
+    {shape:[[0,1,0],[1,1,1]],color:'#8a6f4a'},      // T
+    {shape:[[0,1,1],[1,1,0]],color:'#6b8f5e'},      // S
+    {shape:[[1,1,0],[0,1,1]],color:'#b0553a'},      // Z
+    {shape:[[1,0,0],[1,1,1]],color:'#5a6b8a'},      // J
+    {shape:[[0,0,1],[1,1,1]],color:'#9a6a3c'},      // L
 ];
 function rotate(m){return m[0].map((_,i)=>m.map(r=>r[i]).reverse());}
 function newPiece(){const p=PIECES[Math.floor(Math.random()*PIECES.length)];return{shape:[...p.shape.map(r=>[...r])],color:p.color,x:Math.floor((COLS-p.shape[0].length)/2),y:0};}
 const _fx = ()=>window.fx || {burst(){},lineSweep(){},fireworks(){},flash(){},shake(){},text(){},buzz(){}};
 
-window.initTetris=function(container){
+window.initBlocks=function(container){
     if(window._gameCleanup){window._gameCleanup();window._gameCleanup=null;}
     const isHe=window.currentLang==='he';
     container.style.cssText='display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 0;width:100%';
 
     const scoreEl=document.createElement('div');
-    scoreEl.style.cssText='color:#00f0f0;font-size:15px;font-weight:700;letter-spacing:0.08em;text-align:center';
+    scoreEl.style.cssText='color:#c98a2b;font-size:15px;font-weight:700;letter-spacing:0.08em;text-align:center';
     scoreEl.innerHTML=`<span>${gt('SCORE', 'ניקוד')}: <b id="tet-score">0</b></span> &nbsp; <span>${gt('LINES', 'שורות')}: <b id="tet-lines">0</b></span> &nbsp; <span>${gt('LEVEL', 'רמה')}: <b id="tet-level">1</b></span>`;
 
     const canvas=document.createElement('canvas');
     canvas.width=COLS*SZ; canvas.height=ROWS*SZ;
     // Responsive: fills width on phones, capped on desktop. Crisp because the
     // internal buffer is fixed and the browser scales the element.
-    canvas.style.cssText='width:min(90vw,300px);height:auto;aspect-ratio:'+COLS+'/'+ROWS+';border:2px solid #00f0f0;border-radius:8px;box-shadow:0 0 26px rgba(0,240,240,0.45);display:block;touch-action:none;image-rendering:auto';
+    canvas.style.cssText='width:min(90vw,300px);height:auto;aspect-ratio:'+COLS+'/'+ROWS+';border:2px solid #c98a2b;border-radius:8px;box-shadow:0 0 26px rgba(0,240,240,0.45);display:block;touch-action:none;image-rendering:auto';
     const ctx=canvas.getContext('2d');
 
     // ── Big, senior-friendly touch controls ────────────────────────────────────
@@ -39,7 +39,7 @@ window.initTetris=function(container){
         opts=opts||{};
         const b=document.createElement('button');
         b.textContent=lbl;
-        b.style.cssText='height:64px;background:linear-gradient(180deg,#123a63,#0c1f3c);border:2px solid #00f0f0;border-radius:14px;color:#7ffcff;font-size:30px;font-weight:700;cursor:pointer;touch-action:none;user-select:none;-webkit-tap-highlight-color:transparent;box-shadow:0 0 14px rgba(0,240,240,.22),inset 0 1px 0 rgba(255,255,255,.15);transition:transform .06s,box-shadow .12s;'+(opts.span?('grid-column:span '+opts.span):'');
+        b.style.cssText='height:64px;background:linear-gradient(180deg,#123a63,#0c1f3c);border:2px solid #c98a2b;border-radius:14px;color:#7ffcff;font-size:30px;font-weight:700;cursor:pointer;touch-action:none;user-select:none;-webkit-tap-highlight-color:transparent;box-shadow:0 0 14px rgba(0,240,240,.22),inset 0 1px 0 rgba(255,255,255,.15);transition:transform .06s,box-shadow .12s;'+(opts.span?('grid-column:span '+opts.span):'');
         let holdT=null,repT=null;
         const press=()=>{ b.style.transform='scale(.93)'; b.style.boxShadow='0 0 24px rgba(0,240,240,.6),inset 0 2px 6px rgba(0,0,0,.4)'; };
         const release=()=>{ b.style.transform=''; b.style.boxShadow='0 0 14px rgba(0,240,240,.22),inset 0 1px 0 rgba(255,255,255,.15)'; if(holdT)clearTimeout(holdT); if(repT)clearInterval(repT); holdT=repT=null; };
@@ -76,7 +76,7 @@ window.initTetris=function(container){
         // find full rows first (so we can spark them at their real screen position)
         const full=[];for(let r=0;r<ROWS;r++){if(board[r].every(c=>c))full.push(r);}
         if(full.length){
-            full.forEach(r=>_fx().lineSweep(rowScreen(r),['#ffffff','#00f0f0','#ffd700','#7ffcff']));
+            full.forEach(r=>_fx().lineSweep(rowScreen(r),['#ffffff','#c98a2b','#ffd700','#7ffcff']));
             const prevLevel=level;
             for(let i=full.length-1;i>=0;i--){board.splice(full[i],1);board.unshift(Array(COLS).fill(null));}
             const cleared=full.length;
@@ -86,8 +86,8 @@ window.initTetris=function(container){
             document.getElementById('tet-lines').textContent=lines;
             document.getElementById('tet-level').textContent=level;
             const bc=boardCenter();
-            _fx().text(bc.x,bc.y-20,(cleared===4?(gt('TETRIS! ', 'טטריס! '))+'+':'+')+gained, cleared===4?'#ff6b6b':'#ffd700');
-            _fx().flash(cleared>=3?'#00f0f0':'#123a63', 220);
+            _fx().text(bc.x,bc.y-20,(cleared===4?(gt('FOUR LINES! ', 'ארבע שורות! '))+'+':'+')+gained, cleared===4?'#ff6b6b':'#ffd700');
+            _fx().flash(cleared>=3?'#c98a2b':'#123a63', 220);
             _fx().shake(canvas, cleared>=3?12:7);
             window.sfxCorrect&&sfxCorrect();
             if(cleared>=3){ _fx().fireworks(cleared); window.sfxWin&&sfxWin(); }
@@ -109,7 +109,7 @@ window.initTetris=function(container){
         ctx.save();ctx.shadowColor=cur.color;ctx.shadowBlur=16;
         cur.shape.forEach((row,r)=>row.forEach((v,c)=>{if(!v)return;ctx.fillStyle=cur.color;ctx.fillRect((cur.x+c)*SZ+1,(cur.y+r)*SZ+1,SZ-2,SZ-2);ctx.fillStyle='rgba(255,255,255,0.35)';ctx.fillRect((cur.x+c)*SZ+1,(cur.y+r)*SZ+1,SZ-2,4);ctx.fillRect((cur.x+c)*SZ+1,(cur.y+r)*SZ+1,4,SZ-2);}));
         ctx.restore();
-        if(gameOver){ctx.fillStyle='rgba(5,13,26,0.82)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#00f0f0';ctx.font='bold 22px monospace';ctx.textAlign='center';ctx.fillText(gt('GAME OVER', 'משחק נגמר'),canvas.width/2,canvas.height/2-20);ctx.font='15px monospace';ctx.fillStyle='#ffffff';ctx.fillText(`${gt('Score', 'ניקוד')}: ${score}`,canvas.width/2,canvas.height/2+10);}
+        if(gameOver){ctx.fillStyle='rgba(5,13,26,0.82)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#c98a2b';ctx.font='bold 22px monospace';ctx.textAlign='center';ctx.fillText(gt('GAME OVER', 'משחק נגמר'),canvas.width/2,canvas.height/2-20);ctx.font='15px monospace';ctx.fillStyle='#ffffff';ctx.fillText(`${gt('Score', 'ניקוד')}: ${score}`,canvas.width/2,canvas.height/2+10);}
     }
 
     function move(dx){if(gameOver)return;if(valid(cur.shape,cur.x+dx,cur.y)){cur.x+=dx;}}
@@ -121,9 +121,9 @@ window.initTetris=function(container){
     const _baseDrop=_dtet==='easy'?1100:_dtet==='hard'?500:800;
     let lastT=0,dropInterval=Math.max(100,_baseDrop-level*60);
     function loop(t){if(gameOver){
-        if(score>0&&window.gameState&&window.gameState.tetris){window.gameState.tetris._sessionScore=score;}
+        if(score>0&&window.gameState&&window.gameState.blocks){window.gameState.blocks._sessionScore=score;}
         draw();
-        setTimeout(()=>{if(window.gameState&&window.gameState.active&&window.gameState.currentId==='tetris')window.levelComplete&&levelComplete();},1800);
+        setTimeout(()=>{if(window.gameState&&window.gameState.active&&window.gameState.currentId==='blocks')window.levelComplete&&levelComplete();},1800);
         return;}
         dropInterval=Math.max(100,_baseDrop-level*60);
         if(t-lastT>dropInterval){drop();lastT=t;}
@@ -131,7 +131,7 @@ window.initTetris=function(container){
     raf=requestAnimationFrame(loop);
 
     // ── Keyboard (PC) ───────────────────────────────────────────────────────────
-    function onKey(e){if(!window.gameState||window.gameState.currentId!=='tetris')return;
+    function onKey(e){if(!window.gameState||window.gameState.currentId!=='blocks')return;
         if(e.key==='ArrowLeft')move(-1);else if(e.key==='ArrowRight')move(1);else if(e.key==='ArrowUp')doRotate();else if(e.key==='ArrowDown')drop();else if(e.key===' ')hardDrop();else return;e.preventDefault();}
     document.addEventListener('keydown',onKey);
 

@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 // SHARE SCORE  (js/share.js)
 // Uses the native Web Share API with a clipboard fallback.
-// Usage: Share.score('simon', 12)
+// Usage: Share.score('sequence', 12)
 //        Share.renderBtn(container, gameId, score)  → inserts a share button
 // ═══════════════════════════════════════════════════════════════════════════════
 

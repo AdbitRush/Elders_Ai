@@ -18,9 +18,9 @@ const Stats = (() => {
   // The fallback below is only for the case where this file somehow loads
   // before index.html's globals; it is not a second source of truth.
   const FALLBACK = [
-    'klondike','memory','oddoneout','math','wordsearch','simon','sudoku','shapes',
+    'klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes',
     'solitaire','trivia','numseq','unscramble','pairs','truefalse','flags',
-    'proverbs','hangman','recall','tetris','colormatch','digitspan','clock',
+    'proverbs','hangman','recall','blocks','colormatch','digitspan','clock',
     'counting','category','letters','lifesim','safari'
   ];
   // window.GAME_IDS is the canonical list, defined once in index.html.
@@ -93,7 +93,7 @@ const Stats = (() => {
             🔥 ${streak} ${isHe ? 'ימים' : 'days'}
           </span>
           <span style="background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;padding:4px 14px;border-radius:9999px;font-size:0.85rem;font-weight:700">
-            ✅ ${played}/18 ${isHe ? 'משחקים' : 'games'}
+            ✅ ${played}/${allGames().length} ${isHe ? 'משחקים' : 'games'}
           </span>
         </div>
 

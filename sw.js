@@ -4,7 +4,7 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v28';
+const CACHE = 'golden-games-v29';
 const PREFIX = 'golden-games-';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
@@ -14,6 +14,7 @@ const SHELL = [
   './css/style.css',
   './css/hooks.css',
   './css/premium.css',
+  './css/a11y.css',
   './manifest.json',
   './images/icon.svg',
   './images/icon-192.png',
@@ -23,7 +24,7 @@ const SHELL = [
   './images/cards/oddoneout.jpg',
   './images/cards/math.jpg',
   './images/cards/wordsearch.jpg',
-  './images/cards/simon.jpg',
+  './images/cards/sequence.jpg',
   './images/cards/sudoku.jpg',
   './images/cards/shapes.jpg',
   './images/cards/solitaire.jpg',
@@ -36,7 +37,7 @@ const SHELL = [
   './images/cards/proverbs.jpg',
   './images/cards/hangman.jpg',
   './images/cards/recall.jpg',
-  './images/cards/tetris.jpg',
+  './images/cards/blocks.jpg',
   './images/cards/colormatch.jpg',
   './images/cards/digitspan.jpg',
   './images/cards/clock.jpg',
@@ -72,7 +73,7 @@ const SHELL = [
   './js/games/oddoneout.js',
   './js/games/math.js',
   './js/games/wordsearch.js',
-  './js/games/simon.js',
+  './js/games/sequence.js',
   './js/games/sudoku.js',
   './js/games/shapes.js',
   './js/games/solitaire.js',
@@ -86,7 +87,7 @@ const SHELL = [
   './js/games/proverbs.js',
   './js/games/hangman.js',
   './js/games/recall.js',
-  './js/games/tetris.js',
+  './js/games/blocks.js',
   './js/games/colormatch.js',
   './js/games/digitspan.js',
   './js/games/clock.js',

@@ -2,9 +2,9 @@
 // DAILY CHALLENGE — 3 curated games per day, star reward on completion
 // ═══════════════════════════════════════════════════════════════════════════════
 const DailyChallenge = (() => {
-  const ALL_GAMES = ['memory','oddoneout','math','wordsearch','simon','sudoku','shapes',
+  const ALL_GAMES = ['memory','oddoneout','math','wordsearch','sequence','sudoku','shapes',
                      'solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs',
-                     'hangman','recall','tetris'];
+                     'hangman','recall','blocks'];
 
   function _today() { return new Date().toISOString().slice(0,10); }
 
@@ -68,9 +68,9 @@ const DailyChallenge = (() => {
     const card = document.querySelector(`[data-game="${id}"] h3`);
     if (card) return card.textContent.trim();
     const map = { memory:'זיכרון', oddoneout:'יוצא דופן', math:'חשבון', wordsearch:'חיפוש מילים',
-      simon:'סיימון', sudoku:'סודוקו', shapes:'צורות', trivia:'טריוויה',
+      sequence:'סיימון', sudoku:'סודוקו', shapes:'צורות', trivia:'טריוויה',
       numseq:'רצף מספרים', unscramble:'פענוח', pairs:'זוגות', truefalse:'נכון/לא נכון',
-      flags:'דגלים', proverbs:'פתגמים', hangman:'תלייה', recall:'זיכרון תמונות', tetris:'טטריס' };
+      flags:'דגלים', proverbs:'פתגמים', hangman:'תלייה', recall:'זיכרון תמונות', blocks:'טטריס' };
     return map[id]||id;
   }
 

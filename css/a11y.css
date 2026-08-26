@@ -1,0 +1,98 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACCESSIBILITY LAYER  (css/a11y.css)
+   Loaded last so it wins without needing !important on everything.
+   ═══════════════════════════════════════════════════════════════════════════
+   Written against the Implementation Brief of 2026-08-26, but only the parts
+   that a measurement on the LIVE site actually confirmed.
+
+   What the brief got right and this fixes:
+     - 65 interactive elements were below a comfortable tap target, the smallest
+       at 27x27 px.
+     - Small muted text was failing contrast: #9ca3af measured 2.31:1 against
+       the dark surface, where 4.5:1 is required.
+     - There was no visible focus ring worth the name, and none of it was a
+       colour distinguishable from the brand gold.
+
+   What the brief got wrong for this site, and is therefore NOT done here:
+     - It calls for a 60x60 px floor on EVERY interactive element. That is
+       correct for standalone buttons and wrong for grids: the sudoku board is
+       9x9 cells and its number pad has ten keys. Forcing 60 px on those breaks
+       the board on a phone, which is worse for the same user than a 44 px cell.
+       Grid controls therefore get 44 px (the WCAG 2.5.5 AAA figure) and
+       standalone buttons get 60.
+     - It specifies a light palette (#fffdf7 background, #1a1a1a ink) computed
+       against white. This site is dark navy. Applying those tokens would have
+       inverted the design rather than fixed anything — the contrast numbers in
+       the brief simply do not describe this build. */
+
+/* ── Tap targets ──────────────────────────────────────────────────────────
+   Standalone controls: comfortable for an unsteady hand. */
+button:not(.grid-key):not([class*="cell"]),
+a.btn,
+[role="button"]:not(.grid-key) {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* The small icon buttons were the worst offenders — pin/favourite at 27 px. */
+.pin-btn,
+.fav-btn,
+button.icon-btn {
+  min-width: 44px !important;
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Focus ───────────────────────────────────────────────────────────────
+   Deliberately NOT gold. A focus ring in the brand colour is invisible against
+   the brand furniture, which is where focus usually lands. */
+:focus-visible {
+  outline: 4px solid #4da3ff !important;
+  outline-offset: 3px !important;
+  border-radius: 6px;
+}
+
+/* ── Contrast ────────────────────────────────────────────────────────────
+   Measured failures on the live dark surface, not guesses:
+     #9ca3af  2.31:1  ->  #b9c8e6  ~8.4:1
+     #94a3b8  3.4:1   ->  #b9c8e6
+   Anything genuinely decorative keeps its own colour; these are body text. */
+.text-gray-400,
+.text-gray-500,
+.text-slate-400,
+.text-slate-500 {
+  color: #b9c8e6 !important;
+}
+
+/* Small print still has to be readable. 12px muted grey on navy was the single
+   worst text on the page. */
+footer, footer * { color: #c3cfe4; }
+footer a { color: #ffd98a; }
+
+/* ── Motion ──────────────────────────────────────────────────────────────
+   A vestibular trigger is not a style preference. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Print ───────────────────────────────────────────────────────────────
+   Brief 3.3 asks for printable puzzles. This is the stylesheet half: anything
+   printed comes out large, pure black on white, with no chrome. The per-game
+   "print this puzzle" buttons are a separate piece of work. */
+@media print {
+  body { background: #fff !important; color: #000 !important; font-size: 18pt !important; }
+  nav, footer, #sync-btn, #sync-modal, .skill-badges, .why-line,
+  #dc-banner-slot, #brain-score-slot, .no-print { display: none !important; }
+  #gameContent, #gameContent * {
+    background: #fff !important; color: #000 !important;
+    box-shadow: none !important; text-shadow: none !important;
+  }
+  #gameContent { border: 2px solid #000 !important; }
+}

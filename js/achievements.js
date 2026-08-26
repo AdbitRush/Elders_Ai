@@ -34,7 +34,7 @@ const Achievements = (() => {
 
   function _buildState(extra) {
     const ret = typeof Retention!=='undefined' ? Retention.load() : {};
-    const ALL = ['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris'];
+    const ALL = ['memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks'];
     const hs = {};
     let uniqueGames = 0;
     ALL.forEach(id => {

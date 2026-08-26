@@ -2,8 +2,8 @@
 // BRAIN HEALTH SCORE — composite metric: variety + streak + volume + mastery
 // ═══════════════════════════════════════════════════════════════════════════════
 const BrainScore = (() => {
-  const ALL = ['memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire',
-               'trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris'];
+  const ALL = ['memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire',
+               'trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks'];
 
   function compute() {
     const total  = parseInt(localStorage.getItem('gg_total_games') || '0');

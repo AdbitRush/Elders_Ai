@@ -36,7 +36,7 @@ const Difficulty = (() => {
     return Math.round(base * multiplier());
   }
 
-  // Delays (simon flash speed, recall timer …)  — inverted: easy = slower
+  // Delays (sequence flash speed, recall timer …)  — inverted: easy = slower
   function speed(baseMs) {
     switch (get()) {
       case 'easy': return Math.round(baseMs * 1.5);
@@ -45,7 +45,7 @@ const Difficulty = (() => {
     }
   }
 
-  // Allowed mistakes (hangman, simon …)
+  // Allowed mistakes (hangman, sequence …)
   function mistakes(base) {
     switch (get()) {
       case 'easy': return base + 2;

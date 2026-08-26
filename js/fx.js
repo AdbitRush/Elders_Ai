@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 // fx.js — shared "juice" engine: glowing sparks, light bursts, flashes, fireworks,
 // screen shake, floating score text. Built for big, joyful, senior-friendly feedback.
-// Any game can call window.fx.* — see tetris.js for usage.
+// Any game can call window.fx.* — see blocks.js for usage.
 // ═══════════════════════════════════════════════════════════════════════════════
 (function(){
   let canvas, ctx, dpr = 1, particles = [], raf = null, running = false;
@@ -85,7 +85,7 @@
     start();
   }
 
-  // Full-width shimmer across a horizontal line (Tetris row clear)
+  // Full-width shimmer across a horizontal line (Blocks row clear)
   function lineSweep(rect, colors){
     ensure();
     const y = rect.top + rect.height/2;
