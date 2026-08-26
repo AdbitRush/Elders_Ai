@@ -99,12 +99,13 @@
         .ad-pill { font-size:9px;font-weight:800;color:#b7791f;border:1px solid #b7791f;border-radius:4px;padding:2px 6px;letter-spacing:0.5px;flex-shrink:0;text-transform:uppercase; }
         #adContent { flex:1;overflow:hidden;text-align:center;color:#cbd5e1;font-size:13px;white-space:nowrap; }
         #adFallback { display:inline-block;transition:opacity 0.5s;will-change:transform; }
-        /* Ad ticker scrolls WITH the language direction:
-           Hebrew (RTL) → scrolls LEFT; LTR languages → scrolls RIGHT */
-        html[dir="rtl"] #adFallback { animation:adScrollRTL 22s linear infinite; }
+        /* Ad ticker scrolls WITH the language reading direction:
+           LTR languages (English…) → scrolls LEFT like a classic marquee;
+           Hebrew (RTL) → scrolls RIGHT. */
         html[dir="ltr"] #adFallback { animation:adScrollLTR 22s linear infinite; }
-        @keyframes adScrollRTL { 0%{transform:translateX(60%)} 100%{transform:translateX(-110%)} }
-        @keyframes adScrollLTR { 0%{transform:translateX(-60%)} 100%{transform:translateX(110%)} }
+        html[dir="rtl"] #adFallback { animation:adScrollRTL 22s linear infinite; }
+        @keyframes adScrollLTR { 0%{transform:translateX(60%)} 100%{transform:translateX(-110%)} }
+        @keyframes adScrollRTL { 0%{transform:translateX(-60%)} 100%{transform:translateX(110%)} }
         @media (prefers-reduced-motion: reduce) {
           html[dir="rtl"] #adFallback, html[dir="ltr"] #adFallback { animation:none; }
         }
@@ -965,7 +966,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '41';
+const ASSET_V = '42';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
