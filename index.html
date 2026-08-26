@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/hooks.css">
     <link rel="stylesheet" href="css/premium.css">
-<link rel="stylesheet" href="css/a11y.css?v=32">
+<link rel="stylesheet" href="css/a11y.css?v=31">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; min-height: 100dvh; }
@@ -495,7 +495,7 @@ he: {
     game_math_title:"חשבון מהיר", game_math_desc:"חיבור וחיסור קלים.",
     game_words_title:"חיפוש מילים", game_words_desc:"מצאו מילות סתר.",
     game_sequence_title:"רצף צבעים", game_sequence_desc:"חיזרו על הרצף המואר.",
-    game_sudoku_title:"סודוקו יומי", game_sudoku_desc:"פאזל היגיון 9×9 קלאסי.",
+    game_sudoku_title:"סודוקו יומי", game_sudoku_desc:"פאזל לוגי 4×4.",
     game_shapes_title:"סדר וארגון", game_shapes_desc:"התאמת צורות למקומן.",
     game_solitaire_title:"סוליטר פירמידה", game_solitaire_desc:"זוגות קלפים = 13.",
     game_klondike_title:"סוליטר קלאסי", game_klondike_desc:"הקלונדייק האמיתי — בלי גרירה, רק לחיצות.", inst_klondike:"לחצו על קלף ואז על היעד. סדרו כל סדרה מ-A עד K. יש כפתורי ביטול ורמז!",
@@ -684,7 +684,7 @@ en: {
     game_math_title:"Quick Math", game_math_desc:"Simple addition and subtraction.",
     game_words_title:"Word Search", game_words_desc:"Find hidden words in the grid.",
     game_sequence_title:"Color Sequence", game_sequence_desc:"Repeat the color pattern.",
-    game_sudoku_title:"Daily Sudoku", game_sudoku_desc:"A classic 9×9 logic puzzle.",
+    game_sudoku_title:"Daily Sudoku", game_sudoku_desc:"Beginner-friendly 4×4 puzzle.",
     game_shapes_title:"Shape Sorter", game_shapes_desc:"Match shapes to their slots.",
     game_solitaire_title:"Pyramid Solitaire", game_solitaire_desc:"Card pairs that add to 13.",
     game_klondike_title:"Classic Solitaire", game_klondike_desc:"Real Klondike — no dragging, just taps.", inst_klondike:"Tap a card, then tap where it goes. Build each suit from A to K. Undo and Hint buttons included!",
@@ -944,7 +944,6 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '32';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1046,7 +1045,7 @@ i18nData.es = Object.assign({}, i18nData.en, {
   game_words_title:"Sopa de letras", game_words_desc:"Encuentra palabras ocultas.",
   game_blocks_title:"Bloques que caen", game_blocks_desc:"Apila las piezas que caen para completar líneas.",
     game_sequence_title:"Secuencia de colores", game_sequence_desc:"Repite el patrón de colores.",
-  game_sudoku_title:"Sudoku diario", game_sudoku_desc:"Un clásico puzle lógico de 9×9.",
+  game_sudoku_title:"Sudoku diario", game_sudoku_desc:"Puzle 4×4 para principiantes.",
   game_shapes_title:"Clasifica formas", game_shapes_desc:"Coloca las formas en su lugar.",
   game_solitaire_title:"Solitario pirámide", game_solitaire_desc:"Parejas de cartas que suman 13.",
   game_klondike_title:"Solitario clásico", game_klondike_desc:"Klondike de verdad — sin arrastrar, solo toques.", inst_klondike:"Toca una carta y luego su destino. Ordena cada palo de A a K. ¡Con Deshacer y Pista!",
@@ -1076,7 +1075,7 @@ i18nData.fr = Object.assign({}, i18nData.en, {
   game_words_title:"Mots cachés", game_words_desc:"Trouvez les mots cachés.",
   game_blocks_title:"Blocs qui tombent", game_blocks_desc:"Empilez les pièces qui tombent pour compléter des lignes.",
     game_sequence_title:"Séquence de couleurs", game_sequence_desc:"Répétez la séquence de couleurs.",
-  game_sudoku_title:"Sudoku quotidien", game_sudoku_desc:"Un puzzle de logique 9×9 classique.",
+  game_sudoku_title:"Sudoku quotidien", game_sudoku_desc:"Puzzle 4×4 pour débutants.",
   game_shapes_title:"Trieur de formes", game_shapes_desc:"Placez les formes à leur place.",
   game_solitaire_title:"Solitaire pyramide", game_solitaire_desc:"Paires de cartes qui font 13.",
   game_klondike_title:"Solitaire classique", game_klondike_desc:"Le vrai Klondike — sans glisser, juste des clics.", inst_klondike:"Touchez une carte puis sa destination. Classez chaque couleur de l'As au Roi. Annuler et Indice inclus !",
@@ -1106,7 +1105,7 @@ i18nData.de = Object.assign({}, i18nData.en, {
   game_words_title:"Wortsuche", game_words_desc:"Finde versteckte Wörter.",
   game_blocks_title:"Fallende Blöcke", game_blocks_desc:"Stapeln Sie fallende Formen zu vollen Reihen.",
     game_sequence_title:"Farbfolge", game_sequence_desc:"Wiederhole die Farbfolge.",
-  game_sudoku_title:"Tägliches Sudoku", game_sudoku_desc:"Ein klassisches 9×9-Logikrätsel.",
+  game_sudoku_title:"Tägliches Sudoku", game_sudoku_desc:"Anfängerfreundliches 4×4-Rätsel.",
   game_shapes_title:"Formen sortieren", game_shapes_desc:"Formen den Feldern zuordnen.",
   game_solitaire_title:"Pyramiden-Solitär", game_solitaire_desc:"Kartenpaare, die 13 ergeben.",
   game_klondike_title:"Klassisches Solitär", game_klondike_desc:"Echtes Klondike — kein Ziehen, nur Tippen.", inst_klondike:"Karte antippen, dann das Ziel. Jede Farbe von Ass bis König ordnen. Mit Rückgängig und Tipp!",
@@ -1136,7 +1135,7 @@ i18nData.el = Object.assign({}, i18nData.en, {
   game_words_title:"Κρυμμένες λέξεις", game_words_desc:"Βρείτε κρυμμένες λέξεις.",
   game_blocks_title:"Μπλοκ που πέφτουν", game_blocks_desc:"Στοιβάξτε τα σχήματα που πέφτουν για να συμπληρώσετε γραμμές.",
     game_sequence_title:"Ακολουθία χρωμάτων", game_sequence_desc:"Επαναλάβετε το μοτίβο χρωμάτων.",
-  game_sudoku_title:"Καθημερινό Sudoku", game_sudoku_desc:"Κλασικό παζλ λογικής 9×9.",
+  game_sudoku_title:"Καθημερινό Sudoku", game_sudoku_desc:"Εύκολο παζλ 4×4.",
   game_shapes_title:"Ταξινόμηση σχημάτων", game_shapes_desc:"Τοποθετήστε τα σχήματα στη θέση τους.",
   game_solitaire_title:"Πασιέντζα πυραμίδα", game_solitaire_desc:"Ζευγάρια καρτών που κάνουν 13.",
   game_klondike_title:"Κλασική πασιέντζα", game_klondike_desc:"Αληθινό Klondike — χωρίς σύρσιμο, μόνο αγγίγματα.", inst_klondike:"Αγγίξτε ένα χαρτί και μετά τον προορισμό. Χτίστε κάθε χρώμα από Άσο ως Ρήγα. Με Αναίρεση και Βοήθεια!",
@@ -1202,61 +1201,7 @@ function showHome() {
 }
 
 function _el(id){return document.getElementById(id);}
-// ── Load a game's code only when it is actually opened ─────────────────────
-// All 27 games were loaded with eager <script> tags: ~126 KB of game logic
-// downloaded before the menu could be drawn, every visit, to play one game. On
-// the eight-year-old tablets much of this audience owns that is the difference
-// between the menu appearing and the device appearing to hang.
-//
-// Each file is fetched once, on first open, and remembered. The service worker
-// precaches all of them, so after the first visit this resolves from cache and
-// offline play is unchanged.
-const GAME_INIT = {
-  klondike: 'initKlondike',
-  memory: 'initMemory',
-  oddoneout: 'initOddOneOut',
-  math: 'initMath',
-  wordsearch: 'initWordSearch',
-  sequence: 'initSequence',
-  sudoku: 'initSudoku',
-  shapes: 'initShapes',
-  solitaire: 'initSolitaire',
-  trivia: 'initTrivia',
-  numseq: 'initNumSeq',
-  unscramble: 'initUnscramble',
-  pairs: 'initPairs',
-  truefalse: 'initTrueFalse',
-  flags: 'initFlags',
-  proverbs: 'initProverbs',
-  hangman: 'initHangman',
-  recall: 'initRecall',
-  blocks: 'initBlocks',
-  colormatch: 'initColorMatch',
-  digitspan: 'initDigitSpan',
-  clock: 'initClock',
-  counting: 'initCounting',
-  category: 'initCategory',
-  letters: 'initLetters',
-  lifesim: 'initLifeSim',
-  safari: 'initSafari'
-};
-const _gameLoaded = {};
-function ensureGameLoaded(id) {
-  if (!GAME_INIT[id]) return Promise.resolve(false);
-  if (window[GAME_INIT[id]]) return Promise.resolve(true);
-  if (_gameLoaded[id]) return _gameLoaded[id];
-  _gameLoaded[id] = new Promise(function (resolve) {
-    const sc = document.createElement('script');
-    sc.src = 'js/games/' + id + '.js?v=' + ASSET_V;
-    sc.async = false;
-    sc.onload  = function () { resolve(true); };
-    sc.onerror = function () { delete _gameLoaded[id]; resolve(false); };
-    document.head.appendChild(sc);
-  });
-  return _gameLoaded[id];
-}
-
-async function loadGame(gameId, level=0) {
+function loadGame(gameId, level=0) {
     // Resume at the highest level reached (persistent) unless a level is given
     if(!level) level = (typeof Levels!=='undefined') ? Levels.get(gameId) : 1;
     const validIds = window.GAME_IDS;
@@ -1274,18 +1219,33 @@ async function loadGame(gameId, level=0) {
     const instMap ={klondike:'inst_klondike',memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',sequence:'inst_sequence',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall',blocks:'inst_blocks',lifesim:'inst_lifesim',safari:'inst_safari'};
     document.getElementById('gameTitle').innerText=t(titleMap[gameId]);
     document.getElementById('gameInstructions').innerText=t(instMap[gameId]);
-    // The game's code is fetched here, on demand — see ensureGameLoaded().
-    const ok = await ensureGameLoaded(gameId);
-    if (!ok) {
-      content.innerHTML = '<div style="padding:40px;text-align:center;font-size:1.1rem;color:#f6c048">'
-        + (currentLang === 'he'
-            ? 'לא הצלחנו לטעון את המשחק. בדקו את חיבור האינטרנט ונסו שוב.'
-            : 'Could not load this game. Check your connection and try again.')
-        + '</div>';
-      return;
-    }
-    const fn = window[GAME_INIT[gameId]];
-    if (typeof fn === 'function') fn(content);
+    if(gameId==='klondike')   initKlondike(content);
+    if(gameId==='memory')     initMemory(content);
+    if(gameId==='oddoneout')  initOddOneOut(content);
+    if(gameId==='math')       initMath(content);
+    if(gameId==='wordsearch') initWordSearch(content);
+    if(gameId==='sequence')      initSequence(content);
+    if(gameId==='sudoku')     initSudoku(content);
+    if(gameId==='shapes')     initShapes(content);
+    if(gameId==='solitaire')  initSolitaire(content);
+    if(gameId==='trivia')     initTrivia(content);
+    if(gameId==='numseq')     initNumSeq(content);
+    if(gameId==='unscramble') initUnscramble(content);
+    if(gameId==='pairs')      initPairs(content);
+    if(gameId==='truefalse')  initTrueFalse(content);
+    if(gameId==='flags')      initFlags(content);
+    if(gameId==='proverbs')   initProverbs(content);
+    if(gameId==='hangman')    initHangman(content);
+    if(gameId==='recall')     initRecall(content);
+    if(gameId==='blocks')     initBlocks(content);
+    if(gameId==='colormatch') initColorMatch(content);
+    if(gameId==='digitspan') initDigitSpan(content);
+    if(gameId==='clock') initClock(content);
+    if(gameId==='counting') initCounting(content);
+    if(gameId==='category') initCategory(content);
+    if(gameId==='letters') initLetters(content);
+    if(gameId==='lifesim') initLifeSim(content);
+    if(gameId==='safari') initSafari(content);
 }
 
 function levelComplete() {
@@ -1503,19 +1463,19 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
 <<<<<<< HEAD
-<script src="js/affiliate.js?v=32"></script>
-<script src="js/profile.js?v=32"></script>
-<script src="js/brainscore.js?v=32"></script>
-<script src="js/achievements.js?v=32"></script>
-<script src="js/lang-content.js?v=32"></script>
-<script src="js/textsize.js?v=32"></script>
+<script src="js/affiliate.js?v=30"></script>
+<script src="js/profile.js?v=30"></script>
+<script src="js/brainscore.js?v=30"></script>
+<script src="js/achievements.js?v=30"></script>
+<script src="js/lang-content.js?v=30"></script>
+<script src="js/textsize.js?v=30"></script>
 =======
-<script src="js/affiliate.js?v=32"></script>
-<script src="js/profile.js?v=32"></script>
-<script src="js/brainscore.js?v=32"></script>
-<script src="js/achievements.js?v=32"></script>
-<script src="js/lang-content.js?v=32"></script>
-<script src="js/textsize.js?v=32"></script>
+<script src="js/affiliate.js?v=28"></script>
+<script src="js/profile.js?v=28"></script>
+<script src="js/brainscore.js?v=28"></script>
+<script src="js/achievements.js?v=28"></script>
+<script src="js/lang-content.js?v=28"></script>
+<script src="js/textsize.js?v=28"></script>
 >>>>>>> 30156fa (feat: invite friends via WhatsApp/Email/SMS/copy — navbar button, localized 6 langs, new domain+brand in share texts)
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
@@ -1530,38 +1490,92 @@ if ('IntersectionObserver' in window) {
 }
 </script>
 <<<<<<< HEAD
-<script src="js/daily-challenge.js?v=32"></script>
-<script src="js/stats.js?v=32"></script>
-<script src="js/difficulty.js?v=32"></script>
-<script src="js/levels.js?v=32"></script>
-<script src="js/share.js?v=32"></script>
-<script src="js/gametext.js?v=32"></script>
-<script src="js/sync.js?v=32"></script>
-<script src="js/sync-ui.js?v=32"></script>
-<script src="js/categories.js?v=32"></script>
-<script src="js/accessibility.js?v=32"></script>
-<script src="js/tips.js?v=32"></script>
-<script src="js/favorites.js?v=32"></script>
-<script src="js/holiday.js?v=32"></script>
-<script src="js/fx.js?v=32"></script>
-<script src="js/kbnav.js?v=32"></script>
+<script src="js/daily-challenge.js?v=30"></script>
+<script src="js/stats.js?v=30"></script>
+<script src="js/difficulty.js?v=30"></script>
+<script src="js/levels.js?v=30"></script>
+<script src="js/share.js?v=30"></script>
+<script src="js/gametext.js?v=30"></script>
+<script src="js/sync.js?v=30"></script>
+<script src="js/sync-ui.js?v=30"></script>
+<script src="js/categories.js?v=30"></script>
+<script src="js/accessibility.js?v=30"></script>
+<script src="js/tips.js?v=30"></script>
+<script src="js/favorites.js?v=30"></script>
+<script src="js/holiday.js?v=30"></script>
+<script src="js/fx.js?v=30"></script>
+<script src="js/kbnav.js?v=30"></script>
 <!-- ── Game modules ────────────────────────────────────────── -->
+<script src="js/games/klondike.js?v=30"></script>
+<script src="js/games/memory.js?v=30"></script>
+<script src="js/games/oddoneout.js?v=30"></script>
+<script src="js/games/math.js?v=30"></script>
+<script src="js/games/wordsearch.js?v=30"></script>
+<script src="js/games/sequence.js?v=30"></script>
+<script src="js/games/sudoku.js?v=30"></script>
+<script src="js/games/shapes.js?v=30"></script>
+<script src="js/games/solitaire.js?v=30"></script>
+<script src="js/games/trivia.js?v=30"></script>
+<script src="js/games/numseq.js?v=30"></script>
+<script src="js/games/unscramble.js?v=30"></script>
+<script src="js/games/pairs.js?v=30"></script>
+<script src="js/games/truefalse.js?v=30"></script>
+<script src="js/games/flags.js?v=30"></script>
+<script src="js/games/proverbs.js?v=30"></script>
+<script src="js/games/hangman.js?v=30"></script>
+<script src="js/games/recall.js?v=30"></script>
+<script src="js/games/blocks.js?v=30"></script>
+<script src="js/games/colormatch.js?v=30"></script>
+<script src="js/games/digitspan.js?v=30"></script>
+<script src="js/games/clock.js?v=30"></script>
+<script src="js/games/counting.js?v=30"></script>
+<script src="js/games/category.js?v=30"></script>
+<script src="js/games/letters.js?v=30"></script>
+<script src="js/games/lifesim.js?v=30"></script>
+<script src="js/games/safari.js?v=30"></script>
 =======
-<script src="js/daily-challenge.js?v=32"></script>
-<script src="js/stats.js?v=32"></script>
-<script src="js/difficulty.js?v=32"></script>
-<script src="js/levels.js?v=32"></script>
-<script src="js/share.js?v=32"></script>
-<script src="js/gametext.js?v=32"></script>
-<script src="js/categories.js?v=32"></script>
-<script src="js/accessibility.js?v=32"></script>
-<script src="js/tips.js?v=32"></script>
-<script src="js/favorites.js?v=32"></script>
-<script src="js/holiday.js?v=32"></script>
-<script src="js/sync.js?v=32"></script>
-<script src="js/fx.js?v=32"></script>
-<script src="js/kbnav.js?v=32"></script>
+<script src="js/daily-challenge.js?v=28"></script>
+<script src="js/stats.js?v=28"></script>
+<script src="js/difficulty.js?v=28"></script>
+<script src="js/levels.js?v=28"></script>
+<script src="js/share.js?v=28"></script>
+<script src="js/gametext.js?v=28"></script>
+<script src="js/categories.js?v=28"></script>
+<script src="js/accessibility.js?v=28"></script>
+<script src="js/tips.js?v=28"></script>
+<script src="js/favorites.js?v=28"></script>
+<script src="js/holiday.js?v=28"></script>
+<script src="js/sync.js?v=28"></script>
+<script src="js/fx.js?v=28"></script>
+<script src="js/kbnav.js?v=28"></script>
 <!-- ── Game modules ────────────────────────────────────────── -->
+<script src="js/games/klondike.js?v=28"></script>
+<script src="js/games/memory.js?v=28"></script>
+<script src="js/games/oddoneout.js?v=28"></script>
+<script src="js/games/math.js?v=28"></script>
+<script src="js/games/wordsearch.js?v=28"></script>
+<script src="js/games/simon.js?v=28"></script>
+<script src="js/games/sudoku.js?v=28"></script>
+<script src="js/games/shapes.js?v=28"></script>
+<script src="js/games/solitaire.js?v=28"></script>
+<script src="js/games/trivia.js?v=28"></script>
+<script src="js/games/numseq.js?v=28"></script>
+<script src="js/games/unscramble.js?v=28"></script>
+<script src="js/games/pairs.js?v=28"></script>
+<script src="js/games/truefalse.js?v=28"></script>
+<script src="js/games/flags.js?v=28"></script>
+<script src="js/games/proverbs.js?v=28"></script>
+<script src="js/games/hangman.js?v=28"></script>
+<script src="js/games/recall.js?v=28"></script>
+<script src="js/games/tetris.js?v=28"></script>
+<script src="js/games/colormatch.js?v=28"></script>
+<script src="js/games/digitspan.js?v=28"></script>
+<script src="js/games/clock.js?v=28"></script>
+<script src="js/games/counting.js?v=28"></script>
+<script src="js/games/category.js?v=28"></script>
+<script src="js/games/letters.js?v=28"></script>
+<script src="js/games/lifesim.js?v=28"></script>
+<script src="js/games/safari.js?v=28"></script>
 >>>>>>> 30156fa (feat: invite friends via WhatsApp/Email/SMS/copy — navbar button, localized 6 langs, new domain+brand in share texts)
 </body>
 </html>
