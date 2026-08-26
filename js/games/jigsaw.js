@@ -209,6 +209,47 @@ function jigsawPathFor(r, c, rows, cols, pw, ph, pad, seams) {
   return p;
 }
 
+// Convert a piece Path2D to an SVG path string (for slot outline hints).
+function jigsawPathToSVG(r, c, rows, cols, pw, ph, pad, seams) {
+  const x0 = pad, y0 = pad, x1 = pad + pw, y1 = pad + ph;
+  const top    = r > 0        ? -seams.h[r - 1][c] : 0;
+  const right  = c < cols - 1 ?  seams.v[r][c]     : 0;
+  const bottom = r < rows - 1 ?  seams.h[r][c]     : 0;
+  const left   = c > 0        ? -seams.v[r][c - 1] : 0;
+  const pts = [[x0, y0]];
+  // sample the same bezier curve jigEdge draws, at fixed u steps
+  function edgePts(x1, y1, x2, y2, sign) {
+    if (!sign) { pts.push([x2, y2]); return; }
+    const dx = x2 - x1, dy = y2 - y1;
+    const len = Math.hypot(dx, dy);
+    const ux = dx / len, uy = dy / len;
+    const nx = uy, ny = -ux;
+    const h = len * JIG_TAB_H * sign;
+    const px = (u, v) => x1 + ux * u * len + nx * v * h;
+    const py = (u, v) => y1 + uy * u * len + ny * v * h;
+    // approximate each bezier segment with points
+    for (const t of JIG_TAB) {
+      const steps = 6;
+      // cubic bezier from current point to (px(t4),py(t5)) with controls
+      const c1 = [px(t[0], t[1]), py(t[0], t[1])];
+      const c2 = [px(t[2], t[3]), py(t[2], t[3])];
+      const e  = [px(t[4], t[5]), py(t[4], t[5])];
+      const s0 = pts[pts.length - 1];
+      for (let i = 1; i <= steps; i++) {
+        const u = i / steps;
+        const a = (1-u)*(1-u)*(1-u), b = 3*(1-u)*(1-u)*u, cc = 3*(1-u)*u*u, dd = u*u*u;
+        pts.push([a*s0[0]+b*c1[0]+cc*c2[0]+dd*e[0], a*s0[1]+b*c1[1]+cc*c2[1]+dd*e[1]]);
+      }
+    }
+  }
+  edgePts(x0, y0, x1, y0, top);
+  edgePts(x1, y0, x1, y1, right);
+  edgePts(x1, y1, x0, y1, bottom);
+  edgePts(x0, y1, x0, y0, left);
+  let d = 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L');
+  return d + ' Z';
+}
+
 // ── Build & start ──────────────────────────────────────────────────────────
 function jigsawStart() {
   const S = JIGSAW_STATE;
@@ -331,7 +372,13 @@ function buildJigsawBoard(container, isHe) {
   };
 
   let boardHtml = `<div class="jig-board" id="jigBoard"><img class="jig-ghost" id="jigGhost" src="${S.srcData}" alt="">`;
-  for (let i = 0; i < n; i++) boardHtml += `<div class="jig-slot" data-slot="${i}" data-drop="true"></div>`;
+  for (let i = 0; i < n; i++) {
+    const r = Math.floor(i / cols), c = i % cols;
+    // faint outline of THIS slot's shape so pieces can be matched by shape
+    boardHtml += `<div class="jig-slot" data-slot="${i}" data-drop="true">
+      <svg class="jig-slot-outline" viewBox="0 0 ${(pw + pad * 2).toFixed(1)} ${(ph + pad * 2).toFixed(1)}" preserveAspectRatio="none">${jigsawPathToSVG(r, c, rows, cols, pw, ph, pad, S.seams)}</svg>
+    </div>`;
+  }
   boardHtml += '</div>';
 
   let trayHtml = '<div class="jig-tray" id="jigTray">';
@@ -348,6 +395,10 @@ function buildJigsawBoard(container, isHe) {
     .jig-ghost{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:.07;border-radius:10px;pointer-events:none;transition:opacity .25s;z-index:0}
     .jig-board.peeking .jig-ghost{opacity:.72}
     .jig-slot{aspect-ratio:${pw.toFixed(4)}/${ph.toFixed(4)};position:relative;z-index:1}
+    /* faint shape outline so pieces can be matched by shape (like real jigsaw) */
+    .jig-slot-outline{position:absolute;left:-${padX}%;top:-${padY}%;width:${wPct}%;height:${hPct}%;pointer-events:none;opacity:.16}
+    .jig-slot-outline path{fill:rgba(255,255,255,0.05);stroke:#ffffff;stroke-width:1.5}
+    .jig-slot.has-piece .jig-slot-outline{display:none}
     /* The piece overhangs its slot by the tab depth on every side. */
     .jig-slot img{position:absolute;left:-${padX}%;top:-${padY}%;width:${wPct}%;height:${hPct}%;max-width:none;object-fit:fill;pointer-events:none}
     @keyframes jigSnap{0%{transform:scale(1.13)}60%{transform:scale(.97)}100%{transform:scale(1)}}
@@ -355,7 +406,9 @@ function buildJigsawBoard(container, isHe) {
     @keyframes jigShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
     .jig-slot.shake{animation:jigShake .45s ease}
     .jig-tray{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px;max-width:560px;margin-left:auto;margin-right:auto}
-    .jig-piece{width:76px;height:76px;cursor:grab;transition:transform .15s,opacity .2s;touch-action:none;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 5px 9px rgba(0,0,0,.55))}
+    /* tray pieces: big enough that the shape + tabs are clearly visible
+       (canvas includes transparent pad; shape ≈61% of it) */
+    .jig-piece{width:112px;height:112px;cursor:grab;transition:transform .15s,opacity .2s;touch-action:none;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 5px 9px rgba(0,0,0,.55))}
     /* contain, so a piece shows its whole shape — tabs included — undistorted */
     .jig-piece img{width:100%;height:100%;object-fit:contain;pointer-events:none;display:block}
     .jig-piece:hover{transform:scale(1.09)}
