@@ -131,10 +131,14 @@
         html[data-theme="light"] #langSelect, html[data-theme="light"] #langSelect option { background:#ffffff !important; color:#1a365d !important; }
         html[data-theme="light"] select, html[data-theme="light"] select option { color-scheme: light; }
         html[data-theme="light"] #hero { background: linear-gradient(160deg,#eef2f8 0%,#f7f3ea 50%,#fdf6e3 100%); border-bottom-color: rgba(183,121,31,0.25); }
-        html[data-theme="light"] #hero h2 { background: linear-gradient(135deg,#1a365d 0%,#b7791f 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+        html[data-theme="light"] #hero h2 { background: linear-gradient(135deg,#1a365d 0%,#b7791f 100%) !important; -webkit-background-clip:text !important; background-clip:text !important; -webkit-text-fill-color:transparent !important; }
         html[data-theme="light"] #dailyQuote { color:#475569 !important; }
         html[data-theme="light"] #greetingText { color:#1a365d !important; }
         html[data-theme="light"] #retentionBar { border-top-color: rgba(26,54,93,0.15) !important; }
+        html[data-theme="light"] #streakText { color:#b7791f !important; }
+        html[data-theme="light"] #dailyGoalText { color:#1d4ed8 !important; }
+        html[data-theme="light"] .streak-pill { background:rgba(183,121,31,0.08) !important; border-color:rgba(183,121,31,0.35) !important; }
+        html[data-theme="light"] #hero div[style*="background:rgba(59,130,246,0.15)"] { background:rgba(29,78,216,0.08) !important; border-color:rgba(29,78,216,0.3) !important; }
         html[data-theme="light"] #why-train { background: rgba(255,255,255,0.85) !important; border-color: rgba(183,121,31,0.35) !important; }
         html[data-theme="light"] #why-train h3 { background: linear-gradient(135deg,#1a365d 0%,#b7791f 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
         html[data-theme="light"] #why-train div[style*="color:#f6c048"] { color:#b7791f !important; }
@@ -966,7 +970,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '42';
+const ASSET_V = '43';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
