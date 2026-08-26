@@ -20,6 +20,30 @@ Color Match · Digit Span · Clock · Counting · Category · Letters · Life Si
 - **Daily Challenge**, Achievements, Favorites/recently-played, skill Categories,
   Brain Score, per-game share buttons
 
+## Turn on cross-device progress (optional, ~5 minutes)
+
+Progress is stored in each player's own browser. Nothing leaves their device and
+there is no account — which also means a new phone starts from zero. To let
+progress follow someone between devices:
+
+1. Create a free project at **supabase.com**.
+2. **SQL Editor -> New query** -> paste all of `supabase_schema.sql` -> **Run**.
+3. **Settings -> API** -> copy **Project URL** and the **anon public** key into
+   the two blanks at the top of `js/sync.js`.
+4. Bump `CACHE` in `sw.js` and the `?v=` on the script tags, then push.
+
+A 📱 button appears in the navbar. The player taps **Show my code**, gets six
+characters, and types them on the other device. No email, no password.
+
+The anon key is *meant* to be public — it is in the page source of every
+Supabase site. It is safe here because the tables grant anon nothing directly:
+all access goes through four `SECURITY DEFINER` functions that require the
+player's secret id. Do **not** paste the `service_role` key; that one bypasses
+everything.
+
+Until step 3 is done the whole feature is inert — no button, no network calls,
+no errors.
+
 ## For developers
 - Static site: `index.html` (core + i18n) + `js/games/*.js` (one file per game) +
   feature modules (`js/*.js`). Service worker `sw.js` — **bump `CACHE` version on every
