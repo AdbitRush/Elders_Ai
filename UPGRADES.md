@@ -79,4 +79,4 @@ Do one phase per commit; a broken deploy on a static host means the site is down
 
 ## ✅ Done
 
-- 2026-08-26 — Owner session (Telegram): default language = English + geo-detection (country → he/es/fr/de/el only on first visit, no saved choice); light/dark theme toggle in navbar (persists gg-theme); rebranded "Golden Games/זהב של משחקים" → "BrainPlay/משחקי מוח" (all 6 languages, manifest, logo letter); iPhone fit fixes (navbar wraps, 100dvh, viewport-fit=cover, background-attachment desktop-only); footer/ad copy now honest: free, no pop-ups, no data collection, supported by quiet ads. SW cache v27→v28.
+- 2026-08-26 — Owner session (Telegram) round 2: share/invite upgraded — new domain (games.178-105-148-72.sslip.io), new brand (BrainPlay/משחקי מוח) in share texts, WhatsApp + Email + SMS + copy-link chooser via new navbar "Invite friends" button (all 6 languages); score share updated. SW cache v28→v29.
