@@ -30,9 +30,24 @@ function _sudokuRender(c) {
     const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
     // hard mode: no same-number / group highlights — only the selected cell
     const noHints = _d==='hard';
+    // theme-aware palette: light mode gets light cells, dark mode keeps the classic navy
+    const isLight = (document.documentElement.getAttribute('data-theme')==='light');
+    const P = isLight ? {
+      cell:'#ffffff', grp:'#eef2f8', sameN:'#dbeafe', sel:'#93c5fd',
+      border:'#cbd5e1', borderThick:'#2563eb', given:'#0f172a', filled:'#1d4ed8', conflict:'#dc2626',
+      numBtn:'#eef2f8', numBtnBorder:'#cbd5e1', numBtnText:'#1a365d', numBtnHover:'#dbeafe',
+      barText:'#475569', clearBg:'#fef2f2', clearBorder:'#fca5a5', clearText:'#dc2626', clearHover:'#fecaca', boardShadow:'rgba(37,99,235,0.2)'
+    } : {
+      cell:'#0a1628', grp:'#0f2040', sameN:'#1e3a8a', sel:'#1d4ed8',
+      border:'#1e3a5f', borderThick:'#3b82f6', given:'#f0f4ff', filled:'#60a5fa', conflict:'#f87171',
+      numBtn:'#0f2040', numBtnBorder:'#1e3a5f', numBtnText:'#93c5fd', numBtnHover:'#1d4ed8',
+      barText:'#93c5fd', clearBg:'#1a0a0a', clearBorder:'#7f1d1d', clearText:'#f87171', clearHover:'#7f1d1d', boardShadow:'rgba(59,130,246,0.25)'
+    };
     const sr=gs.sr,sc_=gs.sc,sbr=sr>=0?Math.floor(sr/3):-1,sbc=sc_>=0?Math.floor(sc_/3):-1;
     const svn=sr>=0&&sc_>=0?gs.filled[sr][sc_]:0;
-    const sz='clamp(34px,9.8vw,44px)';
+    // sizes scale with TextSize (html font-size): rem-based, not fixed px
+    const tsScale = parseFloat(getComputedStyle(document.documentElement).fontSize) / 16;
+    const sz='clamp(2rem, 9.8vw, 2.6rem)';
     let cells='';
     for(let r=0;r<9;r++){
         for(let cc=0;cc<9;cc++){
@@ -43,21 +58,22 @@ function _sudokuRender(c) {
             const isGiven=gs.given[r][cc];
             let conflict=false;
             if(v>0&&!isGiven){for(let i=0;i<9;i++){if(i!==cc&&gs.filled[r][i]===v)conflict=true;if(i!==r&&gs.filled[i][cc]===v)conflict=true;}const br=Math.floor(r/3),bc=Math.floor(cc/3);for(let dr=0;dr<3;dr++)for(let dc=0;dc<3;dc++){const nr=br*3+dr,nc=bc*3+dc;if((nr!==r||nc!==cc)&&gs.filled[nr][nc]===v)conflict=true;}}
-            const borderT=(r===0||r===3||r===6)?'3px solid #3b82f6':'1px solid #1e3a5f';
-            const borderL=(cc===0||cc===3||cc===6)?'3px solid #3b82f6':'1px solid #1e3a5f';
-            let bg=isSel?'#1d4ed8':isSameN?'#1e3a8a':inGrp?'#0f2040':'#0a1628';
-            let color=conflict?'#f87171':isGiven?'#f0f4ff':'#60a5fa';
+            const borderT=(r===0||r===3||r===6)?'3px solid '+P.borderThick:'1px solid '+P.border;
+            const borderL=(cc===0||cc===3||cc===6)?'3px solid '+P.borderThick:'1px solid '+P.border;
+            let bg=isSel?P.sel:isSameN?P.sameN:inGrp?P.grp:P.cell;
+            let color=conflict?P.conflict:isGiven?P.given:P.filled;
             let fw=isGiven?'800':'600';
-            let fs='clamp(13px,3vw,17px)';
+            let fs='clamp(0.85rem, 3vw, 1.05rem)';
             cells+=`<div onclick="selectSudoku9(${r},${cc})" style="box-sizing:border-box;width:${sz};height:${sz};background:${bg};border-top:${borderT};border-left:${borderL};display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;transition:background 0.15s;font-size:${fs};color:${color};font-weight:${fw}">${v||''}</div>`;
         }
     }
-    const numBtns=[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="fillSudoku9(${n})" style="width:40px;height:40px;background:#0f2040;border:1px solid #1e3a5f;border-radius:8px;color:#93c5fd;font-size:16px;font-weight:700;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#0f2040'">${n}</button>`).join('');
+    const numBtnW='calc(2.5rem * '+tsScale+')';
+    const numBtns=[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="fillSudoku9(${n})" style="width:${numBtnW};height:${numBtnW};background:${P.numBtn};border:1px solid ${P.numBtnBorder};border-radius:8px;color:${P.numBtnText};font-size:calc(1rem * ${tsScale});font-weight:700;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='${P.numBtnHover}'" onmouseout="this.style.background='${P.numBtn}'">${n}</button>`).join('');
     const isHe=currentLang==='he';
     c.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;gap:16px">
-        <div style="color:#93c5fd;font-size:13px;font-weight:700;letter-spacing:0.05em">${gt('LEVEL', 'רמה')} ${gameState.sudoku.level} &nbsp;·&nbsp; ${gt('TAP A CELL, THEN A NUMBER', 'בחרו תא ואז מספר')}</div>
-        <div style="display:grid;grid-template-columns:repeat(9,${sz});border:3px solid #3b82f6;border-radius:10px;overflow:hidden;box-shadow:0 0 30px rgba(59,130,246,0.25)">${cells}</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center">${numBtns}<button onclick="fillSudoku9(0)" style="width:40px;height:40px;background:#1a0a0a;border:1px solid #7f1d1d;border-radius:8px;color:#f87171;font-size:16px;font-weight:700;cursor:pointer" onmouseover="this.style.background='#7f1d1d'" onmouseout="this.style.background='#1a0a0a'">✕</button></div>
+        <div style="color:${P.barText};font-size:calc(0.8rem * ${tsScale});font-weight:700;letter-spacing:0.05em">${gt('LEVEL', 'רמה')} ${gameState.sudoku.level} &nbsp;·&nbsp; ${gt('TAP A CELL, THEN A NUMBER', 'בחרו תא ואז מספר')}</div>
+        <div style="display:grid;grid-template-columns:repeat(9,${sz});border:3px solid ${P.borderThick};border-radius:10px;overflow:hidden;box-shadow:0 0 30px ${P.boardShadow}">${cells}</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center">${numBtns}<button onclick="fillSudoku9(0)" style="width:${numBtnW};height:${numBtnW};background:${P.clearBg};border:1px solid ${P.clearBorder};border-radius:8px;color:${P.clearText};font-size:calc(1rem * ${tsScale});font-weight:700;cursor:pointer" onmouseover="this.style.background='${P.clearHover}'" onmouseout="this.style.background='${P.clearBg}'">✕</button></div>
     </div>`;
 }
 function selectSudoku9(r,c){gameState.sudoku.sr=r;gameState.sudoku.sc=c;_sudokuRender(document.getElementById('gameContent'));}

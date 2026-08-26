@@ -116,9 +116,16 @@
         #adSide.game-active { display:none !important; }
 /* ═══ LIGHT THEME (toggle in navbar, persisted gg-theme) ═══ */
         html[data-theme="light"] body { background: linear-gradient(160deg,#f2f5fa 0%,#e9eef6 55%,#e0e8f2 100%); color:#1e293b; }
-        html[data-theme="light"] nav { background: rgba(255,255,255,0.95); border-bottom-color: rgba(183,121,31,0.4); box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+        html[data-theme="light"] nav { background: rgba(255,255,255,0.95) !important; border-bottom-color: rgba(183,121,31,0.4) !important; box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important; }
+        html[data-theme="light"] nav .text-white, html[data-theme="light"] nav span, html[data-theme="light"] nav a { color:#1a365d !important; }
         html[data-theme="light"] nav h1 { background: linear-gradient(135deg,#1a365d 0%,#b7791f 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
         html[data-theme="light"] nav button { background: rgba(26,54,93,0.07) !important; border-color: rgba(26,54,93,0.25) !important; color:#1a365d !important; }
+        html[data-theme="light"] nav .text-white { color:#1a365d !important; }
+        html[data-theme="light"] nav #logoLetter { box-shadow:0 0 16px rgba(183,121,31,0.3) !important; }
+        html[data-theme="light"] #levelIndicator { background:rgba(26,54,93,0.08) !important; border-color:rgba(26,54,93,0.3) !important; color:#1a365d !important; }
+        html[data-theme="light"] #personalBest { color:#b7791f !important; }
+        html[data-theme="light"] #textsize-btn, html[data-theme="light"] #sound-btn { background:rgba(26,54,93,0.07) !important; border-color:rgba(26,54,93,0.25) !important; color:#1a365d !important; }
+        html[data-theme="light"] #hero { background: linear-gradient(160deg,#eef2f8 0%,#f7f3ea 50%,#fdf6e3 100%) !important; border-bottom-color: rgba(183,121,31,0.25) !important; }
         html[data-theme="light"] #profile-chip .nm { color:#b7791f !important; }
         html[data-theme="light"] #langSelect, html[data-theme="light"] #langSelect option { background:#ffffff !important; color:#1a365d !important; }
         html[data-theme="light"] select, html[data-theme="light"] select option { color-scheme: light; }
@@ -142,6 +149,8 @@
         html[data-theme="light"] #adSide { background: rgba(255,255,255,0.95) !important; border-color: rgba(183,121,31,0.3) !important; }
         html[data-theme="light"] .stats-row { background: rgba(26,54,93,0.05) !important; border-color: rgba(26,54,93,0.12) !important; }
         html[data-theme="light"] #gameView::before { background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(183,121,31,0.08), transparent 60%), radial-gradient(ellipse 70% 50% at 50% 100%, rgba(26,54,93,0.12), transparent 70%); }
+        html[data-theme="light"] #gameInstructions { color:#334155 !important; font-weight:600; }
+        html[data-theme="light"] #gameView > div { background:rgba(255,255,255,0.97) !important; box-shadow:0 32px 80px rgba(15,23,42,0.12),0 0 0 1px rgba(183,121,31,0.2) !important; }
 
     </style>
 </head>
@@ -956,7 +965,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '40';
+const ASSET_V = '41';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1372,7 +1381,7 @@ window.addEventListener('popstate', ()=>{ if(!location.hash) showHome(); });
 // INIT
 // ═══════════════════════════════════════════════════════════════════════════════
 // ── Theme (light/dark), persisted ──────────────────────────────────────
-function applyTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('gg-theme',t);const b=document.getElementById('themeBtn');if(b)b.innerText=t==='light'?'☀️':'🌙';}
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('gg-theme',t);const b=document.getElementById('themeBtn');if(b)b.innerText=t==='light'?'☀️':'🌙';if(gameState&&gameState.active&&gameState.currentId==='sudoku'){_sudokuRender(document.getElementById('gameContent'));}}
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='light'?'dark':'light');}
 applyTheme(localStorage.getItem('gg-theme')||'dark');
 
