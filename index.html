@@ -168,9 +168,52 @@
     <!-- Game Grid Header -->
     <div id="homeScreen-header" class="flex flex-col gap-4 mb-6">
         <div id="holiday-slot"></div>
+
+        <!-- ═══ Why train — benefits, stated honestly ═══════════════════════
+             WHAT THIS SECTION MAY AND MAY NOT SAY.
+
+             It may say that practice improves the skills you practise, that a
+             daily habit beats an occasional long session, and that staying
+             mentally and socially active is associated with healthier
+             cognitive ageing. All three are supported.
+
+             It may NOT say that these games prevent, delay, treat or cure
+             Alzheimer's disease or dementia, and it must not imply it by
+             wording like "games against Alzheimer's". That claim is not
+             supported by the evidence, the audience here is precisely the
+             people most likely to be harmed by believing it, and regulators
+             treat it as deceptive advertising — the FTC fined Lumosity $2m in
+             2016 for making exactly this claim about brain-training games.
+
+             The closing note is therefore not boilerplate to be trimmed. It is
+             the thing that makes the rest of the section honest, and it points
+             readers at the interventions that DO have evidence behind them. -->
+        <section id="why-train" style="border:1px solid rgba(251,191,36,0.22);border-radius:16px;
+                 background:linear-gradient(135deg,rgba(30,58,95,0.5),rgba(10,22,40,0.5));padding:18px 20px">
+            <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:12px;
+                       background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;
+                       -webkit-text-fill-color:transparent;background-clip:text" data-i18n="why_title">למה לאמן את המוח כל יום</h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">
+                <div>
+                    <div style="font-weight:700;color:#f6c048;font-size:0.92rem;margin-bottom:3px" data-i18n="why1_t">מה שמתרגלים — משתפר</div>
+                    <div style="font-size:0.85rem;color:rgba(200,215,245,0.78);line-height:1.55" data-i18n="why1_d"></div>
+                </div>
+                <div>
+                    <div style="font-weight:700;color:#f6c048;font-size:0.92rem;margin-bottom:3px" data-i18n="why2_t">מעט וקבוע עדיף</div>
+                    <div style="font-size:0.85rem;color:rgba(200,215,245,0.78);line-height:1.55" data-i18n="why2_d"></div>
+                </div>
+                <div>
+                    <div style="font-weight:700;color:#f6c048;font-size:0.92rem;margin-bottom:3px" data-i18n="why3_t">להישאר פעילים</div>
+                    <div style="font-size:0.85rem;color:rgba(200,215,245,0.78);line-height:1.55" data-i18n="why3_d"></div>
+                </div>
+            </div>
+            <p style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(251,191,36,0.16);
+                      font-size:0.78rem;color:rgba(180,200,255,0.62);line-height:1.6" data-i18n="why_note"></p>
+        </section>
+
         <div class="flex items-center justify-between">
             <div>
-                <h3 style="font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="section_games">18 משחקי אימון</h3>
+                <h3 style="font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="section_games">משחקי אימון</h3>
                 <p style="font-size:0.8rem;color:rgba(180,200,255,0.6);margin-top:2px" data-i18n="section_games_sub">לחצו על משחק להתחיל</p>
             </div>
             <div style="width:48px;height:2px;background:linear-gradient(90deg,#b7791f,#f6c048,transparent);border-radius:2px"></div>
@@ -405,7 +448,8 @@ const i18nData = {
 he: {
     site_title:"זהב של משחקים", back_menu:"חזרה לתפריט", next_level:"המשך לשלב הבא",
     level_str:"שלב", hero_title:"אימון יומיומי למוח חד וצלול", btn_start:"התחל אימון",
-    section_games:"26 משחקי אימון", section_games_sub:"לחצו על משחק להתחיל",
+    section_games:"{n} משחקי אימון", section_games_sub:"לחצו על משחק להתחיל",
+    why_title:"למה לאמן את המוח כל יום", why1_t:"מה שמתרגלים — משתפר", why1_d:"זיכרון, קשב, מהירות ומציאת מילים משתפרים עם תרגול קבוע. המשחקים כאן מאמנים בדיוק את אלה.", why2_t:"מעט וקבוע עדיף", why2_d:"עשר דקות ביום, ברצף, שוות יותר משעה אחת בחודש. מונה הרצף כאן כדי לעזור לשמור על ההרגל.", why3_t:"להישאר פעילים", why3_d:"פעילות מחשבתית וחברתית קשורה להזדקנות מוחית טובה יותר — לצד תנועה, שינה וטיפול בלחץ הדם.", why_note:"המשחקים כאן נועדו להנאה ולתרגול. שום משחק — לא כאן ולא באף מקום אחר — אינו מונע, מטפל או מרפא אלצהיימר או דמנציה. אם יש דאגה לגבי הזיכרון, כדאי לפנות לרופא. מה שכן נתמך במחקר לבריאות המוח: פעילות גופנית, איזון לחץ דם, טיפול בשמיעה ובראייה, שינה טובה, הימנעות מעישון וקשר חברתי.",
     footer_rights:"זהב של משחקים © 2026", footer_desc:"ללא פרסומות וללא איסוף נתונים - נוצר באהבה לגיל השלישי.",
     game_memory_title:"אימון זיכרון", game_memory_desc:"שיפור הזיכרון לטווח קצר.",
     game_odd_title:"יוצא דופן", game_odd_desc:"מצאו את הסמל השונה.",
@@ -593,7 +637,8 @@ he: {
 en: {
     site_title:"Golden Games", back_menu:"Back to Menu", next_level:"Next Level",
     level_str:"Level", hero_title:"Daily Brain Training", btn_start:"Start Game",
-    section_games:"26 Brain Games", section_games_sub:"Click a game to start",
+    section_games:"{n} Brain Games", section_games_sub:"Click a game to start",
+    why_title:"Why train your mind daily", why1_t:"You improve at what you practise", why1_d:"Memory, attention, speed and word-finding all improve with regular practice. These games train exactly those.", why2_t:"Little and often wins", why2_d:"Ten minutes a day, kept up, does more than an hour once a month. The streak counter is there to help you keep it.", why3_t:"Staying engaged matters", why3_d:"Mental and social activity is linked with healthier cognitive ageing — alongside exercise, sleep and looking after your blood pressure.", why_note:"These games are for enjoyment and practice. No game — here or anywhere else — prevents, treats or cures Alzheimer's disease or dementia. If you are worried about your memory, speak to your doctor. What evidence does support for brain health: physical activity, treating high blood pressure, correcting hearing and vision, good sleep, not smoking, and staying socially connected.",
     footer_rights:"Golden Games © 2026", footer_desc:"Ad-free, no tracking - made with love for seniors.",
     game_memory_title:"Memory Match", game_memory_desc:"Improve short-term memory.",
     game_odd_title:"Odd One Out", game_odd_desc:"Find the different symbol.",
@@ -908,7 +953,8 @@ function t(k){return i18nData[currentLang][k]||k;}
 i18nData.es = Object.assign({}, i18nData.en, {
   site_title:"Juegos Dorados", back_menu:"Volver al menú", next_level:"Siguiente nivel",
   level_str:"Nivel", hero_title:"Entrenamiento diario para el cerebro", btn_start:"Empezar",
-  section_games:"Juegos mentales", section_games_sub:"Elige un juego para empezar",
+  section_games:"{n} juegos mentales", section_games_sub:"Elige un juego para empezar",
+    why_title:"Por qué entrenar la mente a diario", why1_t:"Mejoras en lo que practicas", why1_d:"La memoria, la atención, la velocidad y encontrar palabras mejoran con la práctica regular. Estos juegos entrenan justamente eso.", why2_t:"Poco y a menudo gana", why2_d:"Diez minutos al día, mantenidos, valen más que una hora al mes. El contador de racha está para ayudarte.", why3_t:"Mantenerse activo importa", why3_d:"La actividad mental y social se asocia con un envejecimiento cognitivo más sano — junto al ejercicio, el sueño y cuidar la tensión arterial.", why_note:"Estos juegos son para disfrutar y practicar. Ningún juego — ni aquí ni en ningún sitio — previene, trata ni cura el alzhéimer o la demencia. Si te preocupa tu memoria, habla con tu médico. Lo que sí respalda la evidencia para la salud cerebral: actividad física, controlar la tensión arterial, corregir audición y visión, dormir bien, no fumar y mantener el contacto social.",
   footer_rights:"Juegos Dorados © 2026", footer_desc:"Sin anuncios, sin rastreo — hecho con cariño para mayores.",
   game_memory_title:"Memoria", game_memory_desc:"Mejora la memoria a corto plazo.",
   game_odd_title:"El diferente", game_odd_desc:"Encuentra el símbolo distinto.",
@@ -936,7 +982,8 @@ i18nData.es = Object.assign({}, i18nData.en, {
 i18nData.fr = Object.assign({}, i18nData.en, {
   site_title:"Jeux d'Or", back_menu:"Retour au menu", next_level:"Niveau suivant",
   level_str:"Niveau", hero_title:"Entraînement cérébral quotidien", btn_start:"Commencer",
-  section_games:"Jeux cérébraux", section_games_sub:"Cliquez sur un jeu pour commencer",
+  section_games:"{n} jeux cérébraux", section_games_sub:"Cliquez sur un jeu pour commencer",
+    why_title:"Pourquoi entraîner son esprit chaque jour", why1_t:"On progresse dans ce qu'on pratique", why1_d:"La mémoire, l'attention, la rapidité et la recherche de mots progressent avec une pratique régulière. Ces jeux entraînent précisément cela.", why2_t:"Peu et souvent l'emporte", why2_d:"Dix minutes par jour, tenues dans la durée, valent mieux qu'une heure une fois par mois. Le compteur de série est là pour vous aider.", why3_t:"Rester engagé compte", why3_d:"L'activité mentale et sociale est associée à un vieillissement cognitif plus sain — avec l'exercice, le sommeil et le suivi de la tension artérielle.", why_note:"Ces jeux sont faits pour le plaisir et l'entraînement. Aucun jeu — ici ou ailleurs — ne prévient, ne traite ni ne guérit la maladie d'Alzheimer ou la démence. Si votre mémoire vous inquiète, parlez-en à votre médecin. Ce que les données soutiennent pour la santé du cerveau : activité physique, traitement de l'hypertension, correction de l'audition et de la vue, bon sommeil, arrêt du tabac et lien social.",
   footer_rights:"Jeux d'Or © 2026", footer_desc:"Sans publicité, sans suivi — fait avec amour pour les aînés.",
   game_memory_title:"Mémoire", game_memory_desc:"Améliorez la mémoire à court terme.",
   game_odd_title:"L'intrus", game_odd_desc:"Trouvez le symbole différent.",
@@ -964,7 +1011,8 @@ i18nData.fr = Object.assign({}, i18nData.en, {
 i18nData.de = Object.assign({}, i18nData.en, {
   site_title:"Goldene Spiele", back_menu:"Zurück zum Menü", next_level:"Nächste Stufe",
   level_str:"Stufe", hero_title:"Tägliches Gehirntraining", btn_start:"Starten",
-  section_games:"Gehirnspiele", section_games_sub:"Auf ein Spiel klicken zum Starten",
+  section_games:"{n} Gehirnspiele", section_games_sub:"Auf ein Spiel klicken zum Starten",
+    why_title:"Warum täglich das Gehirn trainieren", why1_t:"Man wird besser in dem, was man übt", why1_d:"Gedächtnis, Aufmerksamkeit, Tempo und Wortfindung verbessern sich durch regelmäßiges Üben. Genau das trainieren diese Spiele.", why2_t:"Wenig und oft gewinnt", why2_d:"Zehn Minuten täglich, durchgehalten, bringen mehr als eine Stunde im Monat. Der Serienzähler hilft dabei.", why3_t:"Aktiv bleiben zählt", why3_d:"Geistige und soziale Aktivität hängt mit gesünderem kognitivem Altern zusammen — neben Bewegung, Schlaf und der Kontrolle des Blutdrucks.", why_note:"Diese Spiele dienen dem Vergnügen und der Übung. Kein Spiel — hier oder anderswo — verhindert, behandelt oder heilt Alzheimer oder Demenz. Bei Sorgen um Ihr Gedächtnis sprechen Sie mit Ihrer Ärztin oder Ihrem Arzt. Was die Evidenz für die Gehirngesundheit stützt: körperliche Aktivität, Behandlung von Bluthochdruck, Korrektur von Hör- und Sehvermögen, guter Schlaf, Rauchverzicht und soziale Kontakte.",
   footer_rights:"Goldene Spiele © 2026", footer_desc:"Werbefrei, kein Tracking — mit Liebe für Senioren gemacht.",
   game_memory_title:"Gedächtnis", game_memory_desc:"Kurzzeitgedächtnis verbessern.",
   game_odd_title:"Das Andere", game_odd_desc:"Finde das abweichende Symbol.",
@@ -992,7 +1040,8 @@ i18nData.de = Object.assign({}, i18nData.en, {
 i18nData.el = Object.assign({}, i18nData.en, {
   site_title:"Χρυσά Παιχνίδια", back_menu:"Πίσω στο μενού", next_level:"Επόμενο επίπεδο",
   level_str:"Επίπεδο", hero_title:"Καθημερινή εξάσκηση για το μυαλό", btn_start:"Έναρξη",
-  section_games:"Παιχνίδια μυαλού", section_games_sub:"Πατήστε ένα παιχνίδι για να ξεκινήσετε",
+  section_games:"{n} παιχνίδια μυαλού", section_games_sub:"Πατήστε ένα παιχνίδι για να ξεκινήσετε",
+    why_title:"Γιατί να γυμνάζετε το μυαλό καθημερινά", why1_t:"Βελτιώνεστε σε ό,τι εξασκείτε", why1_d:"Η μνήμη, η προσοχή, η ταχύτητα και η εύρεση λέξεων βελτιώνονται με τακτική εξάσκηση. Αυτά ακριβώς γυμνάζουν τα παιχνίδια.", why2_t:"Λίγο και συχνά κερδίζει", why2_d:"Δέκα λεπτά την ημέρα, με συνέπεια, αξίζουν περισσότερο από μία ώρα τον μήνα. Ο μετρητής σερί σας βοηθά.", why3_t:"Η συμμετοχή μετράει", why3_d:"Η πνευματική και κοινωνική δραστηριότητα συνδέεται με πιο υγιή γνωστική γήρανση — μαζί με άσκηση, ύπνο και έλεγχο της πίεσης.", why_note:"Τα παιχνίδια αυτά είναι για ευχαρίστηση και εξάσκηση. Κανένα παιχνίδι — εδώ ή οπουδήποτε αλλού — δεν προλαμβάνει, δεν θεραπεύει και δεν γιατρεύει τη νόσο Αλτσχάιμερ ή την άνοια. Αν ανησυχείτε για τη μνήμη σας, μιλήστε με τον γιατρό σας. Τι στηρίζουν τα δεδομένα για την υγεία του εγκεφάλου: σωματική άσκηση, αντιμετώπιση της υψηλής πίεσης, διόρθωση ακοής και όρασης, καλός ύπνος, αποφυγή καπνίσματος και κοινωνική επαφή.",
   footer_rights:"Χρυσά Παιχνίδια © 2026", footer_desc:"Χωρίς διαφημίσεις, χωρίς παρακολούθηση — με αγάπη για ηλικιωμένους.",
   game_memory_title:"Μνήμη", game_memory_desc:"Βελτιώστε τη βραχυπρόθεσμη μνήμη.",
   game_odd_title:"Το διαφορετικό", game_odd_desc:"Βρείτε το διαφορετικό σύμβολο.",
@@ -1021,7 +1070,14 @@ i18nData.el = Object.assign({}, i18nData.en, {
 function changeLanguage(lang) {
     currentLang=lang; localStorage.setItem('gg-lang',lang);
     document.documentElement.lang=lang; document.documentElement.dir=lang==='he'?'rtl':'ltr';
-    document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(i18nData[lang][k])el.innerText=i18nData[lang][k];});
+    // {n} is replaced with the REAL number of games, counted from the `games`
+    // array rather than typed into the string. The counts used to be written by
+    // hand and had drifted badly: the HTML fallback said 18, Hebrew and English
+    // said 26, and Spanish, French, German and Greek showed no number at all —
+    // while 27 games were actually on the page. Deriving it means adding a game
+    // updates every language at once and no one has to remember.
+    const _n = (typeof games !== 'undefined' && games) ? games.length : 0;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(i18nData[lang][k])el.innerText=String(i18nData[lang][k]).replace('{n}',_n);});
     if(gameState.active) updateLevelDisplay();
     if(!document.getElementById('homeScreen').classList.contains('hidden')) Retention.renderBar();
     if(typeof Tips!=='undefined'&&Tips.render) Tips.render();

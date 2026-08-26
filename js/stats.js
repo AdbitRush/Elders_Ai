@@ -4,27 +4,44 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const Stats = (() => {
-  const ALL_GAMES = [
-    'memory','oddoneout','math','wordsearch','simon','sudoku','shapes',
+  // The list of games is READ FROM `games` in index.html, which is the same
+  // array the homescreen and the router use. It is not copied here.
+  //
+  // It used to be copied, and it went stale exactly as you would expect: nine
+  // games were added after this file was written (klondike, colormatch,
+  // digitspan, clock, counting, category, letters, lifesim, safari) and none of
+  // them ever appeared on the scoreboard. It showed 18 of 27 and reported
+  // "1/18 games" as though the other nine did not exist. Worse, "reset all
+  // scores" walked the same short list, so those nine games' high scores
+  // survived a reset that claimed to clear everything.
+  //
+  // The fallback below is only for the case where this file somehow loads
+  // before index.html's globals; it is not a second source of truth.
+  const FALLBACK = [
+    'klondike','memory','oddoneout','math','wordsearch','simon','sudoku','shapes',
     'solitaire','trivia','numseq','unscramble','pairs','truefalse','flags',
-    'proverbs','hangman','recall','tetris'
+    'proverbs','hangman','recall','tetris','colormatch','digitspan','clock',
+    'counting','category','letters','lifesim','safari'
   ];
+  const allGames = () =>
+    (typeof games !== 'undefined' && Array.isArray(games) && games.length) ? games : FALLBACK;
 
-  // Map game id → display label (bilingual lookup via t())
-  const TITLE_KEYS = {
-    memory:'game_memory_title', oddoneout:'game_odd_title', math:'game_math_title',
-    wordsearch:'game_words_title', simon:'game_simon_title', sudoku:'game_sudoku_title',
-    shapes:'game_shapes_title', solitaire:'game_solitaire_title', trivia:'game_trivia_title',
-    numseq:'game_numseq_title', unscramble:'game_unscrbl_title', pairs:'game_pairs_title',
-    truefalse:'game_tf_title', flags:'game_flags_title', proverbs:'game_proverbs_title',
-    hangman:'game_hangman_title', recall:'game_recall_title', tetris:'game_tetris_title',
+  // Most titles follow game_<id>_title. These four predate that convention and
+  // would silently render as a raw id, so they are named explicitly. Any game
+  // added from here on needs no entry at all.
+  const TITLE_OVERRIDES = {
+    oddoneout: 'game_odd_title',
+    wordsearch: 'game_words_title',
+    unscramble: 'game_unscrbl_title',
+    truefalse: 'game_tf_title',
   };
+  const titleKey = id => TITLE_OVERRIDES[id] || ('game_' + id + '_title');
 
   function getAllScores() {
-    return ALL_GAMES.map(id => ({
+    return allGames().map(id => ({
       id,
       hs: parseInt(localStorage.getItem('gg_hs_' + id) || '0'),
-      label: (typeof t === 'function' ? t(TITLE_KEYS[id]) : null) || id,
+      label: (typeof t === 'function' ? t(titleKey(id)) : null) || id,
     }));
   }
 
@@ -33,7 +50,9 @@ const Stats = (() => {
   }
 
   function clearAll() {
-    ALL_GAMES.forEach(clearScore);
+    // allGames(), not the old short list — this is the line that made "reset
+    // all scores" leave nine games' high scores behind.
+    allGames().forEach(clearScore);
     localStorage.removeItem('gg_streak');
     localStorage.removeItem('gg_today_count');
     localStorage.removeItem('gg_total_games');
