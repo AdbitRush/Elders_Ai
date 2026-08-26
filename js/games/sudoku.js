@@ -27,6 +27,9 @@ function initSudoku(container) {
 function _sudokuRender(c) {
     if(!gameState.active||gameState.currentId!=='sudoku')return;
     const gs=gameState.sudoku;
+    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
+    // hard mode: no same-number / group highlights — only the selected cell
+    const noHints = _d==='hard';
     const sr=gs.sr,sc_=gs.sc,sbr=sr>=0?Math.floor(sr/3):-1,sbc=sc_>=0?Math.floor(sc_/3):-1;
     const svn=sr>=0&&sc_>=0?gs.filled[sr][sc_]:0;
     const sz='clamp(34px,9.8vw,44px)';
@@ -35,8 +38,8 @@ function _sudokuRender(c) {
         for(let cc=0;cc<9;cc++){
             const v=gs.filled[r][cc];
             const isSel=r===sr&&cc===sc_;
-            const inGrp=r===sr||cc===sc_||(Math.floor(r/3)===sbr&&Math.floor(cc/3)===sbc);
-            const isSameN=!isSel&&svn>0&&v===svn;
+            const inGrp=!noHints&&(r===sr||cc===sc_||(Math.floor(r/3)===sbr&&Math.floor(cc/3)===sbc));
+            const isSameN=!noHints&&!isSel&&svn>0&&v===svn;
             const isGiven=gs.given[r][cc];
             let conflict=false;
             if(v>0&&!isGiven){for(let i=0;i<9;i++){if(i!==cc&&gs.filled[r][i]===v)conflict=true;if(i!==r&&gs.filled[i][cc]===v)conflict=true;}const br=Math.floor(r/3),bc=Math.floor(cc/3);for(let dr=0;dr<3;dr++)for(let dc=0;dc<3;dc++){const nr=br*3+dr,nc=bc*3+dc;if((nr!==r||nc!==cc)&&gs.filled[nr][nc]===v)conflict=true;}}
