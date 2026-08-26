@@ -68,9 +68,9 @@ const DailyChallenge = (() => {
     const card = document.querySelector(`[data-game="${id}"] h3`);
     if (card) return card.textContent.trim();
     const map = { memory:'זיכרון', oddoneout:'יוצא דופן', math:'חשבון', wordsearch:'חיפוש מילים',
-      sequence:'סיימון', sudoku:'סודוקו', shapes:'צורות', trivia:'טריוויה',
+      sequence:'רצף צבעים', sudoku:'סודוקו', shapes:'צורות', trivia:'טריוויה',
       numseq:'רצף מספרים', unscramble:'פענוח', pairs:'זוגות', truefalse:'נכון/לא נכון',
-      flags:'דגלים', proverbs:'פתגמים', hangman:'תלייה', recall:'זיכרון תמונות', blocks:'טטריס' };
+      flags:'דגלים', proverbs:'פתגמים', hangman:'תלייה', recall:'זיכרון תמונות', blocks:'בלוקים נופלים' };
     return map[id]||id;
   }
 

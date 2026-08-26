@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/hooks.css">
     <link rel="stylesheet" href="css/premium.css">
-<link rel="stylesheet" href="css/a11y.css?v=29">
+<link rel="stylesheet" href="css/a11y.css?v=30">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; }
@@ -332,7 +332,7 @@
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('blocks')" style="cursor:pointer">
             <span id="hs-blocks" class="hs-badge hidden"></span>
             <div class="thumbnail-container"><img src="images/cards/blocks.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="blocks" onerror="if(!this._r){this._r=1;this.src='https://image.pollinations.ai/prompt/colorful+neon+blocks+blocks+falling+dark+background+retro+arcade+game+vibrant+glow+cinematic,+luxury+editorial+photography,+soft+golden+hour+light,+rich+warm+color+grade,+shallow+depth+of+field,+high+end+magazine+quality?width=600&height=400&nologo=true&seed=1018&model=flux';}else{this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)';}"></div>
-            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_blocks_title">טטריס</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_blocks_desc">הרכיבו שורות שלמות עם הצורות הנופלות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('blocks')" data-i18n="btn_start">התחל אימון</button></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_blocks_title">בלוקים נופלים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_blocks_desc">הרכיבו שורות שלמות עם הצורות הנופלות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('blocks')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('colormatch')" style="cursor:pointer">
             <span id="hs-colormatch" class="hs-badge hidden"></span>
@@ -1403,12 +1403,12 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
-<script src="js/affiliate.js?v=29"></script>
-<script src="js/profile.js?v=29"></script>
-<script src="js/brainscore.js?v=29"></script>
-<script src="js/achievements.js?v=29"></script>
-<script src="js/lang-content.js?v=29"></script>
-<script src="js/textsize.js?v=29"></script>
+<script src="js/affiliate.js?v=30"></script>
+<script src="js/profile.js?v=30"></script>
+<script src="js/brainscore.js?v=30"></script>
+<script src="js/achievements.js?v=30"></script>
+<script src="js/lang-content.js?v=30"></script>
+<script src="js/textsize.js?v=30"></script>
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
 if ('IntersectionObserver' in window) {
@@ -1421,48 +1421,48 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
 }
 </script>
-<script src="js/daily-challenge.js?v=29"></script>
-<script src="js/stats.js?v=29"></script>
-<script src="js/difficulty.js?v=29"></script>
-<script src="js/levels.js?v=29"></script>
-<script src="js/share.js?v=29"></script>
-<script src="js/gametext.js?v=29"></script>
-<script src="js/sync.js?v=29"></script>
-<script src="js/sync-ui.js?v=29"></script>
-<script src="js/categories.js?v=29"></script>
-<script src="js/accessibility.js?v=29"></script>
-<script src="js/tips.js?v=29"></script>
-<script src="js/favorites.js?v=29"></script>
-<script src="js/holiday.js?v=29"></script>
-<script src="js/fx.js?v=29"></script>
-<script src="js/kbnav.js?v=29"></script>
+<script src="js/daily-challenge.js?v=30"></script>
+<script src="js/stats.js?v=30"></script>
+<script src="js/difficulty.js?v=30"></script>
+<script src="js/levels.js?v=30"></script>
+<script src="js/share.js?v=30"></script>
+<script src="js/gametext.js?v=30"></script>
+<script src="js/sync.js?v=30"></script>
+<script src="js/sync-ui.js?v=30"></script>
+<script src="js/categories.js?v=30"></script>
+<script src="js/accessibility.js?v=30"></script>
+<script src="js/tips.js?v=30"></script>
+<script src="js/favorites.js?v=30"></script>
+<script src="js/holiday.js?v=30"></script>
+<script src="js/fx.js?v=30"></script>
+<script src="js/kbnav.js?v=30"></script>
 <!-- ── Game modules ────────────────────────────────────────── -->
-<script src="js/games/klondike.js?v=29"></script>
-<script src="js/games/memory.js?v=29"></script>
-<script src="js/games/oddoneout.js?v=29"></script>
-<script src="js/games/math.js?v=29"></script>
-<script src="js/games/wordsearch.js?v=29"></script>
-<script src="js/games/sequence.js?v=29"></script>
-<script src="js/games/sudoku.js?v=29"></script>
-<script src="js/games/shapes.js?v=29"></script>
-<script src="js/games/solitaire.js?v=29"></script>
-<script src="js/games/trivia.js?v=29"></script>
-<script src="js/games/numseq.js?v=29"></script>
-<script src="js/games/unscramble.js?v=29"></script>
-<script src="js/games/pairs.js?v=29"></script>
-<script src="js/games/truefalse.js?v=29"></script>
-<script src="js/games/flags.js?v=29"></script>
-<script src="js/games/proverbs.js?v=29"></script>
-<script src="js/games/hangman.js?v=29"></script>
-<script src="js/games/recall.js?v=29"></script>
-<script src="js/games/blocks.js?v=29"></script>
-<script src="js/games/colormatch.js?v=29"></script>
-<script src="js/games/digitspan.js?v=29"></script>
-<script src="js/games/clock.js?v=29"></script>
-<script src="js/games/counting.js?v=29"></script>
-<script src="js/games/category.js?v=29"></script>
-<script src="js/games/letters.js?v=29"></script>
-<script src="js/games/lifesim.js?v=29"></script>
-<script src="js/games/safari.js?v=29"></script>
+<script src="js/games/klondike.js?v=30"></script>
+<script src="js/games/memory.js?v=30"></script>
+<script src="js/games/oddoneout.js?v=30"></script>
+<script src="js/games/math.js?v=30"></script>
+<script src="js/games/wordsearch.js?v=30"></script>
+<script src="js/games/sequence.js?v=30"></script>
+<script src="js/games/sudoku.js?v=30"></script>
+<script src="js/games/shapes.js?v=30"></script>
+<script src="js/games/solitaire.js?v=30"></script>
+<script src="js/games/trivia.js?v=30"></script>
+<script src="js/games/numseq.js?v=30"></script>
+<script src="js/games/unscramble.js?v=30"></script>
+<script src="js/games/pairs.js?v=30"></script>
+<script src="js/games/truefalse.js?v=30"></script>
+<script src="js/games/flags.js?v=30"></script>
+<script src="js/games/proverbs.js?v=30"></script>
+<script src="js/games/hangman.js?v=30"></script>
+<script src="js/games/recall.js?v=30"></script>
+<script src="js/games/blocks.js?v=30"></script>
+<script src="js/games/colormatch.js?v=30"></script>
+<script src="js/games/digitspan.js?v=30"></script>
+<script src="js/games/clock.js?v=30"></script>
+<script src="js/games/counting.js?v=30"></script>
+<script src="js/games/category.js?v=30"></script>
+<script src="js/games/letters.js?v=30"></script>
+<script src="js/games/lifesim.js?v=30"></script>
+<script src="js/games/safari.js?v=30"></script>
 </body>
 </html>
