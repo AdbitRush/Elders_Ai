@@ -242,6 +242,9 @@ function buildJigsawBoard(container, isHe) {
 
   // pad displayed as % of slot (canvas is pw+2pad, shape is pw)
   const padPct = ((pad) / pw * 100).toFixed(2);
+  // ══ CRITICAL: slot aspect must match the PIECE CANVAS (pw+2pad × ph+2pad),
+  // not cols/rows — otherwise the bumps get stretched and never interlock. ══
+  const slotAR = ((pw + pad * 2) / (ph + pad * 2)).toFixed(4);
 
   const L = {
     done: isHe ? '🎉 כל הכבוד! השלמתם את הפאזל!' : '🎉 Well done! Puzzle complete!',
@@ -250,14 +253,10 @@ function buildJigsawBoard(container, isHe) {
     tip: isHe ? 'גררו חלק אל הלוח, או הקישו על חלק ואז על המקום' : 'Drag a piece onto the board, or tap a piece then tap a spot'
   };
 
-  // board slots — each carries an SVG outline of its jigsaw shape as a hint
+  // board slots — clean board, NO shape hints (they were confusing/stretched)
   let boardHtml = '<div class="jig-board" id="jigBoard">';
   for (let i = 0; i < n; i++) {
-    const r = Math.floor(i / cols), c = i % cols;
-    const outline = jigsawOutlineSVG(r, c, rows, cols, pw, ph, pad, tab, padPct);
-    boardHtml += `<div class="jig-slot" data-slot="${i}" data-drop="true">
-      ${hint !== 'blank' ? `<svg class="jig-hint ${hint}" viewBox="0 0 ${(pw + pad * 2).toFixed(1)} ${(ph + pad * 2).toFixed(1)}" preserveAspectRatio="none">${outline}</svg>` : ''}
-    </div>`;
+    boardHtml += `<div class="jig-slot" data-slot="${i}" data-drop="true"></div>`;
   }
   boardHtml += '</div>';
 
@@ -272,13 +271,10 @@ function buildJigsawBoard(container, isHe) {
 
   container.innerHTML = `
   <style>
-    .jig-board{display:grid;grid-template-columns:repeat(${cols},1fr);gap:0;max-width:520px;margin:0 auto;position:relative;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.5)}
-    .jig-slot{aspect-ratio:${cols}/${rows};position:relative;background:rgba(255,255,255,0.04)}
-    .jig-hint{position:absolute;left:calc(-${padPct}% );top:calc(-${padPct}% );width:calc(100% + ${padPct * 2}%);height:calc(100% + ${padPct * 2}%);pointer-events:none;opacity:.55;z-index:1}
-    .jig-hint path{fill:rgba(255,255,255,0.07);stroke:#ffffff;stroke-width:2}
-    .jig-hint.faint{opacity:.22}
+    .jig-board{display:grid;grid-template-columns:repeat(${cols},1fr);gap:0;max-width:520px;margin:0 auto;position:relative;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.5);background:rgba(255,255,255,0.03)}
+    .jig-slot{aspect-ratio:${slotAR};position:relative;background:rgba(255,255,255,0.03)}
     .jig-slot img{position:absolute;left:calc(-${padPct}%);top:calc(-${padPct}%);width:calc(100% + ${padPct * 2}%);height:calc(100% + ${padPct * 2}%);max-width:none;object-fit:fill;z-index:2}
-    .jig-slot.has-piece .jig-hint{display:none}
+    .jig-slot.has-piece{background:transparent}
     /* feedback: shake on wrong placement (no correct-slot reveal) */
     @keyframes jigShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
     .jig-slot.shake{animation:jigShake .45s ease}
@@ -442,6 +438,11 @@ function wireJigsawEvents() {
     });
     slot.addEventListener('click', () => {
       const slotIdx = parseInt(slot.dataset.slot);
+      // tap a FILLED slot → return that piece to the tray (allows fixing)
+      if (S.board[slotIdx] !== null && S.selected < 0) {
+        unplaceJigsawPiece(slotIdx);
+        return;
+      }
       if (S.selected >= 0) {
         const p = S.piecesArr[S.selected];
         const before = p ? (p.placed !== undefined) : true;
@@ -508,6 +509,32 @@ function placeJigsawPiece(pieceIdx, slotIdx) {
   if (cnt) cnt.textContent = `${S.placedCount}/${S.board.length}`;
 
   if (S.placedCount === S.board.length) jigsawWin();
+}
+
+// Return a placed piece back to the tray (tap a filled slot)
+function unplaceJigsawPiece(slotIdx) {
+  const S = JIGSAW_STATE;
+  const pidx = S.board[slotIdx];
+  if (pidx === null || pidx === undefined) return;
+  const piece = S.piecesArr.find(p => p.idx === pidx);
+  if (!piece) return;
+  delete piece.placed;
+  S.board[slotIdx] = null;
+  S.placedCount = Math.max(0, S.placedCount - 1);
+
+  const slot = document.querySelector(`.jig-slot[data-slot="${slotIdx}"]`);
+  if (slot) {
+    const im = slot.querySelector('img');
+    if (im) im.remove();
+    slot.classList.remove('has-piece');
+  }
+  const trayEl = document.querySelector(`.jig-piece[data-piece="${S.piecesArr.indexOf(piece)}"]`);
+  if (trayEl) trayEl.classList.remove('used');
+
+  const fill = document.getElementById('jigFill');
+  const cnt = document.getElementById('jigCount');
+  if (fill) fill.style.width = (S.placedCount / S.board.length * 100) + '%';
+  if (cnt) cnt.textContent = `${S.placedCount}/${S.board.length}`;
 }
 
 function jigsawWin() {
