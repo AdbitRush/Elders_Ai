@@ -31,6 +31,12 @@ Do one phase per commit; a broken deploy on a static host means the site is down
 - [ ] [P2] Verify the PWA is genuinely installable (manifest + icons + offline).
       Partly present already — audit before rebuilding.
 
+**Artwork**
+- [ ] [P1] Regenerate all 27 game card images with a better model. The brief —
+      every file, what it should show, and why the current set reads as a mess —
+      is in **`IMAGES.md`**. Read that before generating anything; the old
+      prompts are what produced the pictures being replaced.
+
 **Phase 3 — retention and reach**
 - [ ] [P1] Printable puzzles. The print stylesheet already exists in
       `css/a11y.css`; what is missing is a "Print this puzzle" button on word
