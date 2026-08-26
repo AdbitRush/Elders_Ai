@@ -4,7 +4,7 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v35';
+const CACHE = 'golden-games-v36';
 const PREFIX = 'golden-games-';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
@@ -136,16 +136,21 @@ self.addEventListener('fetch', e => {
     );
     return;
   }
-  // Static assets: cache-first with runtime fill
+  // Static assets: stale-while-revalidate — serve cached instantly for speed,
+  // but ALWAYS re-fetch from network in the background and update the cache.
+  // (Plain cache-first meant bug fixes like the sudoku grid never reached
+  // installed users until the cache name bumped — stale-while-revalidate
+  // self-heals every visit.)
   e.respondWith(
     caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(res => {
-        if (!res || res.status !== 200) return res;
-        const clone = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, clone));
+      const network = fetch(e.request).then(res => {
+        if (res && res.status === 200) {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+        }
         return res;
-      });
+      }).catch(() => cached);
+      return cached || network;
     })
   );
 });
