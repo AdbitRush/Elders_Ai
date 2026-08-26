@@ -151,15 +151,10 @@
             <button id="textsize-btn" onclick="if(typeof TextSize!=='undefined')TextSize.cycle()" title="Text size" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer;white-space:nowrap" aria-label="Change text size">🔠 A</button>
             <button id="sound-btn" onclick="(function(){const off=localStorage.getItem('gg-sound')==='off';localStorage.setItem('gg-sound',off?'on':'off');document.getElementById('sound-btn').innerText=off?'🔊':'🔇';})()" title="Sound on/off" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer;white-space:nowrap" aria-label="Toggle sound">🔊</button>
             <script>if(localStorage.getItem('gg-sound')==='off')document.getElementById('sound-btn').innerText='🔇';</script>
-<<<<<<< HEAD
-            <button onclick="if(typeof Stats!=='undefined')Stats.showModal()" title="Scoreboard" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer" aria-label="Open scoreboard">📊</button>
-            <button onclick="if(typeof Achievements!=='undefined')Achievements.showModal()" title="Achievements" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer" aria-label="Open achievements">🏅</button>
-=======
             <button onclick="if(typeof Stats!=='undefined')Stats.showModal()" title="Scoreboard" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer" class="hidden sm:inline-block" aria-label="Open scoreboard">📊</button>
             <button onclick="if(typeof Achievements!=='undefined')Achievements.showModal()" title="Achievements" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer" class="hidden sm:inline-block" aria-label="Open achievements">🏅</button>
             <button id="themeBtn" onclick="toggleTheme()" title="Theme" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer;white-space:nowrap" aria-label="Toggle light/dark theme">🌙</button>
             <button id="inviteBtn" onclick="if(typeof Share!=='undefined')Share.invite()" title="Invite friends" style="background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.5);color:#4ade80;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer;white-space:nowrap;font-weight:700" data-i18n="invite_friends" aria-label="Invite friends">📤 הזמן חברים</button>
->>>>>>> 30156fa (feat: invite friends via WhatsApp/Email/SMS/copy — navbar button, localized 6 langs, new domain+brand in share texts)
             <button id="profile-chip" onclick="if(typeof Profile!=='undefined')Profile.edit()" style="display:flex;align-items:center;gap:6px;background:rgba(183,121,31,0.12);border:1px solid rgba(183,121,31,0.35);border-radius:9999px;padding:4px 10px 4px 6px;cursor:pointer;color:inherit" aria-label="Edit profile">
                 <span class="av">⭐</span><span class="nm" style="color:#f6c048;font-weight:700;font-size:0.85rem">פרופיל</span>
             </button>
@@ -1463,21 +1458,12 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
-<<<<<<< HEAD
 <script src="js/affiliate.js?v=30"></script>
 <script src="js/profile.js?v=30"></script>
 <script src="js/brainscore.js?v=30"></script>
 <script src="js/achievements.js?v=30"></script>
 <script src="js/lang-content.js?v=30"></script>
 <script src="js/textsize.js?v=30"></script>
-=======
-<script src="js/affiliate.js?v=28"></script>
-<script src="js/profile.js?v=28"></script>
-<script src="js/brainscore.js?v=28"></script>
-<script src="js/achievements.js?v=28"></script>
-<script src="js/lang-content.js?v=28"></script>
-<script src="js/textsize.js?v=28"></script>
->>>>>>> 30156fa (feat: invite friends via WhatsApp/Email/SMS/copy — navbar button, localized 6 langs, new domain+brand in share texts)
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
 if ('IntersectionObserver' in window) {
@@ -1490,7 +1476,6 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
 }
 </script>
-<<<<<<< HEAD
 <script src="js/daily-challenge.js?v=30"></script>
 <script src="js/stats.js?v=30"></script>
 <script src="js/difficulty.js?v=30"></script>
@@ -1534,49 +1519,5 @@ if ('IntersectionObserver' in window) {
 <script src="js/games/letters.js?v=30"></script>
 <script src="js/games/lifesim.js?v=30"></script>
 <script src="js/games/safari.js?v=30"></script>
-=======
-<script src="js/daily-challenge.js?v=28"></script>
-<script src="js/stats.js?v=28"></script>
-<script src="js/difficulty.js?v=28"></script>
-<script src="js/levels.js?v=28"></script>
-<script src="js/share.js?v=28"></script>
-<script src="js/gametext.js?v=28"></script>
-<script src="js/categories.js?v=28"></script>
-<script src="js/accessibility.js?v=28"></script>
-<script src="js/tips.js?v=28"></script>
-<script src="js/favorites.js?v=28"></script>
-<script src="js/holiday.js?v=28"></script>
-<script src="js/sync.js?v=28"></script>
-<script src="js/fx.js?v=28"></script>
-<script src="js/kbnav.js?v=28"></script>
-<!-- ── Game modules ────────────────────────────────────────── -->
-<script src="js/games/klondike.js?v=28"></script>
-<script src="js/games/memory.js?v=28"></script>
-<script src="js/games/oddoneout.js?v=28"></script>
-<script src="js/games/math.js?v=28"></script>
-<script src="js/games/wordsearch.js?v=28"></script>
-<script src="js/games/simon.js?v=28"></script>
-<script src="js/games/sudoku.js?v=28"></script>
-<script src="js/games/shapes.js?v=28"></script>
-<script src="js/games/solitaire.js?v=28"></script>
-<script src="js/games/trivia.js?v=28"></script>
-<script src="js/games/numseq.js?v=28"></script>
-<script src="js/games/unscramble.js?v=28"></script>
-<script src="js/games/pairs.js?v=28"></script>
-<script src="js/games/truefalse.js?v=28"></script>
-<script src="js/games/flags.js?v=28"></script>
-<script src="js/games/proverbs.js?v=28"></script>
-<script src="js/games/hangman.js?v=28"></script>
-<script src="js/games/recall.js?v=28"></script>
-<script src="js/games/tetris.js?v=28"></script>
-<script src="js/games/colormatch.js?v=28"></script>
-<script src="js/games/digitspan.js?v=28"></script>
-<script src="js/games/clock.js?v=28"></script>
-<script src="js/games/counting.js?v=28"></script>
-<script src="js/games/category.js?v=28"></script>
-<script src="js/games/letters.js?v=28"></script>
-<script src="js/games/lifesim.js?v=28"></script>
-<script src="js/games/safari.js?v=28"></script>
->>>>>>> 30156fa (feat: invite friends via WhatsApp/Email/SMS/copy — navbar button, localized 6 langs, new domain+brand in share texts)
 </body>
 </html>
