@@ -123,10 +123,9 @@ function jigsawLoadFile(file) {
 }
 
 // ── Jigsaw shape geometry ──────────────────────────────────────────────────
-// Builds a closed path for cell (r,c) with BIG, prominent interlocking
-// bumps/indents. The bump decision for the seam between two neighbours is
-// shared, so the right edge of (r,c) and left edge of (r,c+1) always interlock.
-// Edge pieces have a FLAT outer side (frame) — bumps only on inner seams.
+// Builds a closed path for cell (r,c) with REAL classic jigsaw tabs:
+// each inner edge gets a tab with a narrow neck + wide rounded head (like a
+// real puzzle piece), or a matching blank. Edge pieces have a FLAT outer side.
 function jigsawPathFor(ctx, r, c, rows, cols, pw, ph, pad, tab) {
   const ox = pad, oy = pad;
   // tab decisions — deterministic, shared along each seam
@@ -135,16 +134,26 @@ function jigsawPathFor(ctx, r, c, rows, cols, pw, ph, pad, tab) {
   const leftBump = (c > 0) ? !((((r * 31 + (c - 1) * 17) % 2) === 0)) : false;
   const topBump = (r > 0) ? !(((((r - 1) + 50) * 31 + c * 17) % 2) === 0) : false;
 
+  // Draws one edge from (x1,y1) to (x2,y2). Classic puzzle tab: straight run,
+  // narrow neck, wide rounded head, neck, straight run. A blank is the exact
+  // mirror (same depth inward) so neighbours interlock perfectly.
   function edge(x1, y1, x2, y2, bump, horiz) {
+    const len = horiz ? (x2 - x1) : (y2 - y1);
+    const cx = (x1 + x2) / 2, cy = (y1 + y2) / 2;
+    const hw = len * 0.22;      // half width of the tab head
+    const nw = len * 0.10;      // neck half width
+    const d  = bump ? tab : -tab; // how far the head sticks out (mirror for blank)
     if (horiz) {
-      const mx = (x1 + x2) / 2;
-      if (bump) { ctx.lineTo(mx - tab, y1); ctx.bezierCurveTo(mx - tab, y1 - tab * 1.6, mx + tab, y1 - tab * 1.6, mx + tab, y1); }
-      else      { ctx.lineTo(mx - tab, y1); ctx.bezierCurveTo(mx - tab, y1 + tab * 0.9, mx + tab, y1 + tab * 0.9, mx + tab, y1); }
+      ctx.lineTo(cx - hw, y1);
+      ctx.bezierCurveTo(cx - hw, y1 + d * 0.35, cx - nw, y1 + d * 0.55, cx - nw, y1 + d);
+      ctx.bezierCurveTo(cx - nw, y1 + d * 0.75, cx + nw, y1 + d * 0.75, cx + nw, y1 + d);
+      ctx.bezierCurveTo(cx + nw, y1 + d * 0.55, cx + hw, y1 + d * 0.35, cx + hw, y1);
       ctx.lineTo(x2, y2);
     } else {
-      const my = (y1 + y2) / 2;
-      if (bump) { ctx.lineTo(x1, my - tab); ctx.bezierCurveTo(x1 + tab * 1.6, my - tab, x1 + tab * 1.6, my + tab, x1, my + tab); }
-      else      { ctx.lineTo(x1, my - tab); ctx.bezierCurveTo(x1 - tab * 0.9, my - tab, x1 - tab * 0.9, my + tab, x1, my + tab); }
+      ctx.lineTo(x1, cy - hw);
+      ctx.bezierCurveTo(x1 + d * 0.35, cy - hw, x1 + d * 0.55, cy - nw, x1 + d, cy - nw);
+      ctx.bezierCurveTo(x1 + d * 0.75, cy - nw, x1 + d * 0.75, cy + nw, x1 + d, cy + nw);
+      ctx.bezierCurveTo(x1 + d * 0.55, cy + nw, x1 + d * 0.35, cy + hw, x1, cy + hw);
       ctx.lineTo(x2, y2);
     }
   }
@@ -262,9 +271,12 @@ function buildJigsawBoard(container, isHe) {
 
   // pieces tray — positioned around the board
   let trayHtml = '<div class="jig-tray" id="jigTray">';
+  const zoom = ((pw + pad * 2) / pw);          // canvas/shape ratio
+  const zoomPct = (zoom * 100).toFixed(0);
+  const offPct = (((zoom - 1) / 2) * 100).toFixed(0);
   shuffled.forEach((p, si) => {
     trayHtml += `<div class="jig-piece" data-piece="${si}" draggable="true">
-      <img src="${p.data}" alt="piece" draggable="false">
+      <img src="${p.data}" alt="piece" draggable="false" style="width:${zoomPct}%;height:${zoomPct}%;margin-left:-${offPct}%;margin-top:-${offPct}%">
     </div>`;
   });
   trayHtml += '</div>';
@@ -280,7 +292,9 @@ function buildJigsawBoard(container, isHe) {
     .jig-slot.shake{animation:jigShake .45s ease}
     .jig-tray{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:16px;max-width:560px;margin-left:auto;margin-right:auto}
     .jig-piece{width:74px;height:74px;cursor:grab;transition:transform .15s,opacity .2s;touch-action:none;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
-    .jig-piece img{width:100%;height:100%;object-fit:fill;pointer-events:none;display:block}
+    /* tray pieces: zoom into the shape (crop transparent pad) — inline scale
+       computed in JS so the classic tabs stay visible at any piece count */
+    .jig-piece img{max-width:none;object-fit:fill;pointer-events:none;display:block}
     .jig-piece:hover{transform:scale(1.07)}
     .jig-piece.dragging{opacity:.4;transform:scale(1.1)}
     .jig-piece.used{display:none}
@@ -496,6 +510,9 @@ function placeJigsawPiece(pieceIdx, slotIdx) {
     if (existing) existing.remove();
     const im = document.createElement('img');
     im.src = p.data; im.alt = 'piece';
+    // Earlier-placed pieces must stay ABOVE later ones so their tabs remain
+    // visible over neighbours (like a real puzzle). Highest z = placed first.
+    im.style.zIndex = String(1000 - S.placedCount);
     slot.appendChild(im);
     slot.classList.add('has-piece');
   }
