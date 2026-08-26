@@ -60,11 +60,15 @@ If any one of them jumps out, it is wrong, however good it looks alone.
 
 ---
 
-> **Status 2026-08-26:** the 13 broken cards are done (commit e40c261) — the
-> Verdict column below records what each one used to be. What remains is the
-> other 14, which are individually fine but keep the grid in three visual
-> languages. The recipe below is what the 13 were built to, so the remaining 14
-> have something to match.
+> **Status 2026-08-27: all 28 cards are done.** The 13 broken ones first
+> (e40c261), then the other 14 plus a card for the new jigsaw game. The Verdict
+> column records what each card used to be. Every card is now the one recipe
+> below, so the grid finally reads as one set rather than three.
+>
+> What is left is not cards: `images/hero.jpg` equivalents, the icon set (one
+> mark in four sizes, currently generated separately and free to drift), and
+> deleting the 28 Pollinations fallback URLs from `index.html` now that every
+> card loads locally.
 
 ## Two ways to do this, and they disagree
 
@@ -102,31 +106,31 @@ Shown on the home grid; each is also the Open Graph image for that game's
 | id | Game | Verdict | What the new picture should show | What it shows today |
 |---|---|---|---|---|
 | `klondike` | Classic Solitaire | ✅ replaced 2026-08-26 — was: card faces are smeared texture — no suits or numbers | A classic solitaire tableau part-dealt on green baize — seven columns, one ace moved up to the foundation. | classic klondike solitaire card game spread on green felt table red and black cards elegant |
-| `memory` | Memory Match | 🟢 usable — old woman with a puzzle — the gold standard | A dozen face-down cards laid in a neat grid on the felt, two turned face up beside each other showing the same simple symbol. | elderly woman joyful playing memory card game cozy warm living room golden hour cinematic photography lifestyle |
+| `memory` | Memory Match | ✅ replaced 2026-08-27 — was: old woman with a puzzle — the gold standard | A dozen face-down cards laid in a neat grid on the felt, two turned face up beside each other showing the same simple symbol. | elderly woman joyful playing memory card game cozy warm living room golden hour cinematic photography lifestyle |
 | `oddoneout` | Odd One Out | ✅ replaced 2026-08-26 — was: toy lego grid, plastic gradients | Five identical smooth wooden shapes in a row and one that is plainly different — different colour, same size. | colorful geometric shapes symbols grid visual puzzle brain teaser vibrant studio high contrast |
-| `math` | Quick Math | 🟢 usable — old man drawing — hero quality | A short sum written in pencil on squared paper, the pencil resting across it. | senior man cheerful mental arithmetic math calculation bright warm home lifestyle photography |
-| `wordsearch` | Word Search | 🟢 usable — newspaper and coffee | A folded newspaper puzzle page with a letter grid, one word ringed in pencil, the pencil lying on top. | word search puzzle newspaper pencil morning coffee warm cozy overhead flat lay photography |
-| `sequence` | Color Sequence | 🟢 usable — neon keyboard, high contrast | Four coloured discs — red, green, blue, yellow — arranged in an arc on the felt, one of them lit from beneath. | neon glowing colorful sequence says electronic buttons dark background vibrant retro game |
-| `sudoku` | Daily Sudoku | 🟢 usable — journal and coffee | A 9x9 grid printed on paper, part-filled in pencil, an eraser and a sharpened pencil beside it. | sudoku puzzle newspaper pencil morning coffee cozy warm soft natural light lifestyle |
+| `math` | Quick Math | ✅ replaced 2026-08-27 — was: old man drawing — hero quality | A short sum written in pencil on squared paper, the pencil resting across it. | senior man cheerful mental arithmetic math calculation bright warm home lifestyle photography |
+| `wordsearch` | Word Search | ✅ replaced 2026-08-27 — was: newspaper and coffee | A folded newspaper puzzle page with a letter grid, one word ringed in pencil, the pencil lying on top. | word search puzzle newspaper pencil morning coffee warm cozy overhead flat lay photography |
+| `sequence` | Color Sequence | ✅ replaced 2026-08-27 — was: neon keyboard, high contrast | Four coloured discs — red, green, blue, yellow — arranged in an arc on the felt, one of them lit from beneath. | neon glowing colorful sequence says electronic buttons dark background vibrant retro game |
+| `sudoku` | Daily Sudoku | ✅ replaced 2026-08-27 — was: journal and coffee | A 9x9 grid printed on paper, part-filled in pencil, an eraser and a sharpened pencil beside it. | sudoku puzzle newspaper pencil morning coffee cozy warm soft natural light lifestyle |
 | `shapes` | Shape Sorter | ✅ replaced 2026-08-26 — was: plastic toy blocks with nonsense icons | A wooden shape-sorter board with circle, square and triangle holes, the matching blocks lying next to their slots. | colorful wooden geometric shapes sorting puzzle bright playful brain training lifestyle photography |
-| `solitaire` | Pyramid Solitaire | 🟢 usable — clean green card table | Playing cards arranged in a pyramid on green baize, a few pairs already removed and set aside. | pyramid solitaire playing cards green felt table classic elegant cinematic photography |
-| `trivia` | Trivia | 🟢 usable — neon question mark, legible | A stack of question cards on the felt, the top one blank-faced, beside a small brass bell. | quiz show dramatic spotlight glowing question mark trivia knowledge game exciting stage |
+| `solitaire` | Pyramid Solitaire | ✅ replaced 2026-08-27 — was: clean green card table | Playing cards arranged in a pyramid on green baize, a few pairs already removed and set aside. | pyramid solitaire playing cards green felt table classic elegant cinematic photography |
+| `trivia` | Trivia | ✅ replaced 2026-08-27 — was: neon question mark, legible | A stack of question cards on the felt, the top one blank-faced, beside a small brass bell. | quiz show dramatic spotlight glowing question mark trivia knowledge game exciting stage |
 | `numseq` | Number Sequence | ⚪ not yet reviewed | Wooden number tiles in a row — 2, 4, 6, 8 — with the next tile turned face down. | mathematical number sequence glowing colorful digits pattern brain training vibrant dark |
-| `unscramble` | Word Unscramble | 🟢 usable — real wooden blocks | Seven wooden letter tiles jumbled in a loose heap, three of them pushed aside into the start of a word. | wooden scrabble letter tiles word unscramble anagram game cozy warm table photography |
+| `unscramble` | Word Unscramble | ✅ replaced 2026-08-27 — was: real wooden blocks | Seven wooden letter tiles jumbled in a loose heap, three of them pushed aside into the start of a word. | wooden scrabble letter tiles word unscramble anagram game cozy warm table photography |
 | `pairs` | Opposites Pairs | ✅ replaced 2026-08-26 — was: waxy uncanny split face | Two small objects that are opposites resting side by side — a candle and an ice cube, or a key and a lock. | artistic opposites contrast hot cold day night concept photography warm tones creative |
 | `truefalse` | True or False | ✅ replaced 2026-08-26 — was: box reads “Quuik”, plus two gibberish logos | Two wooden paddles on the felt, one marked with a tick and one with a cross. | true false bold checkmark crossmark quiz decision vibrant colorful graphic design |
 | `flags` | Flag Quiz | ✅ replaced 2026-08-26 — was: misshapen continents, gibberish text over China | A handful of small paper flags of different countries in a shallow bowl, one standing clear of the rest. | world flags colorful collection globe international travel countries display vibrant |
-| `proverbs` | Complete the Proverb | 🟢 usable — rich library light | An open book with a ribbon marker on a warm table, a pair of reading glasses folded on the page. | ancient wisdom open book candlelight cozy library golden parchment quill warm glow |
+| `proverbs` | Complete the Proverb | ✅ replaced 2026-08-27 — was: rich library light | An open book with a ribbon marker on a warm table, a pair of reading glasses folded on the page. | ancient wisdom open book candlelight cozy library golden parchment quill warm glow |
 | `hangman` | Hangman | ✅ replaced 2026-08-26 — was: chalkboard full of gibberish AI text — most urgent | A small slate with chalk, a row of blank dashes drawn on it, one letter filled in, chalk stub beside it. | hangman word guessing game chalk blackboard classic letters vintage atmospheric |
 | `recall` | Picture Recall | ✅ replaced 2026-08-26 — was: generic head-with-brain medical clip-art | Four photographs face down on the table and one face up, as though being memorised before being turned. | brain memory recall training senior cognitive focus concentration warm lifestyle calm |
 | `blocks` | Falling Blocks | ✅ replaced 2026-08-26 — was: neon cubes, 2000s wallpaper | Four brightly coloured wooden tetromino-shaped blocks stacked into a part-complete row on the felt. | colorful neon blocks blocks falling dark background retro arcade game vibrant glow cinematic |
 | `colormatch` | Color Match | ✅ replaced 2026-08-26 — was: fake word “SVATD” painted on the board | A fan of paint colour swatches opened on the table, two chips of the same colour set apart from the rest. | rainbow color swatches bold typography word art vibrant studio design |
 | `digitspan` | Number Memory | ✅ replaced 2026-08-26 — was: digits lost in a messy server rack, low contrast | Wooden number tiles in a short row — 7, 3, 9, 1 — with a card half-covering the last two. | large glowing numbers display memory brain neon blue digits dark background |
-| `clock` | Clock Reading | 🟢 usable — antique clock, warm | A small analogue clock face lying flat on the table, hands at a clear readable time, warm brass rim. | beautiful classic analog wall clock roman numerals warm wood cozy home |
-| `counting` | Quick Count | 🟢 usable — watercolour butterflies | A scatter of identical small objects — buttons or acorns — with a few gathered into a counted pile. | colorful butterflies flowers meadow pattern counting bright cheerful illustration |
-| `category` | Categories | 🟢 usable — vibrant produce | Three small groups of objects sorted apart on the table: fruit in one, tools in another, buttons in a third. | organized colorful groups of fruits vegetables objects sorted neat flat lay |
+| `clock` | Clock Reading | ✅ replaced 2026-08-27 — was: antique clock, warm | A small analogue clock face lying flat on the table, hands at a clear readable time, warm brass rim. | beautiful classic analog wall clock roman numerals warm wood cozy home |
+| `counting` | Quick Count | ✅ replaced 2026-08-27 — was: watercolour butterflies | A scatter of identical small objects — buttons or acorns — with a few gathered into a counted pile. | colorful butterflies flowers meadow pattern counting bright cheerful illustration |
+| `category` | Categories | ✅ replaced 2026-08-27 — was: vibrant produce | Three small groups of objects sorted apart on the table: fruit in one, tools in another, buttons in a third. | organized colorful groups of fruits vegetables objects sorted neat flat lay |
 | `letters` | Missing Letter | ✅ replaced 2026-08-26 — was: tiles show garbled non-letters | Wooden alphabet blocks in a loose row, a few turned to spell the beginning of a word. | wooden alphabet letter blocks scrabble tiles warm light word puzzle |
-| `lifesim` | lifesim | 🟢 usable — swing dancing, senior-relevant | An open photo album on the table, a few loose black-and-white prints and a fountain pen beside it. | vintage time machine nostalgia dance hall 1960s joyful elderly and young people swapping lives golden light cinematic, luxury editorial photography, rich warm color grade, shallow depth of field |
+| `lifesim` | lifesim | ✅ replaced 2026-08-27 — was: swing dancing, senior-relevant | An open photo album on the table, a few loose black-and-white prints and a fountain pen beside it. | vintage time machine nostalgia dance hall 1960s joyful elderly and young people swapping lives golden light cinematic, luxury editorial photography, rich warm color grade, shallow depth of field |
 | `safari` | safari | ✅ replaced 2026-08-26 — was: animals too small, muddy contrast | Four small carved wooden animals — elephant, giraffe, lion, zebra — standing on the table in a line. | african savanna safari giraffe lion elephant zebra golden hour wildlife spectacular vivid, luxury editorial photography, rich warm color grade, shallow depth of field |
 
 ---

@@ -1,11 +1,11 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// GAME: JIGSAW PUZZLE (פאזל ג'יקסו) — v2
-// - Real interlocking jigsaw shapes (bumps & indents, no plain squares)
-// - Pieces tray arranged AROUND the board (sides on wide, below on narrow)
-// - Drag & drop pieces onto the board (mouse + touch)
-// - Board shows piece outlines as a hint on easy/medium; blank on hard
-// - Choose piece count: 6 / 12 / 24 / 48 / 96
-// - Upload your own photo (file or camera) → becomes the puzzle
+// GAME: JIGSAW PUZZLE (פאזל ג'יקסו) — v3
+//
+// The shapes are the whole game, so they are built the way a die-cut jigsaw
+// actually is: one tab profile, traced along each edge through that edge's own
+// direction and outward normal, with the two pieces at a seam reading the same
+// shared decision. See the geometry section for why the previous version could
+// never interlock.
 // ═══════════════════════════════════════════════════════════════════════════
 var JIGSAW_STATE = {};
 
@@ -94,76 +94,119 @@ function jigsawSetPieces(n) {
   document.querySelectorAll('.jig-chip').forEach(c => c.classList.toggle('active', parseInt(c.dataset.n) === n));
 }
 function jigsawPickDefault(i) {
-  JIGSAW_STATE.defaultIdx = i; JIGSAW_STATE.img = null;
-  document.querySelectorAll('.jig-thumb').forEach((t, ti) => t.classList.toggle('active', ti === i));
+  const S = JIGSAW_STATE;
+  S.defaultIdx = i; S.img = null;
+  document.querySelectorAll('.jig-thumb').forEach((t, k) => t.classList.toggle('active', k === i));
   const pv = document.getElementById('jigPreview'); if (pv) pv.style.display = 'none';
 }
 function jigsawUpload() {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
-  input.onchange = () => { if (input.files && input.files[0]) jigsawLoadFile(input.files[0]); };
-  input.click();
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'image/*';
+  inp.onchange = () => { if (inp.files && inp.files[0]) jigsawLoadFile(inp.files[0]); };
+  inp.click();
 }
 function jigsawCamera() {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*'; input.capture = 'environment';
-  input.onchange = () => { if (input.files && input.files[0]) jigsawLoadFile(input.files[0]); };
-  input.click();
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'image/*'; inp.capture = 'environment';
+  inp.onchange = () => { if (inp.files && inp.files[0]) jigsawLoadFile(inp.files[0]); };
+  inp.click();
 }
 function jigsawLoadFile(file) {
-  const reader = new FileReader();
-  reader.onload = (e) => {
+  const fr = new FileReader();
+  fr.onload = e => {
     JIGSAW_STATE.img = e.target.result;
     const pv = document.getElementById('jigPreview');
-    const pi = document.getElementById('jigPreviewImg');
-    if (pv && pi) { pi.src = JIGSAW_STATE.img; pv.style.display = 'block'; }
+    const im = document.getElementById('jigPreviewImg');
+    if (im) im.src = e.target.result;
+    if (pv) pv.style.display = 'block';
     document.querySelectorAll('.jig-thumb').forEach(t => t.classList.remove('active'));
   };
-  reader.readAsDataURL(file);
+  fr.readAsDataURL(file);
 }
 
-// ── Jigsaw shape geometry ──────────────────────────────────────────────────
-// Builds a closed path for cell (r,c) with REAL classic jigsaw tabs:
-// each inner edge gets a tab with a narrow neck + wide rounded head (like a
-// real puzzle piece), or a matching blank. Edge pieces have a FLAT outer side.
-function jigsawPathFor(ctx, r, c, rows, cols, pw, ph, pad, tab) {
-  const ox = pad, oy = pad;
-  // tab decisions — deterministic, shared along each seam
-  const rightBump = (c < cols - 1) ? (((r * 31 + c * 17) % 2) === 0) : false;
-  const bottomBump = (r < rows - 1) ? ((((r + 50) * 31 + c * 17) % 2) === 0) : false;
-  const leftBump = (c > 0) ? !((((r * 31 + (c - 1) * 17) % 2) === 0)) : false;
-  const topBump = (r > 0) ? !(((((r - 1) + 50) * 31 + c * 17) % 2) === 0) : false;
+// ═══ Piece geometry ════════════════════════════════════════════════════════
+//
+// One normalised jigsaw tab. `u` runs 0→1 along the edge, `v` is perpendicular
+// and positive means "sticking out of the piece". Straight run, pinched neck,
+// round head, then the mirror image: the waist (0.24 wide) is wider than the
+// neck (0.12), which is what stops a placed piece sliding back out.
+//
+// The profile is SYMMETRIC about u = 0.5, and that is load-bearing. The two
+// pieces meeting at a seam walk it in opposite directions — one top-to-bottom,
+// the other bottom-to-top — so an asymmetric profile would trace two different
+// curves and the pieces would never mate.
+const JIG_TAB = [
+  [0.20, 0.00, 0.30, 0.00, 0.38, 0.00],
+  [0.42, 0.00, 0.44, 0.06, 0.44, 0.12],
+  [0.44, 0.21, 0.36, 0.24, 0.38, 0.32],
+  [0.40, 0.41, 0.47, 0.45, 0.50, 0.45],
+  [0.53, 0.45, 0.60, 0.41, 0.62, 0.32],
+  [0.64, 0.24, 0.56, 0.21, 0.56, 0.12],
+  [0.56, 0.06, 0.58, 0.00, 0.62, 0.00],
+  [0.70, 0.00, 0.80, 0.00, 1.00, 0.00]
+];
+const JIG_TAB_H = 0.50;          // crown sits at 0.45 × this ≈ 0.22 of the edge
+const JIG_TAB_MAX = 0.45 * JIG_TAB_H;
 
-  // Draws one edge from (x1,y1) to (x2,y2). Classic puzzle tab: straight run,
-  // narrow neck, wide rounded head, neck, straight run. A blank is the exact
-  // mirror (same depth inward) so neighbours interlock perfectly.
-  function edge(x1, y1, x2, y2, bump, horiz) {
-    const len = horiz ? (x2 - x1) : (y2 - y1);
-    const cx = (x1 + x2) / 2, cy = (y1 + y2) / 2;
-    const hw = len * 0.22;      // half width of the tab head
-    const nw = len * 0.10;      // neck half width
-    const d  = bump ? tab : -tab; // how far the head sticks out (mirror for blank)
-    if (horiz) {
-      ctx.lineTo(cx - hw, y1);
-      ctx.bezierCurveTo(cx - hw, y1 + d * 0.35, cx - nw, y1 + d * 0.55, cx - nw, y1 + d);
-      ctx.bezierCurveTo(cx - nw, y1 + d * 0.75, cx + nw, y1 + d * 0.75, cx + nw, y1 + d);
-      ctx.bezierCurveTo(cx + nw, y1 + d * 0.55, cx + hw, y1 + d * 0.35, cx + hw, y1);
-      ctx.lineTo(x2, y2);
-    } else {
-      ctx.lineTo(x1, cy - hw);
-      ctx.bezierCurveTo(x1 + d * 0.35, cy - hw, x1 + d * 0.55, cy - nw, x1 + d, cy - nw);
-      ctx.bezierCurveTo(x1 + d * 0.75, cy - nw, x1 + d * 0.75, cy + nw, x1 + d, cy + nw);
-      ctx.bezierCurveTo(x1 + d * 0.55, cy + nw, x1 + d * 0.35, cy + hw, x1, cy + hw);
-      ctx.lineTo(x2, y2);
-    }
+// Every seam is decided once, and both of its pieces read that one decision.
+// That is the trick: no piece needs to know anything about its neighbour, it
+// just looks up the seam they share.
+function jigsawSeams(rows, cols, seed) {
+  let s = (seed >>> 0) || 1;
+  const rnd = () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296;
+  const v = [], h = [];
+  for (let r = 0; r < rows; r++) {
+    v[r] = [];
+    for (let c = 0; c < cols - 1; c++) v[r][c] = rnd() < 0.5 ? 1 : -1;
   }
-  ctx.beginPath();
-  ctx.moveTo(ox, oy);
-  edge(ox, oy, ox + pw, oy, topBump, true);
-  edge(ox + pw, oy, ox + pw, oy + ph, rightBump, false);
-  edge(ox + pw, oy + ph, ox, oy + ph, bottomBump, true);
-  edge(ox, oy + ph, ox, oy, leftBump, false);
-  ctx.closePath();
+  for (let r = 0; r < rows - 1; r++) {
+    h[r] = [];
+    for (let c = 0; c < cols; c++) h[r][c] = rnd() < 0.5 ? 1 : -1;
+  }
+  return { v, h };
+}
+
+// Trace one edge. Everything goes through the edge's own direction and outward
+// normal, so all four sides run the same code.
+//
+// This is what v2 got wrong. It applied the tab offset as a fixed "+y is out",
+// which is only true on the bottom edge — on the top edge a tab pointed down,
+// into the piece. It also derived the tab width from (x2 - x1), which is
+// negative on the edges walked right-to-left, flipping the shape inside out.
+// Both disappear once the offset is expressed along a normal.
+function jigEdge(path, x1, y1, x2, y2, sign) {
+  if (!sign) { path.lineTo(x2, y2); return; }
+  const dx = x2 - x1, dy = y2 - y1;
+  const len = Math.hypot(dx, dy);
+  const ux = dx / len, uy = dy / len;   // along the edge
+  const nx = uy, ny = -ux;              // outward, for a clockwise walk with y down
+  const h = len * JIG_TAB_H * sign;
+  const px = (u, v) => x1 + ux * u * len + nx * v * h;
+  const py = (u, v) => y1 + uy * u * len + ny * v * h;
+  for (let i = 0; i < JIG_TAB.length; i++) {
+    const t = JIG_TAB[i];
+    path.bezierCurveTo(px(t[0], t[1]), py(t[0], t[1]),
+                       px(t[2], t[3]), py(t[2], t[3]),
+                       px(t[4], t[5]), py(t[4], t[5]));
+  }
+}
+
+// The closed outline of one piece. Outer edges of the puzzle get sign 0, which
+// draws them dead straight — a real jigsaw has a flat border.
+function jigsawPathFor(r, c, rows, cols, pw, ph, pad, seams) {
+  const x0 = pad, y0 = pad, x1 = pad + pw, y1 = pad + ph;
+  const top    = r > 0        ? -seams.h[r - 1][c] : 0;
+  const right  = c < cols - 1 ?  seams.v[r][c]     : 0;
+  const bottom = r < rows - 1 ?  seams.h[r][c]     : 0;
+  const left   = c > 0        ? -seams.v[r][c - 1] : 0;
+  const p = new Path2D();
+  p.moveTo(x0, y0);
+  jigEdge(p, x0, y0, x1, y0, top);
+  jigEdge(p, x1, y0, x1, y1, right);
+  jigEdge(p, x1, y1, x0, y1, bottom);
+  jigEdge(p, x0, y1, x0, y0, left);
+  p.closePath();
+  return p;
 }
 
 // ── Build & start ──────────────────────────────────────────────────────────
@@ -192,6 +235,7 @@ function jigsawStart() {
     else { sw = img.width; sh = img.width / cr; sx = 0; sy = (img.height - sh) / 2; }
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
     S.srcCanvas = canvas;
+    S.srcData = canvas.toDataURL('image/jpeg', 0.82);
     buildJigsawBoard(container, isHe);
   };
   img.onerror = () => {
@@ -202,6 +246,7 @@ function jigsawStart() {
     g.addColorStop(0, '#0e5a8a'); g.addColorStop(1, '#d97706');
     ctx.fillStyle = g; ctx.fillRect(0, 0, 800, 600);
     S.srcCanvas = canvas;
+    S.srcData = canvas.toDataURL('image/jpeg', 0.82);
     buildJigsawBoard(container, isHe);
   };
   img.src = imgSrc;
@@ -212,31 +257,54 @@ function buildJigsawBoard(container, isHe) {
   const { rows, cols } = S;
   const n = rows * cols;
   const pw = 800 / cols, ph = 600 / rows;
-  const tab = Math.min(pw, ph) * 0.30;   // BIG prominent bumps
-  const pad = Math.ceil(tab) + 6;
 
-  // generate piece canvases (PNG keeps transparency for the tabs)
+  // A tab reaches JIG_TAB_MAX of its edge's length perpendicular to that edge,
+  // so the widest reach on any side is set by the LONGER edge. One padding
+  // value covers all four.
+  const pad = Math.ceil(Math.max(pw, ph) * JIG_TAB_MAX) + 2;
+  S.seams = jigsawSeams(rows, cols, (Date.now() ^ (rows * 73856093) ^ (cols * 19349663)) >>> 0);
+
+  // Fine. A first pass at 4% of the cell drew silver bands down every seam
+  // that read as chrome piping rather than cut cardboard.
+  const bevel = Math.max(1.2, Math.min(pw, ph) * 0.018);
+
   const pieces = [];
   for (let i = 0; i < n; i++) {
     const r = Math.floor(i / cols), c = i % cols;
     const pc = document.createElement('canvas');
     pc.width = Math.ceil(pw + pad * 2);
     pc.height = Math.ceil(ph + pad * 2);
-    const pctx = pc.getContext('2d');
-    jigsawPathFor(pctx, r, c, rows, cols, pw, ph, pad, tab);
-    pctx.save();
-    pctx.clip();
-    pctx.drawImage(S.srcCanvas, 0, 0, 800, 600, -c * pw + pad, -r * ph + pad, 800, 600);
-    pctx.restore();
-    // crisp edge
-    pctx.save();
-    jigsawPathFor(pctx, r, c, rows, cols, pw, ph, pad, tab);
-    pctx.lineWidth = 1.5;
-    pctx.strokeStyle = 'rgba(255,255,255,0.35)';
-    pctx.stroke();
-    pctx.restore();
+    const g = pc.getContext('2d');
+    const path = jigsawPathFor(r, c, rows, cols, pw, ph, pad, S.seams);
+
+    g.save();
+    g.clip(path);
+    g.drawImage(S.srcCanvas, 0, 0, 800, 600, -c * pw + pad, -r * ph + pad, 800, 600);
+    // Bevel: a light rim offset toward the light and a dark one away from it,
+    // both stroked INSIDE the clip so only the inner half lands — which is how
+    // a moulded cardboard edge actually catches the light.
+    g.lineJoin = 'round';
+    g.lineWidth = bevel * 1.6;
+    g.translate(-bevel * 0.55, -bevel * 0.55);
+    g.strokeStyle = 'rgba(255,255,255,0.30)';
+    g.stroke(path);
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.clip(path);
+    g.translate(bevel * 0.55, bevel * 0.55);
+    g.strokeStyle = 'rgba(0,0,0,0.32)';
+    g.stroke(path);
+    g.restore();
+
+    // Crisp silhouette so a piece reads against the image behind it.
+    g.save();
+    g.lineWidth = 1.3;
+    g.strokeStyle = 'rgba(12,20,34,0.55)';
+    g.stroke(path);
+    g.restore();
+
     pieces.push({ idx: i, r, c, data: pc.toDataURL('image/png') });
   }
+
   const shuffled = pieces.map(p => ({ ...p }));
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -245,75 +313,70 @@ function buildJigsawBoard(container, isHe) {
   S.piecesArr = shuffled;
   S.board = new Array(n).fill(null);
 
-  // difficulty → hint level: fewer pieces = full outlines; many = blank board
-  const hint = (S.pieces <= 24) ? 'outline' : (S.pieces <= 48 ? 'faint' : 'blank');
-  S.hint = hint;
-
-  // pad displayed as % of slot (canvas is pw+2pad, shape is pw)
-  const padPct = ((pad) / pw * 100).toFixed(2);
-  // ══ CRITICAL: slot aspect must match the PIECE CANVAS (pw+2pad × ph+2pad),
-  // not cols/rows — otherwise the bumps get stretched and never interlock. ══
-  const slotAR = ((pw + pad * 2) / (ph + pad * 2)).toFixed(4);
+  // The piece canvas is (pw + 2·pad) × (ph + 2·pad) but the slot is pw × ph, so
+  // the overhang is a DIFFERENT percentage horizontally and vertically whenever
+  // the cell is not square. v2 used the horizontal figure for both, which
+  // squashed every tab on the short axis.
+  const padX = (pad / pw * 100).toFixed(3);
+  const padY = (pad / ph * 100).toFixed(3);
+  const wPct = ((pw + pad * 2) / pw * 100).toFixed(3);
+  const hPct = ((ph + pad * 2) / ph * 100).toFixed(3);
 
   const L = {
-    done: isHe ? '🎉 כל הכבוד! השלמתם את הפאזל!' : '🎉 Well done! Puzzle complete!',
     restart: isHe ? '🔄 פאזל חדש' : '🔄 New puzzle',
     newimg: isHe ? '📷 תמונה אחרת' : '📷 Different image',
-    tip: isHe ? 'גררו חלק אל הלוח, או הקישו על חלק ואז על המקום' : 'Drag a piece onto the board, or tap a piece then tap a spot'
+    peek: isHe ? '👁️ הצצה לתמונה' : '👁️ Peek at the picture',
+    tip: isHe ? 'גררו חלק אל הלוח, או הקישו על חלק ואז על המקום'
+              : 'Drag a piece onto the board, or tap a piece then tap a spot'
   };
 
-  // board slots — clean board, NO shape hints (they were confusing/stretched)
-  let boardHtml = '<div class="jig-board" id="jigBoard">';
-  for (let i = 0; i < n; i++) {
-    boardHtml += `<div class="jig-slot" data-slot="${i}" data-drop="true"></div>`;
-  }
+  let boardHtml = `<div class="jig-board" id="jigBoard"><img class="jig-ghost" id="jigGhost" src="${S.srcData}" alt="">`;
+  for (let i = 0; i < n; i++) boardHtml += `<div class="jig-slot" data-slot="${i}" data-drop="true"></div>`;
   boardHtml += '</div>';
 
-  // pieces tray — positioned around the board
   let trayHtml = '<div class="jig-tray" id="jigTray">';
-  const zoom = ((pw + pad * 2) / pw);          // canvas/shape ratio
-  const zoomPct = (zoom * 100).toFixed(0);
-  const offPct = (((zoom - 1) / 2) * 100).toFixed(0);
   shuffled.forEach((p, si) => {
     trayHtml += `<div class="jig-piece" data-piece="${si}" draggable="true">
-      <img src="${p.data}" alt="piece" draggable="false" style="width:${zoomPct}%;height:${zoomPct}%;margin-left:-${offPct}%;margin-top:-${offPct}%">
-    </div>`;
+      <img src="${p.data}" alt="piece" draggable="false"></div>`;
   });
   trayHtml += '</div>';
 
   container.innerHTML = `
   <style>
-    .jig-board{display:grid;grid-template-columns:repeat(${cols},1fr);gap:0;max-width:520px;margin:0 auto;position:relative;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.5);background:rgba(255,255,255,0.03)}
-    .jig-slot{aspect-ratio:${slotAR};position:relative;background:rgba(255,255,255,0.03)}
-    .jig-slot img{position:absolute;left:calc(-${padPct}%);top:calc(-${padPct}%);width:calc(100% + ${padPct * 2}%);height:calc(100% + ${padPct * 2}%);max-width:none;object-fit:fill;z-index:2}
-    .jig-slot.has-piece{background:transparent}
-    /* feedback: shake on wrong placement (no correct-slot reveal) */
+    .jig-board{display:grid;grid-template-columns:repeat(${cols},1fr);gap:0;max-width:520px;margin:0 auto;position:relative;border-radius:10px;background:rgba(255,255,255,0.04);box-shadow:0 10px 34px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,255,255,.07)}
+    /* The finished picture, barely there — the same help a box lid gives you. */
+    .jig-ghost{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:.07;border-radius:10px;pointer-events:none;transition:opacity .25s;z-index:0}
+    .jig-board.peeking .jig-ghost{opacity:.72}
+    .jig-slot{aspect-ratio:${pw.toFixed(4)}/${ph.toFixed(4)};position:relative;z-index:1}
+    /* The piece overhangs its slot by the tab depth on every side. */
+    .jig-slot img{position:absolute;left:-${padX}%;top:-${padY}%;width:${wPct}%;height:${hPct}%;max-width:none;object-fit:fill;pointer-events:none}
+    @keyframes jigSnap{0%{transform:scale(1.13)}60%{transform:scale(.97)}100%{transform:scale(1)}}
+    .jig-slot.snap img{animation:jigSnap .28s cubic-bezier(.2,.9,.3,1.2)}
     @keyframes jigShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
     .jig-slot.shake{animation:jigShake .45s ease}
-    .jig-tray{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:16px;max-width:560px;margin-left:auto;margin-right:auto}
-    .jig-piece{width:74px;height:74px;cursor:grab;transition:transform .15s,opacity .2s;touch-action:none;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
-    /* tray pieces: zoom into the shape (crop transparent pad) — inline scale
-       computed in JS so the classic tabs stay visible at any piece count */
-    .jig-piece img{max-width:none;object-fit:fill;pointer-events:none;display:block}
-    .jig-piece:hover{transform:scale(1.07)}
+    .jig-tray{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px;max-width:560px;margin-left:auto;margin-right:auto}
+    .jig-piece{width:76px;height:76px;cursor:grab;transition:transform .15s,opacity .2s;touch-action:none;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 5px 9px rgba(0,0,0,.55))}
+    /* contain, so a piece shows its whole shape — tabs included — undistorted */
+    .jig-piece img{width:100%;height:100%;object-fit:contain;pointer-events:none;display:block}
+    .jig-piece:hover{transform:scale(1.09)}
     .jig-piece.dragging{opacity:.4;transform:scale(1.1)}
     .jig-piece.used{display:none}
-    .jig-piece.selected{outline:3px solid #fbbf24;border-radius:8px}
+    .jig-piece.selected{outline:3px solid #fbbf24;outline-offset:2px;border-radius:8px}
     .jig-progress{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:12px}
     .jig-bar{flex:1;max-width:260px;height:10px;background:rgba(255,255,255,.12);border-radius:9999px;overflow:hidden}
     .jig-fill{height:100%;background:linear-gradient(90deg,#16a34a,#22c55e);border-radius:9999px;transition:width .3s}
     .jig-count{font-weight:800;color:#f6c048}
     .jig-tip{color:#94a3b8;font-size:.85rem;margin:10px 0 6px}
-    .jig-actions{display:flex;gap:10px;justify-content:center;margin-top:14px}
-    .jig-act{padding:10px 18px;border-radius:12px;font-weight:800;font-size:.9rem;cursor:pointer;border:none;transition:all .2s;box-shadow:0 3px 12px rgba(0,0,0,.3)}
+    .jig-actions{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+    .jig-act{padding:12px 18px;border-radius:12px;font-weight:800;font-size:.9rem;cursor:pointer;border:none;transition:all .2s;box-shadow:0 3px 12px rgba(0,0,0,.3);min-height:48px}
     .jig-act-a{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff}
     .jig-act-b{background:linear-gradient(135deg,#0e5a8a,#1a75b3);color:#fff}
+    .jig-act-c{background:rgba(255,255,255,.10);color:#e2e8f0;border:2px solid rgba(255,255,255,.22)}
     .jig-act:hover{transform:translateY(-2px);filter:brightness(1.1)}
-    /* side tray on wide screens */
     @media (min-width:820px){
       .jig-layout{display:flex;gap:20px;align-items:flex-start;justify-content:center}
       .jig-board{flex:0 0 520px}
-      .jig-tray{flex:1;max-width:220px;margin-top:0;align-content:flex-start;max-height:420px;overflow-y:auto}
+      .jig-tray{flex:1;max-width:340px;margin-top:0;align-content:flex-start;max-height:470px;overflow-y:auto;padding-right:4px}
     }
   </style>
   <div class="jig-wrap">
@@ -324,6 +387,7 @@ function buildJigsawBoard(container, isHe) {
       ${trayHtml}
     </div>
     <div class="jig-actions">
+      <button class="jig-act jig-act-c" id="jigPeek">${L.peek}</button>
       <button class="jig-act jig-act-a" onclick="jigsawRestart()">${L.restart}</button>
       <button class="jig-act jig-act-b" onclick="jigsawNewImage()">${L.newimg}</button>
     </div>
@@ -332,47 +396,19 @@ function buildJigsawBoard(container, isHe) {
   wireJigsawEvents();
 }
 
-// SVG outline of a piece's jigsaw shape (used as a hint on empty slots)
-function jigsawOutlineSVG(r, c, rows, cols, pw, ph, pad, tab, padPct) {
-  // replicate the path maths on a temp ctx to extract points
-  const cv = document.createElement('canvas');
-  const ctx = cv.getContext('2d');
-  jigsawPathFor(ctx, r, c, rows, cols, pw, ph, pad, tab);
-  // canvas Path2D has no point extraction — build the SVG path manually
-  const ox = pad, oy = pad;
-  const rightBump = (c < cols - 1) ? (((r * 31 + c * 17) % 2) === 0) : false;
-  const bottomBump = (r < rows - 1) ? ((((r + 50) * 31 + c * 17) % 2) === 0) : false;
-  const leftBump = (c > 0) ? !((((r * 31 + (c - 1) * 17) % 2) === 0)) : false;
-  const topBump = (r > 0) ? !(((((r - 1) + 50) * 31 + c * 17) % 2) === 0) : false;
-  function seg(x1, y1, x2, y2, bump, horiz) {
-    let s = '';
-    if (horiz) {
-      const mx = (x1 + x2) / 2;
-      s += `L${(mx - tab).toFixed(1)},${y1.toFixed(1)} `;
-      if (bump) s += `C${(mx - tab).toFixed(1)},${(y1 - tab * 1.6).toFixed(1)} ${(mx + tab).toFixed(1)},${(y1 - tab * 1.6).toFixed(1)} ${(mx + tab).toFixed(1)},${y1.toFixed(1)} `;
-      else      s += `C${(mx - tab).toFixed(1)},${(y1 + tab * 0.9).toFixed(1)} ${(mx + tab).toFixed(1)},${(y1 + tab * 0.9).toFixed(1)} ${(mx + tab).toFixed(1)},${y1.toFixed(1)} `;
-      s += `L${x2.toFixed(1)},${y2.toFixed(1)} `;
-    } else {
-      const my = (y1 + y2) / 2;
-      s += `L${x1.toFixed(1)},${(my - tab).toFixed(1)} `;
-      if (bump) s += `C${(x1 + tab * 1.6).toFixed(1)},${(my - tab).toFixed(1)} ${(x1 + tab * 1.6).toFixed(1)},${(my + tab).toFixed(1)} ${x1.toFixed(1)},${(my + tab).toFixed(1)} `;
-      else      s += `C${(x1 - tab * 0.9).toFixed(1)},${(my - tab).toFixed(1)} ${(x1 - tab * 0.9).toFixed(1)},${(my + tab).toFixed(1)} ${x1.toFixed(1)},${(my + tab).toFixed(1)} `;
-      s += `L${x2.toFixed(1)},${y2.toFixed(1)} `;
-    }
-    return s;
-  }
-  let d = `M${ox.toFixed(1)},${oy.toFixed(1)} `;
-  d += seg(ox, oy, ox + pw, oy, topBump, true);
-  d += seg(ox + pw, oy, ox + pw, oy + ph, rightBump, false);
-  d += seg(ox + pw, oy + ph, ox, oy + ph, bottomBump, true);
-  d += seg(ox, oy + ph, ox, oy, leftBump, false);
-  d += 'Z';
-  return `<path d="${d}"/>`;
-}
-
-// ── Events: drag & drop + tap-to-place ─────────────────────────────────────
 function wireJigsawEvents() {
   const S = JIGSAW_STATE;
+
+  // Peek: hold it down to see the picture, let go and it fades out.
+  const peek = document.getElementById('jigPeek');
+  const board = document.getElementById('jigBoard');
+  if (peek && board) {
+    const on = e => { e.preventDefault(); board.classList.add('peeking'); };
+    const off = () => board.classList.remove('peeking');
+    peek.addEventListener('pointerdown', on);
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => peek.addEventListener(ev, off));
+  }
+
   document.querySelectorAll('.jig-piece').forEach(piece => {
     piece.addEventListener('dragstart', e => {
       const si = parseInt(piece.dataset.piece);
@@ -385,11 +421,10 @@ function wireJigsawEvents() {
       S.dragIdx = -1;
       piece.classList.remove('dragging');
     });
-    // ── Touch/pointer drag (mobile!) — HTML5 drag doesn't work on phones ──
+    // Touch/pointer drag — HTML5 drag and drop does not exist on phones.
     piece.addEventListener('pointerdown', function (e) {
       const si = parseInt(piece.dataset.piece);
       if (S.piecesArr[si].placed !== undefined) return;
-      // long-press threshold: immediate grab feels like scroll; 120ms is enough
       S._pd = { si: si, x: e.clientX, y: e.clientY, moved: false, t: Date.now() };
       piece.setPointerCapture && piece.setPointerCapture(e.pointerId);
     });
@@ -401,14 +436,13 @@ function wireJigsawEvents() {
         S._pd.ghost.style.left = (e.clientX - S._pd.ghost.offsetWidth / 2) + 'px';
         S._pd.ghost.style.top = (e.clientY - S._pd.ghost.offsetHeight / 2) + 'px';
       } else if (S._pd.moved && !S._pd.ghost) {
-        // create floating ghost of the piece following the finger
         const g = piece.cloneNode(true);
         g.style.position = 'fixed';
         g.style.zIndex = '9999';
         g.style.pointerEvents = 'none';
-        g.style.width = '74px'; g.style.height = '74px';
-        g.style.left = (e.clientX - 37) + 'px';
-        g.style.top = (e.clientY - 37) + 'px';
+        g.style.width = '76px'; g.style.height = '76px';
+        g.style.left = (e.clientX - 38) + 'px';
+        g.style.top = (e.clientY - 38) + 'px';
         g.style.filter = 'drop-shadow(0 8px 16px rgba(0,0,0,0.6))';
         g.style.opacity = '0.9';
         document.body.appendChild(g);
@@ -421,23 +455,19 @@ function wireJigsawEvents() {
       if (!S._pd) return;
       const pd = S._pd; S._pd = null;
       if (pd.ghost) { pd.ghost.remove(); piece.style.opacity = ''; }
-      if (!pd.moved) return; // it was a tap → handled by click handler
-      // find the slot under the finger
+      if (!pd.moved) return;   // a tap, not a drag — the click handler has it
       const el = document.elementFromPoint(e.clientX, e.clientY);
       const slotEl = el && el.closest ? el.closest('.jig-slot') : null;
-      if (slotEl) {
-        const slotIdx = parseInt(slotEl.dataset.slot);
-        placeJigsawPiece(pd.si, slotIdx);
-      }
+      if (slotEl) placeJigsawPiece(pd.si, parseInt(slotEl.dataset.slot));
     });
     piece.addEventListener('click', () => {
       const si = parseInt(piece.dataset.piece);
       if (S.piecesArr[si].placed !== undefined) return;
       S.selected = (S.selected === si) ? -1 : si;
       document.querySelectorAll('.jig-piece').forEach((el, i) => el.classList.toggle('selected', i === S.selected));
-      // NOTE: no correct-slot hint on select — it would reveal the answer
     });
   });
+
   document.querySelectorAll('.jig-slot').forEach(slot => {
     slot.addEventListener('dragover', e => { e.preventDefault(); });
     slot.addEventListener('drop', e => {
@@ -452,22 +482,16 @@ function wireJigsawEvents() {
     });
     slot.addEventListener('click', () => {
       const slotIdx = parseInt(slot.dataset.slot);
-      // tap a FILLED slot → return that piece to the tray (allows fixing)
-      if (S.board[slotIdx] !== null && S.selected < 0) {
-        unplaceJigsawPiece(slotIdx);
-        return;
-      }
+      if (S.board[slotIdx] !== null && S.selected < 0) { unplaceJigsawPiece(slotIdx); return; }
       if (S.selected >= 0) {
         const p = S.piecesArr[S.selected];
         const before = p ? (p.placed !== undefined) : true;
         placeJigsawPiece(S.selected, slotIdx);
         const after = p ? (p.placed !== undefined) : true;
         if (after && !before) {
-          // success → clear selection
           S.selected = -1;
           document.querySelectorAll('.jig-piece').forEach(el => el.classList.remove('selected'));
         }
-        // failure → keep selection so the user can try another slot
       }
     });
   });
@@ -479,27 +503,19 @@ function placeJigsawPiece(pieceIdx, slotIdx) {
   if (!p || p.placed !== undefined) return;
   if (S.board[slotIdx] !== null) return;
 
-  // ═══ CORRECTNESS CHECK ═══════════════════════════════════════════════
-  // A piece only fits its own slot (piece.idx === slotIdx). Wrong piece →
-  // reject with feedback; win is only possible when every piece is in its
-  // true position.
+  // A piece only fits its own slot. Wrong one → shake it off; a win is only
+  // reachable when every piece sits in its true position.
   if (p.idx !== slotIdx) {
     if (typeof sfxWrong === 'function') sfxWrong(); else if (typeof sfxFlip === 'function') sfxFlip();
     const slot = document.querySelector(`.jig-slot[data-slot="${slotIdx}"]`);
     if (slot) {
       slot.classList.remove('shake');
-      void slot.offsetWidth; // restart animation
+      void slot.offsetWidth;
       slot.classList.add('shake');
       setTimeout(() => slot.classList.remove('shake'), 500);
     }
-    const trayEl = document.querySelector(`.jig-piece[data-piece="${pieceIdx}"]`);
-    if (trayEl) {
-      trayEl.classList.remove('selected');
-    }
-    S.selected = -1;
     return;
   }
-  // ═════════════════════════════════════════════════════════════════════
 
   S.board[slotIdx] = p.idx;
   p.placed = slotIdx;
@@ -510,25 +526,27 @@ function placeJigsawPiece(pieceIdx, slotIdx) {
     if (existing) existing.remove();
     const im = document.createElement('img');
     im.src = p.data; im.alt = 'piece';
-    // Earlier-placed pieces must stay ABOVE later ones so their tabs remain
-    // visible over neighbours (like a real puzzle). Highest z = placed first.
+    // Pieces placed earlier sit ABOVE later ones, so their tabs stay visible
+    // over their neighbours — the way the first piece down does on a table.
     im.style.zIndex = String(1000 - S.placedCount);
     slot.appendChild(im);
     slot.classList.add('has-piece');
+    slot.classList.remove('snap');
+    void slot.offsetWidth;
+    slot.classList.add('snap');
+    setTimeout(() => slot.classList.remove('snap'), 320);
   }
+  if (typeof sfxClick === 'function') sfxClick(); else if (typeof sfxFlip === 'function') sfxFlip();
+
   const trayEl = document.querySelector(`.jig-piece[data-piece="${pieceIdx}"]`);
   if (trayEl) trayEl.classList.add('used');
 
   S.placedCount++;
-  const fill = document.getElementById('jigFill');
-  const cnt = document.getElementById('jigCount');
-  if (fill) fill.style.width = (S.placedCount / S.board.length * 100) + '%';
-  if (cnt) cnt.textContent = `${S.placedCount}/${S.board.length}`;
-
+  jigsawUpdateProgress();
   if (S.placedCount === S.board.length) jigsawWin();
 }
 
-// Return a placed piece back to the tray (tap a filled slot)
+// Return a placed piece to the tray (tap a filled slot).
 function unplaceJigsawPiece(slotIdx) {
   const S = JIGSAW_STATE;
   const pidx = S.board[slotIdx];
@@ -547,7 +565,11 @@ function unplaceJigsawPiece(slotIdx) {
   }
   const trayEl = document.querySelector(`.jig-piece[data-piece="${S.piecesArr.indexOf(piece)}"]`);
   if (trayEl) trayEl.classList.remove('used');
+  jigsawUpdateProgress();
+}
 
+function jigsawUpdateProgress() {
+  const S = JIGSAW_STATE;
   const fill = document.getElementById('jigFill');
   const cnt = document.getElementById('jigCount');
   if (fill) fill.style.width = (S.placedCount / S.board.length * 100) + '%';
@@ -558,24 +580,31 @@ function jigsawWin() {
   const S = JIGSAW_STATE;
   if (S.solved) return;
   S.solved = true;
-  const isHe = (typeof currentLang !== 'undefined' && currentLang === 'he');
+  // Reward: the seams fade and the picture comes up whole.
+  const board = document.getElementById('jigBoard');
+  if (board) {
+    board.classList.add('peeking');
+    const ghost = document.getElementById('jigGhost');
+    if (ghost) ghost.style.opacity = '1';
+  }
   if (typeof sfxWin === 'function') sfxWin();
   if (typeof launchConfetti === 'function') { launchConfetti(); setTimeout(launchConfetti, 350); }
-  setTimeout(() => { if (typeof levelComplete === 'function') levelComplete(); }, 600);
+  setTimeout(() => { if (typeof levelComplete === 'function') levelComplete(); }, 900);
 }
 
 function jigsawRestart() {
   const S = JIGSAW_STATE;
-  S.img = null; // same image: keep srcCanvas
+  S.img = null;   // same picture, freshly cut
   if (S.srcCanvas) {
     const container = document.getElementById('gameContent');
     const isHe = (typeof currentLang !== 'undefined' && currentLang === 'he');
+    S.solved = false; S.placedCount = 0; S.selected = -1;
     buildJigsawBoard(container, isHe);
   } else jigsawStart();
 }
+
 function jigsawNewImage() {
   const S = JIGSAW_STATE;
   S.img = null;
-  const container = document.getElementById('gameContent');
-  renderSetup(container);
+  renderSetup(document.getElementById('gameContent'));
 }

@@ -1,8 +1,7 @@
 # 🎨 Games Site — Graphic Improvement Plan (todo)
 
 > Goal: "האתר צריך להיות מרשים, לא כאילו ילד עשה אותו"
-> Created: 2026-08-26. Status: **13 broken cards replaced 2026-08-26 (e40c261).**
-> The 13 kept cards are still in their original styles — see `IMAGES.md`.
+> Created: 2026-08-26. Status: **COMPLETE — all 28 cards replaced (e40c261, then 2026-08-27).**
 
 ## ✅ Functional check — ALL 27 GAMES WORK (2026-08-26)
 
@@ -44,7 +43,15 @@ These destroy trust — seniors see broken text/wrong objects and think the site
 | 12 | **pairs** | images/cards/pairs.jpg | Waxy uncanny split-face, tired cliché | Two matching vintage cards/objects side by side |
 | 13 | **safari** | images/cards/safari.jpg | Giraffe+elephant too small, muddy low contrast | One clear majestic animal portrait, golden savanna |
 
-## 🟢 Cards that are GOOD — KEEP (13)
+## ✅ ALSO DONE 2026-08-27 — the other 14 replaced too
+
+The 13 below were individually fine, which is why this file kept them. They were
+replaced anyway, because the complaint was never about any one card: the grid
+mixed warm portraits, cold neon on black and flat-lay still life, and three good
+pictures in the wrong language are the reason the other 25 could not match
+anything. All 28 (including a card for the new jigsaw game) are now one recipe.
+
+## 🟢 Cards that were judged GOOD — kept until 2026-08-27
 
 | Game | Why it's good |
 |------|---------------|
