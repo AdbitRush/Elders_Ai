@@ -16,7 +16,7 @@ function _oddNext(container) {
     const isHe=currentLang==='he';
     let html=`<div class="w-full max-w-sm mx-auto">
         <div class="flex justify-between text-sm font-bold text-gray-400 mb-4">
-            <span>${isHe?'סיבוב':'Round'} ${gs._si+1}/${gs._sq}</span>
+            <span>${gt('Round', 'סיבוב')} ${gs._si+1}/${gs._sq}</span>
             <span class="text-green-600">✓ ${gs._ss}</span>
         </div>
         <div class="grid grid-cols-4 gap-3 bg-gray-50 p-4 rounded-2xl border">`;

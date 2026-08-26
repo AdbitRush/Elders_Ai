@@ -26,12 +26,12 @@ function _recallStudy(c) {
     // Hard mode: auto-advance after 4 seconds instead of user clicking
     const autoMs = _d==='hard' ? 4000 : 0;
     c.innerHTML = `<div class="max-w-xl w-full text-center">
-        <div class="text-xl font-bold text-[#1a365d] mb-3">${isHe?'📖 זכרו את הפריטים האלה:':'📖 Study these items:'}</div>
+        <div class="text-xl font-bold text-[#1a365d] mb-3">${gt('📖 Study these items:', '📖 זכרו את הפריטים האלה:')}</div>
         <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-6">${items}</div>
         ${autoMs>0
           ? `<div id="recall-timer" class="text-amber-600 font-bold text-lg mb-3">${isHe?`⏱️ ${autoMs/1000} שניות...`:`⏱️ ${autoMs/1000}s...`}</div>
-             <button id="recall-go-btn" onclick="_recallTest()" class="py-4 px-8 rounded-xl bg-[#1a365d] text-white font-bold text-xl hover:bg-[#2c5282] transition shadow-lg">${isHe?'✅ זכרתי! קדימה':'✅ Got them! Continue'}</button>`
-          : `<button onclick="_recallTest()" class="py-4 px-8 rounded-xl bg-[#1a365d] text-white font-bold text-xl hover:bg-[#2c5282] transition shadow-lg">${isHe?'✅ זכרתי! קדימה':'✅ Got them! Continue'}</button>`
+             <button id="recall-go-btn" onclick="_recallTest()" class="py-4 px-8 rounded-xl bg-[#1a365d] text-white font-bold text-xl hover:bg-[#2c5282] transition shadow-lg">${gt('✅ Got them! Continue', '✅ זכרתי! קדימה')}</button>`
+          : `<button onclick="_recallTest()" class="py-4 px-8 rounded-xl bg-[#1a365d] text-white font-bold text-xl hover:bg-[#2c5282] transition shadow-lg">${gt('✅ Got them! Continue', '✅ זכרתי! קדימה')}</button>`
         }
     </div>`;
     if(autoMs>0) {
@@ -56,9 +56,9 @@ function _recallTest() {
     }).join('');
     const c = document.getElementById('gameContent');
     c.innerHTML = `<div class="max-w-xl w-full text-center">
-        <div class="text-xl font-bold text-[#1a365d] mb-3">${isHe?'🔍 בחרו את הפריטים שראיתם:':'🔍 Select the items you saw:'}</div>
+        <div class="text-xl font-bold text-[#1a365d] mb-3">${gt('🔍 Select the items you saw:', '🔍 בחרו את הפריטים שראיתם:')}</div>
         <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-6">${itemsHtml}</div>
-        <button onclick="_checkRecall()" class="py-4 px-8 rounded-xl bg-[#b7791f] text-white font-bold text-xl hover:opacity-90 active:scale-95 transition shadow-lg">${isHe?'✅ בדיקה':'✅ Check'}</button>
+        <button onclick="_checkRecall()" class="py-4 px-8 rounded-xl bg-[#b7791f] text-white font-bold text-xl hover:opacity-90 active:scale-95 transition shadow-lg">${gt('✅ Check', '✅ בדיקה')}</button>
     </div>`;
 }
 function _toggleRecall(idx, el) {
@@ -82,7 +82,7 @@ function _checkRecall() {
         const msg = isHe ? `מצאתם ${correct} מתוך ${gs.targets.length}` : `Found ${correct} of ${gs.targets.length}`;
         const info = document.createElement('div');
         info.className = 'mt-4 text-orange-600 font-bold text-lg';
-        info.innerHTML = `${msg}<br><button onclick="initRecall(document.getElementById('gameContent'))" class="mt-3 py-3 px-6 rounded-xl bg-[#1a365d] text-white font-bold text-base hover:bg-[#2c5282] transition">${isHe?'🔄 נסו שוב':'🔄 Try Again'}</button>`;
+        info.innerHTML = `${msg}<br><button onclick="initRecall(document.getElementById('gameContent'))" class="mt-3 py-3 px-6 rounded-xl bg-[#1a365d] text-white font-bold text-base hover:bg-[#2c5282] transition">${gt('🔄 Try Again', '🔄 נסו שוב')}</button>`;
         c.appendChild(info);
     }
 }

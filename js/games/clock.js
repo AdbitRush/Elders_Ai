@@ -40,8 +40,8 @@ function _clkNext(container){
         opts.add(_clkFmt(dh,dm));
     }
     let html=`<div class="max-w-xl w-full text-center">
-      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${isHe?'שעון':'Clock'} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
-      <p class="text-lg text-gray-500 mb-4 font-bold">${isHe?'מה השעה?':'What time is it?'}</p>
+      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${gt('Clock', 'שעון')} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
+      <p class="text-lg text-gray-500 mb-4 font-bold">${gt('What time is it?', 'מה השעה?')}</p>
       <div class="bg-blue-50 rounded-2xl py-6 mb-8 shadow-inner">${_clkSvg(h,m)}</div>
       <div class="grid grid-cols-2 gap-4" dir="ltr">`;
     shuffle([...opts]).forEach(o=>{

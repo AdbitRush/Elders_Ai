@@ -21,7 +21,7 @@ function _flagNext(c) {
     const item = gs.pool[gs.idx % gs.pool.length];
     const isHe = currentLang === 'he';
     c.innerHTML = `<div class="max-w-md w-full text-center">
-        <div class="flex justify-between text-sm font-bold text-gray-400 mb-4"><span>${isHe?'שאלה':'Q'} ${gs.idx+1}/${gs.perLevel}</span><span class="text-green-600">&#10003; ${gs.score}</span></div>
+        <div class="flex justify-between text-sm font-bold text-gray-400 mb-4"><span>${gt('Q', 'שאלה')} ${gs.idx+1}/${gs.perLevel}</span><span class="text-green-600">&#10003; ${gs.score}</span></div>
         <div class="mb-6 select-none" style="display:flex;justify-content:center">
             <img src="${_flagUrl(item.flag)}" alt="flag" style="height:clamp(90px,22vw,150px);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.15)"
                  onerror="this.outerHTML='<div style=&quot;font-size:clamp(4rem,20vw,8rem)&quot;>'+decodeURIComponent('${encodeURIComponent(item.flag)}')+'</div>'">

@@ -27,7 +27,7 @@ function _cntNext(container){
     const opts=new Set([targetCount]);
     while(opts.size<4){const d=targetCount+Math.ceil(Math.random()*3)*(Math.random()<0.5?-1:1);if(d>0)opts.add(d);}
     let html=`<div class="max-w-2xl w-full text-center">
-      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${isHe?'סיבוב':'Round'} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
+      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${gt('Round', 'סיבוב')} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
       <p class="text-xl text-gray-600 mb-4 font-bold">${isHe?`כמה ${target} יש בתמונה?`:`How many ${target} do you see?`}</p>
       <div class="bg-white rounded-2xl p-5 mb-6 shadow-inner text-3xl md:text-4xl leading-relaxed" style="letter-spacing:.35rem">${shuffle(cells).join('')}</div>
       <div class="grid grid-cols-4 gap-3">`;

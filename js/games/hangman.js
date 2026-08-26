@@ -65,11 +65,11 @@ function _hmRender(c) {
                 ${hmParts}
             </svg>
             <div class="text-center flex-1">
-                <div class="text-base text-gray-500 mb-2">${isHe?'רמז':'Hint'}: <span class="font-bold text-[#b7791f]">${gs.hint}</span></div>
+                <div class="text-base text-gray-500 mb-2">${gt('Hint', 'רמז')}: <span class="font-bold text-[#b7791f]">${gs.hint}</span></div>
                 <div class="flex flex-wrap justify-center items-end gap-1 my-3" ${isHe?'dir="rtl"':''}>${blanks}</div>
-                <div class="text-sm font-bold mt-2" style="color:${livesColor}">${isHe?'שגיאות':'Mistakes'}: ${gs.wrong}/${gs.maxWrong}</div>
-                ${gameOver ? `<div class="mt-3 font-bold text-lg text-red-600">${isHe?'המילה הייתה: ':'The word was: '}<span class="text-[#1a365d]">${gs.word}</span></div>
-                <button onclick="_hmNext()" class="mt-3 py-3 px-6 rounded-xl bg-[#1a365d] text-white font-bold text-base hover:bg-[#2c5282] transition">${isHe?'🔄 מילה חדשה':'🔄 New Word'}</button>` : ''}
+                <div class="text-sm font-bold mt-2" style="color:${livesColor}">${gt('Mistakes', 'שגיאות')}: ${gs.wrong}/${gs.maxWrong}</div>
+                ${gameOver ? `<div class="mt-3 font-bold text-lg text-red-600">${gt('The word was: ', 'המילה הייתה: ')}<span class="text-[#1a365d]">${gs.word}</span></div>
+                <button onclick="_hmNext()" class="mt-3 py-3 px-6 rounded-xl bg-[#1a365d] text-white font-bold text-base hover:bg-[#2c5282] transition">${gt('🔄 New Word', '🔄 מילה חדשה')}</button>` : ''}
             </div>
         </div>
         ${!gameOver ? `<div class="flex flex-wrap justify-center mt-2">${letterBtns}</div>` : ''}

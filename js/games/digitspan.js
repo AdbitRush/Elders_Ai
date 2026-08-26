@@ -19,8 +19,8 @@ function _dsNext(container){
     gs._target=num; gs._input='';
     const showMs=1200+gs._len*450;
     container.innerHTML=`<div class="max-w-xl w-full text-center">
-      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${isHe?'סיבוב':'Round'} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
-      <p class="text-lg text-gray-500 mb-4 font-bold">${isHe?'זכרו את המספר!':'Memorize the number!'}</p>
+      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${gt('Round', 'סיבוב')} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
+      <p class="text-lg text-gray-500 mb-4 font-bold">${gt('Memorize the number!', 'זכרו את המספר!')}</p>
       <div id="ds-display" class="text-6xl md:text-7xl font-black tracking-widest py-10 bg-blue-50 text-[#1a365d] rounded-2xl shadow-inner" dir="ltr">${num}</div>
       <div id="ds-pad" class="hidden"></div>
     </div>`;
@@ -33,7 +33,7 @@ function _dsShowPad(){
     document.getElementById('ds-display').innerHTML=`<span id="ds-typed" class="text-[#b7791f]">&nbsp;</span>`;
     const pad=document.getElementById('ds-pad');
     pad.classList.remove('hidden');
-    let html=`<p class="text-lg text-gray-500 my-4 font-bold">${isHe?'הקלידו את המספר:':'Type the number:'}</p><div class="grid grid-cols-3 gap-3 max-w-xs mx-auto" dir="ltr">`;
+    let html=`<p class="text-lg text-gray-500 my-4 font-bold">${gt('Type the number:', 'הקלידו את המספר:')}</p><div class="grid grid-cols-3 gap-3 max-w-xs mx-auto" dir="ltr">`;
     [1,2,3,4,5,6,7,8,9].forEach(d=>{html+=`<button onclick="_dsKey(${d})" class="bg-white border-2 border-gray-300 text-3xl font-bold py-4 rounded-xl shadow-sm hover:border-[#b7791f] transition">${d}</button>`;});
     html+=`<button onclick="_dsKey(-1)" class="bg-red-50 border-2 border-red-200 text-2xl font-bold py-4 rounded-xl">⌫</button>
            <button onclick="_dsKey(0)" class="bg-white border-2 border-gray-300 text-3xl font-bold py-4 rounded-xl shadow-sm hover:border-[#b7791f] transition">0</button>

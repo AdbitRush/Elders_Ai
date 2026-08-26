@@ -23,7 +23,7 @@ window.initTetris=function(container){
 
     const scoreEl=document.createElement('div');
     scoreEl.style.cssText='color:#00f0f0;font-size:15px;font-weight:700;letter-spacing:0.08em;text-align:center';
-    scoreEl.innerHTML=`<span>${isHe?'ניקוד':'SCORE'}: <b id="tet-score">0</b></span> &nbsp; <span>${isHe?'שורות':'LINES'}: <b id="tet-lines">0</b></span> &nbsp; <span>${isHe?'רמה':'LEVEL'}: <b id="tet-level">1</b></span>`;
+    scoreEl.innerHTML=`<span>${gt('SCORE', 'ניקוד')}: <b id="tet-score">0</b></span> &nbsp; <span>${gt('LINES', 'שורות')}: <b id="tet-lines">0</b></span> &nbsp; <span>${gt('LEVEL', 'רמה')}: <b id="tet-level">1</b></span>`;
 
     const canvas=document.createElement('canvas');
     canvas.width=COLS*SZ; canvas.height=ROWS*SZ;
@@ -54,10 +54,10 @@ window.initTetris=function(container){
         mkBtn('▶',()=>move(1),{repeat:110}),
         mkBtn('▼',()=>drop(),{repeat:60})
     );
-    const dropBtn=mkBtn(isHe?'⤓ הפלה':'⤓ DROP',()=>hardDrop(),{span:4});
+    const dropBtn=mkBtn(gt('⤓ DROP', '⤓ הפלה'),()=>hardDrop(),{span:4});
     dropBtn.style.fontSize='22px'; dropBtn.style.height='54px'; dropBtn.style.letterSpacing='.08em';
     const hint=document.createElement('div');
-    hint.textContent=isHe?'💡 החליקו על הלוח: ימין/שמאל להזזה · מטה להפלה · נגיעה לסיבוב':'💡 Swipe the board: left/right to move · down to drop · tap to rotate';
+    hint.textContent=gt('💡 Swipe the board: left/right to move · down to drop · tap to rotate', '💡 החליקו על הלוח: ימין/שמאל להזזה · מטה להפלה · נגיעה לסיבוב');
     hint.style.cssText='color:#5a7ba0;font-size:12px;text-align:center;max-width:340px;line-height:1.5';
 
     container.append(scoreEl,canvas,pad,dropBtn,hint);
@@ -86,12 +86,12 @@ window.initTetris=function(container){
             document.getElementById('tet-lines').textContent=lines;
             document.getElementById('tet-level').textContent=level;
             const bc=boardCenter();
-            _fx().text(bc.x,bc.y-20,(cleared===4?(isHe?'טטריס! ':'TETRIS! ')+'+':'+')+gained, cleared===4?'#ff6b6b':'#ffd700');
+            _fx().text(bc.x,bc.y-20,(cleared===4?(gt('TETRIS! ', 'טטריס! '))+'+':'+')+gained, cleared===4?'#ff6b6b':'#ffd700');
             _fx().flash(cleared>=3?'#00f0f0':'#123a63', 220);
             _fx().shake(canvas, cleared>=3?12:7);
             window.sfxCorrect&&sfxCorrect();
             if(cleared>=3){ _fx().fireworks(cleared); window.sfxWin&&sfxWin(); }
-            if(level>prevLevel){ _fx().fireworks(7); _fx().text(bc.x,bc.y+40,(isHe?'רמה ':'LEVEL ')+level+'! ⭐','#4ecdc4'); window.sfxWin&&sfxWin(); }
+            if(level>prevLevel){ _fx().fireworks(7); _fx().text(bc.x,bc.y+40,(gt('LEVEL ', 'רמה '))+level+'! ⭐','#4ecdc4'); window.sfxWin&&sfxWin(); }
         }
         cur=next;next=newPiece();if(!valid(cur.shape,cur.x,cur.y))gameOver=true;
     }
@@ -109,7 +109,7 @@ window.initTetris=function(container){
         ctx.save();ctx.shadowColor=cur.color;ctx.shadowBlur=16;
         cur.shape.forEach((row,r)=>row.forEach((v,c)=>{if(!v)return;ctx.fillStyle=cur.color;ctx.fillRect((cur.x+c)*SZ+1,(cur.y+r)*SZ+1,SZ-2,SZ-2);ctx.fillStyle='rgba(255,255,255,0.35)';ctx.fillRect((cur.x+c)*SZ+1,(cur.y+r)*SZ+1,SZ-2,4);ctx.fillRect((cur.x+c)*SZ+1,(cur.y+r)*SZ+1,4,SZ-2);}));
         ctx.restore();
-        if(gameOver){ctx.fillStyle='rgba(5,13,26,0.82)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#00f0f0';ctx.font='bold 22px monospace';ctx.textAlign='center';ctx.fillText(isHe?'משחק נגמר':'GAME OVER',canvas.width/2,canvas.height/2-20);ctx.font='15px monospace';ctx.fillStyle='#ffffff';ctx.fillText(`${isHe?'ניקוד':'Score'}: ${score}`,canvas.width/2,canvas.height/2+10);}
+        if(gameOver){ctx.fillStyle='rgba(5,13,26,0.82)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#00f0f0';ctx.font='bold 22px monospace';ctx.textAlign='center';ctx.fillText(gt('GAME OVER', 'משחק נגמר'),canvas.width/2,canvas.height/2-20);ctx.font='15px monospace';ctx.fillStyle='#ffffff';ctx.fillText(`${gt('Score', 'ניקוד')}: ${score}`,canvas.width/2,canvas.height/2+10);}
     }
 
     function move(dx){if(gameOver)return;if(valid(cur.shape,cur.x+dx,cur.y)){cur.x+=dx;}}

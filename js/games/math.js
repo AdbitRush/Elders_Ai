@@ -24,7 +24,7 @@ function _mathNext(container) {
     const isHe=currentLang==='he';
     container.innerHTML=`<div class="w-full max-w-sm mx-auto text-center">
         <div class="flex justify-between text-sm font-bold text-gray-400 mb-5">
-            <span>${isHe?'שאלה':'Q'} ${gs._si+1}/${gs._sq}</span>
+            <span>${gt('Q', 'שאלה')} ${gs._si+1}/${gs._sq}</span>
             <span class="text-green-600">✓ ${gs._ss}</span>
         </div>
         <div class="text-6xl font-bold mb-10 text-slate-800" dir="ltr">${a} ${isAdd?'+':'-'} ${b} = ?</div>

@@ -26,7 +26,7 @@ function _numseqNext(container){
     const isHe=currentLang==='he';
     container.innerHTML=`<div class="w-full max-w-sm mx-auto text-center">
         <div class="flex justify-between text-sm font-bold text-gray-400 mb-5">
-            <span>${isHe?'שאלה':'Q'} ${gs._si+1}/${gs._sq}</span>
+            <span>${gt('Q', 'שאלה')} ${gs._si+1}/${gs._sq}</span>
             <span class="text-green-600">✓ ${gs._ss}</span>
         </div>
         <div class="flex items-center gap-2 md:gap-4 mb-10 flex-wrap justify-center">

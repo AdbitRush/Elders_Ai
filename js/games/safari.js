@@ -19,7 +19,7 @@ function initSafari(container){
     const isHe=currentLang==='he';
     container.innerHTML=`<div class="max-w-3xl w-full">
       <div class="flex justify-between items-center mb-3">
-        <span class="text-sm font-bold text-gray-400">${isHe?'סיבוב':'Round'} <span id="sf-round">1</span>/${gs._rounds}</span>
+        <span class="text-sm font-bold text-gray-400">${gt('Round', 'סיבוב')} <span id="sf-round">1</span>/${gs._rounds}</span>
         <span id="sf-task" class="text-lg md:text-xl font-black text-amber-300"></span>
         <span class="text-sm font-bold text-green-400">✓ <span id="sf-score">0</span></span>
       </div>
@@ -76,7 +76,7 @@ function _sfNextTarget(){
     const pick=gs._sprites[Math.floor(Math.random()*gs._sprites.length)].a;
     gs._target=pick.e;
     const t=document.getElementById('sf-task');
-    if(t) t.innerHTML=(isHe?'מצאו את ':'Find the ')+`<span style="font-size:1.5em">${pick.e}</span> ${isHe?pick.he:pick.en}!`;
+    if(t) t.innerHTML=(gt('Find the ', 'מצאו את '))+`<span style="font-size:1.5em">${pick.e}</span> ${isHe?pick.he:pick.en}!`;
 }
 function _sfTap(id, el){
     const gs=gameState.safari;

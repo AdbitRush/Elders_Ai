@@ -52,7 +52,7 @@ function _sudokuRender(c) {
     const numBtns=[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="fillSudoku9(${n})" style="width:40px;height:40px;background:#0f2040;border:1px solid #1e3a5f;border-radius:8px;color:#93c5fd;font-size:16px;font-weight:700;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#0f2040'">${n}</button>`).join('');
     const isHe=currentLang==='he';
     c.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;gap:16px">
-        <div style="color:#93c5fd;font-size:13px;font-weight:700;letter-spacing:0.05em">${isHe?'רמה':'LEVEL'} ${gameState.sudoku.level} &nbsp;·&nbsp; ${isHe?'בחרו תא ואז מספר':'TAP A CELL, THEN A NUMBER'}</div>
+        <div style="color:#93c5fd;font-size:13px;font-weight:700;letter-spacing:0.05em">${gt('LEVEL', 'רמה')} ${gameState.sudoku.level} &nbsp;·&nbsp; ${gt('TAP A CELL, THEN A NUMBER', 'בחרו תא ואז מספר')}</div>
         <div style="display:grid;grid-template-columns:repeat(9,${sz});border:3px solid #3b82f6;border-radius:10px;overflow:hidden;box-shadow:0 0 30px rgba(59,130,246,0.25)">${cells}</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center">${numBtns}<button onclick="fillSudoku9(0)" style="width:40px;height:40px;background:#1a0a0a;border:1px solid #7f1d1d;border-radius:8px;color:#f87171;font-size:16px;font-weight:700;cursor:pointer" onmouseover="this.style.background='#7f1d1d'" onmouseout="this.style.background='#1a0a0a'">✕</button></div>
     </div>`;

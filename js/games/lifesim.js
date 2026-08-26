@@ -49,7 +49,7 @@ function initLifeSim(container){
 function _lsPick(container){
     const isHe=currentLang==='he';
     let html=`<div class="max-w-2xl w-full text-center">
-      <p class="text-xl font-bold mb-6 text-gray-200">${isHe?'✨ מכונת הזמן מוכנה. לאן נוסעים?':'✨ The time machine is ready. Where to?'}</p>
+      <p class="text-xl font-bold mb-6 text-gray-200">${gt('✨ The time machine is ready. Where to?', '✨ מכונת הזמן מוכנה. לאן נוסעים?')}</p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">`;
     for(const [k,era] of Object.entries(_LS_ERAS)){
         html+=`<button onclick="_lsStart('${k}')" class="rounded-2xl p-8 text-white shadow-xl transition hover:scale-105"
@@ -97,7 +97,7 @@ function _lsChoose(good){
     const note=document.createElement('div');
     note.className='text-2xl font-black text-center mt-4';
     note.style.color=good?'#4ade80':'#fca5a5';
-    note.textContent=good?(isHe?'❤️ זיכרון יפה נוסף!':'❤️ A beautiful memory!'):(isHe?'😅 גם זו חוויה...':'😅 Also an experience...');
+    note.textContent=good?(gt('❤️ A beautiful memory!', '❤️ זיכרון יפה נוסף!')):(gt('😅 Also an experience...', '😅 גם זו חוויה...'));
     c.appendChild(note);
     gs._si++;
     setTimeout(()=>_lsScene(c), good?900:1200);

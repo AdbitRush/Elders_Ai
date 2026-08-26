@@ -14,7 +14,7 @@ function initSimon(container) {
         {id:3,color:'#eab308',glow:'rgba(234,179,8,0.7)'}
     ];
     let html=`<div style="display:flex;flex-direction:column;align-items:center;gap:20px;width:100%">
-        <div id="simon-score" style="font-size:20px;font-weight:800;color:#1e293b;letter-spacing:0.05em">${isHe?'רמה 1...':'Level 1...'}</div>
+        <div id="simon-score" style="font-size:20px;font-weight:800;color:#1e293b;letter-spacing:0.05em">${gt('Level 1...', 'רמה 1...')}</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:280px;width:100%">`;
     colors.forEach(col=>{
         html+=`<div id="simon-${col.id}" onclick="clickSimon(${col.id})"
@@ -73,13 +73,13 @@ function clickSimon(id) {
             Retention.recordWin();
             gc.innerHTML=`<div class="text-center py-8 px-4 max-w-sm mx-auto">
                 <div style="font-size:4rem">🎉</div>
-                <div class="text-3xl font-bold mt-3 text-slate-800">${isHe?'כל הכבוד!':'Great job!'}</div>
+                <div class="text-3xl font-bold mt-3 text-slate-800">${gt('Great job!', 'כל הכבוד!')}</div>
                 <div class="text-xl mt-3 text-gray-600">${isHe?`הגעת לרמה`:'You reached level'} <strong class="text-[#1a365d] text-2xl">${score}</strong></div>
-                ${hs?`<div class="mt-2 text-amber-600 font-bold text-lg">${isHe?'⭐ שיא אישי חדש!':'⭐ New personal best!'}</div>`:''}
+                ${hs?`<div class="mt-2 text-amber-600 font-bold text-lg">${gt('⭐ New personal best!', '⭐ שיא אישי חדש!')}</div>`:''}
                 <div id="simon-share" class="mt-3"></div>
                 <div class="flex gap-3 justify-center mt-6 flex-wrap">
-                    <button onclick="loadGame('simon')" class="btn-premium py-3 px-8 rounded-xl font-bold">${isHe?'שחק שוב':'Play Again'}</button>
-                    <button onclick="showHome()" class="bg-gray-200 hover:bg-gray-300 py-3 px-8 rounded-xl font-bold text-gray-700 transition">${isHe?'תפריט':'Menu'}</button>
+                    <button onclick="loadGame('simon')" class="btn-premium py-3 px-8 rounded-xl font-bold">${gt('Play Again', 'שחק שוב')}</button>
+                    <button onclick="showHome()" class="bg-gray-200 hover:bg-gray-300 py-3 px-8 rounded-xl font-bold text-gray-700 transition">${gt('Menu', 'תפריט')}</button>
                 </div></div>`;
             if(typeof Share!=='undefined'){const sd=document.getElementById('simon-share');if(sd)Share.renderBtn(sd,'simon',score);}
         },800);

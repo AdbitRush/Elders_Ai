@@ -14,7 +14,7 @@ function renderTriviaQuestion(container){
     if(state.current>=state.questions.length){state._sessionScore={correct:state.score,total:state.questions.length};levelComplete();return;}
     const q=state.questions[state.current];
     const isHe=currentLang==='he';
-    let html=`<div class="max-w-xl w-full"><div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${isHe?'שאלה':'Question'} ${state.current+1}/${state.questions.length}</span><span class="text-green-600">✓ ${state.score}</span></div><h3 class="text-2xl md:text-3xl font-bold mb-8 text-center text-[#1a365d] bg-blue-50 p-5 rounded-xl">${q.q}</h3><div class="flex flex-col gap-3">`;
+    let html=`<div class="max-w-xl w-full"><div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${gt('Question', 'שאלה')} ${state.current+1}/${state.questions.length}</span><span class="text-green-600">✓ ${state.score}</span></div><h3 class="text-2xl md:text-3xl font-bold mb-8 text-center text-[#1a365d] bg-blue-50 p-5 rounded-xl">${q.q}</h3><div class="flex flex-col gap-3">`;
     q.opts.forEach((opt,idx)=>{html+=`<button onclick="answerTrivia(${idx},${q.a})" class="bg-white border-2 border-gray-200 hover:border-[#b7791f] text-xl p-4 rounded-xl text-right md:text-center transition shadow-sm">${opt}</button>`;});
     container.innerHTML=html+`</div></div>`;
 }

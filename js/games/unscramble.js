@@ -24,13 +24,13 @@ function _unscrambleNext(container){
     let ansHtml=word.split('').map((_,i)=>`<span class="answer-tile" id="at-${i}">&nbsp;</span>`).join('');
     container.innerHTML=`<div class="text-center">
         <div class="flex justify-between text-sm font-bold text-gray-400 mb-4 px-2">
-            <span>${isHe?'מילה':'Word'} ${state._si+1}/${state._sq}</span>
+            <span>${gt('Word', 'מילה')} ${state._si+1}/${state._sq}</span>
             <span class="text-green-600">&#10003; ${state._ss}</span>
         </div>
-        <div class="text-gray-400 text-base mb-4">${isHe?'רמז':'Hint'}: <span class="font-semibold text-gray-600">${item.hint}</span></div>
+        <div class="text-gray-400 text-base mb-4">${gt('Hint', 'רמז')}: <span class="font-semibold text-gray-600">${item.hint}</span></div>
         <div class="flex flex-wrap justify-center gap-1 mb-8">${tilesHtml}</div>
         <div class="flex flex-wrap justify-center gap-1 mb-6 min-h-[60px]">${ansHtml}</div>
-        <button onclick="clearUnscramble()" class="px-5 py-2 bg-gray-100 rounded-xl text-gray-600 font-bold hover:bg-gray-200 transition text-sm">${isHe?'נקה':'Clear'}</button>
+        <button onclick="clearUnscramble()" class="px-5 py-2 bg-gray-100 rounded-xl text-gray-600 font-bold hover:bg-gray-200 transition text-sm">${gt('Clear', 'נקה')}</button>
     </div>`;
 }
 function pickLetter(letter,idx){

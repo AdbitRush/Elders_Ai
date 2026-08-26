@@ -46,8 +46,8 @@ function _catNext(container){
         .map(p=>p.members[Math.floor(Math.random()*p.members.length)]);
     gs._answer=correct;
     let html=`<div class="max-w-xl w-full text-center">
-      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${isHe?'שאלה':'Question'} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
-      <h3 class="text-2xl md:text-3xl font-bold mb-8 text-[#1a365d] bg-blue-50 p-5 rounded-xl">${isHe?'מה שייך לקטגוריה:':'Which one belongs to:'}<br><span class="text-[#b7791f]">${pool.cat}</span>?</h3>
+      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${gt('Question', 'שאלה')} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
+      <h3 class="text-2xl md:text-3xl font-bold mb-8 text-[#1a365d] bg-blue-50 p-5 rounded-xl">${gt('Which one belongs to:', 'מה שייך לקטגוריה:')}<br><span class="text-[#b7791f]">${pool.cat}</span>?</h3>
       <div class="grid grid-cols-2 gap-4">`;
     shuffle([correct,...others]).forEach(w=>{
         html+=`<button onclick="_catAnswer(this,'${w.replace(/'/g,"\\'")}')" class="bg-white border-2 border-gray-200 hover:border-[#b7791f] text-2xl font-bold p-5 rounded-xl transition shadow-sm">${w}</button>`;

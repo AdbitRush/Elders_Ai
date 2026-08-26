@@ -35,7 +35,7 @@ function _ltrNext(container){
         if(alt!==gs._answer)opts.add(alt);
     }
     let html=`<div class="max-w-xl w-full text-center">
-      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${isHe?'מילה':'Word'} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
+      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${gt('Word', 'מילה')} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
       <p class="text-lg text-gray-500 mb-4 font-bold">${isHe?(holes>1?'אילו אותיות חסרות?':'איזו אות חסרה?'):(holes>1?'Which letters are missing?':'Which letter is missing?')}</p>
       <div class="text-5xl md:text-6xl font-black tracking-widest py-9 bg-white text-[#1a365d] rounded-2xl shadow-inner mb-8">${shown}</div>
       <div class="grid grid-cols-4 gap-3">`;

@@ -30,8 +30,8 @@ function _cmNext(container){
     if((gs.level||1)>1&&Math.random()<0.8){const others=palette.filter(c=>c.id!==word.id);ink=others[Math.floor(Math.random()*others.length)];}
     gs._answer=ink.id;
     let html=`<div class="max-w-xl w-full text-center">
-      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${isHe?'סיבוב':'Round'} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
-      <p class="text-lg text-gray-500 mb-4 font-bold">${isHe?'באיזה צבע המילה צבועה? (לא מה כתוב!)':'What COLOR is the word painted in? (not what it says!)'}</p>
+      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${gt('Round', 'סיבוב')} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
+      <p class="text-lg text-gray-500 mb-4 font-bold">${gt('What COLOR is the word painted in? (not what it says!)', 'באיזה צבע המילה צבועה? (לא מה כתוב!)')}</p>
       <div class="text-6xl md:text-7xl font-black mb-10 py-8 bg-white rounded-2xl shadow-inner" style="color:${ink.hex}">${isHe?word.he:word.en}</div>
       <div class="grid grid-cols-2 gap-4">`;
     shuffle([...palette]).forEach(c=>{
