@@ -40,13 +40,13 @@ function _sudokuRender(c) {
             const isGiven=gs.given[r][cc];
             let conflict=false;
             if(v>0&&!isGiven){for(let i=0;i<9;i++){if(i!==cc&&gs.filled[r][i]===v)conflict=true;if(i!==r&&gs.filled[i][cc]===v)conflict=true;}const br=Math.floor(r/3),bc=Math.floor(cc/3);for(let dr=0;dr<3;dr++)for(let dc=0;dc<3;dc++){const nr=br*3+dr,nc=bc*3+dc;if((nr!==r||nc!==cc)&&gs.filled[nr][nc]===v)conflict=true;}}
-            const borderR=(cc===2||cc===5)?'3px solid #3b82f6':'1px solid #1e3a5f';
-            const borderB=(r===2||r===5)?'3px solid #3b82f6':'1px solid #1e3a5f';
+            const borderT=(r===0||r===3||r===6)?'3px solid #3b82f6':'1px solid #1e3a5f';
+            const borderL=(cc===0||cc===3||cc===6)?'3px solid #3b82f6':'1px solid #1e3a5f';
             let bg=isSel?'#1d4ed8':isSameN?'#1e3a8a':inGrp?'#0f2040':'#0a1628';
             let color=conflict?'#f87171':isGiven?'#f0f4ff':'#60a5fa';
             let fw=isGiven?'800':'600';
             let fs='clamp(13px,3vw,17px)';
-            cells+=`<div onclick="selectSudoku9(${r},${cc})" style="width:${sz};height:${sz};background:${bg};border-right:${borderR};border-bottom:${borderB};display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;transition:background 0.15s;font-size:${fs};color:${color};font-weight:${fw}">${v||''}</div>`;
+            cells+=`<div onclick="selectSudoku9(${r},${cc})" style="box-sizing:border-box;width:${sz};height:${sz};background:${bg};border-top:${borderT};border-left:${borderL};display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;transition:background 0.15s;font-size:${fs};color:${color};font-weight:${fw}">${v||''}</div>`;
         }
     }
     const numBtns=[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="fillSudoku9(${n})" style="width:40px;height:40px;background:#0f2040;border:1px solid #1e3a5f;border-radius:8px;color:#93c5fd;font-size:16px;font-weight:700;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#0f2040'">${n}</button>`).join('');
