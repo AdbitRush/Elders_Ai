@@ -279,12 +279,9 @@ function buildJigsawBoard(container, isHe) {
     .jig-hint.faint{opacity:.22}
     .jig-slot img{position:absolute;left:calc(-${padPct}%);top:calc(-${padPct}%);width:calc(100% + ${padPct * 2}%);height:calc(100% + ${padPct * 2}%);max-width:none;object-fit:fill;z-index:2}
     .jig-slot.has-piece .jig-hint{display:none}
-    /* feedback: wrong placement shake + correct-slot hints */
+    /* feedback: shake on wrong placement (no correct-slot reveal) */
     @keyframes jigShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
     .jig-slot.shake{animation:jigShake .45s ease}
-    @keyframes jigFlash{0%,100%{box-shadow:inset 0 0 0 3px rgba(251,191,36,0)}50%{box-shadow:inset 0 0 0 3px rgba(251,191,36,.9)}}
-    .jig-slot.hint-flash{animation:jigFlash .9s ease 2}
-    .jig-slot.target-hint{box-shadow:inset 0 0 0 3px rgba(251,191,36,.55);border-radius:8px}
     .jig-tray{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:16px;max-width:560px;margin-left:auto;margin-right:auto}
     .jig-piece{width:74px;height:74px;cursor:grab;transition:transform .15s,opacity .2s;touch-action:none;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
     .jig-piece img{width:100%;height:100%;object-fit:fill;pointer-events:none;display:block}
@@ -428,14 +425,7 @@ function wireJigsawEvents() {
       if (S.piecesArr[si].placed !== undefined) return;
       S.selected = (S.selected === si) ? -1 : si;
       document.querySelectorAll('.jig-piece').forEach((el, i) => el.classList.toggle('selected', i === S.selected));
-      // hint: highlight the piece's correct slot while selected (easy/medium only)
-      document.querySelectorAll('.jig-slot.target-hint').forEach(el => el.classList.remove('target-hint'));
-      if (S.selected >= 0) {
-        const right = document.querySelector(`.jig-slot[data-slot="${S.piecesArr[si].idx}"]`);
-        if (right && !right.querySelector('img') && S.pieces <= 48) {
-          right.classList.add('target-hint');
-        }
-      }
+      // NOTE: no correct-slot hint on select — it would reveal the answer
     });
   });
   document.querySelectorAll('.jig-slot').forEach(slot => {
@@ -461,7 +451,6 @@ function wireJigsawEvents() {
           // success → clear selection
           S.selected = -1;
           document.querySelectorAll('.jig-piece').forEach(el => el.classList.remove('selected'));
-          document.querySelectorAll('.jig-slot.target-hint').forEach(el => el.classList.remove('target-hint'));
         }
         // failure → keep selection so the user can try another slot
       }
@@ -493,12 +482,6 @@ function placeJigsawPiece(pieceIdx, slotIdx) {
       trayEl.classList.remove('selected');
     }
     S.selected = -1;
-    // gentle hint: flash the CORRECT slot briefly
-    const right = document.querySelector(`.jig-slot[data-slot="${p.idx}"]`);
-    if (right && !right.querySelector('img')) {
-      right.classList.add('hint-flash');
-      setTimeout(() => right.classList.remove('hint-flash'), 900);
-    }
     return;
   }
   // ═════════════════════════════════════════════════════════════════════
