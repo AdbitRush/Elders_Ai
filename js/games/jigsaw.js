@@ -390,7 +390,7 @@ function buildJigsawBoard(container, isHe) {
 
   container.innerHTML = `
   <style>
-    .jig-board{display:grid;grid-template-columns:repeat(${cols},1fr);gap:0;max-width:520px;margin:0 auto;position:relative;border-radius:10px;background:rgba(255,255,255,0.04);box-shadow:0 10px 34px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,255,255,.07)}
+    .jig-board{display:grid;grid-template-columns:repeat(${cols},1fr);gap:0;max-width:520px;margin:0 auto;position:relative;border-radius:10px;background:rgba(255,255,255,0.04);box-shadow:0 10px 34px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,255,255,.07);direction:ltr}
     /* The finished picture, barely there — the same help a box lid gives you. */
     .jig-ghost{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:.07;border-radius:10px;pointer-events:none;transition:opacity .25s;z-index:0}
     .jig-board.peeking .jig-ghost{opacity:.72}
@@ -405,10 +405,10 @@ function buildJigsawBoard(container, isHe) {
     .jig-slot.snap img{animation:jigSnap .28s cubic-bezier(.2,.9,.3,1.2)}
     @keyframes jigShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
     .jig-slot.shake{animation:jigShake .45s ease}
-    .jig-tray{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px;max-width:560px;margin-left:auto;margin-right:auto}
+    .jig-tray{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px;max-width:560px;margin-left:auto;margin-right:auto;direction:ltr}
     /* tray pieces: big enough that the shape + tabs are clearly visible
        (canvas includes transparent pad; shape ≈61% of it) */
-    .jig-piece{width:112px;height:112px;cursor:grab;transition:transform .15s,opacity .2s;touch-action:none;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 5px 9px rgba(0,0,0,.55))}
+    .jig-piece{width:112px;height:112px;cursor:grab;transition:transform .15s,opacity .2s;touch-action:none;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 5px 9px rgba(0,0,0,.55));direction:ltr}
     /* contain, so a piece shows its whole shape — tabs included — undistorted */
     .jig-piece img{width:100%;height:100%;object-fit:contain;pointer-events:none;display:block}
     .jig-piece:hover{transform:scale(1.09)}
