@@ -408,6 +408,11 @@
             <div class="thumbnail-container"><img src="images/cards/safari.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="safari" onerror="if(!this._r){this._r=1;this.src='https://image.pollinations.ai/prompt/african+savanna+safari+giraffe+lion+elephant+zebra+golden+hour+wildlife+spectacular+vivid,+luxury+editorial+photography,+rich+warm+color+grade,+shallow+depth+of+field?width=600&height=400&nologo=true&seed=2502&model=flux';}else{this.style.cssText+=';background:linear-gradient(135deg,#7dd3fc,#b98a3f)';}"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_safari_title">ספארי חי</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_safari_desc">חיות נעות בסוואנה — מצאו אותן!</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('safari')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('jigsaw')" style="cursor:pointer">
+            <span id="hs-jigsaw" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/jigsaw.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="jigsaw" onerror="if(!this._r){this._r=1;this.src='https://image.pollinations.ai/prompt/colorful+jigsaw+puzzle+pieces+coming+together+on+wooden+table+warm+sunlight+close+up+photography+no+text?width=600&height=400&nologo=true&seed=2601&model=flux';}else{this.style.cssText+=';background:linear-gradient(135deg,#16a34a,#0e5a8a)';}"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_jigsaw_title">פאזל ג'יקסו</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_jigsaw_desc">הרכיבו פאזל מהתמונה שלכם — בחרו כמה חלקים!</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('jigsaw')" data-i18n="btn_start">התחל אימון</button></div>
+        </div>
     </div>
 
     <!-- Game Canvas -->
@@ -511,6 +516,7 @@ he: {
     inst_numseq:"מהו המספר הבא ברצף? לחצו על התשובה הנכונה",
     inst_unscrbl:"לחצו על האותיות בסדר הנכון כדי לכתוב את המילה",
     inst_pairs:"לחצו על מילה ואז על ההפך שלה",
+    game_jigsaw_title:"פאזל ג'יקסו", game_jigsaw_desc:"הרכיבו פאזל מהתמונה שלכם — בחרו כמה חלקים!", inst_jigsaw:"בחרו כמה חלקים, העלו תמונה או בחרו אחת יפה, וגררו חלקים למקומם.",
     win_title:"כל הכבוד!", win_generic:"השלמתם את השלב בהצלחה!",
     new_best:"🏅 שיא אישי חדש!",
     greeting_morning:"בוקר טוב ☀️", greeting_afternoon:"צהריים טובים 🌤️",
@@ -700,6 +706,7 @@ en: {
     inst_numseq:"What comes next in the sequence? Click the correct answer",
     inst_unscrbl:"Click the letters in the correct order to spell the word",
     inst_pairs:"Click a word then click its opposite to make a pair",
+    game_jigsaw_title:"Jigsaw Puzzle", game_jigsaw_desc:"Build a puzzle from your own photo — pick how many pieces!", inst_jigsaw:"Choose piece count, upload a photo or pick a pretty one, then drag pieces into place.",
     win_title:"Well Done!", win_generic:"You completed this level!",
     new_best:"🏅 New Personal Best!",
     greeting_morning:"Good Morning ☀️", greeting_afternoon:"Good Afternoon 🌤️",
@@ -940,8 +947,8 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '35';
-window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
+const ASSET_V = '37';
+window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // HIGH SCORES
@@ -1056,6 +1063,7 @@ i18nData.es = Object.assign({}, i18nData.en, {
   inst_shapes:"Pulsa una forma y luego su hueco", inst_solitaire:"Elige dos cartas que sumen 13 (Rey = 13 solo)",
   inst_trivia:"Selecciona la respuesta correcta", inst_numseq:"¿Qué número sigue? Pulsa la respuesta",
   inst_unscrbl:"Pulsa las letras en el orden correcto", inst_pairs:"Une una palabra con su opuesto",
+  game_jigsaw_title:"Rompecabezas", game_jigsaw_desc:"Arme un rompecabezas con su propia foto: ¡elija cuántas piezas!", inst_jigsaw:"Elija cuántas piezas, suba una foto o elija una bonita, y arrastre las piezas a su lugar.",
   win_title:"¡Bien hecho!", win_generic:"¡Completaste este nivel!", new_best:"🏅 ¡Nuevo récord personal!",
   greeting_morning:"Buenos días ☀️", greeting_afternoon:"Buenas tardes 🌤️", greeting_evening:"Buenas noches 🌙", greeting_night:"Buenas noches 🌟",
   streak_label:"días seguidos", goal_label:"Jugadas", goal_of:"de 3 hoy", total_games:"Partidas totales",
@@ -1086,6 +1094,7 @@ i18nData.fr = Object.assign({}, i18nData.en, {
   inst_shapes:"Cliquez une forme puis son emplacement", inst_solitaire:"Deux cartes qui font 13 (Roi = 13 seul)",
   inst_trivia:"Choisissez la bonne réponse", inst_numseq:"Quel nombre suit ? Cliquez la réponse",
   inst_unscrbl:"Cliquez les lettres dans le bon ordre", inst_pairs:"Associez un mot à son contraire",
+  game_jigsaw_title:"Puzzle", game_jigsaw_desc:"Assemblez un puzzle avec votre propre photo — choisissez le nombre de pièces !", inst_jigsaw:"Choisissez le nombre de pièces, téléversez une photo ou choisissez-en une jolie, puis placez les pièces.",
   win_title:"Bravo !", win_generic:"Vous avez terminé ce niveau !", new_best:"🏅 Nouveau record personnel !",
   greeting_morning:"Bonjour ☀️", greeting_afternoon:"Bon après-midi 🌤️", greeting_evening:"Bonsoir 🌙", greeting_night:"Bonne nuit 🌟",
   streak_label:"jours d'affilée", goal_label:"Parties", goal_of:"sur 3 aujourd'hui", total_games:"Parties totales",
@@ -1116,6 +1125,7 @@ i18nData.de = Object.assign({}, i18nData.en, {
   inst_shapes:"Klicke eine Form, dann ihr Feld", inst_solitaire:"Zwei Karten, die 13 ergeben (König = 13 allein)",
   inst_trivia:"Wähle die richtige Antwort", inst_numseq:"Welche Zahl folgt? Klicke die Antwort",
   inst_unscrbl:"Klicke die Buchstaben in der richtigen Reihenfolge", inst_pairs:"Ordne ein Wort seinem Gegenteil zu",
+  game_jigsaw_title:"Puzzle", game_jigsaw_desc:"Legen Sie ein Puzzle aus Ihrem eigenen Foto — wählen Sie die Teileanzahl!", inst_jigsaw:"Wählen Sie die Teileanzahl, laden Sie ein Foto hoch oder wählen Sie ein schönes, und ziehen Sie die Teile an ihren Platz.",
   win_title:"Gut gemacht!", win_generic:"Du hast diese Stufe geschafft!", new_best:"🏅 Neuer persönlicher Rekord!",
   greeting_morning:"Guten Morgen ☀️", greeting_afternoon:"Guten Tag 🌤️", greeting_evening:"Guten Abend 🌙", greeting_night:"Gute Nacht 🌟",
   streak_label:"Tage in Folge", goal_label:"Gespielt", goal_of:"von 3 heute", total_games:"Spiele gesamt",
@@ -1146,6 +1156,7 @@ i18nData.el = Object.assign({}, i18nData.en, {
   inst_shapes:"Πατήστε ένα σχήμα και μετά τη θέση του", inst_solitaire:"Δύο κάρτες που κάνουν 13 (Ρήγας = 13 μόνος)",
   inst_trivia:"Επιλέξτε τη σωστή απάντηση", inst_numseq:"Ποιος αριθμός ακολουθεί; Πατήστε την απάντηση",
   inst_unscrbl:"Πατήστε τα γράμματα με τη σωστή σειρά", inst_pairs:"Ταιριάξτε μια λέξη με το αντίθετό της",
+  game_jigsaw_title:"Πάζλ", game_jigsaw_desc:"Φτιάξτε ένα παζλ από τη δική σας φωτογραφία — διαλέξτε πόσα κομμάτια!", inst_jigsaw:"Διαλέξτε πόσα κομμάτια, ανεβάστε μια φωτογραφία ή διαλέξτε μια όμορφη, και τοποθετήστε τα κομμάτια.",
   win_title:"Μπράβο!", win_generic:"Ολοκληρώσατε αυτό το επίπεδο!", new_best:"🏅 Νέο ατομικό ρεκόρ!",
   greeting_morning:"Καλημέρα ☀️", greeting_afternoon:"Καλό απόγευμα 🌤️", greeting_evening:"Καλησπέρα 🌙", greeting_night:"Καληνύχτα 🌟",
   streak_label:"σερί ημερών", goal_label:"Παίχτηκαν", goal_of:"από 3 σήμερα", total_games:"Σύνολο παιχνιδιών",
@@ -1234,7 +1245,8 @@ const GAME_INIT = {
   category: 'initCategory',
   letters: 'initLetters',
   lifesim: 'initLifeSim',
-  safari: 'initSafari'
+  safari: 'initSafari',
+  jigsaw: 'initJigsaw'
 };
 const _gameLoaded = {};
 function ensureGameLoaded(id) {
@@ -1266,8 +1278,8 @@ async function loadGame(gameId, level=0) {
     if(!gameState[gameId]||level===1) gameState[gameId]={level}; else gameState[gameId].level=level;
     if(level===1&&typeof Favorites!=='undefined') Favorites.recordPlay(gameId);
     updateLevelDisplay();
-    const titleMap={klondike:'game_klondike_title',memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',sequence:'game_sequence_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title',blocks:'game_blocks_title',colormatch:'game_colormatch_title',digitspan:'game_digitspan_title',clock:'game_clock_title',counting:'game_counting_title',category:'game_category_title',letters:'game_letters_title',lifesim:'game_lifesim_title',safari:'game_safari_title'};
-    const instMap ={klondike:'inst_klondike',memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',sequence:'inst_sequence',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall',blocks:'inst_blocks',lifesim:'inst_lifesim',safari:'inst_safari'};
+    const titleMap={klondike:'game_klondike_title',memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',sequence:'game_sequence_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title',blocks:'game_blocks_title',colormatch:'game_colormatch_title',digitspan:'game_digitspan_title',clock:'game_clock_title',counting:'game_counting_title',category:'game_category_title',letters:'game_letters_title',lifesim:'game_lifesim_title',safari:'game_safari_title',jigsaw:'game_jigsaw_title'};
+    const instMap ={klondike:'inst_klondike',memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',sequence:'inst_sequence',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall',blocks:'inst_blocks',lifesim:'inst_lifesim',safari:'inst_safari',jigsaw:'inst_jigsaw'};
     document.getElementById('gameTitle').innerText=t(titleMap[gameId]);
     document.getElementById('gameInstructions').innerText=t(instMap[gameId]);
     // The game's code is fetched here, on demand — see ensureGameLoaded().
