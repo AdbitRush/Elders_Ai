@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://adbitrush.github.io/Elders_Ai/sitemap.xml
