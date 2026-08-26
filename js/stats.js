@@ -23,8 +23,13 @@ const Stats = (() => {
     'proverbs','hangman','recall','tetris','colormatch','digitspan','clock',
     'counting','category','letters','lifesim','safari'
   ];
-  const allGames = () =>
-    (typeof games !== 'undefined' && Array.isArray(games) && games.length) ? games : FALLBACK;
+  // window.GAME_IDS is the canonical list, defined once in index.html.
+  // Reading `games` here would not have worked: that name is a local inside
+  // refreshHSBadges(), not a global, so this file could never see it.
+  const allGames = () => {
+    const g = (typeof window !== 'undefined') ? window.GAME_IDS : null;
+    return (Array.isArray(g) && g.length) ? g : FALLBACK;
+  };
 
   // Most titles follow game_<id>_title. These four predate that convention and
   // would silently render as a raw id, so they are named explicitly. Any game

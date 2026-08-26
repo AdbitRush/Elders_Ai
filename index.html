@@ -864,6 +864,19 @@ _confettiStyle.innerHTML = '@keyframes confettiFall{0%{transform:translateY(0) r
 document.head.appendChild(_confettiStyle);
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// THE GAME LIST — one copy, on window
+// ═══════════════════════════════════════════════════════════════════════════════
+// There were three separate hand-maintained copies of this list: one local to
+// refreshHSBadges(), one local to loadGame()'s validIds, and one in js/stats.js.
+// They drifted, which is why the scoreboard showed 18 of 27 games and the
+// homescreen heading showed a number nobody had updated.
+//
+// window.* rather than const: a top-level const is not reachable from another
+// file's scope, and js/stats.js needs to read this. Adding a game now means
+// editing this array and nothing else.
+window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // HIGH SCORES
 // ═══════════════════════════════════════════════════════════════════════════════
 function getHS(gameId) { return parseInt(localStorage.getItem('gg_hs_'+gameId)||'0'); }
@@ -874,7 +887,7 @@ function checkHS(gameId, level) {
     return false;
 }
 function refreshHSBadges() {
-    const games=['klondike','memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
+    const games = window.GAME_IDS;
     games.forEach(id => {
         const hs = getHS(id); const el = document.getElementById('hs-'+id);
         if (el) { if (hs>0) { el.innerText=`🏅 ${hs}`; el.classList.remove('hidden'); } else { el.classList.add('hidden'); } }
@@ -1076,7 +1089,7 @@ function changeLanguage(lang) {
     // said 26, and Spanish, French, German and Greek showed no number at all —
     // while 27 games were actually on the page. Deriving it means adding a game
     // updates every language at once and no one has to remember.
-    const _n = (typeof games !== 'undefined' && games) ? games.length : 0;
+    const _n = (window.GAME_IDS || []).length;
     document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(i18nData[lang][k])el.innerText=String(i18nData[lang][k]).replace('{n}',_n);});
     if(gameState.active) updateLevelDisplay();
     if(!document.getElementById('homeScreen').classList.contains('hidden')) Retention.renderBar();
@@ -1115,7 +1128,7 @@ function _el(id){return document.getElementById(id);}
 function loadGame(gameId, level=0) {
     // Resume at the highest level reached (persistent) unless a level is given
     if(!level) level = (typeof Levels!=='undefined') ? Levels.get(gameId) : 1;
-    const validIds=['klondike','memory','oddoneout','math','wordsearch','simon','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','tetris','colormatch','digitspan','clock','counting','category','letters','lifesim','safari'];
+    const validIds = window.GAME_IDS;
     if(!validIds.includes(gameId)) return;
     ['homeScreen','homeScreen-header','hero'].forEach(id=>{const e=_el(id);if(e)e.classList.add('hidden');});
     ['gameView','backBtn'].forEach(id=>{const e=_el(id);if(e)e.classList.remove('hidden');});
