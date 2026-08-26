@@ -2,8 +2,8 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>זהב של משחקים - Golden Games</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>BrainPlay - Daily Brain Games</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="icon" href="images/icon.svg" type="image/svg+xml">
@@ -11,7 +11,7 @@
     <meta name="theme-color" content="#b7791f">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Golden Games">
+    <meta name="apple-mobile-web-app-title" content="BrainPlay">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -21,7 +21,8 @@
 <link rel="stylesheet" href="css/a11y.css?v=31">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
-        body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; }
+        body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; min-height: 100dvh; }
+        @media (min-width: 768px) { body { background-attachment: fixed; } }
         button, [onclick] { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
         /* FIX: language dropdown was white-on-white (options inherit white text
            onto the native white dropdown list) — force solid dark everywhere */
@@ -104,18 +105,46 @@
         #adSide { position:fixed;right:16px;top:120px;width:150px;display:none;z-index:50;background:rgba(10,18,40,0.95);border:1px solid rgba(183,121,31,0.3);border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4); }
         @media(min-width:1440px){#adSide{display:block}}
         #adSide.game-active { display:none !important; }
-    </style>
+/* ═══ LIGHT THEME (toggle in navbar, persisted gg-theme) ═══ */
+        html[data-theme="light"] body { background: linear-gradient(160deg,#f2f5fa 0%,#e9eef6 55%,#e0e8f2 100%); color:#1e293b; }
+        html[data-theme="light"] nav { background: rgba(255,255,255,0.95); border-bottom-color: rgba(183,121,31,0.4); box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+        html[data-theme="light"] nav h1 { background: linear-gradient(135deg,#1a365d 0%,#b7791f 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+        html[data-theme="light"] nav button { background: rgba(26,54,93,0.07) !important; border-color: rgba(26,54,93,0.25) !important; color:#1a365d !important; }
+        html[data-theme="light"] #profile-chip .nm { color:#b7791f !important; }
+        html[data-theme="light"] #langSelect, html[data-theme="light"] #langSelect option { background:#ffffff !important; color:#1a365d !important; }
+        html[data-theme="light"] select, html[data-theme="light"] select option { color-scheme: light; }
+        html[data-theme="light"] #hero { background: linear-gradient(160deg,#eef2f8 0%,#f7f3ea 50%,#fdf6e3 100%); border-bottom-color: rgba(183,121,31,0.25); }
+        html[data-theme="light"] #hero h2 { background: linear-gradient(135deg,#1a365d 0%,#b7791f 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+        html[data-theme="light"] #dailyQuote { color:#475569 !important; }
+        html[data-theme="light"] #greetingText { color:#1a365d !important; }
+        html[data-theme="light"] #retentionBar { border-top-color: rgba(26,54,93,0.15) !important; }
+        html[data-theme="light"] #why-train { background: rgba(255,255,255,0.85) !important; border-color: rgba(183,121,31,0.35) !important; }
+        html[data-theme="light"] #why-train h3 { background: linear-gradient(135deg,#1a365d 0%,#b7791f 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+        html[data-theme="light"] #why-train div[style*="color:#f6c048"] { color:#b7791f !important; }
+        html[data-theme="light"] #why-train div[style*="rgba(200,215,245"] { color:#475569 !important; }
+        html[data-theme="light"] #why-train p[style*="rgba(180,200,255"] { color:#64748b !important; }
+        html[data-theme="light"] [data-i18n="section_games"] { background: linear-gradient(135deg,#1a365d 0%,#b7791f 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+        html[data-theme="light"] [data-i18n="section_games_sub"] { color:#64748b !important; }
+        html[data-theme="light"] #diff-selector span { color:#64748b !important; }
+        html[data-theme="light"] footer { background:#ffffff !important; border-color:#e2e8f0 !important; }
+        html[data-theme="light"] #adBar { background: rgba(255,255,255,0.97) !important; border-top-color:#b7791f !important; }
+        html[data-theme="light"] #adContent { color:#475569 !important; }
+        html[data-theme="light"] #adX { color:#94a3b8 !important; }
+        html[data-theme="light"] #adSide { background: rgba(255,255,255,0.95) !important; border-color: rgba(183,121,31,0.3) !important; }
+        html[data-theme="light"] .stats-row { background: rgba(26,54,93,0.05) !important; border-color: rgba(26,54,93,0.12) !important; }
+        html[data-theme="light"] #gameView::before { background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(183,121,31,0.08), transparent 60%), radial-gradient(ellipse 70% 50% at 50% 100%, rgba(26,54,93,0.12), transparent 70%); }
+
 </head>
 <body class="min-h-screen flex flex-col">
 
 <!-- Navbar -->
 <nav style="background:rgba(5,10,25,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(183,121,31,0.3);box-shadow:0 4px 32px rgba(0,0,0,0.6)" class="text-white py-4 sticky top-0 z-50">
-    <div class="container mx-auto px-6 flex justify-between items-center">
+    <div class="container mx-auto px-4 sm:px-6 flex flex-wrap justify-between items-center gap-x-3 gap-y-2">
         <div class="flex items-center gap-3">
-            <div style="background:linear-gradient(135deg,#b7791f,#f6c048);box-shadow:0 0 16px rgba(183,121,31,0.6)" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl text-white">ז</div>
-            <h1 class="text-2xl font-bold tracking-tight" style="background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="site_title">זהב של משחקים</h1>
+            <div style="background:linear-gradient(135deg,#b7791f,#f6c048);box-shadow:0 0 16px rgba(183,121,31,0.6)" id="logoLetter" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-lg sm:text-xl text-white">B</div>
+            <h1 class="text-xl sm:text-2xl font-bold tracking-tight" style="background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="site_title">זהב של משחקים</h1>
         </div>
-        <div class="flex gap-4 items-center">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
             <span id="levelIndicator" class="hidden font-bold text-[#f6c048] bg-white/10 border border-[#f6c048]/40 px-3 py-1 rounded-full text-sm"></span>
             <span id="personalBest" class="hidden font-bold text-amber-300 text-sm"></span>
             <button id="textsize-btn" onclick="if(typeof TextSize!=='undefined')TextSize.cycle()" title="Text size" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer;white-space:nowrap" aria-label="Change text size">🔠 A</button>
@@ -126,6 +155,8 @@
             <button id="profile-chip" onclick="if(typeof Profile!=='undefined')Profile.edit()" style="display:flex;align-items:center;gap:6px;background:rgba(183,121,31,0.12);border:1px solid rgba(183,121,31,0.35);border-radius:9999px;padding:4px 10px 4px 6px;cursor:pointer;color:inherit" aria-label="Edit profile">
                 <span class="av">⭐</span><span class="nm" style="color:#f6c048;font-weight:700;font-size:0.85rem">פרופיל</span>
             </button>
+            <button id="themeBtn" onclick="toggleTheme()" title="Theme" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#f6c048;border-radius:8px;padding:4px 10px;font-size:0.85rem;cursor:pointer;white-space:nowrap" </button>
+            
             <select id="langSelect" onchange="changeLanguage(this.value)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2)" class="text-white rounded px-2 py-1 cursor-pointer outline-none text-sm">
                 <option value="he">עברית</option>
                 <option value="en">English</option>
@@ -447,11 +478,11 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 const i18nData = {
 he: {
-    site_title:"זהב של משחקים", back_menu:"חזרה לתפריט", next_level:"המשך לשלב הבא",
+    site_title:"משחקי מוח", invite_friends:"📤 הזמן חברים", back_menu:"חזרה לתפריט", next_level:"המשך לשלב הבא",
     level_str:"שלב", hero_title:"אימון יומיומי למוח חד וצלול", btn_start:"התחל אימון",
     section_games:"{n} משחקי אימון", section_games_sub:"לחצו על משחק להתחיל",
     why_title:"למה לאמן את המוח כל יום", why1_t:"מה שמתרגלים — משתפר", why1_d:"זיכרון, קשב, מהירות ומציאת מילים משתפרים עם תרגול קבוע. המשחקים כאן מאמנים בדיוק את אלה.", why2_t:"מעט וקבוע עדיף", why2_d:"עשר דקות ביום, ברצף, שוות יותר משעה אחת בחודש. מונה הרצף כאן כדי לעזור לשמור על ההרגל.", why3_t:"להישאר פעילים", why3_d:"פעילות מחשבתית וחברתית קשורה להזדקנות מוחית טובה יותר — לצד תנועה, שינה וטיפול בלחץ הדם.", why_note:"המשחקים כאן נועדו להנאה ולתרגול. שום משחק — לא כאן ולא באף מקום אחר — אינו מונע, מטפל או מרפא אלצהיימר או דמנציה. אם יש דאגה לגבי הזיכרון, כדאי לפנות לרופא. מה שכן נתמך במחקר לבריאות המוח: פעילות גופנית, איזון לחץ דם, טיפול בשמיעה ובראייה, שינה טובה, הימנעות מעישון וקשר חברתי.",
-    footer_rights:"זהב של משחקים © 2026", footer_desc:"ללא פרסומות וללא איסוף נתונים - נוצר באהבה לגיל השלישי.",
+    footer_rights:"משחקי מוח © 2026", footer_desc:"חינם לגמרי, בלי פרסומות מקפיצות ובלי איסוף נתונים — מגובה בפרסומות שקטות בלבד.",
     game_memory_title:"אימון זיכרון", game_memory_desc:"שיפור הזיכרון לטווח קצר.",
     game_odd_title:"יוצא דופן", game_odd_desc:"מצאו את הסמל השונה.",
     game_math_title:"חשבון מהיר", game_math_desc:"חיבור וחיסור קלים.",
@@ -636,11 +667,11 @@ he: {
     recall_pool:["🍎 תפוח","🚗 מכונית","🌸 פרח","📚 ספר","🐕 כלב","☕ קפה","🎸 גיטרה","⚽ כדור","🍕 פיצה","🌙 ירח","🏠 בית","🚀 רקטה","🎂 עוגה","🌺 ורד","🦁 אריה","🍇 ענבים","🎈 בלון","🏆 גביע","🦋 פרפר","🎭 מסכה","🎻 כינור","🐠 דג","🌿 עשב","🎪 קרקס","🎨 ציור"],
 },
 en: {
-    site_title:"Golden Games", back_menu:"Back to Menu", next_level:"Next Level",
+    site_title:"BrainPlay", invite_friends:"📤 Invite friends", back_menu:"Back to Menu", next_level:"Next Level",
     level_str:"Level", hero_title:"Daily Brain Training", btn_start:"Start Game",
     section_games:"{n} Brain Games", section_games_sub:"Click a game to start",
     why_title:"Why train your mind daily", why1_t:"You improve at what you practise", why1_d:"Memory, attention, speed and word-finding all improve with regular practice. These games train exactly those.", why2_t:"Little and often wins", why2_d:"Ten minutes a day, kept up, does more than an hour once a month. The streak counter is there to help you keep it.", why3_t:"Staying engaged matters", why3_d:"Mental and social activity is linked with healthier cognitive ageing — alongside exercise, sleep and looking after your blood pressure.", why_note:"These games are for enjoyment and practice. No game — here or anywhere else — prevents, treats or cures Alzheimer's disease or dementia. If you are worried about your memory, speak to your doctor. What evidence does support for brain health: physical activity, treating high blood pressure, correcting hearing and vision, good sleep, not smoking, and staying socially connected.",
-    footer_rights:"Golden Games © 2026", footer_desc:"Ad-free, no tracking - made with love for seniors.",
+    footer_rights:"BrainPlay © 2026", footer_desc:"100% free, no pop-ups and no data collection — supported by quiet ads only.",
     game_memory_title:"Memory Match", game_memory_desc:"Improve short-term memory.",
     game_odd_title:"Odd One Out", game_odd_desc:"Find the different symbol.",
     game_math_title:"Quick Math", game_math_desc:"Simple addition and subtraction.",
@@ -996,11 +1027,11 @@ function t(k){return i18nData[currentLang][k]||k;}
 // Game-content pools (words, trivia…) inherit English so every game stays playable;
 // only the visible interface is localized. Add a language = add a block here.
 i18nData.es = Object.assign({}, i18nData.en, {
-  site_title:"Juegos Dorados", back_menu:"Volver al menú", next_level:"Siguiente nivel",
+  site_title:"Juegos de Mente", invite_friends:"📤 Invitar amigos", back_menu:"Volver al menú", next_level:"Siguiente nivel",
   level_str:"Nivel", hero_title:"Entrenamiento diario para el cerebro", btn_start:"Empezar",
   section_games:"{n} juegos mentales", section_games_sub:"Elige un juego para empezar",
     why_title:"Por qué entrenar la mente a diario", why1_t:"Mejoras en lo que practicas", why1_d:"La memoria, la atención, la velocidad y encontrar palabras mejoran con la práctica regular. Estos juegos entrenan justamente eso.", why2_t:"Poco y a menudo gana", why2_d:"Diez minutos al día, mantenidos, valen más que una hora al mes. El contador de racha está para ayudarte.", why3_t:"Mantenerse activo importa", why3_d:"La actividad mental y social se asocia con un envejecimiento cognitivo más sano — junto al ejercicio, el sueño y cuidar la tensión arterial.", why_note:"Estos juegos son para disfrutar y practicar. Ningún juego — ni aquí ni en ningún sitio — previene, trata ni cura el alzhéimer o la demencia. Si te preocupa tu memoria, habla con tu médico. Lo que sí respalda la evidencia para la salud cerebral: actividad física, controlar la tensión arterial, corregir audición y visión, dormir bien, no fumar y mantener el contacto social.",
-  footer_rights:"Juegos Dorados © 2026", footer_desc:"Sin anuncios, sin rastreo — hecho con cariño para mayores.",
+  footer_rights:"Juegos de Mente © 2026", footer_desc:"Sin anuncios, sin rastreo — hecho con cariño para mayores.",
   game_memory_title:"Memoria", game_memory_desc:"Mejora la memoria a corto plazo.",
   game_odd_title:"El diferente", game_odd_desc:"Encuentra el símbolo distinto.",
   game_math_title:"Cálculo rápido", game_math_desc:"Sumas y restas sencillas.",
@@ -1026,11 +1057,11 @@ i18nData.es = Object.assign({}, i18nData.en, {
   streak_label:"días seguidos", goal_label:"Jugadas", goal_of:"de 3 hoy", total_games:"Partidas totales",
 });
 i18nData.fr = Object.assign({}, i18nData.en, {
-  site_title:"Jeux d'Or", back_menu:"Retour au menu", next_level:"Niveau suivant",
+  site_title:"Jeux de l'Esprit", invite_friends:"📤 Inviter des amis", back_menu:"Retour au menu", next_level:"Niveau suivant",
   level_str:"Niveau", hero_title:"Entraînement cérébral quotidien", btn_start:"Commencer",
   section_games:"{n} jeux cérébraux", section_games_sub:"Cliquez sur un jeu pour commencer",
     why_title:"Pourquoi entraîner son esprit chaque jour", why1_t:"On progresse dans ce qu'on pratique", why1_d:"La mémoire, l'attention, la rapidité et la recherche de mots progressent avec une pratique régulière. Ces jeux entraînent précisément cela.", why2_t:"Peu et souvent l'emporte", why2_d:"Dix minutes par jour, tenues dans la durée, valent mieux qu'une heure une fois par mois. Le compteur de série est là pour vous aider.", why3_t:"Rester engagé compte", why3_d:"L'activité mentale et sociale est associée à un vieillissement cognitif plus sain — avec l'exercice, le sommeil et le suivi de la tension artérielle.", why_note:"Ces jeux sont faits pour le plaisir et l'entraînement. Aucun jeu — ici ou ailleurs — ne prévient, ne traite ni ne guérit la maladie d'Alzheimer ou la démence. Si votre mémoire vous inquiète, parlez-en à votre médecin. Ce que les données soutiennent pour la santé du cerveau : activité physique, traitement de l'hypertension, correction de l'audition et de la vue, bon sommeil, arrêt du tabac et lien social.",
-  footer_rights:"Jeux d'Or © 2026", footer_desc:"Sans publicité, sans suivi — fait avec amour pour les aînés.",
+  footer_rights:"Jeux de l'Esprit © 2026", footer_desc:"Sans publicité, sans suivi — fait avec amour pour les aînés.",
   game_memory_title:"Mémoire", game_memory_desc:"Améliorez la mémoire à court terme.",
   game_odd_title:"L'intrus", game_odd_desc:"Trouvez le symbole différent.",
   game_math_title:"Calcul rapide", game_math_desc:"Additions et soustractions simples.",
@@ -1056,11 +1087,11 @@ i18nData.fr = Object.assign({}, i18nData.en, {
   streak_label:"jours d'affilée", goal_label:"Parties", goal_of:"sur 3 aujourd'hui", total_games:"Parties totales",
 });
 i18nData.de = Object.assign({}, i18nData.en, {
-  site_title:"Goldene Spiele", back_menu:"Zurück zum Menü", next_level:"Nächste Stufe",
+  site_title:"Gehirnspiele", invite_friends:"📤 Freunde einladen", back_menu:"Zurück zum Menü", next_level:"Nächste Stufe",
   level_str:"Stufe", hero_title:"Tägliches Gehirntraining", btn_start:"Starten",
   section_games:"{n} Gehirnspiele", section_games_sub:"Auf ein Spiel klicken zum Starten",
     why_title:"Warum täglich das Gehirn trainieren", why1_t:"Man wird besser in dem, was man übt", why1_d:"Gedächtnis, Aufmerksamkeit, Tempo und Wortfindung verbessern sich durch regelmäßiges Üben. Genau das trainieren diese Spiele.", why2_t:"Wenig und oft gewinnt", why2_d:"Zehn Minuten täglich, durchgehalten, bringen mehr als eine Stunde im Monat. Der Serienzähler hilft dabei.", why3_t:"Aktiv bleiben zählt", why3_d:"Geistige und soziale Aktivität hängt mit gesünderem kognitivem Altern zusammen — neben Bewegung, Schlaf und der Kontrolle des Blutdrucks.", why_note:"Diese Spiele dienen dem Vergnügen und der Übung. Kein Spiel — hier oder anderswo — verhindert, behandelt oder heilt Alzheimer oder Demenz. Bei Sorgen um Ihr Gedächtnis sprechen Sie mit Ihrer Ärztin oder Ihrem Arzt. Was die Evidenz für die Gehirngesundheit stützt: körperliche Aktivität, Behandlung von Bluthochdruck, Korrektur von Hör- und Sehvermögen, guter Schlaf, Rauchverzicht und soziale Kontakte.",
-  footer_rights:"Goldene Spiele © 2026", footer_desc:"Werbefrei, kein Tracking — mit Liebe für Senioren gemacht.",
+  footer_rights:"Gehirnspiele © 2026", footer_desc:"Werbefrei, kein Tracking — mit Liebe für Senioren gemacht.",
   game_memory_title:"Gedächtnis", game_memory_desc:"Kurzzeitgedächtnis verbessern.",
   game_odd_title:"Das Andere", game_odd_desc:"Finde das abweichende Symbol.",
   game_math_title:"Schnelles Rechnen", game_math_desc:"Einfaches Addieren und Subtrahieren.",
@@ -1086,11 +1117,11 @@ i18nData.de = Object.assign({}, i18nData.en, {
   streak_label:"Tage in Folge", goal_label:"Gespielt", goal_of:"von 3 heute", total_games:"Spiele gesamt",
 });
 i18nData.el = Object.assign({}, i18nData.en, {
-  site_title:"Χρυσά Παιχνίδια", back_menu:"Πίσω στο μενού", next_level:"Επόμενο επίπεδο",
+  site_title:"Παιχνίδια Μυαλού", invite_friends:"📤 Προσκαλέστε φίλους", back_menu:"Πίσω στο μενού", next_level:"Επόμενο επίπεδο",
   level_str:"Επίπεδο", hero_title:"Καθημερινή εξάσκηση για το μυαλό", btn_start:"Έναρξη",
   section_games:"{n} παιχνίδια μυαλού", section_games_sub:"Πατήστε ένα παιχνίδι για να ξεκινήσετε",
     why_title:"Γιατί να γυμνάζετε το μυαλό καθημερινά", why1_t:"Βελτιώνεστε σε ό,τι εξασκείτε", why1_d:"Η μνήμη, η προσοχή, η ταχύτητα και η εύρεση λέξεων βελτιώνονται με τακτική εξάσκηση. Αυτά ακριβώς γυμνάζουν τα παιχνίδια.", why2_t:"Λίγο και συχνά κερδίζει", why2_d:"Δέκα λεπτά την ημέρα, με συνέπεια, αξίζουν περισσότερο από μία ώρα τον μήνα. Ο μετρητής σερί σας βοηθά.", why3_t:"Η συμμετοχή μετράει", why3_d:"Η πνευματική και κοινωνική δραστηριότητα συνδέεται με πιο υγιή γνωστική γήρανση — μαζί με άσκηση, ύπνο και έλεγχο της πίεσης.", why_note:"Τα παιχνίδια αυτά είναι για ευχαρίστηση και εξάσκηση. Κανένα παιχνίδι — εδώ ή οπουδήποτε αλλού — δεν προλαμβάνει, δεν θεραπεύει και δεν γιατρεύει τη νόσο Αλτσχάιμερ ή την άνοια. Αν ανησυχείτε για τη μνήμη σας, μιλήστε με τον γιατρό σας. Τι στηρίζουν τα δεδομένα για την υγεία του εγκεφάλου: σωματική άσκηση, αντιμετώπιση της υψηλής πίεσης, διόρθωση ακοής και όρασης, καλός ύπνος, αποφυγή καπνίσματος και κοινωνική επαφή.",
-  footer_rights:"Χρυσά Παιχνίδια © 2026", footer_desc:"Χωρίς διαφημίσεις, χωρίς παρακολούθηση — με αγάπη για ηλικιωμένους.",
+  footer_rights:"Παιχνίδια Μυαλού © 2026", footer_desc:"Χωρίς διαφημίσεις, χωρίς παρακολούθηση — με αγάπη για ηλικιωμένους.",
   game_memory_title:"Μνήμη", game_memory_desc:"Βελτιώστε τη βραχυπρόθεσμη μνήμη.",
   game_odd_title:"Το διαφορετικό", game_odd_desc:"Βρείτε το διαφορετικό σύμβολο.",
   game_math_title:"Γρήγοροι υπολογισμοί", game_math_desc:"Απλές προσθέσεις και αφαιρέσεις.",
@@ -1119,6 +1150,8 @@ i18nData.el = Object.assign({}, i18nData.en, {
 function changeLanguage(lang) {
     currentLang=lang; localStorage.setItem('gg-lang',lang);
     document.documentElement.lang=lang; document.documentElement.dir=lang==='he'?'rtl':'ltr';
+    const _letters={he:'מ',en:'B',es:'J',fr:'J',de:'G',el:'Π'};
+    const _ll=document.getElementById('logoLetter'); if(_ll) _ll.innerText=_letters[lang]||'B';
     // {n} is replaced with the REAL number of games, counted from the `games`
     // array rather than typed into the string. The counts used to be written by
     // hand and had drifted badly: the HTML fallback said 18, Hebrew and English
@@ -1274,6 +1307,25 @@ window.addEventListener('popstate', ()=>{ if(!location.hash) showHome(); });
 // ═══════════════════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════════════════
+// ── Theme (light/dark), persisted ──────────────────────────────────────
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('gg-theme',t);const b=document.getElementById('themeBtn');if(b)b.innerText=t==='light'?'☀️':'🌙';}
+function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='light'?'dark':'light');}
+applyTheme(localStorage.getItem('gg-theme')||'dark');
+
+
+// ── Geo language: first visit with no saved choice → pick by country ──
+// Default is English; refine to Hebrew/Spanish/French/German/Greek only
+// when the visitor clearly comes from a matching country.
+(function(){
+  if(localStorage.getItem('gg-lang') || new URLSearchParams(location.search).get('lang')) return;
+  const map={IL:'he',ES:'es',MX:'es',AR:'es',CO:'es',CL:'es',PE:'es',VE:'es',EC:'es',BO:'es',UY:'es',PY:'es',GT:'es',HN:'es',NI:'es',SV:'es',CR:'es',PA:'es',DO:'es',CU:'es',FR:'fr',MC:'fr',DE:'de',AT:'de',GR:'el',CY:'el'};
+  fetch('https://ipwho.is/').then(r=>r.json()).then(d=>{
+    const cc=(d.country_code||'').toUpperCase();
+    const lang=map[cc];
+    if(lang && lang!==currentLang){ changeLanguage(lang); document.getElementById('langSelect').value=lang; }
+  }).catch(()=>{});
+})();
+
 const _initLang = new URLSearchParams(location.search).get('lang') || localStorage.getItem('gg-lang') || 'he';
 changeLanguage(_initLang);
 document.getElementById('langSelect').value = _initLang;
