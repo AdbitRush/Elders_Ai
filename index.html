@@ -912,7 +912,26 @@ en: {
 // SOUND ENGINE (Web Audio API — no external files)
 // ═══════════════════════════════════════════════════════════════════════════════
 let _audioCtx = null;
-function _ctx() { if (!_audioCtx) _audioCtx = new (window.AudioContext||window.webkitAudioContext)(); return _audioCtx; }
+function _ctx() {
+  if (!_audioCtx) _audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  // resume on every call: browsers suspend the context until a user gesture,
+  // and a stale suspended context silently kills ALL sounds ("dead" game)
+  if (_audioCtx && _audioCtx.state === 'suspended' && _audioCtx.resume) {
+    try { _audioCtx.resume(); } catch (e) {}
+  }
+  return _audioCtx;
+}
+// unlock audio on first user interaction (tap/click/key) — required by autoplay policy
+function _unlockAudio() {
+  if (_audioCtx && _audioCtx.state === 'suspended' && _audioCtx.resume) {
+    try { _audioCtx.resume(); } catch (e) {}
+  }
+}
+if (typeof document !== 'undefined') {
+  ['pointerdown','touchstart','click','keydown'].forEach(function (evt) {
+    document.addEventListener(evt, _unlockAudio, { once: true, passive: true });
+  });
+}
 function _tone(freq, dur, type='sine', vol=0.25) {
     if (localStorage.getItem('gg-sound') === 'off') return;  // global mute (navbar toggle)
     try {
@@ -988,7 +1007,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '47';
+const ASSET_V = '48';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
