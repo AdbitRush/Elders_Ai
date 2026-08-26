@@ -18,8 +18,8 @@
        correct for standalone buttons and wrong for grids: the sudoku board is
        9x9 cells and its number pad has ten keys. Forcing 60 px on those breaks
        the board on a phone, which is worse for the same user than a 44 px cell.
-       Grid controls therefore get 44 px (the WCAG 2.5.5 AAA figure) and
-       standalone buttons get 60.
+       Grid controls keep their size; standalone buttons and small icon
+       buttons get 48 px, which is above the WCAG 2.5.5 AAA figure of 44.
      - It specifies a light palette (#fffdf7 background, #1a1a1a ink) computed
        against white. This site is dark navy. Applying those tokens would have
        inverted the design rather than fixed anything — the contrast numbers in
@@ -38,8 +38,8 @@ a.btn,
 .pin-btn,
 .fav-btn,
 button.icon-btn {
-  min-width: 44px !important;
-  min-height: 44px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
   display: inline-flex !important;
   align-items: center;
   justify-content: center;

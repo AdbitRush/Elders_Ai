@@ -21,7 +21,59 @@ right after `HANDOFF.md` and implements the top unchecked items.
 
 ## 📥 Requested  (newest / highest-priority at top)
 
-- [ ] _(nothing queued yet — owner adds items here)_
+From **Golden_Games_Implementation_Brief.pdf** (26 Aug 2026). Phase 1 is DONE —
+see ✅ below. These are the remaining phases, in the brief's own priority order.
+Do one phase per commit; a broken deploy on a static host means the site is down.
+
+**Phase 2 — architecture**
+- [ ] [P1] Split the single page into per-game pages at `/games/<id>/`. Highest-
+      leverage change in the brief: today every visitor downloads all 27 games to
+      play one, and search engines see one page instead of 27.
+      ⚠ Pages serves from the subpath `/Elders_Ai/` — every internal link must be
+      relative to that base or the whole site breaks on deploy.
+- [ ] [P1] Per-language URLs `/he/ /en/ /es/ /fr/ /de/ /el/` with reciprocal
+      hreflang + x-default, and a sitemap covering game × language. Right now five
+      of six translations are invisible to search: a language chosen by JS at one
+      URL is not a separate page to Google.
+- [ ] [P2] Verify the PWA is genuinely installable (manifest + icons + offline).
+      Partly present already — audit before rebuilding.
+
+**Phase 3 — retention and reach**
+- [ ] [P1] Printable puzzles. The print stylesheet already exists in
+      `css/a11y.css`; what is missing is a "Print this puzzle" button on word
+      search, sudoku and the word games, with the answer key on page 2. The brief
+      rates this the most under-served feature in the niche — printables get
+      photocopied and passed around care homes.
+- [ ] [P2] Deterministic daily puzzle via mulberry32 seeded with YYYYMMDD so every
+      player worldwide gets the same puzzle. A Daily Challenge banner already
+      exists — check whether it is already date-seeded before building this.
+- [ ] [P2] Move "no ads, no tracking" from the footer to a badge near the top.
+      It is the single biggest differentiator against the ad-heavy incumbents and
+      visitors currently never see it before they bounce.
+
+**Deliberately NOT doing, with reasons** (do not re-add without re-reading these)
+- The brief's 60×60px floor on *every* control breaks the 9×9 sudoku board and its
+  ten-key pad on a phone. Standalone buttons are 48px; grid cells stay smaller.
+- The brief's colour tokens (#fffdf7 bg, #1a1a1a ink, gold measured on white) are
+  computed for a LIGHT theme. This build is dark navy — applying them would invert
+  the design, not fix contrast. The real measured failures were fixed instead.
+- Its §3.3 "rotate the admin token, PHP is being served as plain text" does not
+  apply: **zero** PHP files have ever been committed to this repo
+  (`git log --all --diff-filter=A` confirms). That warning is about the separate
+  fashionhotspot project on a different host.
+
+## ✅ Done — Phase 1 (2026-08-26)
+
+- [x] Trademark renames: tetris→blocks ("Falling Blocks"), simon→sequence, incl.
+      assets, ids, piece colours off the classic trade dress, and the "TETRIS!"
+      shout. Checked against nine spellings incl. Hebrew and Greek
+      transliterations — Greek was still showing "Τέτρις".
+- [x] One-time localStorage migration so existing high scores survive the rename.
+- [x] `game_blocks_title` written in all six languages (it existed in two).
+- [x] Scoreboard pill said "played/18" — now the real count.
+- [x] Removed the GitHub NOTES.md edit link from the footer.
+- [x] `css/a11y.css`: tap targets, a non-gold focus ring, measured contrast fixes,
+      prefers-reduced-motion, large-print @media print.
 
 ---
 
