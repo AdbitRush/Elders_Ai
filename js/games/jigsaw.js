@@ -401,8 +401,11 @@ function buildJigsawBoard(container, isHe) {
   boardHtml += '</div>';
 
   let trayHtml = `<div class="jig-tray-head" id="jigTrayHead">🧩 ${isHe ? 'נותרו' : 'Left'}: <b id="jigTrayCount">${n}</b></div><div class="jig-tray" id="jigTray">`;
+  // Only a handful of pieces sit in the tray at once (like a real jigsaw
+  // app); each time one lands on the board, the next hidden piece appears.
+  const TRAY_VISIBLE = 6;
   shuffled.forEach((p, si) => {
-    trayHtml += `<div class="jig-piece" data-piece="${si}" draggable="true">
+    trayHtml += `<div class="jig-piece${si >= TRAY_VISIBLE ? ' tray-hidden' : ''}" data-piece="${si}" draggable="true">
       <img src="${p.data}" alt="piece" draggable="false"></div>`;
   });
   trayHtml += '</div>';
@@ -438,6 +441,7 @@ function buildJigsawBoard(container, isHe) {
     .jig-piece:hover{transform:scale(1.09)}
     .jig-piece.dragging{opacity:.4;transform:scale(1.1)}
     .jig-piece.used{display:none}
+    .jig-piece.tray-hidden{display:none}
     .jig-piece.selected{outline:3px solid #fbbf24;outline-offset:2px;border-radius:8px}
     .jig-progress{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:12px}
     .jig-bar{flex:1;max-width:260px;height:10px;background:rgba(255,255,255,.12);border-radius:9999px;overflow:hidden}
@@ -632,7 +636,17 @@ function placeJigsawPiece(pieceIdx, slotIdx) {
 
   S.placedCount++;
   jigsawUpdateProgress();
+  jigsawReplenishTray();
   if (S.placedCount === S.board.length) jigsawWin();
+}
+
+// Reveal the next hidden tray piece whenever one lands on the board, so the
+// tray always holds about TRAY_VISIBLE pieces instead of everything at once.
+function jigsawReplenishTray() {
+  const tray = document.getElementById('jigTray');
+  if (!tray) return;
+  const hidden = tray.querySelectorAll('.jig-piece.tray-hidden:not(.used)');
+  if (hidden.length) hidden[0].classList.remove('tray-hidden');
 }
 
 // Return a placed piece to the tray (tap a filled slot).
@@ -654,6 +668,17 @@ function unplaceJigsawPiece(slotIdx) {
   }
   const trayEl = document.querySelector(`.jig-piece[data-piece="${S.piecesArr.indexOf(piece)}"]`);
   if (trayEl) trayEl.classList.remove('used');
+  // A piece came back — keep the tray tidy at TRAY_VISIBLE: hide the most
+  // recently revealed piece (highest index) if we now show too many.
+  const tray = document.getElementById('jigTray');
+  if (tray) {
+    const visible = [...tray.querySelectorAll('.jig-piece:not(.used):not(.tray-hidden)')]
+      .map(el => parseInt(el.dataset.piece)).sort((a, b) => b - a);
+    if (visible.length > 6) {
+      const over = tray.querySelector(`.jig-piece[data-piece="${visible[0]}"]`);
+      if (over) over.classList.add('tray-hidden');
+    }
+  }
   jigsawUpdateProgress();
 }
 
