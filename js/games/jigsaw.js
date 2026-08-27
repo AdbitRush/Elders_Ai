@@ -11,7 +11,7 @@ var JIGSAW_STATE = {};
 
 function initJigsaw(container) {
   const S = JIGSAW_STATE;
-  S.pieces = 12;
+  S.pieces = null;   // null = derive from global difficulty; user chips override
   S.img = null;
   S.dragIdx = -1;
   S.DEFAULTS = [
@@ -30,9 +30,25 @@ function initJigsaw(container) {
 function renderSetup(container) {
   const S = JIGSAW_STATE;
   const isHe = (typeof currentLang !== 'undefined' && currentLang === 'he');
+  // Global difficulty (easy/normal/hard from the main screen) picks the default
+  // piece count; the chips let the player override for this round.
+  const _diff = (typeof Difficulty !== 'undefined') ? Difficulty.get() : 'normal';
+  const _diffMap = { easy: 6, normal: 12, hard: 48 };
+  if (!S.pieces) S.pieces = _diffMap[_diff] || 12;
+  if (!JIGSAW_STATE._diffBound) {
+    JIGSAW_STATE._diffBound = true;
+    document.addEventListener('difficulty-changed', () => {
+      const gc = document.getElementById('gameContent');
+      if (gc && gc.querySelector('.jig-chips')) { JIGSAW_STATE.pieces = null; renderSetup(gc); }
+    });
+  }
+  const _diffLabel = isHe ? ({ easy: 'קל', normal: 'רגיל', hard: 'קשה' }[_diff] || 'רגיל') : _diff;
   const L = {
     title: isHe ? '🧩 פאזל ג\'יקסו' : '🧩 Jigsaw Puzzle',
     choose: isHe ? 'בחרו מספר חלקים' : 'Choose piece count',
+    diffHint: isHe
+      ? `רמת קושי נוכחית: <b>${_diffLabel}</b> · קל=6 · רגיל=12 · קשה=48`
+      : `Current difficulty: <b>${_diffLabel}</b> · Easy=6 · Normal=12 · Hard=48`,
     img: isHe ? 'בחרו תמונה' : 'Choose an image',
     upload: isHe ? '📤 העלאת תמונה מהמכשיר' : '📤 Upload a photo',
     camera: isHe ? '📷 צילום במצלמה' : '📷 Take a photo',
@@ -57,6 +73,7 @@ function renderSetup(container) {
     .jig-title{font-size:1.5rem;font-weight:800;color:var(--accent,#f6c048);margin-bottom:18px}
     .jig-label{font-size:1rem;font-weight:700;color:#94a3b8;margin:18px 0 8px}
     .jig-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+    .jig-diffhint{font-size:.82rem;color:#94a3b8;margin-top:8px}
     .jig-chip{padding:10px 18px;border-radius:9999px;background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.15);color:#e2e8f0;font-weight:800;font-size:1rem;cursor:pointer;transition:all .2s}
     .jig-chip.active{background:linear-gradient(135deg,#d97706,#fbbf24);color:#3b2503;border-color:#fbbf24;transform:scale(1.06)}
     .jig-btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
@@ -77,6 +94,7 @@ function renderSetup(container) {
     <div class="jig-title">${L.title}</div>
     <div class="jig-label">${L.choose}</div>
     <div class="jig-chips">${chips}</div>
+    <div class="jig-diffhint">${L.diffHint}</div>
     <div class="jig-label">${L.img}</div>
     <div class="jig-btns">
       <button class="jig-btn jig-btn-up" onclick="jigsawUpload()">${L.upload}</button>
@@ -382,7 +400,7 @@ function buildJigsawBoard(container, isHe) {
   }
   boardHtml += '</div>';
 
-  let trayHtml = '<div class="jig-tray" id="jigTray">';
+  let trayHtml = `<div class="jig-tray-head" id="jigTrayHead">🧩 ${isHe ? 'נותרו' : 'Left'}: <b id="jigTrayCount">${n}</b></div><div class="jig-tray" id="jigTray">`;
   shuffled.forEach((p, si) => {
     trayHtml += `<div class="jig-piece" data-piece="${si}" draggable="true">
       <img src="${p.data}" alt="piece" draggable="false"></div>`;
@@ -410,12 +428,13 @@ function buildJigsawBoard(container, isHe) {
     .jig-slot.snap img{animation:jigSnap .28s cubic-bezier(.2,.9,.3,1.2)}
     @keyframes jigShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
     .jig-slot.shake{animation:jigShake .45s ease}
-    .jig-tray{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px;max-width:560px;margin-left:auto;margin-right:auto;direction:ltr}
-    /* tray pieces: big enough that the shape + tabs are clearly visible
-       (canvas includes transparent pad; shape ≈61% of it) */
-    .jig-piece{width:112px;height:112px;cursor:grab;transition:transform .15s,opacity .2s;touch-action:none;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 5px 9px rgba(0,0,0,.55));direction:ltr}
+    /* Tidy piece tray: every piece sits in its own neat cell (like a real
+       jigsaw app) with a remaining-count header. */
+    .jig-tray-head{text-align:center;color:#94a3b8;font-weight:700;font-size:.9rem;margin:14px 0 6px}
+    .jig-tray{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-top:6px;max-width:560px;margin-left:auto;margin-right:auto;direction:ltr;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px}
+    .jig-piece{width:100%;aspect-ratio:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);border-radius:10px;cursor:grab;transition:transform .15s,opacity .2s,background .2s;touch-action:none;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 4px 8px rgba(0,0,0,.35));direction:ltr}
     /* contain, so a piece shows its whole shape — tabs included — undistorted */
-    .jig-piece img{width:100%;height:100%;object-fit:contain;pointer-events:none;display:block}
+    .jig-piece img{width:86%;height:86%;object-fit:contain;pointer-events:none;display:block}
     .jig-piece:hover{transform:scale(1.09)}
     .jig-piece.dragging{opacity:.4;transform:scale(1.1)}
     .jig-piece.used{display:none}
@@ -435,7 +454,7 @@ function buildJigsawBoard(container, isHe) {
     @media (min-width:820px){
       .jig-layout{display:flex;gap:20px;align-items:flex-start;justify-content:center}
       .jig-board{flex:0 0 520px}
-      .jig-tray{flex:1;max-width:340px;margin-top:0;align-content:flex-start;max-height:470px;overflow-y:auto;padding-right:4px}
+      .jig-tray{flex:1;max-width:340px;margin-top:0;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));align-content:flex-start;max-height:470px;overflow-y:auto;padding-right:4px}
     }
   </style>
   <div class="jig-wrap">
@@ -644,6 +663,8 @@ function jigsawUpdateProgress() {
   const cnt = document.getElementById('jigCount');
   if (fill) fill.style.width = (S.placedCount / S.board.length * 100) + '%';
   if (cnt) cnt.textContent = `${S.placedCount}/${S.board.length}`;
+  const tc = document.getElementById('jigTrayCount');
+  if (tc) tc.textContent = S.piecesArr.filter(p => p.placed === undefined).length;
 }
 
 function jigsawWin() {
