@@ -367,6 +367,7 @@ function buildJigsawBoard(container, isHe) {
     restart: isHe ? '🔄 פאזל חדש' : '🔄 New puzzle',
     newimg: isHe ? '📷 תמונה אחרת' : '📷 Different image',
     peek: isHe ? '👁️ הצצה לתמונה' : '👁️ Peek at the picture',
+    help: isHe ? '💡 עזרה' : '💡 Help',
     tip: isHe ? 'גררו חלק אל הלוח, או הקישו על חלק ואז על המקום'
               : 'Drag a piece onto the board, or tap a piece then tap a spot'
   };
@@ -391,12 +392,16 @@ function buildJigsawBoard(container, isHe) {
   container.innerHTML = `
   <style>
     .jig-board{display:grid;grid-template-columns:repeat(${cols},1fr);gap:0;max-width:520px;margin:0 auto;position:relative;border-radius:10px;background:rgba(255,255,255,0.04);box-shadow:0 10px 34px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,255,255,.07);direction:ltr}
-    /* The finished picture, barely there — the same help a box lid gives you. */
-    .jig-ghost{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:.07;border-radius:10px;pointer-events:none;transition:opacity .25s;z-index:0}
+    /* The finished picture, barely there — the same help a box lid gives you.
+       Hidden by default so the empty board stays clean; the 💡 Help button
+       turns it (and the slot outlines) on. */
+    .jig-ghost{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:0;border-radius:10px;pointer-events:none;transition:opacity .25s;z-index:0}
+    .jig-board.help-on .jig-ghost{opacity:.07}
     .jig-board.peeking .jig-ghost{opacity:.72}
     .jig-slot{aspect-ratio:${pw.toFixed(4)}/${ph.toFixed(4)};position:relative;z-index:1}
-    /* faint shape outline so pieces can be matched by shape (like real jigsaw) */
-    .jig-slot-outline{position:absolute;left:-${padX}%;top:-${padY}%;width:${wPct}%;height:${hPct}%;pointer-events:none;opacity:.16}
+    /* faint shape outline so pieces can be matched by shape — only with Help on */
+    .jig-slot-outline{position:absolute;left:-${padX}%;top:-${padY}%;width:${wPct}%;height:${hPct}%;pointer-events:none;opacity:0;transition:opacity .25s}
+    .jig-board.help-on .jig-slot-outline{opacity:.16}
     .jig-slot-outline path{fill:rgba(255,255,255,0.05);stroke:#ffffff;stroke-width:1.5}
     .jig-slot.has-piece .jig-slot-outline{display:none}
     /* The piece overhangs its slot by the tab depth on every side. */
@@ -426,6 +431,7 @@ function buildJigsawBoard(container, isHe) {
     .jig-act-b{background:linear-gradient(135deg,#0e5a8a,#1a75b3);color:#fff}
     .jig-act-c{background:rgba(255,255,255,.10);color:#e2e8f0;border:2px solid rgba(255,255,255,.22)}
     .jig-act:hover{transform:translateY(-2px);filter:brightness(1.1)}
+    .jig-act.on{background:linear-gradient(135deg,#d97706,#fbbf24);color:#3b2503;border-color:#fbbf24;box-shadow:0 0 0 3px rgba(251,191,36,.35)}
     @media (min-width:820px){
       .jig-layout{display:flex;gap:20px;align-items:flex-start;justify-content:center}
       .jig-board{flex:0 0 520px}
@@ -440,6 +446,7 @@ function buildJigsawBoard(container, isHe) {
       ${trayHtml}
     </div>
     <div class="jig-actions">
+      <button class="jig-act jig-act-c" id="jigHelp">${L.help}</button>
       <button class="jig-act jig-act-c" id="jigPeek">${L.peek}</button>
       <button class="jig-act jig-act-a" onclick="jigsawRestart()">${L.restart}</button>
       <button class="jig-act jig-act-b" onclick="jigsawNewImage()">${L.newimg}</button>
@@ -452,9 +459,19 @@ function buildJigsawBoard(container, isHe) {
 function wireJigsawEvents() {
   const S = JIGSAW_STATE;
 
+  // Help: toggle the shape outlines + faint picture on the empty board.
+  // Off by default so the board is clean; press 💡 עזרה to see where pieces go.
+  const help = document.getElementById('jigHelp');
+  const board = document.getElementById('jigBoard');
+  if (help && board) {
+    help.addEventListener('click', () => {
+      const on = board.classList.toggle('help-on');
+      help.classList.toggle('on', on);
+    });
+  }
+
   // Peek: hold it down to see the picture, let go and it fades out.
   const peek = document.getElementById('jigPeek');
-  const board = document.getElementById('jigBoard');
   if (peek && board) {
     const on = e => { e.preventDefault(); board.classList.add('peeking'); };
     const off = () => board.classList.remove('peeking');
