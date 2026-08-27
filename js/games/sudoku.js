@@ -70,7 +70,13 @@ function _sudokuRender(c) {
     const numBtnW='calc(2.5rem * '+tsScale+')';
     const numBtns=[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="fillSudoku9(${n})" style="width:${numBtnW};height:${numBtnW};background:${P.numBtn};border:1px solid ${P.numBtnBorder};border-radius:8px;color:${P.numBtnText};font-size:calc(1rem * ${tsScale});font-weight:700;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='${P.numBtnHover}'" onmouseout="this.style.background='${P.numBtn}'">${n}</button>`).join('');
     const isHe=currentLang==='he';
-    c.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;gap:16px">
+    // Self-contained panel: the sudoku gets its own dark (or light) rounded
+    // background so it always reads as one cohesive game board — even if the
+    // surrounding page CSS fails to load or a stale cache mangles the shell.
+    const wrapStyle = isLight
+      ? 'display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px;border-radius:18px;background:rgba(255,255,255,0.72);border:1px solid #cbd5e1;box-shadow:0 10px 34px rgba(15,23,42,0.12)'
+      : 'display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px;border-radius:18px;background:#0a1628;border:1px solid rgba(59,130,246,0.35);box-shadow:0 10px 34px rgba(0,0,0,0.45)';
+    c.innerHTML=`<div style="${wrapStyle}">
         <div style="color:${P.barText};font-size:calc(0.8rem * ${tsScale});font-weight:700;letter-spacing:0.05em">${gt('LEVEL', 'רמה')} ${gameState.sudoku.level} &nbsp;·&nbsp; ${gt('TAP A CELL, THEN A NUMBER', 'בחרו תא ואז מספר')}</div>
         <div style="display:grid;grid-template-columns:repeat(9,${sz});border:3px solid ${P.borderThick};border-radius:10px;overflow:hidden;box-shadow:0 0 30px ${P.boardShadow}">${cells}</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center">${numBtns}<button onclick="fillSudoku9(0)" style="width:${numBtnW};height:${numBtnW};background:${P.clearBg};border:1px solid ${P.clearBorder};border-radius:8px;color:${P.clearText};font-size:calc(1rem * ${tsScale});font-weight:700;cursor:pointer" onmouseover="this.style.background='${P.clearHover}'" onmouseout="this.style.background='${P.clearBg}'">✕</button></div>
