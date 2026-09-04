@@ -1,3 +1,24 @@
+## 2026-09-04 — image generation: cost model
+
+The game card artwork is AI-generated, and it is **not free**. There is no free
+tier for image generation on any Gemini image model — `GEMINI_FREE_API_KEY` and
+`GEMINI_API_KEY` both fail with a quota error and always will. Only
+`GEMINI_PAID_API_KEY` works (in `/root/openclaw/.env` on the VPS).
+
+- `gemini-3.1-flash-image` — $0.067 per 1K image. Used for all 28 cards.
+- `gemini-3.1-flash-lite-image` — $0.0336, fine for anything secondary.
+
+30 card images were generated here, about $2.01. Across this repo and
+cruise-seniors the total is 128 images, $6.74.
+
+**Before generating, check whether a real photograph exists.** On the cruise
+site ~350 images were about to be generated and were pulled from Wikimedia
+Commons for nothing instead. `tools/dl-wiki-game-cards.js` in this repo now does
+the same for game cards.
+
+The full write-up, including the per-image brief for every card, is in
+`IMAGES.md`. Owner's decision 2026-09-04: no more paid image generation for now.
+
 ## 2026-07-19 — Klondike Solitaire + sound toggle (Fable session)
 - **Game 27: Klondike** (`js/games/klondike.js`) — real classic solitaire, senior-friendly
   click-to-move (tap card → tap destination, no dragging), Undo (100 steps), Hint
