@@ -47,26 +47,39 @@ function _sudokuRender(c) {
     const svn=sr>=0&&sc_>=0?gs.filled[sr][sc_]:0;
     // sizes scale with TextSize (html font-size): rem-based, not fixed px
     const tsScale = parseFloat(getComputedStyle(document.documentElement).fontSize) / 16;
-    const sz='clamp(2rem, 9.8vw, 2.6rem)';
-    let cells='';
-    for(let r=0;r<9;r++){
-        for(let cc=0;cc<9;cc++){
-            const v=gs.filled[r][cc];
-            const isSel=r===sr&&cc===sc_;
-            const inGrp=!noHints&&(r===sr||cc===sc_||(Math.floor(r/3)===sbr&&Math.floor(cc/3)===sbc));
-            const isSameN=!noHints&&!isSel&&svn>0&&v===svn;
-            const isGiven=gs.given[r][cc];
-            let conflict=false;
-            if(v>0&&!isGiven){for(let i=0;i<9;i++){if(i!==cc&&gs.filled[r][i]===v)conflict=true;if(i!==r&&gs.filled[i][cc]===v)conflict=true;}const br=Math.floor(r/3),bc=Math.floor(cc/3);for(let dr=0;dr<3;dr++)for(let dc=0;dc<3;dc++){const nr=br*3+dr,nc=bc*3+dc;if((nr!==r||nc!==cc)&&gs.filled[nr][nc]===v)conflict=true;}}
-            const borderT=(r===0||r===3||r===6)?'3px solid '+P.borderThick:'1px solid '+P.border;
-            const borderL=(cc===0||cc===3||cc===6)?'3px solid '+P.borderThick:'1px solid '+P.border;
-            let bg=isSel?P.sel:isSameN?P.sameN:inGrp?P.grp:P.cell;
-            let color=conflict?P.conflict:isGiven?P.given:P.filled;
-            let fw=isGiven?'800':'600';
-            let fs='clamp(0.85rem, 3vw, 1.05rem)';
-            cells+=`<div onclick="selectSudoku9(${r},${cc})" style="box-sizing:border-box;width:${sz};height:${sz};background:${bg};border-top:${borderT};border-left:${borderL};display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;transition:background 0.15s;font-size:${fs};color:${color};font-weight:${fw}">${v||''}</div>`;
+    // The board is nine 3x3 boxes, not one flat 9-column grid. Every line on it
+    // is a GRID GAP - 1px inside a box, 3px between boxes, 3px around the frame -
+    // so no line depends on a fractional cell width rounding to a device pixel.
+    // The previous version drew each line as a per-cell border on top of the
+    // container's own 3px border, which doubled the top and left edges, left the
+    // bottom and right single, and put the internal lines wherever a 41.59px
+    // track happened to round to. aspect-ratio + 1fr tracks also make the cells
+    // square, which they were not.
+    const fs='clamp(1rem, 4.2vw, 1.5rem)';
+    let boxes='';
+    for(let br=0;br<3;br++){
+        for(let bc=0;bc<3;bc++){
+            let cells='';
+            for(let dr=0;dr<3;dr++){
+                for(let dc=0;dc<3;dc++){
+                    const r=br*3+dr, cc=bc*3+dc;
+                    const v=gs.filled[r][cc];
+                    const isSel=r===sr&&cc===sc_;
+                    const inGrp=!noHints&&(r===sr||cc===sc_||(Math.floor(r/3)===sbr&&Math.floor(cc/3)===sbc));
+                    const isSameN=!noHints&&!isSel&&svn>0&&v===svn;
+                    const isGiven=gs.given[r][cc];
+                    let conflict=false;
+                    if(v>0&&!isGiven){for(let i=0;i<9;i++){if(i!==cc&&gs.filled[r][i]===v)conflict=true;if(i!==r&&gs.filled[i][cc]===v)conflict=true;}for(let er=0;er<3;er++)for(let ec=0;ec<3;ec++){const nr=br*3+er,nc=bc*3+ec;if((nr!==r||nc!==cc)&&gs.filled[nr][nc]===v)conflict=true;}}
+                    const bg=isSel?P.sel:isSameN?P.sameN:inGrp?P.grp:P.cell;
+                    const color=conflict?P.conflict:isGiven?P.given:P.filled;
+                    const fw=isGiven?'800':'600';
+                    cells+=`<div onclick="selectSudoku9(${r},${cc})" style="background:${bg};display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;transition:background 0.15s;font-size:${fs};color:${color};font-weight:${fw}">${v||''}</div>`;
+                }
+            }
+            boxes+=`<div style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:1px;background:${P.border}">${cells}</div>`;
         }
     }
+
     const numBtnW='calc(2.5rem * '+tsScale+')';
     const numBtns=[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="fillSudoku9(${n})" style="width:${numBtnW};height:${numBtnW};background:${P.numBtn};border:1px solid ${P.numBtnBorder};border-radius:8px;color:${P.numBtnText};font-size:calc(1rem * ${tsScale});font-weight:700;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='${P.numBtnHover}'" onmouseout="this.style.background='${P.numBtn}'">${n}</button>`).join('');
     const isHe=currentLang==='he';
@@ -78,7 +91,7 @@ function _sudokuRender(c) {
       : 'display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px;border-radius:18px;background:#0a1628;border:1px solid rgba(59,130,246,0.35);box-shadow:0 10px 34px rgba(0,0,0,0.45)';
     c.innerHTML=`<div style="${wrapStyle}">
         <div style="color:${P.barText};font-size:calc(0.8rem * ${tsScale});font-weight:700;letter-spacing:0.05em">${gt('LEVEL', 'רמה')} ${gameState.sudoku.level} &nbsp;·&nbsp; ${gt('TAP A CELL, THEN A NUMBER', 'בחרו תא ואז מספר')}</div>
-        <div style="display:grid;grid-template-columns:repeat(9,${sz});border:3px solid ${P.borderThick};border-radius:10px;overflow:hidden;box-shadow:0 0 30px ${P.boardShadow}">${cells}</div>
+        <div style="direction:ltr;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:3px;padding:3px;background:${P.borderThick};border-radius:10px;width:min(92vw, 26rem);aspect-ratio:1;box-shadow:0 0 30px ${P.boardShadow}">${boxes}</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center">${numBtns}<button onclick="fillSudoku9(0)" style="width:${numBtnW};height:${numBtnW};background:${P.clearBg};border:1px solid ${P.clearBorder};border-radius:8px;color:${P.clearText};font-size:calc(1rem * ${tsScale});font-weight:700;cursor:pointer" onmouseover="this.style.background='${P.clearHover}'" onmouseout="this.style.background='${P.clearBg}'">✕</button></div>
     </div>`;
 }
