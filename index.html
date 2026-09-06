@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="css/hooks.css">
     <link rel="stylesheet" href="css/premium.css">
 <link rel="stylesheet" href="css/a11y.css?v=52">
+<link rel="stylesheet" href="css/ambient-bg.css?v=59">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; min-height: 100dvh; }
@@ -165,6 +166,11 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
+
+<!-- Ambient photographic backdrop (see css/ambient-bg.css). Purely
+     decorative: aria-hidden, pointer-events none, and everything on top
+     of it keeps its own opaque surfaces. -->
+<div id="ambientBg" aria-hidden="true"><div class="ab-layer ab-a"></div><div class="ab-layer ab-b"></div><div class="ab-scrim"></div><div class="ab-vignette"></div></div>
 
 <!-- Navbar -->
 <nav style="background:rgba(5,10,25,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(183,121,31,0.3);box-shadow:0 4px 32px rgba(0,0,0,0.6)" class="text-white py-4 sticky top-0 z-50">
@@ -1007,7 +1013,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '58';
+const ASSET_V = '59';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1674,5 +1680,6 @@ if ('IntersectionObserver' in window) {
 <script src="js/holiday.js?v=52"></script>
 <script src="js/fx.js?v=52"></script>
 <script src="js/kbnav.js?v=52"></script>
+<script src="js/ambient-bg.js?v=59"></script>
 </body>
 </html>
