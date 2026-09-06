@@ -28,6 +28,20 @@
 body{font-family:system-ui,"Segoe UI","Noto Sans Hebrew",Arial,sans-serif;
   background:#0a1628;color:#e8eefc;font-size:20px;line-height:1.6;
   padding:28px 20px 60px}
+/* The game's own photograph, behind the page — the same idea as the app and as
+   the cruise deal pages. These pages are dark-only and their text sits directly
+   on the background with no card surface under it, so the scrim is heavier here
+   than in the app: the picture is a wash at the edges, never something the
+   words compete with. No script — these are the pages a search visitor lands
+   on first and they should stay featherweight. */
+#pageBg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+#pageBg .pb-layer{position:absolute;inset:0;background-size:cover;
+  background-position:center;transform:scale(1.06)}
+#pageBg .pb-scrim{position:absolute;inset:0;background:linear-gradient(180deg,
+  rgba(10,22,40,.88) 0%,rgba(10,22,40,.78) 34%,rgba(8,18,34,.85) 68%,rgba(6,12,26,.94) 100%)}
+#pageBg .pb-vignette{position:absolute;inset:0;background:radial-gradient(
+  ellipse 90% 72% at 50% 36%,transparent 48%,rgba(2,6,16,.62) 100%)}
+.wrap{position:relative;z-index:1}
 .wrap{max-width:680px;margin:0 auto}
 a{color:#ffd98a}
 h1{font-size:clamp(28px,6vw,44px);line-height:1.2;color:#f6c048;margin-bottom:12px}
@@ -48,6 +62,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1
 </style>
 </head>
 <body>
+<div id="pageBg" aria-hidden="true"><div class="pb-layer" style="background-image:url('../../images/cards/jigsaw.jpg')"></div><div class="pb-scrim"></div><div class="pb-vignette"></div></div>
 <div class="wrap">
   <span class="free">Gratuit · sans publicité · sans pistage</span>
   <h1>Puzzle</h1>
