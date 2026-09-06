@@ -40,6 +40,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "/Elders_Ai"                      # the GitHub Pages project subpath
+# Every landing page sits exactly two levels down (<base>/<lang>/<game>/), so
+# links between pages and to assets are written relative to the page instead of
+# to BASE. That is the only form that works in BOTH places this repo is served
+# from: on Pages ../../ resolves to /Elders_Ai/, and on the VPS copy at
+# games.178-105-148-72.sslip.io it resolves to /. Hardcoding BASE meant every
+# card image, the icon and the manifest 404d on the VPS while looking perfect
+# on Pages. Canonical, hreflang and og:image stay absolute (SITE) on purpose:
+# those are for crawlers and must point at the canonical deployment.
+REL = "../.."
 SITE = "https://adbitrush.github.io" + BASE
 LANGS = ["he", "en", "es", "fr", "de", "el"]
 RTL = {"he"}
@@ -208,14 +217,14 @@ def page(gid, lang, i18n, why, skills, slabels) -> str:
     brand = d.get("site_title") or "Golden Games"
     rtl = lang in RTL
     canon = f"{SITE}/{lang}/{gid}/"
-    play = f"{BASE}/?lang={lang}#{gid}"
+    play = f"{REL}/?lang={lang}#{gid}"
 
     alts = "\n".join(
         f'<link rel="alternate" hreflang="{l}" href="{SITE}/{l}/{gid}/">' for l in LANGS)
     alts += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}/en/{gid}/">'
 
     others = " · ".join(
-        f'<a href="{BASE}/{l}/{gid}/">{e(LANG_NAME[l])}</a>' for l in LANGS if l != lang)
+        f'<a href="{REL}/{l}/{gid}/">{e(LANG_NAME[l])}</a>' for l in LANGS if l != lang)
 
     ld = {
         "@context": "https://schema.org", "@type": "Game",
@@ -240,8 +249,8 @@ def page(gid, lang, i18n, why, skills, slabels) -> str:
 <meta property="og:url" content="{canon}">
 <meta property="og:locale" content="{OG_LOCALE[lang]}">
 <meta property="og:image" content="{SITE}/images/cards/{gid}.jpg">
-<link rel="icon" href="{BASE}/images/icon-192.png">
-<link rel="manifest" href="{BASE}/manifest.json">
+<link rel="icon" href="{REL}/images/icon-192.png">
+<link rel="manifest" href="{REL}/manifest.json">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 <style>
 :root{{color-scheme:dark}}
@@ -274,12 +283,12 @@ footer{{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.
   <h1>{e(title)}</h1>
   <p>{e(desc)}</p>
   <a class="play" href="{play}">{e(UI['play'][lang])} →</a>
-  <img src="{BASE}/images/cards/{gid}.jpg" alt="{e(title)}" width="400" height="300" loading="lazy">
+  <img src="{REL}/images/cards/{gid}.jpg" alt="{e(title)}" width="400" height="300" loading="lazy">
   {f'<h2>{e(UI["trains"][lang])}</h2><p>{e(trains)}</p>' if trains else ''}
   {f'<h2>{e(UI["skills"][lang])}</h2><div class="chips">' + ''.join(f'<span class="chip">{e(x)}</span>' for x in sk) + '</div>' if sk else ''}
   {f'<h2>{e(UI["howto"][lang])}</h2><p>{e(inst)}</p>' if inst else ''}
   <footer>
-    <p><a href="{BASE}/">{e(UI['all'][lang])}</a></p>
+    <p><a href="{REL}/">{e(UI['all'][lang])}</a></p>
     <p style="margin-top:10px">{e(UI['other'][lang])}: {others}</p>
   </footer>
 </div>
