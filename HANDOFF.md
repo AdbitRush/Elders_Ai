@@ -38,21 +38,26 @@ per-browser; full 6-language x mobile sweep not completed (machine out of memory
   (load `/#<game>` per lang/device, collect console errors, failed requests, and
   horizontal overflow) once the PC is healthy.
 
-### PROPOSAL - affiliate admin login (js/affiliate.js) - needs Or's decision
-Problem: the "admin" (open with `?admin` or five taps on the ad pill) keeps its
-password hash, affiliate tags and product list in the *visitor's own*
-localStorage. It cannot protect anything: nobody else shares that storage, and
-"Forgot password?" (`_resetAuth`) wipes the hash with no check, so any visitor
-can reset and re-enter it. Settings made there never reach other visitors, so
-the feature also cannot earn anything for the owner.
-Option A (recommended): remove the login, the admin UI and the per-browser
-product list. Put the real Amazon tag / AliExpress links in a committed config
-(affiliate IDs are public by nature) and render them for everyone. Less code,
-no fake security, and the links actually reach visitors.
-Option B: if remote editing is wanted, move it off the public page: a small
-admin behind the same Caddy basic_auth the other VPS admins use (or a git edit),
-writing a server-side JSON the public page reads. Never client-side hashing.
-Until decided, the default config is `platform: off`, so nothing is shown.
+### DONE 2026-10-06 - affiliate admin login removed (Or chose Option A)
+`js/affiliate.js` is now a ~70-line renderer driven by `AFFILIATE_CONFIG` at the
+top of the file (platform, amazonTag, products). The login, password hash,
+`?admin` / 5-tap trigger, per-browser product editor and "Forgot password" are
+gone; the old `gg_aff_*` localStorage keys are deleted on load. Config ships as
+`platform: 'off'` with no products, so nothing is shown and the normal
+site-message ticker runs. **No real tag exists in the repo - Or must supply the
+Amazon tag / links; none were invented.** To enable: edit the config, commit,
+push. Only https:// links are rendered, names are HTML-escaped. Tested in Node
+(off / on / hostile `javascript:` URL), not in a browser (see below).
+ASSET_V and sw.js CACHE are 61.
+
+### NEXT (Or, 2026-10-06): after Or reboots the PC
+Playwright's browser hangs at launch here (both its headless shell and installed
+Chrome; plenty of free RAM) - judged environmental. Once the PC is back:
+1. Run the 5-language (he/es/fr/de/el) x desktop+mobile sweep of all 28 games on
+   https://games.178-105-148-72.sslip.io (console errors, failed requests,
+   horizontal overflow, empty game area) plus light theme.
+2. Fix the mobile header (nav wraps to ~235 px, a third of a 390x844 screen).
+3. Browser-verify today's affiliate change (no admin on `?admin`, ticker intact).
 
 ## 2026-09-04 — image generation: cost model
 
