@@ -23,7 +23,7 @@ const BrainScore = (() => {
   function renderWidget(container) {
     const score = compute();
     const isHe  = typeof currentLang !== 'undefined' ? currentLang === 'he' : true;
-    const label  = isHe ? 'בריאות מוח' : 'Brain Health';
+    const label  = isHe ? 'ציון תרגול' : 'Practice score';
     container.innerHTML = `
       <div id="brain-score-widget">
         <span style="font-size:0.78rem;color:#6ee7b7;font-weight:700">🧠 ${label}</span>
