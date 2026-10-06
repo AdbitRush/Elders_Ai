@@ -27,6 +27,33 @@ header is ~1/3 of the viewport; the affiliate "admin" login is a SHA-256 hash in
 the visitor's own localStorage, so it protects nothing and its settings are
 per-browser; full 6-language x mobile sweep not completed (machine out of memory).
 
+### Follow-up 2026-10-06 (later)
+- Card images over 150 KB re-encoded (progressive JPEG q78, 960 px wide max):
+  counting 623->68 KB, flags 448->25, colormatch 168->20, safari 298->232,
+  blocks 275->218, math 193->160, pairs 172->136 (2.18 MB -> 0.86 MB total).
+- **Verified live, English/desktop/dark: 28 of 28 games load, zero console errors.**
+  NOT verified: he/es/fr/de/el, mobile, light theme across games. Two attempts
+  failed because Playwright's browser (bundled headless shell AND installed Chrome)
+  hung at launch on this PC; not a site fault. Re-run `sweep.py`-style checks
+  (load `/#<game>` per lang/device, collect console errors, failed requests, and
+  horizontal overflow) once the PC is healthy.
+
+### PROPOSAL - affiliate admin login (js/affiliate.js) - needs Or's decision
+Problem: the "admin" (open with `?admin` or five taps on the ad pill) keeps its
+password hash, affiliate tags and product list in the *visitor's own*
+localStorage. It cannot protect anything: nobody else shares that storage, and
+"Forgot password?" (`_resetAuth`) wipes the hash with no check, so any visitor
+can reset and re-enter it. Settings made there never reach other visitors, so
+the feature also cannot earn anything for the owner.
+Option A (recommended): remove the login, the admin UI and the per-browser
+product list. Put the real Amazon tag / AliExpress links in a committed config
+(affiliate IDs are public by nature) and render them for everyone. Less code,
+no fake security, and the links actually reach visitors.
+Option B: if remote editing is wanted, move it off the public page: a small
+admin behind the same Caddy basic_auth the other VPS admins use (or a git edit),
+writing a server-side JSON the public page reads. Never client-side hashing.
+Until decided, the default config is `platform: off`, so nothing is shown.
+
 ## 2026-09-04 — image generation: cost model
 
 The game card artwork is AI-generated, and it is **not free**. There is no free
