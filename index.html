@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/hooks.css">
     <link rel="stylesheet" href="css/premium.css">
-<link rel="stylesheet" href="css/a11y.css?v=61">
-<link rel="stylesheet" href="css/ambient-bg.css?v=61">
+<link rel="stylesheet" href="css/a11y.css?v=62">
+<link rel="stylesheet" href="css/ambient-bg.css?v=62">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; min-height: 100dvh; }
@@ -115,6 +115,22 @@
         #adSide { position:fixed;right:16px;top:120px;width:150px;display:none;z-index:50;background:rgba(10,18,40,0.95);border:1px solid rgba(183,121,31,0.3);border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4); }
         @media(min-width:1440px){#adSide{display:block}}
         #adSide.game-active { display:none !important; }
+/* ═══ MOBILE HEADER (<640px): two rows instead of four ═══
+   Row 1 = logo + title + language select; row 2 = the icon controls. The controls
+   wrapper is dissolved (display:contents) so its children can be ordered into the
+   outer flex row. Touch targets keep their 48px minimum from a11y.css. */
+@media (max-width:639px){
+  nav { padding-top:8px !important; padding-bottom:8px !important; }
+  nav > .container { gap:6px 8px !important; }
+  nav > .container > div:nth-child(2) { display:contents; }
+  nav > .container > div:first-child { order:0; }
+  nav #langSelect { order:1; }
+  nav > .container > div:nth-child(2) > :not(#langSelect) { order:2; }
+  nav h1 { font-size:1.1rem; }
+  #inviteBtn { display:none !important; }
+  #profile-chip .nm { display:none; }
+  #profile-chip { padding:4px 8px !important; }
+}
 /* ═══ LIGHT THEME (toggle in navbar, persisted gg-theme) ═══ */
         html[data-theme="light"] body { background: linear-gradient(160deg,#f2f5fa 0%,#e9eef6 55%,#e0e8f2 100%); color:#1e293b; }
         html[data-theme="light"] nav { background: rgba(255,255,255,0.95) !important; border-bottom-color: rgba(183,121,31,0.4) !important; box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important; }
@@ -156,7 +172,8 @@
         html[data-theme="light"] #adSide { background: rgba(255,255,255,0.95) !important; border-color: rgba(183,121,31,0.3) !important; }
         html[data-theme="light"] .stats-row { background: rgba(26,54,93,0.05) !important; border-color: rgba(26,54,93,0.12) !important; }
         html[data-theme="light"] #gameView::before { background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(183,121,31,0.08), transparent 60%), radial-gradient(ellipse 70% 50% at 50% 100%, rgba(26,54,93,0.12), transparent 70%); }
-        html[data-theme="light"] #gameInstructions { color:#334155 !important; font-weight:600; }
+        /* The game table is ivory in BOTH themes (premium.css), so its instruction line must be dark in both. */
+        #gameInstructions { color:#334155 !important; font-weight:600; }
         html[data-theme="light"] #gameView > div { background:rgba(255,255,255,0.97) !important; box-shadow:0 32px 80px rgba(15,23,42,0.12),0 0 0 1px rgba(183,121,31,0.2) !important; }
         html[data-theme="light"] #gameMenu { background:rgba(255,255,255,0.98) !important; border-color:rgba(183,121,31,0.35) !important; box-shadow:0 24px 60px rgba(15,23,42,0.18) !important; }
         html[data-theme="light"] #gameMenuSearch { background:rgba(26,54,93,0.06) !important; border-color:rgba(26,54,93,0.2) !important; color:#1e293b !important; }
@@ -166,7 +183,7 @@
 
     </style>
 <!-- Prebuilt Tailwind utilities (replaces the cdn.tailwindcss.com runtime, 5s+ blocking). Rebuild: npx tailwindcss@3.4.17 -i in.css -o css/tailwind.css --content "./index.html,./js/**/*.js" --minify -->
-<link rel="stylesheet" href="css/tailwind.css?v=61">
+<link rel="stylesheet" href="css/tailwind.css?v=62">
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -1008,7 +1025,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '61';
+const ASSET_V = '62';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1644,12 +1661,12 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
-<script src="js/affiliate.js?v=61"></script>
-<script src="js/profile.js?v=61"></script>
-<script src="js/brainscore.js?v=61"></script>
-<script src="js/achievements.js?v=61"></script>
-<script src="js/lang-content.js?v=61"></script>
-<script src="js/textsize.js?v=61"></script>
+<script src="js/affiliate.js?v=62"></script>
+<script src="js/profile.js?v=62"></script>
+<script src="js/brainscore.js?v=62"></script>
+<script src="js/achievements.js?v=62"></script>
+<script src="js/lang-content.js?v=62"></script>
+<script src="js/textsize.js?v=62"></script>
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
 if ('IntersectionObserver' in window) {
@@ -1662,21 +1679,21 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
 }
 </script>
-<script src="js/daily-challenge.js?v=61"></script>
-<script src="js/stats.js?v=61"></script>
-<script src="js/difficulty.js?v=61"></script>
-<script src="js/levels.js?v=61"></script>
-<script src="js/share.js?v=61"></script>
-<script src="js/gametext.js?v=61"></script>
-<script src="js/sync.js?v=61"></script>
-<script src="js/sync-ui.js?v=61"></script>
-<script src="js/categories.js?v=61"></script>
-<script src="js/accessibility.js?v=61"></script>
-<script src="js/tips.js?v=61"></script>
-<script src="js/favorites.js?v=61"></script>
-<script src="js/holiday.js?v=61"></script>
-<script src="js/fx.js?v=61"></script>
-<script src="js/kbnav.js?v=61"></script>
-<script src="js/ambient-bg.js?v=61"></script>
+<script src="js/daily-challenge.js?v=62"></script>
+<script src="js/stats.js?v=62"></script>
+<script src="js/difficulty.js?v=62"></script>
+<script src="js/levels.js?v=62"></script>
+<script src="js/share.js?v=62"></script>
+<script src="js/gametext.js?v=62"></script>
+<script src="js/sync.js?v=62"></script>
+<script src="js/sync-ui.js?v=62"></script>
+<script src="js/categories.js?v=62"></script>
+<script src="js/accessibility.js?v=62"></script>
+<script src="js/tips.js?v=62"></script>
+<script src="js/favorites.js?v=62"></script>
+<script src="js/holiday.js?v=62"></script>
+<script src="js/fx.js?v=62"></script>
+<script src="js/kbnav.js?v=62"></script>
+<script src="js/ambient-bg.js?v=62"></script>
 </body>
 </html>
