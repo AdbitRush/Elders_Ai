@@ -50,14 +50,33 @@ push. Only https:// links are rendered, names are HTML-escaped. Tested in Node
 (off / on / hostile `javascript:` URL), not in a browser (see below).
 ASSET_V and sw.js CACHE are 61.
 
-### NEXT (Or, 2026-10-06): after Or reboots the PC
-Playwright's browser hangs at launch here (both its headless shell and installed
-Chrome; plenty of free RAM) - judged environmental. Once the PC is back:
-1. Run the 5-language (he/es/fr/de/el) x desktop+mobile sweep of all 28 games on
-   https://games.178-105-148-72.sslip.io (console errors, failed requests,
-   horizontal overflow, empty game area) plus light theme.
-2. Fix the mobile header (nav wraps to ~235 px, a third of a 390x844 screen).
-3. Browser-verify today's affiliate change (no admin on `?admin`, ticker intact).
+### DONE 2026-10-06 (evening): full sweep + mobile header, run FROM THE VPS
+Browsers hang at launch on Or's PC (bundled headless shell, installed Chrome and a
+bare `chrome --headless` all hang; Defender is on and non-admin cannot see its
+exclusions, so the cause is unproven but it is the PC, not Playwright). So the
+sweep runs on the VPS: `/root/audit-sweep` (Node + playwright 1.54 +
+chromium-headless-shell, ~300 MB, run with `nice -n 15`, one browser at a time;
+VPS has ~1 GB free). Re-run:
+`cd /root/audit-sweep && nohup nice -n 15 node sweep.cjs https://games.178-105-148-72.sslip.io out.json he,es,fr,de,el dark "$(cat games.txt)" &`
+(args: base, out, langs, themes, game|ids, optional devices). `shots.cjs` takes
+screenshots + checks the affiliate change. Do not use `pkill -f` over ssh (kills
+the ssh shell); redirect stdin (`</dev/null`) so ssh returns.
+**Result, live site: 377 page loads = 5 languages (he/es/fr/de/el) x desktop+mobile
+dark, plus en mobile dark, plus en desktop+mobile light, x (home + 28 games):
+0 console errors, 0 failed requests, 0 empty game areas, 0 horizontal overflow;
+dir=rtl only for he.** Combined with the earlier en/desktop/dark run, all 28 games
+are covered in every language, both devices, both themes (light only for en).
+- Mobile header (ee95f2d): 235 px -> 119 px on the home page, 173 px inside a game
+  (row 1 logo+title+language, row 2 controls; 48 px targets kept). The "Invite
+  friends" button is HIDDEN on phones (<640px) to make room - Or may want it back
+  somewhere else; the profile chip shows its avatar only.
+- Dark theme: the game instruction line was pale blue on the ivory game table
+  (unreadable); now dark in both themes.
+- Affiliate removal verified in a real browser on the live site: `?admin` and five
+  taps on the pill open nothing, no password inputs, legacy keys cleared, ticker
+  intact, no page errors.
+Still open: Or to supply a real Amazon tag / links for `AFFILIATE_CONFIG`; Invite
+button on mobile; light theme was only swept for English.
 
 ## 2026-09-04 — image generation: cost model
 
