@@ -1,3 +1,32 @@
+## 2026-10-06 — site audit (games.178-105-148-72.sslip.io)
+
+Shipped in 4074812 (+ Caddy change on the VPS):
+- **All 168 landing pages (`/<lang>/<game>/`) were 404 on the VPS.** The Caddy
+  `(notsite)` snippet's `@dirlist` (`^/.+/$`, there to stop directory listings)
+  caught them, and `/he/klondike` 301s into the slash form. Fixed by an exact
+  exemption `^/(he|en|es|fr|de|el)/(<28 ids>)/$` in `/root/caddy/Caddyfile`
+  (edited in place, backup `.bak-before-games-landing-20261006`). **A new game id
+  must be added to that regex** or its landing pages will 404 on the VPS.
+  Listings (`/js/`, `/images/`, `/css/`), `/.git/config` still 404.
+- Light theme: logo, "Why train" and "28 Brain Games" headings were invisible
+  (inline gradient styles beat the theme CSS; the overrides now carry `!important`).
+- Duplicate, unclosed `#themeBtn` removed (it nested the language `<select>` in a button).
+- `cdn.tailwindcss.com` (5 s+, render-blocking JIT) replaced by `css/tailwind.css`
+  (23 KB). **Rebuild after adding Tailwind classes to index.html or js/**:
+  `npx tailwindcss@3.4.17 -i in.css -o css/tailwind.css --content "./index.html,./js/**/*.js" --minify`
+  (in.css = the three `@tailwind` directives).
+- Removed: visible "ממתין ל-AdSense" placeholder box (#adSide), the "Ad" pill on a
+  self-promo ticker (now ★), the IP-to-ipwho.is language lookup (now
+  `navigator.language`), 28 runtime Pollinations.ai image fallbacks, the unused
+  Supabase SDK tag (sync.js has no URL/key; re-add the tag when configured).
+- "Brain Health" score renamed "Practice score" (it is not a health measure).
+- ASSET_V and sw.js CACHE bumped to 60.
+
+Known, not done: `counting.jpg` 623 KB / `flags.jpg` 448 KB (compress); mobile
+header is ~1/3 of the viewport; the affiliate "admin" login is a SHA-256 hash in
+the visitor's own localStorage, so it protects nothing and its settings are
+per-browser; full 6-language x mobile sweep not completed (machine out of memory).
+
 ## 2026-09-04 — image generation: cost model
 
 The game card artwork is AI-generated, and it is **not free**. There is no free
