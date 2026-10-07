@@ -1,3 +1,69 @@
+## 2026-10-07 - Server Claude ("incubator") + Telegram bridge (VPS infra, not the games site)
+
+Goal (Or): stop working from the PC; talk to Claude Code on the VPS from a private
+Telegram chat. The PC is a thin client. Full operator doc lives ON THE SERVER:
+`/opt/incubator/README.md` (Claude's own rules: `/opt/incubator/work/CLAUDE.md`).
+Source copy on Or's PC: `C:/Users/AdBitRush/repos/server-incubator` (not a git repo).
+
+**Architecture**
+- Unprivileged user `incubator`, home `/opt/incubator`, password locked, no sudo, no SSH key
+  (reached only via root: `incubator-shell`). Everything runs in `incubator.slice`:
+  MemoryHigh 750M / MemoryMax 900M, CPUQuota 100%, no swap (box has ~1.2 GB spare).
+- `incubator-bridge.service` runs `/opt/incubator/bridge/bridge.mjs` (root-owned, ~150
+  lines, zero dependencies): long-polls a NEW Telegram bot, obeys ONLY the owner's numeric
+  ID in a private chat, silently drops everything else, runs `claude -p` (prompt on stdin)
+  one job at a time in `/opt/incubator/work`, keeps the conversation via `--resume`.
+  Commands: `/new /cancel /status /help`. Unit is sandboxed (NoNewPrivileges,
+  ProtectSystem=strict, writes only `/opt/incubator`); children inherit that.
+- Claude Code 2.1.292 in `/opt/incubator/claude` (isolated; root's global 2.1.183 untouched).
+  **Auth is the claude.ai subscription login (`claude auth login`), never API keys:** root's
+  `/root/claude-code.env` (ANTHROPIC_* per-token creds) is unreadable to `incubator`, and the
+  bridge hands Claude a scrubbed env. `claude auth status` as `incubator` before login:
+  `loggedIn:false, authMethod:none`.
+- Toolbox: Playwright 1.54 + chromium headless shell 1181 (copied from the 2026-10-06
+  sweep), Python venv (requests, pillow, bs4, pyyaml), Node, tmux. Add more under
+  `/opt/incubator` and list it in `TOOLS.md`.
+- Config `/etc/incubator/bridge.env` (0600 root): `ALLOWED_USER_ID` (copied at install from
+  the ops bot's allowFrom) and `TELEGRAM_BOT_TOKEN`. `incubator-set-token` sets it (hidden
+  prompt, validates with getMe, REFUSES the ops bot's token).
+- Reused/untouched: OpenClaw `ops-agent` + @Christoph_s_bot keep their own token (Telegram
+  allows ONE poller per token, so the bridge has its own bot); the WhatsApp deals bot,
+  elders-ai, all timers, sshd, ufw and Tailscale are unchanged (before/after snapshot
+  identical; iPhone Termius over Tailscale is the backup door). The cruise.com 04:00 fetch
+  stays on the PC (home IP).
+
+**Verified 2026-10-07:** mock-Telegram test `node /opt/incubator/bridge/test.mjs`, 12/12
+(stranger gets no reply and never reaches Claude; owner's id in a group is ignored; spoofed
+chat ignored; bot token and ANTHROPIC_* absent from Claude's env; prompt on stdin; ignored
+updates logged by id only). Inside the unit's sandbox: cannot write /etc, /root or the bridge
+code, no sudo, cannot read bridge.env, headless Chromium loads the live games site.
+**NOT yet verified (needs Or):** a real Telegram round trip and a logged-in Claude.
+
+**Or's two manual steps** (then message the bot "hello"):
+1. `@BotFather` -> `/newbot` -> copy token -> `ssh root@178.105.148.72 incubator-set-token`
+   (paste hidden) -> press Start on the new bot.
+2. `ssh -t root@178.105.148.72 incubator-shell` -> `claude` -> `/login` (claude.ai
+   subscription, NOT an API key) -> open the URL, sign in, paste the code back ->
+   `/status` must show the claude.ai account -> `/exit` -> Ctrl-b d.
+
+**Operate:** `systemctl status|restart incubator-bridge`; `journalctl -u incubator-bridge -f`;
+EMERGENCY STOP `systemctl disable --now incubator-bridge`; rotate the token: BotFather
+`/revoke` then `incubator-set-token`. Default tools Read,Grep,Glob,Edit,Write,Bash,WebFetch,
+WebSearch, mode acceptEdits (override in bridge.env: CLAUDE_ALLOWED_TOOLS,
+CLAUDE_PERMISSION_MODE).
+
+**KNOWN LIMITATION (same-user design, chosen on purpose as the simple version):** the bridge
+and the Claude it spawns run as the SAME user, so Claude can in principle read the bot token
+from the bridge's `/proc/<pid>/environ` (a prompt-injected agent could leak it). A leaked
+token lets someone hijack polling or message Or as the bot; it does NOT let them command the
+server (only Or's id is accepted). Stronger design: bridge under its own uid with a
+spawn-only helper. Mitigation now: revoke via BotFather if anything looks odd. Also the tmux
+session is not inside the unit's sandbox (same unprivileged user, no sudo).
+**Tailscale node key expires 2026-11-23** - disable key expiry in the admin console or the
+iPhone door closes that day.
+**Not built (the permission layer declined; add only with Or's explicit OK):** a root-run
+scheduled-job runner and a daily doors-check timer.
+
 ## 2026-10-06 — site audit (games.178-105-148-72.sslip.io)
 
 Shipped in 4074812 (+ Caddy change on the VPS):
