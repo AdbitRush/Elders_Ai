@@ -64,6 +64,34 @@ iPhone door closes that day.
 **Not built (the permission layer declined; add only with Or's explicit OK):** a root-run
 scheduled-job runner and a daily doors-check timer.
 
+### 2026-10-07 - git push access for the incubator (deploy keys, not a token)
+
+The `incubator` user can push to exactly two repos, with two **per-repo write deploy keys**
+generated ON the server (private keys never left it, mode 600 in `/opt/incubator/.ssh`):
+| repo | remote form on the server | key | GitHub deploy key title |
+|---|---|---|---|
+| `AdbitRush/Elders_Ai` (PUBLIC) | `git@github.com:AdbitRush/Elders_Ai.git` | `id_ed25519` | `incubator-vps` |
+| `AdbitRush/Cruise-seniors` (private) | `git@github-cruise:AdbitRush/Cruise-seniors.git` | `id_ed25519_cruise` | `incubator-vps-cruise` |
+GitHub allows a deploy key on ONE repo only, hence two keys and the `github-cruise` host alias
+in `/opt/incubator/.ssh/config`. `incubator`'s `~/.gitconfig` has the identity
+(`Server Claude (incubator)`), `pull.ff=only`, and `insteadOf` rewrites so plain
+`https://github.com/AdbitRush/{Elders_Ai,Cruise-seniors}` URLs resolve to the right key.
+**Verified:** `ssh -T` names each repo; `git ls-remote` works for both; both keys are REFUSED
+("Repository not found") on private repos `whatsapp-deals-bot` and `abri-one`; `git push
+--dry-run` authenticates for write on both and created nothing on GitHub.
+**Revoke:** GitHub repo -> Settings -> Deploy keys -> delete the key (or `gh repo deploy-key
+delete`). Keys can also push to those repos' `main`, so treat the same-uid limitation above as
+applying to them too.
+
+**Deliberately NOT transferred from the PC** (the permission layer blocked a bulk credential
+move, and it would widen the same-uid exposure): the PC's `gh` OAuth token (repo+workflow
+scope = every repo), Hostinger/FTP credentials, affiliate/API keys, `.env` files, and the
+Claude config/login (the server logs in on its own with `claude auth login`; sharing one OAuth
+login between machines can sign the other out). If a server job needs a specific secret, name
+the job and provision only that secret (root-owned file, read by the unit via EnvironmentFile),
+not into the agent's home. Cruise-seniors on the VPS (`/opt/cruise-seniors`) still has ~4,700
+uncommitted changes in the live docroot - not touched.
+
 ## 2026-10-06 — site audit (games.178-105-148-72.sslip.io)
 
 Shipped in 4074812 (+ Caddy change on the VPS):
