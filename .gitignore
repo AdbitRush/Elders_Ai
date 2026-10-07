@@ -2,3 +2,33 @@
 # python bytecode from tools/
 __pycache__/
 *.pyc
+
+# ── Secrets and local data: must never leave this machine ────────────────────
+# (this repo is PUBLIC on GitHub; the VPS also pulls it anonymously)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+*credentials*
+*secret*
+*.token
+.npmrc
+.git-credentials
+# local data dumps / databases / captures
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.har
+dumps/
+exports/
+# editor / OS noise and logs
+*.log
+.DS_Store
+Thumbs.db
+node_modules/
