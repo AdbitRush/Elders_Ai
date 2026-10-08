@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/hooks.css">
     <link rel="stylesheet" href="css/premium.css">
-<link rel="stylesheet" href="css/a11y.css?v=62">
-<link rel="stylesheet" href="css/ambient-bg.css?v=62">
+<link rel="stylesheet" href="css/a11y.css?v=63">
+<link rel="stylesheet" href="css/ambient-bg.css?v=63">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; min-height: 100dvh; }
@@ -183,7 +183,9 @@
 
     </style>
 <!-- Prebuilt Tailwind utilities (replaces the cdn.tailwindcss.com runtime, 5s+ blocking). Rebuild: npx tailwindcss@3.4.17 -i in.css -o css/tailwind.css --content "./index.html,./js/**/*.js" --minify -->
-<link rel="stylesheet" href="css/tailwind.css?v=62">
+<link rel="stylesheet" href="css/tailwind.css?v=63">
+<!-- warm redesign: the last stylesheet (css/warm.css) -->
+<link rel="stylesheet" href="css/warm.css?v=63">
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -479,6 +481,42 @@
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_jigsaw_title">פאזל ג'יקסו</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_jigsaw_desc">הרכיבו פאזל מהתמונה שלכם — בחרו כמה חלקים!</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('jigsaw')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
     </div>
+
+
+<!-- ALL GAMES (warm redesign): every game has its own page; js/warm.js follows the current language -->
+<section id="all-games" aria-labelledby="all-games-h">
+  <h3 id="all-games-h">All games — each has its own page</h3>
+  <ul>
+    <li data-game="memory"><a class="ag-page" href="en/memory/">Memory Match</a> <a class="ag-play" href="?lang=en#memory">▶ Play</a></li>
+    <li data-game="oddoneout"><a class="ag-page" href="en/oddoneout/">Odd One Out</a> <a class="ag-play" href="?lang=en#oddoneout">▶ Play</a></li>
+    <li data-game="math"><a class="ag-page" href="en/math/">Quick Math</a> <a class="ag-play" href="?lang=en#math">▶ Play</a></li>
+    <li data-game="wordsearch"><a class="ag-page" href="en/wordsearch/">Word Search</a> <a class="ag-play" href="?lang=en#wordsearch">▶ Play</a></li>
+    <li data-game="sequence"><a class="ag-page" href="en/sequence/">Color Sequence</a> <a class="ag-play" href="?lang=en#sequence">▶ Play</a></li>
+    <li data-game="sudoku"><a class="ag-page" href="en/sudoku/">Daily Sudoku</a> <a class="ag-play" href="?lang=en#sudoku">▶ Play</a></li>
+    <li data-game="shapes"><a class="ag-page" href="en/shapes/">Shape Sorter</a> <a class="ag-play" href="?lang=en#shapes">▶ Play</a></li>
+    <li data-game="klondike"><a class="ag-page" href="en/klondike/">Classic Solitaire</a> <a class="ag-play" href="?lang=en#klondike">▶ Play</a></li>
+    <li data-game="solitaire"><a class="ag-page" href="en/solitaire/">Pyramid Solitaire</a> <a class="ag-play" href="?lang=en#solitaire">▶ Play</a></li>
+    <li data-game="trivia"><a class="ag-page" href="en/trivia/">Trivia</a> <a class="ag-play" href="?lang=en#trivia">▶ Play</a></li>
+    <li data-game="numseq"><a class="ag-page" href="en/numseq/">Number Sequence</a> <a class="ag-play" href="?lang=en#numseq">▶ Play</a></li>
+    <li data-game="unscramble"><a class="ag-page" href="en/unscramble/">Word Unscramble</a> <a class="ag-play" href="?lang=en#unscramble">▶ Play</a></li>
+    <li data-game="pairs"><a class="ag-page" href="en/pairs/">Opposites Pairs</a> <a class="ag-play" href="?lang=en#pairs">▶ Play</a></li>
+    <li data-game="truefalse"><a class="ag-page" href="en/truefalse/">True or False</a> <a class="ag-play" href="?lang=en#truefalse">▶ Play</a></li>
+    <li data-game="flags"><a class="ag-page" href="en/flags/">Flag Quiz</a> <a class="ag-play" href="?lang=en#flags">▶ Play</a></li>
+    <li data-game="proverbs"><a class="ag-page" href="en/proverbs/">Complete the Proverb</a> <a class="ag-play" href="?lang=en#proverbs">▶ Play</a></li>
+    <li data-game="hangman"><a class="ag-page" href="en/hangman/">Hangman</a> <a class="ag-play" href="?lang=en#hangman">▶ Play</a></li>
+    <li data-game="recall"><a class="ag-page" href="en/recall/">Picture Recall</a> <a class="ag-play" href="?lang=en#recall">▶ Play</a></li>
+    <li data-game="blocks"><a class="ag-page" href="en/blocks/">Falling Blocks</a> <a class="ag-play" href="?lang=en#blocks">▶ Play</a></li>
+    <li data-game="colormatch"><a class="ag-page" href="en/colormatch/">Color Match</a> <a class="ag-play" href="?lang=en#colormatch">▶ Play</a></li>
+    <li data-game="digitspan"><a class="ag-page" href="en/digitspan/">Number Memory</a> <a class="ag-play" href="?lang=en#digitspan">▶ Play</a></li>
+    <li data-game="clock"><a class="ag-page" href="en/clock/">Clock Reading</a> <a class="ag-play" href="?lang=en#clock">▶ Play</a></li>
+    <li data-game="counting"><a class="ag-page" href="en/counting/">Quick Count</a> <a class="ag-play" href="?lang=en#counting">▶ Play</a></li>
+    <li data-game="category"><a class="ag-page" href="en/category/">Categories</a> <a class="ag-play" href="?lang=en#category">▶ Play</a></li>
+    <li data-game="letters"><a class="ag-page" href="en/letters/">Missing Letter</a> <a class="ag-play" href="?lang=en#letters">▶ Play</a></li>
+    <li data-game="lifesim"><a class="ag-page" href="en/lifesim/">Time Journey</a> <a class="ag-play" href="?lang=en#lifesim">▶ Play</a></li>
+    <li data-game="safari"><a class="ag-page" href="en/safari/">Living Safari</a> <a class="ag-play" href="?lang=en#safari">▶ Play</a></li>
+    <li data-game="jigsaw"><a class="ag-page" href="en/jigsaw/">Jigsaw Puzzle</a> <a class="ag-play" href="?lang=en#jigsaw">▶ Play</a></li>
+  </ul>
+</section>
 
     <!-- Game Canvas -->
     <div id="gameView" class="hidden">
@@ -1025,7 +1063,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '62';
+const ASSET_V = '63';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1661,12 +1699,12 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
-<script src="js/affiliate.js?v=62"></script>
-<script src="js/profile.js?v=62"></script>
-<script src="js/brainscore.js?v=62"></script>
-<script src="js/achievements.js?v=62"></script>
-<script src="js/lang-content.js?v=62"></script>
-<script src="js/textsize.js?v=62"></script>
+<script src="js/affiliate.js?v=63"></script>
+<script src="js/profile.js?v=63"></script>
+<script src="js/brainscore.js?v=63"></script>
+<script src="js/achievements.js?v=63"></script>
+<script src="js/lang-content.js?v=63"></script>
+<script src="js/textsize.js?v=63"></script>
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
 if ('IntersectionObserver' in window) {
@@ -1679,21 +1717,22 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
 }
 </script>
-<script src="js/daily-challenge.js?v=62"></script>
-<script src="js/stats.js?v=62"></script>
-<script src="js/difficulty.js?v=62"></script>
-<script src="js/levels.js?v=62"></script>
-<script src="js/share.js?v=62"></script>
-<script src="js/gametext.js?v=62"></script>
-<script src="js/sync.js?v=62"></script>
-<script src="js/sync-ui.js?v=62"></script>
-<script src="js/categories.js?v=62"></script>
-<script src="js/accessibility.js?v=62"></script>
-<script src="js/tips.js?v=62"></script>
-<script src="js/favorites.js?v=62"></script>
-<script src="js/holiday.js?v=62"></script>
-<script src="js/fx.js?v=62"></script>
-<script src="js/kbnav.js?v=62"></script>
-<script src="js/ambient-bg.js?v=62"></script>
+<script src="js/daily-challenge.js?v=63"></script>
+<script src="js/stats.js?v=63"></script>
+<script src="js/difficulty.js?v=63"></script>
+<script src="js/levels.js?v=63"></script>
+<script src="js/share.js?v=63"></script>
+<script src="js/gametext.js?v=63"></script>
+<script src="js/sync.js?v=63"></script>
+<script src="js/sync-ui.js?v=63"></script>
+<script src="js/categories.js?v=63"></script>
+<script src="js/accessibility.js?v=63"></script>
+<script src="js/tips.js?v=63"></script>
+<script src="js/favorites.js?v=63"></script>
+<script src="js/holiday.js?v=63"></script>
+<script src="js/fx.js?v=63"></script>
+<script src="js/kbnav.js?v=63"></script>
+<script src="js/ambient-bg.js?v=63"></script>
+<script src="js/warm.js?v=63"></script>
 </body>
 </html>

@@ -1,0 +1,163 @@
+/* warm.css — warm, high-contrast redesign for a senior audience (branch preview/warm-redesign, 2026-10-09).
+   The LAST stylesheet. It re-skins existing elements by id/class and adds nothing interactive of its own
+   (js/warm.js adds the theme label, per-card page links and the in-game state).
+   Many older rules are inline styles or carry !important, so the overrides here need !important too.
+   Both themes: body text ≥ 7:1 contrast on its background; tap targets ≥ 48px; type a step bigger. */
+
+/* ── tokens (dark is the site default; light via html[data-theme="light"]) ── */
+:root{
+  --w-bg:#1a130d; --w-bg2:#2a1d13; --w-card:#2f2218; --w-card2:#3a2a1d; --w-line:#6b4f33;
+  --w-ink:#fff6e8; --w-ink2:#f3e2c7; --w-muted:#e2cba8;
+  --w-accent:#f6b545; --w-accent2:#ffd27a; --w-on-accent:#2a1700;
+  --w-table:#fffaf1; --w-table-ink:#2b1b0d; --w-table-ink2:#4a3420; --w-table-line:#e8cfa8;
+  --w-nav:rgba(26,19,13,.97);
+  --w-q1:#ffe08a; --w-q1b:#c98a00; --w-q2:#b9f0d2; --w-q2b:#2f9e66; --w-q3:#cfe0ff; --w-q3b:#4a78c9; --w-q4:#ffd0e1; --w-q4b:#c2507e;
+  --w-q-ink:#1f1406;
+  --w-ok:#15803d; --w-bad:#b91c1c;
+}
+html[data-theme="light"]{
+  --w-bg:#fbf3e4; --w-bg2:#f4e3c6; --w-card:#ffffff; --w-card2:#fff7ea; --w-line:#e0c497;
+  --w-ink:#2a1a0c; --w-ink2:#3d2a17; --w-muted:#5a4129;
+  --w-accent:#b45309; --w-accent2:#92400e; --w-on-accent:#ffffff;
+  --w-nav:rgba(255,250,240,.97);
+}
+/* review palettes (preview only; the shipped default is "honey") */
+html[data-palette="garden"]{ --w-accent:#7fd18b; --w-accent2:#a7e8b0; --w-on-accent:#0d2a12; --w-line:#4f6b3a; --w-bg:#141a10; --w-bg2:#1e2817; --w-card:#22301a; --w-card2:#2b3b21; }
+html[data-theme="light"][data-palette="garden"]{ --w-accent:#2f7d32; --w-accent2:#1f5c23; --w-on-accent:#fff; --w-line:#b8d4a3; --w-bg:#f3f8ec; --w-bg2:#e4f0d6; --w-card:#fff; --w-card2:#f6fbf0; }
+html[data-palette="sea"]{ --w-accent:#5fd0d6; --w-accent2:#9be6ea; --w-on-accent:#06262a; --w-line:#2f5d68; --w-bg:#0e171b; --w-bg2:#15242a; --w-card:#1a2d34; --w-card2:#213840; }
+html[data-theme="light"][data-palette="sea"]{ --w-accent:#0e7490; --w-accent2:#155e75; --w-on-accent:#fff; --w-line:#a9d5df; --w-bg:#eff8fa; --w-bg2:#dcefF3; --w-card:#fff; --w-card2:#f3fafc; }
+
+/* ── page ── */
+html body{ background:linear-gradient(170deg,var(--w-bg) 0%,var(--w-bg2) 100%) !important; background-attachment:fixed !important; color:var(--w-ink) !important; font-size:1.125rem; }
+#ambientBg .ab-scrim{ background:linear-gradient(180deg,color-mix(in srgb,var(--w-bg) 78%,transparent),color-mix(in srgb,var(--w-bg) 92%,transparent)) !important; }
+:focus-visible{ outline:3px solid var(--w-accent) !important; outline-offset:3px !important; }
+
+/* ── header: bigger, labelled, warm ── */
+nav{ background:var(--w-nav) !important; border-bottom:2px solid var(--w-line) !important; box-shadow:0 6px 24px rgba(0,0,0,.25) !important; }
+nav h1{ font-size:1.6rem !important; background:none !important; -webkit-text-fill-color:currentColor !important; color:var(--w-ink) !important; }
+nav #logoLetter{ width:2.75rem !important; height:2.75rem !important; font-size:1.35rem !important; color:var(--w-on-accent) !important; background:var(--w-accent) !important; box-shadow:none !important; }
+nav button, nav select, nav #levelIndicator{ min-height:48px !important; font-size:1.05rem !important; border-radius:12px !important; border:2px solid var(--w-line) !important;
+  background:var(--w-card) !important; color:var(--w-ink) !important; padding:6px 14px !important; }
+nav button:hover{ border-color:var(--w-accent) !important; }
+nav #themeBtn{ display:inline-flex !important; align-items:center; gap:8px; font-weight:700 !important; border-color:var(--w-accent) !important; }
+nav #themeBtn .w-tl{ font-size:1rem; }
+nav #backBtn:not(.hidden){ background:var(--w-accent) !important; color:var(--w-on-accent) !important; border-color:var(--w-accent) !important; font-weight:800 !important; }
+nav #inviteBtn{ color:var(--w-ink) !important; }
+nav #profile-chip .nm{ color:var(--w-ink) !important; font-size:1rem !important; }
+nav select option{ background:var(--w-card); color:var(--w-ink); }
+@media (max-width:639px){
+  /* row 1: logo · theme toggle · back (in a game); everything else on the next row(s), all still there */
+  nav > div{ gap:8px !important; }
+  nav > div > div:last-child{ display:contents !important; }
+  nav > div > div:first-child{ flex:1 1 auto; min-width:0; order:0; }
+  nav h1{ font-size:1.35rem !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  nav #themeBtn{ order:1; }
+  nav #backBtn{ order:2; }
+  nav > div > div:last-child > *:not(#themeBtn):not(#backBtn){ order:3; }
+  nav button, nav select{ padding:4px 8px !important; }
+  /* compact 48px icon buttons on row 2; their names stay in title / aria-label */
+  nav #menuBtn, nav #textsize-btn, nav #sound-btn, nav #inviteBtn, nav #profile-chip, nav button[title="Scoreboard"], nav button[title="Achievements"]{ min-width:48px; justify-content:center; }
+  nav #profile-chip .nm{ display:none !important; }
+  nav #levelIndicator{ min-height:40px !important; font-size:.95rem !important; display:inline-flex; align-items:center; }
+  nav #levelIndicator.hidden{ display:none !important; }
+  /* the Invite button was hidden on phones (ee95f2d); it is back, icon-sized, on row 2 */
+  nav #inviteBtn{ display:inline-flex !important; font-size:0 !important; }
+  nav #inviteBtn::before{ content:"✉️"; font-size:1.3rem; }
+  nav select{ max-width:120px; }
+}
+
+/* ── hero + hub ── */
+#hero{ background:transparent !important; border-bottom:2px solid var(--w-line) !important; }
+#hero h2{ background:none !important; -webkit-text-fill-color:currentColor !important; color:var(--w-ink) !important; font-size:clamp(2rem,6vw,3rem) !important; }
+#dailyQuote{ color:var(--w-ink2) !important; font-size:1.2rem !important; }
+#greetingText{ color:var(--w-ink) !important; font-size:1.35rem !important; }
+#streakText, #dailyGoalText, #totalGamesText{ color:var(--w-ink) !important; font-size:1.05rem !important; }
+#why-train{ background:var(--w-card) !important; border:2px solid var(--w-line) !important; }
+#why-train h3, #why-train h4{ background:none !important; -webkit-text-fill-color:currentColor !important; color:var(--w-ink) !important; }
+#why-train p, #why-train div{ color:var(--w-ink2) !important; }
+#why-train [style*="color:#f6c048"]{ color:var(--w-accent) !important; }
+#homeScreen-header h2, #homeScreen-header h3{ color:var(--w-ink) !important; background:none !important; -webkit-text-fill-color:currentColor !important; font-size:1.9rem !important; }
+#homeScreen-header p{ color:var(--w-ink2) !important; font-size:1.1rem !important; }
+
+#homeScreen{ gap:22px !important; }
+#homeScreen .premium-card{ background:var(--w-card) !important; border:2px solid var(--w-line) !important; border-radius:20px !important; overflow:hidden; box-shadow:0 10px 28px -12px rgba(0,0,0,.45) !important; }
+#homeScreen .premium-card:hover{ border-color:var(--w-accent) !important; transform:translateY(-2px); }
+#homeScreen .premium-card .thumbnail-container{ aspect-ratio:4/3; height:auto !important; }
+#homeScreen .premium-card .thumbnail-img{ width:100%; height:100%; object-fit:cover; filter:saturate(1.08); }
+#homeScreen .premium-card h3{ color:var(--w-ink) !important; font-size:1.4rem !important; line-height:1.25 !important; }
+#homeScreen .premium-card p{ color:var(--w-ink2) !important; font-size:1.05rem !important; line-height:1.45 !important; }
+#homeScreen .premium-card .btn-premium{ min-height:56px; font-size:1.2rem !important; border-radius:14px !important; background:var(--w-accent) !important; color:var(--w-on-accent) !important; border:0 !important; }
+#homeScreen .premium-card a.w-page{ display:inline-flex; align-items:center; min-height:44px; margin-top:8px; font-size:1rem; font-weight:700; color:var(--w-ink); text-decoration:underline; text-underline-offset:3px; }
+@media (max-width:639px){
+  #homeScreen{ grid-template-columns:1fr !important; gap:16px !important; }
+  #homeScreen .premium-card .thumbnail-container{ aspect-ratio:16/9; }
+}
+
+/* the all-games list: every game's own page, linked from the hub */
+#all-games{ max-width:1100px; margin:36px auto 24px; padding:22px; background:var(--w-card); border:2px solid var(--w-line); border-radius:20px; color:var(--w-ink); }
+#all-games h3{ font-size:1.5rem; font-weight:800; margin:0 0 14px; }
+#all-games ul{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:8px 18px; }
+#all-games li{ display:flex; align-items:center; gap:10px; min-height:48px; border-bottom:1px solid var(--w-line); }
+#all-games .ag-page{ flex:1; color:var(--w-ink); font-weight:700; font-size:1.1rem; text-decoration:underline; text-underline-offset:3px; }
+#all-games .ag-play{ flex:0 0 auto; padding:8px 14px; border-radius:10px; background:var(--w-accent); color:var(--w-on-accent); font-weight:800; text-decoration:none; }
+html.in-game #all-games{ display:none; }
+
+/* ── inside a game: a warm "table", the game's own photo on top, big readable text ── */
+#gameView > div{ background:var(--w-table) !important; color:var(--w-table-ink); border:3px solid var(--w-table-line) !important; border-radius:24px !important; padding:0 !important; }
+#gameView > div > div:first-child{ position:relative; margin:0 0 20px !important; padding:28px 20px 22px !important; border-bottom:0 !important; min-height:150px;
+  display:flex; flex-direction:column; justify-content:flex-end; color:#fff;
+  background:linear-gradient(180deg,rgba(20,12,4,.15) 0%,rgba(20,12,4,.78) 100%), var(--game-photo, none) center/cover no-repeat, #6b4423 !important; }
+#gameView #gameTitle{ color:#fff !important; font-size:clamp(1.9rem,5vw,2.6rem) !important; text-shadow:0 2px 12px rgba(0,0,0,.6); background:none !important; -webkit-text-fill-color:#fff !important; }
+#gameView #gameInstructions{ color:#fff8ec !important; font-size:1.2rem !important; font-weight:600; text-shadow:0 1px 8px rgba(0,0,0,.7); }
+#gameView #gameContent{ padding:0 18px 26px; color:var(--w-table-ink); font-size:1.15rem; }
+#gameView #gameContent .text-gray-400, #gameView #gameContent .text-gray-500{ color:var(--w-table-ink2) !important; }
+#gameView #gameContent .text-gray-600, #gameView #gameContent .text-gray-700, #gameView #gameContent .text-gray-800, #gameView #gameContent .text-slate-800{ color:var(--w-table-ink) !important; }
+@media (min-width:768px){ #gameView > div > div:first-child{ min-height:200px; padding:40px 40px 28px !important; } #gameView #gameContent{ padding:0 40px 40px; } }
+
+/* answer buttons in the quiz-style games (the games draw them with border-gray-200 / border-blue-200): four warm
+   colours, dark text, centred, big. A button the game has marked right / wrong loses those classes and gets the
+   feedback rules below instead. */
+:is(html[data-game="trivia"],html[data-game="math"],html[data-game="flags"],html[data-game="proverbs"],html[data-game="numseq"],html[data-game="counting"],html[data-game="clock"],html[data-game="category"],html[data-game="letters"]) #gameContent :is(button.border-gray-200,button.border-blue-200){ text-align:center !important; min-height:64px; color:var(--w-q-ink) !important; border-width:3px !important; font-weight:800 !important; }
+:is(html[data-game="trivia"],html[data-game="math"],html[data-game="flags"],html[data-game="proverbs"],html[data-game="numseq"],html[data-game="counting"],html[data-game="clock"],html[data-game="category"],html[data-game="letters"]) #gameContent :is(button.border-gray-200,button.border-blue-200):nth-child(4n+1){ background:var(--w-q1) !important; border-color:var(--w-q1b) !important; }
+:is(html[data-game="trivia"],html[data-game="math"],html[data-game="flags"],html[data-game="proverbs"],html[data-game="numseq"],html[data-game="counting"],html[data-game="clock"],html[data-game="category"],html[data-game="letters"]) #gameContent :is(button.border-gray-200,button.border-blue-200):nth-child(4n+2){ background:var(--w-q2) !important; border-color:var(--w-q2b) !important; }
+:is(html[data-game="trivia"],html[data-game="math"],html[data-game="flags"],html[data-game="proverbs"],html[data-game="numseq"],html[data-game="counting"],html[data-game="clock"],html[data-game="category"],html[data-game="letters"]) #gameContent :is(button.border-gray-200,button.border-blue-200):nth-child(4n+3){ background:var(--w-q3) !important; border-color:var(--w-q3b) !important; }
+:is(html[data-game="trivia"],html[data-game="math"],html[data-game="flags"],html[data-game="proverbs"],html[data-game="numseq"],html[data-game="counting"],html[data-game="clock"],html[data-game="category"],html[data-game="letters"]) #gameContent :is(button.border-gray-200,button.border-blue-200):nth-child(4n+4){ background:var(--w-q4) !important; border-color:var(--w-q4b) !important; }
+/* right / wrong: strong colour AND a mark, so it does not depend on telling colours apart */
+#gameContent button.bg-green-50, #gameContent button.bg-green-100{ background:var(--w-ok) !important; border-color:var(--w-ok) !important; color:#fff !important; }
+#gameContent button.bg-red-50, #gameContent button.bg-red-100{ background:var(--w-bad) !important; border-color:var(--w-bad) !important; color:#fff !important; }
+#gameContent button.bg-green-50::after, #gameContent button.bg-green-100::after{ content:"  ✓"; font-weight:900; }
+#gameContent button.bg-red-50::after, #gameContent button.bg-red-100::after{ content:"  ✗"; font-weight:900; }
+
+/* klondike: a green felt table (its controls and empty foundation slots are drawn light-on-dark; on the ivory
+   game card they were white on white, on the live site too) */
+html[data-game="klondike"] #gameContent{ background:radial-gradient(ellipse at 50% 30%,#2f7a4a 0%,#1d5534 70%,#163f27 100%); border-radius:18px; padding:18px 10px 22px; margin:0 12px 18px; }
+html[data-game="klondike"] #gameContent .kl-btn{ background:#fff7e6 !important; color:#2b1b0d !important; border:2px solid #e8cfa8 !important; min-height:48px; font-size:1.05rem !important; font-weight:800 !important; }
+html[data-game="klondike"] #gameContent .kl-count{ color:#fff6e8 !important; font-size:1.05rem !important; font-weight:700; }
+html[data-game="klondike"] #gameContent .kl-slot{ border-color:rgba(255,255,255,.55) !important; background:rgba(255,255,255,.08) !important; }
+
+/* memory: the card backs show the game's photo instead of a navy "?" tile */
+html[data-game="memory"] #gameContent .card-face.bg-slate-700{
+  background:linear-gradient(160deg,rgba(180,83,9,.55),rgba(60,30,8,.75)), url("../images/cards/memory.jpg") center/cover !important;
+  border:3px solid var(--w-q1b) !important; color:#fff !important; text-shadow:0 2px 8px rgba(0,0,0,.6); }
+
+/* end-of-game modal */
+#modal > div{ background:var(--w-table) !important; color:var(--w-table-ink) !important; border-top-color:var(--w-q1b) !important; border-radius:24px !important; }
+#modal #modalTitle{ color:var(--w-table-ink) !important; font-size:2rem !important; }
+#modal #modalBody{ color:var(--w-table-ink2) !important; font-size:1.25rem !important; }
+#modal button{ min-height:56px; font-size:1.2rem !important; }
+#modal #nextLevelBtn{ background:#b45309 !important; color:#fff !important; }
+
+/* footer */
+footer{ background:var(--w-bg2) !important; border-top:2px solid var(--w-line) !important; }
+footer, footer *{ color:var(--w-ink2) !important; }
+footer > div{ font-size:1.05rem; }
+
+/* ── ads: the existing #adBar ticker shows on the hub and between games (end-of-game modal), never mid-game ── */
+html.in-game:not(.between-games) #adBar{ display:none !important; }
+html.in-game:not(.between-games) body{ padding-bottom:0 !important; }
+#adBar{ background:var(--w-nav) !important; border-top:2px solid var(--w-line) !important; }
+#adBar, #adBar *{ color:var(--w-ink) !important; }
+#adBar #adX{ min-width:48px; min-height:48px; font-size:1.3rem; }
+html.between-games #adBar{ z-index:60; }
+
+@media (prefers-reduced-motion:reduce){ #homeScreen .premium-card:hover{ transform:none; } }
