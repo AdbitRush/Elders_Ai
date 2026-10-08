@@ -1,3 +1,34 @@
+## 2026-10-09 - warm redesign on a PREVIEW branch (not live; main untouched)
+
+**Preview:** https://games-preview.178-105-148-72.sslip.io (noindex) · branch `preview/warm-redesign` (c6e4f0b+) ·
+the live site games.178-105-148-72.sslip.io and GitHub Pages still serve `main`. Merge only with Or's yes.
+
+What changed (all additive; `css/warm.css` is the last stylesheet, `js/warm.js` the helper; ASSET_V / sw CACHE 63):
+- Warm high-contrast palette in both themes (main text 8:1 to 16.8:1, measured), bigger type, 48px+ buttons.
+- Light/dark toggle kept (`toggleTheme` unchanged) and now labelled ("Light"/"Dark", 6 languages), always on row 1.
+- Inside every game: the game's own photo (images/cards/<id>.jpg) as a header, ivory game table, quiz answers in four
+  warm colours with strong right/wrong colours + check/cross marks, memory card backs with a photo, green felt for Klondike.
+- Fixed on the way (also broken on the live site): Klondike's Undo/Hint/New deal labels and empty slots were white on
+  white; on a 390px phone Sudoku lost its outer columns and Klondike showed 5 of 7 piles. Trivia answers were
+  right-aligned in English.
+- Ads: the existing #adBar ticker (and affiliate.js) unchanged, but hidden while a game is being played; it shows on
+  the hub and at the end-of-game modal (html.in-game / html.between-games). No new ad network.
+- Every game page linked from the hub: "About this game" on each card + an "All games" list (`#all-games`, 28 links
+  to `<lang>/<id>/`, following the language), plus play links (`?lang=xx#id`).
+- Phone header: two rows of controls, nothing removed; the Invite button (hidden on phones since ee95f2d) is back.
+- Nothing interactive dropped: checked against `tools/preview/baseline-inventory.json` (captured from the live site).
+- Open / not done: the first-visit "Welcome" profile card still covers everything on first load; copy mismatch
+  "no ads" (ticker) vs "supported by quiet ads" (footer) left for Or; `levelComplete` from the review tool's
+  "Show me" records a win in that browser's stats (preview only).
+
+Preview infra (VPS): /opt/brainplay-preview/{repo.git,site,notes,tool}; `brainplay-preview.service` (127.0.0.1:8798);
+Caddy block `games-preview.178-105-148-72.sslip.io` (backup Caddyfile.bak-before-brainplay-preview-20261009).
+Rebuild: `bash /opt/brainplay-preview/tool/build-preview.sh` (renames the SW cache per build so reviewers never see a
+stale copy). Review notes: `cat /opt/brainplay-preview/notes/notes.json`.
+e2e: `node tools/preview/e2e-suite.js <dir with node_modules/playwright>` on the preview branch - **79/79**
+(28 games x 390 light + 1440 dark, 6 languages, nothing lost vs live, ads never mid-game, toggle, links, contrast,
+review tool). Playwright now runs on Or's PC again (it hung on 2026-10-06).
+
 ## 2026-10-07 - Server Claude ("incubator") + Telegram bridge (VPS infra, not the games site)
 
 Goal (Or): stop working from the PC; talk to Claude Code on the VPS from a private
