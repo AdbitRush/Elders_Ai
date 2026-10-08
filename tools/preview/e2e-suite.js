@@ -40,7 +40,8 @@ function lost(before, after) {
   const missingIds = ids.filter((h) => !have.has(h));
   const count = (list) => list.map(head).filter((h) => !named(h)).reduce((m, h) => (m[h] = (m[h] || 0) + 1, m), {});
   const cb = count(before), ca = count(after);
-  const fewer = Object.keys(cb).filter((h) => (ca[h] || 0) < cb[h]).map((h) => h + ' ' + (ca[h] || 0) + '/' + cb[h]);
+  // a numbered kind (cards of a random deal: Solitaire shows 10-12 on the live site too) only has to be present
+  const fewer = Object.keys(cb).filter((h) => (ca[h] || 0) < (h.includes('-N') ? 1 : cb[h])).map((h) => h + ' ' + (ca[h] || 0) + '/' + cb[h]);
   return missingIds.concat(fewer);
 }
 function lum(c) { const m = c.match(/[\d.]+/g).map(Number); const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(m[0]) + 0.7152 * f(m[1]) + 0.0722 * f(m[2]); }

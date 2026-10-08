@@ -62,7 +62,7 @@ html[data-theme] body nav select option{ background:var(--w-card); color:var(--w
   html[data-theme] body nav #levelIndicator.hidden{ display:none !important; }
   /* the Invite button was hidden on phones (ee95f2d); it is back, icon-sized, on row 2 */
   html[data-theme] body nav #inviteBtn{ display:inline-flex !important; font-size:0 !important; }
-  html[data-theme] body nav #inviteBtn::before{ content:"✉️"; font-size:1.3rem; }
+  html[data-theme] body nav #inviteBtn::before{ content:"👥"; font-size:1.3rem; }
   html[data-theme] body nav select{ max-width:120px; }
 }
 
@@ -134,6 +134,18 @@ html[data-game="klondike"] #gameContent{ background:radial-gradient(ellipse at 5
 html[data-game="klondike"] #gameContent .kl-btn{ background:#fff7e6 !important; color:#2b1b0d !important; border:2px solid #e8cfa8 !important; min-height:48px; font-size:1.05rem !important; font-weight:800 !important; }
 html[data-game="klondike"] #gameContent .kl-count{ color:#fff6e8 !important; font-size:1.05rem !important; font-weight:700; }
 html[data-game="klondike"] #gameContent .kl-slot{ border-color:rgba(255,255,255,.55) !important; background:rgba(255,255,255,.08) !important; }
+
+/* phones: the board games did not fit 390px on the live site either (Sudoku lost its outer columns, Klondike showed
+   5 of 7 piles). Less side padding, and boards sized to the card instead of to the viewport. */
+@media (max-width:639px){
+  html.in-game main{ padding-left:8px !important; padding-right:8px !important; }
+  #gameView > div{ border-width:2px !important; }
+  #gameView #gameContent{ padding:0 6px 20px; }
+  html[data-game="sudoku"] #gameContent [style*="92vw"]{ width:100% !important; max-width:26rem; }
+  html[data-game="klondike"] #gameContent{ margin:0 0 14px; padding:12px 4px 16px; }
+  html[data-game="klondike"] #gameContent .kl-row{ gap:4px !important; }
+  html[data-game="klondike"] #gameContent .kl-pile{ min-width:0 !important; width:calc((100% - 24px) / 7) !important; }
+}
 
 /* memory: the card backs show the game's photo instead of a navy "?" tile */
 html[data-game="memory"] #gameContent .card-face.bg-slate-700{
