@@ -33,37 +33,37 @@ html body{ background:linear-gradient(170deg,var(--w-bg) 0%,var(--w-bg2) 100%) !
 :focus-visible{ outline:3px solid var(--w-accent) !important; outline-offset:3px !important; }
 
 /* ── header: bigger, labelled, warm ── */
-nav{ background:var(--w-nav) !important; border-bottom:2px solid var(--w-line) !important; box-shadow:0 6px 24px rgba(0,0,0,.25) !important; }
-nav h1{ font-size:1.6rem !important; background:none !important; -webkit-text-fill-color:currentColor !important; color:var(--w-ink) !important; }
-nav #logoLetter{ width:2.75rem !important; height:2.75rem !important; font-size:1.35rem !important; color:var(--w-on-accent) !important; background:var(--w-accent) !important; box-shadow:none !important; }
-nav button, nav select, nav #levelIndicator{ min-height:48px !important; font-size:1.05rem !important; border-radius:12px !important; border:2px solid var(--w-line) !important;
+html[data-theme] body nav{ background:var(--w-nav) !important; border-bottom:2px solid var(--w-line) !important; box-shadow:0 6px 24px rgba(0,0,0,.25) !important; }
+html[data-theme] body nav h1{ font-size:1.6rem !important; background:none !important; -webkit-text-fill-color:currentColor !important; color:var(--w-ink) !important; }
+html[data-theme] body nav #logoLetter{ width:2.75rem !important; height:2.75rem !important; font-size:1.35rem !important; color:var(--w-on-accent) !important; background:var(--w-accent) !important; box-shadow:none !important; }
+html[data-theme] body nav button, html[data-theme] body nav select, html[data-theme] body nav #levelIndicator{ min-height:48px !important; font-size:1.05rem !important; border-radius:12px !important; border:2px solid var(--w-line) !important;
   background:var(--w-card) !important; color:var(--w-ink) !important; padding:6px 14px !important; }
-nav button:hover{ border-color:var(--w-accent) !important; }
-nav #themeBtn{ display:inline-flex !important; align-items:center; gap:8px; font-weight:700 !important; border-color:var(--w-accent) !important; }
-nav #themeBtn .w-tl{ font-size:1rem; }
-nav #backBtn:not(.hidden){ background:var(--w-accent) !important; color:var(--w-on-accent) !important; border-color:var(--w-accent) !important; font-weight:800 !important; }
-nav #inviteBtn{ color:var(--w-ink) !important; }
-nav #profile-chip .nm{ color:var(--w-ink) !important; font-size:1rem !important; }
-nav select option{ background:var(--w-card); color:var(--w-ink); }
+html[data-theme] body nav button:hover{ border-color:var(--w-accent) !important; }
+html[data-theme] body nav #themeBtn{ display:inline-flex !important; align-items:center; gap:8px; font-weight:700 !important; border-color:var(--w-accent) !important; }
+html[data-theme] body nav #themeBtn .w-tl{ font-size:1rem; }
+html[data-theme] body nav #backBtn:not(.hidden){ background:var(--w-accent) !important; color:var(--w-on-accent) !important; border-color:var(--w-accent) !important; font-weight:800 !important; }
+html[data-theme] body nav #inviteBtn{ color:var(--w-ink) !important; }
+html[data-theme] body nav #profile-chip .nm{ color:var(--w-ink) !important; font-size:1rem !important; }
+html[data-theme] body nav select option{ background:var(--w-card); color:var(--w-ink); }
 @media (max-width:639px){
   /* row 1: logo · theme toggle · back (in a game); everything else on the next row(s), all still there */
-  nav > div{ gap:8px !important; }
-  nav > div > div:last-child{ display:contents !important; }
-  nav > div > div:first-child{ flex:1 1 auto; min-width:0; order:0; }
-  nav h1{ font-size:1.35rem !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  nav #themeBtn{ order:1; }
-  nav #backBtn{ order:2; }
-  nav > div > div:last-child > *:not(#themeBtn):not(#backBtn){ order:3; }
-  nav button, nav select{ padding:4px 8px !important; }
+  html[data-theme] body nav > div{ gap:8px !important; }
+  html[data-theme] body nav > div > div:last-child{ display:contents !important; }
+  html[data-theme] body nav > div > div:first-child{ flex:1 1 auto; min-width:0; order:0; }
+  html[data-theme] body nav h1{ font-size:1.35rem !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  html[data-theme] body nav #themeBtn{ order:1; }
+  html[data-theme] body nav #backBtn{ order:2; }
+  html[data-theme] body nav > div > div:last-child > *:not(#themeBtn):not(#backBtn){ order:3; }
+  html[data-theme] body nav button, html[data-theme] body nav select{ padding:4px 8px !important; }
   /* compact 48px icon buttons on row 2; their names stay in title / aria-label */
-  nav #menuBtn, nav #textsize-btn, nav #sound-btn, nav #inviteBtn, nav #profile-chip, nav button[title="Scoreboard"], nav button[title="Achievements"]{ min-width:48px; justify-content:center; }
-  nav #profile-chip .nm{ display:none !important; }
-  nav #levelIndicator{ min-height:40px !important; font-size:.95rem !important; display:inline-flex; align-items:center; }
-  nav #levelIndicator.hidden{ display:none !important; }
+  html[data-theme] body nav #menuBtn, html[data-theme] body nav #textsize-btn, html[data-theme] body nav #sound-btn, html[data-theme] body nav #inviteBtn, html[data-theme] body nav #profile-chip, html[data-theme] body nav button[title="Scoreboard"], html[data-theme] body nav button[title="Achievements"]{ min-width:48px; justify-content:center; }
+  html[data-theme] body nav #profile-chip .nm{ display:none !important; }
+  html[data-theme] body nav #levelIndicator{ min-height:40px !important; font-size:.95rem !important; display:inline-flex; align-items:center; }
+  html[data-theme] body nav #levelIndicator.hidden{ display:none !important; }
   /* the Invite button was hidden on phones (ee95f2d); it is back, icon-sized, on row 2 */
-  nav #inviteBtn{ display:inline-flex !important; font-size:0 !important; }
-  nav #inviteBtn::before{ content:"✉️"; font-size:1.3rem; }
-  nav select{ max-width:120px; }
+  html[data-theme] body nav #inviteBtn{ display:inline-flex !important; font-size:0 !important; }
+  html[data-theme] body nav #inviteBtn::before{ content:"✉️"; font-size:1.3rem; }
+  html[data-theme] body nav select{ max-width:120px; }
 }
 
 /* ── hero + hub ── */
@@ -148,9 +148,9 @@ html[data-game="memory"] #gameContent .card-face.bg-slate-700{
 #modal #nextLevelBtn{ background:#b45309 !important; color:#fff !important; }
 
 /* footer */
-footer{ background:var(--w-bg2) !important; border-top:2px solid var(--w-line) !important; }
-footer, footer *{ color:var(--w-ink2) !important; }
-footer > div{ font-size:1.05rem; }
+html[data-theme] body footer{ background:var(--w-bg2) !important; border-top:2px solid var(--w-line) !important; }
+html[data-theme] body footer, html[data-theme] body footer *{ color:var(--w-ink2) !important; }
+html[data-theme] body footer > div{ font-size:1.05rem; }
 
 /* ── ads: the existing #adBar ticker shows on the hub and between games (end-of-game modal), never mid-game ── */
 html.in-game:not(.between-games) #adBar{ display:none !important; }
