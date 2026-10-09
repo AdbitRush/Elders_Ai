@@ -3,10 +3,11 @@
 // find and tap the requested one. Attention + reaction, pure spectacle.
 // ═══════════════════════════════════════════════════════════════════════════════
 const _SF_ANIMALS=[
-    {e:'🦒',he:'ג׳ירפה',en:'Giraffe'},{e:'🦁',he:'אריה',en:'Lion'},{e:'🐘',he:'פיל',en:'Elephant'},
-    {e:'🦓',he:'זברה',en:'Zebra'},{e:'🦏',he:'קרנף',en:'Rhino'},{e:'🐆',he:'ברדלס',en:'Cheetah'},
-    {e:'🦩',he:'פלמינגו',en:'Flamingo'},{e:'🐒',he:'קוף',en:'Monkey'},{e:'🦜',he:'תוכי',en:'Parrot'},
-    {e:'🐢',he:'צב',en:'Turtle'},{e:'🦅',he:'עיט',en:'Eagle'},{e:'🐊',he:'תנין',en:'Crocodile'},
+    // e = stable id; k = photo images/safari/<k>.jpg (Pexels, see credits.html)
+    {e:'🦒',k:'giraffe',he:'ג׳ירפה',en:'Giraffe'},{e:'🦁',k:'lion',he:'אריה',en:'Lion'},{e:'🐘',k:'elephant',he:'פיל',en:'Elephant'},
+    {e:'🦓',k:'zebra',he:'זברה',en:'Zebra'},{e:'🦏',k:'rhino',he:'קרנף',en:'Rhino'},{e:'🐆',k:'cheetah',he:'ברדלס',en:'Cheetah'},
+    {e:'🦩',k:'flamingo',he:'פלמינגו',en:'Flamingo'},{e:'🐒',k:'monkey',he:'קוף',en:'Monkey'},{e:'🦜',k:'parrot',he:'תוכי',en:'Parrot'},
+    {e:'🐢',k:'turtle',he:'צב',en:'Turtle'},{e:'🦅',k:'eagle',he:'עיט',en:'Eagle'},{e:'🐊',k:'crocodile',he:'תנין',en:'Crocodile'},
 ];
 function initSafari(container){
     const gs=gameState.safari;
@@ -24,30 +25,22 @@ function initSafari(container){
         <span class="text-sm font-bold text-green-400">✓ <span id="sf-score">0</span></span>
       </div>
       <div id="sf-world" dir="ltr" style="position:relative;height:min(58vh,460px);border-radius:22px;overflow:hidden;cursor:pointer;
-        background:linear-gradient(180deg,#7dd3fc 0%,#fde68a 46%,#d9a552 62%,#b98a3f 100%);box-shadow:0 24px 60px -22px rgba(0,0,0,.6)">
-        <div style="position:absolute;top:18px;left:26px;font-size:52px;filter:drop-shadow(0 0 24px rgba(255,200,0,.8));animation:floaty 6s ease-in-out infinite">☀️</div>
-        <div style="position:absolute;top:34px;right:16%;font-size:40px;opacity:.9;animation:sfCloud 38s linear infinite">☁️</div>
-        <div style="position:absolute;top:70px;right:55%;font-size:30px;opacity:.75;animation:sfCloud 52s linear infinite">☁️</div>
-        <div style="position:absolute;bottom:34%;left:6%;font-size:56px">🌳</div>
-        <div style="position:absolute;bottom:30%;right:8%;font-size:64px">🌳</div>
-        <div style="position:absolute;bottom:6%;left:32%;font-size:26px">🌾</div>
-        <div style="position:absolute;bottom:10%;right:30%;font-size:26px">🌾</div>
-        <div style="position:absolute;bottom:4%;left:60%;font-size:24px">🌿</div>
+        background:#d9b77a url(images/safari/savanna.jpg) center 40%/cover;box-shadow:0 24px 60px -22px rgba(0,0,0,.6)">
       </div>
     </div>
     <style>
-      @keyframes sfCloud{from{transform:translateX(12vw)}to{transform:translateX(-70vw)}}
-      .sf-a{position:absolute;font-size:44px;user-select:none;transition:transform .18s;line-height:1;
-        filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
-      .sf-a:hover{transform:scale(1.22)}
+      .sf-a{position:absolute;width:clamp(58px,9vw,84px);height:clamp(58px,9vw,84px);margin:-6px 0 0 -6px;user-select:none;transition:transform .18s;
+        border-radius:50%;border:4px solid #fff;overflow:hidden;background:#fff;box-shadow:0 6px 14px rgba(0,0,0,.4)}
+      .sf-a img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
       @keyframes sfPop{0%{transform:scale(1)}45%{transform:scale(1.9) rotate(-8deg)}100%{transform:scale(0);opacity:0}}
-      .sf-spark{position:absolute;font-size:30px;pointer-events:none;animation:sfPop .7s ease forwards}
+      .sf-spark{position:absolute;font-size:30px;color:#f59e0b;pointer-events:none;animation:sfPop .7s ease forwards;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
+      .sf-t{display:inline-block;width:1.9em;height:1.9em;border-radius:50%;border:3px solid #fff;object-fit:cover;vertical-align:middle;box-shadow:0 2px 6px rgba(0,0,0,.3);margin:0 .2em}
     </style>`;
     const world=document.getElementById('sf-world');
     const pool=shuffle([..._SF_ANIMALS]).slice(0,gs._nAnimals);
     pool.forEach((a,i)=>{
         const el=document.createElement('div');
-        el.className='sf-a'; el.textContent=a.e; el.dataset.id=a.e;
+        el.className='sf-a'; el.innerHTML=`<img src="images/safari/${a.k}.jpg" alt="${isHe?a.he:a.en}" draggable="false">`; el.dataset.id=a.e;
         el.onclick=(ev)=>{ev.stopPropagation();_sfTap(a.e,el);};
         world.appendChild(el);
         gs._sprites.push({a,el,x:8+Math.random()*80,y:38+Math.random()*52,
@@ -76,16 +69,16 @@ function _sfNextTarget(){
     const pick=gs._sprites[Math.floor(Math.random()*gs._sprites.length)].a;
     gs._target=pick.e;
     const t=document.getElementById('sf-task');
-    if(t) t.innerHTML=(gt('Find the ', 'מצאו את '))+`<span style="font-size:1.5em">${pick.e}</span> ${isHe?pick.he:pick.en}!`;
+    if(t) t.innerHTML=(gt('Find the ', 'מצאו את '))+`<img class="sf-t" src="images/safari/${pick.k}.jpg" alt=""> ${isHe?pick.he:pick.en}!`;
 }
 function _sfTap(id, el){
     const gs=gameState.safari;
     if(id!==gs._target){sfxWrong();el.style.transform='scale(.8)';setTimeout(()=>el.style.transform='',200);return;}
     sfxCorrect(); gs._found++; gs._ri++;
     const world=document.getElementById('sf-world');
-    ['✨','⭐','💫'].forEach((s,i)=>{
+    ['sparkles','star','sparkles'].forEach((s,i)=>{
         const sp=document.createElement('div');
-        sp.className='sf-spark'; sp.textContent=s;
+        sp.className='sf-spark'; sp.innerHTML=Icon.svg(s,{size:'1em',fill:true,fillOpacity:.6});
         sp.style.left=`calc(${el.style.left} + ${(i-1)*24}px)`; sp.style.top=el.style.top;
         world.appendChild(sp); setTimeout(()=>sp.remove(),750);
     });

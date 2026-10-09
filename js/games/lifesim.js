@@ -49,12 +49,12 @@ function initLifeSim(container){
 function _lsPick(container){
     const isHe=currentLang==='he';
     let html=`<div class="max-w-2xl w-full text-center">
-      <p class="text-xl font-bold mb-6 text-gray-200">${gt('✨ The time machine is ready. Where to?', '✨ מכונת הזמן מוכנה. לאן נוסעים?')}</p>
+      <p class="text-xl font-bold mb-6 text-gray-200">${Icon.ui('sparkles')} ${gt('The time machine is ready. Where to?', 'מכונת הזמן מוכנה. לאן נוסעים?')}</p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">`;
     for(const [k,era] of Object.entries(_LS_ERAS)){
         html+=`<button onclick="_lsStart('${k}')" class="rounded-2xl p-8 text-white shadow-xl transition hover:scale-105"
           style="background:${era.grad}">
-          <div class="text-6xl mb-3" style="animation:floaty 3s ease-in-out infinite">${era.icon}</div>
+          <div class="ls-ic text-6xl mb-3" style="animation:floaty 3s ease-in-out infinite">${Icon.svg(Icon.name(era.icon),{size:'1em',sw:1.8})||era.icon}</div>
           <div class="text-xl font-bold">${isHe?era.he:era.en}</div>
         </button>`;
     }
@@ -79,10 +79,10 @@ function _lsScene(container){
     const sc=gs._scenes[gs._si];
     let html=`<div class="max-w-2xl w-full text-center rounded-3xl p-8 md:p-10 shadow-2xl" style="background:${era.grad}">
       <div class="flex justify-between text-sm font-bold text-white/80 mb-4">
-        <span>${era.icon} ${gs._si+1}/${gs._scenes.length}</span>
-        <span>${'❤️'.repeat(gs._hearts)||'·'}</span>
+        <span>${Icon.ui(Icon.name(era.icon))} ${gs._si+1}/${gs._scenes.length}</span>
+        <span>${Icon.ui('heart',{fill:true,fillOpacity:1}).repeat(gs._hearts)||'·'}</span>
       </div>
-      <div class="text-7xl md:text-8xl mb-6" style="animation:floaty 3.4s ease-in-out infinite">${sc.e}</div>
+      <div class="ls-ic ls-scene text-7xl md:text-8xl mb-6" style="animation:floaty 3.4s ease-in-out infinite">${Icon.svg(Icon.name(sc.e),{size:'1em',sw:1.6})||sc.e}</div>
       <p class="text-xl md:text-2xl font-bold text-white mb-8" style="text-shadow:0 2px 12px rgba(0,0,0,.4)">${isHe?sc.he:sc.en}</p>
       <div class="grid gap-3">`;
     shuffle([...sc.opts]).forEach((o)=>{
@@ -97,7 +97,7 @@ function _lsChoose(good){
     const note=document.createElement('div');
     note.className='text-2xl font-black text-center mt-4';
     note.style.color=good?'#4ade80':'#fca5a5';
-    note.textContent=good?(gt('❤️ A beautiful memory!', '❤️ זיכרון יפה נוסף!')):(gt('😅 Also an experience...', '😅 גם זו חוויה...'));
+    note.innerHTML=good?Icon.ui('heart',{fill:true,fillOpacity:1})+' ':'';note.append(good?gt('A beautiful memory!', 'זיכרון יפה נוסף!'):gt('Also an experience...', 'גם זו חוויה...'));
     c.appendChild(note);
     gs._si++;
     setTimeout(()=>_lsScene(c), good?900:1200);

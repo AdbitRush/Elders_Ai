@@ -54,9 +54,9 @@ const DailyChallenge = (() => {
     const isHe = typeof currentLang!=='undefined'?currentLang==='he':true;
     const t = document.createElement('div');
     t.style.cssText = 'position:fixed;top:76px;left:50%;transform:translateX(-50%);z-index:5000;background:linear-gradient(135deg,#78350f,#b7791f);border:2px solid #f6c048;border-radius:1.1rem;padding:1.2rem 2rem;text-align:center;box-shadow:0 16px 48px rgba(0,0,0,0.7);min-width:280px;animation:badgeSlideIn 0.45s cubic-bezier(.22,.68,0,1.2) forwards';
-    t.innerHTML = `<div style="font-size:2.2rem">⭐</div>
+    t.innerHTML = `<div style="font-size:2.2rem;line-height:1">${Icon.ui('star',{fill:true,fillOpacity:1,size:'1em'})}</div>
       <div style="color:#fef3c7;font-weight:800;font-size:1.15rem">${isHe?'השלמתם את האתגר היומי!':'Daily Challenge Complete!'}</div>
-      <div style="color:rgba(254,243,199,0.75);font-size:0.85rem;margin-top:4px">⭐ +1 ${isHe?'נקודת כוכב':'star point'}</div>`;
+      <div style="color:rgba(254,243,199,0.75);font-size:0.85rem;margin-top:4px">${Icon.ui('star')} +1 ${isHe?'נקודת כוכב':'star point'}</div>`;
     document.body.appendChild(t);
     if (typeof sfxWin==='function') sfxWin();
     if (typeof launchConfetti==='function') launchConfetti();
@@ -77,7 +77,7 @@ const DailyChallenge = (() => {
   function _starStr() {
     const done = getProgress(); const games = todayGames();
     const c = games.filter(g=>done.has(g)).length;
-    return ['☆','☆','☆'].map((_,i)=>i<c?'⭐':'☆').join('');
+    return [0,1,2].map((i)=>Icon.ui('star',{fill:true,fillOpacity:i<c?1:0,size:'1em'})).join('');
   }
 
   function injectBanner(container) {
@@ -93,13 +93,13 @@ const DailyChallenge = (() => {
 
     const pills = games.map(g =>
       `<span class="dc-game-pill${done.has(g)?' done':''}" onclick="loadGame('${g}',1)" title="${g}">
-        ${done.has(g)?'✅':''} ${_gameLabel(g)}
+        ${done.has(g)?Icon.ui('circle-check'):''} ${_gameLabel(g)}
       </span>`
     ).join('');
 
     banner.innerHTML = `
       <div>
-        <span style="font-weight:800;color:#f6c048;font-size:0.9rem">📅 ${isHe?'האתגר היומי':'Daily Challenge'}</span>
+        <span style="font-weight:800;color:#f6c048;font-size:0.9rem">${Icon.ui('calendar-days')} ${isHe?'האתגר היומי':'Daily Challenge'}</span>
         <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">${pills}</div>
       </div>
       <div style="text-align:center">
@@ -120,7 +120,7 @@ const DailyChallenge = (() => {
         if (!done.has(id)) {
           card.classList.add('dc-highlight');
           const crown = document.createElement('span');
-          crown.className='dc-crown-badge'; crown.textContent='📅';
+          crown.className='dc-crown-badge'; crown.innerHTML=Icon.ui('calendar-days');
           card.style.position='relative'; card.appendChild(crown);
         }
       }
@@ -133,10 +133,10 @@ const DailyChallenge = (() => {
     if (!pills.length) return;
     pills.forEach((p,i) => {
       const g = games[i]; if (!g) return;
-      if (done.has(g)) { p.classList.add('done'); p.innerHTML = `✅ ${_gameLabel(g)}`; }
+      if (done.has(g)) { p.classList.add('done'); p.innerHTML = `${Icon.ui('circle-check')} ${_gameLabel(g)}`; }
     });
     const stars = document.getElementById('dc-stars');
-    if (stars) stars.textContent = _starStr();
+    if (stars) stars.innerHTML = _starStr();
     _highlightCards(games, done);
   }
 

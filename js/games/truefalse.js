@@ -18,8 +18,8 @@ function _tfNext(c) {
         <div class="flex justify-between text-sm font-bold text-gray-400 mb-4"><span>${gt('Q', 'שאלה')} ${gs.idx+1}/${gs.perLevel}</span><span class="text-green-600">&#10003; ${gs.score}</span></div>
         <div class="text-2xl md:text-3xl font-bold text-[#1a365d] bg-blue-50 border border-blue-200 p-6 rounded-2xl mb-8 leading-relaxed">${item.s}</div>
         <div class="flex gap-4 justify-center">
-            <button onclick="answerTF(true,${item.a})" class="flex-1 py-5 text-xl font-bold rounded-2xl bg-green-500 text-white hover:bg-green-600 active:scale-95 transition shadow-lg" style="max-width:180px">${gt('✅ True', '✅ נכון')}</button>
-            <button onclick="answerTF(false,${item.a})" class="flex-1 py-5 text-xl font-bold rounded-2xl bg-red-500 text-white hover:bg-red-600 active:scale-95 transition shadow-lg" style="max-width:180px">${gt('❌ False', '❌ לא נכון')}</button>
+            <button onclick="answerTF(true,${item.a})" class="flex-1 py-5 text-xl font-bold rounded-2xl bg-green-500 text-white hover:bg-green-600 active:scale-95 transition shadow-lg" style="max-width:180px">${Icon.ui('check',{sw:3})} ${gt('True', 'נכון')}</button>
+            <button onclick="answerTF(false,${item.a})" class="flex-1 py-5 text-xl font-bold rounded-2xl bg-red-500 text-white hover:bg-red-600 active:scale-95 transition shadow-lg" style="max-width:180px">${Icon.ui('x',{sw:3})} ${gt('False', 'לא נכון')}</button>
         </div>
     </div>`;
 }

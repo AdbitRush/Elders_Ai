@@ -4,7 +4,7 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v64';
+const CACHE = 'golden-games-v65';
 const PREFIX = 'golden-games-';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
@@ -18,6 +18,8 @@ const SHELL = [
   './css/a11y.css',
   './css/warm.css',
   './js/warm.js',
+  './js/icons.js',
+  './js/lucide-icons.js',
   './manifest.json',
   './images/icon.svg',
   './images/icon-192.png',

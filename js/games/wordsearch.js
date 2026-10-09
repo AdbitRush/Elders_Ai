@@ -53,5 +53,5 @@ function _wsValid(cells,nr,nc) {
 function checkWordSearch() {
     const state=gameState.wordsearch,cur=state.selectedCells.map(x=>x.char).join(''),curR=state.selectedCells.map(x=>x.char).reverse().join('');
     const matched=state.words.includes(cur)?cur:state.words.includes(curR)?curR:null;
-    if(matched){sfxCorrect();state.selectedCells.forEach(x=>{x.el.classList.remove('selected');x.el.classList.add('found');});const we=document.getElementById(`word-${matched}`);if(we){we.classList.replace('bg-slate-100','bg-green-100');we.classList.replace('text-gray-500','text-green-700');}state.words=state.words.filter(w=>w!==matched);state.selectedCells=[];if(state.words.length===0)setTimeout(()=>levelComplete(),500);}
+    if(matched){sfxCorrect();state.selectedCells.forEach(x=>{x.el.classList.remove('selected');x.el.classList.add('found');});const we=document.getElementById(`word-${matched}`);if(we){we.classList.replace('bg-slate-100','bg-green-100');we.classList.replace('text-gray-500','text-green-700');we.insertAdjacentHTML('afterbegin',Icon.ui('check',{sw:3})+' ');}state.words=state.words.filter(w=>w!==matched);state.selectedCells=[];if(state.words.length===0)setTimeout(()=>levelComplete(),500);}
 }

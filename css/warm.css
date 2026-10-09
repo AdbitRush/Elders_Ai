@@ -233,3 +233,67 @@ html[data-game="jigsaw"] #gameContent .jig-chip{ color:var(--w-table-ink) !impor
   min-width:56px; min-height:56px; font-size:1.25rem !important; font-weight:800 !important; box-shadow:none !important; }
 html[data-game="jigsaw"] #gameContent .jig-chip.active{ background:#b45309 !important; border-color:#92400e !important; color:#fff !important; }
 html[data-theme] body #homeScreen .why-line{ color:var(--w-ink2) !important; }
+
+/* ── 2026-10-09 round 3: one icon family (Lucide, js/icons.js) instead of keyboard emoji ── */
+.lc{ display:inline-block; pointer-events:none; flex-shrink:0; vertical-align:-0.2em; }  /* Tailwind preflight makes svg display:block */
+.lc-ui{ margin-inline-end:.15em; }      /* never the click target (the ☰ outside-click check compares e.target) */
+.lc-sym{ display:inline-flex; align-items:center; justify-content:center; color:var(--c); line-height:0; vertical-align:middle; }
+.lc-sym svg{ width:100%; height:100%; }
+/* memory: deep amber back with a cream frame and the brain mark; faces are big icons on white */
+html[data-game="memory"] #gameContent .mem-back{ background:linear-gradient(145deg,#c2410c,#92400e) !important; color:#fde7c4 !important;
+  border:3px solid #7c2d12 !important; box-shadow:inset 0 0 0 5px #b45309, inset 0 0 0 7px rgba(253,231,196,.6), 0 4px 10px rgba(80,40,0,.25) !important; }
+html[data-game="memory"] #gameContent .mem-face .lc-sym{ width:66%; height:66%; }
+/* odd one out */
+#gameContent .odd-tile{ border:2px solid #e7d3b0 !important; }
+#gameContent .odd-tile .lc-sym{ width:74%; height:74%; }
+/* quick count */
+#gameContent .cnt-field{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px 14px; font-size:clamp(2.1rem,7vw,2.7rem); line-height:1; }
+#gameContent .cnt-q{ font-size:1.6em; vertical-align:-0.35em; }
+/* picture recall */
+#gameContent .rc-ic{ font-size:2.8rem; line-height:0; padding:4px 0; }
+/* time journey: white icons in a soft disc on the coloured scene cards */
+#gameContent .ls-ic{ display:inline-flex; align-items:center; justify-content:center; width:1.6em; height:1.6em; border-radius:50%;
+  background:rgba(255,255,255,.18); color:#fff; }
+#gameContent .ls-ic .lc{ width:62%; height:62%; }
+/* hero brain mark, the end-of-game mark and the games-menu icons */
+.w-hero-mark, .w-modal-mark{ display:inline-flex; align-items:center; justify-content:center; border-radius:50%; color:#b45309;
+  background:#fff3e0; border:2px solid #f0c27a; }
+.w-hero-mark{ width:84px; height:84px; font-size:48px; margin-bottom:.5rem; }
+.w-modal-mark{ width:96px; height:96px; font-size:54px; }
+html:not([data-theme="light"]) .w-hero-mark{ color:#f6c048; background:rgba(246,192,72,.12); border-color:rgba(246,192,72,.45); }
+.w-menu-ic{ color:#b45309; line-height:0; }
+html:not([data-theme="light"]) .w-menu-ic{ color:#f6c048; }
+html[data-theme] body #homeScreen .why-line .lc-why{ color:var(--w-accent); }
+html[data-theme] body nav button .lc{ font-size:1.1rem; }
+
+/* Shabbat / holiday banner: was pale lilac text on a lilac strip (about 1.6:1). Now dark ink on cream, or cream on deep brown. */
+#holiday-banner{ background:#fff4e2 !important; border:2px solid #c2410c !important; color:#7c2d12 !important;
+  font-size:1.1rem !important; font-weight:800 !important; padding:.8rem 1.25rem !important; border-radius:14px !important; }
+#holiday-banner .lc{ color:#c2410c; }
+html:not([data-theme="light"]) #holiday-banner{ background:#3a2412 !important; border-color:#f0a052 !important; color:#ffe8c7 !important; }
+html:not([data-theme="light"]) #holiday-banner .lc{ color:#f6c048; }
+/* shape sorter: solid shapes sized to the tile */
+#gameContent .shp{ display:inline-flex; width:72%; height:72%; line-height:0; }
+#gameContent .shp-slot{ display:inline-flex; align-items:center; justify-content:center; width:100%; height:100%; }
+#gameContent .shp-slot .shp{ width:72%; height:72%; }
+#gameContent .shp .lc{ width:100%; height:100%; }
+/* favourite heart on the card photo: white outline, solid red once saved */
+#homeScreen .pin-btn{ color:#fff !important; }
+#homeScreen .pin-btn.pinned{ color:#f87171 !important; }
+/* safari: the "Find the …" line was amber-300 on the ivory table */
+html[data-game="safari"] #gameContent #sf-task{ color:var(--w-table-ink) !important; }
+html[data-game="safari"] #gameContent .text-green-400{ color:#15803d !important; }
+
+/* light background, settled (round 3): no ambient photo in either theme. The pale wash left grey smudges of the old
+   dark photo behind the cards; a plain warm gradient is cleaner on desktop and phone. */
+#ambientBg .ab-layer{ display:none !important; }
+
+/* daily challenge strip: its game buttons were pale amber on light amber (unreadable in light mode) */
+html[data-theme] body #daily-challenge-banner{ background:var(--w-card) !important; border:2px solid var(--w-line) !important; }
+html[data-theme] body #daily-challenge-banner span[style*="color:#f6c048"]{ color:var(--w-accent) !important; font-size:1rem !important; }
+html[data-theme] body #daily-challenge-banner .dc-game-pill{ color:var(--w-ink) !important; background:var(--w-bg) !important; border:2px solid var(--w-line) !important;
+  font-size:1rem !important; font-weight:700; padding:8px 14px !important; min-height:44px; display:inline-flex; align-items:center; gap:6px; }
+html[data-theme] body #daily-challenge-banner .dc-game-pill.done{ border-color:#15803d !important; }
+html[data-theme] body #daily-challenge-banner .dc-game-pill.done .lc{ color:#15803d; }
+html[data-theme] body #daily-challenge-banner #dc-stars{ color:#a16207; }
+html[data-theme] body #daily-challenge-banner #dc-stars + div{ color:var(--w-ink2) !important; }

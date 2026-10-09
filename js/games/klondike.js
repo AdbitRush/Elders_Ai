@@ -59,8 +59,8 @@ function _klCardHtml(c, where, pi, ci, sel) {
 function _klRender(container) {
     const s = gameState.klondike;
     const he = (typeof currentLang !== 'undefined' && currentLang === 'he');
-    const L = he ? {undo:'↩️ ביטול', hint:'💡 רמז', deal:'🔄 חלוקה חדשה', moves:'מהלכים'}
-                 : {undo:'↩️ Undo', hint:'💡 Hint', deal:'🔄 New deal', moves:'Moves'};
+    const L = he ? {undo:Icon.ui('undo-2')+' ביטול', hint:Icon.ui('lightbulb')+' רמז', deal:Icon.ui('rotate-ccw')+' חלוקה חדשה', moves:'מהלכים'}
+                 : {undo:Icon.ui('undo-2')+' Undo', hint:Icon.ui('lightbulb')+' Hint', deal:Icon.ui('rotate-ccw')+' New deal', moves:'Moves'};
     let h = `<style>
       .kl-board{direction:ltr;max-width:860px;margin:0 auto;user-select:none}
       .kl-row{display:flex;gap:8px;justify-content:center;margin-bottom:14px;flex-wrap:nowrap}

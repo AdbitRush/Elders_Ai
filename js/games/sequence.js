@@ -37,7 +37,7 @@ async function playColorSequence() {
     if(scEl){scEl.innerText=isHe?`רמה ${state.sequence.length}...`:`Level ${state.sequence.length}...`; scEl.style.color='';}
     for(let i=0;i<state.sequence.length;i++){if(!gameState.active)return;await new Promise(r=>setTimeout(r,gap));await flashSequence(state.sequence[i],_d);}
     if(!gameState.active)return; state.waitingForUser=true;
-    if(scEl) scEl.innerText=isHe?`רמה ${state.sequence.length} — תורך! 👆`:`Level ${state.sequence.length} — Your turn! 👆`;
+    if(scEl) scEl.innerHTML=(isHe?`רמה ${state.sequence.length} — תורך! `:`Level ${state.sequence.length} — Your turn! `)+Icon.ui('pointer');
 }
 async function flashSequence(id,_d='normal') {
     if(!gameState.active)return;
@@ -72,10 +72,10 @@ function clickSequence(id) {
             const hs=checkHS('sequence',score);
             Retention.recordWin();
             gc.innerHTML=`<div class="text-center py-8 px-4 max-w-sm mx-auto">
-                <div style="font-size:4rem">🎉</div>
+                <div class="w-modal-mark" aria-hidden="true">${Icon.svg('party-popper',{size:'1em',sw:1.8})}</div>
                 <div class="text-3xl font-bold mt-3 text-slate-800">${gt('Great job!', 'כל הכבוד!')}</div>
                 <div class="text-xl mt-3 text-gray-600">${isHe?`הגעת לרמה`:'You reached level'} <strong class="text-[#1a365d] text-2xl">${score}</strong></div>
-                ${hs?`<div class="mt-2 text-amber-600 font-bold text-lg">${gt('⭐ New personal best!', '⭐ שיא אישי חדש!')}</div>`:''}
+                ${hs?`<div class="mt-2 text-amber-600 font-bold text-lg">${Icon.ui('star')} ${gt('New personal best!', 'שיא אישי חדש!')}</div>`:''}
                 <div id="sequence-share" class="mt-3"></div>
                 <div class="flex gap-3 justify-center mt-6 flex-wrap">
                     <button onclick="loadGame('sequence')" class="btn-premium py-3 px-8 rounded-xl font-bold">${gt('Play Again', 'שחק שוב')}</button>

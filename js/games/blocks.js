@@ -57,7 +57,7 @@ window.initBlocks=function(container){
     const dropBtn=mkBtn(gt('⤓ DROP', '⤓ הפלה'),()=>hardDrop(),{span:4});
     dropBtn.style.fontSize='22px'; dropBtn.style.height='54px'; dropBtn.style.letterSpacing='.08em';
     const hint=document.createElement('div');
-    hint.textContent=gt('💡 Swipe the board: left/right to move · down to drop · tap to rotate', '💡 החליקו על הלוח: ימין/שמאל להזזה · מטה להפלה · נגיעה לסיבוב');
+    hint.innerHTML=Icon.ui('lightbulb')+' ';hint.append(gt('Swipe the board: left/right to move · down to drop · tap to rotate', 'החליקו על הלוח: ימין/שמאל להזזה · מטה להפלה · נגיעה לסיבוב'));
     hint.style.cssText='color:#5a7ba0;font-size:12px;text-align:center;max-width:340px;line-height:1.5';
 
     container.append(scoreEl,canvas,pad,dropBtn,hint);

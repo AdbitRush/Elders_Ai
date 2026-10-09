@@ -46,7 +46,7 @@
         {s:"Une pieuvre a 8 bras",a:true},{s:"Une semaine compte 8 jours",a:false},
         {s:"Le miel ne périme jamais",a:true},{s:"Les pingouins vivent au pôle Nord",a:false},
         {s:"La Grande Muraille est en Chine",a:true},{s:"Les tomates sont des légumes",a:false}],
-      recall_pool: ["🍎 Pomme","🚗 Voiture","🌸 Fleur","📚 Livre","🐕 Chien","☕ Café","🎸 Guitare","⚽ Ballon","🍕 Pizza","🌙 Lune","🏠 Maison","🎂 Gâteau","🌹 Rose","🦁 Lion","🍇 Raisin"],
+      recall_pool: ["🍎 Pomme","🚗 Voiture","🌸 Fleur","📚 Livre","🐕 Chien","☕ Café","🎸 Guitare","⚽ Ballon","🍕 Pizza","🌙 Lune","🏠 Maison","🎂 Gâteau","🌹 Rose","🐢 Tortue","🍇 Raisin"],
       flags_pool: [
         {flag:"🇺🇸",opts:["Canada","Australie","États-Unis","Nouvelle-Zélande"],a:2},
         {flag:"🇬🇧",opts:["Irlande","Australie","Canada","Royaume-Uni"],a:3},
@@ -97,7 +97,7 @@
         {s:"Un pulpo tiene 8 brazos",a:true},{s:"Una semana tiene 8 días",a:false},
         {s:"La miel nunca caduca",a:true},{s:"Los pingüinos viven en el Polo Norte",a:false},
         {s:"La Gran Muralla está en China",a:true},{s:"El tomate es una verdura",a:false}],
-      recall_pool: ["🍎 Manzana","🚗 Coche","🌸 Flor","📚 Libro","🐕 Perro","☕ Café","🎸 Guitarra","⚽ Balón","🍕 Pizza","🌙 Luna","🏠 Casa","🎂 Tarta","🌹 Rosa","🦁 León","🍇 Uvas"],
+      recall_pool: ["🍎 Manzana","🚗 Coche","🌸 Flor","📚 Libro","🐕 Perro","☕ Café","🎸 Guitarra","⚽ Balón","🍕 Pizza","🌙 Luna","🏠 Casa","🎂 Tarta","🌹 Rosa","🐢 Tortuga","🍇 Uvas"],
       flags_pool: [
         {flag:"🇺🇸",opts:["Canadá","Australia","Estados Unidos","Nueva Zelanda"],a:2},
         {flag:"🇬🇧",opts:["Irlanda","Australia","Canadá","Reino Unido"],a:3},
@@ -148,7 +148,7 @@
         {s:"Ein Oktopus hat 8 Arme",a:true},{s:"Eine Woche hat 8 Tage",a:false},
         {s:"Honig wird niemals schlecht",a:true},{s:"Pinguine leben am Nordpol",a:false},
         {s:"Die Große Mauer steht in China",a:true},{s:"Tomaten sind Gemüse",a:false}],
-      recall_pool: ["🍎 Apfel","🚗 Auto","🌸 Blume","📚 Buch","🐕 Hund","☕ Kaffee","🎸 Gitarre","⚽ Ball","🍕 Pizza","🌙 Mond","🏠 Haus","🎂 Kuchen","🌹 Rose","🦁 Löwe","🍇 Trauben"],
+      recall_pool: ["🍎 Apfel","🚗 Auto","🌸 Blume","📚 Buch","🐕 Hund","☕ Kaffee","🎸 Gitarre","⚽ Ball","🍕 Pizza","🌙 Mond","🏠 Haus","🎂 Kuchen","🌹 Rose","🐢 Schildkröte","🍇 Trauben"],
       flags_pool: [
         {flag:"🇺🇸",opts:["Kanada","Australien","USA","Neuseeland"],a:2},
         {flag:"🇬🇧",opts:["Irland","Australien","Kanada","Großbritannien"],a:3},
@@ -199,7 +199,7 @@
         {s:"Το χταπόδι έχει 8 πλοκάμια",a:true},{s:"Η εβδομάδα έχει 8 μέρες",a:false},
         {s:"Το μέλι δεν χαλάει ποτέ",a:true},{s:"Οι πιγκουίνοι ζουν στον Βόρειο Πόλο",a:false},
         {s:"Το Σινικό Τείχος είναι στην Κίνα",a:true},{s:"Η ντομάτα είναι λαχανικό",a:false}],
-      recall_pool: ["🍎 Μήλο","🚗 Αυτοκίνητο","🌸 Λουλούδι","📚 Βιβλίο","🐕 Σκύλος","☕ Καφές","🎸 Κιθάρα","⚽ Μπάλα","🍕 Πίτσα","🌙 Φεγγάρι","🏠 Σπίτι","🎂 Τούρτα","🌹 Τριαντάφυλλο","🦁 Λιοντάρι","🍇 Σταφύλια"],
+      recall_pool: ["🍎 Μήλο","🚗 Αυτοκίνητο","🌸 Λουλούδι","📚 Βιβλίο","🐕 Σκύλος","☕ Καφές","🎸 Κιθάρα","⚽ Μπάλα","🍕 Πίτσα","🌙 Φεγγάρι","🏠 Σπίτι","🎂 Τούρτα","🌹 Τριαντάφυλλο","🐢 Χελώνα","🍇 Σταφύλια"],
       flags_pool: [
         {flag:"🇺🇸",opts:["Καναδάς","Αυστραλία","ΗΠΑ","Νέα Ζηλανδία"],a:2},
         {flag:"🇬🇧",opts:["Ιρλανδία","Αυστραλία","Καναδάς","Ηνωμένο Βασίλειο"],a:3},

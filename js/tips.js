@@ -31,7 +31,7 @@ const Tips = (() => {
     if (container.hasChildNodes()) return;
     const el = document.createElement('div');
     el.id = 'tips-carousel';
-    el.innerHTML = '<span style="font-size:0.95rem;flex-shrink:0">💡</span><span id="tips-text"></span>';
+    el.innerHTML = '<span style="font-size:0.95rem;flex-shrink:0;line-height:0">' + (typeof Icon !== 'undefined' ? Icon.ui('lightbulb') : '') + '</span><span id="tips-text"></span>';
     container.appendChild(el);
     _rotate();
     _iv = setInterval(_rotate, 9000);
@@ -45,7 +45,7 @@ const Tips = (() => {
     if (!el) { clearInterval(_iv); return; }
     el.style.opacity = '0';
     setTimeout(() => {
-      el.textContent = pool[_idx % pool.length];
+      el.textContent = pool[_idx % pool.length].replace(/^[^\p{L}\p{N}]+/u, '');  // the lightbulb icon replaces each tip's emoji
       el.style.opacity = '1';
       _idx++;
     }, 400);

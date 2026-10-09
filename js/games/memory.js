@@ -13,7 +13,7 @@ function initMemory(container) {
     const cards=shuffle([...icons,...icons]);
     const n=cards.length, wide=n===20?5:n===24?6:4;
     let html=`<div class="mem-grid grid gap-3 md:gap-4 w-full mx-auto" data-cards="${n}" style="grid-template-columns:repeat(4,minmax(0,1fr));--mem-cols:${wide}">`;
-    cards.forEach((icon,i)=>{html+=`<div class="aspect-square relative text-3xl md:text-5xl"><div class="card-inner w-full h-full" data-val="${icon}" id="m-card-${i}" onclick="flipMemory(${i})"><div class="card-face w-full h-full absolute bg-slate-700 text-white font-bold rounded-xl shadow-md flex items-center justify-center">?</div><div class="card-face card-back w-full h-full absolute bg-white border-4 border-slate-700 rounded-xl shadow-md flex items-center justify-center">${icon}</div></div></div>`;});
+    cards.forEach((icon,i)=>{html+=`<div class="aspect-square relative text-3xl md:text-5xl"><div class="card-inner w-full h-full" data-val="${icon}" id="m-card-${i}" onclick="flipMemory(${i})"><div class="card-face mem-back w-full h-full absolute rounded-xl shadow-md flex items-center justify-center">${Icon.svg('brain',{size:'46%',sw:1.7})}</div><div class="card-face card-back mem-face w-full h-full absolute bg-white border-4 border-slate-700 rounded-xl shadow-md flex items-center justify-center">${Icon.sym(icon,{size:'100%'})}</div></div></div>`;});
     container.innerHTML=html+`</div>`;
 }
 function flipMemory(i) {

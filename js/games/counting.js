@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 // GAME 22: QUICK COUNT — how many target emojis are in the grid?
 // ═══════════════════════════════════════════════════════════════════════════════
-const _CNT_EMOJIS=['🦋','🌸','🍎','⭐','🐟','🍀','☀️','🎈','🐦','🍇'];
+const _CNT_EMOJIS=['🍎','🌸','⭐','🐟','🍀','🎈','🐦','🍇']; // keys into Icon.SYM: eight shapes in eight clearly different colours
 function initCounting(container){
     const gs=gameState.counting;
     const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
@@ -28,8 +28,8 @@ function _cntNext(container){
     while(opts.size<4){const d=targetCount+Math.ceil(Math.random()*3)*(Math.random()<0.5?-1:1);if(d>0)opts.add(d);}
     let html=`<div class="max-w-2xl w-full text-center">
       <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${gt('Round', 'סיבוב')} ${gs._si+1}/${gs._sq}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
-      <p class="text-xl text-gray-600 mb-4 font-bold">${isHe?`כמה ${target} יש בתמונה?`:`How many ${target} do you see?`}</p>
-      <div class="bg-white rounded-2xl p-5 mb-6 shadow-inner text-3xl md:text-4xl leading-relaxed" style="letter-spacing:.35rem">${shuffle(cells).join('')}</div>
+      <p class="text-xl text-gray-600 mb-4 font-bold">${isHe?`כמה ${Icon.sym(target,{cls:'cnt-q'})} יש בתמונה?`:`How many ${Icon.sym(target,{cls:'cnt-q'})} do you see?`}</p>
+      <div class="cnt-field bg-white rounded-2xl p-5 mb-6 shadow-inner">${shuffle(cells).map(e=>Icon.sym(e)).join('')}</div>
       <div class="grid grid-cols-4 gap-3">`;
     shuffle([...opts]).forEach(o=>{
         html+=`<button onclick="_cntAnswer(this,${o})" class="bg-white border-2 border-gray-200 hover:border-[#b7791f] text-3xl font-bold p-4 rounded-xl transition shadow-sm">${o}</button>`;

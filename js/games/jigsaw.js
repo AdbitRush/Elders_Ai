@@ -15,12 +15,12 @@ function initJigsaw(container) {
   S.img = null;
   S.dragIdx = -1;
   S.DEFAULTS = [
-    { name: 'Sunset beach', file: 'images/jigsaw/bg0.jpg' },
+    { name: 'Palm beach', file: 'images/jigsaw/bg0.jpg' },
     { name: 'Mountain lake', file: 'images/jigsaw/bg1.jpg' },
-    { name: 'Flower garden', file: 'images/jigsaw/bg2.jpg' },
-    { name: 'Sailing ship', file: 'images/jigsaw/bg3.jpg' },
+    { name: 'Tulip field', file: 'images/jigsaw/bg2.jpg' },
+    { name: 'Hot-air balloons', file: 'images/jigsaw/bg3.jpg' },
     { name: 'Forest path', file: 'images/jigsaw/bg4.jpg' },
-    { name: 'Old town street', file: 'images/jigsaw/bg5.jpg' }
+    { name: 'Colourful houses', file: 'images/jigsaw/bg5.jpg' }
   ];
   S.defaultIdx = Math.floor(Math.random() * S.DEFAULTS.length);
   renderSetup(container);
@@ -44,15 +44,15 @@ function renderSetup(container) {
   }
   const _diffLabel = isHe ? ({ easy: 'קל', normal: 'רגיל', hard: 'קשה' }[_diff] || 'רגיל') : _diff;
   const L = {
-    title: isHe ? '🧩 פאזל ג\'יקסו' : '🧩 Jigsaw Puzzle',
+    title: Icon.ui('puzzle') + ' ' + (isHe ? 'פאזל ג\'יקסו' : 'Jigsaw Puzzle'),
     choose: isHe ? 'בחרו מספר חלקים' : 'Choose piece count',
     diffHint: isHe
       ? `רמת קושי נוכחית: <b>${_diffLabel}</b> · קל=6 · רגיל=12 · קשה=48`
       : `Current difficulty: <b>${_diffLabel}</b> · Easy=6 · Normal=12 · Hard=48`,
     img: isHe ? 'בחרו תמונה' : 'Choose an image',
-    upload: isHe ? '📤 העלאת תמונה מהמכשיר' : '📤 Upload a photo',
-    camera: isHe ? '📷 צילום במצלמה' : '📷 Take a photo',
-    start: isHe ? '🚀 התחילו!' : '🚀 Start!',
+    upload: Icon.ui('upload') + ' ' + (isHe ? 'העלאת תמונה מהמכשיר' : 'Upload a photo'),
+    camera: Icon.ui('camera') + ' ' + (isHe ? 'צילום במצלמה' : 'Take a photo'),
+    start: Icon.ui('play') + ' ' + (isHe ? 'התחילו!' : 'Start!'),
     builtin: isHe ? 'או בחרו תמונה יפה:' : 'Or pick a pretty picture:'
   };
 
@@ -382,10 +382,10 @@ function buildJigsawBoard(container, isHe) {
   const hPct = ((ph + pad * 2) / ph * 100).toFixed(3);
 
   const L = {
-    restart: isHe ? '🔄 פאזל חדש' : '🔄 New puzzle',
-    newimg: isHe ? '📷 תמונה אחרת' : '📷 Different image',
-    peek: isHe ? '👁️ הצצה לתמונה' : '👁️ Peek at the picture',
-    help: isHe ? '💡 עזרה' : '💡 Help',
+    restart: Icon.ui('rotate-ccw') + ' ' + (isHe ? 'פאזל חדש' : 'New puzzle'),
+    newimg: Icon.ui('camera') + ' ' + (isHe ? 'תמונה אחרת' : 'Different image'),
+    peek: Icon.ui('eye') + ' ' + (isHe ? 'הצצה לתמונה' : 'Peek at the picture'),
+    help: Icon.ui('lightbulb') + ' ' + (isHe ? 'עזרה' : 'Help'),
     tip: isHe ? 'גררו חלק אל הלוח, או הקישו על חלק ואז על המקום'
               : 'Drag a piece onto the board, or tap a piece then tap a spot'
   };
@@ -400,7 +400,7 @@ function buildJigsawBoard(container, isHe) {
   }
   boardHtml += '</div>';
 
-  let trayHtml = `<div class="jig-tray-head" id="jigTrayHead">🧩 ${isHe ? 'נותרו' : 'Left'}: <b id="jigTrayCount">${n}</b></div><div class="jig-tray" id="jigTray">`;
+  let trayHtml = `<div class="jig-tray-head" id="jigTrayHead">${Icon.ui('puzzle')} ${isHe ? 'נותרו' : 'Left'}: <b id="jigTrayCount">${n}</b></div><div class="jig-tray" id="jigTray">`;
   // Only a handful of pieces sit in the tray at once (like a real jigsaw
   // app); each time one lands on the board, the next hidden piece appears.
   const TRAY_VISIBLE = 6;

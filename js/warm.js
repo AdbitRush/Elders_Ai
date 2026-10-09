@@ -43,7 +43,7 @@
     if (!b) return;
     var light = R.getAttribute('data-theme') === 'light';
     var want = light ? 'dark' : 'light';   // the label names what a press switches TO
-    var html = '<span aria-hidden="true">' + (light ? '🌙' : '☀️') + '</span><span class="w-tl">' + tr(want) + '</span>';
+    var html = Icon.ui(light ? 'moon' : 'sun') + '<span class="w-tl">' + tr(want) + '</span>';
     if (b.innerHTML !== html) b.innerHTML = html;
     b.setAttribute('aria-label', tr(want));
     b.title = tr(want);
@@ -63,7 +63,7 @@
         body.appendChild(a);
       }
       a.href = l + '/' + id + '/';
-      a.textContent = '📄 ' + tr('about');
+      a.textContent = tr('about'); a.insertAdjacentHTML('afterbegin', Icon.ui('book-open-text') + ' ');
     });
     var h = document.getElementById('all-games-h');
     if (h) h.textContent = tr('all');
@@ -71,7 +71,7 @@
       var id = li.getAttribute('data-game'), page = li.querySelector('.ag-page'), play = li.querySelector('.ag-play');
       var hs = document.getElementById('hs-' + id), card = hs && hs.closest('.premium-card'), t = card && card.querySelector('h3');
       if (page) { page.href = l + '/' + id + '/'; if (t && t.textContent.trim()) page.textContent = t.textContent.trim(); }
-      if (play) { play.href = '?lang=' + l + '#' + id; play.textContent = '▶ ' + tr('play'); }
+      if (play) { play.href = '?lang=' + l + '#' + id; play.textContent = tr('play'); play.insertAdjacentHTML('afterbegin', Icon.ui('play') + ' '); }
     });
   }
 
@@ -100,7 +100,7 @@
     var tools = document.getElementById('w-tools');
     if (!tools) {
       tools = document.createElement('div'); tools.id = 'w-tools';
-      tools.innerHTML = '<div class="w-lang"><label for="langSelect">🌐 <span></span></label></div><div class="w-grid"></div>';
+      tools.innerHTML = '<div class="w-lang"><label for="langSelect">' + Icon.ui('globe') + ' <span></span></label></div><div class="w-grid"></div>';
       menu.insertBefore(tools, menu.firstChild);
     }
     tools.querySelector('.w-lang span').textContent = tr('lang');

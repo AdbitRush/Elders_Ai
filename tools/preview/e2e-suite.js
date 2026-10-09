@@ -1,6 +1,6 @@
 // BrainPlay preview e2e suite (branch preview/warm-redesign).
 //   node tools/preview/e2e-suite.js <dir with node_modules/playwright> [baseUrl]
-// Checks (section 8 = the 2026-10-09 fixes: copy, light landing pages, no dark photos, light-mode contrast, card photos,
+// Checks (section 9 = round 3: Lucide icons and Pexels photos instead of emoji; section 8 = the 2026-10-09 fixes: copy, light landing pages, no dark photos, light-mode contrast, card photos,
 // memory grid, welcome card, one-row phone header): 28 games load (390 light + 1440 dark), 6 languages, nothing interactive lost vs the live baseline
 // (tools/preview/baseline-inventory.json), ads never mid-game, the light/dark toggle, every game page linked from
 // the hub, text contrast, the review tool. It removes its own TEST notes at the end.
@@ -176,8 +176,8 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     const similar = [['🌻', '🌼'], ['🚗', '🚙'], ['😸', '😹'], ['🌞', '🌝'], ['🌲', '🌳'], ['🟩', '🟢'], ['📘', '📗']];
     ok('8 odd one out: no near-identical symbol pairs left', !similar.some(([a, c]) => sets.some((s) => s.includes(a) && s.includes(c))), JSON.stringify(sets));
     const credits = await p.evaluate(async () => { const t = await (await fetch('credits.html')).text(); const ims = await Promise.all(['oddoneout', 'flags', 'math', 'wordsearch'].map((g) => new Promise((res) => { const i = new Image(); i.onload = () => res(i.naturalWidth + 'x' + i.naturalHeight); i.onerror = () => res('ERR'); i.src = 'images/cards/' + g + '.jpg?' + Date.now(); })));
-      return { links: (t.match(/commons\.wikimedia\.org\/wiki\/File:/g) || []).length, ims, footer: !!document.querySelector('footer a[href="credits.html"]') }; });
-    ok('8 new card photos (960x720) with a credits page linked from the footer', credits.links === 4 && credits.ims.every((x) => x === '960x720') && credits.footer, JSON.stringify(credits));
+      return { links: (t.match(/pexels\.com\/photo\//g) || []).length, ims, footer: !!document.querySelector('footer a[href="credits.html"]') }; });
+    ok('8 card photos (960x720) with a credits page linked from the footer', credits.links >= 47 && credits.ims.every((x) => x === '960x720') && credits.footer, JSON.stringify(credits));
     ok('8 no JS errors on the hub', !errs.length, errs.join(' | '));
     await ctx.close();
   }
@@ -189,7 +189,7 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     await p.evaluate(() => loadGame('trivia')); await p.waitForTimeout(1200);
     const t = await p.evaluate(() => getComputedStyle(document.getElementById('gameTitle')).color);
     const dark = (c) => lum(c) < 0.1;
-    const okBg = theme === 'dark' ? r.photoLayers === 0 : /0\.9/.test(r.scrim);
+    const okBg = r.photoLayers === 0;   // round 3: no ambient photo in either theme
     ok(`8 ${theme}: no dark photo behind the page, hero title solid (not gradient), game header title dark on light`, okBg && !/, 0\)$/.test(r.fill) && dark(t), JSON.stringify(r) + ' title=' + t);
     await ctx.close();
   }
@@ -212,9 +212,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
       for (const lv of [1, 2, 3, 4, 6, 8, 12, 20]) { gameState.memory.level = lv; initMemory(document.getElementById('gameContent')); await new Promise((x) => setTimeout(x, 60));
         const tops = {}; document.querySelectorAll('#gameContent [id^="m-card-"]').forEach((e) => { const t = Math.round(e.getBoundingClientRect().top); tops[t] = (tops[t] || 0) + 1; });
         const rows = Object.values(tops); out.push({ lv, n: rows.reduce((a, b) => a + b, 0), even: rows.every((x) => x === rows[0]) }); }
-      const back = getComputedStyle(document.querySelector('#gameContent .card-face.bg-slate-700')).backgroundImage;
+      const back = getComputedStyle(document.querySelector('#gameContent .mem-back')).backgroundImage;
       return { out, back }; });
-    ok(`8 memory @${w}: 8-24 cards, every row full (no orphan), plain backs`, r.out.every((x) => [8, 12, 16, 20, 24].includes(x.n) && x.even) && r.back === 'none', JSON.stringify(r.out.map((x) => x.n + (x.even ? '' : '!'))) + ' back=' + r.back.slice(0, 30));
+    ok(`8 memory @${w}: 8-24 cards, every row full (no orphan), plain backs`, r.out.every((x) => [8, 12, 16, 20, 24].includes(x.n) && x.even) && !/url\(/.test(r.back), JSON.stringify(r.out.map((x) => x.n + (x.even ? '' : '!'))) + ' back=' + r.back.slice(0, 30));
     await ctx.close();
   }
   for (const w of [1440, 390]) {
@@ -243,6 +243,83 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     const dr = await d.p.evaluate(() => ({ lang: !!document.querySelector('nav #langSelect'), tools: ['textsize-btn', 'sound-btn', 'inviteBtn', 'profile-chip'].every((id) => document.querySelector('nav #' + id)) }));
     ok('8 desktop header keeps every control in place', dr.lang && dr.tools, JSON.stringify(dr));
     await d.ctx.close();
+  }
+  // 9. round 3 (2026-10-09): one icon family (Lucide) and real photos (Pexels) instead of keyboard emoji
+  // emoji pictures only; playing-card suits and the plain ✓ / ✕ glyphs are text and stay
+  const EMO = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B50}\u{2B55}]/u, TEXT_GLYPHS = '♠♣♥♦✓✕✔';
+  const GAMES = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
+  const emojiIn = (t) => [...new Set([...t].filter((c) => EMO.test(c) && !TEXT_GLYPHS.includes(c)))].join('');
+  {
+    const bad = [];
+    for (const g of GAMES) {
+      const { ctx, p, errs } = await page(390, '/#' + g, { theme: 'light', lang: 'he' });
+      const warn = []; p.on('console', (m) => { if (/Icon missing/.test(m.text())) warn.push(m.text()); });
+      await p.evaluate((g) => { try { if (g === 'lifesim') _lsStart(Object.keys(_LS_ERAS)[0]); if (g === 'memory') flipMemory(0); } catch (e) {} }, g);
+      await p.waitForTimeout(300);
+      let txt = await p.evaluate(() => (document.getElementById('gameContent') || {}).innerText || '');
+      if (g === 'recall') { await p.evaluate(() => { try { _recallTest(); } catch (e) {} }); txt += await p.evaluate(() => document.getElementById('gameContent').innerText); }
+      const e = emojiIn(txt);
+      if (e || errs.length || warn.length) bad.push(g + ':' + (e || '') + errs.concat(warn).join(' ').slice(0, 80));
+      await ctx.close();
+    }
+    ok('9 all 28 games: no emoji pictures in the game area, no missing icons, no JS errors', !bad.length, bad.join(' | ') || '28 games');
+  }
+  {
+    const { ctx, p } = await page(1440, '/', { theme: 'light' });
+    const r = await p.evaluate((src) => { const re = new RegExp(src, 'u');
+      const zones = { nav: document.querySelector('nav'), cards: document.getElementById('homeScreen'), ticker: document.getElementById('adFallback'), tips: document.getElementById('tips-carousel'), dc: document.getElementById('daily-challenge-banner') };
+      const out = {};
+      for (const [k, el] of Object.entries(zones)) { if (!el) continue; const c = el.cloneNode(true);
+        c.querySelectorAll('#profile-chip, #greetingText, select, .hs-badge').forEach((x) => x.remove());   // the player's own avatar symbol stays theirs
+        out[k] = [...c.innerText].filter((ch) => re.test(ch) && !'♠♣♥♦✓✕✔'.includes(ch)).join(''); }
+      const lucide = document.querySelectorAll('svg.lc').length;
+      return { out, lucide }; }, EMO.source);
+    const left = Object.entries(r.out).filter(([, v]) => v);
+    ok('9 home page: header, game cards, ticker, tip bar and daily challenge use icons, not emoji', !left.length && r.lucide > 40, JSON.stringify(r));
+    const imgs = await p.evaluate(async () => {
+      const load = (src) => new Promise((res) => { const i = new Image(); i.onload = () => res(i.naturalWidth + 'x' + i.naturalHeight); i.onerror = () => res('ERR ' + src); i.src = src + '?' + Date.now(); });
+      const cards = await Promise.all(window.GAME_IDS.map((g) => load('images/cards/' + g + '.jpg')));
+      const jig = await Promise.all([0, 1, 2, 3, 4, 5].map((i) => load('images/jigsaw/bg' + i + '.jpg')));
+      const saf = await Promise.all(['giraffe','lion','elephant','zebra','rhino','cheetah','flamingo','monkey','parrot','turtle','eagle','crocodile','savanna'].map((k) => load('images/safari/' + k + '.jpg')));
+      const t = await (await fetch('credits.html')).text(); const lic = await (await fetch('images/icons/lucide/LICENSE')).text();
+      return { cards: [...new Set(cards)], jig: [...new Set(jig)], saf: [...new Set(saf)], pexels: (t.match(/pexels\.com\/photo\//g) || []).length, lucide: /lucide/i.test(t) && /ISC/.test(lic) };
+    }).catch((e) => ({ err: e.message }));
+    ok('9 photos: 28 cards 960x720, 6 jigsaw 1200x900, 13 safari; all 47 credited, Lucide ISC licence shipped',
+      JSON.stringify(imgs.cards) === '["960x720"]' && JSON.stringify(imgs.jig) === '["1200x900"]' && imgs.saf && imgs.saf.every((x) => !/ERR/.test(x)) && imgs.pexels === 47 && imgs.lucide, JSON.stringify(imgs));
+    await ctx.close();
+  }
+  {
+    // gameplay still works with the new pictures: one correct move in each game that changed how it draws
+    const play = {
+      memory: () => { const c = [...document.querySelectorAll('[id^="m-card-"]')]; const a = c[0], m = c.find((x) => x !== a && x.dataset.val === a.dataset.val);
+        flipMemory(+a.id.slice(7)); flipMemory(+m.id.slice(7)); return a.classList.contains('matched') && m.classList.contains('matched'); },
+      oddoneout: () => { const t = [...document.querySelectorAll('#gameContent .odd-tile')].find((x) => /clickOdd\(true/.test(x.getAttribute('onclick'))); t.click(); return gameState.oddoneout._ss === 1; },
+      counting: () => { const b = [...document.querySelectorAll('#gameContent button')].find((x) => x.getAttribute('onclick').includes(',' + gameState.counting._answer + ')')); b.click(); return gameState.counting._ss === 1; },
+      shapes: () => { const pick = document.querySelector('#shapePick > div'); pick.click(); const id = gameState.shapes.selected.id; document.querySelector(`#shapeDrop [data-target="${id}"]`).click(); return gameState.shapes.placed === 1; },
+      safari: () => { const el = [...document.querySelectorAll('#sf-world .sf-a')].find((x) => x.dataset.id === gameState.safari._target); el.click();
+        return gameState.safari._found === 1 && [...document.querySelectorAll('#sf-world .sf-a img')].every((i) => i.naturalWidth > 0); },
+    };
+    const res9 = [];
+    for (const [g, fn] of Object.entries(play)) {
+      const { ctx, p, errs } = await page(390, '/#' + g, { theme: 'light', lang: 'en' });
+      await p.waitForTimeout(400);
+      const r = await p.evaluate(`(${fn.toString()})()`).catch((e) => 'ERR ' + e.message);
+      res9.push(g + ':' + r + (errs.length ? ' ' + errs[0] : ''));
+      await ctx.close();
+    }
+    ok('9 gameplay with the new art: memory pair, odd one out, quick count, shape sorter, safari tap', res9.every((x) => /:true$/.test(x)), res9.join(' | '));
+  }
+  for (const theme of ['light', 'dark']) {
+    const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
+    await ctx.addInitScript((t) => { try { localStorage.setItem('gg-theme', t); localStorage.setItem('gg_profile_seen', '1'); localStorage.setItem('gg_name', 'Ruth'); } catch (e) {} }, theme);
+    const p = await ctx.newPage(); await p.clock.setFixedTime(new Date('2026-10-10T11:00:00'));   // a Saturday: the banner shows
+    await p.route(/pagead2|googlesyndication|google-analytics|googletagmanager/, (r) => r.abort());
+    await p.goto(U + '/', { waitUntil: 'networkidle' }).catch(() => {}); await p.waitForTimeout(1200);
+    const c = await contrastIn(p, ['#holiday-banner']);
+    const ratio = (fg, bg) => (Math.max(lum(fg), lum(bg)) + 0.05) / (Math.min(lum(fg), lum(bg)) + 0.05);
+    const x = c[0] && c[0][1] && c[0][2] && c[0][2] !== 'image' ? ratio(c[0][1], c[0][2]) : 0;
+    ok(`9 Shabbat banner, ${theme}: text ≥ 4.5:1 on its strip`, x >= 4.5, x.toFixed(1) + ' ' + JSON.stringify(c));
+    await ctx.close();
   }
   await b.close();
   console.log(res.join('\n'));

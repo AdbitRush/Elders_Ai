@@ -307,7 +307,8 @@ const Categories = (() => {
         badgeRow.parentNode.insertBefore(whyRow, badgeRow.nextSibling);
       }
       const why = whyFor(id);
-      whyRow.textContent = why ? '🧠 ' + why : '';
+      whyRow.textContent = why || '';
+      if (why && typeof Icon !== 'undefined') whyRow.insertAdjacentHTML('afterbegin', Icon.ui('brain', {cls: 'lc-ui lc-why'}) + ' ');
       whyRow.style.display = why ? '' : 'none';
     });
   }

@@ -20,7 +20,7 @@ function _oddNext(container) {
             <span class="text-green-600">✓ ${gs._ss}</span>
         </div>
         <div class="grid grid-cols-4 gap-3 bg-gray-50 p-4 rounded-2xl border">`;
-    for(let i=0;i<16;i++){const isOdd=(i===oi);html+=`<div onclick="clickOdd(${isOdd},this)" class="w-14 h-14 md:w-18 md:h-18 bg-white border shadow-sm rounded-xl flex items-center justify-center text-3xl md:text-4xl cursor-pointer hover:bg-amber-50 transition hover:scale-105 active:scale-95">${isOdd?odd:main}</div>`;}
+    for(let i=0;i<16;i++){const isOdd=(i===oi);html+=`<div onclick="clickOdd(${isOdd},this)" class="odd-tile w-16 h-16 md:w-20 md:h-20 bg-white border shadow-sm rounded-xl flex items-center justify-center cursor-pointer hover:bg-amber-50 transition hover:scale-105 active:scale-95">${Icon.sym(isOdd?odd:main,{size:'100%'})}</div>`;}
     container.innerHTML=html+`</div></div>`;
 }
 function clickOdd(isOdd, el) {

@@ -35,9 +35,9 @@ function _dsShowPad(){
     pad.classList.remove('hidden');
     let html=`<p class="text-lg text-gray-500 my-4 font-bold">${gt('Type the number:', 'הקלידו את המספר:')}</p><div class="grid grid-cols-3 gap-3 max-w-xs mx-auto" dir="ltr">`;
     [1,2,3,4,5,6,7,8,9].forEach(d=>{html+=`<button onclick="_dsKey(${d})" class="bg-white border-2 border-gray-300 text-3xl font-bold py-4 rounded-xl shadow-sm hover:border-[#b7791f] transition">${d}</button>`;});
-    html+=`<button onclick="_dsKey(-1)" class="bg-red-50 border-2 border-red-200 text-2xl font-bold py-4 rounded-xl">⌫</button>
+    html+=`<button onclick="_dsKey(-1)" class="bg-red-50 border-2 border-red-200 text-2xl font-bold py-4 rounded-xl" aria-label="Delete">${Icon.ui('delete',{size:'1.2em'})}</button>
            <button onclick="_dsKey(0)" class="bg-white border-2 border-gray-300 text-3xl font-bold py-4 rounded-xl shadow-sm hover:border-[#b7791f] transition">0</button>
-           <button onclick="_dsKey(-2)" class="bg-green-600 text-white text-2xl font-bold py-4 rounded-xl">✓</button>`;
+           <button onclick="_dsKey(-2)" class="bg-green-600 text-white text-2xl font-bold py-4 rounded-xl" aria-label="OK">${Icon.ui('check',{size:'1.2em',sw:3})}</button>`;
     pad.innerHTML=html+`</div>`;
 }
 function _dsKey(d){

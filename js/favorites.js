@@ -46,7 +46,7 @@ const Favorites = (() => {
       const pin = document.createElement('button');
       pin.className = 'pin-btn' + (pinned ? ' pinned' : '');
       pin.setAttribute('aria-label', pinned ? 'Remove from favourites' : 'Add to favourites');
-      pin.innerHTML = pinned ? '❤️' : '🤍';
+      pin.innerHTML = Icon.ui('heart', {fill: true, fillOpacity: pinned ? 1 : 0, size: '1.2em'});
       pin.onclick = e => { e.stopPropagation(); toggle(id); };
       card.appendChild(pin);
 

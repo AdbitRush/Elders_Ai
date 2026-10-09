@@ -25,6 +25,13 @@ const Holiday = (() => {
     return (d === 5 && h >= 16) || d === 6;
   }
 
+  // The messages keep their emoji in the data; the banner shows one Lucide icon instead (flame for candles).
+  function _fill(el, msg) {
+    const text = msg.replace(/^[^\p{L}\p{N}]+/u, '');
+    el.innerHTML = msg && typeof Icon !== 'undefined' ? Icon.ui(/🕯/.test(msg) ? 'flame' : 'sparkles') + ' ' : '';
+    el.append(text);
+  }
+
   function injectBanner(container) {
     if (!container) return;
     const isHe  = typeof currentLang !== 'undefined' ? currentLang === 'he' : true;
@@ -36,11 +43,11 @@ const Holiday = (() => {
       msg = isHe ? '🕯️ שבת שלום! שמחים שאתם כאן' : "🕯️ Shabbat Shalom! Glad you're here";
     }
     const existing = document.getElementById('holiday-banner');
-    if (existing) { existing.textContent = msg || ''; existing.style.display = msg ? 'block' : 'none'; return; }
+    if (existing) { _fill(existing, msg || ''); existing.style.display = msg ? 'block' : 'none'; return; }
     if (!msg) return;
     const div = document.createElement('div');
     div.id = 'holiday-banner';
-    div.textContent = msg;
+    _fill(div, msg);
     container.prepend(div);
   }
 
