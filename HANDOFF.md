@@ -1,3 +1,28 @@
+## 2026-10-09 (round 2) - Or's 9 fixes on `preview/warm-redesign` @ 66d81f2 (still preview only, main untouched)
+
+Preview rebuilt; e2e suite **94/94** (new section 8 checks each fix). ASSET_V / sw CACHE 64.
+- Ticker medical-claim line: **left as is** (Or's call: casual site, playful line is fine). Not changed.
+- No dark photo backgrounds: dark theme drops the ambient photo (plain warm gradient); light keeps it as a pale cream
+  wash; game headers fade the photo into the ivory table with dark ink. Landing pages (168, `tools/build_pages.py`,
+  regenerate with `python tools/build_pages.py`) are now light cards with the photo framed, a Light/Dark button
+  (same `gg-theme` key as the app) and 48px links.
+- Light mode readable: hero + "why" titles were transparent gradient text (an older light rule out-ranked warm.css);
+  tip bar (was 1.5:1), practice-score pill, hub difficulty buttons, ticker ✕, jigsaw piece-count chips (were 1.2:1).
+  The "profile pill dark-on-dark" could not be reproduced on the preview (390/1440, name/no name, OS dark); the chip
+  colours are now pinned anyway.
+- Card photos replaced (Wikimedia Commons, no baked-in text): oddoneout (yellow tulip among red), flags (Palais des
+  Nations avenue), math (six dice 1-6), wordsearch (alphabet tiles). Credits: `credits.html` (footer link) + IMAGES.md.
+  Older Commons cards have no on-site credit (pre-existing gap); trivia's card photo has "VINCENT" on a uniform.
+- Memory: 8/12/16/20/24 cards only (pairs rounded up to even, min 4 - so "easy" level 1 is now 4 pairs, was 2), the
+  column count divides the card count, plain warm card backs, less padding.
+- Odd one out: distinct symbol sets (no sunflower/daisy, car/SUV, cat faces...).
+- Welcome: first visit = a small corner card (name + "Pick a symbol" + ✕), marked seen when shown; the full editor is
+  still `Profile.edit()` from the profile button.
+- Copy: no "no ads" anywhere (ticker EN line, es/fr/de/el footers, Hebrew default footer, landing chips).
+- Phones: one-row header (logo, title / level in a game, ☰ Menu, Light/Dark, Back) with labels; text size, sound,
+  scores, awards, invite, profile and the language dropdown are MOVED into a labelled grid at the top of the ☰ menu
+  by `js/warm.js` (same elements; moved back on wider screens). "About this game" links 52px.
+
 ## 2026-10-09 - warm redesign on a PREVIEW branch (not live; main untouched)
 
 **Preview:** https://games-preview.178-105-148-72.sslip.io (noindex) · branch `preview/warm-redesign` (c6e4f0b+) ·
