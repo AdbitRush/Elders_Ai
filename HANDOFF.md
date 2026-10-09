@@ -1,3 +1,30 @@
+## 2026-10-09 (round 3) - visual upgrade on `preview/warm-redesign` @ d6e8cbc (preview only, main untouched)
+
+Or's call: the games looked cheap because they were built from keyboard emoji. Preview rebuilt; e2e **100/100**
+(new section 9). ASSET_V / sw CACHE 65. Report: https://claude.ai/artifact/JWTWftcCvN9wn8h9nUZCAJ (private).
+- **Icons:** one family, Lucide 1.48.0 (ISC), self-hosted: `images/icons/lucide/*.svg` + LICENSE, inlined into
+  `js/lucide-icons.js` by `python tools/build_icons.py <lucide-static/icons>` (add a name to its list, rerun).
+  `js/icons.js`: `Icon.ui(name)` for buttons/labels, `Icon.sym(emoji)` for gameplay symbols. Game data keeps its emoji
+  as keys (memory matching, recall's "🍎 Apple" strings in 6 languages); SYM maps key -> icon + colour (all >= 4.5:1
+  on white); unknown keys fall back to the emoji. A missing icon logs "Icon missing" (section 9 fails on it).
+  Gotchas: Tailwind preflight makes svg display:block (warm.css sets `.lc{display:inline-block}`); every `.lc` has
+  pointer-events:none (the ☰ outside-click check compares e.target with the button).
+- **Games converted:** memory (icon faces, framed amber back), odd one out (sets differ in shape AND colour), quick
+  count (8 hues), recall, shape sorter (solid shapes), time journey, sequence, true/false, digit span, hangman,
+  klondike, jigsaw, word search. Living Safari = 12 Pexels animal portraits (`images/safari/`) on a savanna photo.
+  Home: header controls, hero, card benefit lines, About/Play links, favourite hearts, ticker, tip bar, daily
+  challenge (also made readable in light mode), brain score, games menu, level-complete dialog, landing-page theme
+  button. Kept: playing-card suits; the player's own avatar emoji; achievements/share message text.
+- **Photos:** all 28 cards (960x720), 6 jigsaw pictures (1200x900) and safari (240px portraits + 1280x720 backdrop)
+  are Pexels; file -> photographer -> source in IMAGES.md, all 47 on credits.html (+ Lucide licence). The old
+  uncredited Wikimedia/AI cards are gone, incl. GLAM (letters) and the UN-lettering flags card.
+- **Or's defects:** Shabbat banner 1.4:1 -> 8.6:1 light / 12.2:1 dark. Light background: ambient photo removed in
+  both themes (the pale wash left grey smudges) - both options are in the report.
+- Six games (colormatch, digitspan, clock, counting, category, letters) showed "undefined" as their subtitle; they
+  now fall back to the card description. `js/gametext.js` re-keyed for strings that lost an emoji prefix (gt() looks
+  up es/fr/de/el by the English text). Recall pool: lion/butterfly/violin -> turtle/bird/piano (no Lucide icon).
+- Rollback: the preview branch is all this is; `git revert d6e8cbc` on preview/warm-redesign and rebuild.
+
 ## 2026-10-09 (round 2) - Or's 9 fixes on `preview/warm-redesign` @ 66d81f2 (still preview only, main untouched)
 
 Preview rebuilt; e2e suite **94/94** (new section 8 checks each fix). ASSET_V / sw CACHE 64.
