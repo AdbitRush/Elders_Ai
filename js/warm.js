@@ -10,12 +10,18 @@
   'use strict';
   var R = document.documentElement;
   var L = {
-    he: { light: 'בהיר', dark: 'כהה', about: 'על המשחק', all: 'כל המשחקים — לכל משחק עמוד משלו', play: 'לשחק' },
-    en: { light: 'Light', dark: 'Dark', about: 'About this game', all: 'All games — each has its own page', play: 'Play' },
-    es: { light: 'Claro', dark: 'Oscuro', about: 'Sobre el juego', all: 'Todos los juegos: cada uno tiene su página', play: 'Jugar' },
-    fr: { light: 'Clair', dark: 'Sombre', about: 'À propos du jeu', all: 'Tous les jeux : chacun a sa page', play: 'Jouer' },
-    de: { light: 'Hell', dark: 'Dunkel', about: 'Über das Spiel', all: 'Alle Spiele – jedes hat eine eigene Seite', play: 'Spielen' },
-    el: { light: 'Φωτεινό', dark: 'Σκοτεινό', about: 'Για το παιχνίδι', all: 'Όλα τα παιχνίδια — το καθένα έχει τη σελίδα του', play: 'Παίξτε' }
+    he: { light: 'בהיר', dark: 'כהה', about: 'על המשחק', all: 'כל המשחקים — לכל משחק עמוד משלו', play: 'לשחק',
+          menu: 'תפריט', text: 'גודל טקסט', sound: 'צליל', scores: 'תוצאות', awards: 'הישגים', invite: 'הזמנה', lang: 'שפה' },
+    en: { light: 'Light', dark: 'Dark', about: 'About this game', all: 'All games — each has its own page', play: 'Play',
+          menu: 'Menu', text: 'Text size', sound: 'Sound', scores: 'Scores', awards: 'Awards', invite: 'Invite', lang: 'Language' },
+    es: { light: 'Claro', dark: 'Oscuro', about: 'Sobre el juego', all: 'Todos los juegos: cada uno tiene su página', play: 'Jugar',
+          menu: 'Menú', text: 'Texto', sound: 'Sonido', scores: 'Puntos', awards: 'Logros', invite: 'Invitar', lang: 'Idioma' },
+    fr: { light: 'Clair', dark: 'Sombre', about: 'À propos du jeu', all: 'Tous les jeux : chacun a sa page', play: 'Jouer',
+          menu: 'Menu', text: 'Texte', sound: 'Son', scores: 'Scores', awards: 'Succès', invite: 'Inviter', lang: 'Langue' },
+    de: { light: 'Hell', dark: 'Dunkel', about: 'Über das Spiel', all: 'Alle Spiele – jedes hat eine eigene Seite', play: 'Spielen',
+          menu: 'Menü', text: 'Schrift', sound: 'Ton', scores: 'Punkte', awards: 'Erfolge', invite: 'Einladen', lang: 'Sprache' },
+    el: { light: 'Φωτεινό', dark: 'Σκοτεινό', about: 'Για το παιχνίδι', all: 'Όλα τα παιχνίδια — το καθένα έχει τη σελίδα του', play: 'Παίξτε',
+          menu: 'Μενού', text: 'Κείμενο', sound: 'Ήχος', scores: 'Σκορ', awards: 'Επιτεύγματα', invite: 'Πρόσκληση', lang: 'Γλώσσα' }
   };
   function lang() { var l = (typeof currentLang !== 'undefined' && currentLang) || R.lang || 'en'; return L[l] ? l : 'en'; }
   function tr(k) { return L[lang()][k]; }
@@ -69,9 +75,57 @@
     });
   }
 
-  function all() { syncState(); themeLabel(); cardLinks(); }
+  // Phones (2026-10-09): the header is ONE row — logo, title (the level during a game), ☰ Menu, Light/Dark,
+  // Back. The other header controls are MOVED (the same elements, same handlers, nothing dropped) to a
+  // labelled "tools" grid at the top of the ☰ menu, the language dropdown included; wider screens get them
+  // back in the header, in their original places. Labels are CSS ::after from data-w-label, never child
+  // elements: the menu's outside-click check compares e.target with the ☰ button itself.
+  var PHONE = window.matchMedia ? window.matchMedia('(max-width:639px)') : null;
+  var spots = [];
+  function toolEls() {
+    var q = function (s) { return document.querySelector(s); };
+    return [
+      [q('nav #textsize-btn') || q('#w-tools #textsize-btn'), 'text'],
+      [q('nav #sound-btn') || q('#w-tools #sound-btn'), 'sound'],
+      [q('button[title="Scoreboard"]'), 'scores'],
+      [q('button[title="Achievements"]'), 'awards'],
+      [q('#inviteBtn'), 'invite'],
+      [q('#profile-chip'), null]
+    ].filter(function (x) { return x[0]; });
+  }
+  function mobileHeader() {
+    var menu = document.getElementById('gameMenu'), mb = document.getElementById('menuBtn'), sel = document.getElementById('langSelect');
+    if (!menu || !mb) return;
+    mb.setAttribute('data-w-label', tr('menu'));
+    var tools = document.getElementById('w-tools');
+    if (!tools) {
+      tools = document.createElement('div'); tools.id = 'w-tools';
+      tools.innerHTML = '<div class="w-lang"><label for="langSelect">🌐 <span></span></label></div><div class="w-grid"></div>';
+      menu.insertBefore(tools, menu.firstChild);
+    }
+    tools.querySelector('.w-lang span').textContent = tr('lang');
+    var items = toolEls();
+    items.forEach(function (x) { if (x[1]) x[0].setAttribute('data-w-label', tr(x[1])); });
+    if (sel) items.push([sel, null]);
+    var phone = !!(PHONE && PHONE.matches);
+    if (phone && !spots.length) {
+      items.forEach(function (x) {
+        var el = x[0], mark = document.createComment('w-spot');
+        el.parentNode.insertBefore(mark, el); spots.push([el, mark]);
+        (el === sel ? tools.querySelector('.w-lang') : tools.querySelector('.w-grid')).appendChild(el);
+      });
+    } else if (!phone && spots.length) {
+      spots.forEach(function (s) { s[1].parentNode.insertBefore(s[0], s[1]); s[1].remove(); });
+      spots = [];
+    }
+    R.classList.toggle('w-phone-head', phone);
+  }
+
+  function all() { syncState(); themeLabel(); cardLinks(); mobileHeader(); }
   function start() {
     all();
+    if (PHONE) (PHONE.addEventListener ? PHONE.addEventListener('change', mobileHeader) : PHONE.addListener(mobileHeader));
+    new MutationObserver(mobileHeader).observe(R, { attributes: true, attributeFilter: ['lang'] });
     new MutationObserver(function () { themeLabel(); cardLinks(); }).observe(R, { attributes: true, attributeFilter: ['data-theme', 'lang'] });
     ['gameView', 'modal'].forEach(function (id) {
       var e = document.getElementById(id);

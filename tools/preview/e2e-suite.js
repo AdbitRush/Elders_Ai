@@ -1,6 +1,7 @@
 // BrainPlay preview e2e suite (branch preview/warm-redesign).
 //   node tools/preview/e2e-suite.js <dir with node_modules/playwright> [baseUrl]
-// Checks: 28 games load (390 light + 1440 dark), 6 languages, nothing interactive lost vs the live baseline
+// Checks (section 8 = the 2026-10-09 fixes: copy, light landing pages, no dark photos, light-mode contrast, card photos,
+// memory grid, welcome card, one-row phone header): 28 games load (390 light + 1440 dark), 6 languages, nothing interactive lost vs the live baseline
 // (tools/preview/baseline-inventory.json), ads never mid-game, the light/dark toggle, every game page linked from
 // the hub, text contrast, the review tool. It removes its own TEST notes at the end.
 const path = require('path'), fs = require('fs');
@@ -83,6 +84,8 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
   // 3. hub: nothing lost (phone and desktop), every game page linked and reachable
   for (const [w, key] of [[390, 'hub'], [1440, 'hub_desktop']]) {
     const { ctx, p } = await page(w, '/');
+    // phones: the header's other controls live in the ☰ menu now (moved, not removed) — count them with it open
+    if (w < 640) { await p.click('#menuBtn'); await p.waitForTimeout(300); }
     const miss = lost(BASE[key], await inv(p));
     ok(`3 hub @${w}: every control of the live hub is still there`, !miss.length, miss.join(', ') || BASE[key].length + ' baseline controls');
     await ctx.close();
@@ -134,8 +137,10 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok(`6 ${theme}: main text contrast ≥ 7:1 (AAA)`, !low.length, low.join(' | ') || rows.map(([s, c]) => c === 99 ? 'photo' : c.toFixed(1)).join(','));
     await ctx.close();
   }
-  // 7. review tool
-  {
+  // 7. review tool (preview only: a local run without it records the failure and moves on)
+  const hasBar = await (async () => { const { ctx, p } = await page(1440, '/'); const v = await p.locator('.afr-bar').isVisible(); await ctx.close(); return v; })();
+  if (!hasBar) ok('7 review toolbar present', false, 'no review tool at ' + U + ' (section 7 skipped)');
+  else {
     const { ctx, p, errs } = await page(1440, '/');
     ok('7 review toolbar present', await p.locator('.afr-bar').isVisible());
     const a0 = await p.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--w-accent').trim());
@@ -153,6 +158,91 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('7 the suite removes its own TEST notes', del.ok && del.removed >= 1, JSON.stringify(del));
     ok('7 no JS errors', !errs.length, errs.join(' | '));
     await ctx.close();
+  }
+  // 8. the 2026-10-09 fixes
+  const NO_ADS = /no ads|sin anuncios|sans publicit|keine werbung|werbefrei|χωρίς διαφημίσεις|ללא פרסומות|בלי פרסומות(?! מקפיצות)/i;
+  {
+    const { ctx, p, errs } = await page(390, '/');
+    const r = await p.evaluate((src) => { const re = new RegExp(src, 'i'); const msgs = Object.values(_adMsgs).flat();
+      const foot = Object.keys(i18nData).map((l) => i18nData[l].footer_desc || ''); return { bad: msgs.concat(foot).filter((m) => re.test(m)), n: msgs.length + foot.length,
+        quiet: foot.every((f) => /ads|פרסומות|anuncios|publicités|Werbung|διαφημίσεων/i.test(f)) }; }, NO_ADS.source);
+    ok('8 copy: no "no ads" claim in the ticker or footer (6 languages); every footer says quiet ads', !r.bad.length && r.quiet, r.bad.join(' | ') || r.n + ' lines');
+    const pages = await p.evaluate(async () => { const ids = [...document.querySelectorAll('#all-games [data-game]')].map((li) => li.getAttribute('data-game')); const out = { n: 0, bad: [] };
+      for (const l of ['he', 'en', 'es', 'fr', 'de', 'el']) for (const id of ids) { const t = await (await fetch(l + '/' + id + '/')).text(); out.n++;
+        if (/no ads|sin anuncios|sans publicité|keine Werbung|χωρίς διαφημίσεις|בלי פרסומות/i.test(t) || /pageBg|color-scheme:dark}/.test(t) || !/id="themeBtn"/.test(t)) out.bad.push(l + '/' + id); }
+      return out; });
+    ok('8 landing pages: all light and photo-free behind the text, with a theme button, no "no ads"', pages.n === 168 && !pages.bad.length, pages.n + ' pages' + (pages.bad.length ? ' BAD ' + pages.bad.slice(0, 5).join(',') : ''));
+    const sets = await p.evaluate(() => ODD_SETS);
+    const similar = [['🌻', '🌼'], ['🚗', '🚙'], ['😸', '😹'], ['🌞', '🌝'], ['🌲', '🌳'], ['🟩', '🟢'], ['📘', '📗']];
+    ok('8 odd one out: no near-identical symbol pairs left', !similar.some(([a, c]) => sets.some((s) => s.includes(a) && s.includes(c))), JSON.stringify(sets));
+    const credits = await p.evaluate(async () => { const t = await (await fetch('credits.html')).text(); const ims = await Promise.all(['oddoneout', 'flags', 'math', 'wordsearch'].map((g) => new Promise((res) => { const i = new Image(); i.onload = () => res(i.naturalWidth + 'x' + i.naturalHeight); i.onerror = () => res('ERR'); i.src = 'images/cards/' + g + '.jpg?' + Date.now(); })));
+      return { links: (t.match(/commons\.wikimedia\.org\/wiki\/File:/g) || []).length, ims, footer: !!document.querySelector('footer a[href="credits.html"]') }; });
+    ok('8 new card photos (960x720) with a credits page linked from the footer', credits.links === 4 && credits.ims.every((x) => x === '960x720') && credits.footer, JSON.stringify(credits));
+    ok('8 no JS errors on the hub', !errs.length, errs.join(' | '));
+    await ctx.close();
+  }
+  for (const theme of ['light', 'dark']) {
+    const { ctx, p } = await page(1440, '/', { theme });
+    const r = await p.evaluate(() => { const layers = [...document.querySelectorAll('#ambientBg .ab-layer')].filter((l) => getComputedStyle(l).display !== 'none' && +getComputedStyle(l).opacity > 0);
+      const scrim = document.querySelector('#ambientBg .ab-scrim'); const h2 = getComputedStyle(document.querySelector('#hero h2'));
+      return { photoLayers: layers.length, scrim: scrim ? getComputedStyle(scrim).backgroundImage.slice(0, 60) : '', fill: h2.webkitTextFillColor, color: h2.color }; });
+    await p.evaluate(() => loadGame('trivia')); await p.waitForTimeout(1200);
+    const t = await p.evaluate(() => getComputedStyle(document.getElementById('gameTitle')).color);
+    const dark = (c) => lum(c) < 0.1;
+    const okBg = theme === 'dark' ? r.photoLayers === 0 : /0\.9/.test(r.scrim);
+    ok(`8 ${theme}: no dark photo behind the page, hero title solid (not gradient), game header title dark on light`, okBg && !/, 0\)$/.test(r.fill) && dark(t), JSON.stringify(r) + ' title=' + t);
+    await ctx.close();
+  }
+  {
+    const { ctx, p } = await page(390, '/', { theme: 'light' });
+    const ratio = (fg, bg) => (Math.max(lum(fg), lum(bg)) + 0.05) / (Math.min(lum(fg), lum(bg)) + 0.05);
+    const c = await contrastIn(p, ['#tips-text', '#brain-score-slot span']);
+    await p.click('#menuBtn'); await p.waitForTimeout(300);
+    const chip = await contrastIn(p, ['#profile-chip .nm']);
+    await p.click('#menuBtn'); await p.evaluate(() => loadGame('jigsaw')); await p.waitForTimeout(1200);
+    const jig = await contrastIn(p, ['#gameContent .jig-chip:not(.active)', '#gameContent .jig-label']);
+    const rows = c.concat(chip, jig).map(([s, fg, bg]) => [s, fg && bg && bg !== 'image' ? ratio(fg, bg) : 0]);
+    const low = rows.filter(([, x]) => x < 4.5);
+    ok('8 light mode: tip bar, practice-score pill, profile chip, jigsaw chips all ≥ 4.5:1', !low.length, rows.map(([s, x]) => s + ' ' + x.toFixed(1)).join(' | '));
+    await ctx.close();
+  }
+  for (const w of [1440, 390]) {
+    const { ctx, p } = await page(w, '/#memory');
+    const r = await p.evaluate(async () => { const out = [];
+      for (const lv of [1, 2, 3, 4, 6, 8, 12, 20]) { gameState.memory.level = lv; initMemory(document.getElementById('gameContent')); await new Promise((x) => setTimeout(x, 60));
+        const tops = {}; document.querySelectorAll('#gameContent [id^="m-card-"]').forEach((e) => { const t = Math.round(e.getBoundingClientRect().top); tops[t] = (tops[t] || 0) + 1; });
+        const rows = Object.values(tops); out.push({ lv, n: rows.reduce((a, b) => a + b, 0), even: rows.every((x) => x === rows[0]) }); }
+      const back = getComputedStyle(document.querySelector('#gameContent .card-face.bg-slate-700')).backgroundImage;
+      return { out, back }; });
+    ok(`8 memory @${w}: 8-24 cards, every row full (no orphan), plain backs`, r.out.every((x) => [8, 12, 16, 20, 24].includes(x.n) && x.even) && r.back === 'none', JSON.stringify(r.out.map((x) => x.n + (x.even ? '' : '!'))) + ' back=' + r.back.slice(0, 30));
+    await ctx.close();
+  }
+  for (const w of [1440, 390]) {
+    const ctx = await b.newContext({ viewport: { width: w, height: w < 500 ? 844 : 900 }, isMobile: w < 500, hasTouch: w < 500, serviceWorkers: 'block' });
+    const p = await ctx.newPage(); await p.route(/pagead2|googlesyndication/, (r) => r.abort());
+    await p.goto(U + '/', { waitUntil: 'networkidle' }); await p.waitForTimeout(1500);
+    const r = await p.evaluate(() => { const c = document.querySelector('.pw-card'); const big = [...document.querySelectorAll('body *')].filter((e) => getComputedStyle(e).position === 'fixed' && e.id !== 'ambientBg' && e.getBoundingClientRect().width * e.getBoundingClientRect().height > innerWidth * innerHeight * 0.5);
+      return { card: !!c, h: c ? Math.round(c.getBoundingClientRect().height) : 0, w: c ? Math.round(c.getBoundingClientRect().width) : 0, covering: big.map((e) => e.id || e.className) }; });
+    await p.reload({ waitUntil: 'networkidle' }); await p.waitForTimeout(1000);
+    const again = await p.evaluate(() => !!document.querySelector('.pw-card, .pm-overlay'));
+    ok(`8 welcome @${w}: a small card (≤ 300px tall), nothing covers the site, shown once`, r.card && r.h <= 300 && r.w <= 400 && !r.covering.length && !again, JSON.stringify(r) + ' again=' + again);
+    await ctx.close();
+  }
+  {
+    const { ctx, p } = await page(390, '/');
+    const r = await p.evaluate(() => { const nav = document.querySelector('nav'); const vis = [...nav.querySelectorAll('button,select,a,#logoLetter')].filter((e) => e.getClientRects().length && getComputedStyle(e).display !== 'none');
+      const tops = vis.map((e) => e.getBoundingClientRect().top); const pages = [...document.querySelectorAll('#homeScreen a.w-page')].map((a) => a.getBoundingClientRect().height);
+      return { h: Math.round(nav.getBoundingClientRect().height), spread: Math.round(Math.max(...tops) - Math.min(...tops)), labels: [document.getElementById('menuBtn').getAttribute('data-w-label'), (document.querySelector('#themeBtn .w-tl') || {}).textContent],
+        langInMenu: !!document.querySelector('#gameMenu #langSelect'), minAbout: Math.min(...pages) }; });
+    ok('8 phone header: one row (≤ 80px), labelled ☰ and theme, language in the menu, "About" links ≥ 48px', r.h <= 80 && r.spread <= 16 && r.labels.every(Boolean) && r.langInMenu && r.minAbout >= 48, JSON.stringify(r));
+    await p.evaluate(() => loadGame('trivia')); await p.waitForTimeout(1200);
+    const g = await p.evaluate(() => { const n = document.querySelector('nav'); const back = document.getElementById('backBtn').getBoundingClientRect(); return { h: Math.round(n.getBoundingClientRect().height), back: back.width > 0 && back.top < 80 }; });
+    ok('8 phone header in a game: still one row, Back on it', g.h <= 80 && g.back, JSON.stringify(g));
+    await ctx.close();
+    const d = await page(1440, '/');
+    const dr = await d.p.evaluate(() => ({ lang: !!document.querySelector('nav #langSelect'), tools: ['textsize-btn', 'sound-btn', 'inviteBtn', 'profile-chip'].every((id) => document.querySelector('nav #' + id)) }));
+    ok('8 desktop header keeps every control in place', dr.lang && dr.tools, JSON.stringify(dr));
+    await d.ctx.close();
   }
   await b.close();
   console.log(res.join('\n'));

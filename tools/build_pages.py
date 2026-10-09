@@ -191,12 +191,16 @@ UI = {
                 "fr": "Comment jouer", "de": "So wird gespielt", "el": "Πώς παίζεται"},
     "all":     {"he": "כל המשחקים", "en": "All games", "es": "Todos los juegos",
                 "fr": "Tous les jeux", "de": "Alle Spiele", "el": "Όλα τα παιχνίδια"},
-    "free":    {"he": "חינם · בלי פרסומות · בלי מעקב",
-                "en": "Free · no ads · no tracking",
-                "es": "Gratis · sin anuncios · sin rastreo",
-                "fr": "Gratuit · sans publicité · sans pistage",
-                "de": "Kostenlos · keine Werbung · kein Tracking",
-                "el": "Δωρεάν · χωρίς διαφημίσεις · χωρίς παρακολούθηση"},
+    # The hub's footer says the site is "supported by quiet ads", so these pages must not claim "no ads".
+    "free":    {"he": "חינם · בלי הרשמה · בלי חלונות קופצים",
+                "en": "Free · no sign-up · no pop-ups",
+                "es": "Gratis · sin registro · sin ventanas emergentes",
+                "fr": "Gratuit · sans inscription · sans fenêtres surgissantes",
+                "de": "Kostenlos · ohne Anmeldung · ohne Pop-ups",
+                "el": "Δωρεάν · χωρίς εγγραφή · χωρίς αναδυόμενα"},
+    # the same words as the app's theme button (js/warm.js): the label names what a press switches TO
+    "light":   {"he": "בהיר", "en": "Light", "es": "Claro", "fr": "Clair", "de": "Hell", "el": "Φωτεινό"},
+    "dark":    {"he": "כהה", "en": "Dark", "es": "Oscuro", "fr": "Sombre", "de": "Dunkel", "el": "Σκοτεινό"},
     "other":   {"he": "בשפות אחרות", "en": "In other languages", "es": "En otros idiomas",
                 "fr": "Dans d'autres langues", "de": "In anderen Sprachen",
                 "el": "Σε άλλες γλώσσες"},
@@ -252,61 +256,66 @@ def page(gid, lang, i18n, why, skills, slabels) -> str:
 <link rel="icon" href="{REL}/images/icon-192.png">
 <link rel="manifest" href="{REL}/manifest.json">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
+<script>/* the visitor's saved theme (same key as the app); light unless they chose dark */
+try{{if(localStorage.getItem('gg-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}}catch(e){{}}</script>
 <style>
-:root{{color-scheme:dark}}
+/* Light, warm and photo-free behind the text (2026-10-09): the game's photo is a framed picture on the card,
+   never a dark background. Dark only when the visitor picked it (button below, or in the app). Tiny inline
+   script, no external files: these are the pages a search visitor lands on first. */
+:root{{color-scheme:light;--bg:#fbf3e4;--bg2:#f4e3c6;--card:#ffffff;--line:#e0c497;--ink:#2a1a0c;--ink2:#3d2a17;
+  --head:#92400e;--accent:#b45309;--on-accent:#ffffff;--chip:#fff1d6;--chip-ink:#5a3a12;
+  --free:#e6f4e8;--free-line:#8bc79a;--free-ink:#1b5e20}}
+:root[data-theme="dark"]{{color-scheme:dark;--bg:#1a130d;--bg2:#2a1d13;--card:#2f2218;--line:#6b4f33;--ink:#fff6e8;
+  --ink2:#f3e2c7;--head:#ffd27a;--accent:#f6b545;--on-accent:#2a1700;--chip:#3a2a1d;--chip-ink:#ffe6b8;
+  --free:#1f3a24;--free-line:#4f8a5c;--free-ink:#d4f5db}}
 *{{box-sizing:border-box;margin:0;padding:0}}
 body{{font-family:system-ui,"Segoe UI","Noto Sans Hebrew",Arial,sans-serif;
-  background:#0a1628;color:#e8eefc;font-size:20px;line-height:1.6;
-  padding:28px 20px 60px}}
-/* The game's own photograph, behind the page — the same idea as the app and as
-   the cruise deal pages. These pages are dark-only and their text sits directly
-   on the background with no card surface under it, so the scrim is heavier here
-   than in the app: the picture is a wash at the edges, never something the
-   words compete with. No script — these are the pages a search visitor lands
-   on first and they should stay featherweight. */
-#pageBg{{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}}
-#pageBg .pb-layer{{position:absolute;inset:0;background-size:cover;
-  background-position:center;transform:scale(1.06)}}
-#pageBg .pb-scrim{{position:absolute;inset:0;background:linear-gradient(180deg,
-  rgba(10,22,40,.88) 0%,rgba(10,22,40,.78) 34%,rgba(8,18,34,.85) 68%,rgba(6,12,26,.94) 100%)}}
-#pageBg .pb-vignette{{position:absolute;inset:0;background:radial-gradient(
-  ellipse 90% 72% at 50% 36%,transparent 48%,rgba(2,6,16,.62) 100%)}}
-.wrap{{position:relative;z-index:1}}
-.wrap{{max-width:680px;margin:0 auto}}
-a{{color:#ffd98a}}
-h1{{font-size:clamp(28px,6vw,44px);line-height:1.2;color:#f6c048;margin-bottom:12px}}
-h2{{font-size:22px;color:#f6c048;margin:28px 0 8px}}
-p{{color:#cfdcf2}}
-img{{width:100%;max-width:420px;border-radius:16px;margin:20px 0;display:block}}
-.play{{display:inline-block;background:linear-gradient(135deg,#b7791f,#f6c048);
-  color:#1a1200;font-weight:800;font-size:21px;padding:16px 34px;border-radius:14px;
-  text-decoration:none;margin:22px 0;min-height:60px;line-height:1.4}}
+  background:linear-gradient(170deg,var(--bg) 0%,var(--bg2) 100%) fixed;color:var(--ink);font-size:20px;line-height:1.6;
+  padding:20px 16px 60px;min-height:100vh}}
+.wrap{{max-width:720px;margin:0 auto;background:var(--card);border:2px solid var(--line);border-radius:24px;
+  padding:24px 22px 28px;box-shadow:0 12px 32px -16px rgba(80,50,10,.35)}}
+.top{{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}}
+.theme{{min-height:48px;min-width:48px;padding:6px 16px;border-radius:12px;border:2px solid var(--accent);background:var(--card);
+  color:var(--ink);font:inherit;font-size:18px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px}}
+a{{color:var(--head)}}
+h1{{font-size:clamp(30px,6vw,44px);line-height:1.2;color:var(--ink);margin-bottom:10px}}
+h2{{font-size:23px;color:var(--head);margin:28px 0 8px}}
+p{{color:var(--ink2)}}
+.photo{{width:100%;max-width:520px;aspect-ratio:4/3;object-fit:cover;border-radius:18px;margin:6px 0 4px;display:block;
+  border:3px solid var(--line)}}
+.play{{display:inline-flex;align-items:center;background:var(--accent);color:var(--on-accent);font-weight:800;font-size:22px;
+  padding:14px 34px;border-radius:14px;text-decoration:none;margin:20px 0;min-height:60px}}
 .chips{{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}}
-.chip{{background:rgba(246,192,72,.14);border:1px solid rgba(246,192,72,.4);
-  color:#f6c048;border-radius:999px;padding:6px 14px;font-size:16px}}
-.free{{display:inline-block;background:rgba(46,125,50,.18);border:1px solid rgba(110,231,140,.45);
-  color:#b6f0c2;border-radius:999px;padding:6px 16px;font-size:16px;margin-bottom:18px}}
-footer{{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);
-  font-size:16px;color:#c3cfe4}}
-:focus-visible{{outline:4px solid #4da3ff;outline-offset:3px}}
+.chip{{background:var(--chip);border:1px solid var(--line);color:var(--chip-ink);border-radius:999px;padding:6px 14px;font-size:17px}}
+.free{{display:inline-block;background:var(--free);border:1px solid var(--free-line);color:var(--free-ink);
+  border-radius:999px;padding:6px 16px;font-size:17px}}
+footer{{margin-top:36px;padding-top:16px;border-top:2px solid var(--line);font-size:18px;color:var(--ink2)}}
+footer a{{display:inline-flex;align-items:center;min-height:48px;padding:0 6px;font-weight:700}}
+:focus-visible{{outline:4px solid var(--accent);outline-offset:3px}}
 </style>
 </head>
 <body>
-<div id="pageBg" aria-hidden="true"><div class="pb-layer" style="background-image:url('{REL}/images/cards/{gid}.jpg')"></div><div class="pb-scrim"></div><div class="pb-vignette"></div></div>
 <div class="wrap">
-  <span class="free">{e(UI['free'][lang])}</span>
+  <div class="top">
+    <span class="free">{e(UI['free'][lang])}</span>
+    <button type="button" class="theme" id="themeBtn" data-light="{e(UI['light'][lang])}" data-dark="{e(UI['dark'][lang])}"></button>
+  </div>
   <h1>{e(title)}</h1>
   <p>{e(desc)}</p>
   <a class="play" href="{play}">{e(UI['play'][lang])} →</a>
-  <img src="{REL}/images/cards/{gid}.jpg" alt="{e(title)}" width="400" height="300" loading="lazy">
+  <img class="photo" src="{REL}/images/cards/{gid}.jpg" alt="{e(title)}" width="520" height="390">
   {f'<h2>{e(UI["trains"][lang])}</h2><p>{e(trains)}</p>' if trains else ''}
   {f'<h2>{e(UI["skills"][lang])}</h2><div class="chips">' + ''.join(f'<span class="chip">{e(x)}</span>' for x in sk) + '</div>' if sk else ''}
   {f'<h2>{e(UI["howto"][lang])}</h2><p>{e(inst)}</p>' if inst else ''}
   <footer>
     <p><a href="{REL}/">{e(UI['all'][lang])}</a></p>
-    <p style="margin-top:10px">{e(UI['other'][lang])}: {others}</p>
+    <p style="margin-top:6px">{e(UI['other'][lang])}: {others}</p>
   </footer>
 </div>
+<script>(function(){{var r=document.documentElement,b=document.getElementById('themeBtn');
+function lab(){{var d=r.getAttribute('data-theme')==='dark',t=d?b.dataset.light:b.dataset.dark;b.innerHTML='<span aria-hidden="true">'+(d?'☀️':'🌙')+'</span>'+t;b.setAttribute('aria-label',t)}}
+b.onclick=function(){{var d=r.getAttribute('data-theme')!=='dark';if(d)r.setAttribute('data-theme','dark');else r.removeAttribute('data-theme');
+try{{localStorage.setItem('gg-theme',d?'dark':'light')}}catch(e){{}}lab()}};lab()}})()</script>
 </body>
 </html>
 """

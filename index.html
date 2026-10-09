@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/hooks.css">
     <link rel="stylesheet" href="css/premium.css">
-<link rel="stylesheet" href="css/a11y.css?v=63">
-<link rel="stylesheet" href="css/ambient-bg.css?v=63">
+<link rel="stylesheet" href="css/a11y.css?v=64">
+<link rel="stylesheet" href="css/ambient-bg.css?v=64">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; min-height: 100dvh; }
@@ -183,9 +183,9 @@
 
     </style>
 <!-- Prebuilt Tailwind utilities (replaces the cdn.tailwindcss.com runtime, 5s+ blocking). Rebuild: npx tailwindcss@3.4.17 -i in.css -o css/tailwind.css --content "./index.html,./js/**/*.js" --minify -->
-<link rel="stylesheet" href="css/tailwind.css?v=63">
+<link rel="stylesheet" href="css/tailwind.css?v=64">
 <!-- warm redesign: the last stylesheet (css/warm.css) -->
-<link rel="stylesheet" href="css/warm.css?v=63">
+<link rel="stylesheet" href="css/warm.css?v=64">
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -532,7 +532,8 @@
 
 <footer class="bg-gray-100 border-t border-gray-200 py-5 text-center mt-auto">
     <div class="text-gray-500 font-medium" data-i18n="footer_rights">זהב של משחקים © 2026</div>
-    <p class="text-sm text-gray-400 mt-1" data-i18n="footer_desc">ללא פרסומות וללא איסוף נתונים - נוצר באהבה לגיל השלישי.</p>
+    <p class="text-sm text-gray-400 mt-1" data-i18n="footer_desc">חינם לגמרי, בלי פרסומות מקפיצות ובלי איסוף נתונים — מגובה בפרסומות שקטות בלבד.</p>
+    <p class="mt-2"><a href="credits.html" id="photoCredits" style="display:inline-flex;align-items:center;min-height:48px;text-decoration:underline;text-underline-offset:3px">📷 <span data-i18n="photo_credits">קרדיט לתמונות</span></a></p>
     
 </footer>
 
@@ -587,7 +588,7 @@ he: {
     level_str:"שלב", hero_title:"אימון יומיומי למוח חד וצלול", btn_start:"התחל אימון",
     section_games:"{n} משחקי אימון", section_games_sub:"לחצו על משחק להתחיל",
     why_title:"למה לאמן את המוח כל יום", why1_t:"מה שמתרגלים — משתפר", why1_d:"זיכרון, קשב, מהירות ומציאת מילים משתפרים עם תרגול קבוע. המשחקים כאן מאמנים בדיוק את אלה.", why2_t:"מעט וקבוע עדיף", why2_d:"עשר דקות ביום, ברצף, שוות יותר משעה אחת בחודש. מונה הרצף כאן כדי לעזור לשמור על ההרגל.", why3_t:"להישאר פעילים", why3_d:"פעילות מחשבתית וחברתית קשורה להזדקנות מוחית טובה יותר — לצד תנועה, שינה וטיפול בלחץ הדם.", why_note:"המשחקים כאן נועדו להנאה ולתרגול. שום משחק — לא כאן ולא באף מקום אחר — אינו מונע, מטפל או מרפא אלצהיימר או דמנציה. אם יש דאגה לגבי הזיכרון, כדאי לפנות לרופא. מה שכן נתמך במחקר לבריאות המוח: פעילות גופנית, איזון לחץ דם, טיפול בשמיעה ובראייה, שינה טובה, הימנעות מעישון וקשר חברתי.",
-    footer_rights:"משחקי מוח © 2026", footer_desc:"חינם לגמרי, בלי פרסומות מקפיצות ובלי איסוף נתונים — מגובה בפרסומות שקטות בלבד.",
+    footer_rights:"משחקי מוח © 2026", photo_credits:"קרדיט לתמונות", footer_desc:"חינם לגמרי, בלי פרסומות מקפיצות ובלי איסוף נתונים — מגובה בפרסומות שקטות בלבד.",
     game_memory_title:"אימון זיכרון", game_memory_desc:"שיפור הזיכרון לטווח קצר.",
     game_odd_title:"יוצא דופן", game_odd_desc:"מצאו את הסמל השונה.",
     game_math_title:"חשבון מהיר", game_math_desc:"חיבור וחיסור קלים.",
@@ -777,7 +778,7 @@ en: {
     level_str:"Level", hero_title:"Daily Brain Training", btn_start:"Start Game",
     section_games:"{n} Brain Games", section_games_sub:"Click a game to start",
     why_title:"Why train your mind daily", why1_t:"You improve at what you practise", why1_d:"Memory, attention, speed and word-finding all improve with regular practice. These games train exactly those.", why2_t:"Little and often wins", why2_d:"Ten minutes a day, kept up, does more than an hour once a month. The streak counter is there to help you keep it.", why3_t:"Staying engaged matters", why3_d:"Mental and social activity is linked with healthier cognitive ageing — alongside exercise, sleep and looking after your blood pressure.", why_note:"These games are for enjoyment and practice. No game — here or anywhere else — prevents, treats or cures Alzheimer's disease or dementia. If you are worried about your memory, speak to your doctor. What evidence does support for brain health: physical activity, treating high blood pressure, correcting hearing and vision, good sleep, not smoking, and staying socially connected.",
-    footer_rights:"BrainPlay © 2026", footer_desc:"100% free, no pop-ups and no data collection — supported by quiet ads only.",
+    footer_rights:"BrainPlay © 2026", photo_credits:"Photo credits", footer_desc:"100% free, no pop-ups and no data collection — supported by quiet ads only.",
     game_memory_title:"Memory Match", game_memory_desc:"Improve short-term memory.",
     game_odd_title:"Odd One Out", game_odd_desc:"Find the different symbol.",
     game_math_title:"Quick Math", game_math_desc:"Simple addition and subtraction.",
@@ -1063,7 +1064,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '63';
+const ASSET_V = '64';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1146,7 +1147,9 @@ let currentLang=localStorage.getItem('gg-lang')||'he';
 let gameState={active:false,currentId:null};
 const ALL_EMOJIS=['🌿','🎻','🏺','⛵','🏠','🍎','🌻','🚗','🎸','🚲','🐶','🐱','🦋','⚽','🎨','🚀','⭐','🎈','🎁','🎂'];
 const SHAPE_EMOJIS=['⚪','🟦','🔺','⭐','♦️','🟩','🌙','❤️','💠','🔶'];
-const ODD_SETS=[['🚗','🚙','🚕'],['🌻','🌼','🏵️'],['😸','😹','😺'],['🍎','🍅','🍒'],['🟩','🟢','⬛'],['🌞','🌝','☀️'],['📘','📗','📕'],['🌲','🌳','🌴']];
+// Odd one out: [main, odd candidates]. Each odd symbol differs from the main one in shape AND colour, so it can be
+// told apart by older eyes and without relying on colour (2026-10-09: 🌻/🌼, 🚗/🚙, 😸/😹 were near-identical).
+const ODD_SETS=[['🚗','🚲','🚌'],['🌻','🌹','🍀'],['🐱','🐟','🐦'],['🍎','🍌','🍐'],['🟩','🔴','⭐'],['🌞','🌙','☁️'],['📘','✏️','🔑'],['🌲','🌵','🍄']];
 function shuffle(a){let n=a.length,i;while(n){i=Math.floor(Math.random()*n--);[a[n],a[i]]=[a[i],a[n]];}return a;}
 function t(k){return i18nData[currentLang][k]||k;}
 
@@ -1158,7 +1161,7 @@ i18nData.es = Object.assign({}, i18nData.en, {
   level_str:"Nivel", hero_title:"Entrenamiento diario para el cerebro", btn_start:"Empezar",
   section_games:"{n} juegos mentales", section_games_sub:"Elige un juego para empezar",
     why_title:"Por qué entrenar la mente a diario", why1_t:"Mejoras en lo que practicas", why1_d:"La memoria, la atención, la velocidad y encontrar palabras mejoran con la práctica regular. Estos juegos entrenan justamente eso.", why2_t:"Poco y a menudo gana", why2_d:"Diez minutos al día, mantenidos, valen más que una hora al mes. El contador de racha está para ayudarte.", why3_t:"Mantenerse activo importa", why3_d:"La actividad mental y social se asocia con un envejecimiento cognitivo más sano — junto al ejercicio, el sueño y cuidar la tensión arterial.", why_note:"Estos juegos son para disfrutar y practicar. Ningún juego — ni aquí ni en ningún sitio — previene, trata ni cura el alzhéimer o la demencia. Si te preocupa tu memoria, habla con tu médico. Lo que sí respalda la evidencia para la salud cerebral: actividad física, controlar la tensión arterial, corregir audición y visión, dormir bien, no fumar y mantener el contacto social.",
-  footer_rights:"Juegos de Mente © 2026", footer_desc:"Sin anuncios, sin rastreo — hecho con cariño para mayores.",
+  footer_rights:"Juegos de Mente © 2026", footer_desc:"Gratis, sin ventanas emergentes y sin recogida de datos — se sostiene solo con anuncios discretos.",
   game_memory_title:"Memoria", game_memory_desc:"Mejora la memoria a corto plazo.",
   game_odd_title:"El diferente", game_odd_desc:"Encuentra el símbolo distinto.",
   game_math_title:"Cálculo rápido", game_math_desc:"Sumas y restas sencillas.",
@@ -1189,7 +1192,7 @@ i18nData.fr = Object.assign({}, i18nData.en, {
   level_str:"Niveau", hero_title:"Entraînement cérébral quotidien", btn_start:"Commencer",
   section_games:"{n} jeux cérébraux", section_games_sub:"Cliquez sur un jeu pour commencer",
     why_title:"Pourquoi entraîner son esprit chaque jour", why1_t:"On progresse dans ce qu'on pratique", why1_d:"La mémoire, l'attention, la rapidité et la recherche de mots progressent avec une pratique régulière. Ces jeux entraînent précisément cela.", why2_t:"Peu et souvent l'emporte", why2_d:"Dix minutes par jour, tenues dans la durée, valent mieux qu'une heure une fois par mois. Le compteur de série est là pour vous aider.", why3_t:"Rester engagé compte", why3_d:"L'activité mentale et sociale est associée à un vieillissement cognitif plus sain — avec l'exercice, le sommeil et le suivi de la tension artérielle.", why_note:"Ces jeux sont faits pour le plaisir et l'entraînement. Aucun jeu — ici ou ailleurs — ne prévient, ne traite ni ne guérit la maladie d'Alzheimer ou la démence. Si votre mémoire vous inquiète, parlez-en à votre médecin. Ce que les données soutiennent pour la santé du cerveau : activité physique, traitement de l'hypertension, correction de l'audition et de la vue, bon sommeil, arrêt du tabac et lien social.",
-  footer_rights:"Jeux de l'Esprit © 2026", footer_desc:"Sans publicité, sans suivi — fait avec amour pour les aînés.",
+  footer_rights:"Jeux de l'Esprit © 2026", footer_desc:"Gratuit, sans fenêtres surgissantes ni collecte de données — financé uniquement par des publicités discrètes.",
   game_memory_title:"Mémoire", game_memory_desc:"Améliorez la mémoire à court terme.",
   game_odd_title:"L'intrus", game_odd_desc:"Trouvez le symbole différent.",
   game_math_title:"Calcul rapide", game_math_desc:"Additions et soustractions simples.",
@@ -1220,7 +1223,7 @@ i18nData.de = Object.assign({}, i18nData.en, {
   level_str:"Stufe", hero_title:"Tägliches Gehirntraining", btn_start:"Starten",
   section_games:"{n} Gehirnspiele", section_games_sub:"Auf ein Spiel klicken zum Starten",
     why_title:"Warum täglich das Gehirn trainieren", why1_t:"Man wird besser in dem, was man übt", why1_d:"Gedächtnis, Aufmerksamkeit, Tempo und Wortfindung verbessern sich durch regelmäßiges Üben. Genau das trainieren diese Spiele.", why2_t:"Wenig und oft gewinnt", why2_d:"Zehn Minuten täglich, durchgehalten, bringen mehr als eine Stunde im Monat. Der Serienzähler hilft dabei.", why3_t:"Aktiv bleiben zählt", why3_d:"Geistige und soziale Aktivität hängt mit gesünderem kognitivem Altern zusammen — neben Bewegung, Schlaf und der Kontrolle des Blutdrucks.", why_note:"Diese Spiele dienen dem Vergnügen und der Übung. Kein Spiel — hier oder anderswo — verhindert, behandelt oder heilt Alzheimer oder Demenz. Bei Sorgen um Ihr Gedächtnis sprechen Sie mit Ihrer Ärztin oder Ihrem Arzt. Was die Evidenz für die Gehirngesundheit stützt: körperliche Aktivität, Behandlung von Bluthochdruck, Korrektur von Hör- und Sehvermögen, guter Schlaf, Rauchverzicht und soziale Kontakte.",
-  footer_rights:"Gehirnspiele © 2026", footer_desc:"Werbefrei, kein Tracking — mit Liebe für Senioren gemacht.",
+  footer_rights:"Gehirnspiele © 2026", footer_desc:"Kostenlos, ohne Pop-ups und ohne Datensammlung — nur durch dezente Werbung finanziert.",
   game_memory_title:"Gedächtnis", game_memory_desc:"Kurzzeitgedächtnis verbessern.",
   game_odd_title:"Das Andere", game_odd_desc:"Finde das abweichende Symbol.",
   game_math_title:"Schnelles Rechnen", game_math_desc:"Einfaches Addieren und Subtrahieren.",
@@ -1251,7 +1254,7 @@ i18nData.el = Object.assign({}, i18nData.en, {
   level_str:"Επίπεδο", hero_title:"Καθημερινή εξάσκηση για το μυαλό", btn_start:"Έναρξη",
   section_games:"{n} παιχνίδια μυαλού", section_games_sub:"Πατήστε ένα παιχνίδι για να ξεκινήσετε",
     why_title:"Γιατί να γυμνάζετε το μυαλό καθημερινά", why1_t:"Βελτιώνεστε σε ό,τι εξασκείτε", why1_d:"Η μνήμη, η προσοχή, η ταχύτητα και η εύρεση λέξεων βελτιώνονται με τακτική εξάσκηση. Αυτά ακριβώς γυμνάζουν τα παιχνίδια.", why2_t:"Λίγο και συχνά κερδίζει", why2_d:"Δέκα λεπτά την ημέρα, με συνέπεια, αξίζουν περισσότερο από μία ώρα τον μήνα. Ο μετρητής σερί σας βοηθά.", why3_t:"Η συμμετοχή μετράει", why3_d:"Η πνευματική και κοινωνική δραστηριότητα συνδέεται με πιο υγιή γνωστική γήρανση — μαζί με άσκηση, ύπνο και έλεγχο της πίεσης.", why_note:"Τα παιχνίδια αυτά είναι για ευχαρίστηση και εξάσκηση. Κανένα παιχνίδι — εδώ ή οπουδήποτε αλλού — δεν προλαμβάνει, δεν θεραπεύει και δεν γιατρεύει τη νόσο Αλτσχάιμερ ή την άνοια. Αν ανησυχείτε για τη μνήμη σας, μιλήστε με τον γιατρό σας. Τι στηρίζουν τα δεδομένα για την υγεία του εγκεφάλου: σωματική άσκηση, αντιμετώπιση της υψηλής πίεσης, διόρθωση ακοής και όρασης, καλός ύπνος, αποφυγή καπνίσματος και κοινωνική επαφή.",
-  footer_rights:"Παιχνίδια Μυαλού © 2026", footer_desc:"Χωρίς διαφημίσεις, χωρίς παρακολούθηση — με αγάπη για ηλικιωμένους.",
+  footer_rights:"Παιχνίδια Μυαλού © 2026", footer_desc:"Δωρεάν, χωρίς αναδυόμενα παράθυρα και χωρίς συλλογή δεδομένων — με τη στήριξη μόνο διακριτικών διαφημίσεων.",
   game_memory_title:"Μνήμη", game_memory_desc:"Βελτιώστε τη βραχυπρόθεσμη μνήμη.",
   game_odd_title:"Το διαφορετικό", game_odd_desc:"Βρείτε το διαφορετικό σύμβολο.",
   game_math_title:"Γρήγοροι υπολογισμοί", game_math_desc:"Απλές προσθέσεις και αφαιρέσεις.",
@@ -1668,7 +1671,7 @@ const _adMsgs = {
     ],
     en: [
         "🌟 Share with friends and family — everyone plays for free",
-        "💡 Built for seniors with love — no cost, no tracking, no ads",
+        "💡 Built for seniors with love — no cost, no sign-up, no pop-ups",
         "🧠 Studies show: daily training improves memory and prevents decline",
         "❤️ Recommend to your doctor — a free Brain Training platform",
         "🎯 10 minutes a day — the best investment you can make for your brain",
@@ -1699,12 +1702,12 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
-<script src="js/affiliate.js?v=63"></script>
-<script src="js/profile.js?v=63"></script>
-<script src="js/brainscore.js?v=63"></script>
-<script src="js/achievements.js?v=63"></script>
-<script src="js/lang-content.js?v=63"></script>
-<script src="js/textsize.js?v=63"></script>
+<script src="js/affiliate.js?v=64"></script>
+<script src="js/profile.js?v=64"></script>
+<script src="js/brainscore.js?v=64"></script>
+<script src="js/achievements.js?v=64"></script>
+<script src="js/lang-content.js?v=64"></script>
+<script src="js/textsize.js?v=64"></script>
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
 if ('IntersectionObserver' in window) {
@@ -1717,22 +1720,22 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
 }
 </script>
-<script src="js/daily-challenge.js?v=63"></script>
-<script src="js/stats.js?v=63"></script>
-<script src="js/difficulty.js?v=63"></script>
-<script src="js/levels.js?v=63"></script>
-<script src="js/share.js?v=63"></script>
-<script src="js/gametext.js?v=63"></script>
-<script src="js/sync.js?v=63"></script>
-<script src="js/sync-ui.js?v=63"></script>
-<script src="js/categories.js?v=63"></script>
-<script src="js/accessibility.js?v=63"></script>
-<script src="js/tips.js?v=63"></script>
-<script src="js/favorites.js?v=63"></script>
-<script src="js/holiday.js?v=63"></script>
-<script src="js/fx.js?v=63"></script>
-<script src="js/kbnav.js?v=63"></script>
-<script src="js/ambient-bg.js?v=63"></script>
-<script src="js/warm.js?v=63"></script>
+<script src="js/daily-challenge.js?v=64"></script>
+<script src="js/stats.js?v=64"></script>
+<script src="js/difficulty.js?v=64"></script>
+<script src="js/levels.js?v=64"></script>
+<script src="js/share.js?v=64"></script>
+<script src="js/gametext.js?v=64"></script>
+<script src="js/sync.js?v=64"></script>
+<script src="js/sync-ui.js?v=64"></script>
+<script src="js/categories.js?v=64"></script>
+<script src="js/accessibility.js?v=64"></script>
+<script src="js/tips.js?v=64"></script>
+<script src="js/favorites.js?v=64"></script>
+<script src="js/holiday.js?v=64"></script>
+<script src="js/fx.js?v=64"></script>
+<script src="js/kbnav.js?v=64"></script>
+<script src="js/ambient-bg.js?v=64"></script>
+<script src="js/warm.js?v=64"></script>
 </body>
 </html>

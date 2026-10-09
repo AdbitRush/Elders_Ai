@@ -171,7 +171,65 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
     document.head.appendChild(st);
   }
 
-  function showFirstVisitModal(onComplete) {
+  // First visit (2026-10-09): a SMALL card in the corner, shown once, that does not cover the site. It asks
+  // for the name only; the symbol picker is one tap away ("Pick a symbol"), and the full dialog below is
+  // still what the profile button opens. Marked seen as soon as it shows, so it never comes back.
+  function injectCardStyles() {
+    if (document.getElementById('profile-card-css')) return;
+    const st = document.createElement('style');
+    st.id = 'profile-card-css';
+    st.textContent = `
+.pw-card{position:fixed;z-index:450;inset-inline-end:16px;bottom:72px;width:min(360px,calc(100vw - 32px));
+  background:var(--w-card,#2f2218);color:var(--w-ink,#fff6e8);border:2px solid var(--w-accent,#f6b545);border-radius:20px;
+  padding:16px 16px 14px;box-shadow:0 18px 44px -14px rgba(0,0,0,.55);font-size:1.05rem;animation:pwIn .35s ease both}
+.pw-head{display:flex;align-items:center;gap:10px;margin:0 0 10px}
+.pw-title{flex:1;font-size:1.3rem;font-weight:800;margin:0;color:var(--w-ink,#fff6e8)}
+.pw-x{min-width:48px;min-height:48px;border-radius:12px;border:2px solid var(--w-line,#6b4f33);background:transparent;
+  color:var(--w-ink,#fff6e8);font-size:1.3rem;cursor:pointer}
+.pw-label{display:block;font-weight:700;margin:0 0 6px;color:var(--w-ink2,#f3e2c7)}
+.pw-row{display:flex;gap:8px}
+.pw-input{flex:1;min-width:0;min-height:52px;border-radius:12px;border:2px solid var(--w-line,#6b4f33);padding:0 12px;
+  font:inherit;font-size:1.15rem;background:var(--w-card2,#3a2a1d);color:var(--w-ink,#fff6e8)}
+.pw-go{min-height:52px;padding:0 16px;border:0;border-radius:12px;background:var(--w-accent,#f6b545);
+  color:var(--w-on-accent,#2a1700);font:inherit;font-weight:800;cursor:pointer}
+.pw-more{margin-top:8px;min-height:48px;background:none;border:0;padding:0 4px;font:inherit;font-weight:700;
+  color:var(--w-ink,#fff6e8);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.pw-card :focus-visible{outline:3px solid var(--w-accent,#f6b545);outline-offset:2px}
+@media (max-width:639px){.pw-card{inset-inline:12px;width:auto;bottom:64px}}
+@keyframes pwIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.pw-card{animation:none}}`;
+    document.head.appendChild(st);
+  }
+
+  function showWelcomeCard(onComplete) {
+    if (localStorage.getItem(K_SEEN) || document.querySelector('.pw-card')) { onComplete && onComplete(); return; }
+    localStorage.setItem(K_SEEN, '1');            // shown once
+    injectCardStyles();
+    const l = lang(), tx = L[l], rtl = isRTL(l);
+    const card = document.createElement('section');
+    card.className = 'pw-card';
+    card.setAttribute('role', 'region');
+    card.setAttribute('aria-labelledby', 'pw-title');
+    card.dir = rtl ? 'rtl' : 'ltr';
+    card.innerHTML = `
+      <div class="pw-head"><span aria-hidden="true" style="font-size:1.8rem">🧠</span>
+        <h2 class="pw-title" id="pw-title">${tx.title}</h2>
+        <button type="button" class="pw-x" id="pw-x" aria-label="${tx.skip}" title="${tx.skip}">✕</button></div>
+      <label class="pw-label" for="pw-name">${tx.name}</label>
+      <div class="pw-row"><input class="pw-input" id="pw-name" type="text" maxlength="20" autocomplete="given-name"
+          placeholder="${tx.ph}" dir="${rtl ? 'rtl' : 'ltr'}"><button type="button" class="pw-go" id="pw-go">${tx.go}</button></div>
+      <button type="button" class="pw-more" id="pw-more">${tx.avatar} →</button>`;
+    const $ = (s) => card.querySelector(s);
+    const done = () => { card.remove(); updateGreetingEl(); onComplete && onComplete(); };
+    $('#pw-go').addEventListener('click', () => { const n = $('#pw-name').value.trim(); if (n) set(n, get().avatar); done(); });
+    $('#pw-name').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#pw-go').click(); });
+    $('#pw-x').addEventListener('click', done);
+    $('#pw-more').addEventListener('click', () => { const n = $('#pw-name').value.trim(); if (n) set(n, get().avatar); card.remove(); edit(); });
+    document.body.appendChild(card);
+  }
+
+  function showFirstVisitModal(onComplete, full) {
+    if (!full) return showWelcomeCard(onComplete);
     if (localStorage.getItem(K_SEEN)) { onComplete && onComplete(); return; }
     injectStyles();
 
@@ -285,7 +343,7 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
 
   function edit() {
     localStorage.removeItem(K_SEEN);
-    showFirstVisitModal(updateGreetingEl);
+    showFirstVisitModal(updateGreetingEl, true);
   }
 
   return { get, set, hasName, greeting, updateGreetingEl, showFirstVisitModal, edit };

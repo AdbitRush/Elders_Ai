@@ -45,26 +45,46 @@ html[data-theme] body nav #backBtn:not(.hidden){ background:var(--w-accent) !imp
 html[data-theme] body nav #inviteBtn{ color:var(--w-ink) !important; }
 html[data-theme] body nav #profile-chip .nm{ color:var(--w-ink) !important; font-size:1rem !important; }
 html[data-theme] body nav select option{ background:var(--w-card); color:var(--w-ink); }
+/* phones: ONE header row — logo, title (the level during a game), ☰ Menu, Light/Dark, Back — as labelled icons.
+   js/warm.js moves the other header controls (text size, sound, scores, awards, invite, profile, language) into
+   a labelled grid at the top of the ☰ menu; nothing is removed, and wider screens get them back in the header. */
 @media (max-width:639px){
-  /* row 1: logo · theme toggle · back (in a game); everything else on the next row(s), all still there */
-  html[data-theme] body nav > div{ gap:8px !important; }
-  html[data-theme] body nav > div > div:last-child{ display:contents !important; }
-  html[data-theme] body nav > div > div:first-child{ flex:1 1 auto; min-width:0; order:0; }
-  html[data-theme] body nav h1{ font-size:1.35rem !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  html[data-theme] body nav #themeBtn{ order:1; }
-  html[data-theme] body nav #backBtn{ order:2; }
-  html[data-theme] body nav > div > div:last-child > *:not(#themeBtn):not(#backBtn){ order:3; }
-  html[data-theme] body nav button, html[data-theme] body nav select{ padding:4px 8px !important; }
-  /* compact 48px icon buttons on row 2; their names stay in title / aria-label */
-  html[data-theme] body nav #menuBtn, html[data-theme] body nav #textsize-btn, html[data-theme] body nav #sound-btn, html[data-theme] body nav #inviteBtn, html[data-theme] body nav #profile-chip, html[data-theme] body nav button[title="Scoreboard"], html[data-theme] body nav button[title="Achievements"]{ min-width:48px; justify-content:center; }
-  html[data-theme] body nav #profile-chip .nm{ display:none !important; }
-  html[data-theme] body nav #levelIndicator{ min-height:40px !important; font-size:.95rem !important; display:inline-flex; align-items:center; }
-  html[data-theme] body nav #levelIndicator.hidden{ display:none !important; }
-  /* the Invite button was hidden on phones (ee95f2d); it is back, icon-sized, on row 2 */
-  html[data-theme] body nav #inviteBtn{ display:inline-flex !important; font-size:0 !important; }
-  html[data-theme] body nav #inviteBtn::before{ content:"👥"; font-size:1.3rem; }
-  html[data-theme] body nav select{ max-width:120px; }
+  html[data-theme] body nav{ padding-top:6px !important; padding-bottom:6px !important; }
+  html[data-theme] body nav > div{ flex-wrap:nowrap !important; gap:6px !important; padding-left:10px !important; padding-right:10px !important; }
+  html[data-theme] body nav > div > div:first-child{ flex:1 1 auto; min-width:0; gap:8px !important; }
+  html[data-theme] body nav > div > div:last-child{ flex:0 0 auto; flex-wrap:nowrap !important; gap:6px !important; }
+  html[data-theme] body nav h1{ font-size:1.2rem !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+  html.in-game[data-theme] body nav h1{ display:none !important; }
+  html[data-theme] body nav #logoLetter{ width:2.5rem !important; height:2.5rem !important; flex:0 0 auto; }
+  html[data-theme] body nav #menuBtn, html[data-theme] body nav #themeBtn, html[data-theme] body nav #backBtn:not(.hidden){
+    display:inline-flex !important; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+    min-width:56px; min-height:56px !important; padding:4px 6px !important; line-height:1.1; font-size:1.25rem !important; }
+  html[data-theme] body nav #menuBtn::after{ content:attr(data-w-label); font-size:13px; font-weight:800; }
+  html[data-theme] body nav #themeBtn .w-tl{ font-size:13px; font-weight:800; }
+  html[data-theme] body nav #backBtn:not(.hidden){ font-size:14px !important; max-width:92px; white-space:normal; text-align:center; }
+  html[data-theme] body nav #levelIndicator{ min-height:40px !important; font-size:.95rem !important; display:inline-flex; align-items:center; padding:4px 8px !important; }
+  html[data-theme] body nav #levelIndicator.hidden, html[data-theme] body nav #personalBest.hidden{ display:none !important; }
+  html[data-theme] body nav #personalBest{ display:none !important; }
+  /* the ☰ panel holds the tools now: it may be taller than before, so it scrolls as one */
+  html[data-theme] body #gameMenu{ top:74px !important; max-height:calc(100dvh - 90px); overflow-y:auto; }
+  html[data-theme] body #gameMenuList{ max-height:none !important; }
 }
+/* the tools grid inside the ☰ menu (phones only; empty and hidden on wider screens) */
+#w-tools{ display:none; }
+html.w-phone-head #w-tools{ display:block; padding:12px 14px 4px; border-bottom:2px solid var(--w-line); }
+html.w-phone-head #w-tools .w-lang{ display:flex; align-items:center; gap:10px; margin-bottom:10px; font-weight:800; font-size:1.05rem; color:var(--w-ink); }
+html.w-phone-head #w-tools .w-lang label{ white-space:nowrap; }
+html.w-phone-head #w-tools #langSelect{ flex:1; min-height:52px !important; font-size:1.05rem !important; border-radius:12px !important;
+  border:2px solid var(--w-line) !important; background:var(--w-card) !important; color:var(--w-ink) !important; padding:4px 10px !important; max-width:none !important; }
+html.w-phone-head #w-tools .w-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-bottom:10px; }
+html.w-phone-head #w-tools .w-grid > *{ display:flex !important; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  min-height:64px; border-radius:12px !important; border:2px solid var(--w-line) !important; background:var(--w-card) !important;
+  color:var(--w-ink) !important; font-size:1.3rem !important; padding:6px 4px !important; cursor:pointer; }
+html.w-phone-head #w-tools .w-grid > *::after{ content:attr(data-w-label); font-size:14px; font-weight:800; color:var(--w-ink); }
+html.w-phone-head #w-tools #inviteBtn{ font-size:0 !important; }
+html.w-phone-head #w-tools #inviteBtn::before{ content:"👥"; font-size:1.3rem; }
+html.w-phone-head #w-tools #profile-chip .nm{ display:block !important; font-size:14px !important; font-weight:800; color:var(--w-ink) !important; max-width:100%; }
+html.w-phone-head #w-tools #profile-chip .av{ font-size:1.3rem; }
 
 /* ── hero + hub ── */
 #hero{ background:transparent !important; border-bottom:2px solid var(--w-line) !important; }
@@ -87,7 +107,7 @@ html[data-theme] body nav select option{ background:var(--w-card); color:var(--w
 #homeScreen .premium-card h3{ color:var(--w-ink) !important; font-size:1.4rem !important; line-height:1.25 !important; }
 #homeScreen .premium-card p{ color:var(--w-ink2) !important; font-size:1.05rem !important; line-height:1.45 !important; }
 #homeScreen .premium-card .btn-premium{ min-height:56px; font-size:1.2rem !important; border-radius:14px !important; background:var(--w-accent) !important; color:var(--w-on-accent) !important; border:0 !important; }
-#homeScreen .premium-card a.w-page{ display:inline-flex; align-items:center; min-height:44px; margin-top:8px; font-size:1rem; font-weight:700; color:var(--w-ink); text-decoration:underline; text-underline-offset:3px; }
+#homeScreen .premium-card a.w-page{ display:inline-flex; align-items:center; min-height:52px; padding:4px 2px; margin-top:8px; font-size:1rem; font-weight:700; color:var(--w-ink); text-decoration:underline; text-underline-offset:3px; }
 @media (max-width:639px){
   #homeScreen{ grid-template-columns:1fr !important; gap:16px !important; }
   #homeScreen .premium-card .thumbnail-container{ aspect-ratio:16/9; }
@@ -104,15 +124,17 @@ html.in-game #all-games{ display:none; }
 
 /* ── inside a game: a warm "table", the game's own photo on top, big readable text ── */
 #gameView > div{ background:var(--w-table) !important; color:var(--w-table-ink); border:3px solid var(--w-table-line) !important; border-radius:24px !important; padding:0 !important; }
-#gameView > div > div:first-child{ position:relative; margin:0 0 20px !important; padding:28px 20px 22px !important; border-bottom:0 !important; min-height:150px;
-  display:flex; flex-direction:column; justify-content:flex-end; color:#fff;
-  background:linear-gradient(180deg,rgba(20,12,4,.15) 0%,rgba(20,12,4,.78) 100%), var(--game-photo, none) center/cover no-repeat, #6b4423 !important; }
-#gameView #gameTitle{ color:#fff !important; font-size:clamp(1.9rem,5vw,2.6rem) !important; text-shadow:0 2px 12px rgba(0,0,0,.6); background:none !important; -webkit-text-fill-color:#fff !important; }
-#gameView #gameInstructions{ color:#fff8ec !important; font-size:1.2rem !important; font-weight:600; text-shadow:0 1px 8px rgba(0,0,0,.7); }
+/* the game's photo is a soft, light band at the top that fades into the ivory table; the title sits on the light
+   part in dark ink (2026-10-09: no dark photo headers) */
+#gameView > div > div:first-child{ position:relative; margin:0 0 16px !important; padding:26px 20px 16px !important; border-bottom:0 !important; min-height:140px;
+  display:flex; flex-direction:column; justify-content:flex-end; color:var(--w-table-ink); border-radius:21px 21px 0 0;
+  background:linear-gradient(180deg,rgba(255,250,241,.30) 0%,rgba(255,250,241,.80) 45%,var(--w-table) 92%), var(--game-photo, none) center 35%/cover no-repeat, #f4e3c6 !important; }
+#gameView #gameTitle{ color:var(--w-table-ink) !important; font-size:clamp(1.9rem,5vw,2.6rem) !important; text-shadow:0 1px 0 rgba(255,250,241,.9); background:none !important; -webkit-text-fill-color:var(--w-table-ink) !important; }
+#gameView #gameInstructions{ color:var(--w-table-ink2) !important; font-size:1.2rem !important; font-weight:600; text-shadow:none; }
 #gameView #gameContent{ padding:0 18px 26px; color:var(--w-table-ink); font-size:1.15rem; }
 #gameView #gameContent .text-gray-400, #gameView #gameContent .text-gray-500{ color:var(--w-table-ink2) !important; }
 #gameView #gameContent .text-gray-600, #gameView #gameContent .text-gray-700, #gameView #gameContent .text-gray-800, #gameView #gameContent .text-slate-800{ color:var(--w-table-ink) !important; }
-@media (min-width:768px){ #gameView > div > div:first-child{ min-height:200px; padding:40px 40px 28px !important; } #gameView #gameContent{ padding:0 40px 40px; } }
+@media (min-width:768px){ #gameView > div > div:first-child{ min-height:180px; padding:40px 40px 20px !important; } #gameView #gameContent{ padding:0 40px 32px; } }
 
 /* answer buttons in the quiz-style games (the games draw them with border-gray-200 / border-blue-200): four warm
    colours, dark text, centred, big. A button the game has marked right / wrong loses those classes and gets the
@@ -147,10 +169,15 @@ html[data-game="klondike"] #gameContent .kl-slot{ border-color:rgba(255,255,255,
   html[data-game="klondike"] #gameContent .kl-pile{ min-width:0 !important; width:calc((100% - 24px) / 7) !important; }
 }
 
-/* memory: the card backs show the game's photo instead of a navy "?" tile */
-html[data-game="memory"] #gameContent .card-face.bg-slate-700{
-  background:linear-gradient(160deg,rgba(180,83,9,.55),rgba(60,30,8,.75)), url("../images/cards/memory.jpg") center/cover !important;
-  border:3px solid var(--w-q1b) !important; color:#fff !important; text-shadow:0 2px 8px rgba(0,0,0,.6); }
+/* memory: plain warm card backs (no photo), an even grid that fits the cards, no empty band above or below */
+html[data-game="memory"] #gameContent .card-face.bg-slate-700{ background:#b45309 !important; border:3px solid #92400e !important;
+  color:#fff7e6 !important; font-size:2.2rem; box-shadow:inset 0 0 0 4px rgba(255,247,230,.35), 0 4px 10px rgba(80,40,0,.25) !important; }
+html[data-game="memory"] #gameContent .card-back{ border-color:#92400e !important; }
+html[data-game="memory"] #gameContent{ display:block !important; min-height:0 !important; padding-top:4px !important; padding-bottom:20px !important; }
+html[data-game="memory"] #gameContent .mem-grid{ max-width:34rem; }
+@media (min-width:768px){
+  html[data-game="memory"] #gameContent .mem-grid{ grid-template-columns:repeat(var(--mem-cols,4),minmax(0,1fr)) !important; max-width:calc(var(--mem-cols,4) * 8.5rem); }
+}
 
 /* end-of-game modal */
 #modal > div{ background:var(--w-table) !important; color:var(--w-table-ink) !important; border-top-color:var(--w-q1b) !important; border-radius:24px !important; }
@@ -173,3 +200,36 @@ html.in-game:not(.between-games) body{ padding-bottom:0 !important; }
 html.between-games #adBar{ z-index:60; }
 
 @media (prefers-reduced-motion:reduce){ #homeScreen .premium-card:hover{ transform:none; } }
+
+/* ── 2026-10-09 fixes ── */
+/* no dark photo behind the page: dark theme = plain warm gradient; light theme = the photo only as a pale cream wash */
+html:not([data-theme="light"]) #ambientBg .ab-layer{ display:none !important; }
+html[data-theme="light"] #ambientBg .ab-scrim{ background:linear-gradient(180deg,rgba(251,243,228,.90),rgba(244,227,198,.95)) !important; }
+
+/* light-mode readability: older light-theme rules out-ranked the warm ones; these win by specificity */
+html[data-theme] body #hero h2, html[data-theme] body #why-train h3{ background:none !important; -webkit-background-clip:border-box !important; background-clip:border-box !important;
+  -webkit-text-fill-color:var(--w-ink) !important; color:var(--w-ink) !important; }
+html[data-theme] body #hero #dailyQuote{ color:var(--w-ink2) !important; }
+html[data-theme] body #hero #greetingText, html[data-theme] body #hero #streakText, html[data-theme] body #hero #dailyGoalText, html[data-theme] body #hero #totalGamesText{ color:var(--w-ink) !important; }
+html[data-theme] body #hero .streak-pill, html[data-theme] body #hero #retentionBar .rounded-full{ background:var(--w-card) !important; border:2px solid var(--w-line) !important; }
+html[data-theme] body #brain-score-slot *{ color:var(--w-ink) !important; }
+html[data-theme] body #brain-score-slot > *{ background:var(--w-card) !important; border:2px solid var(--w-line) !important; }
+html[data-theme] body #why-train [style*="color:#f6c048"]{ color:var(--w-accent) !important; }
+html[data-theme="light"] body #why-train [style*="color:#f6c048"]{ color:#92400e !important; }
+/* the tip bar */
+html[data-theme] body #tips-slot > *{ background:var(--w-card) !important; border:2px solid var(--w-line) !important; color:var(--w-ink) !important; }
+html[data-theme] body #tips-slot #tips-text{ color:var(--w-ink) !important; font-size:1.05rem; }
+/* the profile chip: always ink on a card colour, in both themes */
+html[data-theme] body #profile-chip{ background:var(--w-card) !important; border:2px solid var(--w-line) !important; }
+html[data-theme] body #profile-chip .nm{ color:var(--w-ink) !important; }
+/* hub difficulty buttons */
+html[data-theme] body .diff-btn{ color:var(--w-ink) !important; background:var(--w-card) !important; border:2px solid var(--w-line) !important; min-height:48px; font-weight:800; }
+html[data-theme] body .diff-btn.active{ background:var(--w-accent) !important; color:var(--w-on-accent) !important; border-color:var(--w-accent) !important; }
+html[data-theme] body #adBar #adX{ color:var(--w-ink) !important; }
+/* jigsaw: its set-up screen was drawn for a dark page; on the ivory table the piece-count chips were near-invisible */
+html[data-game="jigsaw"] #gameContent .jig-title{ color:var(--w-table-ink) !important; }
+html[data-game="jigsaw"] #gameContent .jig-label, html[data-game="jigsaw"] #gameContent .jig-diffhint, html[data-game="jigsaw"] #gameContent .jig-diffhint b{ color:var(--w-table-ink2) !important; font-size:1.05rem; }
+html[data-game="jigsaw"] #gameContent .jig-chip{ color:var(--w-table-ink) !important; background:#fff !important; border:3px solid var(--w-table-line) !important;
+  min-width:56px; min-height:56px; font-size:1.25rem !important; font-weight:800 !important; box-shadow:none !important; }
+html[data-game="jigsaw"] #gameContent .jig-chip.active{ background:#b45309 !important; border-color:#92400e !important; color:#fff !important; }
+html[data-theme] body #homeScreen .why-line{ color:var(--w-ink2) !important; }
