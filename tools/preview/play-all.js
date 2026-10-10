@@ -305,10 +305,12 @@ const PLAY = {
     R.steps.push('end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'safari', R);
   },
   async blocks(p, R) {
-    const dropBtn = p.locator('#gameContent button').nth(4);
+    // 2026-10-10: the game waits for Start (and has Pause); controls are marked data-b
+    await p.click('[data-b="start"]'); await sleep(300);
+    const dropBtn = p.locator('[data-b="drop"]');
     const t = Date.now(); let presses = 0;
     while (!(await modalUp(p)) && Date.now() - t < 60000) {
-      if (presses % 3 === 0) await p.locator('#gameContent button').nth(presses % 6 < 3 ? 0 : 2).dispatchEvent('pointerdown');
+      if (presses % 3 === 0) await p.locator(presses % 6 < 3 ? '[data-b="left"]' : '[data-b="right"]').dispatchEvent('pointerdown');
       await dropBtn.dispatchEvent('pointerdown'); await dropBtn.dispatchEvent('pointerup'); presses++; await sleep(120);
     }
     const sc = await p.evaluate(() => (document.getElementById('tet-score') || {}).innerText);

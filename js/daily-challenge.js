@@ -66,7 +66,9 @@ const DailyChallenge = (() => {
   }
 
   function _gameLabel(id) {
-    // Try to get the name from the card DOM
+    // the game's title in the CURRENT language (2026-10-10: the old card lookup matched nothing, so every pill fell back
+    // to the Hebrew names below, whatever the language)
+    if (typeof _menuGameTitles !== 'undefined' && _menuGameTitles[id] && typeof t === 'function') { const v = t(_menuGameTitles[id]); if (v && v !== _menuGameTitles[id]) return v; }
     const card = document.querySelector(`[data-game="${id}"] h3`);
     if (card) return card.textContent.trim();
     const map = { memory:'זיכרון', oddoneout:'יוצא דופן', math:'חשבון', wordsearch:'חיפוש מילים',

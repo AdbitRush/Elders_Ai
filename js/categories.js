@@ -287,7 +287,7 @@ const Categories = (() => {
   // Inject skill badges into all game cards on the home screen
   function injectAllBadges() {
     Object.keys(MAP).forEach(id => {
-      const card = document.querySelector(`[onclick="loadGame('${id}')"]`);
+      const card = document.querySelector(`.premium-card[onclick="loadGame('${id}')"]`);   // a card, not the hub's Continue / favorite buttons
       if (!card) return;
       let badgeRow = card.querySelector('.skill-badges');
       if (!badgeRow) {

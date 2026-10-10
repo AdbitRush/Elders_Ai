@@ -78,8 +78,29 @@ function _klRender(container) {
         border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:1rem}
       .kl-btn:hover{background:rgba(246,192,72,.25)}
       .kl-count{color:#cbd5e1;font-size:.95rem;align-self:center}
+      .kl-help{max-width:860px;margin:0 auto 14px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:8px 14px;color:#fff7e6;font-size:1.05rem;line-height:1.5}
+      .kl-help summary{cursor:pointer;font-weight:800;font-size:1.15rem;min-height:44px;display:flex;align-items:center;gap:6px}
+      .kl-help ul{margin:4px 0 8px 1.1em;padding:0}.kl-help li{margin:4px 0}
+      .kl-ex{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-weight:700}
+      .kl-ex-card{display:inline-flex;align-items:center;justify-content:center;width:46px;height:64px;border-radius:8px;background:#fff;font-size:1.3rem;font-weight:900;box-shadow:0 2px 4px rgba(0,0,0,.35)}
+      .kl-ex-arrow{font-size:1.6rem;color:#fde68a}
     </style><div class="kl-board">`;
 
+    // How to play (2026-10-10 review: the tableau, empty-column and stock rules were missing). Open on the first
+    // visit, then remembered as folded; a worked example shows a legal move.
+    let helpOpen = true; try { helpOpen = !localStorage.getItem('gg_kl_help_seen'); localStorage.setItem('gg_kl_help_seen', '1'); } catch (e) {}
+    const ex = (lbl, suit, red) => `<span class="kl-ex-card ${red ? 'kl-red' : 'kl-black'}">${lbl}${suit}</span>`;
+    h += `<details class="kl-help"${helpOpen ? ' open' : ''}><summary>${Icon.ui('book-open')} How to play</summary>
+      <ul>
+        <li><b>Goal:</b> move all 52 cards to the four home piles at the top right, each suit from Ace up to King.</li>
+        <li><b>Columns:</b> build down in <b>alternating colors</b> - a red 7 goes on a black 8, a black 6 on a red 7.</li>
+        <li>You can move a whole face-up run at once. When you uncover a face-down card, it turns over.</li>
+        <li><b>Empty column:</b> only a King (or a run that starts with a King) can go there.</li>
+        <li><b>The deck</b> (top left): tap it to turn a card onto the pile next to it; you may play that card. When the deck is empty, tap its spot to turn the pile back over.${s.draw === 3 ? ' On Hard, three cards turn at a time and you can go through the deck three more times.' : ''}</li>
+        <li><b>Tap to move:</b> tap a card, then tap where it goes. Tap a card twice to send it home if it fits.</li>
+      </ul>
+      <div class="kl-ex"><span>Example:</span>${ex('8', '♠', false)}<span class="kl-ex-arrow">←</span>${ex('7', '♥', true)}<span>The red 7♥ can go on the black 8♠.</span></div>
+    </details>`;
     h += `<div class="kl-bar">
       <button class="kl-btn" onclick="klUndo()">${L.undo}</button>
       <button class="kl-btn" onclick="klHint()">${L.hint}</button>

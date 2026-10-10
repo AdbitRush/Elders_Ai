@@ -51,5 +51,6 @@ const Tips = (() => {
     }, 400);
   }
 
-  return { inject };
+  // render(): show a tip in the current language now (called by changeLanguage)
+  return { inject, render: _rotate };
 })();

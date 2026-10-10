@@ -341,6 +341,27 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     }
     ok(`10 ${NEW.length} new games load at 390 light + 1440 dark, no errors, nothing off the screen`, !bad.length, bad.join(' | ') || NEW.join(' '));
   }
+  // 11. switching language IN PLACE (2026-10-10 review): no mixed page, the URL follows, the end screen too
+  {
+    const { ctx, p, errs } = await page(1280, '/?lang=he', { lang: 'he' });
+    const HE = /[֐-׿]/;
+    const grab = () => p.evaluate(() => ({ quote: document.getElementById('dailyQuote').innerText, dc: [...document.querySelectorAll('.dc-game-pill')].map((e) => e.innerText).join(' | '),
+      score: (document.querySelector('#brain-score-widget span') || {}).innerText || '', tip: (document.getElementById('tips-text') || {}).innerText || '',
+      ticker: (document.getElementById('adFallback') || {}).innerText || '', url: location.search }));
+    await p.selectOption('#langSelect', 'en'); await p.waitForTimeout(900);
+    const en = await grab();
+    const enHebrew = Object.entries(en).filter(([k, v]) => k !== 'url' && HE.test(v)).map(([k]) => k);
+    await p.evaluate(() => { gameState.active = true; gameState.currentId = 'memory'; gameState.memory = { level: 1 }; localStorage.removeItem('gg_hs_memory'); levelComplete(); }); await p.waitForTimeout(600);
+    const badge = await p.evaluate(() => document.getElementById('newBestBanner').innerText);
+    await p.evaluate(() => showHome()); await p.selectOption('#langSelect', 'he'); await p.waitForTimeout(900);
+    const he = await grab();
+    const heLatin = Object.entries(he).filter(([k, v]) => k !== 'url' && k !== 'dc' && !HE.test(v)).map(([k]) => k);
+    ok('11 he -> en in place: hero quote, daily challenge, score, tip and ticker all in English; URL ?lang=en', !enHebrew.length && /lang=en/.test(en.url), JSON.stringify(enHebrew) + ' ' + en.url);
+    ok('11 end screen after the switch: the "new personal best" badge is in English', /New personal best/.test(badge) && !HE.test(badge), badge);
+    ok('11 en -> he in place: the same pieces in Hebrew; URL ?lang=he', !heLatin.length && /lang=he/.test(he.url), JSON.stringify(heLatin) + ' ' + he.url);
+    ok('11 no JS errors while switching', !errs.length, errs.join(' | '));
+    await ctx.close();
+  }
   await b.close();
   console.log(res.join('\n'));
   console.log(`\n${res.filter((r) => r.startsWith('PASS')).length}/${res.length} passed`);

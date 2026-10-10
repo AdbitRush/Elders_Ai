@@ -1,3 +1,42 @@
+## 2026-10-10 (c) - games project: wave 1 (8/9) + wave 0 (7/9) - RESUME HERE (preview only; main untouched)
+
+Or's plan (latest message): Wave 0 = 9 review fixes, then 36 games in 4 waves of 9. Waves 3/4 lists were cut off in his
+message; assumed = the earlier lists (trivia: song titles, who sang it, movie quotes, TV, name that year, famous faces,
+brands/slogans, then-vs-now prices, states & capitals; arcade: invaders, asteroids, pong, breakout, road crossing,
+gallery, snake, Simon-style (exists as Color Sequence), moles). Already on the site, not duplicated: Klondike, Sudoku,
+Hangman (Word Balloons), Jigsaw, Color Sequence (Simon).
+
+**Built so far**
+- Infrastructure: `tools/new_games.json` (registry) + `tools/build_new_games.py` (publishes a game once js/games/<id>.js
+  exists: hub section+cards, All-games list, maps, menu, i18n fallback, skills, daily challenge, SW precache);
+  `js/game-kit.js` (cards, buttons, felt, GameKit.finish -> shared end screen with game-reported result, GameKit.fit);
+  card pictures `tools/preview/card-shots.js` + `frame_shots.py`; landing pages via `tools/build_pages.py`.
+  Caddy `(notsite)` landing exemption is now `^/(he|en|es|fr|de|el)/[a-z0-9]+/$` (backup Caddyfile.bak-before-game-ids-20261010).
+- **Wave 1 (commit f4a39a1): FreeCell, Spider (1 suit), Checkers, Backgammon, Dominoes, Crazy Eights, Gin Rummy, Go Fish**
+  - each played to the end by play-all drivers (win and loss paths). **Hearts is still to do** (wave 1 = 9).
+- **Wave 0 (this commit), done:** #1/#2 Jigsaw fits 320/390/430 + RTL, readable on the ivory table; #3 in-place language
+  switch redraws hero quote, daily challenge (names now in the current language), practice score, tip, ticker, welcome
+  card, end-screen "new personal best" (key new_best), game title/instructions; URL ?lang= follows; e2e section 11;
+  #4 Color Sequence runs are tied to their state object (no TypeError after leaving mid-run); #5 hub: Continue +
+  favorites + genre chips (js/hub-nav.js, every game has a genre) on top, "Why train" moved below the games;
+  #8 Falling Blocks: viewport-height board, one control row, Start/Pause/Restart, Enter/P keys; #9 Klondike How to play
+  with rules + worked example. Also: default theme follows the system setting until the visitor picks one.
+- Root causes worth knowing: categories.js found cards by `[onclick=loadGame(id)]` and grabbed the new hub buttons
+  (now `.premium-card[...]`); changeLanguage called the ticker before `_adMsgs` existed (TDZ) which aborted the rest;
+  daily-challenge names used a selector that matched nothing (always Hebrew); vanilla-cookieconsent hides itself from
+  automated browsers (tests mask navigator.webdriver or pre-set cc_cookie).
+
+**NOT done yet - resume in this order**
+1. Wave 0 #6 Trivia expansion (50s-80s American sets: TV, music, movies, everyday objects, sports, history; decade/topic
+   picker; short explanation after each answer; repeat avoidance; verifiable facts only).
+2. Wave 0 #7 American English + nostalgia/fun tone across copy (practise->practice, ageing->aging, favourites->favorites...).
+3. Run play-all (both widths) + e2e on the preview; check the play-all 1280 failure on **recall** (click timeout,
+   seen on the wave-1 run - not yet investigated). Then report Wave 0 with the commit hash.
+4. Hearts (finishes wave 1), then wave 2: crossword (word list started: js/data/crossword-words.js, game not built),
+   cryptoquote, word ladder, nonogram, minesweeper, 2048, spot the difference (vintage PD photos), 15-puzzle,
+   mastermind - update tools/new_games.json to that list (anagrams was dropped; registry still lists it - remove).
+5. Waves 3 and 4 (arcade games also need start/pause/restart, relaxed mode, phone-fit controls, touch + keyboard).
+
 ## 2026-10-10 (b) - honest end screen, Hebrew Shabbat content, privacy/about corrections (preview only; main untouched)
 
 Commits ea55a47 + 971c7cf on `preview/warm-redesign`, ASSET_V / sw CACHE 67. Not merged; the live site is still main 1e2755e.

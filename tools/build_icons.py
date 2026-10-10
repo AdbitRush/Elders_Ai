@@ -18,6 +18,7 @@ chart-no-axes-column medal gamepad-2 calendar-days
 circle square triangle diamond hexagon pentagon
 crown dices bomb grid-2x2 film tv mic-vocal user-round tag dollar-sign map map-pin joystick orbit crosshair worm hammer
 square-dashed layers gem layout-grid target brick-wall footprints spell-check-2 radio disc-3 car-front newspaper piggy-bank
+pause square-play arrow-up arrow-down heart-crack lock key-round quote footprints
 '''.split()))
 
 def main(src):

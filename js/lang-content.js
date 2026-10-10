@@ -333,12 +333,12 @@
 
   // footer links (2026-10-10): About, Privacy, Cookie settings
   const FOOT = {
-    he: { about_link: 'אודות', privacy_link: 'מדיניות פרטיות', cookie_settings: 'הגדרות עוגיות' },
-    en: { about_link: 'About', privacy_link: 'Privacy', cookie_settings: 'Cookie settings' },
-    es: { photo_credits: 'Créditos de las fotos', about_link: 'Acerca de', privacy_link: 'Privacidad', cookie_settings: 'Ajustes de cookies' },
-    fr: { photo_credits: 'Crédits photo', about_link: 'À propos', privacy_link: 'Confidentialité', cookie_settings: 'Réglages des cookies' },
-    de: { photo_credits: 'Bildnachweise', about_link: 'Über uns', privacy_link: 'Datenschutz', cookie_settings: 'Cookie-Einstellungen' },
-    el: { photo_credits: 'Πηγές φωτογραφιών', about_link: 'Σχετικά', privacy_link: 'Απόρρητο', cookie_settings: 'Ρυθμίσεις cookies' },
+    he: { new_best: 'שיא אישי חדש!', about_link: 'אודות', privacy_link: 'מדיניות פרטיות', cookie_settings: 'הגדרות עוגיות' },
+    en: { new_best: 'New personal best!', about_link: 'About', privacy_link: 'Privacy', cookie_settings: 'Cookie settings' },
+    es: { new_best: '¡Nuevo récord personal!', photo_credits: 'Créditos de las fotos', about_link: 'Acerca de', privacy_link: 'Privacidad', cookie_settings: 'Ajustes de cookies' },
+    fr: { new_best: 'Nouveau record personnel !', photo_credits: 'Crédits photo', about_link: 'À propos', privacy_link: 'Confidentialité', cookie_settings: 'Réglages des cookies' },
+    de: { new_best: 'Neue persönliche Bestleistung!', photo_credits: 'Bildnachweise', about_link: 'Über uns', privacy_link: 'Datenschutz', cookie_settings: 'Cookie-Einstellungen' },
+    el: { new_best: 'Νέο προσωπικό ρεκόρ!', photo_credits: 'Πηγές φωτογραφιών', about_link: 'Σχετικά', privacy_link: 'Απόρρητο', cookie_settings: 'Ρυθμίσεις cookies' },
   };
   for (const [lang, kv] of Object.entries(FOOT)) {
     if (i18nData[lang]) Object.assign(i18nData[lang], kv);

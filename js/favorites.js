@@ -15,6 +15,7 @@ const Favorites = (() => {
     if (idx >= 0) favs.splice(idx, 1); else favs.unshift(id);
     localStorage.setItem(FAV_KEY, JSON.stringify(favs.slice(0, 6)));
     injectButtons();
+    if (typeof HubNav !== 'undefined') HubNav.render();   // the favorites row at the top of the hub
   }
 
   function recordPlay(id) {

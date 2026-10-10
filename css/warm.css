@@ -310,3 +310,37 @@ html.show--consent .pw-card{ display:none !important; }
 #homeScreen .w-sec{ margin:26px 0 2px; padding:14px 4px 0; scroll-margin-top:96px; border-top:3px solid var(--w-accent); }
 #homeScreen .w-sec-h{ font-size:clamp(1.45rem,3.2vw,1.9rem); font-weight:900; color:var(--w-ink); margin:0 0 4px; line-height:1.2; }
 #homeScreen .w-sec-p{ font-size:1.1rem; color:var(--w-ink2); margin:0; }
+/* Jigsaw (2026-10-10 review): after Start the board and tray took their natural ~474px width inside a 354px card on a
+   390px phone, so pieces and buttons were cut off with no way to reach them. Everything now shrinks to the card. */
+html[data-game="jigsaw"] #gameContent{ min-width:0; }
+html[data-game="jigsaw"] #gameContent .jig-wrap,
+html[data-game="jigsaw"] #gameContent .jig-layout{ width:100%; max-width:100%; min-width:0; box-sizing:border-box; }
+html[data-game="jigsaw"] #gameContent .jig-board{ width:100%; max-width:520px; min-width:0; }
+html[data-game="jigsaw"] #gameContent .jig-tray{ width:100%; box-sizing:border-box; grid-template-columns:repeat(auto-fill,minmax(min(84px,26%),1fr)); }
+html[data-game="jigsaw"] #gameContent .jig-progress{ width:100%; }
+@media (min-width:820px){ html[data-game="jigsaw"] #gameContent .jig-board{ flex:1 1 520px; } html[data-game="jigsaw"] #gameContent .jig-tray{ width:auto; flex:0 1 340px; } }
+/* the play area is the ivory table in both themes: the jigsaw's own light-on-dark colors (help/peek buttons, tip,
+   tray) were near-invisible on it. Dark ink and a cream button, like the rest of the site. */
+html[data-game="jigsaw"] #gameContent .jig-act-c{ background:#fff7e6; color:#3b1d0e; border:2px solid #b45309; box-shadow:0 2px 0 #b45309; }
+html[data-game="jigsaw"] #gameContent .jig-act.on{ background:#f59e0b; color:#2a1700; border-color:#92400e; }
+html[data-game="jigsaw"] #gameContent .jig-tip,
+html[data-game="jigsaw"] #gameContent .jig-tray-head{ color:var(--w-table-ink); font-size:1.05rem; opacity:.9; }
+html[data-game="jigsaw"] #gameContent .jig-count{ color:#92400e; }
+html[data-game="jigsaw"] #gameContent .jig-bar{ background:rgba(59,29,14,.15); }
+html[data-game="jigsaw"] #gameContent .jig-tray{ background:rgba(59,29,14,.06); border-color:rgba(59,29,14,.18); }
+html[data-game="jigsaw"] #gameContent .jig-piece{ background:#fffdf7; border-color:rgba(59,29,14,.2); }
+html[data-game="jigsaw"] #gameContent .jig-board{ background:rgba(59,29,14,.06); box-shadow:0 10px 30px -12px rgba(59,29,14,.45),inset 0 0 0 2px rgba(59,29,14,.15); }
+
+/* hub top (2026-10-10 review): Continue + favorites + genre chips first; the health block sits below the games */
+#hub-nav{ display:flex; flex-direction:column; gap:12px; }
+#hub-nav .hn-quick{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+#hub-nav .hn-continue{ min-height:56px; padding:10px 22px; border-radius:16px; border:0; background:var(--w-accent); color:var(--w-on-accent); font-weight:900; font-size:1.2rem; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 0 rgba(0,0,0,.18); }
+#hub-nav .hn-favs{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+#hub-nav .hn-label{ font-weight:800; color:var(--w-ink); display:inline-flex; align-items:center; gap:4px; }
+#hub-nav .hn-fav{ min-height:48px; padding:6px 16px; border-radius:999px; border:2px solid var(--w-accent); background:var(--w-card); color:var(--w-ink); font-weight:800; font-size:1.05rem; cursor:pointer; }
+#hub-nav .hn-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+#hub-nav .hn-chip{ min-height:52px; padding:8px 20px; border-radius:999px; border:2px solid var(--w-line); background:var(--w-card); color:var(--w-ink); font-weight:800; font-size:1.1rem; cursor:pointer; }
+#hub-nav .hn-chip[aria-pressed="true"]{ background:var(--w-ink); color:var(--w-bg, #fff); border-color:var(--w-ink); }
+#hub-nav-empty{ font-size:1.2rem; font-weight:700; color:var(--w-ink2); padding:20px 4px; }
+#why-train-wrap{ max-width:1100px; margin:0 auto 30px; padding:0 16px; }
+html.in-game #why-train-wrap{ display:none; }

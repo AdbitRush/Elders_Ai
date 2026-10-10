@@ -212,7 +212,7 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
     card.setAttribute('aria-labelledby', 'pw-title');
     card.dir = rtl ? 'rtl' : 'ltr';
     card.innerHTML = `
-      <div class="pw-head"><span aria-hidden="true" style="font-size:1.8rem">🧠</span>
+      <div class="pw-head"><span aria-hidden="true" style="font-size:1.8rem;line-height:0">${typeof Icon !== 'undefined' ? Icon.ui('brain') : ''}</span>
         <h2 class="pw-title" id="pw-title">${tx.title}</h2>
         <button type="button" class="pw-x" id="pw-x" aria-label="${tx.skip}" title="${tx.skip}">✕</button></div>
       <label class="pw-label" for="pw-name">${tx.name}</label>
@@ -346,5 +346,12 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
     showFirstVisitModal(updateGreetingEl, true);
   }
 
-  return { get, set, hasName, greeting, updateGreetingEl, showFirstVisitModal, edit };
+  // an open welcome card follows a language switch: rebuilt in the new language, the typed name kept
+  function relang() {
+    const c = document.querySelector('.pw-card'); if (!c) return;
+    const typed = (c.querySelector('#pw-name') || {}).value || '';
+    c.remove(); localStorage.removeItem(K_SEEN); showWelcomeCard();
+    const n = document.querySelector('#pw-name'); if (n) n.value = typed;
+  }
+  return { get, set, hasName, greeting, updateGreetingEl, showFirstVisitModal, edit, relang };
 })();

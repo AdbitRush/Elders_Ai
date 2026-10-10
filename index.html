@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/hooks.css">
     <link rel="stylesheet" href="css/premium.css">
-<link rel="stylesheet" href="css/a11y.css?v=68">
-<link rel="stylesheet" href="css/ambient-bg.css?v=68">
+<link rel="stylesheet" href="css/a11y.css?v=69">
+<link rel="stylesheet" href="css/ambient-bg.css?v=69">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; min-height: 100dvh; }
@@ -182,18 +182,18 @@
 
     </style>
 <!-- Prebuilt Tailwind utilities (replaces the cdn.tailwindcss.com runtime, 5s+ blocking). Rebuild: npx tailwindcss@3.4.17 -i in.css -o css/tailwind.css --content "./index.html,./js/**/*.js" --minify -->
-<link rel="stylesheet" href="css/tailwind.css?v=68">
+<link rel="stylesheet" href="css/tailwind.css?v=69">
 <!-- warm redesign: the last stylesheet (css/warm.css) -->
-<link rel="stylesheet" href="css/warm.css?v=68">
-<script src="js/lucide-icons.js?v=68"></script>
-<script src="js/icons.js?v=68"></script>
-<script src="js/game-kit.js?v=68"></script>
+<link rel="stylesheet" href="css/warm.css?v=69">
+<script src="js/lucide-icons.js?v=69"></script>
+<script src="js/icons.js?v=69"></script>
+<script src="js/game-kit.js?v=69"></script>
 <!-- Consent (2026-10-10): Google Consent Mode v2 defaults are DENIED before any other script runs; js/consent.js
      (vanilla-cookieconsent 3.1.0, self-hosted) asks once and grants ad storage only after "Accept". -->
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});</script>
-<link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=68">
-<link rel="stylesheet" href="css/consent.css?v=68">
+<link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=69">
+<link rel="stylesheet" href="css/consent.css?v=69">
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -278,47 +278,8 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
     <!-- Game Grid Header -->
     <div id="homeScreen-header" class="flex flex-col gap-4 mb-6">
 
-        <!-- ═══ Why train — benefits, stated honestly ═══════════════════════
-             WHAT THIS SECTION MAY AND MAY NOT SAY.
-
-             It may say that practice improves the skills you practise, that a
-             daily habit beats an occasional long session, and that staying
-             mentally and socially active is associated with healthier
-             cognitive ageing. All three are supported.
-
-             It may NOT say that these games prevent, delay, treat or cure
-             Alzheimer's disease or dementia, and it must not imply it by
-             wording like "games against Alzheimer's". That claim is not
-             supported by the evidence, the audience here is precisely the
-             people most likely to be harmed by believing it, and regulators
-             treat it as deceptive advertising — the FTC fined Lumosity $2m in
-             2016 for making exactly this claim about brain-training games.
-
-             The closing note is therefore not boilerplate to be trimmed. It is
-             the thing that makes the rest of the section honest, and it points
-             readers at the interventions that DO have evidence behind them. -->
-        <section id="why-train" style="border:1px solid rgba(251,191,36,0.22);border-radius:16px;
-                 background:linear-gradient(135deg,rgba(30,58,95,0.5),rgba(10,22,40,0.5));padding:18px 20px">
-            <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:12px;
-                       background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;
-                       -webkit-text-fill-color:transparent;background-clip:text" data-i18n="why_title">למה לאמן את המוח כל יום</h3>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">
-                <div>
-                    <div style="font-weight:700;color:#f6c048;font-size:0.92rem;margin-bottom:3px" data-i18n="why1_t">מה שמתרגלים — משתפר</div>
-                    <div style="font-size:0.85rem;color:rgba(200,215,245,0.78);line-height:1.55" data-i18n="why1_d"></div>
-                </div>
-                <div>
-                    <div style="font-weight:700;color:#f6c048;font-size:0.92rem;margin-bottom:3px" data-i18n="why2_t">מעט וקבוע עדיף</div>
-                    <div style="font-size:0.85rem;color:rgba(200,215,245,0.78);line-height:1.55" data-i18n="why2_d"></div>
-                </div>
-                <div>
-                    <div style="font-weight:700;color:#f6c048;font-size:0.92rem;margin-bottom:3px" data-i18n="why3_t">להישאר פעילים</div>
-                    <div style="font-size:0.85rem;color:rgba(200,215,245,0.78);line-height:1.55" data-i18n="why3_d"></div>
-                </div>
-            </div>
-            <p style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(251,191,36,0.16);
-                      font-size:0.78rem;color:rgba(180,200,255,0.62);line-height:1.6" data-i18n="why_note"></p>
-        </section>
+        <!-- quick start + genre chips (js/hub-nav.js); the health block moved below the games (2026-10-10 review) -->
+        <div id="hub-nav-slot"></div>
 
         <div class="flex items-center justify-between">
             <div>
@@ -578,6 +539,51 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
   </ul>
 </section>
 
+<!-- the health / why-train block, below the games since 2026-10-10 (nostalgia and fun first) -->
+<div id="why-train-wrap">
+        <!-- ═══ Why train — benefits, stated honestly ═══════════════════════
+             WHAT THIS SECTION MAY AND MAY NOT SAY.
+
+             It may say that practice improves the skills you practise, that a
+             daily habit beats an occasional long session, and that staying
+             mentally and socially active is associated with healthier
+             cognitive ageing. All three are supported.
+
+             It may NOT say that these games prevent, delay, treat or cure
+             Alzheimer's disease or dementia, and it must not imply it by
+             wording like "games against Alzheimer's". That claim is not
+             supported by the evidence, the audience here is precisely the
+             people most likely to be harmed by believing it, and regulators
+             treat it as deceptive advertising — the FTC fined Lumosity $2m in
+             2016 for making exactly this claim about brain-training games.
+
+             The closing note is therefore not boilerplate to be trimmed. It is
+             the thing that makes the rest of the section honest, and it points
+             readers at the interventions that DO have evidence behind them. -->
+        <section id="why-train" style="border:1px solid rgba(251,191,36,0.22);border-radius:16px;
+                 background:linear-gradient(135deg,rgba(30,58,95,0.5),rgba(10,22,40,0.5));padding:18px 20px">
+            <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:12px;
+                       background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;
+                       -webkit-text-fill-color:transparent;background-clip:text" data-i18n="why_title">למה לאמן את המוח כל יום</h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">
+                <div>
+                    <div style="font-weight:700;color:#f6c048;font-size:0.92rem;margin-bottom:3px" data-i18n="why1_t">מה שמתרגלים — משתפר</div>
+                    <div style="font-size:0.85rem;color:rgba(200,215,245,0.78);line-height:1.55" data-i18n="why1_d"></div>
+                </div>
+                <div>
+                    <div style="font-weight:700;color:#f6c048;font-size:0.92rem;margin-bottom:3px" data-i18n="why2_t">מעט וקבוע עדיף</div>
+                    <div style="font-size:0.85rem;color:rgba(200,215,245,0.78);line-height:1.55" data-i18n="why2_d"></div>
+                </div>
+                <div>
+                    <div style="font-weight:700;color:#f6c048;font-size:0.92rem;margin-bottom:3px" data-i18n="why3_t">להישאר פעילים</div>
+                    <div style="font-size:0.85rem;color:rgba(200,215,245,0.78);line-height:1.55" data-i18n="why3_d"></div>
+                </div>
+            </div>
+            <p style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(251,191,36,0.16);
+                      font-size:0.78rem;color:rgba(180,200,255,0.62);line-height:1.6" data-i18n="why_note"></p>
+        </section>
+</div>
+
     <!-- Game Canvas -->
     <div id="gameView" class="hidden">
         <div style="background:rgba(255,255,255,0.97);border-radius:1.75rem;box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(183,121,31,0.25),0 0 40px rgba(183,121,31,0.08);overflow:hidden" class="p-6 md:p-10 min-h-[500px]">
@@ -604,7 +610,7 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
         <div id="modalIcon" class="w-modal-mark mb-3" aria-hidden="true"><svg class="lc lc-hero" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2"/> <path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2"/> <path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3"/> <path d="M4 22h16"/> <path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/> <path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3"/></svg></div>
         <h3 id="modalTitle" class="text-3xl font-bold mb-3 text-[#1a365d]"></h3>
         <p id="modalBody" class="text-lg text-gray-600 mb-2"></p>
-        <p id="newBestBanner" class="hidden text-sm font-bold text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-3"><svg class="lc lc-ui" width="1.15em" height="1.15em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"/> <path d="M11 12 5.12 2.2"/> <path d="m13 12 5.88-9.8"/> <path d="M8 7h8"/> <circle cx="12" cy="17" r="5"/> <path d="M12 18v-2h-.5"/></svg> שיא אישי חדש!</p>
+        <p id="newBestBanner" class="hidden text-sm font-bold text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-3"><svg class="lc lc-ui" width="1.15em" height="1.15em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"/> <path d="M11 12 5.12 2.2"/> <path d="m13 12 5.88-9.8"/> <path d="M8 7h8"/> <circle cx="12" cy="17" r="5"/> <path d="M12 18v-2h-.5"/></svg> <span data-i18n="new_best">שיא אישי חדש!</span></p>
         <p id="wellnessNudge" class="hidden text-sm text-teal-700 bg-teal-50 border border-teal-200 rounded-xl px-4 py-2 mb-4 italic"></p>
         <div class="flex flex-col gap-3">
             <button id="nextLevelBtn" class="w-full bg-[#1a365d] text-white py-3.5 rounded-xl text-lg font-bold hover:bg-[#2c5282] transition" data-i18n="next_level">השלב הבא</button>
@@ -1124,7 +1130,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '68';
+const ASSET_V = '69';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 // The games added from 2026-10 (tools/new_games.json). Their maps, menu, i18n and skills are filled from this list.
 // gen:new-games (tools/build_new_games.py; do not edit by hand)
@@ -1361,13 +1367,24 @@ function changeLanguage(lang) {
     const _n = (window.GAME_IDS || []).length;
     document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(i18nData[lang][k])el.innerText=String(i18nData[lang][k]).replace('{n}',_n);});
     document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(i18nData[lang][k])el.placeholder=String(i18nData[lang][k]).replace('{n}',_n);});
-    if(gameState.active) updateLevelDisplay();
+    if(gameState.active){ updateLevelDisplay();
+        if(gameState._titleKey) document.getElementById('gameTitle').innerText=t(gameState._titleKey);
+        if(gameState._instKey&&i18nData[lang][gameState._instKey]) document.getElementById('gameInstructions').innerText=t(gameState._instKey); }
     if(!document.getElementById('homeScreen').classList.contains('hidden')) Retention.renderBar();
     if(typeof Tips!=='undefined'&&Tips.render) Tips.render();
     if(typeof _adRender==='function') _adRender();
     if(typeof Categories!=='undefined') Categories.injectAllBadges();
     if(typeof Difficulty!=='undefined'){const diffEl=document.getElementById('diff-selector');if(diffEl)Difficulty.renderSelector(diffEl);}
     if(typeof Profile!=='undefined') Profile.updateGreetingEl();
+    // 2026-10-10 review: switching language in place left the hero quote, daily challenge, practice score, tip, ticker
+    // and an open welcome card in the old language. Every dynamic piece is redrawn here, and the URL follows.
+    if(typeof renderDailyQuote==='function'&&document.getElementById('dailyQuote')) renderDailyQuote();
+    if(typeof DailyChallenge!=='undefined'){const s=document.getElementById('dc-banner-slot');if(s)DailyChallenge.injectBanner(s);}
+    if(typeof BrainScore!=='undefined'){const s=document.getElementById('brain-score-slot');if(s)BrainScore.renderWidget(s);}
+    try{ if(typeof _rotateAdTicker==='function') _rotateAdTicker(); }catch(e){}   // not yet defined during the first call at start-up
+    if(typeof Profile!=='undefined'&&Profile.relang) Profile.relang();
+    if(typeof HubNav!=='undefined') HubNav.render();
+    try{const u=new URL(location.href);if(u.searchParams.get('lang')!==lang){u.searchParams.set('lang',lang);history.replaceState(history.state,'',u.pathname+u.search+u.hash);}}catch(e){}
 }
 function updateLevelDisplay() {
     const ind=document.getElementById('levelIndicator');
@@ -1391,6 +1408,7 @@ function showHome() {
     if(typeof DailyChallenge!=='undefined'){const slot=_el('dc-banner-slot');if(slot)DailyChallenge.injectBanner(slot);}
     if(typeof BrainScore!=='undefined'){const bsSlot=_el('brain-score-slot');if(bsSlot)BrainScore.renderWidget(bsSlot);}
     if(typeof Favorites!=='undefined') Favorites.injectButtons();
+    if(typeof HubNav!=='undefined') HubNav.render();
 }
 
 function _el(id){return document.getElementById(id);}
@@ -1535,10 +1553,12 @@ async function loadGame(gameId, level=0) {
     gameState.active=true; gameState.currentId=gameId;
     if(!gameState[gameId]||level===1) gameState[gameId]={level}; else gameState[gameId].level=level;
     if(level===1&&typeof Favorites!=='undefined') Favorites.recordPlay(gameId);
+    try{localStorage.setItem('gg_last_game',gameId);}catch(e){}   // the hub's Continue button
     updateLevelDisplay();
     const titleMap={klondike:'game_klondike_title',memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',sequence:'game_sequence_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title',blocks:'game_blocks_title',colormatch:'game_colormatch_title',digitspan:'game_digitspan_title',clock:'game_clock_title',counting:'game_counting_title',category:'game_category_title',letters:'game_letters_title',lifesim:'game_lifesim_title',safari:'game_safari_title',jigsaw:'game_jigsaw_title'};
     const instMap ={klondike:'inst_klondike',memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',sequence:'inst_sequence',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall',blocks:'inst_blocks',lifesim:'inst_lifesim',safari:'inst_safari',jigsaw:'inst_jigsaw'};
     (window.NEW_GAMES||[]).forEach(function(g){titleMap[g.id]='game_'+g.id+'_title';instMap[g.id]='inst_'+g.id;});
+    gameState._titleKey=titleMap[gameId]; gameState._instKey=instMap[gameId];   // a language switch mid-game re-reads them
     document.getElementById('gameTitle').innerText=t(titleMap[gameId]);
     // six games have no inst_ string (the subtitle read "undefined"): fall back to the card's own one-line description
     let _inst=instMap[gameId]?t(instMap[gameId]):'';
@@ -1652,7 +1672,7 @@ function levelComplete() {
 // DAILY QUOTE
 // ═══════════════════════════════════════════════════════════════════════════════
 function renderDailyQuote(){
-    const quotes=i18nData[currentLang].daily_quotes;
+    const quotes=i18nData[currentLang].daily_quotes||i18nData.en.daily_quotes;
     const idx=new Date().getDate()%quotes.length;
     document.getElementById('dailyQuote').innerText=quotes[idx];
 }
@@ -1823,12 +1843,12 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
-<script src="js/affiliate.js?v=68"></script>
-<script src="js/profile.js?v=68"></script>
-<script src="js/brainscore.js?v=68"></script>
-<script src="js/achievements.js?v=68"></script>
-<script src="js/lang-content.js?v=68"></script>
-<script src="js/textsize.js?v=68"></script>
+<script src="js/affiliate.js?v=69"></script>
+<script src="js/profile.js?v=69"></script>
+<script src="js/brainscore.js?v=69"></script>
+<script src="js/achievements.js?v=69"></script>
+<script src="js/lang-content.js?v=69"></script>
+<script src="js/textsize.js?v=69"></script>
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
 if ('IntersectionObserver' in window) {
@@ -1841,24 +1861,25 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
 }
 </script>
-<script src="js/daily-challenge.js?v=68"></script>
-<script src="js/stats.js?v=68"></script>
-<script src="js/difficulty.js?v=68"></script>
-<script src="js/levels.js?v=68"></script>
-<script src="js/share.js?v=68"></script>
-<script src="js/gametext.js?v=68"></script>
-<script src="js/sync.js?v=68"></script>
-<script src="js/sync-ui.js?v=68"></script>
-<script src="js/categories.js?v=68"></script>
-<script src="js/accessibility.js?v=68"></script>
-<script src="js/tips.js?v=68"></script>
-<script src="js/favorites.js?v=68"></script>
-<script src="js/holiday.js?v=68"></script>
-<script src="js/fx.js?v=68"></script>
-<script src="js/kbnav.js?v=68"></script>
-<script src="js/ambient-bg.js?v=68"></script>
-<script src="js/warm.js?v=68"></script>
-<script src="js/vendor/cookieconsent/cookieconsent.umd.js?v=68"></script>
-<script src="js/consent.js?v=68"></script>
+<script src="js/daily-challenge.js?v=69"></script>
+<script src="js/stats.js?v=69"></script>
+<script src="js/difficulty.js?v=69"></script>
+<script src="js/levels.js?v=69"></script>
+<script src="js/share.js?v=69"></script>
+<script src="js/gametext.js?v=69"></script>
+<script src="js/sync.js?v=69"></script>
+<script src="js/sync-ui.js?v=69"></script>
+<script src="js/categories.js?v=69"></script>
+<script src="js/accessibility.js?v=69"></script>
+<script src="js/tips.js?v=69"></script>
+<script src="js/favorites.js?v=69"></script>
+<script src="js/holiday.js?v=69"></script>
+<script src="js/fx.js?v=69"></script>
+<script src="js/kbnav.js?v=69"></script>
+<script src="js/ambient-bg.js?v=69"></script>
+<script src="js/warm.js?v=69"></script>
+<script src="js/hub-nav.js?v=69"></script>
+<script src="js/vendor/cookieconsent/cookieconsent.umd.js?v=69"></script>
+<script src="js/consent.js?v=69"></script>
 </body>
 </html>

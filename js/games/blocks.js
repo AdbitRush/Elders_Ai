@@ -29,16 +29,16 @@ window.initBlocks=function(container){
     canvas.width=COLS*SZ; canvas.height=ROWS*SZ;
     // Responsive: fills width on phones, capped on desktop. Crisp because the
     // internal buffer is fixed and the browser scales the element.
-    canvas.style.cssText='width:min(90vw,300px);height:auto;aspect-ratio:'+COLS+'/'+ROWS+';border:2px solid #c98a2b;border-radius:8px;box-shadow:0 0 26px rgba(0,240,240,0.45);display:block;touch-action:none;image-rendering:auto';
+    canvas.style.cssText='height:min(46vh,560px);height:min(46dvh,560px);width:auto;max-width:90vw;aspect-ratio:'+COLS+'/'+ROWS+';border:2px solid #c98a2b;border-radius:8px;box-shadow:0 0 26px rgba(0,240,240,0.45);display:block;touch-action:none;image-rendering:auto';
     const ctx=canvas.getContext('2d');
 
     // ── Big, senior-friendly touch controls ────────────────────────────────────
     const pad=document.createElement('div');
-    pad.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:min(92vw,360px);margin-top:2px';
+    pad.style.cssText='display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:min(94vw,420px);margin-top:2px';
     function mkBtn(lbl,fn,opts){
         opts=opts||{};
         const b=document.createElement('button');
-        b.textContent=lbl;
+        b.textContent=lbl; if(opts.key)b.dataset.b=opts.key; if(opts.label)b.setAttribute('aria-label',opts.label);
         b.style.cssText='height:64px;background:linear-gradient(180deg,#123a63,#0c1f3c);border:2px solid #c98a2b;border-radius:14px;color:#7ffcff;font-size:30px;font-weight:700;cursor:pointer;touch-action:none;user-select:none;-webkit-tap-highlight-color:transparent;box-shadow:0 0 14px rgba(0,240,240,.22),inset 0 1px 0 rgba(255,255,255,.15);transition:transform .06s,box-shadow .12s;'+(opts.span?('grid-column:span '+opts.span):'');
         let holdT=null,repT=null;
         const press=()=>{ b.style.transform='scale(.93)'; b.style.boxShadow='0 0 24px rgba(0,240,240,.6),inset 0 2px 6px rgba(0,0,0,.4)'; };
@@ -49,21 +49,32 @@ window.initBlocks=function(container){
         return b;
     }
     pad.append(
-        mkBtn('◀',()=>move(-1),{repeat:110}),
-        mkBtn('⟳',()=>doRotate()),
-        mkBtn('▶',()=>move(1),{repeat:110}),
-        mkBtn('▼',()=>drop(),{repeat:60})
+        mkBtn('◀',()=>move(-1),{repeat:110,key:'left',label:'Move left'}),
+        mkBtn('⟳',()=>doRotate(),{key:'rotate',label:'Rotate'}),
+        mkBtn('▶',()=>move(1),{repeat:110,key:'right',label:'Move right'}),
+        mkBtn('▼',()=>drop(),{repeat:60,key:'down',label:'Move down'}),
+        mkBtn('⤓',()=>hardDrop(),{key:'drop',label:'Drop'})
     );
-    const dropBtn=mkBtn(gt('⤓ DROP', '⤓ הפלה'),()=>hardDrop(),{span:4});
-    dropBtn.style.fontSize='22px'; dropBtn.style.height='54px'; dropBtn.style.letterSpacing='.08em';
+    pad.querySelectorAll('button').forEach(b=>{b.style.height='60px';});
+    // Start / Pause and Restart: the game waits for Start, and can be paused at any time (2026-10-10 review)
+    const bar=document.createElement('div');
+    bar.style.cssText='display:flex;gap:10px;justify-content:center;flex-wrap:wrap';
+    const mkTop=(lbl,fn,key)=>{const b=document.createElement('button');b.type='button';b.dataset.b=key;b.className='gk-btn'+(key==='start'?' gk-primary':'');b.innerHTML=lbl;b.addEventListener('click',fn);return b;};
+    const startBtn=mkTop(Icon.ui('play')+' '+gt('Start', 'התחל'),()=>togglePause(),'start');
+    const restartBtn=mkTop(Icon.ui('rotate-ccw')+' '+gt('Restart', 'מחדש'),()=>{ if(window._gameCleanup){window._gameCleanup();window._gameCleanup=null;} container.innerHTML=''; window.initBlocks(container); },'restart');
+    bar.append(startBtn,restartBtn);
     const hint=document.createElement('div');
     hint.innerHTML=Icon.ui('lightbulb')+' ';hint.append(gt('Swipe the board: left/right to move · down to drop · tap to rotate', 'החליקו על הלוח: ימין/שמאל להזזה · מטה להפלה · נגיעה לסיבוב'));
-    hint.style.cssText='color:#5a7ba0;font-size:12px;text-align:center;max-width:340px;line-height:1.5';
+    hint.style.cssText='color:var(--w-table-ink,#2a1a0c);opacity:.85;font-size:15px;text-align:center;max-width:360px;line-height:1.5';
 
-    container.append(scoreEl,canvas,pad,dropBtn,hint);
+    if(typeof GameKit!=='undefined')GameKit.css();
+    container.append(scoreEl,bar,canvas,pad,hint);
 
     const board=Array.from({length:ROWS},()=>Array(COLS).fill(null));
-    let cur=newPiece(),next=newPiece(),score=0,lines=0,level=1,gameOver=false,raf=null;
+    let cur=newPiece(),next=newPiece(),score=0,lines=0,level=1,gameOver=false,raf=null,paused=true,started=false;
+    function togglePause(){ if(gameOver)return; paused=!paused; if(!paused&&!started){started=true; scoreEl.scrollIntoView({block:'start',behavior:'smooth'});}
+        startBtn.innerHTML=(paused?Icon.ui('play')+' '+gt(started?'Resume':'Start', started?'המשך':'התחל'):Icon.ui('pause')+' '+gt('Pause', 'השהה'));
+        startBtn.classList.toggle('gk-primary',paused); lastT=performance.now(); }
 
     // screen rect for a board row (for spark placement), accounting for CSS scaling
     function rowScreen(r){ const rc=canvas.getBoundingClientRect(); const s=rc.width/canvas.width; return {top:rc.top+r*SZ*s, left:rc.left, width:rc.width, height:SZ*s}; }
@@ -112,10 +123,10 @@ window.initBlocks=function(container){
         if(gameOver){ctx.fillStyle='rgba(5,13,26,0.82)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#c98a2b';ctx.font='bold 22px monospace';ctx.textAlign='center';ctx.fillText(gt('GAME OVER', 'משחק נגמר'),canvas.width/2,canvas.height/2-20);ctx.font='15px monospace';ctx.fillStyle='#ffffff';ctx.fillText(`${gt('Score', 'ניקוד')}: ${score}`,canvas.width/2,canvas.height/2+10);}
     }
 
-    function move(dx){if(gameOver)return;if(valid(cur.shape,cur.x+dx,cur.y)){cur.x+=dx;}}
-    function doRotate(){if(gameOver)return;const r=rotate(cur.shape);if(valid(r,cur.x,cur.y)){cur.shape=r;}else if(valid(r,cur.x-1,cur.y)){cur.shape=r;cur.x--;}else if(valid(r,cur.x+1,cur.y)){cur.shape=r;cur.x++;}window.sfxFlip&&sfxFlip();}
-    function drop(){if(gameOver)return;if(valid(cur.shape,cur.x,cur.y+1))cur.y++;else lock();}
-    function hardDrop(){if(gameOver)return;let d=0;while(valid(cur.shape,cur.x,cur.y+1)){cur.y++;d++;}const bc=boardCenter();if(d>0){_fx().buzz(20);_fx().shake(canvas,5);}lock();}
+    function move(dx){if(gameOver||paused)return;if(valid(cur.shape,cur.x+dx,cur.y)){cur.x+=dx;}}
+    function doRotate(){if(gameOver||paused)return;const r=rotate(cur.shape);if(valid(r,cur.x,cur.y)){cur.shape=r;}else if(valid(r,cur.x-1,cur.y)){cur.shape=r;cur.x--;}else if(valid(r,cur.x+1,cur.y)){cur.shape=r;cur.x++;}window.sfxFlip&&sfxFlip();}
+    function drop(){if(gameOver||paused)return;if(valid(cur.shape,cur.x,cur.y+1))cur.y++;else lock();}
+    function hardDrop(){if(gameOver||paused)return;let d=0;while(valid(cur.shape,cur.x,cur.y+1)){cur.y++;d++;}const bc=boardCenter();if(d>0){_fx().buzz(20);_fx().shake(canvas,5);}lock();}
 
     const _dtet=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
     const _baseDrop=_dtet==='easy'?1100:_dtet==='hard'?500:800;
@@ -127,12 +138,15 @@ window.initBlocks=function(container){
         setTimeout(()=>{if(gameState.active&&gameState.currentId==='blocks')levelComplete();},1800);
         return;}
         dropInterval=Math.max(100,_baseDrop-level*60);
-        if(t-lastT>dropInterval){drop();lastT=t;}
-        draw();raf=requestAnimationFrame(loop);}
+        if(!paused&&t-lastT>dropInterval){drop();lastT=t;}
+        draw();
+        if(paused){ctx.fillStyle='rgba(5,13,26,0.72)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#ffe08a';ctx.font='bold 24px sans-serif';ctx.textAlign='center';ctx.fillText(started?gt('Paused', 'מושהה'):gt('Press Start', 'לחצו התחל'),canvas.width/2,canvas.height/2);}
+        raf=requestAnimationFrame(loop);}
     raf=requestAnimationFrame(loop);
 
     // ── Keyboard (PC) ───────────────────────────────────────────────────────────
     function onKey(e){if(gameState.currentId!=='blocks')return;
+        if(e.key==='Enter'||e.key==='p'||e.key==='P'){togglePause();e.preventDefault();return;}
         if(e.key==='ArrowLeft')move(-1);else if(e.key==='ArrowRight')move(1);else if(e.key==='ArrowUp')doRotate();else if(e.key==='ArrowDown')drop();else if(e.key===' ')hardDrop();else return;e.preventDefault();}
     document.addEventListener('keydown',onKey);
 
