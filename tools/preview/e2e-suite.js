@@ -66,7 +66,8 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     const { ctx, p, errs } = await page(w, '/#' + g, { theme });
     const r = await p.evaluate(() => ({ kids: document.getElementById('gameContent').children.length, inGame: document.documentElement.classList.contains('in-game'),
       game: document.documentElement.getAttribute('data-game'), over: document.documentElement.scrollWidth - innerWidth,
-      photo: getComputedStyle(document.querySelector('#gameView > div > div:first-child')).backgroundImage.includes('images/cards/') }));
+      // 2026-10-10: the header photos live in images/scenes/ (images/cards/ are now screenshots); Time Journey has none on purpose
+      photo: document.documentElement.getAttribute('data-game') === 'lifesim' || getComputedStyle(document.querySelector('#gameView > div > div:first-child')).backgroundImage.includes('images/scenes/') }));
     let miss = [];
     if (w === 390) miss = lost(BASE['game:' + g] || [], await inv(p, '#gameView'));
     ok(`1 ${g} @${w} ${theme}: loads, photo header, nothing lost`, !errs.length && r.kids > 0 && r.inGame && r.game === g && r.over <= 0 && r.photo && !miss.length,
@@ -101,7 +102,7 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('3 every linked game page answers 200', codes.every((c) => c === 200), codes.filter((c) => c !== 200).length + ' not 200');
     await p.goto(U + '/en/klondike/', { waitUntil: 'networkidle' });
     const back = await p.evaluate(() => [...document.querySelectorAll('a')].map((a) => a.getAttribute('href')));
-    ok('3 a game page links back to the hub and to play', back.includes('../../') && back.some((h) => /#klondike$/.test(h)), back.slice(0, 3).join(' '));
+    ok('3 a game page links back to the hub and to play', back.some((h) => /^\.\.\/\.\.\/(\?lang=[a-z]{2})?$/.test(h)) && back.some((h) => /#klondike$/.test(h)), back.slice(0, 3).join(' '));
     await ctx.close();
   }
   // 4. ads: the existing ticker on the hub and between games, never during play
@@ -167,7 +168,7 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     const { ctx, p, errs } = await page(390, '/');
     const r = await p.evaluate((src) => { const re = new RegExp(src, 'i'); const msgs = Object.values(_adMsgs).flat();
       const foot = Object.keys(i18nData).map((l) => i18nData[l].footer_desc || ''); return { bad: msgs.concat(foot).filter((m) => re.test(m)), n: msgs.length + foot.length,
-        quiet: foot.every((f) => /ads|פרסומות|anuncios|publicités|Werbung|διαφημίσεων/i.test(f)) }; }, NO_ADS.source);
+        quiet: foot.every((f) => /ads|פרסומות|anuncios|publicités|Werbung|Anzeigen|διαφημίσ/i.test(f)) }; }, NO_ADS.source);
     ok('8 copy: no "no ads" claim in the ticker or footer (6 languages); every footer says quiet ads', !r.bad.length && r.quiet, r.bad.join(' | ') || r.n + ' lines');
     const pages = await p.evaluate(async () => { const ids = [...document.querySelectorAll('#all-games [data-game]')].map((li) => li.getAttribute('data-game')); const out = { n: 0, bad: [] };
       for (const l of ['he', 'en', 'es', 'fr', 'de', 'el']) for (const id of ids) { const t = await (await fetch(l + '/' + id + '/')).text(); out.n++;
@@ -179,7 +180,8 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('8 odd one out: no near-identical symbol pairs left', !similar.some(([a, c]) => sets.some((s) => s.includes(a) && s.includes(c))), JSON.stringify(sets));
     const credits = await p.evaluate(async () => { const t = await (await fetch('credits.html')).text(); const ims = await Promise.all(['oddoneout', 'flags', 'math', 'wordsearch'].map((g) => new Promise((res) => { const i = new Image(); i.onload = () => res(i.naturalWidth + 'x' + i.naturalHeight); i.onerror = () => res('ERR'); i.src = 'images/cards/' + g + '.jpg?' + Date.now(); })));
       return { links: (t.match(/pexels\.com\/photo\//g) || []).length, ims, footer: !!document.querySelector('footer a[href="credits.html"]') }; });
-    ok('8 card photos (960x720) with a credits page linked from the footer', credits.links >= 47 && credits.ims.every((x) => x === '960x720') && credits.footer, JSON.stringify(credits));
+    ok('8 card photos (960x720) with a credits page linked from the footer', credits.links >= 46 &&   // 47 until 2026-10-10: the Time Journey photo (people's faces) was removed
+       credits.ims.every((x) => x === '960x720') && credits.footer, JSON.stringify(credits));
     ok('8 no JS errors on the hub', !errs.length, errs.join(' | '));
     await ctx.close();
   }
@@ -286,8 +288,8 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
       const t = await (await fetch('credits.html')).text(); const lic = await (await fetch('images/icons/lucide/LICENSE')).text();
       return { cards: [...new Set(cards)], jig: [...new Set(jig)], saf: [...new Set(saf)], pexels: (t.match(/pexels\.com\/photo\//g) || []).length, lucide: /lucide/i.test(t) && /ISC/.test(lic) };
     }).catch((e) => ({ err: e.message }));
-    ok('9 photos: 28 cards 960x720, 6 jigsaw 1200x900, 13 safari; all 47 credited, Lucide ISC licence shipped',
-      JSON.stringify(imgs.cards) === '["960x720"]' && JSON.stringify(imgs.jig) === '["1200x900"]' && imgs.saf && imgs.saf.every((x) => !/ERR/.test(x)) && imgs.pexels === 47 && imgs.lucide, JSON.stringify(imgs));
+    ok('9 photos: 28 cards 960x720, 6 jigsaw 1200x900, 13 safari; all 46 credited, Lucide ISC licence shipped',
+      JSON.stringify(imgs.cards) === '["960x720"]' && JSON.stringify(imgs.jig) === '["1200x900"]' && imgs.saf && imgs.saf.every((x) => !/ERR/.test(x)) && imgs.pexels === 46 && imgs.lucide, JSON.stringify(imgs));
     await ctx.close();
   }
   {
@@ -317,10 +319,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     const p = await ctx.newPage(); await p.clock.setFixedTime(new Date('2026-10-10T11:00:00'));   // a Saturday: the banner shows
     await p.route(/pagead2|googlesyndication|google-analytics|googletagmanager/, (r) => r.abort());
     await p.goto(U + '/', { waitUntil: 'networkidle' }).catch(() => {}); await p.waitForTimeout(1200);
-    const c = await contrastIn(p, ['#holiday-banner']);
-    const ratio = (fg, bg) => (Math.max(lum(fg), lum(bg)) + 0.05) / (Math.min(lum(fg), lum(bg)) + 0.05);
-    const x = c[0] && c[0][1] && c[0][2] && c[0][2] !== 'image' ? ratio(c[0][1], c[0][2]) : 0;
-    ok(`9 Shabbat banner, ${theme}: text ≥ 4.5:1 on its strip`, x >= 4.5, x.toFixed(1) + ' ' + JSON.stringify(c));
+    // 2026-10-10 (Or): the Shabbat / holiday banner is removed everywhere - even on a Saturday it must not appear
+    const hb = await p.evaluate(() => !!document.getElementById('holiday-banner') || /Shabbat|שבת שלום/.test(document.body.innerText));
+    ok(`9 no Shabbat / holiday banner on a Saturday, ${theme}`, !hb, String(hb));
     await ctx.close();
   }
   await b.close();

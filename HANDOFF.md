@@ -58,7 +58,19 @@ Or's approval.
 - Translations of privacy/about; score-based end screen; self-host Google Fonts and the 20 flags (privacy page names them).
 - Logo final approval (Or).
 
-**Checks**: see the bottom of this entry (filled in after the run).
+**Checks** (preview built from 6ea3705, https://games-preview.178-105-148-72.sslip.io)
+- `tools/preview/play-all.js` on the final tree (local server): **28/28 at 1280 px and 28/28 at 390 px, 0 console
+  errors**. Double-tap now advances one question; Falling Blocks reaches the end screen; Safari 6/6 taps on a phone.
+  Against the deployed preview at 390 px: 27/28 on the first pass - Trivia hit a 4 s click timeout in the driver (once,
+  not reproduced: Trivia passed on an immediate rerun and in both local passes); treat as a harness flake.
+- `tools/preview/e2e-suite.js` against the preview: **100/100**. Its expectations were updated where the change was
+  deliberate: header photo now from images/scenes (none for Time Journey), 46 credited Pexels photos (was 47), German /
+  Greek footers say "Anzeigen" / "διαφημίσεις", landing-page back link is `../../?lang=xx`, and the Shabbat contrast
+  check became "no Shabbat / holiday banner on a Saturday".
+- Visual: hub 390 light / 1440 dark with the consent banner (en, he), footer links, preferences dialog, Word Balloons,
+  Time Journey, About (390), Privacy (1440 dark), a landing page - screenshots checked by eye.
+- Live site (games.178-105-148-72.sslip.io, /opt/Elders_Ai @ main 1e2755e) not touched; it still has the Falling
+  Blocks, Word Search and Memory bugs above until the merge.
 
 ## 2026-10-07 - Server Claude ("incubator") + Telegram bridge (VPS infra, not the games site)
 
