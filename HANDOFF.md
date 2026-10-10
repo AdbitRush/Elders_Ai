@@ -35,6 +35,12 @@ The 8 wave-1 games committed earlier (f4a39a1) match Or's wave-1 list exactly an
 - Checks (local server, tree of this commit + Hearts): e2e **103/104** (the 1 = "review toolbar present", which only
   exists on the VPS preview build); play-all **37/37 at 390** and **37/37 at 1280** (recall re-run after the selector fix).
 
+**Wave 1 - DONE (9/9).** FreeCell, Spider (1 suit), Checkers, Backgammon, Dominoes, Crazy Eights, Gin Rummy, Go Fish
+(f4a39a1) + **Hearts** (this commit): one hand vs 3 computer players, pass 3 cards (left/right/across/keep by level),
+2♣ leads, follow suit, no points on trick 1, hearts must be broken, shoot the moon; lowest (or tied lowest) score
+passes. Gold dashed = playable now, blue = the cards you were passed; an illegal card says why. play-all driver plays a
+full hand (pass cap at 3, illegal card refused, points add up to 26).
+
 ## 2026-10-10 (c) - games project: wave 1 (8/9) + wave 0 (7/9) (preview only; main untouched)
 
 Or's plan (latest message): Wave 0 = 9 review fixes, then 36 games in 4 waves of 9. Waves 3/4 lists were cut off in his

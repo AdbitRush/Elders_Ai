@@ -78,6 +78,7 @@ const SHELL = [
   './js/games/crazy8.js',
   './js/games/ginrummy.js',
   './js/games/gofish.js',
+  './js/games/hearts.js',
   // /gen:new-games
   './js/affiliate.js',
   './js/brainscore.js',
