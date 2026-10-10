@@ -1,3 +1,53 @@
+## 2026-10-10 (b) - honest end screen, Hebrew Shabbat content, privacy/about corrections (preview only; main untouched)
+
+Commits ea55a47 + 971c7cf on `preview/warm-redesign`, ASSET_V / sw CACHE 67. Not merged; the live site is still main 1e2755e.
+
+**Audience (Or, 2026-10-10):** primary audience is **American 50+**. Nostalgia references, trivia topics and photos should
+lean American; Hebrew is low priority (no effort on Hebrew-specific content). Applies to all future content work.
+
+- **A. Hebrew content:** trivia question "באיזה יום בשבוע חל שבת?" removed (it answered itself); "שבת" removed from the
+  Hebrew ws_pool. The "שישי שמח" badge left alone. (Other "שבת" substrings left: "לשבת" = sit, "שבתאי" = Saturn.)
+- **B3. End screen matches performance** (`levelComplete` in index.html): a scored session passes at **60% correct**
+  (`PASS_RATIO`). Below that: title "Nice try - want to play again?" (6 languages), body "x of n this time", a replay
+  icon, **no confetti, no win sound, no level saved, no personal best, no badges, no daily-challenge credit, no share
+  button**; the button is "Play again" at the same level. A finished session still counts as a game played for the
+  streak / "played today" (it was practice) - my call. Unscored puzzles (memory, sudoku, jigsaw, word search...) only end
+  when solved, so they always win. Falling Blocks is judged by lines cleared (0 = "Nice try"); Time Journey by
+  memories collected, same 60% bar; Color Sequence's own end screen says "Nice try" (and records no best) when the very
+  first colour was missed. Recall and Word Balloons already had their own gentle fail screens (unchanged).
+- **B4 / B5** were fixed in the previous round (6ea3705) and re-verified: a found Word Search letter can start or join a
+  new word; a matched Memory card stays opaque and shows its picture (checked by screenshot).
+- **C. privacy.html** - Or's wording for items 6-12: ads described as planned through Google AdSense (not active);
+  the AdSense advertising-cookies paragraph + a Google Ads Settings link next to the partner-sites link; local data,
+  retention, rights (GDPR list, withdrawal), "your browser sends your IP address to the server hosting BrainPlay"
+  replaces the unverifiable no-log sentence; "If you email us"; Cookie settings "on this page or in the games homepage
+  footer". Exactly **one** `[CONTACT EMAIL — to be added before launch]` (under "Who runs this site").
+- **D. about.html** - items 13-15 (funding planned, "Play at your own pace", medical disclaimer) and a working
+  **Cookie settings** link in its footer. Meta descriptions of both pages no longer repeat the old claims.
+- **Same rule applied where the old claim also lived (my call, consistency with item 6):** the hub footer in all 6
+  languages ("Free to play, no sign-up. Your progress stays in your browser on this device.") and the consent banner
+  text in all 6 languages now say ads are planned, not running, and no longer promise "never during a game".
+- Tools: `tools/preview/check-endscreen-legal.js <playwright dir> [url]` = the 24 targeted checks for this batch;
+  e2e-suite's footer check now asserts that no footer claims ads are already running.
+
+**PRE-LAUNCH BLOCKERS (Or - recorded, NOT done):**
+1. Verify the real server / log-retention facts (Caddy, Docker, hosting provider) before the site makes ANY logging claim.
+2. Confirm the consent setup meets Google's requirement of a **Google-certified CMP integrated with IAB TCF** for
+   personalised ads in the EEA / UK / Switzerland **before AdSense goes live** (vanilla-cookieconsent is not a certified CMP).
+3. Add the consent **vendor list** before the policy claims one.
+4. Replace `[CONTACT EMAIL — to be added before launch]` with the real address Or provides.
+5. Translate Privacy / About into the other 5 languages **only after Or approves the corrected English**.
+
+**Checks** (all against the deployed preview @ 971c7cf; the PC's local test servers were stopped for low memory)
+- `tools/preview/check-endscreen-legal.js`: **24/24** - trivia 0/10 -> "Nice try", no confetti, Play again, level not
+  saved, replay starts at level 1; true/false 8/8 -> "Well Done!" + Level 2 saved; 5/10 fails (Hebrew), 6/10 passes;
+  Falling Blocks 0 lines and Time Journey 0 memories -> "Nice try"; Word Search found-letter reuse; Memory matched card
+  (screenshot shows the picture); both Hebrew removals; every new privacy/about sentence present, old ones gone, one
+  contact placeholder per page, Cookie settings opens the dialog on both pages; no footer says ads already run.
+  (The banner library hides itself from automated browsers - the check masks `navigator.webdriver`.)
+- `tools/preview/play-all.js`: **28/28 at 1280 px, 28/28 at 390 px**, 0 console errors.
+- `tools/preview/e2e-suite.js`: **100/100**.
+
 ## 2026-10-10 - audit fixes + design round 4 on `preview/warm-redesign` (preview only; main and the live site untouched)
 
 From the audit (`AUDIT-2026-10-10.md` on main) and Or's answers of 2026-10-10. ASSET_V / sw CACHE 66.
