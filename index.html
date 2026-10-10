@@ -1524,10 +1524,10 @@ function levelComplete() {
     const lvl=gs.level;
     const isHe=currentLang==='he';
     const T_=_END_T[currentLang]||_END_T.en;
-    // Falling Blocks reports its own result (lines cleared); Time Journey is a story with no wrong answers
+    // Falling Blocks reports its own result (lines cleared); Time Journey's score is memories collected - same 60% bar
     const story = id==='lifesim';
     const passed = gs._blocksLines!==undefined ? gs._blocksLines>0
-                 : (sc && !story) ? (sc.total>0 && sc.correct/sc.total>=PASS_RATIO) : true;
+                 : sc ? (sc.total>0 && sc.correct/sc.total>=PASS_RATIO) : true;
     const modal=document.getElementById('modal');
     const icon=document.getElementById('modalIcon');
     if(_modalTrophy===null) _modalTrophy=icon.innerHTML;
