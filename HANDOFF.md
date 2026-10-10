@@ -1,4 +1,41 @@
-## 2026-10-10 (c) - games project: wave 1 (8/9) + wave 0 (7/9) - RESUME HERE (preview only; main untouched)
+## 2026-10-10 (d) - games project, per-wave status (preview only; main untouched) - RESUME HERE
+
+Or's full plan arrived complete this time (waves 3/4 included): Wave 0 = 9 review fixes, then 36 games in 4 waves of 9.
+Wave 3 list (final): Finish the Lyric, Who Sang It, Movie Quote Quiz (60s-80s), TV Trivia (60s-80s), Name That Year,
+Famous Faces, Vintage Brands and Ads, Then vs Now prices, States & Capitals. Wave 4 (final): Space Invaders-style,
+Asteroids-style, Pong, Breakout, Frogger-style, Duck Hunt-style gallery, Missile Command-style, Snake, Whack-a-Mole.
+The 8 wave-1 games committed earlier (f4a39a1) match Or's wave-1 list exactly and were kept (not "partial work").
+
+**Wave 0 - DONE (9/9).** Items 1-5, 8, 9 in c4bc8cc (see (c) below); this round:
+- #6 Trivia: 205 American questions, 1950s-1980s x TV / music / movies / everyday life / sports / history, each with a
+  one-line explanation shown after the answer (Next button, no auto-advance), decade + topic picker, repeat avoidance
+  (localStorage `gg_qk_seen_<id>`: no question repeats until the chosen mix is used up; the next round never repeats
+  the last one). Easy = levels 1-2 of the same adult questions (best-known first), hard = levels 2-3. Hebrew keeps its
+  old general pool. Engine: **QuizKit** in js/game-kit.js (shared by trivia and all wave-3 quizzes).
+- #7 American English (practise/ageing/favourites/colour/organised -> US) and nostalgia tone: "{n} Classic Games",
+  "Pick a game and play at your own pace", Play buttons, "Tap" instead of "Click", hero mark = the record logo (was a
+  brain), daily lines are nostalgic (the old unattributed "brain is a muscle" quotes are gone), the tip carousel now
+  has checkable "Did you know?" facts instead of health claims ("sleep improves memory by up to 40%" removed), share
+  texts, manifest, landing pages ("Why it is good for you"). The health copy stays, lower on the page.
+- Found and fixed on the way (root causes):
+  - genre chips were styled as header buttons: `#hub-nav` was a `<nav>`, and warm.css styles every `body nav button`
+    with !important -> now a div with role=navigation.
+  - in-place language switch race: the tip carousel and the ticker chose their language BEFORE their 400/500 ms fade,
+    so a rotation in flight wrote the old language back; and a switch faded the old text out slowly. Both now read the
+    language when writing, and a switch writes at once (e2e 11b).
+  - Living Safari at 320 px: animals were placed by `left:x%` with an 80 px sprite, so at x=90% they hung 20 px off
+    the right edge -> `left: calc((100% - size) * t)`.
+  - play-all "recall" timeout at 1280: the driver's `text=Check` matched the hidden "Checkers" card (wave 1) -> all
+    driver text selectors are scoped to #gameContent. Not a game bug.
+  - ticker said "28 familiar games" (hard-coded) -> real count.
+- Tests added: e2e **11b** (whole page after an in-place he->en switch at 390 px: hub incl. welcome card, a game, its
+  end screen - no Hebrew left, URL ?lang=en), e2e **12** (every game, after its own Start button, at 320/390/430 px
+  and 390 RTL: nothing wider than the screen; arcade `.ak-stage` + `.ak-controls` must fit the screen height),
+  play-all QuizKit driver (explanation after every answer, double-tap scores once, no repeats in the next round).
+- Checks (local server, tree of this commit + Hearts): e2e **103/104** (the 1 = "review toolbar present", which only
+  exists on the VPS preview build); play-all **37/37 at 390** and **37/37 at 1280** (recall re-run after the selector fix).
+
+## 2026-10-10 (c) - games project: wave 1 (8/9) + wave 0 (7/9) (preview only; main untouched)
 
 Or's plan (latest message): Wave 0 = 9 review fixes, then 36 games in 4 waves of 9. Waves 3/4 lists were cut off in his
 message; assumed = the earlier lists (trivia: song titles, who sang it, movie quotes, TV, name that year, famous faces,

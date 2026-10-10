@@ -13,15 +13,17 @@ const Tips = (() => {
       '🧘 10 דקות מדיטציה ביום מפחיתות מתח ומשפרות מיקוד',
       '🖊️ כתיבה ביד מחזקת קישורים עצביים יותר מהקלדה',
     ],
+    // 2026-10: nostalgia first. Short, checkable facts about the games and toys of the era (no health claims here;
+    // the health note lives further down the page, under "Good fun, and good for you too").
     en: [
-      '💧 Drink water before training — your brain needs hydration',
-      '😴 7-8 hours of sleep improves memory by up to 40%',
-      '🚶 30 minutes of walking daily increases hippocampus volume',
-      '🎵 Soft classical music can sharpen focus during training',
-      '😊 Social connections and conversation protect the aging brain',
-      '🍇 Blueberries and leafy greens are rich in brain-healthy antioxidants',
-      '🧘 10 minutes of daily meditation reduces stress and boosts focus',
-      '🖊️ Writing by hand strengthens neural pathways more than typing',
+      'Did you know? The Slinky was invented by a naval engineer, Richard James, and first sold in 1945.',
+      'Did you know? Parker Brothers first sold Monopoly in 1935.',
+      'Did you know? Crayola\'s 64-crayon box with the built-in sharpener came out in 1958.',
+      'Did you know? The Etch A Sketch went on sale in 1960.',
+      'Did you know? Checkers is played on the same 8-by-8 board as chess.',
+      'Did you know? Atari\'s Pong started in bars and arcades in 1972, three years before the home version.',
+      'Did you know? The first Super Bowl, in January 1967, did not sell out.',
+      'Did you know? Solitaire came free with Windows 3.0 in 1990, partly to teach people to use a mouse.',
     ],
   };
 
@@ -37,20 +39,24 @@ const Tips = (() => {
     _iv = setInterval(_rotate, 9000);
   }
 
-  function _rotate() {
+  function _rotate(now) {
     if (typeof gameState !== 'undefined' && gameState.active) return;
-    const lang = typeof currentLang !== 'undefined' ? currentLang : 'he';
-    const pool = DATA[lang] || DATA.en || DATA.he;
     const el   = document.getElementById('tips-text');
     if (!el) { clearInterval(_iv); return; }
-    el.style.opacity = '0';
-    setTimeout(() => {
+    const write = () => {
+      // read the language when the text is written, not before the fade: a language switch during the fade
+      // used to put the old language back (2026-10 e2e 11b)
+      const lang = typeof currentLang !== 'undefined' ? currentLang : 'he';
+      const pool = DATA[lang] || DATA.en || DATA.he;
       el.textContent = pool[_idx % pool.length].replace(/^[^\p{L}\p{N}]+/u, '');  // the lightbulb icon replaces each tip's emoji
       el.style.opacity = '1';
       _idx++;
-    }, 400);
+    };
+    if (now === true) return write();   // a language switch: replace the text at once, no fade
+    el.style.opacity = '0';
+    setTimeout(write, 400);
   }
 
   // render(): show a tip in the current language now (called by changeLanguage)
-  return { inject, render: _rotate };
+  return { inject, render: () => _rotate(true) };
 })();

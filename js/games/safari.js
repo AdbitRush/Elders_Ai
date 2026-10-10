@@ -24,12 +24,12 @@ function initSafari(container){
         <span id="sf-task" class="text-lg md:text-xl font-black text-amber-300"></span>
         <span class="text-sm font-bold text-green-400">✓ <span id="sf-score">0</span></span>
       </div>
-      <div id="sf-world" dir="ltr" style="position:relative;height:min(58vh,460px);border-radius:22px;overflow:hidden;cursor:pointer;
+      <div id="sf-world" dir="ltr" style="--sz:clamp(80px,18vw,104px);position:relative;height:min(58vh,460px);border-radius:22px;overflow:hidden;cursor:pointer;
         background:#d9b77a url(images/safari/savanna.jpg) center 40%/cover;box-shadow:0 24px 60px -22px rgba(0,0,0,.6)">
       </div>
     </div>
     <style>
-      .sf-a{position:absolute;width:clamp(80px,18vw,104px);height:clamp(80px,18vw,104px);margin:-6px 0 0 -6px;user-select:none;transition:transform .18s;
+      .sf-a{position:absolute;width:var(--sz);height:var(--sz);margin:-6px 0 0 0;user-select:none;transition:transform .18s;
         border-radius:50%;border:4px solid #fff;overflow:hidden;background:#fff;box-shadow:0 6px 14px rgba(0,0,0,.4)}
       .sf-a img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
       @keyframes sfPop{0%{transform:scale(1)}45%{transform:scale(1.9) rotate(-8deg)}100%{transform:scale(0);opacity:0}}
@@ -64,7 +64,7 @@ function initSafari(container){
             if(s.x<2||s.x>90){s.vx*=-1;s.x=Math.max(2,Math.min(90,s.x));}
             if(s.y<36||s.y>88){s.vy*=-1;s.y=Math.max(36,Math.min(88,s.y));}
             if(Math.random()<0.004){s.vx*=-1;}
-            s.el.style.left=s.x+'%';
+            s.el.style.left=`calc((100% - var(--sz)) * ${((s.x-2)/88).toFixed(4)})`;   // 2026-10: never past the right edge (320 px phones)
             s.el.style.top=(s.y+Math.sin(s.bob)*1.6)+'%';
             s.el.style.transform=`scaleX(${s.vx<0?-1:1})`;
         });

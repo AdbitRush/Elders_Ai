@@ -23,9 +23,9 @@ const Share = (() => {
       inviteBtn: '📤 הזמן חברים',
     },
     en: {
-      brand: 'BrainPlay', tagline: 'Daily brain training for seniors — 100% free',
+      brand: 'BrainPlay', tagline: 'The games you grew up with — free to play',
       score: (g, s) => `🏆 I reached level ${s} in BrainPlay (${g})! Play free: ${BASE_URL}#${g}`,
-      inviteText: `🧠 BrainPlay — daily brain training for a sharp mind, 100% free with no pop-ups. Come play: ${BASE_URL}`,
+      inviteText: `🃏 BrainPlay — the card games, puzzles, trivia and arcade games we grew up with. Free to play. Come play: ${BASE_URL}`,
       inviteTitle: 'BrainPlay — you are invited',
       emailSubject: 'Come play BrainPlay 🧠',
       wa: 'Share on WhatsApp', native: '📤 Share', copy: '📋 Copy link',

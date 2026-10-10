@@ -42,7 +42,11 @@ const STAGE = {
   async crazy8(p) { await sleep(200); },
   async ginrummy(p) { await p.locator('.gr-pile').first().locator('.gk-card').click(); await sleep(300); },
   async gofish(p) { await sleep(200); },
+  async hearts(p) { await p.evaluate(() => { const g = gameState.hearts; if (g.phase === 'pass') { g.hands[0].slice(-3).forEach((c) => hzTap(c.id)); hzPass(); } }); await sleep(2400); },
+  // QuizKit games (trivia and wave 3): start a round and answer the first question, so the explanation shows
+  async trivia(p) { await qk(p, 'trivia'); },
 };
+async function qk(p, id) { await p.evaluate((id) => { if (gameState[id].phase === 'pick') QuizKit.go(id); QuizKit.answer(id, gameState[id].questions[0].ans); }, id); await sleep(400); }
 
 (async () => {
   const b = await chromium.launch();

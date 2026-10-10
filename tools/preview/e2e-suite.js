@@ -135,7 +135,8 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     const { ctx, p } = await page(390, '/', { theme });
     const hub = await contrastIn(p, ['#homeScreen .premium-card h3', '#homeScreen .premium-card p', '#greetingText', '#all-games .ag-page', 'nav #themeBtn', 'footer > div']);
     await p.evaluate(() => loadGame('trivia')); await p.waitForTimeout(1500);
-    const game = await contrastIn(p, ['#gameContent button.border-gray-200', '#gameContent .text-xl', '#gameInstructions']);
+    await p.evaluate(() => QuizKit.go('trivia')); await p.waitForTimeout(300);   // trivia runs on QuizKit since 2026-10
+    const game = await contrastIn(p, ['#gameContent .qk-opt', '#gameContent .qk-card', '#gameInstructions']);
     const rows = hub.concat(game).map(([s, fg, bg]) => [s, fg && bg && bg !== 'image' ? ((Math.max(lum(fg), lum(bg)) + 0.05) / (Math.min(lum(fg), lum(bg)) + 0.05)) : (bg === 'image' ? 99 : 0)]);
     const low = rows.filter(([, c]) => c < 7).map(([s, c]) => s + ' ' + c.toFixed(1));
     ok(`6 ${theme}: main text contrast ≥ 7:1 (AAA)`, !low.length, low.join(' | ') || rows.map(([s, c]) => c === 99 ? 'photo' : c.toFixed(1)).join(','));
@@ -361,6 +362,57 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('11 en -> he in place: the same pieces in Hebrew; URL ?lang=he', !heLatin.length && /lang=he/.test(he.url), JSON.stringify(heLatin) + ' ' + he.url);
     ok('11 no JS errors while switching', !errs.length, errs.join(' | '));
     await ctx.close();
+  }
+  // 11b. whole page after an in-place he -> en switch: no visible Hebrew anywhere (hub, welcome card, a game, end screen)
+  {
+    const { ctx, p, errs } = await page(390, '/?lang=he', { lang: 'he' });
+    const heLeft = () => p.evaluate(() => { const HE = /[֐-׿]/, out = [];
+      const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      for (let n; (n = w.nextNode());) { const e = n.parentElement; if (!HE.test(n.nodeValue) || !e || e.closest('#langSelect,script,style,noscript')) continue;
+        const r = e.getBoundingClientRect(), cs = getComputedStyle(e); if (r.width && r.height && cs.visibility !== 'hidden' && e.offsetParent !== null) out.push(n.nodeValue.trim().slice(0, 40)); }
+      return out; });
+    await p.evaluate(() => { try { localStorage.removeItem('gg_profile_seen'); } catch (e) {} if (typeof Profile !== 'undefined') Profile.showFirstVisitModal(null, false); });
+    await p.evaluate(() => { const s = document.getElementById('langSelect'); s.value = 'en'; s.dispatchEvent(new Event('change')); });   // on a phone the picker sits in the menu await p.waitForTimeout(900);
+    const hub = await heLeft();
+    await p.evaluate(() => { document.querySelectorAll('.pw-card,.pm-overlay,[class^="pw-"]').forEach((x) => { if (x.parentElement === document.body) x.remove(); }); });
+    await p.evaluate(() => loadGame('trivia', 1)); await p.waitForTimeout(1200);
+    const game = await heLeft();
+    await p.evaluate(() => { const g = gameState.trivia; g._sessionScore = { correct: 9, total: 10 }; levelComplete(); }); await p.waitForTimeout(600);
+    const end = await heLeft();
+    const url = await p.evaluate(() => location.search);
+    ok('11b he -> en in place: no Hebrew left on the hub (incl. welcome card)', !hub.length, JSON.stringify(hub.slice(0, 8)));
+    ok('11b ... nor in a game opened afterwards, nor on its end screen; URL ?lang=en', !game.length && !end.length && /lang=en/.test(url), JSON.stringify(game.concat(end).slice(0, 8)) + ' ' + url);
+    ok('11b no JS errors', !errs.length, errs.join(' | '));
+    await ctx.close();
+  }
+  // 12. responsive game stage (2026-10-10 review): every game, after its Start button, at 320 / 390 / 430 px (+ 390 RTL):
+  //     nothing wider than the screen, no sideways scroll; arcade stages (.ak-stage) fit the screen height with their controls.
+  {
+    const ids = await (async () => { const { ctx, p } = await page(1280, '/'); const g = await p.evaluate(() => window.GAME_IDS); await ctx.close(); return g; })();
+    const bad = [];
+    for (const [w, lang, theme] of [[320, 'en', 'light'], [390, 'en', 'dark'], [430, 'en', 'light'], [390, 'he', 'light']]) {
+      for (const g of ids) {
+        const ctx = await b.newContext({ viewport: { width: w, height: 740 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
+        await ctx.addCookies([{ name: 'cc_cookie', value: encodeURIComponent(JSON.stringify({ categories: ['necessary'], revision: 0 })), url: U }]);
+        await ctx.addInitScript(([t, l]) => { try { if (sessionStorage.getItem('x')) return; sessionStorage.setItem('x', '1'); localStorage.clear(); localStorage.setItem('gg-theme', t); localStorage.setItem('gg-lang', l); localStorage.setItem('gg_profile_seen', '1'); localStorage.setItem('gg_name', 'Ruth'); } catch (e) {} }, [theme, lang]);
+        const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message));
+        await p.goto(U + '/?lang=' + lang + '#' + g, { waitUntil: 'networkidle' }).catch(() => {}); await p.waitForTimeout(900);
+        // press the game's own Start (jigsaw, quiz picker, arcade) so the real play stage is measured
+        await p.evaluate(() => { const s = document.querySelector('#gameContent .jig-btn-go, #gameContent .qk-next .qk-btn, #gameContent [data-stage-start]'); if (s) s.click(); });
+        await p.waitForTimeout(1300);
+        const r = await p.evaluate(() => {
+          const W = innerWidth, wide = [];
+          document.querySelectorAll('#gameContent *').forEach((e) => { const b = e.getBoundingClientRect(); if (b.width && (b.right > W + 2 || b.left < -2) && !e.closest('[data-allow-overflow]')) wide.push((e.className && e.className.baseVal === undefined ? e.className : e.tagName).toString().slice(0, 30) + '@' + Math.round(b.left) + '..' + Math.round(b.right)); });
+          const st = document.querySelector('#gameContent .ak-stage'), ct = document.querySelector('#gameContent .ak-controls');
+          let fit = null;
+          if (st && ct) { st.scrollIntoView({ block: 'start' }); const a = st.getBoundingClientRect(), c = ct.getBoundingClientRect(); fit = c.bottom - a.top <= innerHeight + 1 ? 'ok' : 'stage+controls ' + Math.round(c.bottom - a.top) + 'px > ' + innerHeight; }
+          return { over: document.documentElement.scrollWidth - W, wide: wide.slice(0, 3), fit, kids: document.getElementById('gameContent').children.length };
+        });
+        if (errs.length || r.over > 0 || r.wide.length || !r.kids || (r.fit && r.fit !== 'ok')) bad.push(`${g}@${w}${lang === 'he' ? 'rtl' : ''}: ` + (errs[0] || JSON.stringify(r)));
+        await ctx.close();
+      }
+    }
+    ok(`12 ${ids.length} games x 320/390/430/390-RTL: nothing off the screen after Start, arcade controls fit`, !bad.length, bad.slice(0, 12).join(' | ') + (bad.length > 12 ? ` ... (+${bad.length - 12})` : ''));
   }
   await b.close();
   console.log(res.join('\n'));

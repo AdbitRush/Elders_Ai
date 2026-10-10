@@ -183,7 +183,7 @@ DESC_OVERRIDE = {"oddoneout": "game_odd_desc", "wordsearch": "game_words_desc",
 UI = {
     "play":    {"he": "שחקו עכשיו", "en": "Play now", "es": "Jugar ahora",
                 "fr": "Jouer maintenant", "de": "Jetzt spielen", "el": "Παίξτε τώρα"},
-    "trains":  {"he": "מה זה מאמן", "en": "What it trains", "es": "Qué entrena",
+    "trains":  {"he": "מה זה מאמן", "en": "Why it is good for you", "es": "Qué entrena",
                 "fr": "Ce que cela entraîne", "de": "Was es trainiert", "el": "Τι γυμνάζει"},
     "skills":  {"he": "מיומנויות", "en": "Skills", "es": "Habilidades",
                 "fr": "Compétences", "de": "Fähigkeiten", "el": "Δεξιότητες"},
@@ -234,7 +234,7 @@ def page(gid, lang, i18n, why, skills, slabels) -> str:
     ld = {
         "@context": "https://schema.org", "@type": "Game",
         "name": title, "description": desc, "url": canon,
-        "inLanguage": lang, "genre": "Brain training",
+        "inLanguage": lang, "genre": "Classic games",
         "isAccessibleForFree": True,
         "publisher": {"@type": "Organization", "name": brand},
     }

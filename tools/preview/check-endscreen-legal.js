@@ -26,15 +26,25 @@ async function answerAll(p, fn, right) {
     await sleep(1100); }
   return modal(p);
 }
+// QuizKit games (trivia since 2026-10): Start on the picker, answer, then Next
+async function qkAll(p, id, right) {
+  for (let i = 0; i < 60; i++) { const m = await modal(p); if (m.up) return m;
+    await p.evaluate(([id, right]) => { const g = gameState[id]; const c = document.getElementById('gameContent');
+      if (g.phase === 'pick') return c.querySelector('.qk-btn').click();
+      if (g.phase === 'shown') return c.querySelector('.qk-next .qk-btn').click();
+      const Q = g.questions[g.current]; const bs = c.querySelectorAll('.qk-opt'); bs[right ? Q.ans : (Q.ans + 1) % bs.length].click(); }, [id, right]);
+    await sleep(250); }
+  return modal(p);
+}
 (async () => {
   b = await chromium.launch();
   // 3. failing session: no win, no confetti, no level-up, Play again at the same level
   { const { ctx, p, errs } = await open('/?lang=en#trivia');
-    const m = await answerAll(p, 'answerTrivia', false);
+    const m = await qkAll(p, 'trivia', false);
     ok('3 trivia 0/10: gentle message, no "Well Done!"', m.up && /Nice try/.test(m.title) && !/Well Done/i.test(m.title), m.title + ' | ' + m.body);
     ok('3 trivia 0/10: no confetti, Play again, level not saved', m.confetti === 0 && /Play again/.test(m.btn) && !(m.levels || '').includes('trivia'), 'confetti ' + m.confetti + ' | btn ' + m.btn + ' | levels ' + m.levels);
     await p.click('#nextLevelBtn'); await sleep(1200);
-    ok('3 Play again restarts trivia at level 1', await p.evaluate(() => gameState.currentId === 'trivia' && gameState.trivia.level === 1 && gameState.trivia.current === 0));
+    ok('3 Play again restarts trivia at level 1', await p.evaluate(() => gameState.currentId === 'trivia' && gameState.trivia.level === 1 && (gameState.trivia.phase === 'pick' || gameState.trivia.current === 0)));
     ok('3 no JS errors (fail path)', !errs.length, errs.join(' | ')); await ctx.close(); }
   { const { ctx, p } = await open('/?lang=en#truefalse');
     const m = await answerAll(p, 'answerTF', true);

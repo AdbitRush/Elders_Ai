@@ -1,28 +1,254 @@
 // ═══════════════════════════════════════════════════════════════════════════════
-// GAME 9: TRIVIA
+// GAME 9: TRIVIA — American nostalgia, the 1950s to the 1980s (expanded 2026-10, review item 6)
+// Six topics x four decades, each question with a one-line explanation shown after the answer.
+// Runs on QuizKit (js/game-kit.js): decade/topic picker, no repeats until the mix is used up, Next button.
+// Every fact here is a matter of public record; when in doubt a question was left out.
+// Hebrew keeps its own (older, general) question pool from i18nData.he.trivia_pool.
+// Row: [decade, topic, level 1-3, question, right answer, [wrong answers], explanation]
 // ═══════════════════════════════════════════════════════════════════════════════
-function initTrivia(container){
-    const state=gameState.trivia;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    const _tq=_d==='easy'?6:_d==='hard'?12:10;
-    state.questions=shuffle([...i18nData[currentLang].trivia_pool]).slice(0,_tq);
-    state.current=0; state.score=0; renderTriviaQuestion(container);
-}
-function renderTriviaQuestion(container){
-    if(!gameState.active)return;
-    const state=gameState.trivia; state._locked=false;
-    if(state.current>=state.questions.length){state._sessionScore={correct:state.score,total:state.questions.length};levelComplete();return;}
-    const q=state.questions[state.current];
-    const isHe=currentLang==='he';
-    let html=`<div class="max-w-xl w-full"><div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${gt('Question', 'שאלה')} ${state.current+1}/${state.questions.length}</span><span class="text-green-600">✓ ${state.score}</span></div><h3 class="text-2xl md:text-3xl font-bold mb-8 text-center text-[#1a365d] bg-blue-50 p-5 rounded-xl">${q.q}</h3><div class="flex flex-col gap-3">`;
-    q.opts.forEach((opt,idx)=>{html+=`<button onclick="answerTrivia(${idx},${q.a})" class="bg-white border-2 border-gray-200 hover:border-[#b7791f] text-xl p-4 rounded-xl text-right md:text-center transition shadow-sm">${opt}</button>`;});
-    container.innerHTML=html+`</div></div>`;
-}
-function answerTrivia(sel,cor){
-    const gs=gameState.trivia; if(gs._locked)return;gs._locked=true;  // one answer per question
-    const isC=sel===cor;
-    if(isC){sfxCorrect();gameState.trivia.score++;}else sfxWrong();
-    event.target.classList.replace('border-gray-200',isC?'border-green-500':'border-red-500');
-    event.target.classList.add(isC?'bg-green-50':'bg-red-50');
-    setTimeout(()=>{gameState.trivia.current++;renderTriviaQuestion(document.getElementById('gameContent'));},700);
+const TRIVIA_DECADES = [['50s', '1950s'], ['60s', '1960s'], ['70s', '1970s'], ['80s', '1980s']];
+const TRIVIA_TOPICS = [['tv', 'TV'], ['music', 'Music'], ['movies', 'Movies'], ['life', 'Everyday life'], ['sports', 'Sports'], ['history', 'History']];
+const TRIVIA_ROWS = [
+  // ── 1950s ──
+  ['50s', 'tv', 1, 'Which show starred Lucille Ball and Desi Arnaz as Lucy and Ricky Ricardo?', 'I Love Lucy', ['The Honeymooners', 'Father Knows Best', 'Our Miss Brooks'], 'I Love Lucy premiered on CBS in October 1951.'],
+  ['50s', 'tv', 2, "In The Honeymooners, what was Ralph Kramden's job?", 'Bus driver', ['Sewer worker', 'Cab driver', 'Mailman'], 'Ralph drove a city bus; his pal Ed Norton was the one who worked in the sewer.'],
+  ['50s', 'tv', 1, 'Which puppet starred in the children\'s show hosted by "Buffalo Bob" Smith?', 'Howdy Doody', ['Lamb Chop', 'Kukla', 'Mr. Moose'], 'The Howdy Doody Show ran on NBC from 1947 to 1960.'],
+  ['50s', 'tv', 2, 'In Leave It to Beaver, what was the Beaver\'s real first name?', 'Theodore', ['Thomas', 'Timothy', 'Walter'], 'Jerry Mathers played Theodore "Beaver" Cleaver; the show began in 1957.'],
+  ['50s', 'tv', 1, 'Whose Sunday night variety show ran on CBS from 1948 to 1971?', 'Ed Sullivan', ['Milton Berle', 'Steve Allen', 'Jack Paar'], 'It began as Toast of the Town and was renamed The Ed Sullivan Show in 1955.'],
+  ['50s', 'tv', 1, 'Which TV lawyer, played by Raymond Burr, almost never lost a case?', 'Perry Mason', ['Ben Matlock', 'Owen Marshall', 'Lawrence Preston'], 'Perry Mason ran on CBS from 1957 to 1966.'],
+  ['50s', 'tv', 2, "What was the name of the Lone Ranger's horse?", 'Silver', ['Trigger', 'Champion', 'Scout'], 'Silver. Tonto rode Scout, and Trigger belonged to Roy Rogers.'],
+  ['50s', 'tv', 3, 'Which quiz show was at the center of the rigging scandal involving contestant Charles Van Doren?', 'Twenty-One', ['The $64,000 Question', "What's My Line?", 'You Bet Your Life'], 'Congress held hearings in 1959 after it came out that Twenty-One had been rigged.'],
+
+  ['50s', 'music', 1, 'Who recorded "Heartbreak Hotel" in 1956?', 'Elvis Presley', ['Buddy Holly', 'Carl Perkins', 'Ricky Nelson'], 'Released by RCA in January 1956, it was his first million-seller.'],
+  ['50s', 'music', 2, 'What was the name of Bill Haley\'s band on "Rock Around the Clock"?', 'His Comets', ['The Crickets', 'The Teenagers', 'The Platters'], 'The song hit No. 1 in 1955 after it opened the movie Blackboard Jungle.'],
+  ['50s', 'music', 1, "What was the name of Buddy Holly's band?", 'The Crickets', ['The Comets', 'The Drifters', 'The Coasters'], 'The Crickets\' "That\'ll Be the Day" went to No. 1 in 1957.'],
+  ['50s', 'music', 2, 'The 1959 plane crash that killed Buddy Holly and Ritchie Valens also killed which singer?', 'The Big Bopper', ['Eddie Cochran', 'Jerry Lee Lewis', 'Fats Domino'], 'J. P. Richardson, "The Big Bopper", died with them on February 3, 1959.'],
+  ['50s', 'music', 1, 'Who had a big 1956 hit with "Blueberry Hill"?', 'Fats Domino', ['Little Richard', 'Chuck Berry', 'Pat Boone'], 'The New Orleans pianist\'s version became his best-known record.'],
+  ['50s', 'music', 1, 'Which rock and roll pioneer wrote and recorded "Johnny B. Goode"?', 'Chuck Berry', ['Bo Diddley', 'Little Richard', 'Buddy Holly'], 'He released it in 1958; his "duck walk" across the stage was his trademark.'],
+  ['50s', 'music', 1, 'Dick Clark hosted which teen dance show from Philadelphia?', 'American Bandstand', ['Soul Train', 'Shindig!', 'Hullabaloo'], 'American Bandstand went national on ABC in 1957.'],
+  ['50s', 'music', 1, 'Jerry Lee Lewis had a 1957 hit called "Great Balls of..."', 'Fire', ['Thunder', 'Lightning', 'Glory'], '"Great Balls of Fire" was a top-five hit for "The Killer" in 1957 and 1958.'],
+
+  ['50s', 'movies', 1, 'In which 1955 film did James Dean play the troubled teenager Jim Stark?', 'Rebel Without a Cause', ['East of Eden', 'Giant', 'The Wild One'], 'It opened less than a month after Dean died in a car crash in September 1955.'],
+  ['50s', 'movies', 2, 'Which 1959 epic won a record 11 Academy Awards?', 'Ben-Hur', ['The Ten Commandments', 'Spartacus', 'Around the World in 80 Days'], 'The record was later tied by Titanic and The Lord of the Rings: The Return of the King.'],
+  ['50s', 'movies', 2, 'In Some Like It Hot (1959), Tony Curtis and Jack Lemmon hide from gangsters by joining...', 'An all-girl band', ['The priesthood', 'The Navy', 'A traveling circus'], 'Marilyn Monroe played the band\'s singer, Sugar Kane.'],
+  ['50s', 'movies', 1, 'Who directed Rear Window (1954) and Vertigo (1958)?', 'Alfred Hitchcock', ['Billy Wilder', 'John Ford', 'Orson Welles'], 'Both starred James Stewart.'],
+  ['50s', 'movies', 2, 'Marlon Brando won his first Oscar for which 1954 film?', 'On the Waterfront', ['A Streetcar Named Desire', 'The Wild One', 'Guys and Dolls'], 'He played ex-boxer Terry Malloy.'],
+  ['50s', 'movies', 1, "In The Seven Year Itch (1955), whose white dress billows up over a subway grate?", 'Marilyn Monroe', ['Grace Kelly', 'Kim Novak', 'Jayne Mansfield'], 'The scene was shot on Lexington Avenue in New York and became one of the most famous images of the decade.'],
+  ['50s', 'movies', 1, 'Which movie star became Princess of Monaco in 1956?', 'Grace Kelly', ['Audrey Hepburn', 'Rita Hayworth', 'Ava Gardner'], 'She married Prince Rainier III in April 1956 and gave up acting.'],
+  ['50s', 'movies', 2, 'Which 1952 western unfolds in near real time as Gary Cooper waits for the noon train?', 'High Noon', ['Shane', 'Rio Bravo', 'The Searchers'], 'Cooper won the Best Actor Oscar as Marshal Will Kane.'],
+
+  ['50s', 'life', 1, 'Which plastic ring that you spin around your waist became a craze in 1958?', 'Hula Hoop', ['Frisbee', 'Slinky', 'Yo-yo'], 'Wham-O sold millions of them in the first months alone.'],
+  ['50s', 'life', 1, 'Which doll did Mattel introduce at the American Toy Fair in 1959?', 'Barbie', ['Chatty Cathy', 'Betsy Wetsy', 'Raggedy Ann'], 'Barbie was launched on March 9, 1959.'],
+  ['50s', 'life', 2, 'Which brand made the "TV dinner" a household name in the 1950s?', 'Swanson', ['Birds Eye', "Stouffer's", 'Banquet'], 'Its first TV dinner was a Thanksgiving-style turkey meal in an aluminum tray.'],
+  ['50s', 'life', 2, 'Ray Kroc opened his first franchise of which restaurant in 1955?', "McDonald's", ['Burger King', 'Kentucky Fried Chicken', 'Dairy Queen'], 'It opened in Des Plaines, Illinois, in April 1955.'],
+  ['50s', 'life', 2, 'Which card, launched in 1950, was first meant for paying at restaurants?', 'Diners Club', ['American Express', 'BankAmericard', 'MasterCard'], 'Diners Club started in New York in 1950; American Express followed with its card in 1958.'],
+  ['50s', 'life', 2, 'Mr. Potato Head (1952) is famous as the first toy advertised on...', 'Television', ['Radio', 'Billboards', 'Comic books'], 'Hasbro\'s Mr. Potato Head is widely credited as the first toy ever advertised on TV.'],
+  ['50s', 'life', 2, 'Which modeling dough began life as a wallpaper cleaner?', 'Play-Doh', ['Silly Putty', 'Plasticine', 'Gak'], 'It was sold as a children\'s toy from 1956.'],
+  ['50s', 'life', 3, 'Which kind of restaurant spread across America in the 1950s, with carhops bringing food to your car?', 'The drive-in', ['The automat', 'The diner car', 'The cafeteria'], 'Drive-in restaurants and drive-in movies both boomed along with car ownership in the 1950s.'],
+
+  ['50s', 'sports', 2, 'Who pitched the only perfect game in World Series history, in 1956?', 'Don Larsen', ['Whitey Ford', 'Sandy Koufax', 'Bob Feller'], 'The Yankee threw it in Game 5 against the Brooklyn Dodgers.'],
+  ['50s', 'sports', 1, 'Which Brooklyn team moved to Los Angeles after the 1957 season?', 'The Dodgers', ['The Giants', 'The Yankees', 'The Braves'], 'The New York Giants moved to San Francisco the same year.'],
+  ['50s', 'sports', 2, 'Which heavyweight champion retired in 1956 without ever losing a professional fight?', 'Rocky Marciano', ['Joe Louis', 'Floyd Patterson', 'Jack Dempsey'], 'Marciano finished his career 49 wins and 0 losses.'],
+  ['50s', 'sports', 2, 'The 1958 NFL Championship, won in overtime by the Baltimore Colts, is often called...', 'The Greatest Game Ever Played', ['The Ice Bowl', 'The Immaculate Reception', 'The Catch'], 'The Colts beat the New York Giants 23-17 at Yankee Stadium.'],
+  ['50s', 'sports', 2, 'Which Yankee won baseball\'s Triple Crown in 1956?', 'Mickey Mantle', ['Joe DiMaggio', 'Roger Maris', 'Yogi Berra'], 'Mantle led the league with a .353 average, 52 home runs and 130 runs batted in.'],
+  ['50s', 'sports', 1, 'In 1954 Roger Bannister became the first man to run a mile in under...', 'Four minutes', ['Five minutes', 'Three and a half minutes', 'Four and a half minutes'], 'He ran 3:59.4 at Oxford, England, on May 6, 1954.'],
+
+  ['50s', 'history', 1, 'Which satellite, launched by the Soviet Union in 1957, started the Space Race?', 'Sputnik 1', ['Explorer 1', 'Vostok 1', 'Telstar'], 'America answered with Explorer 1 in January 1958.'],
+  ['50s', 'history', 1, "Rosa Parks's arrest in 1955 led to a bus boycott in which city?", 'Montgomery, Alabama', ['Birmingham, Alabama', 'Selma, Alabama', 'Atlanta, Georgia'], 'The Montgomery bus boycott lasted 381 days.'],
+  ['50s', 'history', 1, 'Which 1954 Supreme Court decision ruled school segregation unconstitutional?', 'Brown v. Board of Education', ['Plessy v. Ferguson', 'Roe v. Wade', 'Miranda v. Arizona'], 'The decision was unanimous, written by Chief Justice Earl Warren.'],
+  ['50s', 'history', 1, 'Which two states joined the Union in 1959?', 'Alaska and Hawaii', ['Arizona and New Mexico', 'Utah and Oklahoma', 'Washington and Idaho'], 'Alaska became the 49th state in January 1959 and Hawaii the 50th in August.'],
+  ['50s', 'history', 1, 'Who was President for most of the 1950s?', 'Dwight D. Eisenhower', ['Harry S. Truman', 'John F. Kennedy', 'Herbert Hoover'], '"Ike" served two terms, from 1953 to 1961.'],
+  ['50s', 'history', 2, 'What did President Eisenhower sign into law in 1956?', 'The Interstate Highway System', ['Route 66', 'Social Security', 'The minimum wage'], 'The Federal-Aid Highway Act of 1956 paid for the Interstates.'],
+  ['50s', 'history', 2, 'In what year was the Korean War armistice signed?', '1953', ['1950', '1951', '1955'], 'It was signed on July 27, 1953.'],
+  ['50s', 'history', 1, "Jonas Salk's vaccine, announced as safe and effective in 1955, protected against...", 'Polio', ['Measles', 'Smallpox', 'Tuberculosis'], 'The results of the huge 1954 field trial were announced on April 12, 1955.'],
+
+  // ── 1960s ──
+  ['60s', 'tv', 1, 'Which show was about a mountain family who struck oil and moved to Beverly Hills?', 'The Beverly Hillbillies', ['Green Acres', 'Petticoat Junction', 'The Real McCoys'], 'It debuted on CBS in 1962.'],
+  ['60s', 'tv', 1, "On Gilligan's Island, what was the name of the castaways' boat?", 'The S.S. Minnow', ['The S.S. Guppy', 'The Mayflower', 'The Sea Breeze'], 'The "three-hour tour" ran on CBS from 1964 to 1967.'],
+  ['60s', 'tv', 1, 'Who played Captain Kirk on the original Star Trek?', 'William Shatner', ['Leonard Nimoy', 'DeForest Kelley', 'James Doohan'], 'Star Trek premiered on NBC in September 1966.'],
+  ['60s', 'tv', 1, 'In which town was The Andy Griffith Show set?', 'Mayberry', ['Hooterville', 'Springfield', 'Hazzard'], 'Mayberry, North Carolina, was based on Griffith\'s hometown of Mount Airy.'],
+  ['60s', 'tv', 1, 'Who took over The Tonight Show in 1962 and hosted it for 30 years?', 'Johnny Carson', ['Jack Paar', 'Steve Allen', 'Merv Griffin'], 'Carson followed Jack Paar in October 1962 and signed off in May 1992.'],
+  ['60s', 'tv', 1, 'On Bewitched, how did Samantha cast a spell?', 'By twitching her nose', ['By blinking', 'By snapping her fingers', 'By folding her arms'], 'Folding her arms and blinking was Jeannie\'s move, on I Dream of Jeannie.'],
+  ['60s', 'tv', 1, 'Which spy spoof starred Don Adams as Agent 86, Maxwell Smart?', 'Get Smart', ['I Spy', 'The Man from U.N.C.L.E.', 'The Wild Wild West'], 'It was created by Mel Brooks and Buck Henry.'],
+  ['60s', 'tv', 2, 'On The Fugitive, Dr. Richard Kimble was searching for...', 'A one-armed man', ['His missing brother', 'A stolen fortune', 'A lost diary'], 'The final episode in 1967 drew one of the biggest TV audiences of its time.'],
+  ['60s', 'tv', 2, 'Which TV family lived at 1313 Mockingbird Lane?', 'The Munsters', ['The Addams Family', 'The Bradys', 'The Partridges'], 'Fred Gwynne played Herman Munster.'],
+  ['60s', 'tv', 1, "On Bonanza, what was the name of the Cartwrights' ranch?", 'The Ponderosa', ['Southfork', 'The High Chaparral', 'The Barkley Ranch'], 'Bonanza was one of the first shows broadcast in color, from 1959.'],
+
+  ['60s', 'music', 1, 'Which band played on The Ed Sullivan Show on February 9, 1964?', 'The Beatles', ['The Rolling Stones', 'The Beach Boys', 'The Dave Clark Five'], 'About 73 million Americans watched.'],
+  ['60s', 'music', 1, 'Which group sang "Surfin\' U.S.A." and "Good Vibrations"?', 'The Beach Boys', ['Jan and Dean', 'The Ventures', 'The Byrds'], 'The Wilson brothers came from Hawthorne, California.'],
+  ['60s', 'music', 1, 'Motown Records was founded in which city?', 'Detroit', ['Memphis', 'Chicago', 'Philadelphia'], 'Berry Gordy started it in 1959; "Motown" comes from "Motor Town".'],
+  ['60s', 'music', 1, 'Diana Ross first became famous as the lead singer of...', 'The Supremes', ['The Marvelettes', 'The Ronettes', 'Martha and the Vandellas'], 'The Supremes had 12 No. 1 hits in the 1960s.'],
+  ['60s', 'music', 1, 'The Woodstock festival of August 1969 was held on a dairy farm in which state?', 'New York', ['Vermont', 'Pennsylvania', 'California'], 'It was Max Yasgur\'s farm in Bethel, New York.'],
+  ['60s', 'music', 1, 'Whose 1967 recording of "Respect" became a No. 1 hit?', 'Aretha Franklin', ['Gladys Knight', 'Dionne Warwick', 'Tina Turner'], 'Otis Redding wrote the song and recorded it first, in 1965.'],
+  ['60s', 'music', 1, 'Which singer was called "The Godfather of Soul"?', 'James Brown', ['Ray Charles', 'Sam Cooke', 'Marvin Gaye'], 'James Brown was also known as "the hardest-working man in show business".'],
+  ['60s', 'music', 1, 'Which band had a 1965 hit with "(I Can\'t Get No) Satisfaction"?', 'The Rolling Stones', ['The Who', 'The Kinks', 'The Animals'], 'It was the Stones\' first No. 1 in America.'],
+  ['60s', 'music', 2, 'Simon & Garfunkel\'s "Mrs. Robinson" was written for which film?', 'The Graduate', ['Midnight Cowboy', 'Easy Rider', 'Bonnie and Clyde'], 'The full single came out in 1968 and went to No. 1.'],
+  ['60s', 'music', 1, "Chubby Checker's 1960 hit started which dance craze?", 'The Twist', ['The Mashed Potato', 'The Loco-Motion', 'The Watusi'], '"The Twist" went to No. 1 in 1960 and again in 1962.'],
+
+  ['60s', 'movies', 1, 'Which 1965 musical starred Julie Andrews as Maria?', 'The Sound of Music', ['Mary Poppins', 'My Fair Lady', 'Camelot'], 'It won the Oscar for Best Picture.'],
+  ['60s', 'movies', 1, 'Which actor first played James Bond on film, in Dr. No (1962)?', 'Sean Connery', ['Roger Moore', 'George Lazenby', 'David Niven'], 'Connery played Bond in six official films.'],
+  ['60s', 'movies', 2, 'In The Graduate (1967), what one word of career advice is Benjamin Braddock given?', 'Plastics', ['Computers', 'Real estate', 'Oil'], 'The advice comes from a family friend, Mr. McGuire, at Ben\'s graduation party.'],
+  ['60s', 'movies', 1, "Who played Holly Golightly in Breakfast at Tiffany's (1961)?", 'Audrey Hepburn', ['Natalie Wood', 'Doris Day', 'Shirley MacLaine'], 'The film is based on a novella by Truman Capote.'],
+  ['60s', 'movies', 1, 'In Psycho (1960), where does Janet Leigh\'s character spend the night?', 'The Bates Motel', ['The Overlook Hotel', 'The Hotel California', 'The Plaza Hotel'], 'Anthony Perkins played the motel\'s owner, Norman Bates.'],
+  ['60s', 'movies', 1, 'Which 1969 western starred Paul Newman and Robert Redford as outlaws?', 'Butch Cassidy and the Sundance Kid', ['The Sting', 'Bonnie and Clyde', 'True Grit'], 'Newman and Redford teamed up again in The Sting in 1973.'],
+  ['60s', 'movies', 1, 'Who played the title role in Cleopatra (1963)?', 'Elizabeth Taylor', ['Sophia Loren', 'Ava Gardner', 'Kim Novak'], 'She met Richard Burton, who played Mark Antony, on the set.'],
+  ['60s', 'movies', 2, 'Which 1962 epic about T. E. Lawrence won Best Picture?', 'Lawrence of Arabia', ['Doctor Zhivago', 'Spartacus', 'The Longest Day'], 'Peter O\'Toole played Lawrence; David Lean directed.'],
+  ['60s', 'movies', 2, 'Which 1968 science-fiction film features HAL 9000, a computer that turns on the crew?', '2001: A Space Odyssey', ['Planet of the Apes', 'Fantastic Voyage', 'Barbarella'], 'Stanley Kubrick directed it and co-wrote it with Arthur C. Clarke.'],
+
+  ['60s', 'life', 2, 'Which toy did Hasbro introduce in 1964 as "America\'s movable fighting man"?', 'G.I. Joe', ['Major Matt Mason', 'Captain Action', 'Johnny West'], 'Hasbro avoided the word "doll" and called it an action figure.'],
+  ['60s', 'life', 1, 'Which drawing toy with two white knobs went on sale in 1960?', 'Etch A Sketch', ['Spirograph', 'Lite-Brite', 'Magna Doodle'], 'Its red frame and gray screen have barely changed since.'],
+  ['60s', 'life', 1, 'Which 1966 game had players tangled up on a mat of colored circles?', 'Twister', ['Operation', 'Mouse Trap', 'Candy Land'], 'It took off after Johnny Carson played it on The Tonight Show.'],
+  ['60s', 'life', 1, 'What did the 1963 Easy-Bake Oven use to bake its little cakes?', 'A light bulb', ['A candle', 'A small gas burner', 'Batteries'], 'The first ovens used ordinary 100-watt bulbs.'],
+  ['60s', 'life', 1, 'Which Ford car, launched in April 1964, became one of the fastest-selling cars ever?', 'The Mustang', ['The Thunderbird', 'The Falcon', 'The Fairlane'], 'Ford sold over a million Mustangs in about two years.'],
+  ['60s', 'life', 1, 'Which German car, nicknamed the "Bug", was the best-selling import in 1960s America?', 'Volkswagen Beetle', ['Mercedes-Benz 190', 'Porsche 356', 'Opel Kadett'], 'Doyle Dane Bernbach\'s "Think small" ads for it became famous.'],
+  ['60s', 'life', 2, 'Which tape format, from Lear Jet, became a car-stereo option from Ford in the mid-1960s?', 'The 8-track', ['The cassette', 'Reel-to-reel', 'The Minidisc'], 'Ford offered 8-track players in some 1966 models.'],
+  ['60s', 'life', 1, 'Which 1967 toy let you make glowing pictures by pushing colored pegs into a lit screen?', 'Lite-Brite', ['Spirograph', 'View-Master', 'Colorforms'], 'Lite-Brite was made by Hasbro.'],
+
+  ['60s', 'sports', 1, 'After beating Sonny Liston in 1964, Cassius Clay changed his name to...', 'Muhammad Ali', ['Kareem Abdul-Jabbar', 'Joe Frazier', 'Sugar Ray Robinson'], 'He won the heavyweight title in February 1964 at age 22.'],
+  ['60s', 'sports', 2, 'Which team won the first Super Bowl, in January 1967?', 'Green Bay Packers', ['Kansas City Chiefs', 'New York Jets', 'Baltimore Colts'], 'Vince Lombardi\'s Packers beat the Chiefs 35-10.'],
+  ['60s', 'sports', 2, 'Which New York Jets quarterback "guaranteed" a win in Super Bowl III?', 'Joe Namath', ['Johnny Unitas', 'Bart Starr', 'Len Dawson'], 'The Jets beat the heavily favored Baltimore Colts 16-7 in January 1969.'],
+  ['60s', 'sports', 1, "In 1961 Roger Maris broke Babe Ruth's single-season home run record. How many did he hit?", '61', ['60', '62', '59'], 'Ruth had hit 60 in 1927.'],
+  ['60s', 'sports', 2, 'Which team won eight NBA championships in a row, from 1959 to 1966?', 'Boston Celtics', ['Los Angeles Lakers', 'Philadelphia Warriors', 'New York Knicks'], 'Bill Russell was at the center of all eight.'],
+  ['60s', 'sports', 1, 'Which team, which had never had a winning season, won the 1969 World Series?', 'New York Mets', ['Kansas City Royals', 'Houston Astros', 'Montreal Expos'], 'The "Miracle Mets" beat the Baltimore Orioles in five games.'],
+  ['60s', 'sports', 2, 'How many points did Wilt Chamberlain score in one NBA game in 1962?', '100', ['81', '72', '90'], 'He did it on March 2, 1962, against the New York Knicks.'],
+
+  ['60s', 'history', 1, 'In what year did Neil Armstrong walk on the Moon?', '1969', ['1967', '1968', '1971'], 'Apollo 11 landed on July 20, 1969.'],
+  ['60s', 'history', 1, 'Where did Martin Luther King Jr. give his "I Have a Dream" speech in 1963?', 'The Lincoln Memorial', ['The Washington Monument', 'The Capitol steps', 'The White House lawn'], 'About 250,000 people came to the March on Washington.'],
+  ['60s', 'history', 1, 'President Kennedy was assassinated in which city?', 'Dallas', ['Houston', 'Fort Worth', 'Austin'], 'It happened on November 22, 1963.'],
+  ['60s', 'history', 2, 'The 1962 standoff with the Soviet Union over missiles in Cuba lasted about how long?', '13 days', ['3 days', '6 weeks', '6 months'], 'It ran from October 16 to October 28, 1962.'],
+  ['60s', 'history', 2, 'Who was the first American to orbit the Earth, in 1962?', 'John Glenn', ['Alan Shepard', 'Gus Grissom', 'Neil Armstrong'], 'Alan Shepard was the first American in space, but his 1961 flight did not orbit.'],
+  ['60s', 'history', 2, 'Which law, signed by Lyndon Johnson in 1964, outlawed discrimination in jobs and public places?', 'The Civil Rights Act', ['The Voting Rights Act', 'The Fair Housing Act', 'The Equal Pay Act'], 'The Voting Rights Act followed in 1965 and the Fair Housing Act in 1968.'],
+  ['60s', 'history', 2, 'In what year was Medicare signed into law?', '1965', ['1960', '1972', '1958'], 'President Johnson signed it in Independence, Missouri, with Harry Truman beside him.'],
+  ['60s', 'history', 1, 'The Peace Corps was created under which President?', 'John F. Kennedy', ['Dwight D. Eisenhower', 'Lyndon B. Johnson', 'Richard Nixon'], 'Kennedy signed the order creating it in March 1961.'],
+
+  // ── 1970s ──
+  ['70s', 'tv', 1, 'Which sitcom followed the Bunker family of Queens, New York?', 'All in the Family', ['The Jeffersons', 'Good Times', 'Maude'], 'Carroll O\'Connor played Archie Bunker.'],
+  ['70s', 'tv', 1, 'Who played Arthur "Fonzie" Fonzarelli on Happy Days?', 'Henry Winkler', ['Ron Howard', 'Tom Bosley', 'Scott Baio'], 'His leather jacket is now in the Smithsonian.'],
+  ['70s', 'tv', 1, 'M*A*S*H was set during which war?', 'The Korean War', ['World War II', 'The Vietnam War', 'World War I'], 'Its 1983 finale was watched by about 106 million Americans.'],
+  ['70s', 'tv', 2, 'In which city did Mary Richards work at WJM-TV on The Mary Tyler Moore Show?', 'Minneapolis', ['Milwaukee', 'Chicago', 'Cleveland'], 'The opening shows her tossing her hat in the air on Nicollet Mall.'],
+  ['70s', 'tv', 1, 'How many children were there in The Brady Bunch?', 'Six', ['Four', 'Five', 'Eight'], 'Three boys and three girls, plus Alice the housekeeper.'],
+  ['70s', 'tv', 1, 'Which TV detective, played by Peter Falk, wore a rumpled raincoat?', 'Columbo', ['Kojak', 'Jim Rockford', 'Frank Cannon'], 'His famous line: "Just one more thing..."'],
+  ['70s', 'tv', 1, "What was the 1977 miniseries based on Alex Haley's family history?", 'Roots', ['Shogun', 'The Thorn Birds', 'Rich Man, Poor Man'], 'Its final episode was one of the most-watched broadcasts in TV history.'],
+  ['70s', 'tv', 1, 'Who began hosting The Price Is Right in 1972?', 'Bob Barker', ['Monty Hall', 'Richard Dawson', 'Bob Eubanks'], 'Barker hosted it for 35 years.'],
+  ['70s', 'tv', 2, 'In what year did Saturday Night Live premiere?', '1975', ['1972', '1978', '1980'], 'The first show aired on October 11, 1975, with George Carlin as host.'],
+  ['70s', 'tv', 2, "How did Charlie give the Angels their assignments on Charlie's Angels?", 'Over a speakerphone', ['By telegram', 'In sealed envelopes', 'On a cassette tape'], 'Charlie was never seen; John Forsythe supplied his voice.'],
+
+  ['70s', 'music', 1, 'Which Swedish group won the 1974 Eurovision Song Contest with "Waterloo"?', 'ABBA', ['Roxette', 'Ace of Base', 'The Hives'], '"Waterloo" became their first hit in America too.'],
+  ['70s', 'music', 1, 'Which 1977 movie soundtrack featured the Bee Gees\' "Stayin\' Alive"?', 'Saturday Night Fever', ['Grease', 'Thank God It\'s Friday', 'Fame'], 'The soundtrack spent 24 weeks at No. 1 on the album chart.'],
+  ['70s', 'music', 1, 'Which band recorded "Hotel California"?', 'Eagles', ['Fleetwood Mac', 'Steely Dan', 'The Doobie Brothers'], 'The album came out in December 1976.'],
+  ['70s', 'music', 2, 'Which Fleetwood Mac album spent 31 weeks at No. 1 in 1977?', 'Rumours', ['Tusk', 'Mirage', 'Tango in the Night'], 'It includes "Go Your Own Way" and "Don\'t Stop".'],
+  ['70s', 'music', 1, 'Which singer, known as "The Boss", released Born to Run in 1975?', 'Bruce Springsteen', ['Bob Seger', 'Billy Joel', 'Tom Petty'], 'He was on the covers of Time and Newsweek in the same week that October.'],
+  ['70s', 'music', 1, 'At which Memphis home did Elvis Presley live, and die in 1977?', 'Graceland', ['Neverland', 'Paisley Park', 'Sun Studio'], 'He died there on August 16, 1977, at age 42.'],
+  ['70s', 'music', 1, 'Who recorded the 1978 disco anthem "I Will Survive"?', 'Gloria Gaynor', ['Donna Summer', 'Diana Ross', 'Chaka Khan'], 'It won the Grammy for Best Disco Recording, the only time that award was given.'],
+  ['70s', 'music', 1, 'Which family group had a No. 1 hit with "ABC" in 1970?', 'The Jackson 5', ['The Osmonds', 'The Partridge Family', 'The Spinners'], 'It knocked the Beatles\' "Let It Be" off the top spot.'],
+  ['70s', 'music', 2, 'The Carpenters were a brother-and-sister duo: Karen and...', 'Richard', ['Donny', 'Paul', 'John'], 'Richard arranged the songs and Karen sang and played drums.'],
+  ['70s', 'music', 1, 'Who sang the eight-and-a-half-minute 1971 hit "American Pie"?', 'Don McLean', ['James Taylor', 'Jim Croce', 'Harry Chapin'], 'It looks back on the 1959 plane crash that killed Buddy Holly.'],
+
+  ['70s', 'movies', 1, "Which 1975 Steven Spielberg film kept people out of the water?", 'Jaws', ['Orca', 'The Deep', 'Piranha'], 'It is often called the first summer blockbuster.'],
+  ['70s', 'movies', 1, 'Which 1977 film gave us "May the Force be with you"?', 'Star Wars', ['Close Encounters of the Third Kind', 'Superman', 'Alien'], 'George Lucas wrote and directed it.'],
+  ['70s', 'movies', 1, 'Who wrote and starred in Rocky (1976)?', 'Sylvester Stallone', ['Al Pacino', 'Robert De Niro', 'Burt Reynolds'], 'Rocky won the Oscar for Best Picture.'],
+  ['70s', 'movies', 1, 'In The Godfather (1972), who played Don Vito Corleone?', 'Marlon Brando', ['Al Pacino', 'James Caan', 'Robert Duvall'], 'Brando won Best Actor for the role.'],
+  ['70s', 'movies', 1, 'Which 1978 musical paired John Travolta and Olivia Newton-John?', 'Grease', ['Saturday Night Fever', 'Xanadu', 'Hair'], 'It was the biggest box-office hit of 1978.'],
+  ['70s', 'movies', 1, 'Burt Reynolds drove a black Trans Am in which 1977 film?', 'Smokey and the Bandit', ['The Cannonball Run', 'Hooper', 'The Longest Yard'], 'Jackie Gleason played Sheriff Buford T. Justice.'],
+  ['70s', 'movies', 2, 'Which 1974 disaster film is set in a burning skyscraper?', 'The Towering Inferno', ['The Poseidon Adventure', 'Earthquake', 'Airport 1975'], 'Paul Newman and Steve McQueen shared top billing.'],
+  ['70s', 'movies', 2, 'Which 1979 film was advertised with "In space no one can hear you scream"?', 'Alien', ['Star Trek: The Motion Picture', 'The Black Hole', 'Moonraker'], 'Sigourney Weaver played Ripley.'],
+  ['70s', 'movies', 2, 'Which Woody Allen film won the Oscar for Best Picture?', 'Annie Hall', ['Manhattan', 'Sleeper', 'Hannah and Her Sisters'], 'Annie Hall won four Oscars in 1978, including Best Actress for Diane Keaton.'],
+
+  ['70s', 'life', 1, 'Which 1975 fad came in a cardboard box with air holes and a training manual?', 'The Pet Rock', ['The Mood Ring', 'Sea-Monkeys', 'The Chia Pet'], 'Gary Dahl sold them for about four dollars each.'],
+  ['70s', 'life', 1, 'Which toys "wobble but they don\'t fall down"?', 'Weebles', ['Troll dolls', 'Little People', 'Sea-Monkeys'], 'Weebles came out in 1971.'],
+  ['70s', 'life', 1, 'Which video format, launched by Sony in 1975, lost the "format war" to VHS?', 'Betamax', ['LaserDisc', 'CED', 'The 8-track'], 'Many said Betamax looked better, but VHS tapes could record longer.'],
+  ['70s', 'life', 1, 'On a 1970s CB radio, what did "10-4" mean?', 'Message received', ['Emergency', 'Police ahead', 'Signing off'], 'The CB radio craze peaked in the mid-1970s.'],
+  ['70s', 'life', 2, 'Which brand\'s "swoosh" logo was designed in 1971 for $35?', 'Nike', ['Adidas', 'Puma', 'Reebok'], 'A Portland State student, Carolyn Davidson, designed it.'],
+  ['70s', 'life', 2, 'Which baseball legend was the TV spokesman for Mr. Coffee?', 'Joe DiMaggio', ['Mickey Mantle', 'Willie Mays', 'Yogi Berra'], 'The ads started in the 1970s and ran for years.'],
+  ['70s', 'life', 1, 'Which simple table-tennis video game did Atari release in 1972?', 'Pong', ['Space Invaders', 'Asteroids', 'Breakout'], 'It started in bars and arcades before a home version in 1975.'],
+  ['70s', 'life', 2, 'In 1974, which item became the first product sold by scanning a UPC barcode?', 'A pack of chewing gum', ['A can of soup', 'A box of cereal', 'A bottle of milk'], 'A 10-pack of Wrigley\'s gum was scanned in Troy, Ohio, on June 26, 1974.'],
+
+  ['70s', 'sports', 1, 'Which swimmer won seven gold medals at the 1972 Munich Olympics?', 'Mark Spitz', ['Michael Phelps', 'Johnny Weissmuller', 'Don Schollander'], 'His record stood until Michael Phelps won eight in 2008.'],
+  ['70s', 'sports', 1, "Who hit his 715th home run in 1974 to pass Babe Ruth?", 'Hank Aaron', ['Willie Mays', 'Reggie Jackson', 'Frank Robinson'], 'He hit it on April 8, 1974, in Atlanta.'],
+  ['70s', 'sports', 1, 'Billie Jean King beat which man in the 1973 "Battle of the Sexes"?', 'Bobby Riggs', ['Jimmy Connors', 'Arthur Ashe', 'Rod Laver'], 'She won in straight sets at the Houston Astrodome.'],
+  ['70s', 'sports', 1, 'Which NFL team had a perfect season in 1972?', 'Miami Dolphins', ['Pittsburgh Steelers', 'Dallas Cowboys', 'Oakland Raiders'], 'They went 17-0, including Super Bowl VII.'],
+  ['70s', 'sports', 2, 'The 1975 "Thrilla in Manila" was a fight between Muhammad Ali and...', 'Joe Frazier', ['George Foreman', 'Ken Norton', 'Larry Holmes'], 'It was their third fight; Ali won when Frazier\'s corner stopped it.'],
+  ['70s', 'sports', 1, 'Which horse won the Triple Crown in 1973?', 'Secretariat', ['Seattle Slew', 'Affirmed', "Man o' War"], 'He won the Belmont Stakes by 31 lengths.'],
+  ['70s', 'sports', 1, 'Who scored the first perfect 10 in Olympic gymnastics, in 1976?', 'Nadia Comăneci', ['Olga Korbut', 'Mary Lou Retton', 'Nellie Kim'], 'She was 14; the scoreboard could only show "1.00".'],
+  ['70s', 'sports', 2, "What was Reggie Jackson's nickname for his World Series heroics?", 'Mr. October', ['Mr. Clutch', 'The Say Hey Kid', 'The Hammer'], 'He hit three home runs in Game 6 of the 1977 World Series.'],
+
+  ['70s', 'history', 1, 'In what year did President Nixon resign?', '1974', ['1972', '1973', '1976'], 'He announced it on August 8 and left office on August 9, 1974.'],
+  ['70s', 'history', 2, 'The Watergate scandal was named after...', 'A building complex in Washington', ['A hotel in Miami', 'A dam in California', 'A bank in New York'], 'The 1972 break-in was at the Democratic headquarters in the Watergate complex.'],
+  ['70s', 'history', 1, 'In what year did America celebrate its Bicentennial?', '1976', ['1974', '1975', '1977'], 'Tall ships sailed into New York Harbor on July 4, 1976.'],
+  ['70s', 'history', 1, 'Which Apollo mission was crippled by an oxygen tank explosion in 1970?', 'Apollo 13', ['Apollo 11', 'Apollo 12', 'Apollo 15'], 'The crew came home safely, using the lunar module as a lifeboat.'],
+  ['70s', 'history', 2, 'In what year was the first Earth Day held?', '1970', ['1965', '1975', '1980'], 'About 20 million Americans took part on April 22, 1970.'],
+  ['70s', 'history', 2, 'Which 1978 agreement did Jimmy Carter broker between Egypt and Israel?', 'The Camp David Accords', ['The Oslo Accords', 'The Geneva Accords', 'The Dayton Accords'], 'Anwar Sadat and Menachem Begin shared the Nobel Peace Prize for it.'],
+  ['70s', 'history', 2, 'The 1979 nuclear accident at Three Mile Island happened in which state?', 'Pennsylvania', ['New York', 'Ohio', 'New Jersey'], 'The plant is near Harrisburg.'],
+  ['70s', 'history', 2, 'What caused the long gas lines of 1973 and 1974?', 'An oil embargo', ['A refinery strike', 'A hurricane', 'A truckers\' strike'], 'Arab members of OPEC stopped selling oil to the United States in October 1973.'],
+
+  // ── 1980s ──
+  ['80s', 'tv', 1, 'In which city was Cheers set?', 'Boston', ['Chicago', 'New York', 'Philadelphia'], 'The outside shots were of a real Boston bar, the Bull & Finch Pub.'],
+  ['80s', 'tv', 1, '"Who shot J.R.?" was the cliffhanger of which show?', 'Dallas', ['Dynasty', 'Falcon Crest', 'Knots Landing'], 'The answer aired on November 21, 1980, to one of the largest TV audiences ever.'],
+  ['80s', 'tv', 1, 'Vanna White began turning letters on which game show in 1982?', 'Wheel of Fortune', ['Jeopardy!', 'The Price Is Right', 'Family Feud'], 'She has worked alongside host Pat Sajak for decades.'],
+  ['80s', 'tv', 1, 'Which sitcom followed four women sharing a house in Miami?', 'The Golden Girls', ['Designing Women', 'Kate & Allie', 'Murphy Brown'], 'It ran on NBC from 1985 to 1992.'],
+  ['80s', 'tv', 1, 'Who played the title role in Magnum, P.I.?', 'Tom Selleck', ['Don Johnson', 'Lee Majors', 'Robert Wagner'], 'Magnum drove a red Ferrari around Hawaii.'],
+  ['80s', 'tv', 1, 'What was the name of the talking car on Knight Rider?', 'KITT', ['HAL', 'Herbie', 'Max'], 'David Hasselhoff played Michael Knight.'],
+  ['80s', 'tv', 1, 'Which show featured a team of ex-soldiers led by Hannibal Smith?', 'The A-Team', ['Airwolf', 'Miami Vice', 'The Fall Guy'], '"I love it when a plan comes together" was Hannibal\'s line.'],
+  ['80s', 'tv', 1, 'Who began hosting Jeopardy! in 1984?', 'Alex Trebek', ['Pat Sajak', 'Art Fleming', 'Wink Martindale'], 'Art Fleming had hosted the original 1960s version.'],
+  ['80s', 'tv', 1, 'Which police drama followed detectives Crockett and Tubbs?', 'Miami Vice', ['Hill Street Blues', 'Cagney & Lacey', 'Hunter'], 'Don Johnson\'s pastel jackets started a fashion trend.'],
+  ['80s', 'tv', 3, 'In what year did Late Night with David Letterman premiere on NBC?', '1982', ['1978', '1986', '1990'], 'It began on February 1, 1982.'],
+
+  ['80s', 'music', 1, 'Which TV channel launched on August 1, 1981, with "Video Killed the Radio Star"?', 'MTV', ['VH1', 'CNN', 'BET'], 'The song was by the British band the Buggles.'],
+  ['80s', 'music', 2, 'Which song on Michael Jackson\'s Thriller has a guitar solo by Eddie Van Halen?', 'Beat It', ['Billie Jean', 'Thriller', "Wanna Be Startin' Somethin'"], 'Thriller is the best-selling album of all time.'],
+  ['80s', 'music', 1, 'Who released "Like a Virgin" in 1984?', 'Madonna', ['Cyndi Lauper', 'Pat Benatar', 'Whitney Houston'], 'She performed it at the first MTV Video Music Awards.'],
+  ['80s', 'music', 2, 'Michael Jackson wrote "We Are the World" (1985) together with...', 'Lionel Richie', ['Quincy Jones', 'Stevie Wonder', 'Bob Geldof'], 'Quincy Jones produced it; it raised money for famine relief in Africa.'],
+  ['80s', 'music', 1, 'Which 1984 Bruce Springsteen album has the American flag on its cover?', 'Born in the U.S.A.', ['The River', 'Nebraska', 'Tunnel of Love'], 'Seven of its songs became Top 10 singles.'],
+  ['80s', 'music', 1, 'Which Minneapolis star made the album and film Purple Rain (1984)?', 'Prince', ['Rick James', 'Morris Day', 'Lionel Richie'], 'It won the Oscar for Best Original Song Score.'],
+  ['80s', 'music', 2, 'The American half of the 1985 Live Aid concert was held in which city?', 'Philadelphia', ['New York', 'Los Angeles', 'Chicago'], 'It was at JFK Stadium; the British half was at Wembley Stadium in London.'],
+  ['80s', 'music', 2, 'Which singer had a record seven No. 1 hits in a row between 1985 and 1988?', 'Whitney Houston', ['Madonna', 'Janet Jackson', 'Mariah Carey'], 'She broke the record of six shared by the Beatles and the Bee Gees.'],
+  ['80s', 'music', 1, 'Which band recorded "Don\'t Stop Believin\'" in 1981?', 'Journey', ['Foreigner', 'REO Speedwagon', 'Styx'], 'Steve Perry sang lead.'],
+
+  ['80s', 'movies', 1, 'In E.T. the Extra-Terrestrial (1982), which candy does Elliott use to lure E.T.?', "Reese's Pieces", ["M&M's", 'Skittles', 'Jelly beans'], 'Sales of Reese\'s Pieces jumped after the film came out.'],
+  ['80s', 'movies', 1, 'In Back to the Future (1985), what car is the time machine?', 'A DeLorean', ['A Corvette', 'A Mustang', 'A Camaro'], 'It travels in time at 88 miles per hour.'],
+  ['80s', 'movies', 1, 'Which 1984 comedy asked "Who you gonna call?"', 'Ghostbusters', ['Gremlins', 'Beetlejuice', 'Caddyshack'], 'Ray Parker Jr.\'s theme song went to No. 1.'],
+  ['80s', 'movies', 1, 'Who played Indiana Jones in Raiders of the Lost Ark (1981)?', 'Harrison Ford', ['Tom Selleck', 'Kevin Costner', 'Mel Gibson'], 'Tom Selleck was the first choice, but he was tied to Magnum, P.I.'],
+  ['80s', 'movies', 1, 'Which 1986 film starred Tom Cruise as fighter pilot "Maverick"?', 'Top Gun', ['Iron Eagle', 'The Right Stuff', 'An Officer and a Gentleman'], 'Its song "Take My Breath Away" won the Oscar.'],
+  ['80s', 'movies', 1, 'In The Breakfast Club (1985), where do five students spend their Saturday?', 'In detention', ['At summer camp', 'At the mall', 'At a science fair'], 'John Hughes wrote and directed it.'],
+  ['80s', 'movies', 3, 'Which 1983 film starring Shirley MacLaine and Debra Winger won Best Picture?', 'Terms of Endearment', ['Out of Africa', 'Ordinary People', 'Places in the Heart'], 'Shirley MacLaine also won Best Actress.'],
+  ['80s', 'movies', 1, 'In which 1989 film does Kevin Costner hear "If you build it, he will come"?', 'Field of Dreams', ['The Natural', 'Bull Durham', 'Major League'], 'He builds a baseball field in his Iowa cornfield.'],
+
+  ['80s', 'life', 1, 'Which colorful puzzle cube became a worldwide craze around 1980?', "Rubik's Cube", ['Pyraminx', 'Simon', 'Lights Out'], 'It was invented by Hungarian professor Ernő Rubik.'],
+  ['80s', 'life', 1, 'Which dolls, sold with adoption papers, caused shopping-mall scuffles in 1983?', 'Cabbage Patch Kids', ['Care Bears', 'My Little Pony', 'Strawberry Shortcake'], 'Each doll came with its own name and birth certificate.'],
+  ['80s', 'life', 1, 'Which portable cassette player did Sony bring to America in 1980?', 'The Walkman', ['The Discman', 'The iPod', 'The Boombox'], 'In the US it was first sold as the "Soundabout".'],
+  ['80s', 'life', 1, 'Which Apple computer was introduced with a famous "1984" Super Bowl ad?', 'Macintosh', ['Apple II', 'Lisa', 'iMac'], 'The ad aired once nationally, during Super Bowl XVIII.'],
+  ['80s', 'life', 2, 'Which Nintendo console reached US stores in 1985?', 'The Nintendo Entertainment System', ['The Game Boy', 'The Super Nintendo', 'The Atari 2600'], 'Super Mario Bros. was one of its first games.'],
+  ['80s', 'life', 1, 'Which 1985 product change caused such an uproar that it was reversed within three months?', 'New Coke', ['Crystal Pepsi', 'Diet Coke', 'Tab Clear'], 'Coca-Cola Classic came back in July 1985.'],
+  ['80s', 'life', 2, 'The first handheld cell phone sold in the US (1983) was nicknamed...', 'The brick', ['The banana', 'The shoe', 'The clamshell'], 'The Motorola DynaTAC cost about $4,000.'],
+  ['80s', 'life', 1, 'Which exercise craze did Jane Fonda popularize on videotape in 1982?', 'Aerobics', ['Yoga', 'Tai chi', 'Pilates'], 'Jane Fonda\'s Workout became one of the best-selling home videos ever.'],
+  ['80s', 'life', 2, 'In which country was the 1980s hit board game Trivial Pursuit invented?', 'Canada', ['The United States', 'England', 'Australia'], 'Two Montreal friends came up with it in 1979.'],
+  ['80s', 'life', 3, 'Which company made the 1980 arcade game Pac-Man?', 'Namco', ['Atari', 'Nintendo', 'Sega'], 'Its designer was Toru Iwatani.'],
+
+  ['80s', 'sports', 1, "What was the 1980 US Olympic hockey team's upset of the Soviet Union called?", 'The Miracle on Ice', ["The Shot Heard 'Round the World", 'The Immaculate Reception', 'The Catch'], 'The college players went on to win the gold medal at Lake Placid.'],
+  ['80s', 'sports', 1, 'Which American gymnast won the all-around gold at the 1984 Los Angeles Olympics?', 'Mary Lou Retton', ['Nadia Comăneci', 'Olga Korbut', 'Kerri Strug'], 'She scored perfect 10s on her last two events.'],
+  ['80s', 'sports', 2, 'Which team recorded "The Super Bowl Shuffle" before winning Super Bowl XX?', 'Chicago Bears', ['San Francisco 49ers', 'New York Giants', 'Washington Redskins'], 'The 1985 Bears lost only one game all season.'],
+  ['80s', 'sports', 1, 'Which runner won four gold medals at the 1984 Olympics, like Jesse Owens in 1936?', 'Carl Lewis', ['Edwin Moses', 'Florence Griffith Joyner', 'Jackie Joyner-Kersee'], 'He won the 100 meters, 200 meters, long jump and 4x100 relay.'],
+  ['80s', 'sports', 1, 'Which hockey player was known as "The Great One"?', 'Wayne Gretzky', ['Mario Lemieux', 'Gordie Howe', 'Bobby Orr'], 'He scored 92 goals in the 1981-82 season.'],
+  ['80s', 'sports', 2, 'In the 1986 World Series, a ground ball rolled through whose legs?', 'Bill Buckner', ['Mookie Wilson', 'Wade Boggs', 'Jim Rice'], 'It happened in Game 6; the Mets went on to win the Series in Game 7.'],
+  ['80s', 'sports', 2, "In what year did Pete Rose pass Ty Cobb's record for career hits?", '1985', ['1981', '1983', '1988'], 'He got hit No. 4,192 in Cincinnati on September 11, 1985.'],
+  ['80s', 'sports', 1, 'Joe Montana won four Super Bowls with which team?', 'San Francisco 49ers', ['Kansas City Chiefs', 'Dallas Cowboys', 'Miami Dolphins'], 'He won Super Bowls XVI, XIX, XXIII and XXIV.'],
+
+  ['80s', 'history', 1, 'Which President said "Mr. Gorbachev, tear down this wall!" in 1987?', 'Ronald Reagan', ['George H. W. Bush', 'Jimmy Carter', 'Gerald Ford'], 'He said it at the Brandenburg Gate in West Berlin.'],
+  ['80s', 'history', 1, 'In what year did the Berlin Wall fall?', '1989', ['1987', '1988', '1991'], 'The border opened on the night of November 9, 1989.'],
+  ['80s', 'history', 1, 'Which space shuttle broke apart shortly after launch in January 1986?', 'Challenger', ['Columbia', 'Discovery', 'Atlantis'], 'Teacher Christa McAuliffe was among the seven crew members.'],
+  ['80s', 'history', 1, 'Who became the first woman on the US Supreme Court, in 1981?', "Sandra Day O'Connor", ['Ruth Bader Ginsburg', 'Sonia Sotomayor', 'Elena Kagan'], 'President Reagan appointed her.'],
+  ['80s', 'history', 1, 'Which volcano in Washington State erupted in May 1980?', 'Mount St. Helens', ['Mount Rainier', 'Mount Hood', 'Mount Baker'], 'It erupted on May 18, 1980, and lost about 1,300 feet of height.'],
+  ['80s', 'history', 1, 'Who was the first American woman in space, in 1983?', 'Sally Ride', ['Christa McAuliffe', 'Mae Jemison', 'Eileen Collins'], 'She flew on the space shuttle Challenger.'],
+  ['80s', 'history', 2, 'The American hostages in Iran were released in January 1981 on the day of whose inauguration?', 'Ronald Reagan', ['Jimmy Carter', 'George H. W. Bush', 'Gerald Ford'], 'They had been held for 444 days.'],
+  ['80s', 'history', 1, "Who was Ronald Reagan's Vice President?", 'George H. W. Bush', ['Walter Mondale', 'Dan Quayle', 'Bob Dole'], 'Bush was elected President himself in 1988.'],
+  ['80s', 'history', 2, 'Which memorial in Washington, dedicated in 1982, lists names on a black granite wall?', 'The Vietnam Veterans Memorial', ['The Korean War Veterans Memorial', 'The World War II Memorial', 'The Lincoln Memorial'], 'It was designed by Maya Lin, then a 21-year-old student.'],
+];
+
+function initTrivia(container) {
+    // Hebrew: the older general pool, same engine (no decade / topic picker, no explanations)
+    if (currentLang === 'he' && i18nData.he && i18nData.he.trivia_pool) {
+        const items = i18nData.he.trivia_pool.map(q => ({ q: q.q, a: q.opts[q.a], w: q.opts.filter((_, i) => i !== q.a), lv: 2 }));
+        return QuizKit.start(container, { id: 'trivia', items, n: { easy: 6, normal: 10, hard: 12 } });
+    }
+    QuizKit.start(container, { id: 'trivia', items: QuizKit.rows(TRIVIA_ROWS), decades: TRIVIA_DECADES, topics: TRIVIA_TOPICS,
+        ask: it => QuizKit.esc(it.q) + (it.d ? `<span class="qk-sub">${TRIVIA_DECADES.find(d => d[0] === it.d)[1]} · ${TRIVIA_TOPICS.find(t => t[0] === it.t)[1]}</span>` : '') });
 }

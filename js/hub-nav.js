@@ -47,13 +47,14 @@ const HubNav = (() => {
     favs = favs.filter((id) => (window.GAME_IDS || []).includes(id));
     const ic = (n) => (typeof Icon !== 'undefined' ? Icon.ui(n) + ' ' : '');
     const chips = ['all', 'cards', 'words', 'trivia', 'arcade'].map((g) => `<button type="button" class="hn-chip" data-g="${g}" aria-pressed="false" onclick="HubNav.pick('${g}')">${T[g]}</button>`).join('');
-    slot.innerHTML = `<nav id="hub-nav" aria-label="${T.pick}">
+    // a div, not a <nav>: the header styles every `body nav` element (and its buttons) with !important
+    slot.innerHTML = `<div id="hub-nav" role="navigation" aria-label="${T.pick}">
       ${lg || favs.length ? `<div class="hn-quick">
         ${lg ? `<button type="button" class="hn-continue" onclick="loadGame('${lg}')">${ic('play')}${T.cont}: <b>${title(lg)}</b></button>` : ''}
         ${favs.length ? `<div class="hn-favs"><span class="hn-label">${ic('heart')}${T.favs}:</span>${favs.map((id) => `<button type="button" class="hn-fav" onclick="loadGame('${id}')">${title(id)}</button>`).join('')}</div>` : ''}
       </div>` : ''}
       <div class="hn-chips" role="group" aria-label="${T.pick}">${chips}</div>
-    </nav>`;
+    </div>`;
     apply();
   }
   return { render, pick, apply, genreOf };

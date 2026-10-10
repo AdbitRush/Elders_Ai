@@ -64,7 +64,6 @@ async function restartCheck(p, id, R) {
 const QUIZ = {
   math: { idx: '_si', score: '_ss', right: (a) => { const m = a.match(/answerMath\((\d+),(\d+)\)/); return m && m[1] === m[2]; }, wrong: (a) => { const m = a.match(/answerMath\((\d+),(\d+)\)/); return m && m[1] !== m[2]; }, wrongAdvances: false },
   numseq: { idx: '_si', score: '_ss', right: (a) => { const m = a.match(/answerNumSeq\((\d+),(\d+)\)/); return m && m[1] === m[2]; }, wrong: (a) => { const m = a.match(/answerNumSeq\((\d+),(\d+)\)/); return m && m[1] !== m[2]; }, wrongAdvances: false },
-  trivia: { idx: 'current', score: 'score', right: (a) => { const m = a.match(/answerTrivia\((\d+),(\d+)\)/); return m && m[1] === m[2]; }, wrong: (a) => { const m = a.match(/answerTrivia\((\d+),(\d+)\)/); return m && m[1] !== m[2]; }, wrongAdvances: true },
   truefalse: { idx: 'idx', score: 'score', right: (a) => { const m = a.match(/answerTF\((\w+),(\w+)\)/); return m && m[1] === m[2]; }, wrong: (a) => { const m = a.match(/answerTF\((\w+),(\w+)\)/); return m && m[1] !== m[2]; }, wrongAdvances: true },
   flags: { idx: 'idx', score: 'score', right: (a) => { const m = a.match(/answerFlag\((\d+),(\d+)\)/); return m && m[1] === m[2]; }, wrong: (a) => { const m = a.match(/answerFlag\((\d+),(\d+)\)/); return m && m[1] !== m[2]; }, wrongAdvances: true },
   proverbs: { idx: 'idx', score: 'score', right: (a) => { const m = a.match(/answerProv\((\d+),(\d+)\)/); return m && m[1] === m[2]; }, wrong: (a) => { const m = a.match(/answerProv\((\d+),(\d+)\)/); return m && m[1] !== m[2]; }, wrongAdvances: true },
@@ -105,6 +104,49 @@ async function playQuiz(p, id, R) {
   if (!up) { R.defects.push('Session never finished (no end modal)'); return; }
   R.steps.push('end modal: ' + (await modalText(p)));
   await nextLevelCheck(p, id, R);
+}
+
+// QuizKit games (js/game-kit.js): picker -> Start, one wrong answer, a double-tap on a right one, the rest right.
+// Checks: the explanation is shown after every answer, a double-tap scores once, no question repeats in a round,
+// and a second round avoids the first round's questions.
+async function playQK(p, id, R) {
+  const st = () => p.evaluate((id) => { const g = gameState[id]; return { phase: g.phase, cur: g.current, score: g.score, n: g.questions ? g.questions.length : 0, ans: g.questions && g.questions[g.current] ? g.questions[g.current].ans : -1, keys: g.questions ? g.questions.map((q) => q.it.q + '|' + q.it.a) : [] }; }, id);
+  let s = await st();
+  if (s.phase === 'pick') {
+    const chips = await p.locator('#gameContent .qk-chip').count();
+    if (chips > 2) { await p.locator('#gameContent .qk-chip').nth(1).click(); await sleep(150); await p.locator('#gameContent .qk-chip').first().click(); await sleep(150); }
+    R.steps.push('picker: ' + chips + ' choice chips; ' + (await p.locator('#gameContent .qk-count').innerText().catch(() => '')));
+    await p.locator('#gameContent .qk-next .qk-btn').click(); await sleep(400); s = await st();
+  }
+  const first = s.keys; R.steps.push('started: ' + s.n + ' questions');
+  if (new Set(first).size !== first.length) R.defects.push('a question repeats inside one round');
+  // wrong answer
+  await p.locator('#gameContent .qk-opt').nth((s.ans + 1) % 4).click(); await sleep(300);
+  const ex1 = await p.locator('#qk-after .qk-ex').innerText().catch(() => '');
+  R.steps.push('wrong answer -> "' + ex1.replace(/\s+/g, ' ').slice(0, 90) + '"');
+  if (!/answer is/.test(ex1)) R.defects.push('no correction / explanation after a wrong answer');
+  await p.locator('#gameContent .qk-next .qk-btn').click(); await sleep(300); s = await st();
+  // double tap on the right answer
+  await p.locator('#gameContent .qk-opt').nth(s.ans).dblclick(); await sleep(300);
+  const s2 = await st(); R.steps.push('double-tap on right answer -> score ' + s2.score + ', still on question ' + (s2.cur + 1));
+  if (s2.score !== s.score + 1 || s2.cur !== s.cur) R.defects.push('double-tap scored twice or skipped a question');
+  let guard = 0, noEx = 0;
+  while (!(await modalUp(p)) && guard++ < 80) {
+    s = await st();
+    if (s.phase === 'shown') { await p.locator('#gameContent .qk-next .qk-btn').click(); await sleep(200); continue; }
+    if (s.phase !== 'ask') { await sleep(200); continue; }
+    await p.locator('#gameContent .qk-opt').nth(s.ans).click(); await sleep(150);
+    if (!(await p.locator('#qk-after .qk-ex').count())) noEx++;
+  }
+  if (noEx) R.defects.push(noEx + ' answers without an explanation box');
+  if (!(await waitModal(p, 4000))) return R.defects.push('Session never finished (no end modal)');
+  R.steps.push('end modal: ' + (await modalText(p)));
+  await p.click('#nextLevelBtn'); await sleep(900);
+  s = await st();
+  if (s.phase === 'pick') { await p.locator('#gameContent .qk-next .qk-btn').click(); await sleep(400); s = await st(); }
+  const overlap = s.keys.filter((k) => first.includes(k)).length;
+  R.steps.push('next round: ' + s.n + ' questions, ' + overlap + ' repeated from round 1');
+  if (overlap) R.defects.push(overlap + ' questions repeated in the very next round');
 }
 
 const PLAY = {
@@ -176,7 +218,7 @@ const PLAY = {
     await p.click('#sequence-' + ((seq[0] + 1) % 4)); await sleep(1500);
     const end = await p.evaluate(() => document.getElementById('gameContent').innerText.replace(/\s+/g, ' '));
     R.steps.push('wrong tap -> end screen: "' + end.slice(0, 90) + '"');
-    await p.click('text=Play Again'); await sleep(2500);
+    await p.click('#gameContent :text("Play Again")'); await sleep(2500);
     const lvl = await p.evaluate(() => gameState.sequence.sequence.length);
     R.steps.push('Play Again -> new sequence length ' + lvl);
     if (lvl !== 1) R.defects.push('Play Again did not restart at level 1 (sequence length ' + lvl + ')');
@@ -219,22 +261,22 @@ const PLAY = {
     for (const k of keys2.filter((k) => !w2.includes(k))) { if (await p.evaluate(() => gameState.hangman.wrong >= gameState.hangman.maxWrong)) break; await p.click(`#gameContent button[onclick="guessLetter('${k}')"]`); }
     const txt = await p.evaluate(() => document.getElementById('gameContent').innerText.replace(/\s+/g, ' '));
     R.steps.push('lose path -> "' + txt.slice(0, 100) + '"');
-    await p.click('text=New Word').catch(() => R.defects.push('No New Word button after losing')); await sleep(400);
+    await p.click('#gameContent :text("New Word")').catch(() => R.defects.push('No New Word button after losing')); await sleep(400);
     R.steps.push('New Word -> ' + (await p.evaluate(() => gameState.hangman.word.length)) + '-letter word, mistakes reset ' + (await p.evaluate(() => gameState.hangman.wrong === 0)));
   },
   async recall(p, R) {
     const s = await gs(p, 'recall'); R.steps.push('study ' + s.targets.length + ' items: ' + s.targets.join(', '));
-    await p.click('text=Got them! Continue'); await sleep(400);
+    await p.click('#gameContent button:has-text("Got them")'); await sleep(400);
     // fail path: select nothing, Check
-    await p.click('text=Check'); await sleep(500);
+    await p.click('#gameContent button:has-text("Check")'); await sleep(500);
     const fail = await p.evaluate(() => document.getElementById('gameContent').innerText.includes('Found'));
     R.steps.push('check with nothing selected -> "Found 0 of N" + Try Again: ' + fail);
-    await p.click('text=Try Again'); await sleep(400);
+    await p.click('#gameContent button:has-text("Try Again")'); await sleep(400);
     const s2 = await gs(p, 'recall');
-    await p.click('text=Got them! Continue'); await sleep(400);
+    await p.click('#gameContent button:has-text("Got them")'); await sleep(400);
     const all = await p.evaluate(() => gameState.recall._all);
     for (let i = 0; i < all.length; i++) if (s2.targets.includes(all[i])) await p.locator('.recall-item').nth(i).click();
-    await p.click('text=Check');
+    await p.click('#gameContent button:has-text("Check")');
     if (!(await waitModal(p))) return R.defects.push('No win after selecting all studied items');
     R.steps.push('end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'recall', R);
   },
@@ -320,7 +362,7 @@ const PLAY = {
   },
   async klondike(p, R) {
     const before = await p.evaluate(() => gameState.klondike.stock.length);
-    await p.click('text=Draw').catch(() => p.locator('#gameContent [onclick="klDraw()"]').first().click());
+    await p.click('#gameContent :text("Draw")').catch(() => p.locator('#gameContent [onclick="klDraw()"]').first().click());
     await sleep(200);
     R.steps.push('draw: stock ' + before + ' -> ' + (await p.evaluate(() => gameState.klondike.stock.length)));
     // a few hint-guided moves
@@ -479,6 +521,27 @@ const PLAY = {
     if (!(await waitModal(p))) return R.defects.push('the game never ended');
     R.steps.push(`full game: ${asks} asks -> end modal: ` + (await modalText(p))); await nextLevelCheck(p, 'gofish', R);
   },
+  async hearts(p, R) {
+    // pass 3 (an illegal 4th pick is refused), one illegal play is refused with a reason, then a whole hand of legal plays
+    for (let k = 0; k < 4; k++) await p.locator('.hz-hand .gk-card').nth(k).click();
+    let s = await gs(p, 'hearts'); R.steps.push(`pass phase: ${s.sel.length} picked after 4 taps ("${s.msg}")`);
+    if (s.sel.length !== 3) R.defects.push('pass selection is not capped at 3');
+    await p.locator('.gk-btn', { hasText: 'Pass to' }).click(); await sleep(300);
+    s = await gs(p, 'hearts'); R.steps.push('after pass: ' + s.hands[0].length + ' cards in hand; ' + s.msg);
+    if (s.hands.some((h) => h.length !== 13)) R.defects.push('passing changed a hand size');
+    let plays = 0, refused = false;
+    for (let i = 0; i < 400 && !(await modalUp(p)); i++) {
+      const st = await p.evaluate(() => { const g = gameState.hearts; if (g.over || g.busy || g.phase !== 'play' || _hzTurn() !== 0) return null;
+        const L = _hzLegal(0).map((c) => c.id); return { legal: L, bad: g.hands[0].filter((c) => !L.includes(c.id)).map((c) => c.id) }; });
+      if (!st) { await sleep(200); continue; }
+      if (!refused && st.bad.length) { await p.click(`.hz-hand [onclick="hzTap(${st.bad[0]})"]`); refused = true; const m = (await gs(p, 'hearts')).msg; R.steps.push('illegal card refused: "' + m + '"'); if (/Your turn|thinking/.test(m)) R.defects.push('an illegal card was not explained'); continue; }
+      await p.click(`.hz-hand [onclick="hzTap(${st.legal[0]})"]`); plays++; await sleep(100);
+    }
+    if (!(await waitModal(p, 10000))) return R.defects.push('the hand never ended');
+    const fin = await gs(p, 'hearts');
+    if (fin.pts.reduce((a, b) => a + b, 0) % 26 !== 0) R.defects.push('points do not add up to 26 (or 78 after a moon): ' + fin.pts);
+    R.steps.push(`full hand: ${plays} cards played by you, points ${fin.pts.join('/')} -> end modal: ` + (await modalText(p))); await nextLevelCheck(p, 'hearts', R);
+  },
 };
 
 (async () => {
@@ -489,7 +552,9 @@ const PLAY = {
     const { ctx, p, errs } = await open(id);
     try {
       await p.screenshot({ path: SHOTS + id + '-start-' + W + '.png' });
-      if (QUIZ[id]) await playQuiz(p, id, R); else if (PLAY[id]) await PLAY[id](p, R); else R.defects.push('no driver');
+      if (QUIZ[id]) await playQuiz(p, id, R); else if (PLAY[id]) await PLAY[id](p, R);
+      else if (await p.evaluate((id) => gameState[id] && 'phase' in gameState[id] && typeof QuizKit !== 'undefined', id)) await playQK(p, id, R);
+      else R.defects.push('no driver');
       await p.screenshot({ path: SHOTS + id + '-after-' + W + '.png' });
       await restartCheck(p, id, R);
     } catch (e) { R.defects.push('DRIVER/GAME ERROR: ' + e.message.split('\n')[0]); await p.screenshot({ path: SHOTS + id + '-error-' + W + '.png' }).catch(() => {}); }

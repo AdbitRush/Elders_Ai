@@ -1,7 +1,7 @@
 {
   "name": "BrainPlay",
   "short_name": "BrainPlay",
-  "description": "The games you grew up with — 28 familiar games for 50+, free, no sign-up",
+  "description": "The games you grew up with — card games, puzzles, trivia and arcade classics, free, no sign-up",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
