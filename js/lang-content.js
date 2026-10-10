@@ -344,6 +344,21 @@
     if (i18nData[lang]) Object.assign(i18nData[lang], kv);
   }
 
+  // games added from 2026-10 (tools/new_games.json): English first; a language without its own text gets the English
+  for (const g of (window.NEW_GAMES || [])) {
+    for (const lang of Object.keys(i18nData)) {
+      const L = i18nData[lang];
+      if (!L['game_' + g.id + '_title']) L['game_' + g.id + '_title'] = g.title;
+      if (!L['game_' + g.id + '_desc']) L['game_' + g.id + '_desc'] = g.desc;
+      if (!L['inst_' + g.id]) L['inst_' + g.id] = g.inst;
+    }
+  }
+  for (const sec of (window.NEW_GAME_SECTIONS || [])) for (const lang of Object.keys(i18nData)) {
+    const L = i18nData[lang];
+    if (!L['sec_' + sec.key + '_title']) L['sec_' + sec.key + '_title'] = sec.title;
+    if (!L['sec_' + sec.key + '_sub']) L['sec_' + sec.key + '_sub'] = sec.sub;
+  }
+
   // This file runs after index.html's first changeLanguage(), so the strings merged above never reached the page
   // on first load: the Time Journey and Living Safari cards (and the "All games" list, which copies the card
   // titles) stayed in Hebrew on every other language until the visitor switched language. Put them on the page now.

@@ -4,7 +4,9 @@
 const DailyChallenge = (() => {
   const ALL_GAMES = ['memory','oddoneout','math','wordsearch','sequence','sudoku','shapes',
                      'solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs',
-                     'hangman','recall','blocks'];
+                     'hangman','recall','blocks']
+    // games added from 2026-10 join the daily challenge pool
+    .concat((window.NEW_GAMES || []).map((g) => g.id));
 
   function _today() { return new Date().toISOString().slice(0,10); }
 

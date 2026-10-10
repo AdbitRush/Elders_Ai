@@ -28,6 +28,7 @@
   function curGame() { try { return (typeof gameState !== 'undefined' && gameState && gameState.currentId) || null; } catch (e) { return null; } }
 
   var NO_SCENE = { lifesim: true };
+  (window.NEW_GAMES || []).forEach(function (g) { NO_SCENE[g.id] = true; });
   function syncState() {
     var gv = document.getElementById('gameView'), m = document.getElementById('modal');
     var inGame = !!(gv && !gv.classList.contains('hidden'));

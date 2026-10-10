@@ -33,6 +33,15 @@ const STAGE = {
     for (const ch of w.slice(0, 2)) { const i = t.findIndex((x, k) => x.innerText === ch && !used.includes(k)); used.push(i); t[i].click(); } }); },
   async sequence(p) { await sleep(2500); },
   async recall(p) { await sleep(300); },
+  // wave 1 (2026-10)
+  async freecell(p) { await p.click('.fc-col:nth-child(3) .gk-card:last-child'); await sleep(200); },
+  async spider(p) { await sleep(200); },
+  async checkers(p) { await p.evaluate(() => { const m = _ckMoves(gameState.checkers.b, 1)[0]; gameState.checkers.b = _ckApply(gameState.checkers.b, m); gameState.checkers.sel = null; const n = _ckMoves(gameState.checkers.b, 1)[1]; gameState.checkers.sel = n.from; _ckRender(); }); },
+  async backgammon(p) { await p.locator('.gk-btn', { hasText: 'Roll' }).click(); await sleep(200); },
+  async dominoes(p) { await p.evaluate(() => { const g = gameState.dominoes; if (g.turn === 0) { const i = g.me.findIndex(t => _doFits(t, g.ends).length); doTap(i); } }); await sleep(2600); },
+  async crazy8(p) { await sleep(200); },
+  async ginrummy(p) { await p.locator('.gr-pile').first().locator('.gk-card').click(); await sleep(300); },
+  async gofish(p) { await sleep(200); },
 };
 
 (async () => {
@@ -49,6 +58,8 @@ const STAGE = {
     await p.goto(U + '/?lang=en#' + id, { waitUntil: 'networkidle' }); await sleep(id === 'digitspan' ? 300 : 1500);   // Number Memory: catch the number before it hides
     await p.addStyleTag({ content: '#cc-main{display:none!important}' });
     if (STAGE[id]) await STAGE[id](p);
+    // the sticky header would be drawn over a tall game in a full-page capture
+    await p.addStyleTag({ content: 'nav{position:static!important}' }); await p.evaluate(() => scrollTo(0, 0));
     if (id !== 'digitspan') await sleep(500);
     const box = await p.evaluate(() => { const r = document.getElementById('gameContent').getBoundingClientRect(); return { x: r.x, y: r.y + scrollY, w: r.width, h: r.height }; });
     const pad = 18;

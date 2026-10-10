@@ -61,6 +61,9 @@ const Categories = (() => {
     safari:     ['perception', 'attention'],
   };
 
+  // games added from 2026-10 (tools/new_games.json)
+  (window.NEW_GAMES || []).forEach((g) => { MAP[g.id] = g.skills; });
+
   // ── Why each game is worth playing ────────────────────────────────────────
   // One line per game, saying what it actually asks your brain to do.
   //
@@ -246,6 +249,7 @@ const Categories = (() => {
       safari:'Η αναζήτηση στόχου σε γεμάτη σκηνή εξασκεί την προσοχή.',
     },
   };
+  (window.NEW_GAMES || []).forEach((g) => { WHY.en[g.id] = g.why; });
 
   function whyFor(gameId) {
     const lang = (typeof currentLang !== 'undefined') ? currentLang : 'he';

@@ -16,6 +16,8 @@ upload camera play rotate-ccw eye lightbulb pointer party-popper sparkles timer 
 undo-2 arrow-left arrow-right book-open-text share-2 volume-2 volume-x a-large-small menu flame
 chart-no-axes-column medal gamepad-2 calendar-days
 circle square triangle diamond hexagon pentagon
+crown dices bomb grid-2x2 film tv mic-vocal user-round tag dollar-sign map map-pin joystick orbit crosshair worm hammer
+square-dashed layers gem layout-grid target brick-wall footprints spell-check-2 radio disc-3 car-front newspaper piggy-bank
 '''.split()))
 
 def main(src):

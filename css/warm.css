@@ -305,3 +305,8 @@ footer .w-footlinks a, footer .w-footlinks button{ display:inline-flex; align-it
 /* first visit (2026-10-10): the cookie banner and the small welcome card both sit at the bottom. The welcome card
    waits (it stays on the page, hidden) until the visitor has answered the banner, then appears as before. */
 html.show--consent .pw-card{ display:none !important; }
+/* hub sections for the games added from 2026-10 (tools/new_games.json): a heading row spanning the grid. order:99
+   matches the unpinned cards (js/favorites.js), so a section stays together with its cards. */
+#homeScreen .w-sec{ margin:26px 0 2px; padding:14px 4px 0; scroll-margin-top:96px; border-top:3px solid var(--w-accent); }
+#homeScreen .w-sec-h{ font-size:clamp(1.45rem,3.2vw,1.9rem); font-weight:900; color:var(--w-ink); margin:0 0 4px; line-height:1.2; }
+#homeScreen .w-sec-p{ font-size:1.1rem; color:var(--w-ink2); margin:0; }

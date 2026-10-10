@@ -364,6 +364,119 @@ const PLAY = {
     if (!(await waitModal(p))) return R.defects.push('No win after all pieces placed');
     R.steps.push('end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'jigsaw', R);
   },
+  // ── wave 1 (2026-10): cards & board games. A move is chosen from the game's own legal moves; every move is a click. ──
+  async freecell(p, R) {
+    const col1 = '.fc-col:nth-child(1) .gk-card:last-child';
+    await p.click(col1); await p.click(col1); await sleep(150);
+    const inFree = await p.evaluate(() => gameState.freecell.free.filter(Boolean).length);
+    await p.locator('.gk-btn', { hasText: 'Undo' }).click(); await sleep(150);
+    const back = await p.evaluate(() => gameState.freecell.free.filter(Boolean).length);
+    R.steps.push(`tap a card twice -> free cell (${inFree}), Undo -> back (${back})`);
+    if (inFree !== 1 || back !== 0) R.defects.push('free cell / undo did not work');
+    await p.evaluate(() => { const g = gameState.freecell; g.home = [0, 1, 2, 3].map((s) => Array.from({ length: 13 }, (_, i) => ({ r: i + 1, s, up: true }))); const k = g.home[2].pop();
+      g.cas = [[k], [], [], [], [], [], [], []]; g.free = [null, null, null, null]; g.sel = null; _fcRender(); });
+    await p.click('.fc-col:nth-child(1) .gk-card'); await p.click('.fc-col:nth-child(1) .gk-card');
+    if (!(await waitModal(p))) return R.defects.push('last card home did not win (board forced one move from done)');
+    R.steps.push('forced last card home -> end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'freecell', R);
+  },
+  async spider(p, R) {
+    let moves = 0;
+    for (let k = 0; k < 5; k++) {
+      const mv = await p.evaluate(() => { const g = gameState.spider; for (let i = 0; i < 10; i++) { const col = g.cols[i]; for (let s = 0; s < col.length; s++) { if (!_spRunFrom(col, s)) continue; for (let j = 0; j < 10; j++) { if (j === i) continue; const t = g.cols[j]; if (t.length && t[t.length - 1].r === col[s].r + 1) return [i, s, j]; } } } return null; });
+      if (!mv) break;
+      await p.locator('.sp-col').nth(mv[0]).locator('.gk-card').nth(mv[1]).click({ position: { x: 10, y: 6 } });
+      await p.locator('.sp-col').nth(mv[2]).locator('.gk-card').last().click({ position: { x: 10, y: 6 } }); moves++; await sleep(80);
+    }
+    const s0 = await p.evaluate(() => gameState.spider.stock.length);
+    await p.locator('.gk-btn', { hasText: 'Deal' }).click(); const s1 = await p.evaluate(() => gameState.spider.stock.length);
+    R.steps.push(`${moves} legal run moves; Deal: deck ${s0} -> ${s1}${s1 === s0 ? ' (refused: ' + (await p.evaluate(() => gameState.spider.msg)) + ')' : ''}`);
+    await p.evaluate(() => { const g = gameState.spider; g.done = 7; g.stock = []; g.cols = Array.from({ length: 10 }, () => []);
+      g.cols[0] = Array.from({ length: 12 }, (_, i) => ({ r: 13 - i, s: 0, up: true })); g.cols[1] = [{ r: 1, s: 0, up: true }]; _spRender(); });
+    await p.locator('.sp-col').nth(1).locator('.gk-card').click(); await p.locator('.sp-col').nth(0).locator('.gk-card').last().click();
+    if (!(await waitModal(p))) return R.defects.push('completing the 8th run did not win');
+    R.steps.push('forced 8th run -> end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'spider', R);
+  },
+  async checkers(p, R) {
+    const sq = (r, c) => `.ck-board > div:nth-child(${r * 8 + c + 1})`;
+    for (let k = 0; k < 3; k++) {   // three real moves against the computer
+      for (let t = 0; t < 40 && (await p.evaluate(() => gameState.checkers.turn !== 1 || gameState.checkers.busy)); t++) await sleep(200);
+      const m = await p.evaluate(() => { const ms = _ckMoves(gameState.checkers.b, 1); return ms[0]; });
+      await p.click(sq(m.from[0], m.from[1])); for (const [r, c] of m.path) await p.click(sq(r, c)); await sleep(150);
+    }
+    for (let t = 0; t < 40 && (await p.evaluate(() => gameState.checkers.turn !== 1 || gameState.checkers.busy)); t++) await sleep(200);
+    R.steps.push('3 moves played; pieces you/computer: ' + (await p.evaluate(() => _ckCount(gameState.checkers.b, 1) + '/' + _ckCount(gameState.checkers.b, -1))));
+    await p.evaluate(() => { const g = gameState.checkers; g.b = Array.from({ length: 8 }, () => Array(8).fill(0)); g.b[5][2] = 1; g.b[4][3] = -1; g.b[7][0] = 1; g.turn = 1; g.sel = null; g.chain = null; g.busy = false; _ckRender(); });
+    await p.click(sq(7, 0)); const msg = await p.evaluate(() => gameState.checkers.msg);
+    R.steps.push('a non-jump while a jump exists -> "' + msg + '"');
+    if (!/must/.test(msg)) R.defects.push('mandatory jump not enforced');
+    await p.click(sq(5, 2)); await p.click(sq(3, 4));
+    if (!(await waitModal(p))) return R.defects.push('jumping the last piece did not win');
+    R.steps.push('jump the last piece -> end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'checkers', R);
+  },
+  async backgammon(p, R) {
+    const pt = (n) => p.locator(`.bg-pt >> .bg-n:text-is("${n}")`);
+    await p.locator('.gk-btn', { hasText: 'Roll' }).click(); await sleep(150);
+    let made = 0;
+    for (let k = 0; k < 4; k++) {
+      const nx = await p.evaluate(() => { const n = _bgNext(); return n.length ? n[0] : null; }); if (!nx) break;
+      if (nx.from === 'bar') await p.locator('.bg-bar').last().click(); else await pt(nx.from).click();
+      if (nx.to === 'off') await p.click('.bg-offbox'); else await pt(nx.to).click(); made++; await sleep(80);
+    }
+    R.steps.push(`rolled ${await p.evaluate(() => (gameState.backgammon.start ? 'dice' : ''))} and made ${made} legal move(s)`);
+    for (let t = 0; t < 40 && (await p.evaluate(() => gameState.backgammon.turn !== 0 || gameState.backgammon.busy)); t++) await sleep(200);
+    R.steps.push('computer turn: "' + (await p.evaluate(() => gameState.backgammon.msg)) + '"');
+    await p.evaluate(() => { const g = gameState.backgammon; const pts = Array(26).fill(0); pts[1] = 1; pts[20] = -3; g.st = { pts, bar: [0, 0], off: [14, 0] }; g.dice = []; _bgRender(); });
+    await p.locator('.gk-btn', { hasText: 'Roll' }).click(); await pt(1).click(); await p.click('.bg-offbox');
+    if (!(await waitModal(p))) return R.defects.push('bearing off the 15th checker did not win');
+    R.steps.push('forced last checker off -> end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'backgammon', R);
+  },
+  async dominoes(p, R) {
+    let plays = 0, passes = 0;
+    for (let i = 0; i < 300 && !(await modalUp(p)); i++) {
+      const st = await p.evaluate(() => { const g = gameState.dominoes; return { turn: g.turn, busy: g.busy, over: g.over, i: g.me.findIndex((t) => _doFits(t, g.ends).length), sel: g.sel }; });
+      if (st.over || st.turn !== 0 || st.busy) { await sleep(200); continue; }
+      if (st.sel !== null) { await p.locator('.gk-btn', { hasText: 'Left end' }).click(); continue; }
+      if (st.i < 0) { await p.locator('.gk-btn', { hasText: 'Pass' }).click(); passes++; await sleep(150); continue; }
+      await p.locator('.do-hand .do-tile').nth(st.i).click(); plays++; await sleep(120);
+    }
+    if (!(await waitModal(p))) return R.defects.push('the game never ended');
+    R.steps.push(`full game: ${plays} plays, ${passes} passes -> end modal: ` + (await modalText(p))); await nextLevelCheck(p, 'dominoes', R);
+  },
+  async crazy8(p, R) {
+    let plays = 0, draws = 0;
+    for (let i = 0; i < 600 && !(await modalUp(p)); i++) {
+      const st = await p.evaluate(() => { const g = gameState.crazy8; return { turn: g.turn, busy: g.busy, over: g.over, choose: g.choose, i: g.me.findIndex((c) => _c8Fits(c)) }; });
+      if (st.over || st.turn !== 0 || st.busy) { await sleep(200); continue; }
+      if (st.choose) { await p.locator('.gk-btns .gk-btn.gk-primary').first().click(); continue; }
+      if (st.i >= 0) { await p.locator('.gk-hand .gk-card').nth(st.i).click(); plays++; await sleep(100); continue; }
+      await p.locator('.gk-btns .gk-btn').last().click(); draws++; await sleep(120);
+    }
+    if (!(await waitModal(p))) return R.defects.push('the game never ended');
+    R.steps.push(`full game: ${plays} plays, ${draws} draws -> end modal: ` + (await modalText(p))); await nextLevelCheck(p, 'crazy8', R);
+  },
+  async ginrummy(p, R) {
+    let turns = 0;
+    for (let i = 0; i < 400 && !(await modalUp(p)); i++) {
+      const st = await p.evaluate(() => { const g = gameState.ginrummy; return { turn: g.turn, busy: g.busy, over: g.over, phase: g.phase }; });
+      if (st.over || st.turn !== 0 || st.busy) { await sleep(200); continue; }
+      if (st.phase === 'knock') { await p.locator('.gk-btn', { hasText: 'Knock' }).click(); continue; }
+      if (st.phase === 'draw') { await p.locator('.gr-pile').first().locator('.gk-card').click(); await sleep(80); continue; }
+      const id = await p.evaluate(() => { const g = gameState.ginrummy; let best = null; for (const c of g.me) { if (c.id === g.taken) continue; const dw = _grBest(g.me.filter((x) => x !== c)).dw; if (!best || dw < best.dw) best = { dw, id: c.id }; } return best.id; });
+      await p.click(`.gr-hand [onclick="grDiscard(${id})"]`); turns++; await sleep(120);
+    }
+    if (!(await waitModal(p))) return R.defects.push('the hand never ended');
+    R.steps.push(`full hand: ${turns} turns -> end modal: ` + (await modalText(p))); await nextLevelCheck(p, 'ginrummy', R);
+  },
+  async gofish(p, R) {
+    let asks = 0;
+    for (let i = 0; i < 500 && !(await modalUp(p)); i++) {
+      const st = await p.evaluate(() => { const g = gameState.gofish; return { turn: g.turn, busy: g.busy, over: g.over, n: g.me.length }; });
+      if (st.over || st.turn !== 0 || st.busy || !st.n) { await sleep(200); continue; }
+      await p.locator('.gk-hand .gk-card').nth(asks % st.n).click(); asks++; await sleep(150);
+    }
+    if (!(await waitModal(p))) return R.defects.push('the game never ended');
+    R.steps.push(`full game: ${asks} asks -> end modal: ` + (await modalText(p))); await nextLevelCheck(p, 'gofish', R);
+  },
 };
 
 (async () => {

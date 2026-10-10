@@ -325,9 +325,24 @@ try{{localStorage.setItem('gg-theme',d?'dark':'light')}}catch(e){{}}lab()}};lab(
 """
 
 
+def new_games() -> list:
+    """Games added from 2026-10 (tools/new_games.json), published once js/games/<id>.js exists. English text is the
+    fallback for every language, the same rule the app uses (js/lang-content.js)."""
+    reg = json.loads((ROOT / "tools" / "new_games.json").read_text(encoding="utf-8"))
+    return [g for g in reg["games"] if (ROOT / "js" / "games" / (g["id"] + ".js")).exists()]
+
+
 def main() -> None:
     i18n, ids = read_i18n(), read_game_ids()
     why, skills, slabels = read_why(), read_skills(), skill_labels()
+    for g in new_games():
+        if g["id"] not in ids: ids.append(g["id"])
+        for lang in LANGS:
+            d = i18n.setdefault(lang, {})
+            d.setdefault(f"game_{g['id']}_title", g["title"]); d.setdefault(f"game_{g['id']}_desc", g["desc"])
+            d.setdefault(f"inst_{g['id']}", g["inst"])
+        why.setdefault("en", {})[g["id"]] = g["why"]
+        skills[g["id"]] = g["skills"]
 
     written = 0
     for lang in LANGS:

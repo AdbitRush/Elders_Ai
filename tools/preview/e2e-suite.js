@@ -79,8 +79,8 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     const { ctx, p, errs } = await page(390, '/', { lang });
     const r = await p.evaluate(() => ({ dir: document.documentElement.dir, lang: document.documentElement.lang, links: document.querySelectorAll('#all-games .ag-page').length,
       href: (document.querySelector('#all-games .ag-page') || {}).getAttribute && document.querySelector('#all-games .ag-page').getAttribute('href'),
-      label: document.querySelector('#themeBtn .w-tl') && document.querySelector('#themeBtn .w-tl').textContent }));
-    ok(`2 hub in ${lang}: renders, list follows the language`, !errs.length && r.lang === lang && (lang === 'he') === (r.dir === 'rtl') && r.links === 28 && r.href.startsWith(lang + '/') && r.label,
+      label: document.querySelector('#themeBtn .w-tl') && document.querySelector('#themeBtn .w-tl').textContent, n: window.GAME_IDS.length }));
+    ok(`2 hub in ${lang}: renders, list follows the language`, !errs.length && r.lang === lang && (lang === 'he') === (r.dir === 'rtl') && r.links === r.n && r.href.startsWith(lang + '/') && r.label,
       JSON.stringify(r) + (errs[0] ? ' JS:' + errs[0] : ''));
     await ctx.close();
   }
@@ -96,8 +96,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
   {
     const { ctx, p } = await page(1440, '/');
     const links = await p.evaluate(() => ({ list: [...document.querySelectorAll('#all-games .ag-page')].map((a) => a.getAttribute('href')),
-      cards: [...document.querySelectorAll('#homeScreen a.w-page')].map((a) => a.getAttribute('href')) }));
-    ok('3 all 28 games linked from the hub list and from their cards', links.list.length === 28 && links.cards.length === 28 && new Set(links.list).size === 28, links.list.length + ' / ' + links.cards.length);
+      cards: [...document.querySelectorAll('#homeScreen a.w-page')].map((a) => a.getAttribute('href')), n: window.GAME_IDS.length }));
+    // 28 until 2026-10; the games added since (tools/new_games.json) are counted from GAME_IDS
+    ok(`3 all ${links.n} games linked from the hub list and from their cards`, links.list.length === links.n && links.cards.length === links.n && new Set(links.list).size === links.n, links.list.length + ' / ' + links.cards.length);
     const codes = await p.evaluate((hrefs) => Promise.all(hrefs.map((h) => fetch(h).then((r) => r.status))), links.list);
     ok('3 every linked game page answers 200', codes.every((c) => c === 200), codes.filter((c) => c !== 200).length + ' not 200');
     await p.goto(U + '/en/klondike/', { waitUntil: 'networkidle' });
@@ -172,10 +173,11 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
         quiet: foot.every((f) => f && !/paid for by|ממומן בפרסומות|se financia con|financé par|finanziert durch|υποστηρίζεται από/i.test(f)) }; }, NO_ADS.source);
     ok('8 copy: no "no ads" claim in the ticker or footer (6 languages); no footer claims ads are already running', !r.bad.length && r.quiet, r.bad.join(' | ') || r.n + ' lines');
     const pages = await p.evaluate(async () => { const ids = [...document.querySelectorAll('#all-games [data-game]')].map((li) => li.getAttribute('data-game')); const out = { n: 0, bad: [] };
+      out.ids = ids.length;
       for (const l of ['he', 'en', 'es', 'fr', 'de', 'el']) for (const id of ids) { const t = await (await fetch(l + '/' + id + '/')).text(); out.n++;
         if (/no ads|sin anuncios|sans publicité|keine Werbung|χωρίς διαφημίσεις|בלי פרסומות/i.test(t) || /pageBg|color-scheme:dark}/.test(t) || !/id="themeBtn"/.test(t)) out.bad.push(l + '/' + id); }
       return out; });
-    ok('8 landing pages: all light and photo-free behind the text, with a theme button, no "no ads"', pages.n === 168 && !pages.bad.length, pages.n + ' pages' + (pages.bad.length ? ' BAD ' + pages.bad.slice(0, 5).join(',') : ''));
+    ok('8 landing pages: all light and photo-free behind the text, with a theme button, no "no ads"', pages.n === 6 * pages.ids && !pages.bad.length, pages.n + ' pages' + (pages.bad.length ? ' BAD ' + pages.bad.slice(0, 5).join(',') : ''));
     const sets = await p.evaluate(() => ODD_SETS);
     const similar = [['🌻', '🌼'], ['🚗', '🚙'], ['😸', '😹'], ['🌞', '🌝'], ['🌲', '🌳'], ['🟩', '🟢'], ['📘', '📗']];
     ok('8 odd one out: no near-identical symbol pairs left', !similar.some(([a, c]) => sets.some((s) => s.includes(a) && s.includes(c))), JSON.stringify(sets));
@@ -253,6 +255,8 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
   // emoji pictures only; playing-card suits and the plain ✓ / ✕ glyphs are text and stay
   const EMO = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B50}\u{2B55}]/u, TEXT_GLYPHS = '♠♣♥♦✓✕✔';
   const GAMES = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
+  // + the games added from 2026-10 (published = js/games/<id>.js exists)
+  GAMES.push(...JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'new_games.json'), 'utf8')).games.map((g) => g.id).filter((id) => fs.existsSync(path.join(__dirname, '..', '..', 'js', 'games', id + '.js'))));
   const emojiIn = (t) => [...new Set([...t].filter((c) => EMO.test(c) && !TEXT_GLYPHS.includes(c)))].join('');
   {
     const bad = [];
@@ -267,7 +271,7 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
       if (e || errs.length || warn.length) bad.push(g + ':' + (e || '') + errs.concat(warn).join(' ').slice(0, 80));
       await ctx.close();
     }
-    ok('9 all 28 games: no emoji pictures in the game area, no missing icons, no JS errors', !bad.length, bad.join(' | ') || '28 games');
+    ok(`9 all ${GAMES.length} games: no emoji pictures in the game area, no missing icons, no JS errors`, !bad.length, bad.join(' | ') || GAMES.length + ' games');
   }
   {
     const { ctx, p } = await page(1440, '/', { theme: 'light' });
@@ -324,6 +328,18 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     const hb = await p.evaluate(() => !!document.getElementById('holiday-banner') || /Shabbat|שבת שלום/.test(document.body.innerText));
     ok(`9 no Shabbat / holiday banner on a Saturday, ${theme}`, !hb, String(hb));
     await ctx.close();
+  }
+  // 10. the games added from 2026-10: each loads at 390 light and 1440 dark with no JS error and no sideways scroll
+  {
+    const NEW = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'new_games.json'), 'utf8')).games.map((g) => g.id).filter((id) => fs.existsSync(path.join(__dirname, '..', '..', 'js', 'games', id + '.js')));
+    const bad = [];
+    for (const g of NEW) for (const [w, theme] of [[390, 'light'], [1440, 'dark']]) {
+      const { ctx, p, errs } = await page(w, '/#' + g, { theme });
+      const r = await p.evaluate(() => ({ kids: document.getElementById('gameContent').children.length, game: document.documentElement.getAttribute('data-game'), over: document.documentElement.scrollWidth - innerWidth, inner: [...document.querySelectorAll('#gameContent *')].some((e) => e.getBoundingClientRect().right > innerWidth + 2) }));
+      if (errs.length || !r.kids || r.game !== g || r.over > 0 || r.inner) bad.push(`${g}@${w}: ` + (errs[0] || JSON.stringify(r)));
+      await ctx.close();
+    }
+    ok(`10 ${NEW.length} new games load at 390 light + 1440 dark, no errors, nothing off the screen`, !bad.length, bad.join(' | ') || NEW.join(' '));
   }
   await b.close();
   console.log(res.join('\n'));

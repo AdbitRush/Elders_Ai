@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/hooks.css">
     <link rel="stylesheet" href="css/premium.css">
-<link rel="stylesheet" href="css/a11y.css?v=67">
-<link rel="stylesheet" href="css/ambient-bg.css?v=67">
+<link rel="stylesheet" href="css/a11y.css?v=68">
+<link rel="stylesheet" href="css/ambient-bg.css?v=68">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; min-height: 100dvh; }
@@ -182,17 +182,18 @@
 
     </style>
 <!-- Prebuilt Tailwind utilities (replaces the cdn.tailwindcss.com runtime, 5s+ blocking). Rebuild: npx tailwindcss@3.4.17 -i in.css -o css/tailwind.css --content "./index.html,./js/**/*.js" --minify -->
-<link rel="stylesheet" href="css/tailwind.css?v=67">
+<link rel="stylesheet" href="css/tailwind.css?v=68">
 <!-- warm redesign: the last stylesheet (css/warm.css) -->
-<link rel="stylesheet" href="css/warm.css?v=67">
-<script src="js/lucide-icons.js?v=67"></script>
-<script src="js/icons.js?v=67"></script>
+<link rel="stylesheet" href="css/warm.css?v=68">
+<script src="js/lucide-icons.js?v=68"></script>
+<script src="js/icons.js?v=68"></script>
+<script src="js/game-kit.js?v=68"></script>
 <!-- Consent (2026-10-10): Google Consent Mode v2 defaults are DENIED before any other script runs; js/consent.js
      (vanilla-cookieconsent 3.1.0, self-hosted) asks once and grants ad storage only after "Accept". -->
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});</script>
-<link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=67">
-<link rel="stylesheet" href="css/consent.css?v=67">
+<link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=68">
+<link rel="stylesheet" href="css/consent.css?v=68">
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -486,6 +487,49 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
             <div class="thumbnail-container"><img src="images/cards/jigsaw.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#16a34a,#0e5a8a)';"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_jigsaw_title">פאזל ג'יקסו</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_jigsaw_desc">הרכיבו פאזל מהתמונה שלכם — בחרו כמה חלקים!</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('jigsaw')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
+        <!-- gen:new-game-cards -->
+        <div class="w-sec" id="sec-cards" style="grid-column:1/-1;order:99" data-sec="cards"><h2 class="w-sec-h" data-i18n="sec_cards_title">Cards &amp; Board Games</h2><p class="w-sec-p" data-i18n="sec_cards_sub">The table games you know by heart, against a patient computer.</p></div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('freecell')" style="cursor:pointer;order:99" data-new-game="freecell">
+            <span id="hs-freecell" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/freecell.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_freecell_title">FreeCell</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_freecell_desc">The solitaire where every card is face up.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('freecell')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('spider')" style="cursor:pointer;order:99" data-new-game="spider">
+            <span id="hs-spider" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/spider.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_spider_title">Spider Solitaire</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_spider_desc">One suit: build runs from King down to Ace.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('spider')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('checkers')" style="cursor:pointer;order:99" data-new-game="checkers">
+            <span id="hs-checkers" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/checkers.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_checkers_title">Checkers</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_checkers_desc">The classic board game against a friendly computer.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('checkers')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('backgammon')" style="cursor:pointer;order:99" data-new-game="backgammon">
+            <span id="hs-backgammon" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/backgammon.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_backgammon_title">Backgammon</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_backgammon_desc">Race your checkers home against the computer.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('backgammon')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('dominoes')" style="cursor:pointer;order:99" data-new-game="dominoes">
+            <span id="hs-dominoes" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/dominoes.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_dominoes_title">Dominoes</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_dominoes_desc">The block game: match the ends and play out your hand first.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('dominoes')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('crazy8')" style="cursor:pointer;order:99" data-new-game="crazy8">
+            <span id="hs-crazy8" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/crazy8.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_crazy8_title">Crazy Eights</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_crazy8_desc">Match the suit or the rank. Eights are wild.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('crazy8')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('ginrummy')" style="cursor:pointer;order:99" data-new-game="ginrummy">
+            <span id="hs-ginrummy" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/ginrummy.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_ginrummy_title">Gin Rummy</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_ginrummy_desc">Make sets and runs, then knock before the computer does.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('ginrummy')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('gofish')" style="cursor:pointer;order:99" data-new-game="gofish">
+            <span id="hs-gofish" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/gofish.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_gofish_title">Go Fish</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_gofish_desc">Ask for cards and collect sets of four.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('gofish')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <!-- /gen:new-game-cards -->
     </div>
 
 
@@ -521,6 +565,16 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
     <li data-game="lifesim"><a class="ag-page" href="en/lifesim/">Time Journey</a> <a class="ag-play" href="?lang=en#lifesim">▶ Play</a></li>
     <li data-game="safari"><a class="ag-page" href="en/safari/">Living Safari</a> <a class="ag-play" href="?lang=en#safari">▶ Play</a></li>
     <li data-game="jigsaw"><a class="ag-page" href="en/jigsaw/">Jigsaw Puzzle</a> <a class="ag-play" href="?lang=en#jigsaw">▶ Play</a></li>
+    <!-- gen:new-game-list -->
+    <li data-game="freecell"><a class="ag-page" href="en/freecell/">FreeCell</a> <a class="ag-play" href="?lang=en#freecell">▶ Play</a></li>
+    <li data-game="spider"><a class="ag-page" href="en/spider/">Spider Solitaire</a> <a class="ag-play" href="?lang=en#spider">▶ Play</a></li>
+    <li data-game="checkers"><a class="ag-page" href="en/checkers/">Checkers</a> <a class="ag-play" href="?lang=en#checkers">▶ Play</a></li>
+    <li data-game="backgammon"><a class="ag-page" href="en/backgammon/">Backgammon</a> <a class="ag-play" href="?lang=en#backgammon">▶ Play</a></li>
+    <li data-game="dominoes"><a class="ag-page" href="en/dominoes/">Dominoes</a> <a class="ag-play" href="?lang=en#dominoes">▶ Play</a></li>
+    <li data-game="crazy8"><a class="ag-page" href="en/crazy8/">Crazy Eights</a> <a class="ag-play" href="?lang=en#crazy8">▶ Play</a></li>
+    <li data-game="ginrummy"><a class="ag-page" href="en/ginrummy/">Gin Rummy</a> <a class="ag-play" href="?lang=en#ginrummy">▶ Play</a></li>
+    <li data-game="gofish"><a class="ag-page" href="en/gofish/">Go Fish</a> <a class="ag-play" href="?lang=en#gofish">▶ Play</a></li>
+    <!-- /gen:new-game-list -->
   </ul>
 </section>
 
@@ -1070,8 +1124,14 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '67';
+const ASSET_V = '68';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
+// The games added from 2026-10 (tools/new_games.json). Their maps, menu, i18n and skills are filled from this list.
+// gen:new-games (tools/build_new_games.py; do not edit by hand)
+window.NEW_GAMES = [{"id":"freecell","init":"initFreeCell","icon":"layers","section":"cards","skills":["planning","logic"],"why":"Every card is visible, so it is all planning: thinking several moves ahead.","title":"FreeCell","desc":"The solitaire where every card is face up.","inst":"Tap a card, then tap where it goes. Each free cell holds one card."},{"id":"spider","init":"initSpider","icon":"spade","section":"cards","skills":["planning","pattern"],"why":"Keeping columns open for later is the whole game: planning with limited space.","title":"Spider Solitaire","desc":"One suit: build runs from King down to Ace.","inst":"Tap a card to move it with the cards on top of it. Tap Deal for a new row."},{"id":"checkers","init":"initCheckers","icon":"crown","section":"cards","skills":["planning","logic"],"why":"Seeing what your opponent can do next is the skill behind every good move.","title":"Checkers","desc":"The classic board game against a friendly computer.","inst":"Tap your piece, then tap where it goes. If you can jump, you must."},{"id":"backgammon","init":"initBackgammon","icon":"dices","section":"cards","skills":["planning","arithmetic"],"why":"Counting moves on the dice and weighing risks, roll after roll.","title":"Backgammon","desc":"Race your checkers home against the computer.","inst":"Roll the dice, tap a checker, then tap a highlighted point."},{"id":"dominoes","init":"initDominoes","icon":"layout-grid","section":"cards","skills":["arithmetic","planning"],"why":"Matching numbers while keeping the tiles you will need later.","title":"Dominoes","desc":"The block game: match the ends and play out your hand first.","inst":"Tap a domino that matches an open end. If it fits both ends, choose a side."},{"id":"crazy8","init":"initCrazyEights","icon":"club","section":"cards","skills":["attention","planning"],"why":"Watching suits and ranks change and saving your eights for the right moment.","title":"Crazy Eights","desc":"Match the suit or the rank. Eights are wild.","inst":"Tap a card that matches the top card. No match? Draw from the deck."},{"id":"ginrummy","init":"initGinRummy","icon":"gem","section":"cards","skills":["planning","pattern"],"why":"Grouping cards into sets and runs while remembering what has been thrown away.","title":"Gin Rummy","desc":"Make sets and runs, then knock before the computer does.","inst":"Draw from the deck or the discard pile, then tap a card to throw away. Knock when your deadwood is 10 or less."},{"id":"gofish","init":"initGoFish","icon":"fish","section":"cards","skills":["memory","attention"],"why":"Remembering what the other player asked for is how you win at Go Fish.","title":"Go Fish","desc":"Ask for cards and collect sets of four.","inst":"Tap a card in your hand to ask the computer for that rank."}];
+window.NEW_GAME_SECTIONS = [{"key":"cards","title":"Cards & Board Games","sub":"The table games you know by heart, against a patient computer."}];
+window.GAME_IDS.push(...window.NEW_GAMES.map(function (g) { return g.id; }));
+// /gen:new-games
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // HIGH SCORES
@@ -1373,6 +1433,8 @@ const GAME_INIT = {
   safari: 'initSafari',
   jigsaw: 'initJigsaw'
 };
+// games added from 2026-10: init function, menu title and icon from window.NEW_GAMES
+(window.NEW_GAMES||[]).forEach(function(g){GAME_INIT[g.id]=g.init;});
 const _gameLoaded = {};
 function ensureGameLoaded(id) {
   if (!GAME_INIT[id]) return Promise.resolve(false);
@@ -1408,6 +1470,7 @@ const _menuGameEmoji = {
   blocks:'blocks',colormatch:'palette',digitspan:'hash',clock:'clock-3',counting:'tally-5',category:'folder-tree',
   letters:'type',lifesim:'hourglass',safari:'paw-print',jigsaw:'puzzle'
 };
+(window.NEW_GAMES||[]).forEach(function(g){_menuGameTitles[g.id]='game_'+g.id+'_title';_menuGameEmoji[g.id]=g.icon;});
 function buildGameMenuList(filter) {
   const list = document.getElementById('gameMenuList');
   if (!list) return;
@@ -1475,6 +1538,7 @@ async function loadGame(gameId, level=0) {
     updateLevelDisplay();
     const titleMap={klondike:'game_klondike_title',memory:'game_memory_title',oddoneout:'game_odd_title',math:'game_math_title',wordsearch:'game_words_title',sequence:'game_sequence_title',sudoku:'game_sudoku_title',shapes:'game_shapes_title',solitaire:'game_solitaire_title',trivia:'game_trivia_title',numseq:'game_numseq_title',unscramble:'game_unscrbl_title',pairs:'game_pairs_title',truefalse:'game_tf_title',flags:'game_flags_title',proverbs:'game_proverbs_title',hangman:'game_hangman_title',recall:'game_recall_title',blocks:'game_blocks_title',colormatch:'game_colormatch_title',digitspan:'game_digitspan_title',clock:'game_clock_title',counting:'game_counting_title',category:'game_category_title',letters:'game_letters_title',lifesim:'game_lifesim_title',safari:'game_safari_title',jigsaw:'game_jigsaw_title'};
     const instMap ={klondike:'inst_klondike',memory:'inst_memory',oddoneout:'inst_odd',math:'inst_math',wordsearch:'inst_words',sequence:'inst_sequence',sudoku:'inst_sudoku',shapes:'inst_shapes',solitaire:'inst_solitaire',trivia:'inst_trivia',numseq:'inst_numseq',unscramble:'inst_unscrbl',pairs:'inst_pairs',truefalse:'inst_tf',flags:'inst_flags',proverbs:'inst_proverbs',hangman:'inst_hangman',recall:'inst_recall',blocks:'inst_blocks',lifesim:'inst_lifesim',safari:'inst_safari',jigsaw:'inst_jigsaw'};
+    (window.NEW_GAMES||[]).forEach(function(g){titleMap[g.id]='game_'+g.id+'_title';instMap[g.id]='inst_'+g.id;});
     document.getElementById('gameTitle').innerText=t(titleMap[gameId]);
     // six games have no inst_ string (the subtitle read "undefined"): fall back to the card's own one-line description
     let _inst=instMap[gameId]?t(instMap[gameId]):'';
@@ -1526,7 +1590,10 @@ function levelComplete() {
     const T_=_END_T[currentLang]||_END_T.en;
     // Falling Blocks reports its own result (lines cleared); Time Journey's score is memories collected - same 60% bar
     const story = id==='lifesim';
-    const passed = gs._blocksLines!==undefined ? gs._blocksLines>0
+    // vs-computer and arcade games (GameKit.finish) report their own result: _outcome = {win, text}
+    const oc = gs._outcome;
+    const passed = oc ? oc.win
+                 : gs._blocksLines!==undefined ? gs._blocksLines>0
                  : sc ? (sc.total>0 && sc.correct/sc.total>=PASS_RATIO) : true;
     const modal=document.getElementById('modal');
     const icon=document.getElementById('modalIcon');
@@ -1534,8 +1601,9 @@ function levelComplete() {
     const nudgeEl=document.getElementById('wellnessNudge'); nudgeEl.classList.add('hidden'); nudgeEl.innerText='';
     const nextBtn=document.getElementById('nextLevelBtn');
     const shareDiv=document.getElementById('modalShareBtn');
-    const clear=()=>{modal.classList.add('hidden');if(sc)delete gs._sessionScore;delete gs._blocksLines;};
-    const bodyText = gs._blocksLines!==undefined ? T_.lines(gs._blocksLines)
+    const clear=()=>{modal.classList.add('hidden');if(sc)delete gs._sessionScore;delete gs._blocksLines;delete gs._outcome;};
+    const bodyText = oc && oc.text ? oc.text
+                   : gs._blocksLines!==undefined ? T_.lines(gs._blocksLines)
                    : story && sc ? T_.memories(sc.correct)
                    : sc ? `${sc.correct}/${sc.total} ${isHe?'תשובות נכונות':'correct answers'}` : t('win_generic');
 
@@ -1543,7 +1611,7 @@ function levelComplete() {
         // honest and gentle: no celebration, same level again
         icon.innerHTML=Icon.svg('rotate-ccw',{size:'1em',sw:1.8});
         document.getElementById('modalTitle').innerText=T_.fail_title;
-        document.getElementById('modalBody').innerText = sc ? T_.fail_body(sc.correct, sc.total) : bodyText;
+        document.getElementById('modalBody').innerText = (sc && !oc) ? T_.fail_body(sc.correct, sc.total) : bodyText;
         document.getElementById('newBestBanner').classList.add('hidden');
         nextBtn.innerHTML=Icon.ui('rotate-ccw')+' ';nextBtn.append(T_.again);
         nextBtn.onclick=()=>{clear();loadGame(id,lvl);};
@@ -1607,9 +1675,10 @@ window.addEventListener('popstate', ()=>{ if(!location.hash) showHome(); });
 // INIT
 // ═══════════════════════════════════════════════════════════════════════════════
 // ── Theme (light/dark), persisted ──────────────────────────────────────
-function applyTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('gg-theme',t);const b=document.getElementById('themeBtn');if(b)b.innerHTML=Icon.ui(t==='light'?'moon':'sun');if(gameState&&gameState.active&&gameState.currentId==='sudoku'){_sudokuRender(document.getElementById('gameContent'));}}
+function applyTheme(t,save){document.documentElement.setAttribute('data-theme',t);if(save!==false)localStorage.setItem('gg-theme',t);const b=document.getElementById('themeBtn');if(b)b.innerHTML=Icon.ui(t==='light'?'moon':'sun');if(gameState&&gameState.active&&gameState.currentId==='sudoku'){_sudokuRender(document.getElementById('gameContent'));}}
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='light'?'dark':'light');}
-applyTheme(localStorage.getItem('gg-theme')||'dark');
+// no saved choice yet: follow the phone / computer setting (2026-10-10); the Light/Dark button still overrides it
+applyTheme(localStorage.getItem('gg-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark'),false);
 
 
 // ── Geo language: first visit with no saved choice → pick by country ──
@@ -1754,12 +1823,12 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
-<script src="js/affiliate.js?v=67"></script>
-<script src="js/profile.js?v=67"></script>
-<script src="js/brainscore.js?v=67"></script>
-<script src="js/achievements.js?v=67"></script>
-<script src="js/lang-content.js?v=67"></script>
-<script src="js/textsize.js?v=67"></script>
+<script src="js/affiliate.js?v=68"></script>
+<script src="js/profile.js?v=68"></script>
+<script src="js/brainscore.js?v=68"></script>
+<script src="js/achievements.js?v=68"></script>
+<script src="js/lang-content.js?v=68"></script>
+<script src="js/textsize.js?v=68"></script>
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
 if ('IntersectionObserver' in window) {
@@ -1772,24 +1841,24 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
 }
 </script>
-<script src="js/daily-challenge.js?v=67"></script>
-<script src="js/stats.js?v=67"></script>
-<script src="js/difficulty.js?v=67"></script>
-<script src="js/levels.js?v=67"></script>
-<script src="js/share.js?v=67"></script>
-<script src="js/gametext.js?v=67"></script>
-<script src="js/sync.js?v=67"></script>
-<script src="js/sync-ui.js?v=67"></script>
-<script src="js/categories.js?v=67"></script>
-<script src="js/accessibility.js?v=67"></script>
-<script src="js/tips.js?v=67"></script>
-<script src="js/favorites.js?v=67"></script>
-<script src="js/holiday.js?v=67"></script>
-<script src="js/fx.js?v=67"></script>
-<script src="js/kbnav.js?v=67"></script>
-<script src="js/ambient-bg.js?v=67"></script>
-<script src="js/warm.js?v=67"></script>
-<script src="js/vendor/cookieconsent/cookieconsent.umd.js?v=67"></script>
-<script src="js/consent.js?v=67"></script>
+<script src="js/daily-challenge.js?v=68"></script>
+<script src="js/stats.js?v=68"></script>
+<script src="js/difficulty.js?v=68"></script>
+<script src="js/levels.js?v=68"></script>
+<script src="js/share.js?v=68"></script>
+<script src="js/gametext.js?v=68"></script>
+<script src="js/sync.js?v=68"></script>
+<script src="js/sync-ui.js?v=68"></script>
+<script src="js/categories.js?v=68"></script>
+<script src="js/accessibility.js?v=68"></script>
+<script src="js/tips.js?v=68"></script>
+<script src="js/favorites.js?v=68"></script>
+<script src="js/holiday.js?v=68"></script>
+<script src="js/fx.js?v=68"></script>
+<script src="js/kbnav.js?v=68"></script>
+<script src="js/ambient-bg.js?v=68"></script>
+<script src="js/warm.js?v=68"></script>
+<script src="js/vendor/cookieconsent/cookieconsent.umd.js?v=68"></script>
+<script src="js/consent.js?v=68"></script>
 </body>
 </html>

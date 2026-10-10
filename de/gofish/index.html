@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Go Fish — BrainPlay</title>
+<meta name="description" content="Ask for cards and collect sets of four.">
+<link rel="canonical" href="https://adbitrush.github.io/Elders_Ai/de/gofish/">
+<link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/gofish/">
+<link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/gofish/">
+<link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/gofish/">
+<link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/gofish/">
+<link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/gofish/">
+<link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/gofish/">
+<link rel="alternate" hreflang="x-default" href="https://adbitrush.github.io/Elders_Ai/en/gofish/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Go Fish — BrainPlay">
+<meta property="og:description" content="Ask for cards and collect sets of four.">
+<meta property="og:url" content="https://adbitrush.github.io/Elders_Ai/de/gofish/">
+<meta property="og:locale" content="de_DE">
+<meta property="og:image" content="https://adbitrush.github.io/Elders_Ai/images/cards/gofish.jpg">
+<link rel="icon" href="../../images/icon-192.png">
+<link rel="manifest" href="../../manifest.json">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Game", "name": "Go Fish", "description": "Ask for cards and collect sets of four.", "url": "https://adbitrush.github.io/Elders_Ai/de/gofish/", "inLanguage": "de", "genre": "Brain training", "isAccessibleForFree": true, "publisher": {"@type": "Organization", "name": "BrainPlay"}}</script>
+<script>/* the visitor's saved theme (same key as the app); light unless they chose dark */
+try{if(localStorage.getItem('gg-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<style>
+/* Light, warm and photo-free behind the text (2026-10-09): the game's photo is a framed picture on the card,
+   never a dark background. Dark only when the visitor picked it (button below, or in the app). Tiny inline
+   script, no external files: these are the pages a search visitor lands on first. */
+:root{color-scheme:light;--bg:#fbf3e4;--bg2:#f4e3c6;--card:#ffffff;--line:#e0c497;--ink:#2a1a0c;--ink2:#3d2a17;
+  --head:#92400e;--accent:#b45309;--on-accent:#ffffff;--chip:#fff1d6;--chip-ink:#5a3a12;
+  --free:#e6f4e8;--free-line:#8bc79a;--free-ink:#1b5e20}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#1a130d;--bg2:#2a1d13;--card:#2f2218;--line:#6b4f33;--ink:#fff6e8;
+  --ink2:#f3e2c7;--head:#ffd27a;--accent:#f6b545;--on-accent:#2a1700;--chip:#3a2a1d;--chip-ink:#ffe6b8;
+  --free:#1f3a24;--free-line:#4f8a5c;--free-ink:#d4f5db}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,"Segoe UI","Noto Sans Hebrew",Arial,sans-serif;
+  background:linear-gradient(170deg,var(--bg) 0%,var(--bg2) 100%) fixed;color:var(--ink);font-size:20px;line-height:1.6;
+  padding:20px 16px 60px;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;background:var(--card);border:2px solid var(--line);border-radius:24px;
+  padding:24px 22px 28px;box-shadow:0 12px 32px -16px rgba(80,50,10,.35)}
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none;font-weight:800;font-size:24px;min-height:48px;margin-bottom:12px}
+.brand img{width:46px;height:46px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.theme{min-height:48px;min-width:48px;padding:6px 16px;border-radius:12px;border:2px solid var(--accent);background:var(--card);
+  color:var(--ink);font:inherit;font-size:18px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+a{color:var(--head)}
+h1{font-size:clamp(30px,6vw,44px);line-height:1.2;color:var(--ink);margin-bottom:10px}
+h2{font-size:23px;color:var(--head);margin:28px 0 8px}
+p{color:var(--ink2)}
+.photo{width:100%;max-width:520px;aspect-ratio:4/3;object-fit:cover;border-radius:18px;margin:6px 0 4px;display:block;
+  border:3px solid var(--line)}
+.play{display:inline-flex;align-items:center;background:var(--accent);color:var(--on-accent);font-weight:800;font-size:22px;
+  padding:14px 34px;border-radius:14px;text-decoration:none;margin:20px 0;min-height:60px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{background:var(--chip);border:1px solid var(--line);color:var(--chip-ink);border-radius:999px;padding:6px 14px;font-size:17px}
+.free{display:inline-block;background:var(--free);border:1px solid var(--free-line);color:var(--free-ink);
+  border-radius:999px;padding:6px 16px;font-size:17px}
+footer{margin-top:36px;padding-top:16px;border-top:2px solid var(--line);font-size:18px;color:var(--ink2)}
+footer a{display:inline-flex;align-items:center;min-height:48px;padding:0 6px;font-weight:700}
+:focus-visible{outline:4px solid var(--accent);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="../../?lang=de"><img src="../../images/logo.svg" alt="" width="46" height="46"><span>BrainPlay</span></a>
+  <div class="top">
+    <span class="free">Kostenlos · ohne Anmeldung</span>
+    <button type="button" class="theme" id="themeBtn" data-light="Hell" data-dark="Dunkel"></button>
+  </div>
+  <h1>Go Fish</h1>
+  <p>Ask for cards and collect sets of four.</p>
+  <a class="play" href="../../?lang=de#gofish">Jetzt spielen →</a>
+  <img class="photo" src="../../images/cards/gofish.jpg" alt="Bildschirmfoto des Spiels: Go Fish" width="520" height="390">
+  <h2>Was es trainiert</h2><p>Remembering what the other player asked for is how you win at Go Fish.</p>
+  <h2>Fähigkeiten</h2><div class="chips"><span class="chip">Gedächtnis</span><span class="chip">Aufmerksamkeit</span></div>
+  <h2>So wird gespielt</h2><p>Tap a card in your hand to ask the computer for that rank.</p>
+  <footer>
+    <p><a href="../../?lang=de">Alle Spiele</a> · <a href="../../about.html">Über uns</a> · <a href="../../privacy.html">Datenschutz</a></p>
+    <p style="margin-top:6px">In anderen Sprachen: <a href="../../he/gofish/">עברית</a> · <a href="../../en/gofish/">English</a> · <a href="../../es/gofish/">Español</a> · <a href="../../fr/gofish/">Français</a> · <a href="../../el/gofish/">Ελληνικά</a></p>
+  </footer>
+</div>
+<script>(function(){var r=document.documentElement,b=document.getElementById('themeBtn');
+function lab(){var d=r.getAttribute('data-theme')==='dark',t=d?b.dataset.light:b.dataset.dark;b.innerHTML=(d?'<svg width="1.15em" height="1.15em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-.2em;pointer-events:none"><circle cx="12" cy="12" r="4"/> <path d="M12 2v2"/> <path d="M12 20v2"/> <path d="m4.93 4.93 1.41 1.41"/> <path d="m17.66 17.66 1.41 1.41"/> <path d="M2 12h2"/> <path d="M20 12h2"/> <path d="m6.34 17.66-1.41 1.41"/> <path d="m19.07 4.93-1.41 1.41"/></svg>':'<svg width="1.15em" height="1.15em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-.2em;pointer-events:none"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>')+' '+t;b.setAttribute('aria-label',t)}
+b.onclick=function(){var d=r.getAttribute('data-theme')!=='dark';if(d)r.setAttribute('data-theme','dark');else r.removeAttribute('data-theme');
+try{localStorage.setItem('gg-theme',d?'dark':'light')}catch(e){}lab()};lab()})()</script>
+</body>
+</html>
