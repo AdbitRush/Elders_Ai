@@ -19,6 +19,8 @@ async function open(id, { lang = 'en', theme = 'light', diff = 'normal', w = W }
   await ctx.addInitScript(([t, l, d]) => { try { if (sessionStorage.getItem('x')) return; sessionStorage.setItem('x', '1');
     localStorage.clear(); localStorage.setItem('gg-theme', t); localStorage.setItem('gg-lang', l); localStorage.setItem('gg_difficulty', d);
     localStorage.setItem('gg_name', 'Ruth'); localStorage.setItem('gg_avatar', '🌻'); localStorage.setItem('gg_profile_seen', '1'); } catch (e) {} }, [theme, lang, diff]);
+  // the cookie-consent banner (2026-10-10) is answered up front ("necessary only"), so it never covers the game
+  await ctx.addCookies([{ name: 'cc_cookie', value: encodeURIComponent(JSON.stringify({ categories: ['necessary'], revision: 0, data: null, consentTimestamp: new Date().toISOString(), consentId: 'test', services: { necessary: [], ads: [] }, languageCode: 'en', lastConsentTimestamp: new Date().toISOString(), expirationTime: Date.now() + 864e5 })), url: U }]);
   const p = await ctx.newPage(); const errs = [];
   p.on('pageerror', (e) => errs.push('pageerror: ' + e.message));
   p.on('console', (m) => { if (m.type() === 'error') errs.push('console: ' + m.text().slice(0, 200)); });

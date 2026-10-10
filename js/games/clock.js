@@ -24,7 +24,7 @@ function _clkSvg(h,m){
 }
 function _clkNext(container){
     if(!gameState.active||gameState.currentId!=='clock')return;
-    const gs=gameState.clock;
+    const gs=gameState.clock; gs._locked=false;
     if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
     const isHe=currentLang==='he';
     // Levels 1-4: quarter hours · 5-9: 5-min steps · 10+: any minute
@@ -51,6 +51,7 @@ function _clkNext(container){
 }
 function _clkAnswer(btn,val){
     const gs=gameState.clock;
+    if(gs._locked)return;gs._locked=true;  // one answer per clock
     const isC=val===gs._answer;
     if(isC){sfxCorrect();gs._ss++;}else sfxWrong();
     btn.classList.replace('border-gray-200',isC?'border-green-500':'border-red-500');

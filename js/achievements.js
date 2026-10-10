@@ -22,7 +22,7 @@ const Achievements = (() => {
     { id:'brain_50',      icon:'🧬', he:'מוח בריא',          en:'Healthy Brain',    desc_he:'ניקוד בריאות מוח 50+',          desc_en:'Brain health score 50+',          check:s=>s.brainScore>=50 },
     { id:'brain_80',      icon:'⚡', he:'מוח מבריק',         en:'Brilliant Mind',   desc_he:'ניקוד בריאות מוח 80+!',         desc_en:'Brain health score 80+!',         check:s=>s.brainScore>=80 },
     { id:'trivia_ace',    icon:'📚', he:'ידען',               en:'Scholar',          desc_he:'רמה 8 בטריוויה',               desc_en:'Trivia level 8',                  check:s=>(s.hs.trivia||0)>=8 },
-    { id:'shabbat',       icon:'🕯️', he:'שבת שלום',          en:'Shabbat Shalom',   desc_he:'שיחקתם ביום שישי',             desc_en:'Played on Friday',                check:s=>new Date().getDay()===5&&s.total>=1 },
+    { id:'shabbat',       icon:'🎉', he:'שישי שמח',          en:'Friday Fun',         desc_he:'שיחקתם ביום שישי',             desc_en:'Played on Friday',                check:s=>new Date().getDay()===5&&s.total>=1 },
   ];
 
   function getEarned() {

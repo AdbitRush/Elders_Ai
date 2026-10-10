@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="BrainPlay">
+  <!-- BrainPlay mark (draft 2026-10-10, awaiting Or's approval): an old vinyl record whose label is a play button -
+       nostalgia first, play second. Cream rim so it stands out on both the cream (light) and deep-brown (dark) header. -->
+  <circle cx="256" cy="256" r="250" fill="#fff4e2"/>
+  <circle cx="256" cy="256" r="232" fill="#3b1d0e"/>
+  <g fill="none" stroke="#6b3a1f" stroke-width="7">
+    <circle cx="256" cy="256" r="200"/>
+    <circle cx="256" cy="256" r="172"/>
+    <circle cx="256" cy="256" r="144"/>
+  </g>
+  <path d="M120 150 A190 190 0 0 1 212 82" fill="none" stroke="#fff4e2" stroke-width="12" stroke-linecap="round" opacity=".55"/>
+  <circle cx="256" cy="256" r="112" fill="#f59e0b"/>
+  <path d="M228 196 L320 256 L228 316 Z" fill="#3b1d0e" stroke="#3b1d0e" stroke-width="18" stroke-linejoin="round"/>
+</svg>

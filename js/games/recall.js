@@ -37,16 +37,19 @@ function _recallStudy(c) {
     if(autoMs>0) {
         let secs=autoMs/1000;
         const timer=document.getElementById('recall-timer');
-        const iv=setInterval(()=>{
+        if(gs._iv)clearInterval(gs._iv);
+        const iv=gs._iv=setInterval(()=>{
             secs--;
             if(timer)timer.innerHTML=Icon.ui('timer')+' '+(isHe?`${secs} שניות...`:`${secs}s...`);
-            if(secs<=0){clearInterval(iv);_recallTest();}
+            if(secs<=0){clearInterval(iv);gs._iv=null;_recallTest();}
         },1000);
     }
 }
 function _recallTest() {
-    if(!gameState.active) return;
+    if(!gameState.active || gameState.currentId !== 'recall') return;   // a countdown left running must not draw into another game
     const gs = gameState.recall;
+    // Hard mode: pressing "Got them!" early must stop the countdown, or at 0 it redrew the test and wiped the picks
+    if(gs._iv){clearInterval(gs._iv);gs._iv=null;}
     const isHe = currentLang === 'he';
     gs.selected = new Set();
     gs._all = shuffle([...gs.targets, ...gs.distractors]);

@@ -1,3 +1,65 @@
+## 2026-10-10 - audit fixes + design round 4 on `preview/warm-redesign` (preview only; main and the live site untouched)
+
+From the audit (`AUDIT-2026-10-10.md` on main) and Or's answers of 2026-10-10. ASSET_V / sw CACHE 66.
+Merge to main only with Or's yes. The logo and all new copy (privacy, about, headline, ticker, footer) are DRAFTS for
+Or's approval.
+
+**Game fixes** (re-checked with `tools/preview/play-all.js` at 1280 and 390 px; results at the end of this entry)
+- Falling Blocks: `window.gameState` / `window.currentLang` -> the `let` globals. Game over now opens the end screen;
+  arrow keys / Space work. No `_sessionScore` (a number made the modal read "undefined/undefined").
+- One answer per question in 14 games (`gs._locked`, reset when the next question renders): oddoneout, math, numseq,
+  trivia, truefalse, flags, proverbs, colormatch, clock, counting, category, letters, digitspan (OK key), lifesim.
+- Hangman: Greek keyboard (`_EL_KB`, `_hmKb()`); `_hmNorm` folds final letters and accents (ς->Σ, Ά->Α, É->E).
+- Picture Recall Hard: "Got them!" clears the countdown (`gs._iv`); a countdown can no longer draw into another game.
+- Number Sequence: 4th generator is a real "sum of the two before" rule (a,b,a+b,a+2b -> 2a+3b, b > a).
+- Time Journey / Living Safari cards were Hebrew on en/es/fr/de/el: `lang-content.js` now re-applies `[data-i18n]`.
+- Living Safari: animals 80 px+, the requested animal is drawn on top, a tap on the grass within one animal's width
+  counts for the nearest animal; taps after the last round are ignored.
+- Found on the way (also broken on the live site): Word Search - a word crossing an already-found word could never
+  be completed (found cells were untappable). Memory - a matched pair showed its BACK, not its picture (opacity < 1 on
+  the 3D card flattened it; `css/warm.css` keeps the card opaque).
+
+**Design**
+- Logo (draft): `images/logo.svg` - an old vinyl record whose label is a play button; cream rim so it reads on the
+  light and dark header. App icons regenerated from `images/icon.svg` (icon-192/512, apple-touch-icon). The per-language
+  header letter is gone. One brand everywhere: "BrainPlay" (site_title, footer, share texts, manifest, landing pages).
+- Card pictures = real screenshots: `images/cards/<id>.jpg` made by `tools/preview/card-shots.js` (plays each game a few
+  moves, captures the play area at 640 px) + `tools/preview/frame_shots.py` (instant-photo frame on warm paper - the
+  nostalgia is the frame, the picture is the game). Rebuild: run both, then `python tools/build_pages.py`.
+  The Pexels object photos moved to `images/scenes/<id>.jpg` and stay as the photo at the top of each game (credits
+  updated). `scenes/lifesim.jpg` (people's faces) removed: no stock photos of people; Time Journey has no header photo.
+  Hub thumbnails are 4:3 on phones too (16:9 cut half the game off).
+- Consent: vanilla-cookieconsent 3.1.0 (MIT) self-hosted in `js/vendor/cookieconsent/` (the UMD is wrapped in a function:
+  as a plain script its `var t` replaced the site's `t()` and broke every game). `js/consent.js` = 6 languages, equal
+  Accept / Reject, categories necessary + ads, Google Consent Mode v2 defaults DENIED in `<head>`; `css/consent.css`.
+  The banner hides itself from automated browsers (`hideFromBots`): tests pre-set the `cc_cookie` (both harnesses do).
+  The first-visit welcome card waits until the banner is answered. NO ad code yet - see "next".
+- Footer: "no data collection" / "no pop-ups" gone, in all 6 languages; links About · Privacy · Cookie settings.
+- `privacy.html` + `about.html` (English drafts, own URLs, linked from the hub footer and every landing page):
+  operator "BrainPlay", one marked placeholder `[CONTACT EMAIL — to be added before launch]`; no company, address or email
+  invented. Statements checked: localStorage only (sync.js has no URL), consent cookie 182 days, Google Fonts and
+  flagcdn.com named, no access log in the Caddyfile for the games sites.
+- Shabbat / Jewish-holiday banner removed everywhere (`js/holiday.js` keeps only the milestone celebration; slot, calls
+  and CSS gone). The Friday badge keeps its id but is now "Friday Fun" / "שישי שמח".
+- Hangman -> "Word Balloons" (6 languages; id and URLs still `hangman`): a bunch of balloons, one per allowed mistake;
+  a wrong letter lets one float away (reduced-motion: it just disappears).
+- Headline nostalgia-first: "The games you grew up with" (+5 languages), page title and manifest description.
+
+**My calls on the smaller audit questions (Or: "make the sensible call, record it")**
+- Ticker: every line rewritten to true, checkable statements (no "studies show", "no tracking", doctor or brain claims).
+- Shabbat banner: removed (Or). Holiday banner: removed with it - it was Jewish holidays only, the audience is international.
+- Falling Blocks kept (Or) and fixed; Word Balloons name and picture as above.
+- Privacy/About in English first; the other 5 languages once Or approves the English text.
+- 0/10 sessions still say "Well Done!" and advance a level - not changed this round (game-design decision, see next).
+
+**Not done / next**
+- AdSense: Or's answer says reuse the publisher ID from the allyfind/voyageworthy source without touching those sites -
+  not wired yet (this round's list did not include it). Slot = end-of-game screen only.
+- Translations of privacy/about; score-based end screen; self-host Google Fonts and the 20 flags (privacy page names them).
+- Logo final approval (Or).
+
+**Checks**: see the bottom of this entry (filled in after the run).
+
 ## 2026-10-07 - Server Claude ("incubator") + Telegram bridge (VPS infra, not the games site)
 
 Goal (Or): stop working from the PC; talk to Claude Code on the VPS from a private

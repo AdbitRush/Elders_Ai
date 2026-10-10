@@ -18,7 +18,7 @@ const _fx = ()=>window.fx || {burst(){},lineSweep(){},fireworks(){},flash(){},sh
 
 window.initBlocks=function(container){
     if(window._gameCleanup){window._gameCleanup();window._gameCleanup=null;}
-    const isHe=window.currentLang==='he';
+    const isHe=currentLang==='he';   // let globals from index.html: not on window
     container.style.cssText='display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 0;width:100%';
 
     const scoreEl=document.createElement('div');
@@ -121,9 +121,9 @@ window.initBlocks=function(container){
     const _baseDrop=_dtet==='easy'?1100:_dtet==='hard'?500:800;
     let lastT=0,dropInterval=Math.max(100,_baseDrop-level*60);
     function loop(t){if(gameOver){
-        if(score>0&&window.gameState&&window.gameState.blocks){window.gameState.blocks._sessionScore=score;}
+        // no _sessionScore: the end screen's "x/y correct" does not fit a points game; it shows the generic win text
         draw();
-        setTimeout(()=>{if(window.gameState&&window.gameState.active&&window.gameState.currentId==='blocks')window.levelComplete&&levelComplete();},1800);
+        setTimeout(()=>{if(gameState.active&&gameState.currentId==='blocks')levelComplete();},1800);
         return;}
         dropInterval=Math.max(100,_baseDrop-level*60);
         if(t-lastT>dropInterval){drop();lastT=t;}
@@ -131,7 +131,7 @@ window.initBlocks=function(container){
     raf=requestAnimationFrame(loop);
 
     // ── Keyboard (PC) ───────────────────────────────────────────────────────────
-    function onKey(e){if(!window.gameState||window.gameState.currentId!=='blocks')return;
+    function onKey(e){if(gameState.currentId!=='blocks')return;
         if(e.key==='ArrowLeft')move(-1);else if(e.key==='ArrowRight')move(1);else if(e.key==='ArrowUp')doRotate();else if(e.key==='ArrowDown')drop();else if(e.key===' ')hardDrop();else return;e.preventDefault();}
     document.addEventListener('keydown',onKey);
 

@@ -11,7 +11,7 @@ function initCounting(container){
 }
 function _cntNext(container){
     if(!gameState.active||gameState.currentId!=='counting')return;
-    const gs=gameState.counting;
+    const gs=gameState.counting; gs._locked=false;
     if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
     const isHe=currentLang==='he';
     const lvl=gs.level||1;
@@ -38,6 +38,7 @@ function _cntNext(container){
 }
 function _cntAnswer(btn,val){
     const gs=gameState.counting;
+    if(gs._locked)return;gs._locked=true;  // one answer per round
     const isC=val===gs._answer;
     if(isC){sfxCorrect();gs._ss++;}else sfxWrong();
     btn.classList.replace('border-gray-200',isC?'border-green-500':'border-red-500');

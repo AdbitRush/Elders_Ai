@@ -149,13 +149,6 @@ body.high-contrast button.btn-premium { background: #000 !important; color: #fff
 }
 
 /* ── Holiday banner ───────────────────────────────────────────────────────── */
-#holiday-banner {
-  background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(196,181,253,0.08));
-  border: 1px solid rgba(139,92,246,0.35); border-radius: 0.9rem;
-  padding: 0.65rem 1.25rem; margin-bottom: 0.75rem;
-  font-size: 0.9rem; font-weight: 700; color: #c4b5fd;
-  text-align: center; display: none;
-}
 
 /* ── Weekly summary card ─────────────────────────────────────────────────── */
 #weekly-summary-modal .summary-stat {

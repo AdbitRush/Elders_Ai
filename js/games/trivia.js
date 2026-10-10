@@ -10,7 +10,7 @@ function initTrivia(container){
 }
 function renderTriviaQuestion(container){
     if(!gameState.active)return;
-    const state=gameState.trivia;
+    const state=gameState.trivia; state._locked=false;
     if(state.current>=state.questions.length){state._sessionScore={correct:state.score,total:state.questions.length};levelComplete();return;}
     const q=state.questions[state.current];
     const isHe=currentLang==='he';
@@ -19,6 +19,7 @@ function renderTriviaQuestion(container){
     container.innerHTML=html+`</div></div>`;
 }
 function answerTrivia(sel,cor){
+    const gs=gameState.trivia; if(gs._locked)return;gs._locked=true;  // one answer per question
     const isC=sel===cor;
     if(isC){sfxCorrect();gameState.trivia.score++;}else sfxWrong();
     event.target.classList.replace('border-gray-200',isC?'border-green-500':'border-red-500');

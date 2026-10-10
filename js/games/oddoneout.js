@@ -9,7 +9,7 @@ function initOddOneOut(container) {
 }
 function _oddNext(container) {
     if(!gameState.active||gameState.currentId!=='oddoneout')return;
-    const gs=gameState.oddoneout;
+    const gs=gameState.oddoneout; gs._locked=false;
     if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
     const p=ODD_SETS[Math.floor(Math.random()*ODD_SETS.length)];
     const main=p[0],odd=p[Math.floor(Math.random()*(p.length-1))+1],oi=Math.floor(Math.random()*16);
@@ -26,8 +26,9 @@ function _oddNext(container) {
 function clickOdd(isOdd, el) {
     if(!gameState.active||gameState.currentId!=='oddoneout')return;
     const gs=gameState.oddoneout;
+    if(gs._locked)return;   // one answer per round: a double-tap scored twice and skipped a round
     if(isOdd){
-        sfxCorrect(); gs._ss++;
+        gs._locked=true; sfxCorrect(); gs._ss++;
         el.classList.replace('bg-white','bg-green-100');
         setTimeout(()=>{gs._si++;_oddNext(document.getElementById('gameContent'));},500);
     } else {

@@ -10,7 +10,7 @@ function initTrueFalse(c) {
 }
 function _tfNext(c) {
     if(!gameState.active || gameState.currentId !== 'truefalse') return;
-    const gs = gameState.truefalse;
+    const gs = gameState.truefalse; gs._locked=false;
     if(gs.idx >= gs.perLevel) { gs._sessionScore={correct:gs.score,total:gs.perLevel}; levelComplete(); return; }
     const item = gs.pool[gs.idx % gs.pool.length];
     const isHe = currentLang === 'he';
@@ -26,6 +26,7 @@ function _tfNext(c) {
 function answerTF(sel, correct) {
     if(!gameState.active || gameState.currentId !== 'truefalse') return;
     const gs = gameState.truefalse;
+    if(gs._locked)return;gs._locked=true;  // one answer per question
     if(sel === correct) { sfxCorrect(); gs.score++; } else sfxWrong();
     gs.idx++;
     setTimeout(() => _tfNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);

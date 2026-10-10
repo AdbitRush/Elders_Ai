@@ -10,7 +10,7 @@ function initProverbs(c) {
 }
 function _provNext(c) {
     if(!gameState.active || gameState.currentId !== 'proverbs') return;
-    const gs = gameState.proverbs;
+    const gs = gameState.proverbs; gs._locked=false;
     if(gs.idx >= gs.perLevel) { gs._sessionScore={correct:gs.score,total:gs.perLevel}; levelComplete(); return; }
     const item = gs.pool[gs.idx % gs.pool.length];
     const isHe = currentLang === 'he';
@@ -23,6 +23,7 @@ function _provNext(c) {
 function answerProv(sel, correct) {
     if(!gameState.active || gameState.currentId !== 'proverbs') return;
     const gs = gameState.proverbs;
+    if(gs._locked)return;gs._locked=true;  // one answer per question
     if(sel === correct) { sfxCorrect(); gs.score++; } else sfxWrong();
     gs.idx++;
     setTimeout(() => _provNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);

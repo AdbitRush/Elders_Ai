@@ -3,8 +3,12 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 const _HE_KB = ['א','ב','ג','ד','ה','ו','ז','ח','ט','י','כ','ל','מ','נ','ס','ע','פ','צ','ק','ר','ש','ת'];
 const _EN_KB = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-const _HM_NORM = {'ך':'כ','ם':'מ','ן':'נ','ף':'פ','ץ':'צ'};
-function _hmNorm(ch) { return _HM_NORM[ch] || ch; }
+// Greek words need a Greek keyboard: with A-Z every Greek word was unwinnable (Μ is not M).
+const _EL_KB = 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'.split('');
+const _HM_NORM = {'ך':'כ','ם':'מ','ן':'נ','ף':'פ','ץ':'צ','ς':'Σ'};
+// final letters fold to their key; accents fold too (Ά -> Α, É -> E), so an accented word is never unwinnable
+function _hmNorm(ch) { return _HM_NORM[ch] || ch.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase(); }
+function _hmKb() { return currentLang === 'he' ? _HE_KB : currentLang === 'el' ? _EL_KB : _EN_KB; }
 
 function initHangman(c) {
     const gs = gameState.hangman;
@@ -29,18 +33,37 @@ function _hmStart(c) {
     gs.maxWrong = _d==='easy'?8:_d==='hard'?4:6;
     _hmRender(c);
 }
+// The picture (2026-10-10, Or: keep the game, lose the gallows). A bunch of balloons, one per allowed mistake;
+// each wrong letter lets one float away. The one that just left is drawn rising and fading, the earlier ones are gone.
+const _HM_COLORS = ['#e11d48', '#f59e0b', '#16a34a', '#2563eb', '#9333ea', '#ea580c', '#0891b2', '#db2777'];
+function _hmBalloons(gs) {
+    const n = gs.maxWrong, left = n - gs.wrong, sp = Math.min(17, 128 / n);
+    // balloons leave from the outside of the bunch inwards, alternating sides
+    const order = []; for (let a = 0, b = n - 1; a <= b; a++, b--) { order.push(a); if (b !== a) order.push(b); }
+    const gone = new Set(order.slice(0, gs.wrong)), flying = gs._fly ? order[gs.wrong - 1] : -1;
+    let strings = '', balloons = '';
+    for (let i = 0; i < n; i++) {
+        if (gone.has(i) && i !== flying) continue;
+        const off = i - (n - 1) / 2, cx = 80 + off * sp, cy = 40 + Math.abs(off) * 5 + (i % 2) * 9, col = _HM_COLORS[i % _HM_COLORS.length];
+        const cls = i === flying ? ' class="hm-fly"' : '';
+        balloons += `<g${cls}><path d="M${cx},${cy + 16} Q${cx + 3},${(cy + 132) / 2} 80,124" stroke="#8a6a4a" stroke-width="1.6" fill="none"/>`
+            + `<ellipse cx="${cx}" cy="${cy}" rx="12" ry="15.5" fill="${col}" stroke="rgba(0,0,0,.25)" stroke-width="1"/>`
+            + `<ellipse cx="${cx - 4}" cy="${cy - 6}" rx="3" ry="5" fill="#fff" opacity=".55"/>`
+            + `<path d="M${cx - 3},${cy + 17} l3,-2.5 l3,2.5 z" fill="${col}"/></g>`;
+    }
+    gs._fly = false;
+    return `<svg viewBox="0 0 160 140" width="150" height="132" class="hm-pic" role="img" aria-label="${left} / ${n}" style="min-width:130px;flex-shrink:0;overflow:visible">
+                ${balloons}
+                <path d="M72,124 q8,7 16,0 q-8,-4 -16,0z" fill="#b45309"/>
+                <circle cx="80" cy="124" r="3" fill="#92400e"/>
+            </svg>
+            <style>.hm-fly{animation:hmFly 1.1s ease-in forwards}@keyframes hmFly{to{transform:translateY(-120px) rotate(-8deg);opacity:0}}
+            @media (prefers-reduced-motion:reduce){.hm-fly{animation:none;opacity:0}}</style>`;
+}
 function _hmRender(c) {
     const gs = gameState.hangman;
     const isHe = currentLang === 'he';
-    const kb = isHe ? _HE_KB : _EN_KB;
-    const hmParts = [
-        `<circle cx="80" cy="36" r="13" stroke="#1a365d" stroke-width="3" fill="none" ${gs.wrong<1?'style="display:none"':''}/>`,
-        `<line x1="80" y1="49" x2="80" y2="90" stroke="#1a365d" stroke-width="3" stroke-linecap="round" ${gs.wrong<2?'style="display:none"':''}/>`,
-        `<line x1="80" y1="63" x2="57" y2="82" stroke="#1a365d" stroke-width="3" stroke-linecap="round" ${gs.wrong<3?'style="display:none"':''}/>`,
-        `<line x1="80" y1="63" x2="103" y2="82" stroke="#1a365d" stroke-width="3" stroke-linecap="round" ${gs.wrong<4?'style="display:none"':''}/>`,
-        `<line x1="80" y1="90" x2="57" y2="115" stroke="#1a365d" stroke-width="3" stroke-linecap="round" ${gs.wrong<5?'style="display:none"':''}/>`,
-        `<line x1="80" y1="90" x2="103" y2="115" stroke="#1a365d" stroke-width="3" stroke-linecap="round" ${gs.wrong<6?'style="display:none"':''}/>`,
-    ].join('');
+    const kb = _hmKb();
     const blanks = [...gs.word].map(ch => {
         const revealed = gs.guessed.has(_hmNorm(ch));
         return revealed
@@ -57,13 +80,7 @@ function _hmRender(c) {
     const livesColor=gs.wrong>=gs.maxWrong-1?'#ef4444':gs.wrong>=gs.maxWrong-2?'#f59e0b':'#64748b';
     c.innerHTML = `<div class="w-full max-w-2xl">
         <div class="flex flex-col md:flex-row gap-4 items-center justify-center mb-4">
-            <svg viewBox="0 0 140 130" width="120" height="120" style="min-width:110px;flex-shrink:0">
-                <line x1="10" y1="128" x2="130" y2="128" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
-                <line x1="30" y1="128" x2="30" y2="5" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
-                <line x1="30" y1="5" x2="80" y2="5" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
-                <line x1="80" y1="5" x2="80" y2="23" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
-                ${hmParts}
-            </svg>
+            ${_hmBalloons(gs)}
             <div class="text-center flex-1">
                 <div class="text-base text-gray-500 mb-2">${gt('Hint', 'רמז')}: <span class="font-bold text-[#b7791f]">${gs.hint}</span></div>
                 <div class="flex flex-wrap justify-center items-end gap-1 my-3" ${isHe?'dir="rtl"':''}>${blanks}</div>
@@ -84,7 +101,7 @@ function guessLetter(l) {
     if(found) {
         sfxCorrect();
         if([...gs.word].every(ch => gs.guessed.has(_hmNorm(ch)))) { setTimeout(()=>levelComplete(), 500); return; }
-    } else { gs.wrong++; sfxWrong(); }
+    } else { gs.wrong++; gs._fly = true; sfxWrong(); }
     _hmRender(document.getElementById('gameContent'));
 }
 function _hmNext() {

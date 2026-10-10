@@ -192,12 +192,13 @@ UI = {
     "all":     {"he": "כל המשחקים", "en": "All games", "es": "Todos los juegos",
                 "fr": "Tous les jeux", "de": "Alle Spiele", "el": "Όλα τα παιχνίδια"},
     # The hub's footer says the site is "supported by quiet ads", so these pages must not claim "no ads".
-    "free":    {"he": "חינם · בלי הרשמה · בלי חלונות קופצים",
-                "en": "Free · no sign-up · no pop-ups",
-                "es": "Gratis · sin registro · sin ventanas emergentes",
-                "fr": "Gratuit · sans inscription · sans fenêtres surgissantes",
-                "de": "Kostenlos · ohne Anmeldung · ohne Pop-ups",
-                "el": "Δωρεάν · χωρίς εγγραφή · χωρίς αναδυόμενα"},
+    # 2026-10-10: "no pop-ups" dropped - the hub now asks for cookie consent once
+    "free":    {"he": "חינם · בלי הרשמה", "en": "Free · no sign-up", "es": "Gratis · sin registro",
+                "fr": "Gratuit · sans inscription", "de": "Kostenlos · ohne Anmeldung", "el": "Δωρεάν · χωρίς εγγραφή"},
+    "shot":    {"he": "צילום מסך של המשחק", "en": "Screenshot of the game", "es": "Captura del juego",
+                "fr": "Capture du jeu", "de": "Bildschirmfoto des Spiels", "el": "Στιγμιότυπο του παιχνιδιού"},
+    "about":   {"he": "אודות", "en": "About", "es": "Acerca de", "fr": "À propos", "de": "Über uns", "el": "Σχετικά"},
+    "privacy": {"he": "מדיניות פרטיות", "en": "Privacy", "es": "Privacidad", "fr": "Confidentialité", "de": "Datenschutz", "el": "Απόρρητο"},
     # the same words as the app's theme button (js/warm.js): the label names what a press switches TO
     "light":   {"he": "בהיר", "en": "Light", "es": "Claro", "fr": "Clair", "de": "Hell", "el": "Φωτεινό"},
     "dark":    {"he": "כהה", "en": "Dark", "es": "Oscuro", "fr": "Sombre", "de": "Dunkel", "el": "Σκοτεινό"},
@@ -218,7 +219,7 @@ def page(gid, lang, i18n, why, skills, slabels) -> str:
     sk = [slabels.get(s, {}).get(lang) or slabels.get(s, {}).get("en") or s
           for s in skills.get(gid, [])]
 
-    brand = d.get("site_title") or "Golden Games"
+    brand = "BrainPlay"   # one name in every language (Or, 2026-10-10)
     rtl = lang in RTL
     canon = f"{SITE}/{lang}/{gid}/"
     play = f"{REL}/?lang={lang}#{gid}"
@@ -274,6 +275,8 @@ body{{font-family:system-ui,"Segoe UI","Noto Sans Hebrew",Arial,sans-serif;
   padding:20px 16px 60px;min-height:100vh}}
 .wrap{{max-width:720px;margin:0 auto;background:var(--card);border:2px solid var(--line);border-radius:24px;
   padding:24px 22px 28px;box-shadow:0 12px 32px -16px rgba(80,50,10,.35)}}
+.brand{{display:flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none;font-weight:800;font-size:24px;min-height:48px;margin-bottom:12px}}
+.brand img{{width:46px;height:46px}}
 .top{{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}}
 .theme{{min-height:48px;min-width:48px;padding:6px 16px;border-radius:12px;border:2px solid var(--accent);background:var(--card);
   color:var(--ink);font:inherit;font-size:18px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px}}
@@ -296,6 +299,7 @@ footer a{{display:inline-flex;align-items:center;min-height:48px;padding:0 6px;f
 </head>
 <body>
 <div class="wrap">
+  <a class="brand" href="{REL}/?lang={lang}"><img src="{REL}/images/logo.svg" alt="" width="46" height="46"><span>BrainPlay</span></a>
   <div class="top">
     <span class="free">{e(UI['free'][lang])}</span>
     <button type="button" class="theme" id="themeBtn" data-light="{e(UI['light'][lang])}" data-dark="{e(UI['dark'][lang])}"></button>
@@ -303,12 +307,12 @@ footer a{{display:inline-flex;align-items:center;min-height:48px;padding:0 6px;f
   <h1>{e(title)}</h1>
   <p>{e(desc)}</p>
   <a class="play" href="{play}">{e(UI['play'][lang])} →</a>
-  <img class="photo" src="{REL}/images/cards/{gid}.jpg" alt="{e(title)}" width="520" height="390">
+  <img class="photo" src="{REL}/images/cards/{gid}.jpg" alt="{e(UI['shot'][lang])}: {e(title)}" width="520" height="390">
   {f'<h2>{e(UI["trains"][lang])}</h2><p>{e(trains)}</p>' if trains else ''}
   {f'<h2>{e(UI["skills"][lang])}</h2><div class="chips">' + ''.join(f'<span class="chip">{e(x)}</span>' for x in sk) + '</div>' if sk else ''}
   {f'<h2>{e(UI["howto"][lang])}</h2><p>{e(inst)}</p>' if inst else ''}
   <footer>
-    <p><a href="{REL}/">{e(UI['all'][lang])}</a></p>
+    <p><a href="{REL}/?lang={lang}">{e(UI['all'][lang])}</a> · <a href="{REL}/about.html">{e(UI['about'][lang])}</a> · <a href="{REL}/privacy.html">{e(UI['privacy'][lang])}</a></p>
     <p style="margin-top:6px">{e(UI['other'][lang])}: {others}</p>
   </footer>
 </div>

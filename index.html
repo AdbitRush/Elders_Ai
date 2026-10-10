@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>BrainPlay - Daily Brain Games</title>
+    <title>BrainPlay - The games you grew up with</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="icon" href="images/icon.svg" type="image/svg+xml">
@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/hooks.css">
     <link rel="stylesheet" href="css/premium.css">
-<link rel="stylesheet" href="css/a11y.css?v=65">
-<link rel="stylesheet" href="css/ambient-bg.css?v=65">
+<link rel="stylesheet" href="css/a11y.css?v=66">
+<link rel="stylesheet" href="css/ambient-bg.css?v=66">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; min-height: 100dvh; }
@@ -138,7 +138,6 @@
         html[data-theme="light"] nav h1 { background: linear-gradient(135deg,#1a365d 0%,#b7791f 100%) !important; -webkit-background-clip:text !important; background-clip:text !important; -webkit-text-fill-color:transparent !important; }
         html[data-theme="light"] nav button { background: rgba(26,54,93,0.07) !important; border-color: rgba(26,54,93,0.25) !important; color:#1a365d !important; }
         html[data-theme="light"] nav .text-white { color:#1a365d !important; }
-        html[data-theme="light"] nav #logoLetter { box-shadow:0 0 16px rgba(183,121,31,0.3) !important; }
         html[data-theme="light"] #levelIndicator { background:rgba(26,54,93,0.08) !important; border-color:rgba(26,54,93,0.3) !important; color:#1a365d !important; }
         html[data-theme="light"] #personalBest { color:#b7791f !important; }
         html[data-theme="light"] #textsize-btn, html[data-theme="light"] #sound-btn { background:rgba(26,54,93,0.07) !important; border-color:rgba(26,54,93,0.25) !important; color:#1a365d !important; }
@@ -183,11 +182,17 @@
 
     </style>
 <!-- Prebuilt Tailwind utilities (replaces the cdn.tailwindcss.com runtime, 5s+ blocking). Rebuild: npx tailwindcss@3.4.17 -i in.css -o css/tailwind.css --content "./index.html,./js/**/*.js" --minify -->
-<link rel="stylesheet" href="css/tailwind.css?v=65">
+<link rel="stylesheet" href="css/tailwind.css?v=66">
 <!-- warm redesign: the last stylesheet (css/warm.css) -->
-<link rel="stylesheet" href="css/warm.css?v=65">
-<script src="js/lucide-icons.js?v=65"></script>
-<script src="js/icons.js?v=65"></script>
+<link rel="stylesheet" href="css/warm.css?v=66">
+<script src="js/lucide-icons.js?v=66"></script>
+<script src="js/icons.js?v=66"></script>
+<!-- Consent (2026-10-10): Google Consent Mode v2 defaults are DENIED before any other script runs; js/consent.js
+     (vanilla-cookieconsent 3.1.0, self-hosted) asks once and grants ad storage only after "Accept". -->
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});</script>
+<link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=66">
+<link rel="stylesheet" href="css/consent.css?v=66">
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -200,7 +205,7 @@
 <nav style="background:rgba(5,10,25,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(183,121,31,0.3);box-shadow:0 4px 32px rgba(0,0,0,0.6)" class="text-white py-4 sticky top-0 z-50">
     <div class="container mx-auto px-4 sm:px-6 flex flex-wrap justify-between items-center gap-x-3 gap-y-2">
         <div class="flex items-center gap-3">
-            <div style="background:linear-gradient(135deg,#b7791f,#f6c048);box-shadow:0 0 16px rgba(183,121,31,0.6)" id="logoLetter" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-lg sm:text-xl text-white">B</div>
+            <div id="logoLetter" class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center"><img src="images/logo.svg" alt="" width="44" height="44" style="width:100%;height:100%;display:block"></div>
             <h1 class="text-xl sm:text-2xl font-bold tracking-tight" style="background:linear-gradient(135deg,#fff 0%,#f6c048 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="site_title">זהב של משחקים</h1>
         </div>
         <div class="flex flex-wrap items-center gap-2 sm:gap-3">
@@ -247,7 +252,7 @@
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(183,121,31,0.12) 0%,transparent 70%);pointer-events:none"></div>
     <div class="container mx-auto px-6 text-center relative">
         <div class="w-hero-mark" aria-hidden="true"><svg class="lc lc-hero" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 18V5"/> <path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/> <path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/> <path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/> <path d="M18 18a4 4 0 0 0 2-7.464"/> <path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/> <path d="M6 18a4 4 0 0 1-2-7.464"/> <path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></svg></div>
-        <h2 class="text-4xl font-bold mb-2 drop-shadow" style="background:linear-gradient(135deg,#fff 0%,#f6c048 60%,#b7791f 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="hero_title">אימון יומיומי למוח חד וצלול</h2>
+        <h2 class="text-4xl font-bold mb-2 drop-shadow" style="background:linear-gradient(135deg,#fff 0%,#f6c048 60%,#b7791f 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="hero_title">המשחקים שגדלנו עליהם</h2>
         <p id="dailyQuote" class="text-base max-w-2xl mx-auto italic mb-4" style="color:rgba(210,220,255,0.8)"></p>
         <!-- Retention Dashboard -->
         <div id="retentionBar" class="hidden mt-5 pt-4" style="border-top:1px solid rgba(255,255,255,0.12)">
@@ -271,7 +276,6 @@
 <main class="flex-grow container mx-auto px-6 pb-12">
     <!-- Game Grid Header -->
     <div id="homeScreen-header" class="flex flex-col gap-4 mb-6">
-        <div id="holiday-slot"></div>
 
         <!-- ═══ Why train — benefits, stated honestly ═══════════════════════
              WHAT THIS SECTION MAY AND MAY NOT SAY.
@@ -335,151 +339,151 @@
     <div id="homeScreen" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('memory')" style="cursor:pointer">
             <span id="hs-memory" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/memory.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="memory" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/memory.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_memory_title">אימון זיכרון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_memory_desc">שיפור הזיכרון לטווח קצר.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('memory')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('oddoneout')" style="cursor:pointer">
             <span id="hs-oddoneout" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/oddoneout.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="oddoneout" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/oddoneout.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_odd_title">יוצא דופן</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_odd_desc">מצאו את הסמל השונה.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('oddoneout')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('math')" style="cursor:pointer">
             <span id="hs-math" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/math.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="math" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/math.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_math_title">חשבון מהיר</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_math_desc">חיבור וחיסור קלים.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('math')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('wordsearch')" style="cursor:pointer">
             <span id="hs-wordsearch" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/wordsearch.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="wordsearch" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/wordsearch.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_words_title">חיפוש מילים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_words_desc">מצאו מילות סתר.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('wordsearch')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('sequence')" style="cursor:pointer">
             <span id="hs-sequence" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/sequence.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="sequence" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/sequence.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_sequence_title">רצף צבעים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_sequence_desc">חיזרו על הרצף המואר.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('sequence')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('sudoku')" style="cursor:pointer">
             <span id="hs-sudoku" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/sudoku.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="sudoku" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/sudoku.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_sudoku_title">סודוקו יומי</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_sudoku_desc">פאזל לוגי 4×4.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('sudoku')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('shapes')" style="cursor:pointer">
             <span id="hs-shapes" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/shapes.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="shapes" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/shapes.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_shapes_title">סדר וארגון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_shapes_desc">התאמת צורות למקומן.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('shapes')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('klondike')" style="cursor:pointer">
             <span id="hs-klondike" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/klondike.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="klondike" onerror="this.style.cssText+=';background:linear-gradient(135deg,#14532d,#166534)';"></div>
+            <div class="thumbnail-container"><img src="images/cards/klondike.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#14532d,#166534)';"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_klondike_title">סוליטר קלאסי</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_klondike_desc">הקלונדייק האמיתי — בלי גרירה, רק לחיצות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('klondike')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('solitaire')" style="cursor:pointer">
             <span id="hs-solitaire" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/solitaire.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="solitaire" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/solitaire.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_solitaire_title">סוליטר פירמידה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_solitaire_desc">זוגות קלפים = 13.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('solitaire')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('trivia')" style="cursor:pointer">
             <span id="hs-trivia" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/trivia.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="trivia" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/trivia.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_trivia_title">טריוויה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_trivia_desc">ידע כללי ושאלות מרתקות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('trivia')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 10: Number Sequence -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('numseq')" style="cursor:pointer">
             <span id="hs-numseq" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/numseq.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="numseq" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/numseq.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_numseq_title">רצף מספרים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_numseq_desc">מצאו את המספר הבא ברצף. מחדד חשיבה לוגית.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('numseq')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 11: Word Unscramble -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('unscramble')" style="cursor:pointer">
             <span id="hs-unscramble" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/unscramble.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="unscramble" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/unscramble.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_unscrbl_title">פענוח מילה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_unscrbl_desc">סדרו את האותיות לכדי מילה. מאמן שפה ומיקוד.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('unscramble')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 12: Opposites Pairs -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('pairs')" style="cursor:pointer">
             <span id="hs-pairs" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/pairs.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="pairs" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/pairs.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_pairs_title">זוגות הפכים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_pairs_desc">חברו כל מילה להפכה. מאמן אוצר מילים ומיקוד.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('pairs')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 13: True or False -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('truefalse')" style="cursor:pointer">
             <span id="hs-truefalse" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/truefalse.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="truefalse" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/truefalse.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_tf_title">נכון / לא נכון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_tf_desc">האמת או שקר? בחנו את הידע הכללי.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('truefalse')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 14: Flag Quiz -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('flags')" style="cursor:pointer">
             <span id="hs-flags" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/flags.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="flags" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/flags.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_flags_title">דגלי העולם</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_flags_desc">זהו את המדינה לפי הדגל.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('flags')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 15: Proverbs -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('proverbs')" style="cursor:pointer">
             <span id="hs-proverbs" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/proverbs.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="proverbs" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/proverbs.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_proverbs_title">השלם את הפתגם</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_proverbs_desc">מצאו את הסוף הנכון של הפתגם.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('proverbs')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- NEW GAME 16: Hangman -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('hangman')" style="cursor:pointer">
             <span id="hs-hangman" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/hangman.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="hangman" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
-            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_hangman_title">תלייה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_hangman_desc">נחשו את המילה לפני שיגמרו הניסיונות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('hangman')" data-i18n="btn_start">התחל אימון</button></div>
+            <div class="thumbnail-container"><img src="images/cards/hangman.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_hangman_title">בלוני מילים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_hangman_desc">נחשו את המילה לפני שיגמרו הניסיונות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('hangman')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- GAME 17: Word Recall -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('recall')" style="cursor:pointer">
             <span id="hs-recall" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/recall.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="recall" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/recall.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_recall_title">זיכרון תמונות</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_recall_desc">זכרו אילו פריטים ראיתם.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('recall')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <!-- GAME 18: Blocks -->
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('blocks')" style="cursor:pointer">
             <span id="hs-blocks" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/blocks.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="blocks" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/blocks.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_blocks_title">בלוקים נופלים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_blocks_desc">הרכיבו שורות שלמות עם הצורות הנופלות.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('blocks')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('colormatch')" style="cursor:pointer">
             <span id="hs-colormatch" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/colormatch.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="colormatch" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/colormatch.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_colormatch_title">צבע ומילה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_colormatch_desc">הקישו על הצבע — לא על המילה!</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('colormatch')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('digitspan')" style="cursor:pointer">
             <span id="hs-digitspan" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/digitspan.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="digitspan" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/digitspan.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_digitspan_title">זיכרון מספרים</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_digitspan_desc">זכרו את המספר והקלידו אותו.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('digitspan')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('clock')" style="cursor:pointer">
             <span id="hs-clock" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/clock.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="clock" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/clock.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_clock_title">קריאת שעון</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_clock_desc">מה השעה? קראו את השעון.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('clock')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('counting')" style="cursor:pointer">
             <span id="hs-counting" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/counting.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="counting" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/counting.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_counting_title">ספירה מהירה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_counting_desc">כמה פרפרים בתמונה? ספרו מהר!</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('counting')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('category')" style="cursor:pointer">
             <span id="hs-category" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/category.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="category" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/category.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_category_title">קטגוריות</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_category_desc">איזו מילה שייכת לקטגוריה?</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('category')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('letters')" style="cursor:pointer">
             <span id="hs-letters" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/letters.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="letters" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
+            <div class="thumbnail-container"><img src="images/cards/letters.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#1a365d,#2c5282)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_letters_title">אות חסרה</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_letters_desc">השלימו את האות החסרה במילה.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('letters')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('lifesim')" style="cursor:pointer">
             <span id="hs-lifesim" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/lifesim.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="lifesim" onerror="this.style.cssText+=';background:linear-gradient(135deg,#3b0764,#9d174d)';"></div>
+            <div class="thumbnail-container"><img src="images/cards/lifesim.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#3b0764,#9d174d)';"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_lifesim_title">מסע בזמן</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_lifesim_desc">מבוגרים משחקים צעירים, צעירים משחקים סבתא.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('lifesim')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('safari')" style="cursor:pointer">
             <span id="hs-safari" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/safari.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="safari" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7dd3fc,#b98a3f)';"></div>
+            <div class="thumbnail-container"><img src="images/cards/safari.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7dd3fc,#b98a3f)';"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_safari_title">ספארי חי</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_safari_desc">חיות נעות בסוואנה — מצאו אותן!</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('safari')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
         <div class="premium-card flex flex-col h-full relative" onclick="loadGame('jigsaw')" style="cursor:pointer">
             <span id="hs-jigsaw" class="hs-badge hidden"></span>
-            <div class="thumbnail-container"><img src="images/cards/jigsaw.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="jigsaw" onerror="this.style.cssText+=';background:linear-gradient(135deg,#16a34a,#0e5a8a)';"></div>
+            <div class="thumbnail-container"><img src="images/cards/jigsaw.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#16a34a,#0e5a8a)';"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_jigsaw_title">פאזל ג'יקסו</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_jigsaw_desc">הרכיבו פאזל מהתמונה שלכם — בחרו כמה חלקים!</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('jigsaw')" data-i18n="btn_start">התחל אימון</button></div>
         </div>
     </div>
@@ -505,7 +509,7 @@
     <li data-game="truefalse"><a class="ag-page" href="en/truefalse/">True or False</a> <a class="ag-play" href="?lang=en#truefalse">▶ Play</a></li>
     <li data-game="flags"><a class="ag-page" href="en/flags/">Flag Quiz</a> <a class="ag-play" href="?lang=en#flags">▶ Play</a></li>
     <li data-game="proverbs"><a class="ag-page" href="en/proverbs/">Complete the Proverb</a> <a class="ag-play" href="?lang=en#proverbs">▶ Play</a></li>
-    <li data-game="hangman"><a class="ag-page" href="en/hangman/">Hangman</a> <a class="ag-play" href="?lang=en#hangman">▶ Play</a></li>
+    <li data-game="hangman"><a class="ag-page" href="en/hangman/">Word Balloons</a> <a class="ag-play" href="?lang=en#hangman">▶ Play</a></li>
     <li data-game="recall"><a class="ag-page" href="en/recall/">Picture Recall</a> <a class="ag-play" href="?lang=en#recall">▶ Play</a></li>
     <li data-game="blocks"><a class="ag-page" href="en/blocks/">Falling Blocks</a> <a class="ag-play" href="?lang=en#blocks">▶ Play</a></li>
     <li data-game="colormatch"><a class="ag-page" href="en/colormatch/">Color Match</a> <a class="ag-play" href="?lang=en#colormatch">▶ Play</a></li>
@@ -533,9 +537,10 @@
 </main>
 
 <footer class="bg-gray-100 border-t border-gray-200 py-5 text-center mt-auto">
-    <div class="text-gray-500 font-medium" data-i18n="footer_rights">זהב של משחקים © 2026</div>
-    <p class="text-sm text-gray-400 mt-1" data-i18n="footer_desc">חינם לגמרי, בלי פרסומות מקפיצות ובלי איסוף נתונים — מגובה בפרסומות שקטות בלבד.</p>
+    <div class="text-gray-500 font-medium" data-i18n="footer_rights">BrainPlay © 2026</div>
+    <p class="text-sm text-gray-400 mt-1" data-i18n="footer_desc">חינם, בלי הרשמה. האתר ממומן בפרסומות קטנות בין משחק למשחק, אף פעם לא באמצע משחק.</p>
     <p class="mt-2"><a href="credits.html" id="photoCredits" style="display:inline-flex;align-items:center;min-height:48px;text-decoration:underline;text-underline-offset:3px;gap:6px"><svg class="lc lc-ui" width="1.15em" height="1.15em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/> <circle cx="12" cy="13" r="3"/></svg><span data-i18n="photo_credits">קרדיט לתמונות</span></a></p>
+    <p class="w-footlinks"><a href="about.html" data-i18n="about_link">אודות</a> · <a href="privacy.html" data-i18n="privacy_link">מדיניות פרטיות</a> · <button type="button" onclick="if(window.CookieConsent)CookieConsent.showPreferences()" data-i18n="cookie_settings">הגדרות עוגיות</button></p>
     
 </footer>
 
@@ -586,11 +591,11 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 const i18nData = {
 he: {
-    site_title:"משחקי מוח", menu_search_ph:"חיפוש משחק...", menu_no_results:"לא נמצאו משחקים", invite_friends:"הזמן חברים", back_menu:"חזרה לתפריט", next_level:"המשך לשלב הבא",
-    level_str:"שלב", hero_title:"אימון יומיומי למוח חד וצלול", btn_start:"התחל אימון",
+    site_title:"BrainPlay", menu_search_ph:"חיפוש משחק...", menu_no_results:"לא נמצאו משחקים", invite_friends:"הזמן חברים", back_menu:"חזרה לתפריט", next_level:"המשך לשלב הבא",
+    level_str:"שלב", hero_title:"המשחקים שגדלנו עליהם", btn_start:"התחל אימון",
     section_games:"{n} משחקי אימון", section_games_sub:"לחצו על משחק להתחיל",
     why_title:"למה לאמן את המוח כל יום", why1_t:"מה שמתרגלים — משתפר", why1_d:"זיכרון, קשב, מהירות ומציאת מילים משתפרים עם תרגול קבוע. המשחקים כאן מאמנים בדיוק את אלה.", why2_t:"מעט וקבוע עדיף", why2_d:"עשר דקות ביום, ברצף, שוות יותר משעה אחת בחודש. מונה הרצף כאן כדי לעזור לשמור על ההרגל.", why3_t:"להישאר פעילים", why3_d:"פעילות מחשבתית וחברתית קשורה להזדקנות מוחית טובה יותר — לצד תנועה, שינה וטיפול בלחץ הדם.", why_note:"המשחקים כאן נועדו להנאה ולתרגול. שום משחק — לא כאן ולא באף מקום אחר — אינו מונע, מטפל או מרפא אלצהיימר או דמנציה. אם יש דאגה לגבי הזיכרון, כדאי לפנות לרופא. מה שכן נתמך במחקר לבריאות המוח: פעילות גופנית, איזון לחץ דם, טיפול בשמיעה ובראייה, שינה טובה, הימנעות מעישון וקשר חברתי.",
-    footer_rights:"משחקי מוח © 2026", photo_credits:"קרדיט לתמונות", footer_desc:"חינם לגמרי, בלי פרסומות מקפיצות ובלי איסוף נתונים — מגובה בפרסומות שקטות בלבד.",
+    footer_rights:"BrainPlay © 2026", photo_credits:"קרדיט לתמונות", footer_desc:"חינם, בלי הרשמה. האתר ממומן בפרסומות קטנות בין משחק למשחק, אף פעם לא באמצע משחק.",
     game_memory_title:"אימון זיכרון", game_memory_desc:"שיפור הזיכרון לטווח קצר.",
     game_odd_title:"יוצא דופן", game_odd_desc:"מצאו את הסמל השונה.",
     game_math_title:"חשבון מהיר", game_math_desc:"חיבור וחיסור קלים.",
@@ -696,7 +701,7 @@ he: {
     game_tf_title:"נכון / לא נכון", game_tf_desc:"האמת או שקר? בחנו את הידע הכללי שלכם.",
     game_flags_title:"דגלי העולם", game_flags_desc:"זהו את המדינה לפי הדגל שלה.",
     game_proverbs_title:"השלם את הפתגם", game_proverbs_desc:"מצאו את הסוף הנכון של הפתגם.",
-    game_hangman_title:"תלייה", game_hangman_desc:"נחשו את המילה לפני שיגמרו הניסיונות.",
+    game_hangman_title:"בלוני מילים", game_hangman_desc:"נחשו את המילה לפני שהבלונים עפים.",
     game_recall_title:"זיכרון תמונות", game_recall_desc:"זכרו אילו פריטים ראיתם והבחינו אותם.",
     game_blocks_title:"בלוקים נופלים", game_blocks_desc:"הרכיבו שורות שלמות עם הצורות הנופלות.",
     game_colormatch_title:"צבע ומילה", game_colormatch_desc:"הקישו על הצבע — לא על המילה!",
@@ -777,10 +782,10 @@ he: {
 },
 en: {
     site_title:"BrainPlay", menu_search_ph:"Search games...", menu_no_results:"No games found", invite_friends:"Invite friends", back_menu:"Back to Menu", next_level:"Next Level",
-    level_str:"Level", hero_title:"Daily Brain Training", btn_start:"Start Game",
+    level_str:"Level", hero_title:"The games you grew up with", btn_start:"Start Game",
     section_games:"{n} Brain Games", section_games_sub:"Click a game to start",
     why_title:"Why train your mind daily", why1_t:"You improve at what you practise", why1_d:"Memory, attention, speed and word-finding all improve with regular practice. These games train exactly those.", why2_t:"Little and often wins", why2_d:"Ten minutes a day, kept up, does more than an hour once a month. The streak counter is there to help you keep it.", why3_t:"Staying engaged matters", why3_d:"Mental and social activity is linked with healthier cognitive ageing — alongside exercise, sleep and looking after your blood pressure.", why_note:"These games are for enjoyment and practice. No game — here or anywhere else — prevents, treats or cures Alzheimer's disease or dementia. If you are worried about your memory, speak to your doctor. What evidence does support for brain health: physical activity, treating high blood pressure, correcting hearing and vision, good sleep, not smoking, and staying socially connected.",
-    footer_rights:"BrainPlay © 2026", photo_credits:"Photo credits", footer_desc:"100% free, no pop-ups and no data collection — supported by quiet ads only.",
+    footer_rights:"BrainPlay © 2026", photo_credits:"Photo credits", footer_desc:"Free to play, no sign-up. Paid for by small ads between games, never during a game.",
     game_memory_title:"Memory Match", game_memory_desc:"Improve short-term memory.",
     game_odd_title:"Odd One Out", game_odd_desc:"Find the different symbol.",
     game_math_title:"Quick Math", game_math_desc:"Simple addition and subtraction.",
@@ -887,7 +892,7 @@ en: {
     game_tf_title:"True or False", game_tf_desc:"Test your knowledge — is each statement true or false?",
     game_flags_title:"Flag Quiz", game_flags_desc:"Name the country from its flag.",
     game_proverbs_title:"Complete the Proverb", game_proverbs_desc:"Fill in the missing word to finish the saying.",
-    game_hangman_title:"Hangman", game_hangman_desc:"Guess the hidden word before you run out of chances.",
+    game_hangman_title:"Word Balloons", game_hangman_desc:"Guess the hidden word before the balloons float away.",
     game_recall_title:"Picture Recall", game_recall_desc:"Remember the items shown, then pick them out.",
     game_blocks_title:"Falling Blocks", game_blocks_desc:"Stack falling shapes to complete full lines.",
     game_colormatch_title:"Color Match", game_colormatch_desc:"Tap the ink color — not the word!",
@@ -1066,7 +1071,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '65';
+const ASSET_V = '66';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1160,11 +1165,11 @@ function t(k){return i18nData[currentLang][k]||k;}
 // Game-content pools (words, trivia…) inherit English so every game stays playable;
 // only the visible interface is localized. Add a language = add a block here.
 i18nData.es = Object.assign({}, i18nData.en, {
-  site_title:"Juegos de Mente", menu_search_ph:"Buscar juegos...", menu_no_results:"No se encontraron juegos", invite_friends:"Invitar amigos", back_menu:"Volver al menú", next_level:"Siguiente nivel",
-  level_str:"Nivel", hero_title:"Entrenamiento diario para el cerebro", btn_start:"Empezar",
+  site_title:"BrainPlay", menu_search_ph:"Buscar juegos...", menu_no_results:"No se encontraron juegos", invite_friends:"Invitar amigos", back_menu:"Volver al menú", next_level:"Siguiente nivel",
+  level_str:"Nivel", hero_title:"Los juegos de toda la vida", btn_start:"Empezar",
   section_games:"{n} juegos mentales", section_games_sub:"Elige un juego para empezar",
     why_title:"Por qué entrenar la mente a diario", why1_t:"Mejoras en lo que practicas", why1_d:"La memoria, la atención, la velocidad y encontrar palabras mejoran con la práctica regular. Estos juegos entrenan justamente eso.", why2_t:"Poco y a menudo gana", why2_d:"Diez minutos al día, mantenidos, valen más que una hora al mes. El contador de racha está para ayudarte.", why3_t:"Mantenerse activo importa", why3_d:"La actividad mental y social se asocia con un envejecimiento cognitivo más sano — junto al ejercicio, el sueño y cuidar la tensión arterial.", why_note:"Estos juegos son para disfrutar y practicar. Ningún juego — ni aquí ni en ningún sitio — previene, trata ni cura el alzhéimer o la demencia. Si te preocupa tu memoria, habla con tu médico. Lo que sí respalda la evidencia para la salud cerebral: actividad física, controlar la tensión arterial, corregir audición y visión, dormir bien, no fumar y mantener el contacto social.",
-  footer_rights:"Juegos de Mente © 2026", footer_desc:"Gratis, sin ventanas emergentes y sin recogida de datos — se sostiene solo con anuncios discretos.",
+  footer_rights:"BrainPlay © 2026", footer_desc:"Gratis y sin registro. Se financia con pequeños anuncios entre partidas, nunca durante una partida.",
   game_memory_title:"Memoria", game_memory_desc:"Mejora la memoria a corto plazo.",
   game_odd_title:"El diferente", game_odd_desc:"Encuentra el símbolo distinto.",
   game_math_title:"Cálculo rápido", game_math_desc:"Sumas y restas sencillas.",
@@ -1191,11 +1196,11 @@ i18nData.es = Object.assign({}, i18nData.en, {
   streak_label:"días seguidos", goal_label:"Jugadas", goal_of:"de 3 hoy", total_games:"Partidas totales",
 });
 i18nData.fr = Object.assign({}, i18nData.en, {
-  site_title:"Jeux de l'Esprit", menu_search_ph:"Rechercher des jeux...", menu_no_results:"Aucun jeu trouvé", invite_friends:"Inviter des amis", back_menu:"Retour au menu", next_level:"Niveau suivant",
-  level_str:"Niveau", hero_title:"Entraînement cérébral quotidien", btn_start:"Commencer",
+  site_title:"BrainPlay", menu_search_ph:"Rechercher des jeux...", menu_no_results:"Aucun jeu trouvé", invite_friends:"Inviter des amis", back_menu:"Retour au menu", next_level:"Niveau suivant",
+  level_str:"Niveau", hero_title:"Les jeux de notre jeunesse", btn_start:"Commencer",
   section_games:"{n} jeux cérébraux", section_games_sub:"Cliquez sur un jeu pour commencer",
     why_title:"Pourquoi entraîner son esprit chaque jour", why1_t:"On progresse dans ce qu'on pratique", why1_d:"La mémoire, l'attention, la rapidité et la recherche de mots progressent avec une pratique régulière. Ces jeux entraînent précisément cela.", why2_t:"Peu et souvent l'emporte", why2_d:"Dix minutes par jour, tenues dans la durée, valent mieux qu'une heure une fois par mois. Le compteur de série est là pour vous aider.", why3_t:"Rester engagé compte", why3_d:"L'activité mentale et sociale est associée à un vieillissement cognitif plus sain — avec l'exercice, le sommeil et le suivi de la tension artérielle.", why_note:"Ces jeux sont faits pour le plaisir et l'entraînement. Aucun jeu — ici ou ailleurs — ne prévient, ne traite ni ne guérit la maladie d'Alzheimer ou la démence. Si votre mémoire vous inquiète, parlez-en à votre médecin. Ce que les données soutiennent pour la santé du cerveau : activité physique, traitement de l'hypertension, correction de l'audition et de la vue, bon sommeil, arrêt du tabac et lien social.",
-  footer_rights:"Jeux de l'Esprit © 2026", footer_desc:"Gratuit, sans fenêtres surgissantes ni collecte de données — financé uniquement par des publicités discrètes.",
+  footer_rights:"BrainPlay © 2026", footer_desc:"Gratuit et sans inscription. Financé par de petites publicités entre les parties, jamais pendant une partie.",
   game_memory_title:"Mémoire", game_memory_desc:"Améliorez la mémoire à court terme.",
   game_odd_title:"L'intrus", game_odd_desc:"Trouvez le symbole différent.",
   game_math_title:"Calcul rapide", game_math_desc:"Additions et soustractions simples.",
@@ -1222,11 +1227,11 @@ i18nData.fr = Object.assign({}, i18nData.en, {
   streak_label:"jours d'affilée", goal_label:"Parties", goal_of:"sur 3 aujourd'hui", total_games:"Parties totales",
 });
 i18nData.de = Object.assign({}, i18nData.en, {
-  site_title:"Gehirnspiele", menu_search_ph:"Spiele suchen...", menu_no_results:"Keine Spiele gefunden", invite_friends:"Freunde einladen", back_menu:"Zurück zum Menü", next_level:"Nächste Stufe",
-  level_str:"Stufe", hero_title:"Tägliches Gehirntraining", btn_start:"Starten",
+  site_title:"BrainPlay", menu_search_ph:"Spiele suchen...", menu_no_results:"Keine Spiele gefunden", invite_friends:"Freunde einladen", back_menu:"Zurück zum Menü", next_level:"Nächste Stufe",
+  level_str:"Stufe", hero_title:"Die Spiele unserer Jugend", btn_start:"Starten",
   section_games:"{n} Gehirnspiele", section_games_sub:"Auf ein Spiel klicken zum Starten",
     why_title:"Warum täglich das Gehirn trainieren", why1_t:"Man wird besser in dem, was man übt", why1_d:"Gedächtnis, Aufmerksamkeit, Tempo und Wortfindung verbessern sich durch regelmäßiges Üben. Genau das trainieren diese Spiele.", why2_t:"Wenig und oft gewinnt", why2_d:"Zehn Minuten täglich, durchgehalten, bringen mehr als eine Stunde im Monat. Der Serienzähler hilft dabei.", why3_t:"Aktiv bleiben zählt", why3_d:"Geistige und soziale Aktivität hängt mit gesünderem kognitivem Altern zusammen — neben Bewegung, Schlaf und der Kontrolle des Blutdrucks.", why_note:"Diese Spiele dienen dem Vergnügen und der Übung. Kein Spiel — hier oder anderswo — verhindert, behandelt oder heilt Alzheimer oder Demenz. Bei Sorgen um Ihr Gedächtnis sprechen Sie mit Ihrer Ärztin oder Ihrem Arzt. Was die Evidenz für die Gehirngesundheit stützt: körperliche Aktivität, Behandlung von Bluthochdruck, Korrektur von Hör- und Sehvermögen, guter Schlaf, Rauchverzicht und soziale Kontakte.",
-  footer_rights:"Gehirnspiele © 2026", footer_desc:"Kostenlos, ohne Pop-ups und ohne Datensammlung — nur durch dezente Werbung finanziert.",
+  footer_rights:"BrainPlay © 2026", footer_desc:"Kostenlos und ohne Anmeldung. Finanziert durch kleine Anzeigen zwischen den Spielen, nie während eines Spiels.",
   game_memory_title:"Gedächtnis", game_memory_desc:"Kurzzeitgedächtnis verbessern.",
   game_odd_title:"Das Andere", game_odd_desc:"Finde das abweichende Symbol.",
   game_math_title:"Schnelles Rechnen", game_math_desc:"Einfaches Addieren und Subtrahieren.",
@@ -1253,11 +1258,11 @@ i18nData.de = Object.assign({}, i18nData.en, {
   streak_label:"Tage in Folge", goal_label:"Gespielt", goal_of:"von 3 heute", total_games:"Spiele gesamt",
 });
 i18nData.el = Object.assign({}, i18nData.en, {
-  site_title:"Παιχνίδια Μυαλού", menu_search_ph:"Αναζήτηση παιχνιδιών...", menu_no_results:"Δεν βρέθηκαν παιχνίδια", invite_friends:"Προσκαλέστε φίλους", back_menu:"Πίσω στο μενού", next_level:"Επόμενο επίπεδο",
-  level_str:"Επίπεδο", hero_title:"Καθημερινή εξάσκηση για το μυαλό", btn_start:"Έναρξη",
+  site_title:"BrainPlay", menu_search_ph:"Αναζήτηση παιχνιδιών...", menu_no_results:"Δεν βρέθηκαν παιχνίδια", invite_friends:"Προσκαλέστε φίλους", back_menu:"Πίσω στο μενού", next_level:"Επόμενο επίπεδο",
+  level_str:"Επίπεδο", hero_title:"Τα παιχνίδια που μεγαλώσαμε", btn_start:"Έναρξη",
   section_games:"{n} παιχνίδια μυαλού", section_games_sub:"Πατήστε ένα παιχνίδι για να ξεκινήσετε",
     why_title:"Γιατί να γυμνάζετε το μυαλό καθημερινά", why1_t:"Βελτιώνεστε σε ό,τι εξασκείτε", why1_d:"Η μνήμη, η προσοχή, η ταχύτητα και η εύρεση λέξεων βελτιώνονται με τακτική εξάσκηση. Αυτά ακριβώς γυμνάζουν τα παιχνίδια.", why2_t:"Λίγο και συχνά κερδίζει", why2_d:"Δέκα λεπτά την ημέρα, με συνέπεια, αξίζουν περισσότερο από μία ώρα τον μήνα. Ο μετρητής σερί σας βοηθά.", why3_t:"Η συμμετοχή μετράει", why3_d:"Η πνευματική και κοινωνική δραστηριότητα συνδέεται με πιο υγιή γνωστική γήρανση — μαζί με άσκηση, ύπνο και έλεγχο της πίεσης.", why_note:"Τα παιχνίδια αυτά είναι για ευχαρίστηση και εξάσκηση. Κανένα παιχνίδι — εδώ ή οπουδήποτε αλλού — δεν προλαμβάνει, δεν θεραπεύει και δεν γιατρεύει τη νόσο Αλτσχάιμερ ή την άνοια. Αν ανησυχείτε για τη μνήμη σας, μιλήστε με τον γιατρό σας. Τι στηρίζουν τα δεδομένα για την υγεία του εγκεφάλου: σωματική άσκηση, αντιμετώπιση της υψηλής πίεσης, διόρθωση ακοής και όρασης, καλός ύπνος, αποφυγή καπνίσματος και κοινωνική επαφή.",
-  footer_rights:"Παιχνίδια Μυαλού © 2026", footer_desc:"Δωρεάν, χωρίς αναδυόμενα παράθυρα και χωρίς συλλογή δεδομένων — με τη στήριξη μόνο διακριτικών διαφημίσεων.",
+  footer_rights:"BrainPlay © 2026", footer_desc:"Δωρεάν, χωρίς εγγραφή. Υποστηρίζεται από μικρές διαφημίσεις ανάμεσα στα παιχνίδια, ποτέ κατά τη διάρκεια ενός παιχνιδιού.",
   game_memory_title:"Μνήμη", game_memory_desc:"Βελτιώστε τη βραχυπρόθεσμη μνήμη.",
   game_odd_title:"Το διαφορετικό", game_odd_desc:"Βρείτε το διαφορετικό σύμβολο.",
   game_math_title:"Γρήγοροι υπολογισμοί", game_math_desc:"Απλές προσθέσεις και αφαιρέσεις.",
@@ -1287,8 +1292,7 @@ i18nData.el = Object.assign({}, i18nData.en, {
 function changeLanguage(lang) {
     currentLang=lang; localStorage.setItem('gg-lang',lang);
     document.documentElement.lang=lang; document.documentElement.dir=lang==='he'?'rtl':'ltr';
-    const _letters={he:'מ',en:'B',es:'J',fr:'J',de:'G',el:'Π'};
-    const _ll=document.getElementById('logoLetter'); if(_ll) _ll.innerText=_letters[lang]||'B';
+    // the header mark is the BrainPlay logo (images/logo.svg) in every language; it used to be a per-language letter
     // {n} is replaced with the REAL number of games, counted from the `games`
     // array rather than typed into the string. The counts used to be written by
     // hand and had drifted badly: the HTML fallback said 18, Hebrew and English
@@ -1327,7 +1331,6 @@ function showHome() {
     if(typeof Profile!=='undefined') Profile.updateGreetingEl();
     if(typeof DailyChallenge!=='undefined'){const slot=_el('dc-banner-slot');if(slot)DailyChallenge.injectBanner(slot);}
     if(typeof BrainScore!=='undefined'){const bsSlot=_el('brain-score-slot');if(bsSlot)BrainScore.renderWidget(bsSlot);}
-    if(typeof Holiday!=='undefined') Holiday.injectBanner(_el('holiday-slot'));
     if(typeof Favorites!=='undefined') Favorites.injectButtons();
 }
 
@@ -1636,51 +1639,49 @@ _onDomReady(() => {
     if (bsSlot && typeof BrainScore !== 'undefined') BrainScore.renderWidget(bsSlot);
     const tSlot = document.getElementById('tips-slot');
     if (tSlot && typeof Tips !== 'undefined') Tips.inject(tSlot);
-    if (typeof Holiday !== 'undefined') Holiday.injectBanner(document.getElementById('holiday-slot'));
     if (typeof Favorites !== 'undefined') Favorites.injectButtons();
 });
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // AD TICKER ROTATION  (replace with AdSense when approved)
 // ═══════════════════════════════════════════════════════════════════════════════
+// 2026-10-10: only lines that are true and checkable (the old ones claimed studies, "no tracking" and medical benefits)
 const _adMsgs = {
     he: [
-        "🌟 שתפו עם חברים ובני משפחה — כולם מוזמנים לשחק בחינם",
-        "💡 אתר זה נוצר לאהבת הגיל השלישי — ללא עלות, ללא מעקב",
-        "🧠 מחקרים מראים: אימון יומי משפר זיכרון ומונע דעיכה קוגניטיבית",
-        "❤️ שתפו עם הרופא — פלטפורמת Brain Training חינמית לחלוטין",
-        "🎯 10 דקות ביום — ההשקעה הטובה ביותר שאפשר לעשות למוח",
+        "🌟 שתפו עם חברים ובני משפחה — כולם משחקים בחינם",
+        "💡 חינם ובלי הרשמה — ההתקדמות נשמרת במכשיר שלכם",
+        "🃏 28 משחקים מוכרים: קלפים, מילים, מספרים וחידונים",
+        "🕰️ בלי לחץ: רוב המשחקים מחכים לכם כמה שצריך",
     ],
     es: [
         "🌟 Comparte con amigos y familia — todos juegan gratis",
-        "💡 Hecho con amor para mayores — sin coste, sin rastreo",
-        "🧠 Estudios: el entrenamiento diario mejora la memoria",
-        "🎯 10 minutos al día — la mejor inversión para tu cerebro",
+        "💡 Gratis y sin registro — tu progreso se queda en tu dispositivo",
+        "🃏 28 juegos de siempre: cartas, palabras, números y preguntas",
+        "🕰️ Sin prisa: la mayoría de los juegos te esperan lo que haga falta",
     ],
     fr: [
         "🌟 Partagez avec vos proches — tout le monde joue gratuitement",
-        "💡 Créé avec amour pour les aînés — gratuit, sans traçage",
-        "🧠 Études : l'entraînement quotidien améliore la mémoire",
-        "🎯 10 minutes par jour — le meilleur investissement pour votre cerveau",
+        "💡 Gratuit et sans inscription — votre progression reste sur votre appareil",
+        "🃏 28 jeux familiers : cartes, mots, chiffres et quiz",
+        "🕰️ Sans se presser : la plupart des jeux vous attendent aussi longtemps qu'il le faut",
     ],
     de: [
         "🌟 Mit Familie und Freunden teilen — alle spielen kostenlos",
-        "💡 Mit Liebe für Senioren gebaut — kostenlos, ohne Tracking",
-        "🧠 Studien: tägliches Training verbessert das Gedächtnis",
-        "🎯 10 Minuten am Tag — die beste Investition für dein Gehirn",
+        "💡 Kostenlos und ohne Anmeldung — Ihr Fortschritt bleibt auf Ihrem Gerät",
+        "🃏 28 vertraute Spiele: Karten, Wörter, Zahlen und Quiz",
+        "🕰️ Ohne Eile: die meisten Spiele warten, so lange Sie möchten",
     ],
     el: [
         "🌟 Μοιραστείτε με φίλους και οικογένεια — όλοι παίζουν δωρεάν",
-        "💡 Φτιαγμένο με αγάπη για την τρίτη ηλικία — δωρεάν, χωρίς παρακολούθηση",
-        "🧠 Έρευνες: η καθημερινή εξάσκηση βελτιώνει τη μνήμη",
-        "🎯 10 λεπτά τη μέρα — η καλύτερη επένδυση για τον εγκέφαλό σας",
+        "💡 Δωρεάν και χωρίς εγγραφή — η πρόοδός σας μένει στη συσκευή σας",
+        "🃏 28 γνώριμα παιχνίδια: χαρτιά, λέξεις, αριθμοί και κουίζ",
+        "🕰️ Χωρίς βιασύνη: τα περισσότερα παιχνίδια σας περιμένουν όσο χρειάζεται",
     ],
     en: [
         "🌟 Share with friends and family — everyone plays for free",
-        "💡 Built for seniors with love — no cost, no sign-up, no pop-ups",
-        "🧠 Studies show: daily training improves memory and prevents decline",
-        "❤️ Recommend to your doctor — a free Brain Training platform",
-        "🎯 10 minutes a day — the best investment you can make for your brain",
+        "💡 Free, no sign-up — your progress stays on your device",
+        "🃏 28 familiar games: cards, words, numbers and quizzes",
+        "🕰️ Take your time: most games wait as long as you like",
     ],
 };
 let _adIdx = 0;
@@ -1708,12 +1709,12 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
-<script src="js/affiliate.js?v=65"></script>
-<script src="js/profile.js?v=65"></script>
-<script src="js/brainscore.js?v=65"></script>
-<script src="js/achievements.js?v=65"></script>
-<script src="js/lang-content.js?v=65"></script>
-<script src="js/textsize.js?v=65"></script>
+<script src="js/affiliate.js?v=66"></script>
+<script src="js/profile.js?v=66"></script>
+<script src="js/brainscore.js?v=66"></script>
+<script src="js/achievements.js?v=66"></script>
+<script src="js/lang-content.js?v=66"></script>
+<script src="js/textsize.js?v=66"></script>
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
 if ('IntersectionObserver' in window) {
@@ -1726,22 +1727,24 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
 }
 </script>
-<script src="js/daily-challenge.js?v=65"></script>
-<script src="js/stats.js?v=65"></script>
-<script src="js/difficulty.js?v=65"></script>
-<script src="js/levels.js?v=65"></script>
-<script src="js/share.js?v=65"></script>
-<script src="js/gametext.js?v=65"></script>
-<script src="js/sync.js?v=65"></script>
-<script src="js/sync-ui.js?v=65"></script>
-<script src="js/categories.js?v=65"></script>
-<script src="js/accessibility.js?v=65"></script>
-<script src="js/tips.js?v=65"></script>
-<script src="js/favorites.js?v=65"></script>
-<script src="js/holiday.js?v=65"></script>
-<script src="js/fx.js?v=65"></script>
-<script src="js/kbnav.js?v=65"></script>
-<script src="js/ambient-bg.js?v=65"></script>
-<script src="js/warm.js?v=65"></script>
+<script src="js/daily-challenge.js?v=66"></script>
+<script src="js/stats.js?v=66"></script>
+<script src="js/difficulty.js?v=66"></script>
+<script src="js/levels.js?v=66"></script>
+<script src="js/share.js?v=66"></script>
+<script src="js/gametext.js?v=66"></script>
+<script src="js/sync.js?v=66"></script>
+<script src="js/sync-ui.js?v=66"></script>
+<script src="js/categories.js?v=66"></script>
+<script src="js/accessibility.js?v=66"></script>
+<script src="js/tips.js?v=66"></script>
+<script src="js/favorites.js?v=66"></script>
+<script src="js/holiday.js?v=66"></script>
+<script src="js/fx.js?v=66"></script>
+<script src="js/kbnav.js?v=66"></script>
+<script src="js/ambient-bg.js?v=66"></script>
+<script src="js/warm.js?v=66"></script>
+<script src="js/vendor/cookieconsent/cookieconsent.umd.js?v=66"></script>
+<script src="js/consent.js?v=66"></script>
 </body>
 </html>

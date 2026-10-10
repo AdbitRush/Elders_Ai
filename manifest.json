@@ -1,7 +1,7 @@
 {
-  "name": "משחקי מוח — BrainPlay",
+  "name": "BrainPlay",
   "short_name": "BrainPlay",
-  "description": "Daily brain training for seniors — 27 games, free, no pop-ups",
+  "description": "The games you grew up with — 28 familiar games for 50+, free, no sign-up",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

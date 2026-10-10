@@ -27,6 +27,7 @@
   function tr(k) { return L[lang()][k]; }
   function curGame() { try { return (typeof gameState !== 'undefined' && gameState && gameState.currentId) || null; } catch (e) { return null; } }
 
+  var NO_SCENE = { lifesim: true };
   function syncState() {
     var gv = document.getElementById('gameView'), m = document.getElementById('modal');
     var inGame = !!(gv && !gv.classList.contains('hidden'));
@@ -34,7 +35,8 @@
     R.classList.toggle('between-games', !!(m && !m.classList.contains('hidden')));
     var id = inGame && curGame();
     // the photo URL is absolute: a url() inside a custom property would otherwise resolve against css/
-    if (id) { R.setAttribute('data-game', id); gv.style.setProperty('--game-photo', 'url("' + new URL('images/cards/' + id + '.jpg', document.baseURI).href + '")'); }
+    // Time Journey has no header photo since 2026-10-10 (its only photo was of people's faces): its own warm gradient stays
+    if (id) { R.setAttribute('data-game', id); gv.style.setProperty('--game-photo', NO_SCENE[id] ? 'none' : 'url("' + new URL('images/scenes/' + id + '.jpg', document.baseURI).href + '")'); }
     else R.removeAttribute('data-game');
   }
 

@@ -29,7 +29,7 @@ function initSafari(container){
       </div>
     </div>
     <style>
-      .sf-a{position:absolute;width:clamp(58px,9vw,84px);height:clamp(58px,9vw,84px);margin:-6px 0 0 -6px;user-select:none;transition:transform .18s;
+      .sf-a{position:absolute;width:clamp(80px,18vw,104px);height:clamp(80px,18vw,104px);margin:-6px 0 0 -6px;user-select:none;transition:transform .18s;
         border-radius:50%;border:4px solid #fff;overflow:hidden;background:#fff;box-shadow:0 6px 14px rgba(0,0,0,.4)}
       .sf-a img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
       @keyframes sfPop{0%{transform:scale(1)}45%{transform:scale(1.9) rotate(-8deg)}100%{transform:scale(0);opacity:0}}
@@ -47,6 +47,14 @@ function initSafari(container){
             vx:(Math.random()<.5?-1:1)*gs._speed*(0.6+Math.random()*0.8),
             vy:(Math.random()<.5?-1:1)*gs._speed*0.25,
             bob:Math.random()*6.28});
+    });
+    // Phones (2026-10-10): 58 px moving animals that overlap made 2 of 6 taps miss. Now they are 80 px+, the animal
+    // asked for is always drawn on top (_sfNextTarget), and a tap on the grass counts for the nearest animal if it
+    // is within one animal's width - a slightly-off tap on a moving target is still a hit.
+    world.addEventListener('click',(ev)=>{
+        let best=null,bd=Infinity;
+        gs._sprites.forEach(s=>{const r=s.el.getBoundingClientRect();const d=Math.hypot(ev.clientX-(r.left+r.width/2),ev.clientY-(r.top+r.height/2));if(d<bd){bd=d;best=s;}});
+        if(best&&bd<=best.el.getBoundingClientRect().width)_sfTap(best.a.e,best.el);
     });
     _sfNextTarget();
     const step=()=>{
@@ -68,11 +76,13 @@ function _sfNextTarget(){
     const gs=gameState.safari, isHe=currentLang==='he';
     const pick=gs._sprites[Math.floor(Math.random()*gs._sprites.length)].a;
     gs._target=pick.e;
+    gs._sprites.forEach(s=>{s.el.style.zIndex=s.a.e===pick.e?'5':'1';});
     const t=document.getElementById('sf-task');
     if(t) t.innerHTML=(gt('Find the ', 'מצאו את '))+`<img class="sf-t" src="images/safari/${pick.k}.jpg" alt=""> ${isHe?pick.he:pick.en}!`;
 }
 function _sfTap(id, el){
     const gs=gameState.safari;
+    if(gs._ri>=gs._rounds)return;   // the last find is in: taps during the win animation must not count again
     if(id!==gs._target){sfxWrong();el.style.transform='scale(.8)';setTimeout(()=>el.style.transform='',200);return;}
     sfxCorrect(); gs._found++; gs._ri++;
     const world=document.getElementById('sf-world');

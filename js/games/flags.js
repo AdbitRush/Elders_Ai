@@ -16,7 +16,7 @@ function initFlags(c) {
 }
 function _flagNext(c) {
     if(!gameState.active || gameState.currentId !== 'flags') return;
-    const gs = gameState.flags;
+    const gs = gameState.flags; gs._locked=false;
     if(gs.idx >= gs.perLevel) { gs._sessionScore={correct:gs.score,total:gs.perLevel}; levelComplete(); return; }
     const item = gs.pool[gs.idx % gs.pool.length];
     const isHe = currentLang === 'he';
@@ -32,6 +32,7 @@ function _flagNext(c) {
 function answerFlag(sel, correct) {
     if(!gameState.active || gameState.currentId !== 'flags') return;
     const gs = gameState.flags;
+    if(gs._locked)return;gs._locked=true;  // one answer per question
     if(sel === correct) { sfxCorrect(); gs.score++; } else sfxWrong();
     gs.idx++;
     setTimeout(() => _flagNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);

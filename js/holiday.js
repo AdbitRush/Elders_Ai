@@ -1,55 +1,11 @@
 // ═══════════════════════════════════════════════════════════════════════════════
-// HOLIDAY — Shabbat / Jewish holiday banner + milestone full-screen celebration
+// HOLIDAY — milestone full-screen celebration (10, 50, 100... games)
 // ═══════════════════════════════════════════════════════════════════════════════
 const Holiday = (() => {
-  const HOLIDAYS = {
-    '2026-09-11': { he:'🍎 שנה טובה ומתוקה! חג ראש השנה שמח',    en:'🍎 Happy Rosh Hashana! Wishing you a sweet new year' },
-    '2026-09-12': { he:'🍎 שנה טובה! שנה שכולה ברכה ואהבה',       en:'🍎 Happy New Year! A year full of blessings' },
-    '2026-09-20': { he:'🌿 חג סוכות שמח! שמחת החג לכולם',          en:'🌿 Happy Sukkot! Joy of the holiday to all' },
-    '2026-12-14': { he:'🕯️ חנוכה שמח! אורות וסביבונים',             en:'🕯️ Happy Hanukkah! Lights and spinning tops' },
-    '2026-12-15': { he:'🕯️ חנוכה שמח! חנוכיה מאירה',               en:'🕯️ Happy Hanukkah! Let the candles shine' },
-    '2026-03-05': { he:'🎭 פורים שמח! משתה ושמחה לכולם',           en:'🎭 Happy Purim! Joy and celebration for all' },
-    '2026-04-02': { he:'🍷 חג פסח שמח! יציאה לחירות',              en:'🍷 Happy Passover! Freedom and joy' },
-    '2026-04-03': { he:'🍷 פסח שמח! ליל הסדר מיוחד',               en:'🍷 Happy Passover! A special Seder night' },
-    '2026-05-22': { he:'🌾 חג שבועות שמח! תורה ומסורת',             en:'🌾 Happy Shavuot! Torah and tradition' },
-  };
-
+  // 2026-10-10: the Shabbat / Jewish-holiday banner was removed everywhere (Or: international 50+ audience,
+  // nothing country- or religion-specific). Only the milestone celebration is left in this file.
   const MILESTONES    = [10, 50, 100, 200, 500];
   const MILESTONE_KEY = 'gg_milestones';
-
-  function _today() { return new Date().toISOString().slice(0, 10); }
-
-  function _isShabbat() {
-    const d = new Date().getDay(); // 5 = Friday, 6 = Saturday
-    const h = new Date().getHours();
-    return (d === 5 && h >= 16) || d === 6;
-  }
-
-  // The messages keep their emoji in the data; the banner shows one Lucide icon instead (flame for candles).
-  function _fill(el, msg) {
-    const text = msg.replace(/^[^\p{L}\p{N}]+/u, '');
-    el.innerHTML = msg && typeof Icon !== 'undefined' ? Icon.ui(/🕯/.test(msg) ? 'flame' : 'sparkles') + ' ' : '';
-    el.append(text);
-  }
-
-  function injectBanner(container) {
-    if (!container) return;
-    const isHe  = typeof currentLang !== 'undefined' ? currentLang === 'he' : true;
-    const today  = _today();
-    let msg = null;
-    if (HOLIDAYS[today]) {
-      msg = isHe ? HOLIDAYS[today].he : HOLIDAYS[today].en;
-    } else if (_isShabbat()) {
-      msg = isHe ? '🕯️ שבת שלום! שמחים שאתם כאן' : "🕯️ Shabbat Shalom! Glad you're here";
-    }
-    const existing = document.getElementById('holiday-banner');
-    if (existing) { _fill(existing, msg || ''); existing.style.display = msg ? 'block' : 'none'; return; }
-    if (!msg) return;
-    const div = document.createElement('div');
-    div.id = 'holiday-banner';
-    _fill(div, msg);
-    container.prepend(div);
-  }
 
   function checkMilestone(totalGames) {
     let seen;
@@ -82,5 +38,5 @@ const Holiday = (() => {
     if (typeof launchConfetti === 'function') launchConfetti();
   }
 
-  return { injectBanner, checkMilestone };
+  return { checkMilestone };
 })();

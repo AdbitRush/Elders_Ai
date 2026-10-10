@@ -35,7 +35,8 @@ function initWordSearch(container) {
     container.innerHTML=html+`</div></div>`;
 }
 function clickWsCell(el,letter,r,c) {
-    if(el.classList.contains('found'))return;
+    // A found cell stays tappable: words may cross on a shared letter, and with the old early return a second word
+    // through an already-found letter (MUSIC and SPRING sharing the S) could never be completed.
     const state=gameState.wordsearch;
     if(el.classList.contains('selected')){el.classList.remove('selected');state.selectedCells=state.selectedCells.filter(x=>x.el!==el);return;}
     if(state.selectedCells.length>0&&!_wsValid(state.selectedCells,r,c)){sfxWrong();el.classList.add('bg-red-500');setTimeout(()=>el.classList.remove('bg-red-500'),300);state.selectedCells.forEach(x=>x.el.classList.remove('selected'));state.selectedCells=[];return;}

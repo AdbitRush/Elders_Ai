@@ -35,7 +35,7 @@ html body{ background:linear-gradient(170deg,var(--w-bg) 0%,var(--w-bg2) 100%) !
 /* ── header: bigger, labelled, warm ── */
 html[data-theme] body nav{ background:var(--w-nav) !important; border-bottom:2px solid var(--w-line) !important; box-shadow:0 6px 24px rgba(0,0,0,.25) !important; }
 html[data-theme] body nav h1{ font-size:1.6rem !important; background:none !important; -webkit-text-fill-color:currentColor !important; color:var(--w-ink) !important; }
-html[data-theme] body nav #logoLetter{ width:2.75rem !important; height:2.75rem !important; font-size:1.35rem !important; color:var(--w-on-accent) !important; background:var(--w-accent) !important; box-shadow:none !important; }
+html[data-theme] body nav #logoLetter{ width:2.75rem !important; height:2.75rem !important; background:none !important; box-shadow:none !important; }
 html[data-theme] body nav button, html[data-theme] body nav select, html[data-theme] body nav #levelIndicator{ min-height:48px !important; font-size:1.05rem !important; border-radius:12px !important; border:2px solid var(--w-line) !important;
   background:var(--w-card) !important; color:var(--w-ink) !important; padding:6px 14px !important; }
 html[data-theme] body nav button:hover{ border-color:var(--w-accent) !important; }
@@ -110,7 +110,8 @@ html.w-phone-head #w-tools #profile-chip .av{ font-size:1.3rem; }
 #homeScreen .premium-card a.w-page{ display:inline-flex; align-items:center; min-height:52px; padding:4px 2px; margin-top:8px; font-size:1rem; font-weight:700; color:var(--w-ink); text-decoration:underline; text-underline-offset:3px; }
 @media (max-width:639px){
   #homeScreen{ grid-template-columns:1fr !important; gap:16px !important; }
-  #homeScreen .premium-card .thumbnail-container{ aspect-ratio:16/9; }
+  /* 4:3 on phones too (2026-10-10): the card pictures are now framed screenshots; 16:9 cut half the game off */
+  #homeScreen .premium-card .thumbnail-container{ aspect-ratio:4/3; }
 }
 
 /* the all-games list: every game's own page, linked from the hub */
@@ -266,12 +267,6 @@ html:not([data-theme="light"]) .w-menu-ic{ color:#f6c048; }
 html[data-theme] body #homeScreen .why-line .lc-why{ color:var(--w-accent); }
 html[data-theme] body nav button .lc{ font-size:1.1rem; }
 
-/* Shabbat / holiday banner: was pale lilac text on a lilac strip (about 1.6:1). Now dark ink on cream, or cream on deep brown. */
-#holiday-banner{ background:#fff4e2 !important; border:2px solid #c2410c !important; color:#7c2d12 !important;
-  font-size:1.1rem !important; font-weight:800 !important; padding:.8rem 1.25rem !important; border-radius:14px !important; }
-#holiday-banner .lc{ color:#c2410c; }
-html:not([data-theme="light"]) #holiday-banner{ background:#3a2412 !important; border-color:#f0a052 !important; color:#ffe8c7 !important; }
-html:not([data-theme="light"]) #holiday-banner .lc{ color:#f6c048; }
 /* shape sorter: solid shapes sized to the tile */
 #gameContent .shp{ display:inline-flex; width:72%; height:72%; line-height:0; }
 #gameContent .shp-slot{ display:inline-flex; align-items:center; justify-content:center; width:100%; height:100%; }
@@ -297,3 +292,16 @@ html[data-theme] body #daily-challenge-banner .dc-game-pill.done{ border-color:#
 html[data-theme] body #daily-challenge-banner .dc-game-pill.done .lc{ color:#15803d; }
 html[data-theme] body #daily-challenge-banner #dc-stars{ color:#a16207; }
 html[data-theme] body #daily-challenge-banner #dc-stars + div{ color:var(--w-ink2) !important; }
+
+/* footer links row (2026-10-10): About · Privacy · Cookie settings, 48px targets, readable in both themes */
+footer .w-footlinks{ margin-top:.25rem; font-size:1.05rem; }
+footer .w-footlinks a, footer .w-footlinks button{ display:inline-flex; align-items:center; min-height:48px; padding:0 .4rem;
+  font:inherit; font-weight:700; text-decoration:underline; text-underline-offset:3px; color:inherit; background:none; border:0; cursor:pointer; }
+/* memory (2026-10-10): opacity below 1 on the 3D-flipping card flattens it, and Chromium then showed a MATCHED card's
+   back (the brain) instead of its picture - so found pairs looked unturned. The card stays opaque; only the picture is
+   softened, and the green "found" frame comes from the existing .matched rules. */
+#gameContent .card-inner.matched{ opacity:1 !important; }
+#gameContent .card-inner.matched .mem-face{ opacity:.92; }
+/* first visit (2026-10-10): the cookie banner and the small welcome card both sit at the bottom. The welcome card
+   waits (it stays on the page, hidden) until the visitor has answered the banner, then appears as before. */
+html.show--consent .pw-card{ display:none !important; }

@@ -70,7 +70,7 @@ function _lsStart(eraKey){
 }
 function _lsScene(container){
     if(!gameState.active||gameState.currentId!=='lifesim')return;
-    const gs=gameState.lifesim, isHe=currentLang==='he';
+    const gs=gameState.lifesim, isHe=currentLang==='he'; gs._locked=false;
     const era=_LS_ERAS[gs._era];
     if(gs._si>=gs._scenes.length){
         gs._sessionScore={correct:gs._hearts,total:gs._scenes.length};
@@ -92,6 +92,7 @@ function _lsScene(container){
 }
 function _lsChoose(good){
     const gs=gameState.lifesim, isHe=currentLang==='he';
+    if(gs._locked)return; gs._locked=true;   // one choice per scene: a double-tap skipped a scene
     if(good){sfxCorrect();gs._hearts++;}else sfxWrong();
     const c=document.getElementById('gameContent');
     const note=document.createElement('div');

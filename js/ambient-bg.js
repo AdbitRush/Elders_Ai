@@ -78,8 +78,8 @@
   // When a game is open the grid is gone; hold that game's own picture.
   function fromRoute() {
     var id = (location.hash || '').replace(/^#/, '').split('?')[0];
-    if (!id) return '';
-    return 'images/cards/' + id + '.jpg';
+    if (!id || id === 'lifesim') return '';   // Time Journey has no scene photo (2026-10-10)
+    return 'images/scenes/' + id + '.jpg';
   }
 
   function update() {

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Le pendu — Jeux de l&#x27;Esprit</title>
-<meta name="description" content="Devinez le mot caché avant d&#x27;épuiser vos chances.">
+<title>Mots en ballons — BrainPlay</title>
+<meta name="description" content="Devinez le mot caché avant que les ballons s&#x27;envolent.">
 <link rel="canonical" href="https://adbitrush.github.io/Elders_Ai/fr/hangman/">
 <link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/hangman/">
 <link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/hangman/">
@@ -14,14 +14,14 @@
 <link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hangman/">
 <link rel="alternate" hreflang="x-default" href="https://adbitrush.github.io/Elders_Ai/en/hangman/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Le pendu — Jeux de l&#x27;Esprit">
-<meta property="og:description" content="Devinez le mot caché avant d&#x27;épuiser vos chances.">
+<meta property="og:title" content="Mots en ballons — BrainPlay">
+<meta property="og:description" content="Devinez le mot caché avant que les ballons s&#x27;envolent.">
 <meta property="og:url" content="https://adbitrush.github.io/Elders_Ai/fr/hangman/">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:image" content="https://adbitrush.github.io/Elders_Ai/images/cards/hangman.jpg">
 <link rel="icon" href="../../images/icon-192.png">
 <link rel="manifest" href="../../manifest.json">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Game", "name": "Le pendu", "description": "Devinez le mot caché avant d'épuiser vos chances.", "url": "https://adbitrush.github.io/Elders_Ai/fr/hangman/", "inLanguage": "fr", "genre": "Brain training", "isAccessibleForFree": true, "publisher": {"@type": "Organization", "name": "Jeux de l'Esprit"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Game", "name": "Mots en ballons", "description": "Devinez le mot caché avant que les ballons s'envolent.", "url": "https://adbitrush.github.io/Elders_Ai/fr/hangman/", "inLanguage": "fr", "genre": "Brain training", "isAccessibleForFree": true, "publisher": {"@type": "Organization", "name": "BrainPlay"}}</script>
 <script>/* the visitor's saved theme (same key as the app); light unless they chose dark */
 try{if(localStorage.getItem('gg-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
 <style>
@@ -40,6 +40,8 @@ body{font-family:system-ui,"Segoe UI","Noto Sans Hebrew",Arial,sans-serif;
   padding:20px 16px 60px;min-height:100vh}
 .wrap{max-width:720px;margin:0 auto;background:var(--card);border:2px solid var(--line);border-radius:24px;
   padding:24px 22px 28px;box-shadow:0 12px 32px -16px rgba(80,50,10,.35)}
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none;font-weight:800;font-size:24px;min-height:48px;margin-bottom:12px}
+.brand img{width:46px;height:46px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .theme{min-height:48px;min-width:48px;padding:6px 16px;border-radius:12px;border:2px solid var(--accent);background:var(--card);
   color:var(--ink);font:inherit;font-size:18px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
@@ -62,19 +64,20 @@ footer a{display:inline-flex;align-items:center;min-height:48px;padding:0 6px;fo
 </head>
 <body>
 <div class="wrap">
+  <a class="brand" href="../../?lang=fr"><img src="../../images/logo.svg" alt="" width="46" height="46"><span>BrainPlay</span></a>
   <div class="top">
-    <span class="free">Gratuit · sans inscription · sans fenêtres surgissantes</span>
+    <span class="free">Gratuit · sans inscription</span>
     <button type="button" class="theme" id="themeBtn" data-light="Clair" data-dark="Sombre"></button>
   </div>
-  <h1>Le pendu</h1>
-  <p>Devinez le mot caché avant d&#x27;épuiser vos chances.</p>
+  <h1>Mots en ballons</h1>
+  <p>Devinez le mot caché avant que les ballons s&#x27;envolent.</p>
   <a class="play" href="../../?lang=fr#hangman">Jouer maintenant →</a>
-  <img class="photo" src="../../images/cards/hangman.jpg" alt="Le pendu" width="520" height="390">
+  <img class="photo" src="../../images/cards/hangman.jpg" alt="Capture du jeu: Mots en ballons" width="520" height="390">
   <h2>Ce que cela entraîne</h2><p>Guessing letters from a partial word is word-finding under constraint.</p>
   <h2>Compétences</h2><div class="chips"><span class="chip">Langue</span><span class="chip">Vocabulaire</span></div>
   <h2>Comment jouer</h2><p>Devinez le mot caché lettre par lettre</p>
   <footer>
-    <p><a href="../../">Tous les jeux</a></p>
+    <p><a href="../../?lang=fr">Tous les jeux</a> · <a href="../../about.html">À propos</a> · <a href="../../privacy.html">Confidentialité</a></p>
     <p style="margin-top:6px">Dans d&#x27;autres langues: <a href="../../he/hangman/">עברית</a> · <a href="../../en/hangman/">English</a> · <a href="../../es/hangman/">Español</a> · <a href="../../de/hangman/">Deutsch</a> · <a href="../../el/hangman/">Ελληνικά</a></p>
   </footer>
 </div>

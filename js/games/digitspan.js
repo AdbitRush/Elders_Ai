@@ -11,7 +11,7 @@ function initDigitSpan(container){
 }
 function _dsNext(container){
     if(!gameState.active||gameState.currentId!=='digitspan')return;
-    const gs=gameState.digitspan;
+    const gs=gameState.digitspan; gs._locked=false;
     if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
     const isHe=currentLang==='he';
     let num='';
@@ -42,6 +42,8 @@ function _dsShowPad(){
 }
 function _dsKey(d){
     const gs=gameState.digitspan;
+    if(gs._locked)return;   // after OK the round is judged: a second OK scored the same number twice and skipped a round
+    if(d===-2)gs._locked=true;
     if(d===-1){gs._input=gs._input.slice(0,-1);}
     else if(d===-2){
         const isC=gs._input===gs._target;

@@ -1,0 +1,20 @@
+/* consent.css (2026-10-10): the cookie banner (js/consent.js) in the BrainPlay palette. Loaded on the hub, About and
+   Privacy, after the library's own cookieconsent.css. Dark follows the site's data-theme="dark". */
+/* consent banner in the BrainPlay palette: big text, 48px+ buttons, warm cream / deep brown */
+#cc-main{ --cc-font-family:inherit; --cc-modal-border-radius:18px; --cc-btn-border-radius:12px;
+  --cc-bg:#fffaf0; --cc-primary-color:#2a1a0c; --cc-secondary-color:#3d2a17; --cc-separator-border-color:#e0c497;
+  --cc-btn-primary-bg:#b45309; --cc-btn-primary-color:#ffffff; --cc-btn-primary-border-color:#b45309;
+  --cc-btn-primary-hover-bg:#92400e; --cc-btn-primary-hover-color:#ffffff; --cc-btn-primary-hover-border-color:#92400e;
+  --cc-btn-secondary-bg:#b45309; --cc-btn-secondary-color:#ffffff; --cc-btn-secondary-border-color:#b45309;
+  --cc-btn-secondary-hover-bg:#92400e; --cc-btn-secondary-hover-color:#ffffff; --cc-btn-secondary-hover-border-color:#92400e;
+  --cc-toggle-on-bg:#b45309; --cc-cookie-category-block-bg:#fff1d6; --cc-cookie-category-block-border:#e0c497;
+  --cc-link-color:#92400e; font-size:18px; }
+html[data-theme="dark"] #cc-main{ --cc-bg:#2a1c12; --cc-primary-color:#fff6e8; --cc-secondary-color:#f3e2c7; --cc-separator-border-color:#6b4f33;
+  --cc-btn-primary-bg:#f6b545; --cc-btn-primary-color:#2a1700; --cc-btn-primary-border-color:#f6b545;
+  --cc-btn-primary-hover-bg:#ffd27a; --cc-btn-primary-hover-color:#2a1700; --cc-btn-primary-hover-border-color:#ffd27a;
+  --cc-btn-secondary-bg:#f6b545; --cc-btn-secondary-color:#2a1700; --cc-btn-secondary-border-color:#f6b545;
+  --cc-btn-secondary-hover-bg:#ffd27a; --cc-btn-secondary-hover-color:#2a1700; --cc-btn-secondary-hover-border-color:#ffd27a;
+  --cc-toggle-on-bg:#f6b545; --cc-cookie-category-block-bg:#3a2a1d; --cc-cookie-category-block-border:#6b4f33; --cc-link-color:#ffd27a; }
+#cc-main .cm__title{ font-size:1.35rem; }
+#cc-main .cm__desc, #cc-main .pm__section-desc{ font-size:1.05rem; line-height:1.55; }
+#cc-main .cm__btn, #cc-main .pm__btn{ min-height:52px; font-size:1.1rem; font-weight:800; }

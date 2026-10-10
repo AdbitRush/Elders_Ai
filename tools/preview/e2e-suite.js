@@ -19,6 +19,8 @@ async function page(w, url, { theme = 'dark', lang = 'en', init } = {}) {
     localStorage.setItem('gg-theme', t); localStorage.setItem('gg-lang', l);
     localStorage.setItem('gg_name', 'Ruth'); localStorage.setItem('gg_avatar', '🌻'); localStorage.setItem('gg_profile_seen', '1'); } catch (e) {} }, [theme, lang]);
   if (init) await ctx.addInitScript(init);
+  // the cookie-consent banner (2026-10-10) is answered up front ("necessary only"), so it never covers the game
+  await ctx.addCookies([{ name: 'cc_cookie', value: encodeURIComponent(JSON.stringify({ categories: ['necessary'], revision: 0, data: null, consentTimestamp: new Date().toISOString(), consentId: 'test', services: { necessary: [], ads: [] }, languageCode: 'en', lastConsentTimestamp: new Date().toISOString(), expirationTime: Date.now() + 864e5 })), url: U }]);
   const p = await ctx.newPage(); const errs = [];
   p.on('pageerror', (e) => errs.push(e.message));
   await p.route(/pagead2|googlesyndication|google-analytics|googletagmanager/, (r) => r.abort());
