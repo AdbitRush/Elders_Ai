@@ -1,3 +1,15 @@
+## 2026-10-10 - pre-launch audit (report only, no site code changed)
+
+Full report: `AUDIT-2026-10-10.md` (main). Tested the preview @ d6e8cbc at 1280 and 390 px; every game played end to
+end with real clicks by `tools/preview/play-all.js` (preview branch, c4059cd). 0 console errors in 28 games.
+- **Broken:** Falling Blocks - `blocks.js` uses `window.gameState`/`window.currentLang` (they are `let` globals), so
+  game over never opens the end screen and the keyboard does nothing. Same on live `main`.
+- Hangman unwinnable in Greek (Latin keyboard); Recall Hard: the 4 s countdown wipes the picks; Number Sequence's
+  4th generator makes rule-less puzzles; double-tap counts twice in 14 games; Time Journey/Safari cards show Hebrew
+  on en/es/fr/de/el (`lang-content.js` loads after the first `changeLanguage`); every quiz says "Well Done!" at 0/10.
+- 48 design problems and 16 inputs Or must supply (logo, name, domain, photo direction, content era, AdSense ID,
+  consent, legal) are listed in the report. Nothing was fixed; the fix order is at the end of Part 2.
+
 ## 2026-10-09 (round 3) - visual upgrade on `preview/warm-redesign` @ d6e8cbc (preview only, main untouched)
 
 Or's call: the games looked cheap because they were built from keyboard emoji. Preview rebuilt; e2e **100/100**
