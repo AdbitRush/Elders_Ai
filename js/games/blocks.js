@@ -121,7 +121,8 @@ window.initBlocks=function(container){
     const _baseDrop=_dtet==='easy'?1100:_dtet==='hard'?500:800;
     let lastT=0,dropInterval=Math.max(100,_baseDrop-level*60);
     function loop(t){if(gameOver){
-        // no _sessionScore: the end screen's "x/y correct" does not fit a points game; it shows the generic win text
+        // the end screen judges a Falling Blocks game by lines cleared (0 lines = "Nice try", no level-up)
+        gameState.blocks._blocksLines=lines;
         draw();
         setTimeout(()=>{if(gameState.active&&gameState.currentId==='blocks')levelComplete();},1800);
         return;}

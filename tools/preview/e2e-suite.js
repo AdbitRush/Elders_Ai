@@ -168,8 +168,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     const { ctx, p, errs } = await page(390, '/');
     const r = await p.evaluate((src) => { const re = new RegExp(src, 'i'); const msgs = Object.values(_adMsgs).flat();
       const foot = Object.keys(i18nData).map((l) => i18nData[l].footer_desc || ''); return { bad: msgs.concat(foot).filter((m) => re.test(m)), n: msgs.length + foot.length,
-        quiet: foot.every((f) => /ads|פרסומות|anuncios|publicités|Werbung|Anzeigen|διαφημίσ/i.test(f)) }; }, NO_ADS.source);
-    ok('8 copy: no "no ads" claim in the ticker or footer (6 languages); every footer says quiet ads', !r.bad.length && r.quiet, r.bad.join(' | ') || r.n + ' lines');
+        // 2026-10-10 (b): no AdSense tag is live yet, so no footer may say ads already pay for the site
+        quiet: foot.every((f) => f && !/paid for by|ממומן בפרסומות|se financia con|financé par|finanziert durch|υποστηρίζεται από/i.test(f)) }; }, NO_ADS.source);
+    ok('8 copy: no "no ads" claim in the ticker or footer (6 languages); no footer claims ads are already running', !r.bad.length && r.quiet, r.bad.join(' | ') || r.n + ' lines');
     const pages = await p.evaluate(async () => { const ids = [...document.querySelectorAll('#all-games [data-game]')].map((li) => li.getAttribute('data-game')); const out = { n: 0, bad: [] };
       for (const l of ['he', 'en', 'es', 'fr', 'de', 'el']) for (const id of ids) { const t = await (await fetch(l + '/' + id + '/')).text(); out.n++;
         if (/no ads|sin anuncios|sans publicité|keine Werbung|χωρίς διαφημίσεις|בלי פרסומות/i.test(t) || /pageBg|color-scheme:dark}/.test(t) || !/id="themeBtn"/.test(t)) out.bad.push(l + '/' + id); }

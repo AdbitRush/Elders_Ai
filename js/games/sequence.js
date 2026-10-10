@@ -69,11 +69,12 @@ function clickSequence(id) {
         state.sequence=[];
         const gc=document.getElementById('gameContent');
         setTimeout(()=>{
-            const hs=checkHS('sequence',score);
+            // honest result: only a real run (level 2+) can set a personal best
+            const hs=score>1&&checkHS('sequence',score);
             Retention.recordWin();
             gc.innerHTML=`<div class="text-center py-8 px-4 max-w-sm mx-auto">
-                <div class="w-modal-mark" aria-hidden="true">${Icon.svg('party-popper',{size:'1em',sw:1.8})}</div>
-                <div class="text-3xl font-bold mt-3 text-slate-800">${gt('Great job!', 'כל הכבוד!')}</div>
+                <div class="w-modal-mark" aria-hidden="true">${Icon.svg(score>1?'party-popper':'rotate-ccw',{size:'1em',sw:1.8})}</div>
+                <div class="text-3xl font-bold mt-3 text-slate-800">${score>1?gt('Great job!', 'כל הכבוד!'):gt('Nice try - want to play again?', 'ניסיון יפה - רוצים לשחק שוב?')}</div>
                 <div class="text-xl mt-3 text-gray-600">${isHe?`הגעת לרמה`:'You reached level'} <strong class="text-[#1a365d] text-2xl">${score}</strong></div>
                 ${hs?`<div class="mt-2 text-amber-600 font-bold text-lg">${Icon.ui('star')} ${gt('New personal best!', 'שיא אישי חדש!')}</div>`:''}
                 <div id="sequence-share" class="mt-3"></div>
