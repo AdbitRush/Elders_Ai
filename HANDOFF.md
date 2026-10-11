@@ -41,6 +41,27 @@ The 8 wave-1 games committed earlier (f4a39a1) match Or's wave-1 list exactly an
 passes. Gold dashed = playable now, blue = the cards you were passed; an illegal card says why. play-all driver plays a
 full hand (pass cap at 3, illegal card refused, points add up to 26).
 
+**STOPPED HERE (clean boundary after wave 1).** Claude Code killed the local test server because the PC ran critically
+low on memory; testing was not restarted without Or's OK. **Resume at wave 2:**
+1. Drafts (NOT published, not served - tools/ is stripped from the preview build) are in `tools/drafts/wave2/`:
+   crossword (data from js/data/crossword-words.js already prepended), cryptoquote (24 attributed quotes), wordladder
+   (855-word list, BFS-checked puzzles), nonogram (5/8/10 grids), minesweeper, g2048, fifteen, mastermind, spotdiff;
+   `drivers.js` = their play-all drivers (paste into PLAY in tools/preview/play-all.js).
+   Photos for Spot the Difference are already in `images/spotdiff/` (10 John Margolies 1976-78 photos, Library of
+   Congress via Wikimedia Commons, all "Public domain"; sources/pages in `tools/drafts/wave2/spotdiff-photos.json`) -
+   add them to credits.html when publishing.
+2. To publish: move each draft to js/games/<id>.js; in tools/new_games.json replace `anagrams` with cryptoquote,
+   wordladder, fifteen ("15-Puzzle"), mastermind entries (crossword/nonogram/minesweeper/g2048/spotdiff are listed);
+   run `python tools/build_new_games.py`, `python tools/build_pages.py`, card pictures (card-shots.js STAGE entries +
+   frame_shots.py), bump ASSET_V / sw CACHE (now 70), then play-all at 390 + 1280 and e2e (sections 10, 12 cover the
+   new games' fit at 320/390/430/RTL). None of the wave-2 drafts has been run in a browser yet.
+3. Wave 3: `tools/drafts/wave3/whosang.js` (61 songs, checked) is the only one written; content plan for the other 8 is
+   in the session notes above (lyrics: short hook lines only; Famous Faces needs public-domain portraits from Commons
+   with a license check; Then vs Now uses USPS stamp rates, DOL minimum wage, Census median new-home prices, dated).
+   Wave-3 quizzes run on QuizKit and can pull TRIVIA_ROWS via `ensureGameLoaded('trivia')`.
+4. Wave 4 not started. Arcade stages must use `.ak-stage` / `.ak-controls` (e2e 12 checks they fit the screen) and a
+   `[data-stage-start]` Start button.
+
 ## 2026-10-10 (c) - games project: wave 1 (8/9) + wave 0 (7/9) (preview only; main untouched)
 
 Or's plan (latest message): Wave 0 = 9 review fixes, then 36 games in 4 waves of 9. Waves 3/4 lists were cut off in his
