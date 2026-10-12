@@ -1,4 +1,4 @@
-## 2026-10-10 (d) - games project, per-wave status (preview only; main untouched) - RESUME HERE
+## 2026-10-12 (e) / 2026-10-10 (d) - games project, per-wave status (preview only; main untouched) - RESUME HERE
 
 Or's full plan arrived complete this time (waves 3/4 included): Wave 0 = 9 review fixes, then 36 games in 4 waves of 9.
 Wave 3 list (final): Finish the Lyric, Who Sang It, Movie Quote Quiz (60s-80s), TV Trivia (60s-80s), Name That Year,
@@ -41,26 +41,34 @@ The 8 wave-1 games committed earlier (f4a39a1) match Or's wave-1 list exactly an
 passes. Gold dashed = playable now, blue = the cards you were passed; an illegal card says why. play-all driver plays a
 full hand (pass cap at 3, illegal card refused, points add up to 26).
 
-**STOPPED HERE (clean boundary after wave 1).** Claude Code killed the local test server because the PC ran critically
-low on memory; testing was not restarted without Or's OK. **Resume at wave 2:**
-1. Drafts (NOT published, not served - tools/ is stripped from the preview build) are in `tools/drafts/wave2/`:
-   crossword (data from js/data/crossword-words.js already prepended), cryptoquote (24 attributed quotes), wordladder
-   (855-word list, BFS-checked puzzles), nonogram (5/8/10 grids), minesweeper, g2048, fifteen, mastermind, spotdiff;
-   `drivers.js` = their play-all drivers (paste into PLAY in tools/preview/play-all.js).
-   Photos for Spot the Difference are already in `images/spotdiff/` (10 John Margolies 1976-78 photos, Library of
-   Congress via Wikimedia Commons, all "Public domain"; sources/pages in `tools/drafts/wave2/spotdiff-photos.json`) -
-   add them to credits.html when publishing.
-2. To publish: move each draft to js/games/<id>.js; in tools/new_games.json replace `anagrams` with cryptoquote,
-   wordladder, fifteen ("15-Puzzle"), mastermind entries (crossword/nonogram/minesweeper/g2048/spotdiff are listed);
-   run `python tools/build_new_games.py`, `python tools/build_pages.py`, card pictures (card-shots.js STAGE entries +
-   frame_shots.py), bump ASSET_V / sw CACHE (now 70), then play-all at 390 + 1280 and e2e (sections 10, 12 cover the
-   new games' fit at 320/390/430/RTL). None of the wave-2 drafts has been run in a browser yet.
-3. Wave 3: `tools/drafts/wave3/whosang.js` (61 songs, checked) is the only one written; content plan for the other 8 is
-   in the session notes above (lyrics: short hook lines only; Famous Faces needs public-domain portraits from Commons
-   with a license check; Then vs Now uses USPS stamp rates, DOL minimum wage, Census median new-home prices, dated).
-   Wave-3 quizzes run on QuizKit and can pull TRIVIA_ROWS via `ensureGameLoaded('trivia')`.
-4. Wave 4 not started. Arcade stages must use `.ak-stage` / `.ak-controls` (e2e 12 checks they fit the screen) and a
-   `[data-stage-start]` Start button.
+**Pre-wave-2 fixes - DONE (1363259, on the preview):** About page count comes from the build
+(`<!-- gen:game-count -->`, written by build_new_games.py: 37 then, 46 now); ☰ menu on phones = bounded flex column, only
+the list scrolls (root cause: the panel's inline overflow:hidden beat warm.css's overflow-y:auto and the list had
+max-height none -> a 1,790 px list clipped by a 754 px panel); Quick Count = visible countdown (20/14/10 s), 100 points +
+10 per second left, time-out = a miss with the answer shown. e2e 13 / 13b added and passing.
+
+**Wave 2 - BUILT + COMMITTED (457b1fe), NOT FINISHED, NOT on the preview** (preview still at 1363259):
+crossword, cryptoquote, word ladder, picture logic (nonogram), minesweeper, 2048, spot the difference (10 public-domain
+Margolies photos, credited on credits.html), 15-puzzle, mastermind. All 9 played end to end by play-all at 390
+(win paths + wrong moves). Fixed during the round: game boxes shrank to content inside the centred flex #gameContent
+(grids wider than the card were clipped: minesweeper showed 7 of 9 columns at 320) -> width:100% on every wave-2 box and
+QuizKit; grid cells/keys got class `gk-cell` so a11y.css's 48 px button minimum and premium.css's 1.1rem rounding
+(circles instead of squares) do not apply; Word Ladder key "Enter" -> "OK" (cut at 320). e2e 12 now measures against the
+game CARD edges (the card clips, so the old screen-edge check missed clipped grids).
+
+**STOPPED HERE again: Claude Code killed the local server + the test chain (PC critically low on memory) during the
+full run; not restarted without Or's OK.** Results before the kill: e2e **105/108**, play-all 390: 16 of 46 games run, 16 OK;
+play-all 1280 not run. **Resume:**
+1. e2e 9 (no emoji in game areas): minesweeper uses 💣 🚩 ⛏ (Open/Flag buttons, mine squares) -> Icon.ui('bomb') /
+   Icon.ui('flag') / a pickaxe-free label; mastermind peg symbol ★ -> Lucide shapes (star, circle, triangle, diamond,
+   heart, square are in js/lucide-icons.js).
+2. e2e 12 with the new card-edge measure flags OLDER games: blocks (stage + its side buttons ~6 px past the card at
+   320/390/430/RTL), jigsaw (tray svgs past the card), spider (first column 7-9 px past the card at 320). Look at each in a
+   browser: real clipping -> fix; deliberate full-bleed -> mark the element `data-allow-overflow`.
+3. Then: e2e + play-all at 390 and 1280 (run ONE at a time; with ~4 GB free the PC managed e2e + part of play-all),
+   rebuild the preview (`bash /opt/brainplay-preview/tool/build-preview.sh`), report wave 2.
+   Alternative if the PC stays short of memory: run the suites from the VPS against the preview.
+4. Wave 3 (only `tools/drafts/wave3/whosang.js` written) and wave 4 as described below.
 
 ## 2026-10-10 (c) - games project: wave 1 (8/9) + wave 0 (7/9) (preview only; main untouched)
 
