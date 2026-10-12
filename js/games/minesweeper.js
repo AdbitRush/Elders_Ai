@@ -54,14 +54,14 @@ function _msRender() {
         if (gs.flag[r][c]) flags++;
         const o = gs.open[r][c], mine = gs.over && gs.mine && gs.mine[r][c], k = o ? _msNear(r, c) : 0;
         const boom = gs.boom && gs.boom[0] === r && gs.boom[1] === c;
-        const inner = o ? (k ? `<span style="color:${COL[k]}">${k}</span>` : '') : mine ? '💣' : gs.flag[r][c] ? '🚩' : '';
+        const inner = o ? (k ? `<span style="color:${COL[k]}">${k}</span>` : '') : mine ? Icon.svg('bomb', { size: '62%', sw: 2.4, cls: 'ms-ic ms-bomb' }) : gs.flag[r][c] ? Icon.svg('flag', { size: '62%', sw: 2.6, fill: true, fillOpacity: 1, cls: 'ms-ic ms-flag' }) : '';
         cells += `<button type="button" class="gk-cell ms-c${o ? ' ms-o' : ''}${boom ? ' ms-boom' : ''}" onclick="msTap(${r},${c})" aria-label="row ${r + 1} column ${c + 1}${o ? ', ' + k : gs.flag[r][c] ? ', flagged' : ''}">${inner}</button>`;
     }
     el.innerHTML = `<div class="ms" dir="ltr">
-      <div class="ms-top"><span>💣 ${gs.mines} mines</span><span>🚩 ${flags} flagged</span></div>
+      <div class="ms-top"><span>${Icon.ui('bomb')} ${gs.mines} mines</span><span>${Icon.ui('flag', { cls: 'lc-ui ms-flag' })} ${flags} flagged</span></div>
       <div class="ms-mode" role="group" aria-label="What a tap does">
-        <button type="button" class="ms-m" aria-pressed="${gs.mode === 'open'}" onclick="msMode('open')">⛏️ Open</button>
-        <button type="button" class="ms-m" aria-pressed="${gs.mode === 'flag'}" onclick="msMode('flag')">🚩 Flag</button></div>
+        <button type="button" class="ms-m" aria-pressed="${gs.mode === 'open'}" onclick="msMode('open')">${Icon.ui('search')} Open</button>
+        <button type="button" class="ms-m" aria-pressed="${gs.mode === 'flag'}" onclick="msMode('flag')">${Icon.ui('flag')} Flag</button></div>
       <div class="ms-grid" style="grid-template-columns:repeat(${gs.n},1fr)">${cells}</div>
       <div class="cw-msg" role="status">${gs.msg || '&nbsp;'}</div>
     </div>
@@ -75,6 +75,8 @@ function _msRender() {
       .ms-c{aspect-ratio:1;min-width:0;border:0;border-radius:5px;background:linear-gradient(#e9d3a8,#d6b98a);box-shadow:inset 0 -3px 0 rgba(0,0,0,.18);font:900 clamp(1rem,5vw,1.5rem)/1 system-ui,sans-serif;cursor:pointer;padding:0;color:#1d1b18}
       .ms-c.ms-o{background:#fffaf0;box-shadow:none;cursor:default}
       .ms-c.ms-boom{background:#fca5a5}
+      .ms-ic{display:block;margin:auto}.ms-flag{color:#b91c1c}.ms-bomb{color:#1d1b18}
+      .ms-top span,.ms-m{display:inline-flex;align-items:center;justify-content:center;gap:6px}
       .cw-msg{text-align:center;font-weight:800;margin:10px 0;min-height:1.5em}
     </style>`;
 }
