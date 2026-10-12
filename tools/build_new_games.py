@@ -7,6 +7,7 @@ A game is published only when js/games/<id>.js exists. The script rewrites these
   index.html  <!-- gen:new-game-list -->   entries in the "All games" list
   index.html  // gen:new-games            window.NEW_GAMES (ids, init, icon, section, skills, why, text)
   sw.js       // gen:new-games            the new game files in the precache list
+  about.html  <!-- gen:game-count -->     the real total number of games
 Everything else (maps, i18n, skills, daily challenge, menu) reads window.NEW_GAMES at run time. Run
 tools/build_pages.py afterwards for the landing pages, and tools/preview/card-shots.js + frame_shots.py for card pictures.
 """
@@ -67,7 +68,14 @@ def main():
     files = ''.join(f"\n  './js/games/{g['id']}.js'," for g in games)
     s = replace_block(s, '  // gen:new-games', '  // /gen:new-games', files + '\n')
     open(p, 'w', encoding='utf8', newline='').write(s)
+    # about.html is static: the real total (the original GAME_IDS + the published new games) is written into it here
+    base = re.search(r"window\.GAME_IDS = \[(.*?)\];", open(os.path.join(ROOT, 'index.html'), encoding='utf8').read()).group(1)
+    total = len(re.findall(r"'[a-z0-9]+'", base)) + len(games)
+    p = os.path.join(ROOT, 'about.html'); s = open(p, encoding='utf8').read()
+    s = replace_block(s, '<!-- gen:game-count -->', '<!-- /gen:game-count -->', str(total))
+    open(p, 'w', encoding='utf8', newline='').write(s)
     print(f'published {len(games)} new games in {len(secs)} sections:', ' '.join(g['id'] for g in games))
+    print(f'about.html: {total} games')
 
 
 if __name__ == '__main__':

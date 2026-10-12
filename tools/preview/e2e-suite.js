@@ -385,6 +385,37 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('11b no JS errors', !errs.length, errs.join(' | '));
     await ctx.close();
   }
+  // 13. the ☰ menu on an iPhone-sized screen (2026-10-12): the panel fits the screen and the LIST scrolls inside it
+  {
+    const { ctx, p, errs } = await page(390, '/?lang=en', { theme: 'light' });
+    await p.setViewportSize({ width: 390, height: 844 });
+    await p.click('#menuBtn'); await p.waitForTimeout(500);
+    const m = () => p.evaluate(() => { const g = document.getElementById('gameMenu').getBoundingClientRect(), l = document.getElementById('gameMenuList');
+      return { bottom: Math.round(g.bottom), vh: innerHeight, listH: Math.round(l.getBoundingClientRect().height), scrollH: l.scrollHeight, top: l.scrollTop, pageY: scrollY }; });
+    const a = await m();
+    const box = await p.locator('#gameMenuList').boundingBox();
+    await p.mouse.move(box.x + box.width / 2, box.y + box.height / 2); await p.mouse.wheel(0, 800); await p.waitForTimeout(400);
+    const z = await m();
+    const lastIn = await p.evaluate(() => { const l = document.getElementById('gameMenuList'); l.scrollTop = l.scrollHeight; const it = l.lastElementChild.getBoundingClientRect(), lr = l.getBoundingClientRect(); return it.bottom <= lr.bottom + 1; });
+    ok('13 ☰ menu at 390x844: panel inside the screen, list scrolls inside it (page stays), last game reachable',
+      a.bottom <= a.vh && a.scrollH > a.listH && z.top > 0 && z.pageY === 0 && lastIn, JSON.stringify({ a, z, lastIn }));
+    ok('13 no JS errors', !errs.length, errs.join(' | '));
+    await ctx.close();
+  }
+  // 13b. Quick Count is quick (2026-10-12): a visible countdown; time running out = a miss, the answer is shown, next round
+  {
+    const { ctx, p, errs } = await page(390, '/?lang=en#counting', { theme: 'light', init: () => { try { localStorage.setItem('gg_difficulty', 'hard'); } catch (e) {} } });
+    const t0 = await p.evaluate(() => ({ timer: !!document.querySelector('#gameContent .cnt-timer'), secs: gameState.counting._secs, si: gameState.counting._si }));
+    // the countdown started when the game opened: wait for the time-out itself, then look at once
+    await p.waitForFunction((si) => gameState.counting._si > si, t0.si, { timeout: (t0.secs + 3) * 1000, polling: 100 }).catch(() => {});
+    const t1 = await p.evaluate(() => ({ si: gameState.counting._si, ss: gameState.counting._ss, shown: !!document.querySelector('#gameContent .bg-green-50'), msg: (document.getElementById('cnt-sec') || {}).textContent }));
+    await p.waitForTimeout(1600);
+    const t2 = await p.evaluate(() => ({ si: gameState.counting._si, sec: Number((document.getElementById('cnt-sec') || {}).textContent) }));
+    ok('13b Quick Count: countdown visible, time-out = a miss with the answer shown, then the next round with a fresh timer',
+      t0.timer && t1.si === t0.si + 1 && t1.ss === 0 && t1.shown && /Time/.test(t1.msg) && t2.sec >= t0.secs - 2, JSON.stringify({ t0, t1, t2 }));
+    ok('13b no JS errors', !errs.length, errs.join(' | '));
+    await ctx.close();
+  }
   // 12. responsive game stage (2026-10-10 review): every game, after its Start button, at 320 / 390 / 430 px (+ 390 RTL):
   //     nothing wider than the screen, no sideways scroll; arcade stages (.ak-stage) fit the screen height with their controls.
   {

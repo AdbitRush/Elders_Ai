@@ -65,10 +65,16 @@ html[data-theme] body nav select option{ background:var(--w-card); color:var(--w
   html[data-theme] body nav #levelIndicator{ min-height:40px !important; font-size:.95rem !important; display:inline-flex; align-items:center; padding:4px 8px !important; }
   html[data-theme] body nav #levelIndicator.hidden, html[data-theme] body nav #personalBest.hidden{ display:none !important; }
   html[data-theme] body nav #personalBest{ display:none !important; }
-  /* the ☰ panel holds the tools now: it may be taller than before, so it scrolls as one */
-  html[data-theme] body #gameMenu{ top:74px !important; max-height:calc(100dvh - 90px); overflow-y:auto; }
-  html[data-theme] body #gameMenuList{ max-height:none !important; }
+  html[data-theme] body #gameMenu{ top:74px !important; max-height:calc(100dvh - 74px - 12px) !important; }
 }
+/* ☰ panel (2026-10-12, iPhone 390x844): the list could not scroll. The panel's inline overflow:hidden beat the old
+   overflow-y:auto, and the list's max-height was 'none' on phones, so a 1,790 px list was clipped by a 754 px panel while
+   the page scrolled behind it. Now the panel is a bounded flex column (header, tools and search keep their height) and
+   only the list scrolls, inside the panel. */
+html[data-theme] body #gameMenu:not(.hidden){ display:flex; flex-direction:column; max-height:calc(100dvh - 64px - 12px); }
+html[data-theme] body #gameMenu > *{ flex-shrink:0; }
+html[data-theme] body #gameMenu > #gameMenuList{ flex:1 1 auto; min-height:0; max-height:none !important; overflow-y:auto !important;
+  -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
 /* the tools grid inside the ☰ menu (phones only; empty and hidden on wider screens) */
 #w-tools{ display:none; }
 html.w-phone-head #w-tools{ display:block; padding:12px 14px 4px; border-bottom:2px solid var(--w-line); }
