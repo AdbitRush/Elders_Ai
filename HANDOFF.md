@@ -1,4 +1,4 @@
-## 2026-10-12 (e) / 2026-10-10 (d) - games project, per-wave status (preview only; main untouched) - RESUME HERE
+## 2026-10-12 (f) / 2026-10-10 (d) - games project, per-wave status (preview only; main untouched) - RESUME HERE
 
 Or's full plan arrived complete this time (waves 3/4 included): Wave 0 = 9 review fixes, then 36 games in 4 waves of 9.
 Wave 3 list (final): Finish the Lyric, Who Sang It, Movie Quote Quiz (60s-80s), TV Trivia (60s-80s), Name That Year,
@@ -47,29 +47,27 @@ the list scrolls (root cause: the panel's inline overflow:hidden beat warm.css's
 max-height none -> a 1,790 px list clipped by a 754 px panel); Quick Count = visible countdown (20/14/10 s), 100 points +
 10 per second left, time-out = a miss with the answer shown. e2e 13 / 13b added and passing.
 
-**Wave 2 - BUILT + COMMITTED (457b1fe), NOT FINISHED, NOT on the preview** (preview still at 1363259):
-crossword, cryptoquote, word ladder, picture logic (nonogram), minesweeper, 2048, spot the difference (10 public-domain
-Margolies photos, credited on credits.html), 15-puzzle, mastermind. All 9 played end to end by play-all at 390
-(win paths + wrong moves). Fixed during the round: game boxes shrank to content inside the centred flex #gameContent
-(grids wider than the card were clipped: minesweeper showed 7 of 9 columns at 320) -> width:100% on every wave-2 box and
-QuizKit; grid cells/keys got class `gk-cell` so a11y.css's 48 px button minimum and premium.css's 1.1rem rounding
-(circles instead of squares) do not apply; Word Ladder key "Enter" -> "OK" (cut at 320). e2e 12 now measures against the
-game CARD edges (the card clips, so the old screen-edge check missed clipped grids).
+**Wave 2 - DONE (9/9), on the preview @ 3158b48 (assets v73).** Crossword, cryptoquote, word ladder, picture logic
+(nonogram), minesweeper, 2048, spot the difference (10 public-domain Margolies photos, credited on credits.html),
+15-puzzle, mastermind. Fixed during the round (root causes):
+- game boxes shrank to content inside the centred flex #gameContent (grids wider than the card were clipped:
+  minesweeper showed 7 of 9 columns at 320) -> width:100% on every wave-2 box and QuizKit; grid cells/keys got class
+  `gk-cell` so a11y.css's 48 px button minimum and premium.css's 1.1rem rounding (circles) do not apply; Word Ladder key
+  "Enter" -> "OK" (cut at 320). e2e 12 now measures against the game CARD edges (the card clips; the old screen-edge
+  check missed clipped grids).
+- emoji (site rule = Lucide only): minesweeper 💣🚩⛏ -> Lucide bomb / flag / search; mastermind peg glyphs ★●▲◆♥■ ->
+  Lucide star/circle/triangle/diamond/heart/square, feedback ●○ -> filled/outline Lucide circle (c46a2b2).
+- the stricter card-edge check caught 3 OLDER games (3158b48): Spider - GameKit.fit's 28 px card floor made 10 columns
+  wider than a 320 px card (outer two columns clipped) -> fit() takes a floor, Spider uses 20; Falling Blocks - touch pad
+  was `min(94vw,420px)` = 6 px past the card each side at 320 -> width:100%, canvas max-width 100%; Jigsaw - only the
+  invisible knob padding of the slot outline svgs (opacity 0, edge slots have flat sides) -> `data-allow-overflow`.
+- Tests run FROM THE VPS against the preview (PC short of memory): `/root/bp-tests` = `git archive` of tools/ from
+  /opt/brainplay-preview/repo.git; Playwright dir arg = `/opt/whatsapp-deals-bot` (the script appends node_modules).
+  Results: e2e **113/113** (incl. 12: 46 games x 320/390/430/390-RTL, 13 menu scroll, 13b Quick Count timeout, review
+  toolbar), play-all **46/46 at 390** and **46/46 at 1280**.
+  Gotcha: a wait loop `while pgrep -f play-all.js` matches its own bash command line -> use `pgrep -f "^node tools/..."`.
 
-**STOPPED HERE again: Claude Code killed the local server + the test chain (PC critically low on memory) during the
-full run; not restarted without Or's OK.** Results before the kill: e2e **105/108**, play-all 390: 16 of 46 games run, 16 OK;
-play-all 1280 not run. **Resume:**
-1. e2e 9 (no emoji in game areas): minesweeper uses 💣 🚩 ⛏ (Open/Flag buttons, mine squares) -> Icon.ui('bomb') /
-   Icon.ui('flag') / a pickaxe-free label; mastermind peg symbol ★ -> Lucide shapes (star, circle, triangle, diamond,
-   heart, square are in js/lucide-icons.js).
-2. e2e 12 with the new card-edge measure flags OLDER games: blocks (stage + its side buttons ~6 px past the card at
-   320/390/430/RTL), jigsaw (tray svgs past the card), spider (first column 7-9 px past the card at 320). Look at each in a
-   browser: real clipping -> fix; deliberate full-bleed -> mark the element `data-allow-overflow`.
-3. Then: e2e + play-all at 390 and 1280 (run ONE at a time; with ~4 GB free the PC managed e2e + part of play-all),
-   rebuild the preview (`bash /opt/brainplay-preview/tool/build-preview.sh`), report wave 2.
-   Alternative if the PC stays short of memory: run the suites from the VPS against the preview.
-4. Wave 3 (only `tools/drafts/wave3/whosang.js` written) and wave 4 as described below.
-
+**RESUME HERE: Wave 3** (only `tools/drafts/wave3/whosang.js` written, 61 songs) then Wave 4, as described below.
 ## 2026-10-10 (c) - games project: wave 1 (8/9) + wave 0 (7/9) (preview only; main untouched)
 
 Or's plan (latest message): Wave 0 = 9 review fixes, then 36 games in 4 waves of 9. Waves 3/4 lists were cut off in his
