@@ -395,7 +395,7 @@ function buildJigsawBoard(container, isHe) {
     const r = Math.floor(i / cols), c = i % cols;
     // faint outline of THIS slot's shape so pieces can be matched by shape
     boardHtml += `<div class="jig-slot" data-slot="${i}" data-drop="true">
-      <svg class="jig-slot-outline" viewBox="0 0 ${(pw + pad * 2).toFixed(1)} ${(ph + pad * 2).toFixed(1)}" preserveAspectRatio="none">${jigsawPathToSVG(r, c, rows, cols, pw, ph, pad, S.seams)}</svg>
+      <svg class="jig-slot-outline" data-allow-overflow viewBox="0 0 ${(pw + pad * 2).toFixed(1)} ${(ph + pad * 2).toFixed(1)}" preserveAspectRatio="none">${jigsawPathToSVG(r, c, rows, cols, pw, ph, pad, S.seams)}</svg>
     </div>`;
   }
   boardHtml += '</div>';

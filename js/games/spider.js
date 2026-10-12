@@ -69,4 +69,4 @@ function _spRender() {
     .sp .gk-col .gk-card.sp-down+.gk-card{margin-top:calc(var(--w)*-1.18)}</style>`;
     _fitNow_spider();
 }
-function _fitNow_spider() { GameKit.fit('.gk-table.sp', 10, 3, 70); }
+function _fitNow_spider() { GameKit.fit('.gk-table.sp', 10, 3, 70, 20); }  // 20 px floor: at 320 px all ten columns fit inside the card (28 px clipped the outer two)

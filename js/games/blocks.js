@@ -29,12 +29,12 @@ window.initBlocks=function(container){
     canvas.width=COLS*SZ; canvas.height=ROWS*SZ;
     // Responsive: fills width on phones, capped on desktop. Crisp because the
     // internal buffer is fixed and the browser scales the element.
-    canvas.style.cssText='height:min(46vh,560px);height:min(46dvh,560px);width:auto;max-width:90vw;aspect-ratio:'+COLS+'/'+ROWS+';border:2px solid #c98a2b;border-radius:8px;box-shadow:0 0 26px rgba(0,240,240,0.45);display:block;touch-action:none;image-rendering:auto';
+    canvas.style.cssText='height:min(46vh,560px);height:min(46dvh,560px);width:auto;max-width:100%;aspect-ratio:'+COLS+'/'+ROWS+';border:2px solid #c98a2b;border-radius:8px;box-shadow:0 0 26px rgba(0,240,240,0.45);display:block;touch-action:none;image-rendering:auto';
     const ctx=canvas.getContext('2d');
 
     // ── Big, senior-friendly touch controls ────────────────────────────────────
     const pad=document.createElement('div');
-    pad.style.cssText='display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:min(94vw,420px);margin-top:2px';
+    pad.style.cssText='display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;max-width:420px;box-sizing:border-box;margin-top:2px';  // 100% of the card, not 94vw: at 320 px 94vw ran 6 px past the card on each side
     function mkBtn(lbl,fn,opts){
         opts=opts||{};
         const b=document.createElement('button');

@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/hooks.css">
     <link rel="stylesheet" href="css/premium.css">
-<link rel="stylesheet" href="css/a11y.css?v=72">
-<link rel="stylesheet" href="css/ambient-bg.css?v=72">
+<link rel="stylesheet" href="css/a11y.css?v=73">
+<link rel="stylesheet" href="css/ambient-bg.css?v=73">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; min-height: 100dvh; }
@@ -182,18 +182,18 @@
 
     </style>
 <!-- Prebuilt Tailwind utilities (replaces the cdn.tailwindcss.com runtime, 5s+ blocking). Rebuild: npx tailwindcss@3.4.17 -i in.css -o css/tailwind.css --content "./index.html,./js/**/*.js" --minify -->
-<link rel="stylesheet" href="css/tailwind.css?v=72">
+<link rel="stylesheet" href="css/tailwind.css?v=73">
 <!-- warm redesign: the last stylesheet (css/warm.css) -->
-<link rel="stylesheet" href="css/warm.css?v=72">
-<script src="js/lucide-icons.js?v=72"></script>
-<script src="js/icons.js?v=72"></script>
-<script src="js/game-kit.js?v=72"></script>
+<link rel="stylesheet" href="css/warm.css?v=73">
+<script src="js/lucide-icons.js?v=73"></script>
+<script src="js/icons.js?v=73"></script>
+<script src="js/game-kit.js?v=73"></script>
 <!-- Consent (2026-10-10): Google Consent Mode v2 defaults are DENIED before any other script runs; js/consent.js
      (vanilla-cookieconsent 3.1.0, self-hosted) asks once and grants ad storage only after "Accept". -->
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});</script>
-<link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=72">
-<link rel="stylesheet" href="css/consent.css?v=72">
+<link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=73">
+<link rel="stylesheet" href="css/consent.css?v=73">
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -1191,7 +1191,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '72';
+const ASSET_V = '73';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 // The games added from 2026-10 (tools/new_games.json). Their maps, menu, i18n and skills are filled from this list.
 // gen:new-games (tools/build_new_games.py; do not edit by hand)
@@ -1905,12 +1905,12 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
-<script src="js/affiliate.js?v=72"></script>
-<script src="js/profile.js?v=72"></script>
-<script src="js/brainscore.js?v=72"></script>
-<script src="js/achievements.js?v=72"></script>
-<script src="js/lang-content.js?v=72"></script>
-<script src="js/textsize.js?v=72"></script>
+<script src="js/affiliate.js?v=73"></script>
+<script src="js/profile.js?v=73"></script>
+<script src="js/brainscore.js?v=73"></script>
+<script src="js/achievements.js?v=73"></script>
+<script src="js/lang-content.js?v=73"></script>
+<script src="js/textsize.js?v=73"></script>
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
 if ('IntersectionObserver' in window) {
@@ -1923,25 +1923,25 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
 }
 </script>
-<script src="js/daily-challenge.js?v=72"></script>
-<script src="js/stats.js?v=72"></script>
-<script src="js/difficulty.js?v=72"></script>
-<script src="js/levels.js?v=72"></script>
-<script src="js/share.js?v=72"></script>
-<script src="js/gametext.js?v=72"></script>
-<script src="js/sync.js?v=72"></script>
-<script src="js/sync-ui.js?v=72"></script>
-<script src="js/categories.js?v=72"></script>
-<script src="js/accessibility.js?v=72"></script>
-<script src="js/tips.js?v=72"></script>
-<script src="js/favorites.js?v=72"></script>
-<script src="js/holiday.js?v=72"></script>
-<script src="js/fx.js?v=72"></script>
-<script src="js/kbnav.js?v=72"></script>
-<script src="js/ambient-bg.js?v=72"></script>
-<script src="js/warm.js?v=72"></script>
-<script src="js/hub-nav.js?v=72"></script>
-<script src="js/vendor/cookieconsent/cookieconsent.umd.js?v=72"></script>
-<script src="js/consent.js?v=72"></script>
+<script src="js/daily-challenge.js?v=73"></script>
+<script src="js/stats.js?v=73"></script>
+<script src="js/difficulty.js?v=73"></script>
+<script src="js/levels.js?v=73"></script>
+<script src="js/share.js?v=73"></script>
+<script src="js/gametext.js?v=73"></script>
+<script src="js/sync.js?v=73"></script>
+<script src="js/sync-ui.js?v=73"></script>
+<script src="js/categories.js?v=73"></script>
+<script src="js/accessibility.js?v=73"></script>
+<script src="js/tips.js?v=73"></script>
+<script src="js/favorites.js?v=73"></script>
+<script src="js/holiday.js?v=73"></script>
+<script src="js/fx.js?v=73"></script>
+<script src="js/kbnav.js?v=73"></script>
+<script src="js/ambient-bg.js?v=73"></script>
+<script src="js/warm.js?v=73"></script>
+<script src="js/hub-nav.js?v=73"></script>
+<script src="js/vendor/cookieconsent/cookieconsent.umd.js?v=73"></script>
+<script src="js/consent.js?v=73"></script>
 </body>
 </html>

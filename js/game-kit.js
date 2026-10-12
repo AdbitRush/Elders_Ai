@@ -75,10 +75,11 @@
   }
 
   // size the cards so `cols` columns fit the table exactly (measured, not guessed). Re-run on resize / rotation.
-  function fit(sel, cols, gap, max) {
+  // min (default 28) may be lowered by a game whose columns must all fit a 320 px phone (Spider's 10 columns)
+  function fit(sel, cols, gap, max, min) {
     const t = document.querySelector(sel); if (!t) return;
     const cs = getComputedStyle(t), inner = t.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    t.style.setProperty('--w', Math.max(28, Math.min(max, Math.floor((inner - gap * (cols - 1)) / cols))) + 'px');
+    t.style.setProperty('--w', Math.max(min || 28, Math.min(max, Math.floor((inner - gap * (cols - 1)) / cols))) + 'px');
   }
   let rz;
   window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (gameState && gameState.active && window['_fitNow_' + gameState.currentId]) window['_fitNow_' + gameState.currentId](); }, 150); });
