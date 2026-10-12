@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/hooks.css">
     <link rel="stylesheet" href="css/premium.css">
-<link rel="stylesheet" href="css/a11y.css?v=71">
-<link rel="stylesheet" href="css/ambient-bg.css?v=71">
+<link rel="stylesheet" href="css/a11y.css?v=72">
+<link rel="stylesheet" href="css/ambient-bg.css?v=72">
     <style>
         :root { --primary: #1a365d; --accent: #b7791f; --accent-light: #f6c048; --bg: #070d1c; }
         body { font-family: 'Assistant', sans-serif; background: linear-gradient(160deg, #060c1a 0%, #0a1628 55%, #0c1e38 100%); background-attachment: fixed; color: #1e293b; line-height: 1.6; user-select: none; overflow-x: hidden; padding-bottom: 56px; min-height: 100vh; min-height: 100dvh; }
@@ -182,18 +182,18 @@
 
     </style>
 <!-- Prebuilt Tailwind utilities (replaces the cdn.tailwindcss.com runtime, 5s+ blocking). Rebuild: npx tailwindcss@3.4.17 -i in.css -o css/tailwind.css --content "./index.html,./js/**/*.js" --minify -->
-<link rel="stylesheet" href="css/tailwind.css?v=71">
+<link rel="stylesheet" href="css/tailwind.css?v=72">
 <!-- warm redesign: the last stylesheet (css/warm.css) -->
-<link rel="stylesheet" href="css/warm.css?v=71">
-<script src="js/lucide-icons.js?v=71"></script>
-<script src="js/icons.js?v=71"></script>
-<script src="js/game-kit.js?v=71"></script>
+<link rel="stylesheet" href="css/warm.css?v=72">
+<script src="js/lucide-icons.js?v=72"></script>
+<script src="js/icons.js?v=72"></script>
+<script src="js/game-kit.js?v=72"></script>
 <!-- Consent (2026-10-10): Google Consent Mode v2 defaults are DENIED before any other script runs; js/consent.js
      (vanilla-cookieconsent 3.1.0, self-hosted) asks once and grants ad storage only after "Accept". -->
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});</script>
-<link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=71">
-<link rel="stylesheet" href="css/consent.css?v=71">
+<link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=72">
+<link rel="stylesheet" href="css/consent.css?v=72">
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -495,6 +495,52 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
             <div class="thumbnail-container"><img src="images/cards/hearts.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
             <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_hearts_title">Hearts</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_hearts_desc">Dodge the hearts and the Queen of Spades against three computer players.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('hearts')" data-i18n="btn_start">Start Game</button></div>
         </div>
+        <div class="w-sec" id="sec-words" style="grid-column:1/-1;order:99" data-sec="words"><h2 class="w-sec-h" data-i18n="sec_words_title">Words &amp; Numbers</h2><p class="w-sec-p" data-i18n="sec_words_sub">Puzzles to sit down with, at your own pace.</p></div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('crossword')" style="cursor:pointer;order:99" data-new-game="crossword">
+            <span id="hs-crossword" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/crossword.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_crossword_title">Daily Mini Crossword</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_crossword_desc">A small American crossword with friendly clues.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('crossword')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('cryptoquote')" style="cursor:pointer;order:99" data-new-game="cryptoquote">
+            <span id="hs-cryptoquote" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/cryptoquote.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_cryptoquote_title">Cryptoquote</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_cryptoquote_desc">Crack the letter code to reveal a famous American quote.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('cryptoquote')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('wordladder')" style="cursor:pointer;order:99" data-new-game="wordladder">
+            <span id="hs-wordladder" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/wordladder.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_wordladder_title">Word Ladder</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_wordladder_desc">Change one letter at a time to climb from one word to another.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('wordladder')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('nonogram')" style="cursor:pointer;order:99" data-new-game="nonogram">
+            <span id="hs-nonogram" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/nonogram.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_nonogram_title">Picture Logic</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_nonogram_desc">Fill the grid by the numbers to reveal a picture.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('nonogram')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('minesweeper')" style="cursor:pointer;order:99" data-new-game="minesweeper">
+            <span id="hs-minesweeper" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/minesweeper.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_minesweeper_title">Minesweeper</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_minesweeper_desc">Clear the field without touching a mine.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('minesweeper')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('g2048')" style="cursor:pointer;order:99" data-new-game="g2048">
+            <span id="hs-g2048" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/g2048.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_g2048_title">2048</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_g2048_desc">Slide and join matching tiles to reach 2048.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('g2048')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('spotdiff')" style="cursor:pointer;order:99" data-new-game="spotdiff">
+            <span id="hs-spotdiff" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/spotdiff.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_spotdiff_title">Spot the Difference</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_spotdiff_desc">Real American street photos from the 1970s: find the five differences.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('spotdiff')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('fifteen')" style="cursor:pointer;order:99" data-new-game="fifteen">
+            <span id="hs-fifteen" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/fifteen.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_fifteen_title">15-Puzzle</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_fifteen_desc">The sliding-tile puzzle from the toy box: put the numbers in order.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('fifteen')" data-i18n="btn_start">Start Game</button></div>
+        </div>
+        <div class="premium-card flex flex-col h-full relative" onclick="loadGame('mastermind')" style="cursor:pointer;order:99" data-new-game="mastermind">
+            <span id="hs-mastermind" class="hs-badge hidden"></span>
+            <div class="thumbnail-container"><img src="images/cards/mastermind.jpg" class="thumbnail-img" loading="lazy" decoding="async" alt="" onerror="this.style.cssText+=';background:linear-gradient(135deg,#7c2d12,#b45309)'"></div>
+            <div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold mb-2 text-gray-800" data-i18n="game_mastermind_title">Mastermind</h3><p class="text-gray-600 flex-grow text-sm" data-i18n="game_mastermind_desc">The classic code-breaking game: find the hidden colors in 10 tries.</p><button class="mt-4 btn-premium py-2.5 rounded-lg font-bold text-sm" onclick="event.stopPropagation();loadGame('mastermind')" data-i18n="btn_start">Start Game</button></div>
+        </div>
         <!-- /gen:new-game-cards -->
     </div>
 
@@ -541,6 +587,15 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
     <li data-game="ginrummy"><a class="ag-page" href="en/ginrummy/">Gin Rummy</a> <a class="ag-play" href="?lang=en#ginrummy">▶ Play</a></li>
     <li data-game="gofish"><a class="ag-page" href="en/gofish/">Go Fish</a> <a class="ag-play" href="?lang=en#gofish">▶ Play</a></li>
     <li data-game="hearts"><a class="ag-page" href="en/hearts/">Hearts</a> <a class="ag-play" href="?lang=en#hearts">▶ Play</a></li>
+    <li data-game="crossword"><a class="ag-page" href="en/crossword/">Daily Mini Crossword</a> <a class="ag-play" href="?lang=en#crossword">▶ Play</a></li>
+    <li data-game="cryptoquote"><a class="ag-page" href="en/cryptoquote/">Cryptoquote</a> <a class="ag-play" href="?lang=en#cryptoquote">▶ Play</a></li>
+    <li data-game="wordladder"><a class="ag-page" href="en/wordladder/">Word Ladder</a> <a class="ag-play" href="?lang=en#wordladder">▶ Play</a></li>
+    <li data-game="nonogram"><a class="ag-page" href="en/nonogram/">Picture Logic</a> <a class="ag-play" href="?lang=en#nonogram">▶ Play</a></li>
+    <li data-game="minesweeper"><a class="ag-page" href="en/minesweeper/">Minesweeper</a> <a class="ag-play" href="?lang=en#minesweeper">▶ Play</a></li>
+    <li data-game="g2048"><a class="ag-page" href="en/g2048/">2048</a> <a class="ag-play" href="?lang=en#g2048">▶ Play</a></li>
+    <li data-game="spotdiff"><a class="ag-page" href="en/spotdiff/">Spot the Difference</a> <a class="ag-play" href="?lang=en#spotdiff">▶ Play</a></li>
+    <li data-game="fifteen"><a class="ag-page" href="en/fifteen/">15-Puzzle</a> <a class="ag-play" href="?lang=en#fifteen">▶ Play</a></li>
+    <li data-game="mastermind"><a class="ag-page" href="en/mastermind/">Mastermind</a> <a class="ag-play" href="?lang=en#mastermind">▶ Play</a></li>
     <!-- /gen:new-game-list -->
   </ul>
 </section>
@@ -1136,12 +1191,12 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '71';
+const ASSET_V = '72';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 // The games added from 2026-10 (tools/new_games.json). Their maps, menu, i18n and skills are filled from this list.
 // gen:new-games (tools/build_new_games.py; do not edit by hand)
-window.NEW_GAMES = [{"id":"freecell","init":"initFreeCell","icon":"layers","section":"cards","skills":["planning","logic"],"why":"Every card is visible, so it is all planning: thinking several moves ahead.","title":"FreeCell","desc":"The solitaire where every card is face up.","inst":"Tap a card, then tap where it goes. Each free cell holds one card."},{"id":"spider","init":"initSpider","icon":"spade","section":"cards","skills":["planning","pattern"],"why":"Keeping columns open for later is the whole game: planning with limited space.","title":"Spider Solitaire","desc":"One suit: build runs from King down to Ace.","inst":"Tap a card to move it with the cards on top of it. Tap Deal for a new row."},{"id":"checkers","init":"initCheckers","icon":"crown","section":"cards","skills":["planning","logic"],"why":"Seeing what your opponent can do next is the skill behind every good move.","title":"Checkers","desc":"The classic board game against a friendly computer.","inst":"Tap your piece, then tap where it goes. If you can jump, you must."},{"id":"backgammon","init":"initBackgammon","icon":"dices","section":"cards","skills":["planning","arithmetic"],"why":"Counting moves on the dice and weighing risks, roll after roll.","title":"Backgammon","desc":"Race your checkers home against the computer.","inst":"Roll the dice, tap a checker, then tap a highlighted point."},{"id":"dominoes","init":"initDominoes","icon":"layout-grid","section":"cards","skills":["arithmetic","planning"],"why":"Matching numbers while keeping the tiles you will need later.","title":"Dominoes","desc":"The block game: match the ends and play out your hand first.","inst":"Tap a domino that matches an open end. If it fits both ends, choose a side."},{"id":"crazy8","init":"initCrazyEights","icon":"club","section":"cards","skills":["attention","planning"],"why":"Watching suits and ranks change and saving your eights for the right moment.","title":"Crazy Eights","desc":"Match the suit or the rank. Eights are wild.","inst":"Tap a card that matches the top card. No match? Draw from the deck."},{"id":"ginrummy","init":"initGinRummy","icon":"gem","section":"cards","skills":["planning","pattern"],"why":"Grouping cards into sets and runs while remembering what has been thrown away.","title":"Gin Rummy","desc":"Make sets and runs, then knock before the computer does.","inst":"Draw from the deck or the discard pile, then tap a card to throw away. Knock when your deadwood is 10 or less."},{"id":"gofish","init":"initGoFish","icon":"fish","section":"cards","skills":["memory","attention"],"why":"Remembering what the other player asked for is how you win at Go Fish.","title":"Go Fish","desc":"Ask for cards and collect sets of four.","inst":"Tap a card in your hand to ask the computer for that rank."},{"id":"hearts","init":"initHearts","icon":"heart","section":"cards","skills":["planning","memory"],"why":"Counting which cards are gone and planning how to get rid of the dangerous ones.","title":"Hearts","desc":"Dodge the hearts and the Queen of Spades against three computer players.","inst":"Pass 3 cards, then follow suit when you can. Each heart is 1 point, the Q♠ is 13. Lowest score wins."}];
-window.NEW_GAME_SECTIONS = [{"key":"cards","title":"Cards & Board Games","sub":"The table games you know by heart, against a patient computer."}];
+window.NEW_GAMES = [{"id":"freecell","init":"initFreeCell","icon":"layers","section":"cards","skills":["planning","logic"],"why":"Every card is visible, so it is all planning: thinking several moves ahead.","title":"FreeCell","desc":"The solitaire where every card is face up.","inst":"Tap a card, then tap where it goes. Each free cell holds one card."},{"id":"spider","init":"initSpider","icon":"spade","section":"cards","skills":["planning","pattern"],"why":"Keeping columns open for later is the whole game: planning with limited space.","title":"Spider Solitaire","desc":"One suit: build runs from King down to Ace.","inst":"Tap a card to move it with the cards on top of it. Tap Deal for a new row."},{"id":"checkers","init":"initCheckers","icon":"crown","section":"cards","skills":["planning","logic"],"why":"Seeing what your opponent can do next is the skill behind every good move.","title":"Checkers","desc":"The classic board game against a friendly computer.","inst":"Tap your piece, then tap where it goes. If you can jump, you must."},{"id":"backgammon","init":"initBackgammon","icon":"dices","section":"cards","skills":["planning","arithmetic"],"why":"Counting moves on the dice and weighing risks, roll after roll.","title":"Backgammon","desc":"Race your checkers home against the computer.","inst":"Roll the dice, tap a checker, then tap a highlighted point."},{"id":"dominoes","init":"initDominoes","icon":"layout-grid","section":"cards","skills":["arithmetic","planning"],"why":"Matching numbers while keeping the tiles you will need later.","title":"Dominoes","desc":"The block game: match the ends and play out your hand first.","inst":"Tap a domino that matches an open end. If it fits both ends, choose a side."},{"id":"crazy8","init":"initCrazyEights","icon":"club","section":"cards","skills":["attention","planning"],"why":"Watching suits and ranks change and saving your eights for the right moment.","title":"Crazy Eights","desc":"Match the suit or the rank. Eights are wild.","inst":"Tap a card that matches the top card. No match? Draw from the deck."},{"id":"ginrummy","init":"initGinRummy","icon":"gem","section":"cards","skills":["planning","pattern"],"why":"Grouping cards into sets and runs while remembering what has been thrown away.","title":"Gin Rummy","desc":"Make sets and runs, then knock before the computer does.","inst":"Draw from the deck or the discard pile, then tap a card to throw away. Knock when your deadwood is 10 or less."},{"id":"gofish","init":"initGoFish","icon":"fish","section":"cards","skills":["memory","attention"],"why":"Remembering what the other player asked for is how you win at Go Fish.","title":"Go Fish","desc":"Ask for cards and collect sets of four.","inst":"Tap a card in your hand to ask the computer for that rank."},{"id":"hearts","init":"initHearts","icon":"heart","section":"cards","skills":["planning","memory"],"why":"Counting which cards are gone and planning how to get rid of the dangerous ones.","title":"Hearts","desc":"Dodge the hearts and the Queen of Spades against three computer players.","inst":"Pass 3 cards, then follow suit when you can. Each heart is 1 point, the Q♠ is 13. Lowest score wins."},{"id":"crossword","init":"initCrossword","icon":"grid-2x2","section":"words","skills":["language","knowledge"],"why":"Matching a clue to a word that fits the letters you already have.","title":"Daily Mini Crossword","desc":"A small American crossword with friendly clues.","inst":"Tap a square, read the clue, and type with the big keyboard."},{"id":"cryptoquote","init":"initCryptoquote","icon":"quote","section":"words","skills":["language","logic"],"why":"Spotting short words and common letters is how every newspaper puzzler cracks the code.","title":"Cryptoquote","desc":"Crack the letter code to reveal a famous American quote.","inst":"Tap a code letter, then type the real letter. The same code letter is always the same real letter."},{"id":"wordladder","init":"initWordLadder","icon":"spell-check-2","section":"words","skills":["language","vocabulary"],"why":"Lewis Carroll's 1879 puzzle: searching your vocabulary one small step at a time.","title":"Word Ladder","desc":"Change one letter at a time to climb from one word to another.","inst":"Type a word that changes just one letter of the word above it. Reach the goal word."},{"id":"nonogram","init":"initNonogram","icon":"square-dashed","section":"words","skills":["logic","pattern"],"why":"Pure deduction: each number rules some squares in and others out.","title":"Picture Logic","desc":"Fill the grid by the numbers to reveal a picture.","inst":"The numbers say how many squares in a row are filled. Tap a square to fill it."},{"id":"minesweeper","init":"initMinesweeper","icon":"bomb","section":"words","skills":["logic","attention"],"why":"Reading the numbers around you to work out where it is safe.","title":"Minesweeper","desc":"Clear the field without touching a mine.","inst":"Tap a square to open it. The numbers count nearby mines. Switch to Flag to mark one."},{"id":"g2048","init":"init2048","icon":"hash","section":"words","skills":["planning","arithmetic"],"why":"Keeping your big tiles in a corner takes a plan, not luck.","title":"2048","desc":"Slide and join matching tiles to reach 2048.","inst":"Use the big arrows (or swipe) to slide all tiles. Equal tiles join."},{"id":"spotdiff","init":"initSpotDiff","icon":"eye","section":"words","skills":["perception","attention"],"why":"Comparing two scenes part by part is careful visual attention.","title":"Spot the Difference","desc":"Real American street photos from the 1970s: find the five differences.","inst":"Tap a difference on either picture. Take your time."},{"id":"fifteen","init":"initFifteen","icon":"grid-3x3","section":"words","skills":["planning","spatial"],"why":"Getting one tile home without undoing the others takes a plan.","title":"15-Puzzle","desc":"The sliding-tile puzzle from the toy box: put the numbers in order.","inst":"Tap a tile in the same row or column as the gap to slide it. Arrow keys work too."},{"id":"mastermind","init":"initMastermind","icon":"key-round","section":"words","skills":["logic","memory"],"why":"Each clue rules colors in or out: deduction, one try at a time.","title":"Mastermind","desc":"The classic code-breaking game: find the hidden colors in 10 tries.","inst":"Pick 4 pegs and tap Try. ● = right color, right place. ○ = right color, wrong place."}];
+window.NEW_GAME_SECTIONS = [{"key":"cards","title":"Cards & Board Games","sub":"The table games you know by heart, against a patient computer."},{"key":"words","title":"Words & Numbers","sub":"Puzzles to sit down with, at your own pace."}];
 window.GAME_IDS.push(...window.NEW_GAMES.map(function (g) { return g.id; }));
 // /gen:new-games
 
@@ -1850,12 +1905,12 @@ document.querySelectorAll('.thumbnail-img').forEach(img => {
      GAME MODULES — loaded after shared globals are defined above
      ═══════════════════════════════════════════════════════════════════════════ -->
 <!-- ── New modules (Session 40) ──────────────────────────────── -->
-<script src="js/affiliate.js?v=71"></script>
-<script src="js/profile.js?v=71"></script>
-<script src="js/brainscore.js?v=71"></script>
-<script src="js/achievements.js?v=71"></script>
-<script src="js/lang-content.js?v=71"></script>
-<script src="js/textsize.js?v=71"></script>
+<script src="js/affiliate.js?v=72"></script>
+<script src="js/profile.js?v=72"></script>
+<script src="js/brainscore.js?v=72"></script>
+<script src="js/achievements.js?v=72"></script>
+<script src="js/lang-content.js?v=72"></script>
+<script src="js/textsize.js?v=72"></script>
 <script>
 /* staggered entrance for game cards — no-JS never hides anything */
 if ('IntersectionObserver' in window) {
@@ -1868,25 +1923,25 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.premium-card').forEach(function(c){ _cio.observe(c); });
 }
 </script>
-<script src="js/daily-challenge.js?v=71"></script>
-<script src="js/stats.js?v=71"></script>
-<script src="js/difficulty.js?v=71"></script>
-<script src="js/levels.js?v=71"></script>
-<script src="js/share.js?v=71"></script>
-<script src="js/gametext.js?v=71"></script>
-<script src="js/sync.js?v=71"></script>
-<script src="js/sync-ui.js?v=71"></script>
-<script src="js/categories.js?v=71"></script>
-<script src="js/accessibility.js?v=71"></script>
-<script src="js/tips.js?v=71"></script>
-<script src="js/favorites.js?v=71"></script>
-<script src="js/holiday.js?v=71"></script>
-<script src="js/fx.js?v=71"></script>
-<script src="js/kbnav.js?v=71"></script>
-<script src="js/ambient-bg.js?v=71"></script>
-<script src="js/warm.js?v=71"></script>
-<script src="js/hub-nav.js?v=71"></script>
-<script src="js/vendor/cookieconsent/cookieconsent.umd.js?v=71"></script>
-<script src="js/consent.js?v=71"></script>
+<script src="js/daily-challenge.js?v=72"></script>
+<script src="js/stats.js?v=72"></script>
+<script src="js/difficulty.js?v=72"></script>
+<script src="js/levels.js?v=72"></script>
+<script src="js/share.js?v=72"></script>
+<script src="js/gametext.js?v=72"></script>
+<script src="js/sync.js?v=72"></script>
+<script src="js/sync-ui.js?v=72"></script>
+<script src="js/categories.js?v=72"></script>
+<script src="js/accessibility.js?v=72"></script>
+<script src="js/tips.js?v=72"></script>
+<script src="js/favorites.js?v=72"></script>
+<script src="js/holiday.js?v=72"></script>
+<script src="js/fx.js?v=72"></script>
+<script src="js/kbnav.js?v=72"></script>
+<script src="js/ambient-bg.js?v=72"></script>
+<script src="js/warm.js?v=72"></script>
+<script src="js/hub-nav.js?v=72"></script>
+<script src="js/vendor/cookieconsent/cookieconsent.umd.js?v=72"></script>
+<script src="js/consent.js?v=72"></script>
 </body>
 </html>

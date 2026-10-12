@@ -338,6 +338,87 @@
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hearts/"/>
   </url>
   <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/crossword/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/crossword/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/cryptoquote/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/cryptoquote/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/wordladder/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/wordladder/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/nonogram/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/nonogram/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/minesweeper/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/minesweeper/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/g2048/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/g2048/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/spotdiff/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/spotdiff/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/fifteen/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/fifteen/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/mastermind/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/mastermind/"/>
+  </url>
+  <url>
     <loc>https://adbitrush.github.io/Elders_Ai/en/klondike/</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/klondike/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/klondike/"/>
@@ -669,6 +750,87 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/hearts/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/hearts/"/>
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hearts/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/crossword/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/crossword/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/cryptoquote/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/cryptoquote/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/wordladder/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/wordladder/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/nonogram/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/nonogram/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/minesweeper/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/minesweeper/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/g2048/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/g2048/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/spotdiff/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/spotdiff/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/fifteen/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/fifteen/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/mastermind/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/mastermind/"/>
   </url>
   <url>
     <loc>https://adbitrush.github.io/Elders_Ai/es/klondike/</loc>
@@ -1004,6 +1166,87 @@
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hearts/"/>
   </url>
   <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/crossword/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/crossword/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/cryptoquote/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/cryptoquote/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/wordladder/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/wordladder/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/nonogram/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/nonogram/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/minesweeper/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/minesweeper/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/g2048/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/g2048/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/spotdiff/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/spotdiff/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/fifteen/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/fifteen/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/mastermind/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/mastermind/"/>
+  </url>
+  <url>
     <loc>https://adbitrush.github.io/Elders_Ai/fr/klondike/</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/klondike/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/klondike/"/>
@@ -1335,6 +1578,87 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/hearts/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/hearts/"/>
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hearts/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/crossword/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/crossword/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/cryptoquote/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/cryptoquote/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/wordladder/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/wordladder/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/nonogram/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/nonogram/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/minesweeper/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/minesweeper/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/g2048/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/g2048/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/spotdiff/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/spotdiff/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/fifteen/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/fifteen/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/mastermind/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/mastermind/"/>
   </url>
   <url>
     <loc>https://adbitrush.github.io/Elders_Ai/de/klondike/</loc>
@@ -1670,6 +1994,87 @@
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hearts/"/>
   </url>
   <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/crossword/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/crossword/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/cryptoquote/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/cryptoquote/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/wordladder/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/wordladder/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/nonogram/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/nonogram/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/minesweeper/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/minesweeper/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/g2048/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/g2048/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/spotdiff/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/spotdiff/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/fifteen/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/fifteen/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/mastermind/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/mastermind/"/>
+  </url>
+  <url>
     <loc>https://adbitrush.github.io/Elders_Ai/el/klondike/</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/klondike/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/klondike/"/>
@@ -2001,5 +2406,86 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/hearts/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/hearts/"/>
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hearts/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/crossword/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/crossword/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/crossword/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/cryptoquote/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/cryptoquote/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/cryptoquote/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/wordladder/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/wordladder/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/wordladder/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/nonogram/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/nonogram/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/nonogram/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/minesweeper/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/minesweeper/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/minesweeper/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/g2048/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/g2048/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/g2048/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/spotdiff/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/spotdiff/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/spotdiff/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/fifteen/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/fifteen/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/fifteen/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/mastermind/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/mastermind/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/mastermind/"/>
   </url>
 </urlset>

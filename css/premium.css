@@ -60,6 +60,12 @@
   to   { opacity: 1; transform: none; }
 }
 
+/* Grid cells and on-screen keyboard keys (class gk-cell, 2026-10 wave 2): squares in a grid, not jewellery - the rule
+   below rounded crossword / picture-logic squares into circles. Keys keep a small rounding; cells stay square. */
+#gameContent button.gk-cell { border-radius: 7px !important; box-shadow: none !important; }
+#gameContent button.gk-cell:is(.cw-c, .ng-c, .ms-c) { border-radius: 3px !important; border-width: 1px !important; }
+#gameContent button.gk-cell.cq-l { border-radius: 6px 6px 0 0 !important; border-width: 0 0 3px !important; }
+
 /* ── Buttons: jewellery, not forms ───────────────────────────────────────── */
 #gameContent button {
   position: relative;

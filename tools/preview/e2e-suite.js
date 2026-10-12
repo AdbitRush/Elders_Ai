@@ -432,8 +432,10 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
         await p.evaluate(() => { const s = document.querySelector('#gameContent .jig-btn-go, #gameContent .qk-next .qk-btn, #gameContent [data-stage-start]'); if (s) s.click(); });
         await p.waitForTimeout(1300);
         const r = await p.evaluate(() => {
-          const W = innerWidth, wide = [];
-          document.querySelectorAll('#gameContent *').forEach((e) => { const b = e.getBoundingClientRect(); if (b.width && (b.right > W + 2 || b.left < -2) && !e.closest('[data-allow-overflow]')) wide.push((e.className && e.className.baseVal === undefined ? e.className : e.tagName).toString().slice(0, 30) + '@' + Math.round(b.left) + '..' + Math.round(b.right)); });
+          // measured against the game CARD, not the screen: the card clips (overflow hidden), so a grid wider than the card
+          // is cut off with no sideways scroll at all (wave 2, 2026-10-12: minesweeper showed 7 of 9 columns at 320 px)
+          const W = innerWidth, wide = [], card = document.querySelector('#gameView > div').getBoundingClientRect();
+          document.querySelectorAll('#gameContent *').forEach((e) => { const b = e.getBoundingClientRect(); if (b.width && (b.right > Math.min(W, card.right) + 2 || b.left < Math.max(0, card.left) - 2) && !e.closest('[data-allow-overflow]')) wide.push((e.className && e.className.baseVal === undefined ? e.className : e.tagName).toString().slice(0, 30) + '@' + Math.round(b.left) + '..' + Math.round(b.right)); });
           const st = document.querySelector('#gameContent .ak-stage'), ct = document.querySelector('#gameContent .ak-controls');
           let fit = null;
           if (st && ct) { st.scrollIntoView({ block: 'start' }); const a = st.getBoundingClientRect(), c = ct.getBoundingClientRect(); fit = c.bottom - a.top <= innerHeight + 1 ? 'ok' : 'stage+controls ' + Math.round(c.bottom - a.top) + 'px > ' + innerHeight; }

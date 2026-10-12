@@ -45,6 +45,16 @@ const STAGE = {
   async hearts(p) { await p.evaluate(() => { const g = gameState.hearts; if (g.phase === 'pass') { g.hands[0].slice(-3).forEach((c) => hzTap(c.id)); hzPass(); } }); await sleep(2400); },
   // QuizKit games (trivia and wave 3): start a round and answer the first question, so the explanation shows
   async trivia(p) { await qk(p, 'trivia'); },
+  // wave 2: a few moves into each puzzle
+  async crossword(p) { await p.evaluate(() => { const g = gameState.crossword, w = g.P.placed[0]; [...w.w].slice(0, 3).forEach((ch) => cwKey(ch)); }); },
+  async cryptoquote(p) { await p.evaluate(() => { const g = gameState.cryptoquote; const codes = [...new Set(g.text.replace(/[^A-Z]/g, '').split('').map((c) => g.enc[c]))].filter((c) => !g.given.includes(c)).slice(0, 3); codes.forEach((c) => { cqSel(c); cqKey(g.dec[c]); }); }); },
+  async wordladder(p) { await p.evaluate(() => { const g = gameState.wordladder; const path = _wlPath(g.a, g.b); [...path[1].toUpperCase()].forEach((ch) => wlKey(ch)); wlKey('↵'); }); },
+  async nonogram(p) { await p.evaluate(() => { const g = gameState.nonogram; g.sol.forEach((r, i) => r.forEach((v, j) => { if (v && i < g.n / 2) ngTap(i, j); })); }); },
+  async minesweeper(p) { await p.evaluate(() => { const n = gameState.minesweeper.n; msTap(Math.floor(n / 2), Math.floor(n / 2)); }); },
+  async g2048(p) { await p.evaluate(() => { ['l', 'u', 'l', 'd', 'l', 'u'].forEach((d) => g2Move(d)); }); },
+  async spotdiff(p) { for (let k = 0; k < 40 && !(await p.evaluate(() => gameState.spotdiff.ready)); k++) await sleep(250); await p.evaluate(() => { const b = document.querySelectorAll('.sd-p')[1].getBoundingClientRect(), s = gameState.spotdiff.spots[0]; sdTap({ currentTarget: document.querySelectorAll('.sd-p')[1], clientX: b.left + s.x * b.width, clientY: b.top + s.y * b.height }, 1); }); },
+  async fifteen(p) { await sleep(200); },
+  async mastermind(p) { await p.evaluate(() => { const g = gameState.mastermind; [0, 1, 2, 3].forEach((c) => mmPick(c)); mmTry(); [1, 2, 3, 4].forEach((c) => mmPick(c % g.k)); mmTry(); }); },
 };
 async function qk(p, id) { await p.evaluate((id) => { if (gameState[id].phase === 'pick') QuizKit.go(id); QuizKit.answer(id, gameState[id].questions[0].ans); }, id); await sleep(400); }
 

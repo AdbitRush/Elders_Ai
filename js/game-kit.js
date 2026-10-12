@@ -114,7 +114,7 @@
     if (document.getElementById('qk-css')) return;
     const st = document.createElement('style'); st.id = 'qk-css';
     st.textContent = `
-.qk{max-width:44rem;margin:0 auto;color:var(--w-table-ink,#2b1b0d)}
+.qk{width:100%;box-sizing:border-box;max-width:44rem;margin:0 auto;color:var(--w-table-ink,#2b1b0d)}
 .qk-top{display:flex;justify-content:space-between;font-weight:800;font-size:1.05rem;color:var(--w-table-ink2,#4a3420);margin:0 2px 10px}
 .qk-card{background:#fff3d6;border:3px solid #e8cfa8;border-radius:18px;padding:18px 16px;font-size:clamp(1.3rem,4.6vw,1.75rem);font-weight:800;line-height:1.35;text-align:center;margin-bottom:16px;color:#2b1b0d}
 .qk-card .qk-sub{display:block;font-size:.72em;font-weight:700;color:#5b3f22;margin-top:6px}
