@@ -1,11 +1,11 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 // MASTERMIND (2026-10, wave 2) — classic code-breaking. The computer hides a code of colored pegs; you have 10 tries.
-// After each try: ● = right color in the right place, ○ = right color in the wrong place (also said in words).
-// Every color also has its own symbol, so the game never depends on telling colors apart.
+// After each try: filled dot = right color in the right place, empty ring = right color in the wrong place (also said in words).
+// Every color also has its own Lucide icon, so the game never depends on telling colors apart.
 // Easy: 4 pegs, 5 colors, no repeats. Normal: 4 pegs, 6 colors, no repeats. Hard: 4 pegs, 6 colors, repeats allowed.
 // Breaking the code = "Well Done!"; ten tries without it = "Nice try" (and the code is shown).
 // ═══════════════════════════════════════════════════════════════════════════════
-const _MM_COLORS = [['#dc2626', '★', 'red star'], ['#2563eb', '●', 'blue circle'], ['#16a34a', '▲', 'green triangle'], ['#facc15', '◆', 'yellow diamond'], ['#9333ea', '♥', 'purple heart'], ['#f97316', '■', 'orange square']];
+const _MM_COLORS = [['#dc2626', 'star', 'red star'], ['#2563eb', 'circle', 'blue circle'], ['#16a34a', 'triangle', 'green triangle'], ['#facc15', 'diamond', 'yellow diamond'], ['#9333ea', 'heart', 'purple heart'], ['#f97316', 'square', 'orange square']];
 function initMastermind(container) {
     const gs = gameState.mastermind;
     const diff = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
@@ -35,11 +35,11 @@ function mmTry() {
     if (typeof sfxFlip === 'function') sfxFlip();
     _mmRender();
 }
-function _mmPeg(c, big) { const C = _MM_COLORS[c]; return `<span class="mm-peg${big ? ' mm-big' : ''}" style="background:${C[0]}" aria-label="${C[2]}">${C[1]}</span>`; }
+function _mmPeg(c, big) { const C = _MM_COLORS[c]; return `<span class="mm-peg${big ? ' mm-big' : ''}" style="background:${C[0]}" aria-label="${C[2]}">${Icon.ui(C[1], { size: '62%', fill: true, fillOpacity: 1, sw: 2 })}</span>`; }
 function _mmRender() {
     const gs = gameState.mastermind, el = document.getElementById('gameContent');
     if (!el || gameState.currentId !== 'mastermind') return;
-    const rows = gs.rows.map((r, i) => `<div class="mm-row"><span class="mm-n">${i + 1}</span>${r.g.map((c) => _mmPeg(c)).join('')}<span class="mm-fb" aria-label="${r.black} right place, ${r.white} wrong place">${'●'.repeat(r.black)}${'○'.repeat(r.white)}${r.black + r.white ? '' : '–'}</span></div>`).join('');
+    const rows = gs.rows.map((r, i) => `<div class="mm-row"><span class="mm-n">${i + 1}</span>${r.g.map((c) => _mmPeg(c)).join('')}<span class="mm-fb" aria-label="${r.black} right place, ${r.white} wrong place">${Icon.ui('circle', { fill: true, fillOpacity: 1 }).repeat(r.black)}${Icon.ui('circle').repeat(r.white)}${r.black + r.white ? '' : '–'}</span></div>`).join('');
     const cur = [0, 1, 2, 3].map((i) => (gs.cur[i] !== undefined ? _mmPeg(gs.cur[i], true) : '<span class="mm-peg mm-big mm-empty">?</span>')).join('');
     const pal = _MM_COLORS.slice(0, gs.k).map((C, i) => `<button type="button" class="mm-pick" onclick="mmPick(${i})" aria-label="${C[2]}">${_mmPeg(i, true)}</button>`).join('');
     el.innerHTML = `<div class="mm" dir="ltr">
@@ -49,7 +49,7 @@ function _mmRender() {
       <div class="mm-pal">${pal}</div>
       <div class="gk-btns">${GameKit.btn('Undo peg', 'mmBack()', { disabled: !gs.cur.length })}${GameKit.btn('Try', 'mmTry()', { cls: 'gk-primary', disabled: gs.cur.length !== 4 })}</div>`}
       <div class="cw-msg" role="status">${gs.msg}</div>
-      <div class="mm-key">● right color, right place &nbsp; ○ right color, wrong place</div>
+      <div class="mm-key">${Icon.ui('circle', { fill: true, fillOpacity: 1 })} right color, right place &nbsp; ${Icon.ui('circle')} right color, wrong place</div>
     </div>
     <style>
       .mm{max-width:30rem;margin:0 auto;color:#2b1b0d}

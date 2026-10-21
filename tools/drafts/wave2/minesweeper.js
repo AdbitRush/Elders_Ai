@@ -54,14 +54,14 @@ function _msRender() {
         if (gs.flag[r][c]) flags++;
         const o = gs.open[r][c], mine = gs.over && gs.mine && gs.mine[r][c], k = o ? _msNear(r, c) : 0;
         const boom = gs.boom && gs.boom[0] === r && gs.boom[1] === c;
-        const inner = o ? (k ? `<span style="color:${COL[k]}">${k}</span>` : '') : mine ? '💣' : gs.flag[r][c] ? '🚩' : '';
+        const inner = o ? (k ? `<span style="color:${COL[k]}">${k}</span>` : '') : mine ? Icon.ui('bomb', { size: '1.1em' }) : gs.flag[r][c] ? Icon.ui('flag', { size: '1.1em', fill: true, fillOpacity: 1 }) : '';
         cells += `<button type="button" class="ms-c${o ? ' ms-o' : ''}${boom ? ' ms-boom' : ''}" onclick="msTap(${r},${c})" aria-label="row ${r + 1} column ${c + 1}${o ? ', ' + k : gs.flag[r][c] ? ', flagged' : ''}">${inner}</button>`;
     }
     el.innerHTML = `<div class="ms" dir="ltr">
-      <div class="ms-top"><span>💣 ${gs.mines} mines</span><span>🚩 ${flags} flagged</span></div>
+      <div class="ms-top"><span>${Icon.ui('bomb')} ${gs.mines} mines</span><span>${Icon.ui('flag')} ${flags} flagged</span></div>
       <div class="ms-mode" role="group" aria-label="What a tap does">
-        <button type="button" class="ms-m" aria-pressed="${gs.mode === 'open'}" onclick="msMode('open')">⛏️ Open</button>
-        <button type="button" class="ms-m" aria-pressed="${gs.mode === 'flag'}" onclick="msMode('flag')">🚩 Flag</button></div>
+        <button type="button" class="ms-m" aria-pressed="${gs.mode === 'open'}" onclick="msMode('open')">${Icon.ui('pointer')} Open</button>
+        <button type="button" class="ms-m" aria-pressed="${gs.mode === 'flag'}" onclick="msMode('flag')">${Icon.ui('flag')} Flag</button></div>
       <div class="ms-grid" style="grid-template-columns:repeat(${gs.n},1fr)">${cells}</div>
       <div class="cw-msg" role="status">${gs.msg || '&nbsp;'}</div>
     </div>
