@@ -71,7 +71,7 @@ const Profile = (() => {
     const l = lang();
     const { name, avatar } = get();
     return exclaim(l, name ? `${timeWord(l)}, ${name}` : timeWord(l))
-         + ' ' + (name ? avatar : '💛');
+         + (name ? ' ' + avatar : '');
   }
 
   function updateGreetingEl() {

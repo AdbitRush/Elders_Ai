@@ -68,7 +68,7 @@ function _klRender(container) {
       .kl-slot{border:2px dashed rgba(255,255,255,.35);background:rgba(255,255,255,.05)}
       .kl-card{width:100%;aspect-ratio:5/7;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,.35);
         display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-        font-weight:800;font-size:clamp(15px,2.6vw,26px);cursor:pointer;background:#fff}
+        font-weight:800;font-size:clamp(18px,2.8vw,26px);cursor:pointer;background:#fff}
       .kl-down{background:repeating-linear-gradient(45deg,#1e3a8a,#1e3a8a 6px,#2c4fae 6px,#2c4fae 12px);border:2px solid #172a63}
       .kl-red{color:#dc2626}.kl-black{color:#1f2937}
       .kl-sel{outline:4px solid #f6c048;outline-offset:-2px;transform:translateY(-4px)}

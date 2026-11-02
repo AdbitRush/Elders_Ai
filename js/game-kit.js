@@ -37,7 +37,7 @@
   }
 
   // a big, warm button
-  const btn = (label, onclick, o) => `<button type="button" class="gk-btn${o && o.cls ? ' ' + o.cls : ''}" onclick="${onclick}"${o && o.disabled ? ' disabled' : ''}${o && o.id ? ` id="${o.id}"` : ''}>${label}</button>`;
+  const btn = (label, onclick, o) => (css(), `<button type="button" class="gk-btn${o && o.cls ? ' ' + o.cls : ''}" onclick="${onclick}"${o && o.disabled ? ' disabled' : ''}${o && o.id ? ` id="${o.id}"` : ''}>${label}</button>`);
   const icon = (n) => (typeof Icon !== 'undefined' ? Icon.ui(n) + ' ' : '');
 
   function css() {
@@ -82,7 +82,7 @@
     t.style.setProperty('--w', Math.max(min || 28, Math.min(max, Math.floor((inner - gap * (cols - 1)) / cols))) + 'px');
   }
   let rz;
-  window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (gameState && gameState.active && window['_fitNow_' + gameState.currentId]) window['_fitNow_' + gameState.currentId](); }, 150); });
+  window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (typeof gameState !== 'undefined' && gameState.active && window['_fitNow_' + gameState.currentId]) window['_fitNow_' + gameState.currentId](); }, 150); });
   window.GameKit = { RANKS, SUITS, isRed, deck, card, finish, btn, icon, css, fit };
 })();
 

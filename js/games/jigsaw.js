@@ -20,7 +20,8 @@ function initJigsaw(container) {
     { name: 'Tulip field', file: 'images/jigsaw/bg2.jpg' },
     { name: 'Hot-air balloons', file: 'images/jigsaw/bg3.jpg' },
     { name: 'Forest path', file: 'images/jigsaw/bg4.jpg' },
-    { name: 'Colorful houses', file: 'images/jigsaw/bg5.jpg' }
+    { name: 'Colorful houses', file: 'images/jigsaw/bg5.jpg' },
+    { name: 'Garden path', file: 'images/jigsaw/bg6.jpg' }
   ];
   S.defaultIdx = Math.floor(Math.random() * S.DEFAULTS.length);
   renderSetup(container);

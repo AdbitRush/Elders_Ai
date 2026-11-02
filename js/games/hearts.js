@@ -163,8 +163,9 @@ function _hzRender() {
     if (!el || gameState.currentId !== 'hearts') return;
     const C = GameKit.card;
     const legal = gs.phase === 'play' && !gs.busy && !gs.over && _hzTurn() === 0 ? _hzLegal(0) : [];
-    const played = (p) => { const x = gs.trick.find((t) => t.p === p); return x ? C(x.c, { sel: gs.lastWin === x.c.id }) : `<div class="hz-empty">${p ? gs.hands[p].length + ' cards' : ''}</div>`; };
-    const seat = (p) => `<div class="hz-seat hz-p${p}"><div class="hz-name${_hzTurn() === p && gs.phase === 'play' && !gs.busy && !gs.over ? ' hz-now' : ''}">${_HZ_NAMES[p]} · ${gs.pts[p]}</div>${played(p)}</div>`;
+    const played = (p) => { const x = gs.trick.find((t) => t.p === p); return x ? C(x.c, { sel: gs.lastWin === x.c.id }) : `<div class="hz-empty"></div>`; };
+    const fan = (p) => p ? `<div class="hz-fan" role="img" aria-label="${gs.hands[p].length} cards in hand"><i></i><i></i><i></i><b>${gs.hands[p].length}</b></div>` : '';
+    const seat = (p) => `<div class="hz-seat hz-p${p}">${fan(p)}<div class="hz-name${_hzTurn() === p && gs.phase === 'play' && !gs.busy && !gs.over ? ' hz-now' : ''}">${_HZ_NAMES[p]} · ${gs.pts[p]}</div>${played(p)}</div>`;
     const hand = gs.hands[0].map((c) => C(c, { onclick: `hzTap(${c.id})`, sel: gs.sel.includes(c.id), hint: legal.includes(c), cls: gs.got.includes(c.id) ? 'hz-got' : '' })).join('');
     const passBtn = gs.phase === 'pass' ? `<div class="gk-btns">${GameKit.btn(GameKit.icon('arrow-right') + `Pass to ${_HZ_NAMES[[1, 3, 2][gs.passDir]]}`, 'hzPass()', { cls: 'gk-primary', disabled: gs.sel.length !== 3 })}</div>` : '';
     el.innerHTML = `<div class="gk-table hz" dir="ltr">
@@ -185,6 +186,10 @@ function _hzRender() {
       .hz .hz-name{font-weight:800;font-size:1rem;color:#fff7e6;background:rgba(0,0,0,.25);padding:2px 10px;border-radius:999px;white-space:nowrap}
       .hz .hz-name.hz-now{background:#f59e0b;color:#2a1700}
       .hz .hz-empty{width:var(--w);height:calc(var(--w)*1.4);border:2px dashed rgba(255,247,230,.35);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#fde7c4;text-align:center}
+      .hz .hz-fan{position:relative;width:68px;height:44px;display:flex;align-items:flex-end;justify-content:center}
+      .hz .hz-fan i{position:absolute;bottom:0;width:30px;height:42px;border-radius:6px;border:2px solid #fde7c4;background:repeating-linear-gradient(45deg,#7c2d12 0 5px,#9a3412 5px 10px);box-shadow:0 2px 3px rgba(0,0,0,.4)}
+      .hz .hz-fan i:nth-child(1){left:8px;transform:rotate(-14deg)}.hz .hz-fan i:nth-child(2){left:19px}.hz .hz-fan i:nth-child(3){left:30px;transform:rotate(14deg)}
+      .hz .hz-fan b{position:absolute;right:0;top:-2px;min-width:26px;height:26px;border-radius:999px;background:#fff7e6;color:#3b1d0e;font-size:.95rem;display:flex;align-items:center;justify-content:center;border:2px solid #92400e}
       .hz .hz-hand{gap:4px}
       .hz .gk-card.hz-got{box-shadow:0 0 0 4px #60a5fa,0 2px 4px rgba(0,0,0,.35)}
       .hz .hz-key{font-weight:700;font-size:.95rem;opacity:.95}

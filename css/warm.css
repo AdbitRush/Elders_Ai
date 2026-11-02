@@ -350,3 +350,99 @@ html[data-game="jigsaw"] #gameContent .jig-board{ background:rgba(59,29,14,.06);
 #hub-nav-empty{ font-size:1.2rem; font-weight:700; color:var(--w-ink2); padding:20px 4px; }
 #why-train-wrap{ max-width:1100px; margin:0 auto 30px; padding:0 16px; }
 html.in-game #why-train-wrap{ display:none; }
+
+/* ── Batch 1 (draft): compact in-game header on tablets and laptops ──
+   Between 640 and 1500 px the header wrapped into 2-3 rows (134 px at 1265 wide, about 200 px in a real laptop
+   browser) and stayed pinned, so about a quarter of the screen was header while playing. In a game the secondary
+   buttons (invite, profile) go back to the hub and menu; text size, sound, theme, language and Back stay. */
+@media (min-width:640px) and (max-width:1500px){
+  html.in-game[data-theme] body nav{ padding-top:6px !important; padding-bottom:6px !important; }
+  html.in-game[data-theme] body nav #inviteBtn,
+  html.in-game[data-theme] body nav #profile-chip{ display:none !important; }
+  html.in-game[data-theme] body nav #langSelect{ width:auto !important; max-width:9rem; }
+}
+@media (min-width:900px) and (max-width:1500px){
+  html.in-game[data-theme] body nav > div{ flex-wrap:nowrap !important; }
+  html.in-game[data-theme] body nav > div > div:last-child{ flex-wrap:nowrap !important; gap:8px !important; }
+}
+@media (min-width:640px) and (max-width:899px){
+  /* on tablets in portrait the header still needs 2-3 rows: let it scroll away instead of staying pinned */
+  html.in-game[data-theme] body nav{ position:static !important; }
+}
+
+/* ── Batch 1 (draft): small motion cues, all off when the visitor asks for reduced motion ── */
+@keyframes bp-pop{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes bp-slide-in{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+.ws-cell.found{ animation:bp-pop .45s ease-out 1; }
+.hz .hz-trick .gk-card{ animation:bp-slide-in .28s ease-out 1; }
+@media (prefers-reduced-motion:reduce){
+  .ws-cell.found, .hz .hz-trick .gk-card{ animation:none !important; }
+}
+
+/* ── Batch 1 (draft): Memory Match uses illustrated pairs and a printed card back ── */
+html[data-game="memory"] #gameContent .mem-back{ background:#0f4c52 url(../images/art/back-sq.webp) center/cover no-repeat !important; border:3px solid #f3e3bf !important;
+  box-shadow:0 4px 10px rgba(60,30,0,.35) !important; }
+html[data-game="memory"] #gameContent .mem-face{ padding:0 !important; overflow:hidden; background:#f6ead0 !important; border:3px solid #f3e3bf !important; }
+html[data-game="memory"] #gameContent .mem-face .mem-art{ width:100%; height:100%; object-fit:cover; display:block; border-radius:inherit; pointer-events:none; }
+html[data-game="memory"] #gameContent .card-inner.matched .card-face.card-back{ background:#f6ead0 !important; border-color:#2f9e66 !important; box-shadow:0 0 0 4px rgba(47,158,102,.55), 0 4px 12px rgba(0,0,0,.25) !important; }
+/* Batch 1 (draft): in-page jumps clear the sticky header */
+html{ scroll-padding-top:84px; }
+
+/* ── Batch 1 (draft): table surfaces, printed card backs, desk scenes for the other four games ── */
+html[data-game] .pw-card{ display:none !important; } /* first-visit name card no longer covers a game board; it still shows on the hub */
+/* Hearts + Klondike: green felt table with walnut rim, burgundy printed card back */
+html[data-game="hearts"] .gk-table, html[data-game="klondike"] .gk-table{ background:#1c5a38 url(../images/art/felt.jpg) center/cover no-repeat !important;
+  border:3px solid #6b3f1d !important; box-shadow:inset 0 0 40px rgba(0,0,0,.35), 0 10px 30px -14px rgba(0,0,0,.55) !important; border-radius:22px !important; }
+.gk-card.gk-down, .kl-card.kl-down, .hz-fan .gk-down{ background:#5a1220 url(../images/art/back-card.webp) center/cover no-repeat !important; border:2px solid #f3e3bf !important; }
+html[data-game="klondike"] .kl-card.kl-up, html[data-game="hearts"] .gk-card:not(.gk-down){ background:#fffaf0 !important; border:1px solid #d9c8a3; }
+/* Crossword: newsprint desk with glasses, pencil and coffee; the grid sits on a cream sheet */
+html[data-game="crossword"] #gameContent{ background:#f3e4c4 url(../images/art/paper.jpg) center/cover no-repeat; border-radius:18px; padding:18px 12px; }
+html[data-game="crossword"] #gameContent .cw-grid{ box-shadow:0 8px 22px rgba(60,35,10,.35); border:3px solid #2b1b0d; }
+/* Word Search: letterpress workshop desk, tiles on a warm board */
+html[data-game="wordsearch"] #gameContent{ background:#a9722f url(../images/art/letters.jpg) center/cover no-repeat; border-radius:18px; padding:18px 12px; }
+html[data-game="wordsearch"] #gameContent .ws-cell{ background:#fff7e4 !important; color:#2a1a0c !important; border:2px solid #b98a4a !important; box-shadow:0 2px 0 #9a6f35; }
+html[data-game="wordsearch"] #gameContent .ws-cell.found{ background:#2f9e66 !important; color:#fff !important; border-color:#1f7a4c !important; }
+html[data-game="wordsearch"] #gameContent .ws-cell.selected{ background:#f6b545 !important; color:#2a1700 !important; }
+html[data-game="wordsearch"] #gameContent > div > div:first-child{ background:rgba(120,70,20,.88) !important; border-color:#5a3512 !important; }
+.hz .hz-fan i{ background:#5a1220 url(../images/art/back-card.webp) center/cover no-repeat !important; }
+html[data-game="klondike"] .kl-board{ background:#1c5a38 url(../images/art/felt.jpg) center/cover no-repeat; border:3px solid #6b3f1d; border-radius:22px; padding:12px; box-shadow:inset 0 0 40px rgba(0,0,0,.35); }
+html[data-game="klondike"] #gameContent *:has(> .kl-board){ background:#1c5a38 url(../images/art/felt.jpg) center/cover no-repeat; border-radius:22px; }
+html[data-game="klondike"] .kl-board{ background:none; border:0; box-shadow:none; }
+
+/* ── Muse originals (draft): navy/cream ornamental card back, Queen of Spades portrait, softer crossword desk ── */
+.gk-card.gk-down, .kl-card.kl-down, .hz .hz-fan i{ background:#10213f url(../images/art/muse-back.webp) center/cover no-repeat !important; border:2px solid #f3e3bf !important; }
+/* Queen of Spades: portrait fills the face; rank and suit sit on a cream plate so they stay readable. Shows only on a card the player can already see. */
+.gk-card.gk-up[aria-label="Q♠"]{ background:#fffaf0 url(../images/art/muse-queen.webp) center 30%/cover no-repeat !important; }
+.gk-card.gk-up[aria-label="Q♠"] .gk-s{ display:none; }
+.gk-card.gk-up[aria-label="Q♠"] .gk-tl{ background:rgba(255,250,240,.96); border-radius:6px; padding:0 3px; position:relative; z-index:1; box-shadow:0 0 0 1px rgba(60,40,10,.25); }
+html[data-game="crossword"] #gameContent{ background:linear-gradient(rgba(250,240,215,.88),rgba(250,240,215,.88)), url(../images/art/muse-desk.webp) center/cover no-repeat !important; }
+html[data-game="hearts"] .gk-card.gk-up[aria-label="Q♠"]{ background:#fffaf0 url(../images/art/muse-queen.webp) center 32%/cover no-repeat !important; }
+
+/* ── batch 2: Muse scenes (original AI generated, decorative, no text) ──
+   header band for games that had no photo; same soft fade into the table as the photo band above */
+html[data-game="dominoes"] #gameView, html[data-game="checkers"] #gameView{ --game-photo:url(../images/art/scene-tabletop.webp) !important; }
+html[data-game="fifteen"] #gameView, html[data-game="g2048"] #gameView, html[data-game="nonogram"] #gameView, html[data-game="minesweeper"] #gameView{ --game-photo:url(../images/art/scene-numbers.webp) !important; }
+html[data-game="cryptoquote"] #gameView, html[data-game="wordladder"] #gameView{ --game-photo:url(../images/art/scene-library.webp) !important; }
+html[data-game="crossword"] #gameView{ --game-photo:url(../images/art/scene-worddesk.webp) !important; }
+html[data-game="lifesim"] #gameView{ --game-photo:url(../images/art/scene-journey.webp) !important; }
+:is(html[data-game="dominoes"],html[data-game="checkers"],html[data-game="fifteen"],html[data-game="g2048"],html[data-game="nonogram"],html[data-game="minesweeper"],html[data-game="cryptoquote"],html[data-game="wordladder"],html[data-game="crossword"],html[data-game="lifesim"]) #gameView > div > div:first-child{
+  background:linear-gradient(180deg,rgba(255,250,241,.20) 0%,rgba(255,250,241,.88) 42%,var(--w-table) 88%), var(--game-photo, none) center 40%/cover no-repeat, #f4e3c6 !important; }
+/* home page: the picture sits left (light theme), the words sit on its cream side; phones get the picture as a band above the words */
+html[data-theme="light"] #hero{ background:linear-gradient(90deg,rgba(248,239,221,0) 0%,rgba(248,239,221,0) 30%,rgba(248,239,221,.9) 47%,rgba(248,239,221,.9) 100%), url(../images/art/hero-home.webp) left center/cover no-repeat, #f8efdd !important; }
+@media (min-width:900px){ html[data-theme="light"] #hero > .container{ margin-left:45%; width:55%; max-width:none; } }
+@media (max-width:899px){ html[data-theme="light"] #hero{ background:linear-gradient(180deg,rgba(248,239,221,0) 0,rgba(248,239,221,0) 150px,#f8efdd 215px), url(../images/art/hero-home.webp) center top/auto 215px no-repeat, #f8efdd !important; padding-top:170px !important; } }
+html[data-game="crossword"] #gameView > div > div:first-child{ background-position:center 28%, center 28%, 0 0 !important; }
+/* Time Journey intro line: the page set it pale grey (text-gray-200) for a dark background, but the table is ivory */
+html[data-game="lifesim"] #gameContent p.text-gray-200{ color:var(--w-table-ink) !important; }
+/* ── batch 3: Muse scenes for the games that still had no header photo (original AI generated, decorative, no text).
+   The card stack is blank and face down; the case, pegs and still life are props, not the game's board or state. ── */
+:is(html[data-game="hearts"],html[data-game="freecell"],html[data-game="spider"],html[data-game="ginrummy"],html[data-game="gofish"],html[data-game="crazy8"]) #gameView{ --game-photo:url(../images/art/scene-cards.webp) !important; }
+html[data-game="backgammon"] #gameView{ --game-photo:url(../images/art/scene-backgammon.webp) !important; }
+html[data-game="mastermind"] #gameView{ --game-photo:url(../images/art/scene-pegs.webp) !important; }
+html[data-game="spotdiff"] #gameView{ --game-photo:url(../images/art/scene-still.webp) !important; }
+:is(html[data-game="hearts"],html[data-game="freecell"],html[data-game="spider"],html[data-game="ginrummy"],html[data-game="gofish"],html[data-game="crazy8"],html[data-game="backgammon"],html[data-game="mastermind"],html[data-game="spotdiff"]) #gameView > div > div:first-child{
+  background:linear-gradient(180deg,rgba(255,250,241,.20) 0%,rgba(255,250,241,.88) 42%,var(--w-table) 88%), var(--game-photo, none) center 50%/cover no-repeat, #f4e3c6 !important; }
+html[data-game="backgammon"] #gameView > div > div:first-child{ background-position:center 0, center 62%, 0 0 !important; }
+html[data-game="mastermind"] #gameView > div > div:first-child{ background-position:center 0, center 72%, 0 0 !important; }
+html[data-game="spotdiff"] #gameView > div > div:first-child{ background-position:center 0, center 58%, 0 0 !important; }
+:is(html[data-game="hearts"],html[data-game="freecell"],html[data-game="spider"],html[data-game="ginrummy"],html[data-game="gofish"],html[data-game="crazy8"]) #gameView > div > div:first-child{ background-position:center 0, center 80%, 0 0 !important; }

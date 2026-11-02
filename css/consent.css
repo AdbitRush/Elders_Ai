@@ -18,3 +18,20 @@ html[data-theme="dark"] #cc-main{ --cc-bg:#2a1c12; --cc-primary-color:#fff6e8; -
 #cc-main .cm__title{ font-size:1.35rem; }
 #cc-main .cm__desc, #cc-main .pm__section-desc{ font-size:1.05rem; line-height:1.55; }
 #cc-main .cm__btn, #cc-main .pm__btn{ min-height:52px; font-size:1.1rem; font-weight:800; }
+
+/* Batch 1 (draft): on phones the banner took most of the screen. Compact text, side-by-side buttons, still 48px+ targets. */
+@media (max-width:600px){
+  #cc-main .cm__title{ font-size:1.1rem; }
+  #cc-main .cm__desc{ font-size:.95rem; line-height:1.4; }
+  #cc-main .cm__body{ padding:.8rem 1rem .4rem; }
+  #cc-main .cm__btns{ padding:.5rem 1rem .8rem; }
+  #cc-main .cm__btn-group{ display:grid; grid-template-columns:1fr 1fr; gap:.5rem; }
+  #cc-main .cm__btn-group:last-child .cm__btn{ grid-column:1 / -1; }
+  #cc-main .cm__btn{ min-height:48px; font-size:1rem; margin:0; }
+}
+@media (max-width:600px){
+  #cc-main .cm__btns{ display:grid !important; grid-template-columns:1fr 1fr; gap:.5rem; }
+  #cc-main .cm__btn-group{ display:contents !important; }
+  #cc-main .cm__btn[data-role="show"]{ grid-column:1 / -1; }
+  #cc-main .cm__btn[data-role="all"]{ grid-column:1; } #cc-main .cm__btn[data-role="necessary"]{ grid-column:2; }
+}
