@@ -220,9 +220,16 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
       for (const lv of [1, 2, 3, 4, 6, 8, 12, 20]) { gameState.memory.level = lv; initMemory(document.getElementById('gameContent')); await new Promise((x) => setTimeout(x, 60));
         const tops = {}; document.querySelectorAll('#gameContent [id^="m-card-"]').forEach((e) => { const t = Math.round(e.getBoundingClientRect().top); tops[t] = (tops[t] || 0) + 1; });
         const rows = Object.values(tops); out.push({ lv, n: rows.reduce((a, b) => a + b, 0), even: rows.every((x) => x === rows[0]) }); }
-      const back = getComputedStyle(document.querySelector('#gameContent .mem-back')).backgroundImage;
-      return { out, back }; });
-    ok(`8 memory @${w}: 8-24 cards, every row full (no orphan), plain backs`, r.out.every((x) => [8, 12, 16, 20, 24].includes(x.n) && x.even) && !/url\(/.test(r.back), JSON.stringify(r.out.map((x) => x.n + (x.even ? '' : '!'))) + ' back=' + r.back.slice(0, 30));
+      const backs = [...document.querySelectorAll('#gameContent .mem-back')];
+      const back = getComputedStyle(backs[0]).backgroundImage;
+      // printed card back (2026-11 batch 1): every back identical, an image with no text/img child (nothing about the face can leak), faces have alt text
+      const sameBack = backs.every((b) => getComputedStyle(b).backgroundImage === back);
+      const backLeaks = backs.some((b) => b.querySelector('img') || b.innerText.trim() || b.getAttribute('data-val'));
+      const faces = [...document.querySelectorAll('#gameContent .mem-face')];
+      const faceAlt = faces.every((f) => { const i = f.querySelector('img'); return i && i.alt && i.alt.length > 2; });
+      const faceVsBack = faces.every((f) => getComputedStyle(f).backgroundImage !== back);
+      return { out, back, sameBack, backLeaks, faceAlt, faceVsBack }; });
+    ok(`8 memory @${w}: 8-24 cards, every row full (no orphan), one printed back, faces have alt, no identity leak on backs`, r.out.every((x) => [8, 12, 16, 20, 24].includes(x.n) && x.even) && /url\(/.test(r.back) && r.sameBack && !r.backLeaks && r.faceAlt && r.faceVsBack, JSON.stringify(r.out.map((x) => x.n + (x.even ? '' : '!'))) + ' back=' + r.back.slice(0, 30) + ' same=' + r.sameBack + ' leak=' + r.backLeaks + ' alt=' + r.faceAlt);
     await ctx.close();
   }
   for (const w of [1440, 390]) {
