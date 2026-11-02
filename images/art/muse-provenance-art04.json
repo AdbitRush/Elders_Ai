@@ -1,0 +1,72 @@
+{
+  "batch": "art04 (2026-11-02, after candidate 74f66b4)",
+  "origin": "Muse built-in generation, original AI-generated decorative headers; free allowance only, no paid credits/signup/new terms (per art04 HANDOFF.md)",
+  "content": "No people, logos, readable text or game rules; blank cards only; Spider has a web and foliage but no actual spider. Decorative only: real boards stay code-rendered.",
+  "caveat": "No independent legal clearance claim. Web copies are resized to 1600px wide (WEBP q82) from the originals; source hashes verified against the art04 manifest before conversion.",
+  "assets": [
+    {
+      "file": "scene-freecell.webp",
+      "source_file": "media-generation-brainplay-freecell-cubbies-0-52e956b1-1cc0-4afe-bd58-61abbba3463b.webp",
+      "source_bytes": 234144,
+      "source_dimensions": [
+        2736,
+        912
+      ],
+      "source_sha256": "f60923e68ec7cd0830daac5f65891615a0570cefd203d02e962bf64beeb7682c",
+      "web_dimensions": [
+        1600,
+        533
+      ],
+      "web_bytes": 37472,
+      "web_sha256": "4fd5852dd16c4086b94a81e148af47313c9dbe50a3837e008da67b5f63a9e905"
+    },
+    {
+      "file": "scene-spider.webp",
+      "source_file": "media-generation-brainplay-spider-web-desk-0-93df797d-f440-4fe7-bdfe-9e0e755dd775.webp",
+      "source_bytes": 255444,
+      "source_dimensions": [
+        2240,
+        1120
+      ],
+      "source_sha256": "157849348e66c4c483de0859a4f2e6848b309ea09d4b642e0cb248116e32f004",
+      "web_dimensions": [
+        1600,
+        800
+      ],
+      "web_bytes": 61452,
+      "web_sha256": "41b26353ea87df8f7c4f92a32fa1b7b2cbec44f9721f18a124b7ef5a6e0ea8fd"
+    },
+    {
+      "file": "scene-ginrummy.webp",
+      "source_file": "media-generation-brainplay-gin-rummy-desk-0-02847851-1718-4e40-b103-1fbbfd6a004b.webp",
+      "source_bytes": 347138,
+      "source_dimensions": [
+        2736,
+        912
+      ],
+      "source_sha256": "eabd73ce7b0f1cacfcc8bd761b5cf01c6c242f3287e73d4a151627f2d1321696",
+      "web_dimensions": [
+        1600,
+        533
+      ],
+      "web_bytes": 62506,
+      "web_sha256": "31f08e4ddc2b7cc4e9966d20d2d702bb0addab5b0e908cb8220c5a13f002d177"
+    },
+    {
+      "file": "scene-gofish.webp",
+      "source_file": "media-generation-brainplay-go-fish-pond-0-496f5e01-e924-4258-881f-78bce30417e9.webp",
+      "source_bytes": 237138,
+      "source_dimensions": [
+        2736,
+        912
+      ],
+      "source_sha256": "7a4d06639dde06b939ccbd957aff6545f0dd5218d742eef3e425af5504e61ad3",
+      "web_dimensions": [
+        1600,
+        533
+      ],
+      "web_bytes": 43292,
+      "web_sha256": "9c70dec01a3f7abc3f6312d94aad1b899679fa59176b02f8219f64c74ad96edb"
+    }
+  ]
+}
