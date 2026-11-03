@@ -10,6 +10,7 @@
 // Pits are numbered 0-5 (yours), 6 = your store, 7-12 (computer, drawn right to left on top), 13 = computer store.
 // ═══════════════════════════════════════════════════════════════════════════════
 function initMancala(container) {
+    if (window._gameCleanup) { window._gameCleanup(); window._gameCleanup = null; }   // New game calls init directly: drop the previous game's listeners and timers
     const gs = gameState.mancala;
     const diff = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
     gs.diff = diff;
@@ -20,8 +21,8 @@ function initMancala(container) {
     gs.msg = 'Your turn. Tap one of your pits (the ones with a gold rim).';
     clearTimeout(gs._t);
     const onKey = (e) => {
-        if (gameState.currentId !== 'mancala' || gs.over || e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
-        const k = +e.key; if (k >= 1 && k <= 6) { mcTap(k - 1); e.preventDefault(); }
+        if (gameState.currentId !== 'mancala' || gs.over || GameKit.keyBlocked(e)) return;
+        const k = +e.key; if (k >= 1 && k <= 6) { if (!e.repeat) mcTap(k - 1); e.preventDefault(); }
     };
     document.addEventListener('keydown', onKey);
     window._gameCleanup = () => { document.removeEventListener('keydown', onKey); clearTimeout(gs._t); };
@@ -115,6 +116,7 @@ function _mcRender() {
     for (let k = 0; k <= 5; k++) cells += `<button type="button" class="mc-pit mc-me${land(k)}${can && b[k] ? ' mc-go' : ''}" ${pos([2, k + 2], [k + 2, 1])} onclick="mcTap(${k})" aria-label="your pit ${k + 1}, ${b[k]} stones"${can && b[k] ? '' : ' aria-disabled="true"'}><b>${b[k]}</b>${_mcStones(b[k])}<small>${k + 1}</small></button>`;
     cells += `<div class="mc-store${land(13)}" ${pos(['1 / 3', 1], [1, '1 / 3'])} aria-label="computer store, ${b[13]} stones"><span>Computer</span><b>${b[13]}</b></div>`;
     cells += `<div class="mc-store mc-mine${land(6)}" ${pos(['1 / 3', 8], [8, '1 / 3'])} aria-label="your store, ${b[6]} stones"><span>You</span><b>${b[6]}</b></div>`;
+    const _fk = GameKit.focusKey(el);
     el.innerHTML = `<div class="mc" dir="ltr">
       <div class="mc-score"><span>Computer: <b>${b[13]}</b></span><span>You: <b>${b[6]}</b></span></div>
       <div class="mc-board">${cells}</div>
@@ -165,4 +167,5 @@ function _mcRender() {
       #gameContent .mc button.mc-pit{border-radius:50%/45%!important;border-width:3px!important;overflow:visible}#gameContent .mc button.mc-pit:hover{transform:none}#gameContent .mc button.mc-pit::after{display:none}
       @media (max-width:600px){#gameContent .mc button.mc-pit{border-radius:30px!important}}
     </style>`;
+    GameKit.restoreFocus(el, _fk);
 }

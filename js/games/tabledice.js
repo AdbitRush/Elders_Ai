@@ -29,16 +29,17 @@ const _tdCounts = (d) => { const c = [0, 0, 0, 0, 0, 0, 0]; d.forEach((x) => c[x
 const _tdMax = (d) => Math.max(..._tdCounts(d));
 const _tdRun = (d) => { const s = new Set(d); let best = 0, cur = 0; for (let i = 1; i <= 6; i++) { cur = s.has(i) ? cur + 1 : 0; best = Math.max(best, cur); } return best; };
 function initTableDice(container) {
+    if (window._gameCleanup) { window._gameCleanup(); window._gameCleanup = null; }   // New game calls init directly: drop the previous game's listeners and timers
     const gs = gameState.tabledice;
     const diff = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
     gs.goal = diff === 'easy' ? 140 : diff === 'hard' ? 200 : 170;
     gs.card = {}; gs.turn = 1; gs.over = false;
     _tdNewTurn(gs);
     const onKey = (e) => {
-        if (gameState.currentId !== 'tabledice' || gs.over || e.ctrlKey || e.metaKey || e.altKey) return;
-        if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
-        if (e.key === 'r' || e.key === 'R') { tdRoll(); e.preventDefault(); }
-        else if (/^[1-5]$/.test(e.key)) { tdHold(+e.key - 1); e.preventDefault(); }
+        if (gameState.currentId !== 'tabledice' || gs.over || GameKit.keyBlocked(e)) return;
+        const isR = e.key === 'r' || e.key === 'R' || e.code === 'KeyR';   // e.code: on a Hebrew keyboard this key types a different letter
+        if (isR) { if (!e.repeat) tdRoll(); e.preventDefault(); }
+        else if (/^[1-5]$/.test(e.key)) { if (!e.repeat) tdHold(+e.key - 1); e.preventDefault(); }
     };
     document.addEventListener('keydown', onKey);
     window._gameCleanup = () => document.removeEventListener('keydown', onKey);
@@ -90,7 +91,7 @@ function tdRestart() { initTableDice(document.getElementById('gameContent')); }
 const _TD_PIPS = { 1: [5], 2: [1, 9], 3: [1, 5, 9], 4: [1, 3, 7, 9], 5: [1, 3, 5, 7, 9], 6: [1, 3, 4, 6, 7, 9] };
 function _tdDie(v, i, held, can, fresh) {
     const pips = v ? Array.from({ length: 9 }, (_, k) => `<i${_TD_PIPS[v].includes(k + 1) ? ' class="on"' : ''}></i>`).join('') : '<em>?</em>';
-    return `<button type="button" class="td-die${held ? ' td-held' : ''}${fresh && !held ? ' td-fresh' : ''}" onclick="tdHold(${i})" aria-pressed="${held}" aria-label="${v ? 'die showing ' + v : 'not rolled yet'}${held ? ', kept' : ''}"${can ? '' : ' aria-disabled="true"'}><span class="td-face">${pips}</span><span class="td-keep">${held ? 'KEPT' : v && can ? 'tap to keep' : '&nbsp;'}</span></button>`;
+    return `<button type="button" class="td-die${held ? ' td-held' : ''}${fresh && !held ? ' td-fresh' : ''}" onclick="tdHold(${i})" aria-pressed="${held}" aria-label="${v ? 'die showing ' + v : 'not rolled yet'}${held ? ', kept' : ''}"${can ? '' : ' aria-disabled="true"'}><span class="td-face">${pips}</span><span class="td-keep">${held ? 'KEPT' : v && can ? 'Keep' : '&nbsp;'}</span></button>`;
 }
 function _tdRender() {
     const gs = gameState.tabledice, el = document.getElementById('gameContent');
@@ -104,6 +105,7 @@ function _tdRender() {
         return `<button type="button" class="${cls}" onclick="tdScore('${L.k}')" aria-label="${L.name}: ${done ? 'scored ' + gs.card[L.k] : pot !== null ? 'would score ' + pot : 'empty'}"${done || gs.over ? ' disabled' : ''}><span class="td-n">${L.name}<small>${L.help}</small></span>${val}</button>`;
     };
     const up = _tdUpper(gs);
+    const _fk = GameKit.focusKey(el);
     el.innerHTML = `<div class="td" dir="ltr">
       <div class="td-top"><span>Turn <b>${Math.min(gs.turn, 13)}</b> of 13</span><span>Total <b>${_tdTotal(gs)}</b></span><span>Goal <b>${gs.goal}</b></span></div>
       <div class="td-felt">
@@ -163,4 +165,5 @@ function _tdRender() {
       #gameContent .td button.td-die::after{display:none}
       #gameContent .td button.td-line{border-radius:10px!important}#gameContent .td button.td-line:hover{transform:none}
     </style>`;
+    GameKit.restoreFocus(el, _fk);
 }

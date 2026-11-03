@@ -63,7 +63,7 @@ function _pjJump(from, over, to) {
     gs.msg = `${left} pegs left. Keep going.`;
     _pjRender();
 }
-const _PJ_RATING = (n) => (n === 1 ? 'Puzzle master!' : n === 2 ? 'Very sharp.' : n === 3 ? 'Good going.' : n <= 5 ? 'A fair finish.' : 'Plenty of room to improve.');
+const _PJ_RATING = (n) => (n === 1 ? 'Puzzle master!' : n === 2 ? 'Very sharp.' : n === 3 ? 'Good going.' : n <= 5 ? 'A fair finish.' : 'Every game is a fresh start.');
 function _pjEnd() {
     const gs = gameState.pegjump, left = _pjCount(gs);
     gs.over = true;
@@ -130,6 +130,7 @@ function _pjRender() {
         return `<button type="button" class="${cls}" style="left:${h.x * 100}%;top:${h.y * 100}%" onclick="pjTap(${i})" aria-label="${lab}"${gs.over ? ' disabled' : ''}><span></span></button>`;
     }).join('');
     const left = _pjCount(gs);
+    const _fk = GameKit.focusKey(el);
     el.innerHTML = `<div class="pj" dir="ltr">
       <div class="pj-pick" role="group" aria-label="Board">${GameKit.btn('Triangle (15)', "pjBoard('tri')", { cls: tri ? 'gk-primary' : '' })}${GameKit.btn('Cross (33)', "pjBoard('cross')", { cls: tri ? '' : 'gk-primary' })}</div>
       <div class="pj-top"><span>Pegs left: <b>${left}</b></span><span>Goal: <b>${gs.goal}</b> or fewer</span></div>
@@ -138,7 +139,7 @@ function _pjRender() {
       <div class="gk-btns">${GameKit.btn(GameKit.icon('undo-2') + 'Undo', 'pjUndo()', { disabled: !gs.hist.length || (gs.over && left <= gs.goal) })}${gs.over ? '' : GameKit.btn(GameKit.icon('lightbulb') + 'Hint', 'pjHint()')}${GameKit.btn(GameKit.icon('rotate-ccw') + 'Start over', 'pjRestart()')}${gs.over && left > gs.goal ? GameKit.btn('Finish', 'pjFinish()', { cls: 'gk-primary' }) : ''}</div>
       <details class="pj-rules"><summary>How to play</summary><ul>
         <li>Tap a peg. Green rings show where it can jump.</li>
-        <li>A peg jumps <b>over one neighbouring peg</b> into the <b>empty hole right behind it</b>, in a straight line. The peg it jumps over is taken off.</li>
+        <li>A peg jumps <b>over one neighboring peg</b> into the <b>empty hole right behind it</b>, in a straight line. The peg it jumps over is taken off.</li>
         <li>${tri ? 'On the triangle, pegs jump along the rows and along both slanting lines.' : 'On the cross, pegs jump across and up or down, never slanting.'}</li>
         <li>When no peg can jump, the puzzle is over. Leave as few pegs as you can: 1 is the best there is.</li>
         <li>Undo takes back a jump. There is no clock and no limit on Undo.</li>
@@ -170,4 +171,5 @@ function _pjRender() {
       #gameContent .pj button.pj-h,#gameContent .pj button.pj-h:hover,#gameContent .pj button.pj-h:active{position:absolute;transform:none;box-shadow:none;border-radius:50%!important;border-width:0!important;overflow:visible;transition:none}
       #gameContent .pj button.pj-h::after{display:none}
     </style>`;
+    GameKit.restoreFocus(el, _fk);
 }

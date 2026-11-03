@@ -62,6 +62,7 @@
   document.addEventListener('keydown', e => {
     const g = game();
     if (!g || SKIP.has(g)) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;   // browser shortcuts such as Alt+Left stay with the browser
     if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
     // 2026-11-03: Enter/Space on a control that has REAL keyboard focus (a <button>, link, role=button) is that control's own activation.
     // Before this, kbnav swallowed it (preventDefault with no ring chosen), so Tab then Enter did nothing in every button-based game.

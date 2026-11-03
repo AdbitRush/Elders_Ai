@@ -131,6 +131,7 @@ function _dbRender() {
             : `<button type="button" class="${cls}" style="${st}" onclick="dbTap('${e.t}',${e.r},${e.c})" aria-label="${name}"${can ? '' : ' disabled'}><i></i></button>`;
     }
     for (let r = 0; r <= n; r++) for (let c = 0; c <= n; c++) html += `<b class="db-dot" style="left:${c * u}%;top:${r * u}%"></b>`;
+    const _fk = GameKit.focusKey(el);
     el.innerHTML = `<div class="db" dir="ltr">
       <div class="db-score"><span class="db-you">You: <b>${gs.score[0]}</b></span><span>${gs.over ? 'Game over' : gs.turn === 0 ? 'Your turn' : "Computer's turn"}</span><span class="db-cpu">Computer: <b>${gs.score[1]}</b></span></div>
       <div class="db-paper"><div class="db-board">${html}</div></div>
@@ -150,14 +151,15 @@ function _dbRender() {
       .db-score{display:flex;justify-content:space-between;gap:8px;font-size:1.15rem;margin:4px 2px 10px;flex-wrap:wrap}
       .db-you b{color:#9a3412}.db-cpu b{color:#1d4ed8}
       .db-paper{background:#fffdf5;background-image:repeating-linear-gradient(0deg,transparent 0 27px,#dbe7f5 27px 28px);border:3px solid #e8cfa8;border-radius:16px;padding:clamp(18px,6%,34px);box-shadow:0 6px 18px -10px rgba(0,0,0,.4)}
-      .db-board{position:relative;width:100%;aspect-ratio:1}
+      .db-board{position:relative;width:100%;aspect-ratio:1;margin:0 auto}
+      @media (min-width:640px){.db-board{max-width:min(100%,52vh)}}
       .db-dot{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#2b1b0d;pointer-events:none;z-index:3}
       .db-e{position:absolute;padding:0;margin:0;border:0;background:transparent;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);cursor:pointer;z-index:2;display:block}
       .db-e:disabled{cursor:default}
       .db-e i{position:absolute;left:50%;top:50%;border-radius:4px;transform:translate(-50%,-50%);background:transparent}
       .db-h i{width:100%;height:8px}.db-v i{height:100%;width:8px}
       button.db-e:not(:disabled):hover i{background:rgba(180,83,9,.25)}
-      .db-e:focus-visible{outline:none!important}.db-e:focus-visible i{background:rgba(180,83,9,.4)}
+      .db-e:focus-visible{outline:none!important}.db-e:focus-visible i{background:#b45309;box-shadow:0 0 0 3px #fde68a}
       .db-sel i{background:repeating-linear-gradient(90deg,#d97706 0 10px,#fbbf24 10px 16px)!important;box-shadow:0 0 0 3px #fde68a}
       .db-v.db-sel i{background:repeating-linear-gradient(0deg,#d97706 0 10px,#fbbf24 10px 16px)!important}
       .db-w1 i{background:#9a3412}.db-w2 i{background:#1d4ed8}
@@ -173,4 +175,5 @@ function _dbRender() {
       #gameContent .db button.db-e,#gameContent .db button.db-e:hover,#gameContent .db button.db-e:active{position:absolute;transform:none;box-shadow:none;border-radius:0!important;border-width:0!important;overflow:visible;transition:none}
       #gameContent .db button.db-e::after{display:none}
     </style>`;
+    GameKit.restoreFocus(el, _fk);
 }

@@ -83,7 +83,28 @@
   }
   let rz;
   window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (typeof gameState !== 'undefined' && gameState.active && window['_fitNow_' + gameState.currentId]) window['_fitNow_' + gameState.currentId](); }, 150); });
-  window.GameKit = { RANKS, SUITS, isRed, deck, card, finish, btn, icon, css, fit };
+  // 2026-11-03: a game's own keyboard shortcut must not fire with a browser shortcut held, while typing, or under an open menu or dialog.
+  function keyBlocked(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return true;
+    if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return true;
+    const m = document.getElementById('gameMenu'); if (m && !m.classList.contains('hidden')) return true;
+    const d = document.getElementById('modal'); if (d && !d.classList.contains('hidden')) return true;
+    return false;
+  }
+  // Games that redraw with innerHTML lose keyboard focus. Call focusKey(el) before the redraw and restoreFocus(el, key) after it.
+  // If the same control is gone or disabled, focus goes to the status line, never to another button: Enter must not press New game by accident.
+  function focusKey(el) {
+    const a = document.activeElement; if (!a || !el.contains(a)) return null;
+    if (a.getAttribute('role') === 'status') return '@status';
+    return a.getAttribute('onclick');
+  }
+  function restoreFocus(el, key) {
+    if (!key) return;
+    const n = key === '@status' ? null : [...el.querySelectorAll('[onclick]')].find((x) => x.getAttribute('onclick') === key && !x.disabled);
+    if (n) { n.focus({ preventScroll: true }); return; }
+    const st = el.querySelector('[role="status"]'); if (st) { st.setAttribute('tabindex', '-1'); st.focus({ preventScroll: true }); }
+  }
+  window.GameKit = { RANKS, SUITS, isRed, deck, card, finish, btn, icon, css, fit, keyBlocked, focusKey, restoreFocus };
 })();
 
 /* QuizKit — the shared multiple-choice engine (2026-10 trivia expansion + wave 3 nostalgia quizzes).

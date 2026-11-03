@@ -11,6 +11,7 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 const _BW = { cx: 150, cy: 128, rings: [[13, 50], [30, 40], [50, 30], [74, 20], [104, 10]], cups: [[34, 30], [266, 30]], cupR: 13, balls: 9 };
 function initBoardwalk(container) {
+    if (window._gameCleanup) { window._gameCleanup(); window._gameCleanup = null; }   // New game calls init directly: drop the previous game's listeners and timers
     const gs = gameState.boardwalk;
     const diff = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
     const lean = diff === 'easy' ? 14 : diff === 'hard' ? 34 : 24;
@@ -23,12 +24,14 @@ function initBoardwalk(container) {
     gs.msg = 'Move the aim mark with the arrow buttons (or tap the board), then press Roll. The lane may lean a little.';
     _bwStopSwing(gs);
     const onKey = (e) => {
-        if (gameState.currentId !== 'boardwalk' || gs.over) return;
-        if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+        if (gameState.currentId !== 'boardwalk' || gs.over || GameKit.keyBlocked(e)) return;
         const k = e.key, step = e.shiftKey ? 2 : 6;
         const mv = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[k];
         if (mv) { bwMove(mv[0], mv[1]); }
-        else if (k === 'Enter' || k === ' ') { if (e.target && e.target.tagName === 'BUTTON' && e.target.closest('#gameContent')) e.target.click(); else bwRoll(); }
+        else if (k === 'Enter' || k === ' ') {
+            if (e.target && e.target.closest && e.target.closest('a[href],button,summary,[role="button"]')) return;   // a focused control keeps its own Enter, here and in the header
+            if (!e.repeat) bwRoll();
+        }
         else return;
         e.preventDefault(); e.stopPropagation();   // this game owns the arrow keys (the shared arrow-key focus helper is skipped)
     };
@@ -66,6 +69,7 @@ function _bwGauss() { let u = 0, v = 0; while (!u) u = Math.random(); while (!v)
 function bwRoll() {
     const gs = gameState.boardwalk; if (gs.over || gs.rolling) return;
     _bwStopSwing(gs);
+    const backToRoll = !!(document.activeElement && document.activeElement.classList.contains('bw-roll'));   // Roll is disabled while the ball runs
     const tx = _bwClamp(gs.aim[0] + gs.drift[0] + _bwGauss() * gs.wob, 4, 296), ty = _bwClamp(gs.aim[1] + gs.drift[1] + _bwGauss() * gs.wob, 4, 258);
     const pts = _bwPoints(tx, ty);
     gs.rolling = true;
@@ -77,11 +81,13 @@ function bwRoll() {
         const dx = tx - shot.aim[0], dy = ty - shot.aim[1];
         const way = [Math.abs(dx) > 5 ? (dx > 0 ? 'right' : 'left') : '', Math.abs(dy) > 5 ? (dy > 0 ? 'short (lower)' : 'long (higher)') : ''].filter(Boolean).join(' and ');
         const left = _BW.balls - gs.shots.length;
+        shot.way = way;
         gs.msg = (pts === 100 ? '100 - right in the cup! ' : pts ? `${pts} points. ` : 'Off the rings - 0 points. ')
             + (way ? `That ball landed ${way} of your aim.` : 'It landed close to your aim.')
             + (left ? ` ${left} ball${left === 1 ? '' : 's'} left.` : '');
         if (!left) return _bwEnd();
         _bwRender();
+        if (backToRoll) { const rb = document.querySelector('.bw-roll'); if (rb) rb.focus({ preventScroll: true }); }
         if (gs.swing) _bwStartSwing(gs);
     };
     const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -141,6 +147,7 @@ function _bwRender() {
     const balls = Array.from({ length: _BW.balls }, (_, i) => `<span class="bw-b${i < gs.shots.length ? ' bw-used' : ''}" aria-hidden="true"></span>`).join('');
     const ap = _bwPoints(ax, ay);
     const pad = (lab, f, icon) => `<button type="button" class="bw-pad" onclick="${f}" aria-label="${lab}"${gs.over || gs.rolling ? ' disabled' : ''}>${Icon.svg(icon, { size: '28px', sw: 3 })}</button>`;
+    const _fk = GameKit.focusKey(el);
     el.innerHTML = `<div class="bw" dir="ltr">
       <div class="bw-top"><span>Score <b>${gs.score}</b></span><span>Goal <b>${gs.goal}</b></span><span class="bw-balls" aria-label="${left} balls left">${balls}</span></div>
       <div class="bw-msg" role="status" aria-live="polite">${gs.msg}</div>
@@ -158,6 +165,7 @@ function _bwRender() {
         </svg>
         <div class="bw-ctl">
           <div class="bw-pads"><span></span>${pad('aim further up', 'bwMove(0,-6)', 'arrow-up')}<span></span>${pad('aim left', 'bwMove(-6,0)', 'arrow-left')}${GameKit.btn('Roll', 'bwRoll()', { cls: 'gk-primary bw-roll', disabled: gs.over || gs.rolling })}${pad('aim right', 'bwMove(6,0)', 'arrow-right')}<span></span>${pad('aim further down', 'bwMove(0,6)', 'arrow-down')}<span></span></div>
+          <div class="bw-last" aria-hidden="true">${gs.shots.length ? (() => { const s = gs.shots[gs.shots.length - 1]; return `Last ball: ${s.pts} points${s.way ? ', landed ' + s.way : ''}`; })() : '&nbsp;'}</div>
           <div class="bw-aimpts" id="bw-aimpts">The aim mark is on: ${ap ? ap + ' points' : 'no ring'}</div>
         </div>
       </div>
@@ -184,6 +192,8 @@ function _bwRender() {
       .bw-pad{border-radius:14px;border:2px solid #c9a46a;background:#fff7e6;color:#3b1d0e;display:flex;align-items:center;justify-content:center;cursor:pointer}
       .bw-pad:disabled,.bw .gk-btn:disabled{opacity:.45}
       .bw-roll{min-width:64px;padding:0;font-size:1.15rem}
+      .bw-last{display:none;font-weight:800;font-size:1rem;color:#2b1b0d;text-align:center}
+      @media (max-width:640px){.bw-last{display:block}}
       .bw-aimpts{font-weight:700;font-size:1rem;color:#4a3420;text-align:center;min-height:1.4em}
       .bw-msg{text-align:center;font-weight:800;font-size:1.1rem;margin:0 4px 10px;min-height:3em;background:#fff3d6;border-radius:12px;padding:8px 10px}
       .bw .gk-btn{border-color:#c9a46a}
@@ -193,4 +203,5 @@ function _bwRender() {
       @media (max-width:640px){.bw-wrap{flex-direction:column;gap:8px}.bw-svg{max-height:52vh}}
       #gameContent .bw button.bw-pad{border-radius:14px!important}#gameContent .bw button.bw-pad:hover{transform:none}
     </style>`;
+    GameKit.restoreFocus(el, _fk);
 }

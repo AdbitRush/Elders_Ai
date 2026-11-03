@@ -44,6 +44,8 @@ html[data-theme] body nav #themeBtn .w-tl{ font-size:1rem; }
 /* 2026-11-03: a control never shrinks below its own label (labels ran past the button edge into the language selector). */
 html[data-theme] body nav > div > div:last-child > *{ flex:0 0 auto; }
 html[data-theme] body nav #themeBtn{ white-space:nowrap; }
+/* 2026-11-04: English-only text on a right-to-left page: each paragraph takes its direction from its own words, so a final period stays at the end. */
+html[dir="rtl"] #gameInstructions, html[dir="rtl"] #modalTitle, html[dir="rtl"] #modalBody, html[dir="rtl"] [data-new-game] h3, html[dir="rtl"] [data-new-game] p, html[dir="rtl"] .w-sec-h, html[dir="rtl"] .w-sec-p{ unicode-bidi:plaintext; }
 html[data-theme] body nav #themeBtn > *{ flex:none; }
 html[data-theme] body nav #backBtn:not(.hidden){ background:var(--w-accent) !important; color:var(--w-on-accent) !important; border-color:var(--w-accent) !important; font-weight:800 !important; }
 html[data-theme] body nav #inviteBtn{ color:var(--w-ink) !important; }
