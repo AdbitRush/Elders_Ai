@@ -4,17 +4,15 @@
 const Tips = (() => {
   const DATA = {
     he: [
-      '💧 שתו כוס מים לפני אימון — המוח זקוק להידרציה',
-      '😴 שינה טובה של 7-8 שעות משפרת זיכרון ב-40%',
-      '🚶 הליכה של 30 דקות ביום מגדילה את נפח ההיפוקמפוס',
-      '🎵 מוזיקה קלאסית בשקט יכולה לשפר ריכוז בזמן אימון',
       '😊 משחקים בשביל ההנאה, הסקרנות והתרגול - בקצב שלכם.',
-      '🍇 אוכמניות ועלים ירוקים עשירים בנוגדי חמצון לבריאות המוח',
-      '🧘 10 דקות מדיטציה ביום מפחיתות מתח ומשפרות מיקוד',
-      '🖊️ כתיבה ביד מחזקת קישורים עצביים יותר מהקלדה',
+      '🤝 אפשר לשחק עם מישהו קרוב - הזדמנות טובה לשיחה.',
+      '☕ רוצים הפסקה? המשחק יחכה לכם.',
+      '🔤 אפשר להגדיל את הטקסט בכפתור שבראש המסך.',
+      '🌙 אפשר לעבור למצב כהה בכפתור שבראש המסך.',
+      '📚 במדור המאמרים (באנגלית) מוסבר מה המחקר אומר ומה לא.',
     ],
     // 2026-10: nostalgia first. Short, checkable facts about the games and toys of the era (no health claims here;
-    // the health note lives further down the page, under "Good fun, and good for you too").
+    // the health note lives further down the page, under "Good fun, at your own pace").
     en: [
       'Did you know? The Slinky was invented by a naval engineer, Richard James, and first sold in 1945.',
       'Did you know? Parker Brothers first sold Monopoly in 1935.',

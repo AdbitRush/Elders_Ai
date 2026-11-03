@@ -31,10 +31,13 @@
     if (fi >= 0 && els[fi]) els[fi].scrollIntoView({ block:'nearest', inline:'nearest' });
   }
 
+  // the ring and real focus must not disagree: after an arrow key, Enter belongs to the ring
+  function dropFocus(){ const a = document.activeElement; if (a && a !== document.body && a.blur) a.blur(); }
+
   function move(dir){
     if (!els.length) scan();
     if (!els.length) return;
-    if (fi < 0){ fi = 0; paint(); return; }
+    if (fi < 0){ fi = 0; paint(); dropFocus(); return; }
     const c = els[fi].getBoundingClientRect();
     const cx = c.left + c.width/2, cy = c.top + c.height/2;
     let best = -1, bestScore = Infinity;
@@ -51,7 +54,7 @@
       const score = along + perp * 2;         // aligned + nearby wins
       if (score < bestScore){ bestScore = score; best = i; }
     });
-    if (best >= 0){ fi = best; paint(); }
+    if (best >= 0){ fi = best; paint(); dropFocus(); }
   }
 
   function activate(){ if (fi >= 0 && els[fi]) els[fi].click(); }

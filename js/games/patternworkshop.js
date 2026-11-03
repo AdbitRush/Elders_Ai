@@ -136,6 +136,8 @@ function _pwRender(focusId) {
     .pwk-msg{min-height:2.8em;font-weight:700;margin:6px 0}.pwk-card,.pwk-ex,.pwk-confirm{border:2px solid #c9a46a;border-radius:12px;background:#fffaf0;padding:10px 12px;margin:10px 0}.pwk-ex summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:800}
     .pwk-confirm{border-color:#b5471f;background:#fff0e8}.pwk-fine,.pwk-none{font-size:.95rem;color:#5b4630}
     @media (max-width:420px){.pwk-c{width:56px;height:56px}.pwk-cb{min-width:56px;min-height:56px}.pwk-c svg{width:56px;height:56px}}
+    @media (max-width:420px){.pwk-boards{gap:8px;flex-wrap:nowrap}.pwk-t{gap:3px;padding:5px}.pwk-t .pwk-c,.pwk-t .pwk-c svg{width:38px;height:38px}.pwk-b{gap:4px;padding:5px}.pwk-boards .pwk-lab{font-size:.9rem}}
+    @media (max-width:360px){.pwk-boards{flex-wrap:wrap}}
     </style>`;
   { const f = document.getElementById(focusId || _pf); if (f) f.focus(); }   // keep keyboard focus on the same control across re-renders
 }

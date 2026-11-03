@@ -93,7 +93,7 @@ function _ngStart() {
   const resume = saved && saved.v === 1 && saved.turn < saved.order.length;
   const h = _ngShell(`<h3>Name Garden</h3>
     <div class="nmg-card"><p style="margin:0">Meet ${gs.prefs.size} neighbours, each with a name and something to remember them by. Then you will be asked who is who - twice each, with the others in between. <b>You will always be shown the right name after you answer.</b> Choosing from a list is recognising a name, not recalling it from nothing, and there is no clock.</p></div>
-    ${resume ? `<div class="nmg-card"><b>You have a round in progress</b> (turn ${saved.turn + 1} of ${saved.order.length}).<div class="nmg-row" style="margin-top:8px"><button type="button" class="nmg-btn nmg-main" onclick="_ngResume()">Continue my round</button></div></div>` : ''}
+    ${resume ? `<div class="nmg-card"><b>You have a round in progress</b> (turn ${saved.turn + 1} of ${saved.order.length}).<div class="nmg-row" style="margin-top:8px"><button type="button" class="nmg-btn nmg-main" onclick="_ngResume()">Continue my round</button><button type="button" class="nmg-btn" id="nmg-clear" onclick="_ngClear()">Clear my saved round</button></div></div>` : ''}
     <h3 style="font-size:1.1rem">Your choices</h3>
     ${_ngSeg('How many neighbours?', 'size', [[4, '4 (recommended)', 'Four to start'], [6, '6', 'Six neighbours: more to keep apart']])}
     ${_ngSeg('How far apart should repeat questions be?', 'gap', [['short', 'Closer together', 'Each neighbour comes back after one other question'], ['normal', 'Further apart', 'Each neighbour comes back after two or more other questions']])}
@@ -116,6 +116,7 @@ function _ngBegin() {
   gs.cast = _ngCast(gs.prefs.size); gs.order = _ngOrder(gs.cast.map((c) => c.id), gs.prefs.gap); gs.turn = 0; gs.res = [];
   _ngPersist(); _ngStudy(true);
 }
+function _ngClear() { _ngDel(_NG_ROUND); _ngStart(); const g = document.getElementById('nmg-go'); if (g) g.focus(); }
 function _ngResume() {
   const gs = gameState.namegarden, s = _ngGet(_NG_ROUND, null); if (!s) return _ngStart();
   gs.cast = _ngCast(s.size); gs.order = s.order; gs.turn = s.turn; gs.res = s.res; gs.prefs = Object.assign(gs.prefs, { size: s.size, gap: s.gap, cues: s.cues });

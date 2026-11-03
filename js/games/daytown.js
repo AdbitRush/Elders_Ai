@@ -114,7 +114,7 @@ function _dtStyle() {
   .dtn-wall{background:#4d7a4a;color:#fff}.dtn-path{background:#ffe9a8}.dtn-me::after{content:"";position:absolute;inset:18%;border-radius:50%;background:#1a365d;border:3px solid #fff}
   .dtn-pad{display:grid;grid-template-columns:repeat(3,64px);grid-template-areas:". u ." "l . r" ". d .";gap:8px;justify-content:center;margin:10px 0}
   .dtn-pad button{min-width:64px;min-height:64px;font-size:1.6rem}.dtn-u{grid-area:u}.dtn-l{grid-area:l}.dtn-r{grid-area:r}.dtn-d{grid-area:d}
-  .dtn-lm{font-size:.7rem;position:absolute;bottom:1px;left:0;right:0;text-align:center;font-family:Georgia,serif;font-weight:800}
+  .dtn-legend{margin:8px 0 0}
   </style>`;
 }
 function _dtShell(inner) { const el = document.getElementById('gameContent'); if (!el || gameState.currentId !== 'daytown') return null; el.innerHTML = `<div class="dtn" dir="ltr">${inner}<p class="dtn-fine">A made-up town. For entertainment and practice. Not a medical test or treatment.</p><p class="dtn-fine dtn-art">Read more: <a href="article-a-plan-you-can-change.html">A plan is something you can change</a> &middot; <a href="article-a-small-map-to-explore.html">A small map to explore</a></p></div>${_dtStyle()}`; return el; }
@@ -239,13 +239,13 @@ function _dmNext() { const g = gameState.daytown; if (!g.mdone) return; if (g.se
 function _dmRender(focusId) {
   const _pf = document.activeElement && document.activeElement.id;
   const g = gameState.daytown, m = g.map; if (gameState.currentId !== 'daytown' || g.phase !== 'map') return;
-  const { key, pathSet } = _dmCells(); const landAt = {}; m.L.forEach((p, i) => landAt[key(p)] = m.land[i]);
+  const { key, pathSet } = _dmCells(); const arrowAt = {}; { let c = m.S.slice(); m.route.forEach((d) => { const k0 = key(c); if (!arrowAt[k0]) arrowAt[k0] = d; c = [c[0] + _DM_DIRS[d][0], c[1] + _DM_DIRS[d][1]]; }); } const landAt = {}; m.L.forEach((p, i) => landAt[key(p)] = m.land[i]);
   const nextPos = (() => { const v = _DM_DIRS[m.route[g.step]]; return v ? [g.pos[0] + v[0], g.pos[1] + v[1]] : null; })();
   let cells = ''; for (let y = 0; y < _DM.H; y++) for (let x = 0; x < _DM.W; x++) {
     const k = x + ',' + y, wall = m.walls.has(k), me = g.pos[0] === x && g.pos[1] === y, S = m.S[0] === x && m.S[1] === y, D = m.D[0] === x && m.D[1] === y, L = landAt[k];
     const onPath = g.shownRoute && pathSet.has(k) && !wall; const isNext = g.hint && nextPos && nextPos[0] === x && nextPos[1] === y;
     const lab = wall ? 'hedge' : S ? 'start' : D ? 'destination' : L ? L.name.replace(/^the /, '') : 'path';
-    cells += `<div class="dtn-cell${wall ? ' dtn-wall' : ''}${onPath ? ' dtn-path' : ''}${me ? ' dtn-me' : ''}" ${isNext ? 'style="outline:4px dashed #1a56b0;outline-offset:-3px"' : ''} role="img" aria-label="Row ${y + 1}, column ${x + 1}: ${lab}${me ? ', you are here' : ''}">${wall ? '▒' : S ? 'S' : D ? 'D' : L ? L.glyph : ''}${L ? `<span class="dtn-lm">${L.name.replace(/^the /, '')}</span>` : ''}</div>`;
+    cells += `<div class="dtn-cell${wall ? ' dtn-wall' : ''}${onPath ? ' dtn-path' : ''}${me ? ' dtn-me' : ''}" ${isNext ? 'style="outline:4px dashed #1a56b0;outline-offset:-3px"' : ''} role="img" aria-label="Row ${y + 1}, column ${x + 1}: ${lab}${onPath && arrowAt[k] ? ', the route goes ' + arrowAt[k] : ''}${me ? ', you are here' : ''}">${wall ? '▒' : S ? 'S' : D ? 'D' : L ? L.glyph : onPath && arrowAt[k] ? _DM_DIRS[arrowAt[k]][3] : ''}</div>`;
   }
   const dirs = _dmDescribe();
   const dirList = g.shownRoute ? `<ol class="dtn-rules" aria-label="The route in words"><li>Start (S).</li>${dirs.map((t) => `<li>${t.charAt(0).toUpperCase() + t.slice(1)}.</li>`).join('')}</ol>` : '<p class="dtn-fine">The route is hidden. Press "Show the route" whenever you want to see it again - there is no limit.</p>';
@@ -254,6 +254,7 @@ function _dmRender(focusId) {
     <h3 tabindex="-1" id="dtn-h">Follow the route from S to D</h3>
     <p style="margin:0 0 8px">Go from <b>S</b> past ${m.land.map((l) => l.name).join(', ')} to <b>D</b>. Green squares are hedges. Use the arrow buttons or your arrow keys.</p>
     <div class="dtn-grid" role="group" aria-label="The map, ${_DM.W} by ${_DM.H}">${cells}</div>
+    <p class="dtn-legend"><b>Key:</b> S start, D destination, ${m.land.map((l) => l.glyph + ' ' + l.name.replace(/^the /, '')).join(', ')}, ▒ hedge.</p>
     <div class="dtn-msg" id="dtn-msg" tabindex="-1" role="status" aria-live="polite">${g.msg || 'You are at S. Which way first?'}</div>
     <div class="dtn-pad" role="group" aria-label="Move"><button type="button" class="dtn-btn dtn-u" onclick="_dmMove('up')" aria-label="Go up" ${done ? 'disabled' : ''}>↑</button><button type="button" class="dtn-btn dtn-l" onclick="_dmMove('left')" aria-label="Go left" ${done ? 'disabled' : ''}>←</button><button type="button" class="dtn-btn dtn-r" onclick="_dmMove('right')" aria-label="Go right" ${done ? 'disabled' : ''}>→</button><button type="button" class="dtn-btn dtn-d" onclick="_dmMove('down')" aria-label="Go down" ${done ? 'disabled' : ''}>↓</button></div>
     <div class="dtn-row"><button type="button" class="dtn-btn" onclick="_dmNextStep()" ${done || g.replaying ? 'disabled' : ''}>Show next step</button><button type="button" class="dtn-btn" id="dtn-route-btn" onclick="_dmToggleRoute()" ${done || g.replaying ? 'disabled' : ''}>${g.shownRoute ? 'Hide the route' : 'Show the route'}</button><button type="button" class="dtn-btn" onclick="_dmReplay()" ${done || g.replaying ? 'disabled' : ''}>Show a solution (replay)</button>${done ? `<button type="button" class="dtn-btn dtn-main" id="dtn-next" onclick="_dmNext()">${g.session.n >= 3 ? 'Finish' : 'Next map'}</button>` : ''}</div>

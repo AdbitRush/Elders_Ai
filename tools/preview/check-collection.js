@@ -477,6 +477,47 @@ async function articleLinks() {
   await ctx.close();
 }
 
+async function finalFixes() {
+  const ctx = await B.newContext({ viewport: { width: 1280, height: 900 }, serviceWorkers: 'block' });
+  await ctx.addInitScript(() => { try { localStorage.setItem('gg_profile_seen', '1'); localStorage.setItem('gg-lang', 'en'); localStorage.setItem('gg-sound', 'off'); } catch (e) {} });
+  await ctx.addCookies([{ name: 'cc_cookie', value: encodeURIComponent(JSON.stringify({ categories: ['necessary'], revision: 0, data: null, consentTimestamp: new Date().toISOString(), consentId: 'test', services: { necessary: [], ads: [] }, languageCode: 'en', lastConsentTimestamp: new Date().toISOString(), expirationTime: Date.now() + 864e5 })), url: U }]);
+  const p = await ctx.newPage(); await p.route(/pagead2|googlesyndication|fonts\.g/, (r) => r.abort());
+  // every article has its own title and description
+  const pages = ['articles.html', 'article-the-pleasure-of-being-a-beginner.html', 'article-why-coming-back-can-help-learning.html', 'article-try-to-remember-then-check.html', 'article-give-a-new-name-a-connection.html', 'article-a-quieter-screen-for-play.html', 'article-a-plan-you-can-change.html', 'article-play-a-rhythm-not-a-health-promise.html', 'article-a-small-map-to-explore.html', 'article-what-a-crossword-trial-can-tell-us.html', 'article-let-the-player-choose.html', 'article-what-brain-games-can-and-cannot-do.html', 'article-make-a-game-an-invitation.html', 'article-a-game-is-one-part-of-your-day.html'];
+  const titles = [], descs = [], mismatch = [];
+  for (const f of pages) { await p.goto(`${U}/${f}`, { waitUntil: 'domcontentloaded' }); const r = await p.evaluate(() => ({ t: document.title, h: document.querySelector('h1').textContent.trim(), d: document.querySelector('meta[name=description]').content })); titles.push(r.t); descs.push(r.d); if (!r.t.startsWith(r.h)) mismatch.push(r.t + ' / ' + r.h); }
+  ok('articles: 14 pages have 14 different titles and descriptions, and each title matches its heading', new Set(titles).size === 14 && new Set(descs).size === 14 && !mismatch.length, mismatch.join(' | '));
+  // the rhythm article opens Porch Rhythm, not Classic
+  await p.goto(`${U}/article-play-a-rhythm-not-a-health-promise.html`, { waitUntil: 'domcontentloaded' }); await p.click('.related a'); await p.waitForSelector('#prp-go', { timeout: 15000 }).catch(() => {});
+  ok('articles: clicking the rhythm article link opens the Porch Rhythm start screen', !!(await p.$('#prp-go')));
+  // Porch Rhythm stays Porch Rhythm after Next Level
+  await p.evaluate(() => { gameState.sequence.level = 2; initSequence(document.getElementById('gameContent')); });
+  ok('porch: a later level stays in Porch Rhythm', !!(await p.$('#prp-go')) && !(await p.$('#sequence-0')));
+  // kbnav: after an arrow key, Enter belongs to the ring even if a button had real focus; plain Tab + Enter still works
+  await p.goto(`${U}/?lang=en#patternworkshop`, { waitUntil: 'domcontentloaded' }); await p.waitForSelector('.pwk-tp');
+  await p.focus('.pwk-tp'); await p.keyboard.press('ArrowDown'); const af = await p.evaluate(() => document.activeElement === document.body);
+  ok('kbnav: an arrow key moves the ring and releases real focus, so Enter cannot press the old button', af);
+  // saved round can be cleared
+  await p.goto(`${U}/?lang=en#namegarden`, { waitUntil: 'domcontentloaded' }); await p.waitForSelector('#nmg-go'); await p.click('#nmg-go'); await p.click('#nmg-ready'); await p.waitForSelector('.nmg-opt'); await p.click('#nmg-show'); await p.click('#nmg-next');
+  await p.reload({ waitUntil: 'domcontentloaded' }); await p.waitForSelector('#nmg-clear'); await p.click('#nmg-clear');
+  const cleared = await p.evaluate(() => ({ cont: /Continue my round/.test(document.getElementById('gameContent').innerText), stored: localStorage.getItem('bp-ng-round') }));
+  ok('namegarden: Clear my saved round removes the saved progress', !cleared.cont && cleared.stored === null, JSON.stringify(cleared));
+  // map route is drawn with arrows as well as colour
+  await p.goto(`${U}/?lang=en#daytown`, { waitUntil: 'domcontentloaded' }); await p.waitForSelector('#dtn-go'); await p.evaluate(() => { gameState.daytown.prefs.mode = 'map'; gameState.daytown.prefs.showRoute = true; _dtBegin(); }); await p.waitForSelector('.dtn-grid');
+  const ar = await p.evaluate(() => [...document.querySelectorAll('.dtn-path')].filter((c) => /[↑↓←→]/.test(c.textContent)).length);
+  ok('daytown: the route is shown with arrows, not colour alone', ar >= 3, String(ar));
+  // headers: new games have their art and the title stays readable above a fade
+  const hd = [];
+  for (const [g, f] of [['namegarden', 'scene-quiz'], ['patternworkshop', 'scene-garden'], ['quietshelf', 'scene-still'], ['daytown', 'scene-journey']]) { await p.goto(`${U}/?lang=en#${g}`, { waitUntil: 'domcontentloaded' }); await p.waitForFunction(() => document.getElementById('gameContent').children.length > 0); const bi = await p.evaluate(() => getComputedStyle(document.querySelector('#gameView > div > div:first-child')).backgroundImage); const st = await ctx.request.get(`${U}/images/art/${f}.webp`); hd.push(bi.includes(f) && st.status() === 200); }
+  ok('headers: the four new games show their mapped decorative art', hd.every(Boolean), JSON.stringify(hd));
+  // no unsupported wording left on the home page or landing pages
+  await p.goto(`${U}/?lang=en`, { waitUntil: 'domcontentloaded' }); await sleep(600); const home = await p.evaluate(() => document.body.innerText);
+  const lp = await (await ctx.request.get(`${U}/en/namegarden/`)).text();
+  const badRe = /good for you|ten minutes a day|improve with regular practice/i;
+  ok('wording: home page and landing page have no "good for you", daily-dose or general-improvement claims', !badRe.test(home) && !badRe.test(lp), (home.match(badRe) || lp.match(badRe) || [''])[0]);
+  await ctx.close();
+}
+
 (async () => {
   B = await chromium.launch();
   if (want('namegarden')) await nameGarden();
@@ -486,6 +527,7 @@ async function articleLinks() {
   if (want('sequence')) await porchRhythm();
   if (want('crossword')) await crosswordTouches();
   if (want('articles')) await articleLinks();
+  if (want('articles')) await finalFixes();
   await B.close();
   console.log(res.join('\n')); const f = res.filter((x) => x.startsWith('FAIL')).length; console.log(`\n${res.length - f}/${res.length} passed`); process.exit(f ? 1 : 0);
 })();

@@ -45,7 +45,7 @@ GAME_LABEL = {
  "patternworkshop": ("Pattern Workshop", "copy a small mosaic at your own pace, with a rule example and Undo"),
  "quietshelf": ("The Quiet Shelf", "find the objects that match one clear rule on an uncluttered shelf"),
  "daytown": ("A Day in Town", "order a few errands in a fictional town, or follow a small map; edit your plan freely"),
- "sequence": ("Sequence (with Porch Rhythm)", "repeat a short pattern of four pads, with optional sound and a silent mode"),
+ "sequence": ("Porch Rhythm", "repeat a short pattern of four pads, with optional sound and a silent mode"),
  "crossword": ("Daily Mini Crossword", "fill a small grid at your own pace; reveal a letter whenever you like"),
 }
 OLD3 = [
@@ -117,7 +117,8 @@ def related(games):
         name, what = GAME_LABEL[g]
         ready = os.path.exists(os.path.join(ROOT, 'js', 'games', g + '.js'))
         if ready:
-            rows.append('<li><a href="./?lang=en#%s">Play %s</a> <span>%s.</span></li>' % (g, html.escape(name), html.escape(what)))
+            route = './?lang=en&amp;mode=porch#sequence' if g == 'sequence' else './?lang=en#%s' % g   # the rhythm article opens the Porch Rhythm mode, not Classic
+            rows.append('<li><a href="%s">Play %s</a> <span>%s.</span></li>' % (route, html.escape(name), html.escape(what)))
         else:
             rows.append('<li><strong>%s</strong> <span>%s. Not available yet.</span></li>' % (html.escape(name), html.escape(what)))
     return ('<aside class="related" aria-label="Related game">\n<h2>Related game</h2>\n<ul>\n' + "\n".join(rows) +
@@ -134,8 +135,8 @@ for md_name, out_name, summary, hero, games in A:
     md = open(os.path.join(SRC, md_name), encoding="utf-8").read()
     title, note, body, sources = convert(md)
     assert note == DISCLAIMER, (md_name, note)
-    page = HEAD.replace("<title>Articles - BrainPlay</title>", "<title>%s - BrainPlay</title>" % html.escape(title, quote=False))
-    page = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="%s">' % html.escape(summary, quote=True), page)
+    page = re.sub(r"<title>.*?</title>", lambda m: "<title>%s - BrainPlay</title>" % html.escape(title, quote=False), HEAD)
+    page = re.sub(r'<meta name="description" content="[^"]*">', lambda m: '<meta name="description" content="%s">' % html.escape(summary, quote=True), page)
     page += '  <p class="crumb"><a href="articles.html">&larr; All articles</a></p>\n'
     page += '  <img class="hero" src="%s" alt="" width="1600" height="1067" loading="lazy" decoding="async">\n' % hero
     page += "  <h1>%s</h1>\n  <p class=\"meta\">%s</p>\n" % (html.escape(title, quote=False), EVIDENCE)
@@ -156,7 +157,8 @@ for md_name, out_name, summary, hero, games in A:
             if x != y: print("  first diff at", k, sw[max(0, k - 4):k + 4], pw[max(0, k - 4):k + 4]); break
     cards.append((title, out_name, summary))
 
-idx = HEAD.replace("<title>Articles - BrainPlay</title>", "<title>Articles - BrainPlay</title>")
+idx = re.sub(r"<title>.*?</title>", "<title>Articles - BrainPlay</title>", HEAD)
+idx = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Short, plain-language articles on what research does and does not say about games, learning, attention, planning, music and daily routines, with sources and limits.">', idx)
 idx += "  <h1>Articles</h1>\n"
 idx += '  <p class="lead">Short articles on what research does and does not say about games, learning, attention, planning, music and daily routines. Each one names its sources and states its limits, and some link to a game you can try.</p>\n'
 idx += '  <aside class="note" role="note"><strong>Please note:</strong> %s</aside>\n' % DISCLAIMER

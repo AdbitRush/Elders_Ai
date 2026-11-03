@@ -4,6 +4,7 @@
 function initSequence(container) {
     // Porch Rhythm is a second mode of this same game; ?mode=porch (from the article link) or the mode buttons start it. Classic stays the default.
     if (!gameState.sequence._modeChosen && new URLSearchParams(location.search).get('mode') === 'porch') { gameState.sequence._modeChosen = true; gameState.sequence._mode = 'porch'; return _prStart(); }
+    if (gameState.sequence._modeChosen && gameState.sequence._mode === 'porch') return _prStart();
     gameState.sequence._mode = 'classic';
     if(!gameState.sequence.sequence)gameState.sequence.sequence=[];
     gameState.sequence.userIndex=0; gameState.sequence.waitingForUser=false;

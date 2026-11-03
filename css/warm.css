@@ -464,3 +464,13 @@ html[data-game="gofish"] #gameView > div > div:first-child{ background-position:
   html[data-game="gofish"] #gameView > div > div:first-child{
     background:linear-gradient(180deg,rgba(255,250,241,.06) 0%,rgba(255,250,241,.62) 46%,var(--w-table) 92%), var(--game-photo, none) 0 -130px/auto 215% no-repeat, #f4e3c6 !important; }
 }
+
+/* 2026-11 article-linked games: decorative headers only (ART-MAPPING.md); boards and rules stay in code */
+html[data-game="patternworkshop"] #gameView{ --game-photo:url(../images/art/scene-garden.webp) !important; }
+html[data-game="namegarden"] #gameView{ --game-photo:url(../images/art/scene-quiz.webp) !important; }
+html[data-game="quietshelf"] #gameView{ --game-photo:url(../images/art/scene-still.webp) !important; }
+html[data-game="daytown"] #gameView{ --game-photo:url(../images/art/scene-journey.webp) !important; }
+:is(html[data-game="patternworkshop"],html[data-game="namegarden"],html[data-game="quietshelf"],html[data-game="daytown"]) #gameView > div > div:first-child{
+  background:linear-gradient(180deg,rgba(255,250,241,.20) 0%,rgba(255,250,241,.88) 42%,var(--w-table) 88%), var(--game-photo, none) center 40%/cover no-repeat, #f4e3c6 !important; }
+@media (max-width:640px){ :is(html[data-game="patternworkshop"],html[data-game="namegarden"],html[data-game="quietshelf"],html[data-game="daytown"]) #gameView > div > div:first-child{
+  background:linear-gradient(180deg,rgba(255,250,241,.45) 0%,rgba(255,250,241,.82) 34%,var(--w-table) 88%), var(--game-photo, none) center 40%/cover no-repeat, #f4e3c6 !important; } }
