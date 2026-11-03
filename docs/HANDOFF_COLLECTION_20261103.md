@@ -4,8 +4,8 @@ STATUS: on the PREVIEW site only. NOT on the live site, NOT merged, NOT pushed t
 
 - Try it: https://games-preview.178-105-148-72.sslip.io/?lang=en (noindex; served by brainplay-preview.service from /opt/brainplay-preview/site)
 - Articles: https://games-preview.178-105-148-72.sslip.io/articles.html
-- Built from commit c9c89eb on branch `review/brainplay-fixes-20261103`, worktree `...\2026\Elders_Ai_fix-bp2`, started from main 7edd6ce (= live). Later commits on the branch are test and docs only.
-- Preview rollback: /root/backups/brainplay-preview-before-c9c89eb-20261103-1629.tar.gz (the previous preview, e272755). Built without GitHub: `git archive` uploaded, same steps as tools/preview/build-preview.sh.
+- Built from commit d627950 on branch `review/brainplay-fixes-20261103`, worktree `...\2026\Elders_Ai_fix-bp2`, started from main 7edd6ce (= live). Later commits on the branch are docs only.
+- Preview rollback: /root/backups/brainplay-preview-before-d627950-*.tar.gz (the previous preview, 0a3e4d3); before this release round: /root/backups/brainplay-preview-before-ecfbb3b-20261103-2005.tar.gz (c9c89eb). Built without GitHub: `git archive` uploaded, same steps as tools/preview/build-preview.sh.
 - Live site: /opt/Elders_Ai still 7edd6ce. Live rollback details are in HANDOFF.md (tag rollback/live-before-d86506d).
 
 ## What was built
@@ -26,22 +26,27 @@ Art: all 19 originals deduplicated by source hash. 18 already had site copies (n
 - Digit Span and Solitaire 1440 dark: test-harness timing, reproduced on the old baseline; tests fixed, games unchanged.
 - Own bugs caught in review: all new article pages and the index had the wrong browser title and the index had the wrong description; rhythm article opened Classic; "shelfves"; map stops misplaced by the site's global button CSS; pw- class collision with the welcome card.
 
-## Wording changed (live copy, six languages; translations by Claude, not professionally reviewed)
-Home section no longer says "good for you", "Ten minutes a day" or that skills "all improve"; landing heading "Why it is good for you" is now "What you do in this game"; 27 skill tooltips describe the task; Hebrew tips with unsupported health numbers (sleep 40%, hippocampus, etc.) replaced. The Hebrew tip and promo correction now covers the whole he tips list.
+## Wording changed (live copy, six languages; translations by Claude, no native-speaker or professional review)
+Removed from the home page, landing pages, skill tooltips, Memory title and description, invite text and taglines, milestone popup, achievements, Hebrew tips and quotes, and the home page's built-in Hebrew fallback text: training, brain-health and improvement promises ("good for you", "ten minutes a day", "daily brain training", "Brain health score", "Healthy Brain", "Brain Guardian", "The brain is a muscle", and their translations). The first pass (c9c89eb) missed many of these; they were found in the 2026-11-03 release review and fixed in ecfbb3b, 0a3e4d3 and d627950. "neighbours" became "neighbors" in Name Garden; article text stays word-for-word with the package.
 
-## Test results on c9c89eb
-- tools/preview/check-collection.js: 133/133 on the local server. On the preview URL it did not finish: one run stopped on script timing (fixed), the next on a single page reload that exceeded 30 s. Not re-run in a loop; four timed loads afterwards had the game ready in 0.7-2.5 s.
-- tools/preview/check-regressions.js: 8/8 on the preview URL.
-- play-all on the preview URL: namegarden, patternworkshop, quietshelf, daytown, sequence, crossword, digitspan, backgammon, klondike: 18/18 OK at 390 and 1280.
-- e2e once on the final code, local server: 107/108; only failure is the toolbar check, which needs the VPS preview server. Not run on the preview URL.
-- Header contrast on rendered pixels: phone titles >= 6.2:1, instructions >= 7.8:1; desktop titles >= 11.1:1.
-- Article fidelity: 10/10 word-for-word with the package, except the status line ("English only" replaces draft/Muse wording). The three live articles have no diff against main.
+## Header fix
+Controls no longer shrink below their labels; the group wraps to a second row when it cannot fit (css/warm.css). Before: labels ran past the button edge at 900 px in game (es, fr, de, el, with sideways scroll in el) and at 320-360 px (el). tools/preview/check-header.js measures this.
 
-## Open items
-- Source links: 15 of 18 return 200. Wiley (403), ScienceDirect (403), NIA (405) refuse automated fetches: unverified, not proven broken. Please click those three.
-- Crossword on phones: keys are 31px wide x 50px tall and squares 39px; a 10-key row cannot reach 44px wide.
-- Memory: levels 1-3 are all 8 cards (documented rule), so progression is slow. Unchanged.
-- FreeCell phone title 4.3-4.8:1 (passes large-text 3:1). Natural Klondike win untested. No real-device or human QA; no screen-reader run (labels and live regions are checked by script only). Zoom/reflow approximated by 320px width.
-- New games, articles and most game text are English only; other languages fall back to English.
-- Art is AI-generated with no legal-clearance claim. Article drafts have not had independent medical or legal review.
-- Screenshots page: Artifact upload blocked by a Read permission rule; screenshots are in the backup's evidence folder.
+## Test results on the preview URL, build d627950 (2026-11-03)
+- tools/preview/check-collection.js in 7 batches: 133/133 (namegarden 17, patternworkshop 17, quietshelf 18, daytown 35, sequence 23, crossword 11, articles 12). No bugs and no script or network failures.
+- tools/preview/check-regressions.js: 8/8.
+- Retired phrases in 30 served files, six languages: 0 hits of 45.
+- check-header.js: 288 views, 0 problems, on a local server from ecfbb3b (22 widths 320-1920, six languages, home and in game; css/warm.css is unchanged since). The run on the preview URL was stopped by the machine running low on memory after the phone widths; no problem had been printed up to then.
+- NOT run on d627950: e2e-suite.js (never started, same memory stop) and play-all. Last results: e2e 107/108 local on c9c89eb (toolbar check needs the preview server); play-all 18/18 preview on c9c89eb. Later commits changed header CSS, version numbers, wording and the Name Garden spelling.
+
+## Open items (none accepted by Or; all still open for a decision)
+- Crossword on phones: keys are 31px wide x 50px tall and squares 39px, below the 44px target; a 10-key row cannot reach 44px wide at phone width.
+- Memory: levels 1-3 are all 8 cards (documented rule), so early progression is slow. Unchanged.
+- The home page now says there is no recommended amount, but the page still shows a daily goal ("Played X of 3 today") and a streak counter. Not changed.
+- Evidence statements kept and not medically reviewed: why3_d ("linked with healthier cognitive aging") and the list in why_note (physical activity, blood pressure, hearing and vision, sleep, not smoking, social contact).
+- Translation review covered the strings changed here, the whole skill-tooltip table, and a keyword scan. Not read line by line: other translated game text (js/gametext.js, older game strings), consent and privacy text. A keyword scan cannot prove absence. No native speaker has read any of it.
+- Achievements and the "Practice score" label exist only in Hebrew and English. New games, articles and most game text are English only; other languages fall back to English.
+- FreeCell phone title 4.3-4.8:1 (passes large-text 3:1). Desktop in-game "Level 1" text sits slightly high in its box. Natural Klondike win untested. No real-device or human QA; no screen-reader run. Zoom approximated by 320px width.
+- Source links: Or's assistant reported that Wiley, ScienceDirect and NIA opened; automated fetches here get 403/405. Link check only, not a check of what the sources say.
+- Art is AI-generated with no legal-clearance claim. Articles have not had independent medical or legal review.
+- Not pushed to GitHub; preview only.
