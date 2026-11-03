@@ -20,6 +20,7 @@ async function open(id, { w = 1280, theme = 'light', reduce = false, noStorage =
   await p.route(/pagead2|googlesyndication|google-analytics|googletagmanager|fonts\.g/, (r) => r.abort());
   await p.goto(U + '/?lang=en#' + id, { waitUntil: 'domcontentloaded' });
   await p.waitForFunction(() => { const c = document.getElementById('gameContent'); return c && c.children.length > 0; }, null, { timeout: 20000 }).catch(() => {});
+  await p.waitForFunction((id) => typeof GAME_INIT !== 'undefined' && typeof window[GAME_INIT[id]] === 'function' && gameState.currentId === id, id, { timeout: 30000 }).catch(() => {}); await p.waitForFunction(() => document.getElementById('gameContent').children.length > 0, null, { timeout: 15000 }).catch(() => {}); await sleep(400);   // on a real network the loading placeholder counts as a child: wait for the game file
   return { ctx, p, errs };
 }
 const want = (id) => !ONLY || ONLY.includes(id);
