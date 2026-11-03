@@ -54,6 +54,10 @@ const STAGE = {
   async g2048(p) { await p.evaluate(() => { ['l', 'u', 'l', 'd', 'l', 'u'].forEach((d) => g2Move(d)); }); },
   async spotdiff(p) { for (let k = 0; k < 40 && !(await p.evaluate(() => gameState.spotdiff.ready)); k++) await sleep(250); await p.evaluate(() => { const b = document.querySelectorAll('.sd-p')[1].getBoundingClientRect(), s = gameState.spotdiff.spots[0]; sdTap({ currentTarget: document.querySelectorAll('.sd-p')[1], clientX: b.left + s.x * b.width, clientY: b.top + s.y * b.height }, 1); }); },
   async fifteen(p) { await sleep(200); },
+  async namegarden(p) { await p.evaluate(() => { _ngBegin(); _ngAsk(); }); await sleep(300); },
+  async patternworkshop(p) { await p.evaluate(() => { const g = gameState.patternworkshop; for (let i = 0; i < 2; i++) { const t = g.target[i].t; const pc = g.tray.find((q) => q.t === t); if (pc) { _pwPickTray(pc.id); _pwCell(i); } } }); await sleep(300); },
+  async quietshelf(p) { await p.evaluate(() => { const g = gameState.quietshelf; const m = g.items.find(_qsIsMatch); if (m) _qsToggle(m.id); }); await sleep(300); },
+  async daytown(p) { await p.evaluate(() => { gameState.daytown.prefs.mode = 'plan'; gameState.daytown.prefs.stage = 2; _dtBegin(); const g = gameState.daytown; g.puz.sol.slice(0, 2).forEach((id) => _dtAdd(id)); }); await sleep(300); },
   async mastermind(p) { await p.evaluate(() => { const g = gameState.mastermind; [0, 1, 2, 3].forEach((c) => mmPick(c)); mmTry(); [1, 2, 3, 4].forEach((c) => mmPick(c % g.k)); mmTry(); }); },
 };
 async function qk(p, id) { await p.evaluate((id) => { if (gameState[id].phase === 'pick') QuizKit.go(id); QuizKit.answer(id, gameState[id].questions[0].ans); }, id); await sleep(400); }

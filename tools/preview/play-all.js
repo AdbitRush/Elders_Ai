@@ -661,6 +661,45 @@ const PLAY = {
     await p.locator('#gameContent .gk-btn', { hasText: 'Try' }).click();
     if (!(await waitModal(p))) return R.defects.push('the right code did not end the game');
     R.steps.push('end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'mastermind', R);
+  },  // --- 2026-11 article-linked games (the deeper checks are in tools/preview/check-collection.js) ---
+  async namegarden(p, R) {
+    await p.click('#nmg-go'); await p.click('#nmg-ready'); let wrong = 0, right = 0;
+    for (let t = 0; t < 8; t++) {
+      await p.waitForSelector('.nmg-opt:not([disabled])'); const ans = await p.evaluate(() => gameState.namegarden.cur.name); const opts = await p.$$eval('.nmg-opt', (b) => b.map((x) => x.dataset.name));
+      const pick = t % 2 ? ans : opts.find((o) => o !== ans); await p.click(`.nmg-opt[data-name="${pick}"]`); if (pick === ans) right++; else wrong++;
+      const shown = await p.evaluate(() => !!document.querySelector('.nmg-opt.nmg-right')); if (!shown) R.defects.push('the right name was not revealed after turn ' + (t + 1));
+      await p.click('#nmg-next');
+    }
+    R.steps.push(`8 turns: ${right} first choices right, ${wrong} wrong - the answer was shown every time`);
+    if (!(await waitModal(p))) return R.defects.push('the round did not end after 8 turns');
+    R.steps.push('end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'namegarden', R);
+  },
+  async patternworkshop(p, R) {
+    await p.evaluate(() => { const g = gameState.patternworkshop; _pwPickTray(g.tray[0].id); _pwCell(0); _pwUndo(); _pwUndo(); });
+    R.steps.push('picked a piece, placed it, undid both -> tray has ' + (await p.evaluate(() => gameState.patternworkshop.tray.length)) + ' pieces');
+    const r = await p.evaluate(() => { const g = gameState.patternworkshop; for (let i = 0; i < g.target.length; i++) { const pc = g.tray.find((q) => q.t === g.target[i].t); document.querySelector(`.pwk-tp[onclick="_pwPickTray(${pc.id})"]`).click(); document.getElementById('pwk-cell-' + i).click(); } return g.over; });
+    if (!r) return R.defects.push('the matching pattern did not finish the game');
+    if (!(await waitModal(p))) return R.defects.push('no end screen after the pattern was matched');
+    R.steps.push('end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'patternworkshop', R);
+  },
+  async quietshelf(p, R) {
+    for (let s = 0; s < 3; s++) {
+      if (s === 1) { await p.evaluate(() => { const g = gameState.quietshelf; const wrong = g.items.find((o) => !_qsIsMatch(o)); document.getElementById('qsh-i-' + wrong.id).click(); }); await p.click('button:has-text("Check shelf")'); R.steps.push('wrong pick checked -> "' + (await p.locator('#qsh-msg').innerText()).slice(0, 80) + '"'); await p.evaluate(() => { const g = gameState.quietshelf; g.picked.slice().forEach((i) => document.getElementById('qsh-i-' + i).click()); }); }
+      await p.evaluate(() => { const g = gameState.quietshelf; g.items.filter(_qsIsMatch).forEach((o) => document.getElementById('qsh-i-' + o.id).click()); });
+      await p.click('button:has-text("Check shelf")'); await p.click('#qsh-next');
+    }
+    if (!(await waitModal(p))) return R.defects.push('the third shelf did not end the game');
+    R.steps.push('end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'quietshelf', R);
+  },
+  async daytown(p, R) {
+    await p.click('#dtn-go');
+    for (let s = 0; s < 3; s++) {
+      await p.waitForSelector('.dtn-stop');
+      if (s === 0) { await p.evaluate(() => { const g = gameState.daytown; const bad = _dtPerms(g.puz.stops).find((r) => _dtFails(r, g.puz.cons).length); bad.forEach((id) => _dtAdd(id)); }); await p.click('button:has-text("Try this route")'); R.steps.push('invalid route -> "' + (await p.locator('#dtn-msg').innerText()).slice(0, 90) + '"'); await p.evaluate(() => _dtReset()); }
+      await p.evaluate(() => { const g = gameState.daytown; g.puz.sol.forEach((id) => _dtAdd(id)); }); await p.click('button:has-text("Try this route")'); await p.click('#dtn-next');
+    }
+    if (!(await waitModal(p))) return R.defects.push('the third route did not end the game');
+    R.steps.push('end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'daytown', R);
   },
 };
 

@@ -7,7 +7,7 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 (function(){
   const ROOT_ID = 'gameContent';
-  const SKIP = new Set(['blocks']);          // has its own arrow handling
+  const SKIP = new Set(['blocks', 'daytown']);   // have their own arrow handling (A Day in Town: map mode)
   let els = [], fi = -1, lastGame = null;
 
   const root = () => document.getElementById(ROOT_ID);

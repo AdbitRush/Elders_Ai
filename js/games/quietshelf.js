@@ -76,7 +76,7 @@ function _qsDone(complete) {
   const r = g.rounds, first = r.filter((x) => x.first).length, rev = r.filter((x) => x.revealed).length, hints = r.reduce((a, x) => a + x.hints, 0);
   const text = `${r.length} ${r.length === 1 ? 'shelf' : 'shelves'} finished${complete ? '' : ' (round ended early)'}; ${first} matched on the first check; ${hints} hint${hints === 1 ? '' : 's'} used; ${rev} shown.`;
   const el = document.getElementById('gameContent'); if (!el) return;
-  el.innerHTML = `<div class="qsh" dir="ltr"><h3 tabindex="-1" id="qsh-h" class="qsh-h">${complete ? 'All three shelves done' : 'Round ended'}</h3><div class="qsh-card" role="status"><p style="margin:0;font-weight:700">${text}</p><p style="margin:.5em 0 0">These are counts for this round only. They are not a score of attention.</p></div><div class="qsh-row"><button type="button" class="qsh-btn qsh-main" onclick="loadGame('quietshelf')">Play again</button><button type="button" class="qsh-btn" onclick="showHome()">Menu</button></div><p class="qsh-fine">For entertainment and practice. Not a medical test or treatment.</p></div>${_qsStyle()}`;
+  el.innerHTML = `<div class="qsh" dir="ltr"><h3 tabindex="-1" id="qsh-h" class="qsh-h">${complete ? 'All three shelves done' : 'Round ended'}</h3><div class="qsh-card" role="status"><p style="margin:0;font-weight:700">${text}</p><p style="margin:.5em 0 0">These are counts for this round only. They are not a score of attention.</p></div><div class="qsh-row"><button type="button" class="qsh-btn qsh-main" onclick="loadGame('quietshelf')">Play again</button><button type="button" class="qsh-btn" onclick="showHome()">Menu</button></div><p class="qsh-fine">For entertainment and practice. Not a medical test or treatment.</p><p class="qsh-fine qsh-art">Read more: <a href="article-a-quieter-screen-for-play.html">A quieter screen can be a better place to play</a></p></div>${_qsStyle()}`;
   const h = document.getElementById('qsh-h'); if (h) h.focus(); GameKit.finish('quietshelf', complete, text);
 }
 function _qsEnd() { const g = gameState.quietshelf; if (g.over) return; _qsDone(false); }
@@ -88,6 +88,7 @@ function _qsSize(v) {
 function _qsConfirm(yes) { const g = gameState.quietshelf, v = g.pending; g.pending = null; if (yes && v) { g.prefs.size = v; _qsSet(g.prefs); g.round = 0; g.rounds = []; return _qsRound(); } g.msg = 'Kept your shelf as it was.'; _qsRender(); }
 function _qsStyle() {
   return `<style>
+  .qsh-art a{display:inline-flex;align-items:center;min-height:44px;font-weight:700}
   .qsh{width:100%;box-sizing:border-box;max-width:36rem;margin:0 auto;color:#2b1b0d;font-size:1.1rem;line-height:1.4}
   .qsh-h{font:800 1.3rem Georgia,serif;margin:.2em 0 .5em}
   .qsh-rule{font:900 1.5rem/1.25 Georgia,serif;margin:.2em 0;padding:10px 14px;border:3px solid #1a365d;border-radius:14px;background:#eef4ff;color:#12284a}
@@ -108,6 +109,7 @@ function _qsStyle() {
   </style>`;
 }
 function _qsRender(focusId) {
+  const _pf = document.activeElement && document.activeElement.id;
   const g = gameState.quietshelf, el = document.getElementById('gameContent'); if (!el || gameState.currentId !== 'quietshelf' || g.over) return;
   const N = g.items.length, cols = N <= 6 ? 3 : N <= 9 ? 3 : 4, done = g.solved || g.revealed;
   const items = g.items.map((o) => { const pk = g.picked.includes(o.id), ans = g.revealed && _qsIsMatch(o);
@@ -122,6 +124,6 @@ function _qsRender(focusId) {
     ${confirm}<div class="qsh-msg" id="qsh-msg" tabindex="-1" role="status" aria-live="polite">${g.msg || 'Pick every object that matches the rule, then press Check shelf.'}</div>
     <div class="qsh-row"><button type="button" class="qsh-btn qsh-main" onclick="_qsCheck()" ${done ? 'disabled' : ''}>Check shelf</button><button type="button" class="qsh-btn" id="qsh-undo" onclick="_qsUndo()" ${done ? 'disabled' : ''}>Undo selection</button><button type="button" class="qsh-btn" id="qsh-hint" onclick="_qsHint()" ${done ? 'disabled' : ''}>Show a hint</button><button type="button" class="qsh-btn" onclick="_qsShow()" ${done ? 'disabled' : ''}>Show answer</button>${done ? `<button type="button" class="qsh-btn qsh-main" id="qsh-next" onclick="_qsNext()">${g.round >= 2 ? 'Finish' : 'Next shelf'}</button>` : ''}</div>
     <div class="qsh-card"><b>Your choices</b><div class="qsh-row"><span id="qsh-ol">Objects on the shelf:</span>${seg}</div><p class="qsh-fine" style="margin:0">Kept in this browser only. There is no clock and no sound.</p></div>
-    <p class="qsh-fine">For entertainment and practice. Not a medical test or treatment.</p></div>${_qsStyle()}`;
-  if (focusId) { const f = document.getElementById(focusId); if (f) f.focus(); }
+    <p class="qsh-fine">For entertainment and practice. Not a medical test or treatment.</p><p class="qsh-fine qsh-art">Read more: <a href="article-a-quieter-screen-for-play.html">A quieter screen can be a better place to play</a></p></div>${_qsStyle()}`;
+  { const f = document.getElementById(focusId || _pf); if (f) f.focus(); }   // keep keyboard focus on the same control across re-renders
 }

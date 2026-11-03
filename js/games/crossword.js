@@ -205,7 +205,7 @@ function initCrossword(container) {
     gs.P = P; gs.sol = Array.from({ length: P.rows }, () => Array(P.cols).fill(null));
     P.placed.forEach((p) => p.cells.forEach(([r, c], i) => { gs.sol[r][c] = p.w[i]; }));
     gs.ent = gs.sol.map((row) => row.map((x) => (x ? '' : null)));
-    gs.bad = {}; gs.revealed = 0; gs.over = false;
+    gs.bad = {}; gs.revealed = 0; gs.over = false; gs.rev = {}; gs.msg = '';
     gs.word = P.placed.find((p) => p.dc) || P.placed[0]; gs.pos = 0;
     const onKey = (e) => {
         if (gameState.currentId !== 'crossword' || gs.over || e.ctrlKey || e.metaKey || e.altKey) return;
@@ -224,9 +224,9 @@ function cwCell(r, c, want) {
     if (!w) { const cur = gs.word.cells.some(([a, b]) => a === r && b === c); w = cur && here.length > 1 && !want ? here.find((p) => p !== gs.word) : here.includes(gs.word) ? gs.word : here[0]; }
     gs.word = w; gs.pos = w.cells.findIndex(([a, b]) => a === r && b === c); _cwRender();
 }
-function cwPick(i) { const gs = gameState.crossword; gs.word = gs.P.placed[i]; gs.pos = Math.max(0, gs.word.cells.findIndex(([r, c]) => !gs.ent[r][c])); _cwRender(); }
+function cwPick(i) { const gs = gameState.crossword; gs.msg = ''; gs.word = gs.P.placed[i]; gs.pos = Math.max(0, gs.word.cells.findIndex(([r, c]) => !gs.ent[r][c])); _cwRender(); }
 function cwKey(k) {
-    const gs = gameState.crossword; if (gs.over) return;
+    const gs = gameState.crossword; if (gs.over) return; gs.msg = '';
     const [r, c] = gs.word.cells[gs.pos];
     if (k === '⌫') {
         if (!gs.ent[r][c] && gs.pos > 0) gs.pos--;
@@ -256,8 +256,8 @@ function cwReveal() {
     const [r, c] = gs.word.cells[gs.pos];
     const cell = gs.ent[r][c] === gs.sol[r][c] ? gs.word.cells.find(([a, b]) => gs.ent[a][b] !== gs.sol[a][b]) : [r, c];
     if (!cell) return;
-    gs.ent[cell[0]][cell[1]] = gs.sol[cell[0]][cell[1]]; delete gs.bad[cell[0] + ',' + cell[1]]; gs.revealed++;
-    gs.msg = 'One square revealed.'; _cwCheckDone(); _cwRender();
+    gs.ent[cell[0]][cell[1]] = gs.sol[cell[0]][cell[1]]; delete gs.bad[cell[0] + ',' + cell[1]]; gs.revealed++; gs.rev[cell[0] + ',' + cell[1]] = 1;
+    gs.msg = `Revealed: the letter is ${gs.sol[cell[0]][cell[1]]} (row ${cell[0] + 1}, column ${cell[1] + 1}). It is marked with a dot. You can keep going - asking for help never stops you finishing.`; _cwCheckDone(); _cwRender();
 }
 function cwGiveUp() {
     const gs = gameState.crossword; if (gs.over) return;
@@ -265,6 +265,7 @@ function cwGiveUp() {
     _cwRender(); GameKit.finish('crossword', false, 'The answers are shown on the grid. A new puzzle comes tomorrow.');
 }
 function _cwRender() {
+    const _pf = document.activeElement && document.activeElement.id;   // keep keyboard focus on the same control across re-renders
     const gs = gameState.crossword, el = document.getElementById('gameContent');
     if (!el || gameState.currentId !== 'crossword') return;
     const P = gs.P, on = {}; gs.word.cells.forEach(([r, c]) => { on[r + ',' + c] = 1; });
@@ -274,17 +275,19 @@ function _cwRender() {
         const s = gs.sol[r][c];
         if (s === null) { grid += '<div class="cw-x"></div>'; continue; }
         const k = r + ',' + c, cls = ['gk-cell cw-c', on[k] ? 'cw-on' : '', cur[0] === r && cur[1] === c ? 'cw-cur' : '', gs.bad[k] ? 'cw-bad' : ''].join(' ');
-        grid += `<button type="button" class="${cls}" onclick="cwCell(${r},${c})" aria-label="row ${r + 1} column ${c + 1}">${nums[k] ? `<i>${nums[k]}</i>` : ''}${gs.ent[r][c] || ''}</button>`;
+        const lab = `row ${r + 1}, column ${c + 1}${nums[k] ? ', clue number ' + nums[k] + ' starts here' : ''}, ${gs.ent[r][c] ? 'letter ' + gs.ent[r][c] : 'empty'}${gs.rev[k] ? ', revealed (help used)' : ''}${gs.bad[k] ? ', marked as not right' : ''}`;
+        grid += `<button type="button" id="cw-r${r}c${c}" class="${cls}${gs.rev[k] ? ' cw-rev' : ''}" onclick="cwCell(${r},${c})" aria-label="${lab}">${nums[k] ? `<i>${nums[k]}</i>` : ''}${gs.ent[r][c] || ''}${gs.rev[k] ? '<u class="cw-dot" aria-hidden="true"></u>' : ''}</button>`;
     }
     const list = (dir) => P.placed.map((p, i) => ({ p, i })).filter(({ p }) => (dir ? p.dr : p.dc)).sort((a, b) => a.p.n - b.p.n)
-        .map(({ p, i }) => `<button type="button" class="cw-clue${p === gs.word ? ' cw-clue-on' : ''}" onclick="cwPick(${i})"><b>${p.n}</b> ${QuizKit.esc(p.clue)} <span>(${p.w.length})</span></button>`).join('');
-    const kb = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM⌫'].map((row) => `<div class="cw-kr">${[...row].map((k) => `<button type="button" class="gk-cell cw-k${k === '⌫' ? ' cw-kw' : ''}" onclick="cwKey('${k}')" aria-label="${k === '⌫' ? 'delete' : k}">${k}</button>`).join('')}</div>`).join('');
+        .map(({ p, i }) => `<button type="button" id="cw-clue-${i}" class="cw-clue${p === gs.word ? ' cw-clue-on' : ''}" onclick="cwPick(${i})"><b>${p.n}</b> ${QuizKit.esc(p.clue)} <span>(${p.w.length})</span></button>`).join('');
+    const kb = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM⌫'].map((row) => `<div class="cw-kr">${[...row].map((k) => `<button type="button" id="cw-key-${k === '⌫' ? 'del' : k}" class="gk-cell cw-k${k === '⌫' ? ' cw-kw' : ''}" onclick="cwKey('${k}')" aria-label="${k === '⌫' ? 'delete' : k}">${k}</button>`).join('')}</div>`).join('');
     el.innerHTML = `<div class="cw" dir="ltr">
-      <div class="cw-now"><b>${gs.word.n} ${gs.word.dr ? 'Down' : 'Across'}:</b> ${QuizKit.esc(gs.word.clue)} <span>(${gs.word.w.length} letters)</span></div>
+      <div class="cw-now" role="status" aria-live="polite"><b>${gs.word.n} ${gs.word.dr ? 'Down' : 'Across'}:</b> ${QuizKit.esc(gs.word.clue)} <span>(${gs.word.w.length} letters)</span></div>
       <div class="cw-grid" style="grid-template-columns:repeat(${P.cols},1fr);max-width:min(100%,${P.cols * 58}px)">${grid}</div>
       ${gs.msg ? `<div class="cw-msg" role="status">${gs.msg}</div>` : ''}
       <div class="cw-kb">${kb}</div>
       <div class="gk-btns">${GameKit.btn('Check', 'cwCheck()')}${GameKit.btn('Reveal a square', 'cwReveal()')}${GameKit.btn('Give up', 'cwGiveUp()')}</div>
+      <p class="cw-fine">No clock. Ask for a letter whenever you like - it is marked with a dot and you can still finish. For entertainment and practice; not a medical test or treatment. <a href="article-what-a-crossword-trial-can-tell-us.html">Read: what a crossword trial can tell us</a></p>
       <div class="cw-lists"><div><h4>Across</h4>${list(0)}</div><div><h4>Down</h4>${list(1)}</div></div>
     </div>
     <style>
@@ -307,5 +310,9 @@ function _cwRender() {
       .cw-lists h4{font-weight:900;font-size:1.15rem;margin:4px 0}
       .cw-clue{display:block;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:8px 8px;font-size:1.08rem;line-height:1.35;color:#2b1b0d;cursor:pointer;min-height:48px}
       .cw-clue-on{background:#cfe0ff}
+      .cw-dot{position:absolute;right:4px;bottom:4px;width:9px;height:9px;border-radius:50%;background:#1a365d}
+      .cw-c:focus-visible,.cw-k:focus-visible,.cw-clue:focus-visible{outline:4px solid #1a56b0;outline-offset:2px}
+      .cw-fine{font-size:.95rem;color:#5b4630;margin:10px 0 0}.cw-fine a{display:inline-flex;align-items:center;min-height:44px;font-weight:700}
     </style>`;
+    { const f = document.getElementById(_pf); if (f) f.focus(); }
 }

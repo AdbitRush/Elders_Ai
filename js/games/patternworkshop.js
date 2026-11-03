@@ -94,6 +94,7 @@ function _pwChoice(k, v) {
 }
 function _pwConfirm(yes) { const g = gameState.patternworkshop, p = g.pending; g.pending = null; if (yes && p) { g.prefs[p.k] = p.v; _pwSet(g.prefs); return _pwNew(); } g.msg = 'Kept your puzzle as it was.'; _pwRender(); }
 function _pwRender(focusId) {
+  const _pf = document.activeElement && document.activeElement.id;
   const g = gameState.patternworkshop, el = document.getElementById('gameContent'); if (!el || gameState.currentId !== 'patternworkshop') return;
   const n = g.prefs.size, N = n * n;
   const grid = (cells, cls, fn) => `<div class="pwk-grid ${cls}" style="grid-template-columns:repeat(${n},1fr)">${cells.map(fn).join('')}</div>`;
@@ -113,8 +114,9 @@ function _pwRender(focusId) {
     <div class="pwk-lab">Tray</div><div class="pwk-tray">${tray || '<span class="pwk-none">The tray is empty.</span>'}</div>
     <div class="pwk-row"><button type="button" class="pwk-btn" id="pwk-undo" onclick="_pwUndo()">Undo</button><button type="button" class="pwk-btn" onclick="_pwReset()">Reset</button><button type="button" class="pwk-btn" id="pwk-hint" onclick="_pwHint()">Show a hint</button><button type="button" class="pwk-btn" onclick="_pwShow()">Show answer</button><button type="button" class="pwk-btn" onclick="_pwNew()">New puzzle</button></div>
     <div class="pwk-card"><b>Your choices</b><div class="pwk-row"><span>Board:</span>${seg('size', [[2, '2 x 2'], [3, '3 x 3']])}</div><div class="pwk-row"><span>Quarter turns:</span>${seg('rotate', [[false, 'Off'], [true, 'On']])}</div><p class="pwk-fine">Choices are kept in this browser only. Changing one asks before it replaces your puzzle.</p></div>
-    <p class="pwk-fine">For entertainment and practice. Not a medical test or treatment.</p></div>
+    <p class="pwk-fine">For entertainment and practice. Not a medical test or treatment.</p><p class="pwk-fine pwk-art">Read more: <a href="article-the-pleasure-of-being-a-beginner.html">The pleasure of being a beginner</a> &middot; <a href="article-let-the-player-choose.html">Let the player choose</a></p></div>
     <style>
+  .pwk-art a{display:inline-flex;align-items:center;min-height:44px;font-weight:700}
     .pwk{width:100%;box-sizing:border-box;max-width:34rem;margin:0 auto;color:#2b1b0d;font-size:1.08rem;line-height:1.4}
     .pwk-h{font:800 1.3rem Georgia,serif;margin:.1em 0 .4em}
     .pwk-boards{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:10px 0}
@@ -135,5 +137,5 @@ function _pwRender(focusId) {
     .pwk-confirm{border-color:#b5471f;background:#fff0e8}.pwk-fine,.pwk-none{font-size:.95rem;color:#5b4630}
     @media (max-width:420px){.pwk-c{width:56px;height:56px}.pwk-cb{min-width:56px;min-height:56px}.pwk-c svg{width:56px;height:56px}}
     </style>`;
-  if (focusId) { const f = document.getElementById(focusId); if (f) f.focus(); }
+  { const f = document.getElementById(focusId || _pf); if (f) f.focus(); }   // keep keyboard focus on the same control across re-renders
 }

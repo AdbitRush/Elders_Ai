@@ -4,7 +4,7 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v78';
+const CACHE = 'golden-games-v79';
 const PREFIX = 'golden-games-';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
@@ -91,6 +91,7 @@ const SHELL = [
   './js/games/namegarden.js',
   './js/games/patternworkshop.js',
   './js/games/quietshelf.js',
+  './js/games/daytown.js',
   // /gen:new-games
   './js/affiliate.js',
   './js/brainscore.js',

@@ -50,8 +50,9 @@ function initNameGarden(container) {
 }
 function _ngShell(inner) {
   const el = document.getElementById('gameContent'); if (!el || gameState.currentId !== 'namegarden') return null;
-  el.innerHTML = `<div class="ng" dir="ltr">${inner}<p class="nmg-fine">For entertainment and practice. Not a medical test or treatment. The people and names are made up.</p></div>
+  el.innerHTML = `<div class="ng" dir="ltr">${inner}<p class="nmg-fine">For entertainment and practice. Not a medical test or treatment. The people and names are made up.</p><p class="nmg-fine nmg-art">Read more: <a href="article-why-coming-back-can-help-learning.html">Why coming back can be different from starting over</a> &middot; <a href="article-try-to-remember-then-check.html">Try to remember, then check</a> &middot; <a href="article-give-a-new-name-a-connection.html">Give a new name something to connect to</a></p></div>
   <style>
+  .nmg-art a{display:inline-flex;align-items:center;min-height:44px;font-weight:700}
   .ng{width:100%;box-sizing:border-box;max-width:34rem;margin:0 auto;color:#2b1b0d;font-size:1.1rem;line-height:1.45}
   .ng h3{font:800 1.35rem/1.25 Georgia,serif;margin:.2em 0 .5em}
   .ng .nmg-card{background:#fffaf0;border:2px solid #c9a46a;border-radius:16px;padding:14px;margin:0 0 12px}
