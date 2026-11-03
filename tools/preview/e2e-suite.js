@@ -26,6 +26,8 @@ async function page(w, url, { theme = 'dark', lang = 'en', init } = {}) {
   await p.route(/pagead2|googlesyndication|google-analytics|googletagmanager/, (r) => r.abort());
   await p.goto(U + url, { waitUntil: 'networkidle' }).catch(() => {});
   await p.waitForTimeout(1200);
+  // 2026-11-03: a game opened by hash is judged after its content exists, not after a fixed wait (Solitaire @1440 dark read kids=0 on a slow run, on the old baseline too)
+  if (/#[a-z0-9]+$/.test(url)) await p.waitForFunction(() => { const c = document.getElementById('gameContent'); return c && c.children.length > 0; }, null, { timeout: 12000 }).catch(() => {});
   return { ctx, p, errs };
 }
 const inv = (p, scope) => p.evaluate(([sel, scope]) => {

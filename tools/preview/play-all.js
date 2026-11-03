@@ -286,12 +286,15 @@ const PLAY = {
       const t = await p.evaluate(() => gameState.digitspan._target);
       const digits = round === 0 ? [...t].reverse().join('') === t ? '0' + t.slice(1) : [...t].reverse().join('') : t;
       for (const d of digits) await p.click(`#ds-pad button[onclick="_dsKey(${d})"]`);
-      if (round === 1) { await p.click('#ds-pad button[onclick="_dsKey(-2)"]'); await p.click('#ds-pad button[onclick="_dsKey(-2)"]').catch(() => {}); }
+      const si0 = await p.evaluate(() => gameState.digitspan._si);
+      // 2026-11-03: a double-tap is two clicks in the SAME tick (Playwright's second click waits for actionability and can land on the next round's pad
+      // on a slow machine - that scored an empty answer and looked like "scores twice"). The wait after OK is state-based, not a fixed sleep (the reveal timer is 1.6 s).
+      if (round === 1) await p.evaluate(() => { const ok = document.querySelector('#ds-pad button[onclick="_dsKey(-2)"]'); ok.click(); ok.click(); });
       else await p.click('#ds-pad button[onclick="_dsKey(-2)"]');
-      await sleep(round === 0 ? 1800 : 600);
       const s = await gs(p, 'digitspan');
+      await p.waitForFunction(([si]) => { const g = gameState.digitspan; const pad = document.getElementById('ds-pad'); return !document.getElementById('modal').classList.contains('hidden') || (g._si === si + 1 && pad && !pad.classList.contains('hidden') && g._input === '' && !g._locked); }, [si0], { timeout: 15000 }).catch(() => {});
       R.steps.push('round ' + (round + 1) + (round === 0 ? ' (typed wrong)' : round === 1 ? ' (OK double-tapped)' : '') + ' -> round index ' + s._si + ', score ' + s._ss);
-      if (round === 1 && s._si > 2) { R.defects.push('Double-tap on OK scores the same number twice and skips a round'); }
+      if (round === 1 && s._si !== si0 + 1) { R.defects.push('Double-tap on OK scores the same number twice and skips a round'); }
       if (await modalUp(p)) break;
     }
     if (!(await waitModal(p, 6000))) return R.defects.push('Session never finished');
@@ -467,7 +470,7 @@ const PLAY = {
       if (nx.to === 'off') await p.click('.bg-offbox'); else await pt(nx.to).click(); made++; await sleep(80);
     }
     R.steps.push(`rolled ${await p.evaluate(() => (gameState.backgammon.start ? 'dice' : ''))} and made ${made} legal move(s)`);
-    for (let t = 0; t < 40 && (await p.evaluate(() => gameState.backgammon.turn !== 0 || gameState.backgammon.busy)); t++) await sleep(200);
+    await p.waitForFunction(() => { const g = gameState.backgammon; return g.turn === 0 && !g.busy && (g.dice.length === 0 || (typeof _bgNext === 'function' && _bgNext().length > 0)); }, null, { timeout: 15000 }).catch(() => {});   // settled: computer done, or the player still has a move (the 900 ms pending end of turn counts as busy)
     R.steps.push('computer turn: "' + (await p.evaluate(() => gameState.backgammon.msg)) + '"');
     await p.evaluate(() => { const g = gameState.backgammon; const pts = Array(26).fill(0); pts[1] = 1; pts[20] = -3; g.st = { pts, bar: [0, 0], off: [14, 0] }; g.dice = []; _bgRender(); });
     await p.locator('.gk-btn', { hasText: 'Roll' }).click(); await pt(1).click(); await p.click('.bg-offbox');

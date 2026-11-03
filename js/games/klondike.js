@@ -36,7 +36,7 @@ function initKlondike(container) {
 
 function _klSnapshot() {
     const s = gameState.klondike;
-    s.undo.push(JSON.stringify({stock: s.stock, waste: s.waste, f: s.f, t: s.t, redeals: s.redeals}));
+    s.undo.push(JSON.stringify({stock: s.stock, waste: s.waste, f: s.f, t: s.t, redeals: s.redeals, moves: s.moves}));   // moves too: Undo takes the move back, so the counter goes back with it
     if (s.undo.length > 100) s.undo.shift();
 }
 

@@ -85,7 +85,7 @@ function bgRoll() {
     gs.dice = [a, b]; gs.left = a === b ? [a, a, a, a] : [a, b]; gs.done = []; gs.from = null; gs.start = _bgClone(gs.st);
     gs.seqs = _bgSeqs(gs.st, 0, gs.left);
     sfxFlip();
-    if (!gs.seqs[0].seq.length) { gs.msg = `You rolled ${a} and ${b}: no legal move. The computer plays.`; _bgRender(); return setTimeout(_bgEndTurn, 1600); }
+    if (!gs.seqs[0].seq.length) { gs.msg = `You rolled ${a} and ${b}: no legal move. The computer plays.`; gs.busy = true; _bgRender(); return setTimeout(_bgEndTurn, 1600); }
     gs.msg = `You rolled ${a} and ${b}${a === b ? ' (doubles: four moves)' : ''}. Tap a checker to move.`;
     _bgRender();
 }
@@ -102,7 +102,7 @@ function bgTap(where) {
         if (m) {
             gs.st = _bgDo(gs.st, 0, Object.assign({}, m)); gs.done.push(m); gs.from = null; sfxCorrect();
             if (gs.st.off[0] === 15) { _bgRender(); return GameKit.finish('backgammon', true, gs.st.off[1] === 0 ? 'You bore off all 15 - a gammon!' : 'You bore off all 15 first.'); }
-            if (!_bgNext().length) { gs.msg = 'Turn done. The computer plays…'; _bgRender(); return setTimeout(_bgEndTurn, 900); }
+            if (!_bgNext().length) { gs.msg = 'Turn done. The computer plays…'; gs.busy = true; _bgRender(); return setTimeout(_bgEndTurn, 900); }   // busy during the pause: Take back / Roll / taps must not change a turn that is already ending
             gs.msg = 'Keep going: ' + gs.left.filter((_, i) => i >= gs.done.length).length + ' move(s) left.';
             return _bgRender();
         }
@@ -111,7 +111,7 @@ function bgTap(where) {
     else { gs.from = null; sfxWrong(); gs.msg = gs.st.bar[0] ? 'You must enter your checker from the bar first.' : 'That checker cannot move with these dice.'; }
     _bgRender();
 }
-function bgUndo() { const gs = gameState.backgammon; if (gs.turn !== 0 || !gs.done.length) return sfxWrong(); gs.st = _bgClone(gs.start); gs.done = []; gs.from = null; gs.msg = 'Moves taken back. Tap a checker.'; sfxFlip(); _bgRender(); }
+function bgUndo() { const gs = gameState.backgammon; if (gs.turn !== 0 || gs.busy || !gs.done.length) return sfxWrong(); gs.st = _bgClone(gs.start); gs.done = []; gs.from = null; gs.msg = 'Moves taken back. Tap a checker.'; sfxFlip(); _bgRender(); }
 function _bgEndTurn() {
     const gs = gameState.backgammon; if (!gameState.active || gameState.currentId !== 'backgammon') return;
     gs.dice = []; gs.done = []; gs.from = null; gs.turn = 1; gs.busy = true; _bgRender();
