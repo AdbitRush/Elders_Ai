@@ -26,12 +26,12 @@ const Holiday = (() => {
         </div>
         <div style="color:rgba(180,210,255,0.85);font-size:1rem;margin-bottom:1.5rem">
           ${isHe
-            ? `מדהים! הגעתם ל-${hit} משחקים. המוח שלכם אסיר תודה 🧠`
-            : `Amazing! You've played ${hit} games. Your brain thanks you 🧠`}
+            ? `מדהים! הגעתם ל-${hit} משחקים. המשיכו ליהנות 🎉`
+            : `Amazing! You've played ${hit} games. That is a lot of fun 🎉`}
         </div>
         <button onclick="document.getElementById('milestone-overlay').remove()"
           style="background:linear-gradient(135deg,#b7791f,#f6c048);color:#0a1628;border:none;border-radius:0.9rem;padding:0.75rem 2rem;font-size:1rem;font-weight:800;cursor:pointer">
-          ${isHe ? '🚀 המשיכו לאמן!' : '🚀 Keep Training!'}
+          ${isHe ? '🚀 ממשיכים לשחק!' : '🚀 Keep Playing!'}
         </button>
       </div>`;
     document.body.appendChild(ov);

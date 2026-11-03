@@ -1,5 +1,5 @@
 // ════════════════════════════════════════════════════════════════════════
-// NAME GARDEN (2026-11, review) - meet four (or six) fictional neighbours, then try to say who is who, and always see the answer.
+// NAME GARDEN (2026-11, review) - meet four (or six) fictional neighbors, then try to say who is who, and always see the answer.
 // Linked articles: spacing, trying to remember then checking, giving a name a connection. A distinct mode: Word Recall only recognises items
 // seen once, with no feedback per item; Memory Match is matching. Here each character is asked about twice, with other characters in between.
 // Rules (from the design brief): the correct name is revealed after EVERY attempt; "Show name" and "Replay study" count as a reminder;
@@ -30,7 +30,7 @@ function _ngAvatar(c) {   // original vector people: shapes (hat, scarf, flower,
     scarf: '<g><path d="M34 76q26 16 52 0v12q-26 14-52 0z" fill="#6b3f8f"/><rect x="74" y="84" width="10" height="26" rx="3" fill="#6b3f8f"/></g>',
     pumpkin: '<g><ellipse cx="90" cy="108" rx="18" ry="14" fill="#e8851a"/><path d="M90 94v-6" stroke="#2e6b3a" stroke-width="4"/><path d="M82 96q8 14 0 24M98 96q-8 14 0 24" stroke="#b9600c" stroke-width="2" fill="none"/></g>',
   }[c.acc];
-  return `<svg class="nmg-av" viewBox="0 0 120 140" role="img" aria-label="${_ngEsc('A neighbour with ' + c.cue)}" focusable="false">
+  return `<svg class="nmg-av" viewBox="0 0 120 140" role="img" aria-label="${_ngEsc('A neighbor with ' + c.cue)}" focusable="false">
     <rect x="30" y="68" width="60" height="62" rx="18" fill="${c.top}"/>
     <circle cx="60" cy="48" r="24" fill="${c.skin}"/><path d="M36 44q4-24 24-24t24 24q-10-8-24-8t-24 8z" fill="${c.hair}"/>
     <circle cx="51" cy="50" r="2.6" fill="#2b1b0d"/><circle cx="69" cy="50" r="2.6" fill="#2b1b0d"/><path d="M52 60q8 7 16 0" stroke="#2b1b0d" stroke-width="2.4" fill="none" stroke-linecap="round"/>${acc}</svg>`;
@@ -92,11 +92,11 @@ function _ngStart() {
   const saved = _ngGet(_NG_ROUND, null);
   const resume = saved && saved.v === 1 && saved.turn < saved.order.length;
   const h = _ngShell(`<h3>Name Garden</h3>
-    <div class="nmg-card"><p style="margin:0">Meet ${gs.prefs.size} neighbours, each with a name and something to remember them by. Then you will be asked who is who - twice each, with the others in between. <b>You will always be shown the right name after you answer.</b> Choosing from a list is recognising a name, not recalling it from nothing, and there is no clock.</p></div>
+    <div class="nmg-card"><p style="margin:0">Meet ${gs.prefs.size} neighbors, each with a name and something to remember them by. Then you will be asked who is who - twice each, with the others in between. <b>You will always be shown the right name after you answer.</b> Choosing from a list is recognising a name, not recalling it from nothing, and there is no clock.</p></div>
     ${resume ? `<div class="nmg-card"><b>You have a round in progress</b> (turn ${saved.turn + 1} of ${saved.order.length}).<div class="nmg-row" style="margin-top:8px"><button type="button" class="nmg-btn nmg-main" onclick="_ngResume()">Continue my round</button><button type="button" class="nmg-btn" id="nmg-clear" onclick="_ngClear()">Clear my saved round</button></div></div>` : ''}
     <h3 style="font-size:1.1rem">Your choices</h3>
-    ${_ngSeg('How many neighbours?', 'size', [[4, '4 (recommended)', 'Four to start'], [6, '6', 'Six neighbours: more to keep apart']])}
-    ${_ngSeg('How far apart should repeat questions be?', 'gap', [['short', 'Closer together', 'Each neighbour comes back after one other question'], ['normal', 'Further apart', 'Each neighbour comes back after two or more other questions']])}
+    ${_ngSeg('How many neighbors?', 'size', [[4, '4 (recommended)', 'Four to start'], [6, '6', 'Six neighbors: more to keep apart']])}
+    ${_ngSeg('How far apart should repeat questions be?', 'gap', [['short', 'Closer together', 'Each neighbor comes back after one other question'], ['normal', 'Further apart', 'Each neighbor comes back after two or more other questions']])}
     ${_ngSeg('Show the "remember them by" cue during questions?', 'cues', [[true, 'Show cue'], [false, 'Hide cue']])}
     <div class="nmg-row"><button type="button" class="nmg-btn nmg-main" id="nmg-go" onclick="_ngBegin()">${resume ? 'Start a new round' : 'Start'}</button></div>`);
   if (h) { const hd = h.querySelector('h3'); if (hd) { hd.tabIndex = -1; } }
@@ -104,7 +104,7 @@ function _ngStart() {
 function _ngCast(size, setId) { return _NG_CAST.slice(0, size); }
 function _ngOrder(ids, gap) {
   const shuf = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-  const need = gap === 'normal' ? 3 : 2, n = ids.length;   // positions apart between the two turns of one neighbour
+  const need = gap === 'normal' ? 3 : 2, n = ids.length;   // positions apart between the two turns of one neighbor
   for (let t = 0; t < 400; t++) {
     const p = shuf(ids), q = shuf(ids);
     if (ids.every((id) => (n + q.indexOf(id)) - p.indexOf(id) >= need)) return p.concat(q);
@@ -127,7 +127,7 @@ function _ngStudy(first) {
   const gs = gameState.namegarden; gs.phase = 'study'; gs.token++;
   if (!first) gs.usedStudy = true;
   const cards = gs.cast.map((c) => `<div class="nmg-card">${_ngAvatar(c)}<span class="nmg-name">${c.name}</span><span>${c.cue}</span></div>`).join('');
-  const h = _ngShell(`<h3 tabindex="-1" id="nmg-h">Meet the neighbours</h3><p>Take your time. Each name goes with something you can picture. Try joining them: <i>"Rosa, roses."</i> Nothing here is timed.</p>
+  const h = _ngShell(`<h3 tabindex="-1" id="nmg-h">Meet the neighbors</h3><p>Take your time. Each name goes with something you can picture. Try joining them: <i>"Rosa, roses."</i> Nothing here is timed.</p>
     <div class="nmg-study">${cards}</div><div class="nmg-row" style="margin-top:12px"><button type="button" class="nmg-btn nmg-main" id="nmg-ready" onclick="_ngAsk()">${first ? "I'm ready - ask me" : 'Back to the question'}</button></div>`);
   const hd = document.getElementById('nmg-h'); if (hd) hd.focus();
 }

@@ -13,9 +13,9 @@ const Share = (() => {
 
   const L = {
     he: {
-      brand: 'BrainPlay', tagline: 'אימון מוח יומי לגיל השלישי — חינם לגמרי',
+      brand: 'BrainPlay', tagline: 'המשחקים שגדלנו עליהם — חינם לגמרי',
       score: (g, s) => `🏆 הגעתי לרמה ${s} ב-BrainPlay (${g})! שחקו גם אתם: ${BASE_URL}#${g}`,
-      inviteText: `🧠 BrainPlay — אימון יומיומי למוח חד וצלול, חינם לגמרי ובלי פרסומות מקפיצות. בואו לשחק: ${BASE_URL}`,
+      inviteText: `🃏 BrainPlay — משחקי הקלפים, הפאזלים והטריוויה שגדלנו עליהם, חינם לגמרי ובלי פרסומות מקפיצות. בואו לשחק: ${BASE_URL}`,
       inviteTitle: 'BrainPlay — הזמנה לשחק',
       emailSubject: 'בואו לשחק ב-BrainPlay 🧠',
       wa: 'שתפו בוואטסאפ', native: '📤 שתף', copy: '📋 העתק לינק',
@@ -33,9 +33,9 @@ const Share = (() => {
       inviteBtn: '📤 Invite friends',
     },
     es: {
-      brand: 'BrainPlay', tagline: 'Entrenamiento cerebral diario para mayores — 100% gratis',
+      brand: 'BrainPlay', tagline: 'Los juegos de toda la vida — 100% gratis',
       score: (g, s) => `🏆 ¡Llegué al nivel ${s} en BrainPlay (${g})! Juega gratis: ${BASE_URL}#${g}`,
-      inviteText: `🧠 BrainPlay — entrenamiento cerebral diario, 100% gratis y sin ventanas emergentes. ¡Ven a jugar: ${BASE_URL}`,
+      inviteText: `🃏 BrainPlay — los juegos de cartas, puzles y preguntas de toda la vida, 100% gratis y sin ventanas emergentes. Ven a jugar: ${BASE_URL}`,
       inviteTitle: 'BrainPlay — estás invitado',
       emailSubject: 'Ven a jugar a BrainPlay 🧠',
       wa: 'Compartir en WhatsApp', native: '📤 Compartir', copy: '📋 Copiar enlace',
@@ -43,9 +43,9 @@ const Share = (() => {
       inviteBtn: '📤 Invitar amigos',
     },
     fr: {
-      brand: "BrainPlay", tagline: "Entraînement cérébral quotidien pour les aînés — 100% gratuit",
+      brand: "BrainPlay", tagline: "Les jeux de notre jeunesse — 100% gratuit",
       score: (g, s) => `🏆 J'ai atteint le niveau ${s} à BrainPlay (${g}) ! Jouez gratuitement : ${BASE_URL}#${g}`,
-      inviteText: `🧠 BrainPlay — entraînement cérébral quotidien, 100% gratuit et sans pop-ups. Venez jouer : ${BASE_URL}`,
+      inviteText: `🃏 BrainPlay — les jeux de cartes, puzzles et quiz de notre jeunesse, 100% gratuit et sans pop-ups. Venez jouer : ${BASE_URL}`,
       inviteTitle: "BrainPlay — vous êtes invité",
       emailSubject: "Venez jouer à BrainPlay 🧠",
       wa: 'Partager sur WhatsApp', native: '📤 Partager', copy: '📋 Copier le lien',
@@ -53,9 +53,9 @@ const Share = (() => {
       inviteBtn: '📤 Inviter des amis',
     },
     de: {
-      brand: 'BrainPlay', tagline: 'Tägliches Gehirntraining für Senioren — 100% kostenlos',
+      brand: 'BrainPlay', tagline: 'Die Spiele unserer Jugend — 100% kostenlos',
       score: (g, s) => `🏆 Ich habe Level ${s} bei BrainPlay (${g}) erreicht! Spiel kostenlos mit: ${BASE_URL}#${g}`,
-      inviteText: `🧠 BrainPlay — tägliches Gehirntraining für einen wachen Geist, 100% kostenlos und ohne Pop-ups. Spiel mit: ${BASE_URL}`,
+      inviteText: `🃏 BrainPlay — die Karten-, Rätsel- und Quizspiele unserer Jugend, 100% kostenlos und ohne Pop-ups. Spiel mit: ${BASE_URL}`,
       inviteTitle: 'BrainPlay — du bist eingeladen',
       emailSubject: 'Spiel mit bei BrainPlay 🧠',
       wa: 'Auf WhatsApp teilen', native: '📤 Teilen', copy: '📋 Link kopieren',
@@ -63,9 +63,9 @@ const Share = (() => {
       inviteBtn: '📤 Freunde einladen',
     },
     el: {
-      brand: 'BrainPlay', tagline: 'Καθημερινή εκγύμναση μυαλού για ηλικιωμένους — 100% δωρεάν',
+      brand: 'BrainPlay', tagline: 'Τα παιχνίδια που μεγαλώσαμε — 100% δωρεάν',
       score: (g, s) => `🏆 Έφτασα στο επίπεδο ${s} στα BrainPlay (${g})! Παίξε δωρεάν: ${BASE_URL}#${g}`,
-      inviteText: `🧠 BrainPlay — καθημερινή εκγύμναση μυαλού, 100% δωρεάν και χωρίς αναδυόμενα. Ελάτε να παίξετε: ${BASE_URL}`,
+      inviteText: `🃏 BrainPlay — τα παιχνίδια με κάρτες, οι γρίφοι και τα κουίζ που μεγαλώσαμε, 100% δωρεάν και χωρίς αναδυόμενα. Ελάτε να παίξετε: ${BASE_URL}`,
       inviteTitle: 'BrainPlay — είστε καλεσμένοι',
       emailSubject: 'Ελάτε να παίξετε BrainPlay 🧠',
       wa: 'Κοινή χρήση στο WhatsApp', native: '📤 Κοινή χρήση', copy: '📋 Αντιγραφή συνδέσμου',

@@ -41,6 +41,10 @@ html[data-theme] body nav button, html[data-theme] body nav select, html[data-th
 html[data-theme] body nav button:hover{ border-color:var(--w-accent) !important; }
 html[data-theme] body nav #themeBtn{ display:inline-flex !important; align-items:center; gap:8px; font-weight:700 !important; border-color:var(--w-accent) !important; }
 html[data-theme] body nav #themeBtn .w-tl{ font-size:1rem; }
+/* 2026-11-03: a control never shrinks below its own label (labels ran past the button edge into the language selector). */
+html[data-theme] body nav > div > div:last-child > *{ flex:0 0 auto; }
+html[data-theme] body nav #themeBtn{ white-space:nowrap; }
+html[data-theme] body nav #themeBtn > *{ flex:none; }
 html[data-theme] body nav #backBtn:not(.hidden){ background:var(--w-accent) !important; color:var(--w-on-accent) !important; border-color:var(--w-accent) !important; font-weight:800 !important; }
 html[data-theme] body nav #inviteBtn{ color:var(--w-ink) !important; }
 html[data-theme] body nav #profile-chip .nm{ color:var(--w-ink) !important; font-size:1rem !important; }
@@ -363,7 +367,8 @@ html.in-game #why-train-wrap{ display:none; }
 }
 @media (min-width:900px) and (max-width:1500px){
   html.in-game[data-theme] body nav > div{ flex-wrap:nowrap !important; }
-  html.in-game[data-theme] body nav > div > div:last-child{ flex-wrap:nowrap !important; gap:8px !important; }
+  html.in-game[data-theme] body nav > div > div:first-child{ flex:0 0 auto; }
+  html.in-game[data-theme] body nav > div > div:last-child{ flex:0 1 auto; min-width:0; flex-wrap:wrap !important; justify-content:flex-end; gap:8px !important; }
 }
 @media (min-width:640px) and (max-width:899px){
   /* on tablets in portrait the header still needs 2-3 rows: let it scroll away instead of staying pinned */
