@@ -696,7 +696,7 @@ const PLAY = {
     for (let s = 0; s < 3; s++) {
       await p.waitForSelector('.dtn-stop');
       if (s === 0) { await p.evaluate(() => { const g = gameState.daytown; const bad = _dtPerms(g.puz.stops).find((r) => _dtFails(r, g.puz.cons).length); bad.forEach((id) => _dtAdd(id)); }); await p.click('button:has-text("Try this route")'); R.steps.push('invalid route -> "' + (await p.locator('#dtn-msg').innerText()).slice(0, 90) + '"'); await p.evaluate(() => _dtReset()); }
-      await p.evaluate(() => { const g = gameState.daytown; g.puz.sol.forEach((id) => _dtAdd(id)); }); await p.click('button:has-text("Try this route")'); await p.click('#dtn-next');
+      await p.evaluate(() => { const g = gameState.daytown; g.puz.sol.forEach((id) => _dtAdd(id)); }); await p.mouse.move(1, 1); /* a parked pointer on a button edge makes the site's hover lift oscillate, so the click never sees a still target */ await p.click('button:has-text("Try this route")'); await p.click('#dtn-next');
     }
     if (!(await waitModal(p))) return R.defects.push('the third route did not end the game');
     R.steps.push('end modal: ' + (await modalText(p))); await nextLevelCheck(p, 'daytown', R);
