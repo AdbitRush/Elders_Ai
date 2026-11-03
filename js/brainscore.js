@@ -26,7 +26,7 @@ const BrainScore = (() => {
     const label  = isHe ? 'ציון תרגול' : 'Practice score';
     container.innerHTML = `
       <div id="brain-score-widget">
-        <span style="font-size:0.78rem;color:#6ee7b7;font-weight:700">🧠 ${label}</span>
+        <span style="font-size:0.78rem;color:#6ee7b7;font-weight:700">${typeof Icon!=='undefined'?Icon.ui('brain'):''} ${label}</span>
         <div id="brain-score-bar-wrap"><div id="brain-score-bar" style="width:0%"></div></div>
         <span style="font-size:0.82rem;font-weight:800;color:#34d399">${score}</span>
       </div>`;

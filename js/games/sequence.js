@@ -26,26 +26,33 @@ function initSequence(container) {
     container._sequenceColors=colors;
     setTimeout(()=>playColorSequence(),800);
 }
+// A run belongs to one state object: leaving the game (or restarting it) replaces gameState.sequence, so every await
+// re-checks that this run is still the one on screen before touching the DOM (2026-10-10: a TypeError in
+// flashSequence when the player navigated away mid-sequence - the loop kept flashing a board that was gone).
+function _seqAlive(state){return gameState.active&&gameState.currentId==='sequence'&&gameState.sequence===state&&!!document.getElementById('sequence-0');}
 async function playColorSequence() {
-    if(!gameState.active)return;
+    const state=gameState.sequence;
+    if(!_seqAlive(state))return;
     const isHe=currentLang==='he';
-    const state=gameState.sequence; state.waitingForUser=false; state.userIndex=0;
+    state.waitingForUser=false; state.userIndex=0;
     const _d=state._diff||'normal';
     const gap=_d==='easy'?700:_d==='hard'?300:500;
     state.sequence.push(Math.floor(Math.random()*4));
     const scEl=document.getElementById('sequence-score');
     if(scEl){scEl.innerText=isHe?`רמה ${state.sequence.length}...`:`Level ${state.sequence.length}...`; scEl.style.color='';}
-    for(let i=0;i<state.sequence.length;i++){if(!gameState.active)return;await new Promise(r=>setTimeout(r,gap));await flashSequence(state.sequence[i],_d);}
-    if(!gameState.active)return; state.waitingForUser=true;
-    if(scEl) scEl.innerText=isHe?`רמה ${state.sequence.length} — תורך! 👆`:`Level ${state.sequence.length} — Your turn! 👆`;
+    for(let i=0;i<state.sequence.length;i++){if(!_seqAlive(state))return;await new Promise(r=>setTimeout(r,gap));if(!_seqAlive(state))return;await flashSequence(state.sequence[i],_d);}
+    if(!_seqAlive(state))return; state.waitingForUser=true;
+    if(scEl) scEl.innerHTML=(isHe?`רמה ${state.sequence.length} — תורך! `:`Level ${state.sequence.length} — Your turn! `)+Icon.ui('pointer');
 }
 async function flashSequence(id,_d='normal') {
-    if(!gameState.active)return;
+    if(!gameState.active||gameState.currentId!=='sequence')return;
     const el=document.getElementById(`sequence-${id}`);
+    if(!el)return;
     const dur=_d==='easy'?600:_d==='hard'?250:400;
     const glows=['rgba(239,68,68,0.8)','rgba(59,130,246,0.8)','rgba(34,197,94,0.8)','rgba(234,179,8,0.8)'];
     el.style.filter='brightness(1.4)'; el.style.boxShadow=`0 0 28px 8px ${glows[id]},0 4px 12px rgba(0,0,0,0.3)`; _tone(220+id*110,0.25);
     await new Promise(r=>setTimeout(r,dur));
+    if(!el.isConnected)return;
     el.style.filter='brightness(0.55)'; el.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)';
 }
 function clickSequence(id) {
@@ -60,7 +67,7 @@ function clickSequence(id) {
             const scEl=document.getElementById('sequence-score');
             if(scEl){scEl.innerText=`✓ ${isHe?`רמה ${lv}!`:`Level ${lv}!`}`; scEl.style.color='#16a34a';}
             sfxCorrect();
-            setTimeout(()=>{if(scEl)scEl.style.color='';playColorSequence();},700);
+            setTimeout(()=>{if(!_seqAlive(state))return;if(scEl)scEl.style.color='';playColorSequence();},700);
         }
     } else {
         sfxWrong();
@@ -69,13 +76,15 @@ function clickSequence(id) {
         state.sequence=[];
         const gc=document.getElementById('gameContent');
         setTimeout(()=>{
-            const hs=checkHS('sequence',score);
+            if(!_seqAlive(state))return;   // the player left during the pause
+            // honest result: only a real run (level 2+) can set a personal best
+            const hs=score>1&&checkHS('sequence',score);
             Retention.recordWin();
             gc.innerHTML=`<div class="text-center py-8 px-4 max-w-sm mx-auto">
-                <div style="font-size:4rem">🎉</div>
-                <div class="text-3xl font-bold mt-3 text-slate-800">${gt('Great job!', 'כל הכבוד!')}</div>
+                <div class="w-modal-mark" aria-hidden="true">${Icon.svg(score>1?'party-popper':'rotate-ccw',{size:'1em',sw:1.8})}</div>
+                <div class="text-3xl font-bold mt-3 text-slate-800">${score>1?gt('Great job!', 'כל הכבוד!'):gt('Nice try - want to play again?', 'ניסיון יפה - רוצים לשחק שוב?')}</div>
                 <div class="text-xl mt-3 text-gray-600">${isHe?`הגעת לרמה`:'You reached level'} <strong class="text-[#1a365d] text-2xl">${score}</strong></div>
-                ${hs?`<div class="mt-2 text-amber-600 font-bold text-lg">${gt('⭐ New personal best!', '⭐ שיא אישי חדש!')}</div>`:''}
+                ${hs?`<div class="mt-2 text-amber-600 font-bold text-lg">${Icon.ui('star')} ${gt('New personal best!', 'שיא אישי חדש!')}</div>`:''}
                 <div id="sequence-share" class="mt-3"></div>
                 <div class="flex gap-3 justify-center mt-6 flex-wrap">
                     <button onclick="loadGame('sequence')" class="btn-premium py-3 px-8 rounded-xl font-bold">${gt('Play Again', 'שחק שוב')}</button>

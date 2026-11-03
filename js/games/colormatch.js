@@ -18,7 +18,7 @@ function initColorMatch(container){
 }
 function _cmNext(container){
     if(!gameState.active||gameState.currentId!=='colormatch')return;
-    const gs=gameState.colormatch;
+    const gs=gameState.colormatch; gs._locked=false;
     if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
     const isHe=currentLang==='he';
     // Higher levels use more colors (4 → 6)
@@ -41,6 +41,7 @@ function _cmNext(container){
 }
 function _cmAnswer(id){
     const gs=gameState.colormatch;
+    if(gs._locked)return;gs._locked=true;  // one answer per round
     const isC=id===gs._answer;
     if(isC){sfxCorrect();gs._ss++;}else sfxWrong();
     gs._si++;

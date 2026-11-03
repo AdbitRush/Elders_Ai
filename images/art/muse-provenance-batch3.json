@@ -1,0 +1,80 @@
+{
+  "result": {
+    "attachments": [],
+    "body_text": "[COORD-RESULT:BRAINPLAY-SITEWIDE-ART-20261102-03]\r\n\r\nRequest: BRAINPLAY-SITEWIDE-ART-20261102-03, received 2026-11-02 18:04 IST (Gmail id 1a19d016b7b165cc, Message-ID CAAZJ6hun_ynHWyGBfQnPe7ROQWYJLBcAU_j0C_7HM9BKpn5GWg@mail.gmail.com), expiry 2026-11-02 22:00 IST (not expired at handling time, ~19:04-19:15 IST). Source verification PASSED: the request item, to kanchristof3@gmail.com, appears in both Inbox and Sent with the same id, subject and body; ID in body matches ID in subject. No prior [COORD-RESULT] for this ID and no ledger entry existed before this run. No conflicting live request was found; the preceding -01 and -02 runs are terminal and none of their 11 images was recreated.\r\n\r\nRESULT: 4 new original images generated in this run, inspected visually in full, preserved locally. Total Muse originals now: 15 (3 + 4 + 4 + 4). No code was edited, no integration/deployment/publishing was done, no running QA was touched, and no new audience was added: as in runs -01 and -02, the Telegram group post is skipped for this request only because this request bars new hosting/upload/public share/new audience; this bridge mail is the sole delivery.\r\n\r\nProvenance/use conditions for all 4: original Muse generation in this run, no added cost, no paid API, no purchase, no signup, no new terms. Decorative/support art only \u2014 never a substitute for a semantically correct game board, code, or puzzle. No people, no real-person likenesses, no logos, no readable text, no buttons/rules/solutions, no flashing or looping effects.\r\n\r\n1) Card-table family scene \u2014 shared header/support for Hearts, FreeCell, Spider, GinRummy, GoFish and CrazyEights\r\nFilename: media-generation-brainplay-card-family-scene-0-519623de-0779-4d6d-b1cd-4f9596ad976a.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/814293642_1502700145249855_3609984585030479749_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=107&_nc_ohc=m_0SRtFl_PYQ7kNvwE0kVLF&sdl=0&ccb=14-4&oh=00_AQTxzzCd61xMHkko_QAFmsLx9Lgjshk5hGKCSOYdCd_txA&oe=6AEA8886&_nc_sid=a21977\r\nDimensions: 2736x912, format: WEBP, size: 235524 bytes\r\nProposed placement: shared header/support art for the six card games listed above; the separately rendered real game uses the calm cream space. This one image does NOT uniquely finish six games.\r\nInspected pixels: walnut table corner, stack of blank facedown cards, small brass tray, navy tea cup, foliage, large cream negative space on the right. No card faces, no ranks or suits, no dealt hands or playable layout, no readable words.\r\n\r\n2) Backgammon supporting art \u2014 header/support, NOT a board\r\nFilename: media-generation-brainplay-backgammon-support-0-2eb7f174-a1b2-4b6b-9e1d-468a37221273.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/822298929_1666630568402881_9123535323181449967_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=101&_nc_ohc=VgUTCqvhc9UQ7kNvwFwQ33o&sdl=0&ccb=14-4&oh=00_AQSgVUHjZL0P7s_QKvchcZVlYeNpCn0WnZxgiVcTnGEYmg&oe=6AEAAB44&_nc_sid=a21977\r\nDimensions: 1920x1280, format: WEBP, size: 410066 bytes\r\nProposed placement: Backgammon header/support art.\r\nInspected pixels: closed walnut case with brass clasps, leather dice cup, two blank wooden cubes, folded navy felt on a walnut table. No board, no points, no pieces arranged as a game \u2014 so it cannot be confused for a playable board. No accurate-board claim is made.\r\n\r\n3) Mastermind/codebreaker supporting art\r\nFilename: media-generation-brainplay-mastermind-pegs-0-de4745c6-0e35-4e5e-95fe-dffc47273caf.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/814128836_2340320033406285_2900504789877654554_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=109&_nc_ohc=3nP9jPrwOUcQ7kNvwEG5p0w&sdl=0&ccb=14-4&oh=00_AQQh4l32Zo65xrHXRpq7IuaQhpuShBFqQM0DrtIlP4Sz-A&oe=6AEABD1C&_nc_sid=a21977\r\nDimensions: 1920x1280, format: WEBP, size: 395176 bytes\r\nProposed placement: Mastermind/codebreaker header/support art, with safe negative space for separately rendered content.\r\nInspected pixels: walnut bowl of muted coloured pegs and tokens (red, blue, green, yellow, cream) on a desk, cream/navy/walnut/gold watercolour. No board, no solved code, no answer labels, no rules.\r\n\r\n4) SpotDifference header/support art \u2014 single source scene only\r\nFilename: media-generation-brainplay-spot-difference-scen-0-61915f6f-a265-4582-b45b-910cb9fc0cf3.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/818018107_1089517713911790_5924304078506012876_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=106&_nc_ohc=PkzPqE1v4qUQ7kNvwEYN0Nb&sdl=0&ccb=14-4&oh=00_AQShn3b3hcFiY5fWkhyKO4SKujk4OjmPesu2gLeUq0MQaw&oe=6AEAA21C&_nc_sid=a21977\r\nDimensions: 1920x1280, format: WEBP, size: 448212 bytes\r\nProposed placement: SpotDifference header/support art, distinct from the earlier coastal garden scene.\r\nInspected pixels: walnut crate of tied blank parcels, brass scale, vase of dried flowers and wheat, folded cream cloth, window with evening light. This is a single scene only \u2014 no puzzle pair, no marked differences, and no claim of a working difference puzzle.\r\n\r\nDelivery verification, stated honestly: all 4 CDN URLs returned HEAD 200 with Content-Type image/webp at check time. HEAD 200 alone does not prove the right pixels or durable access \u2014 the pixel inspection above was done on the locally preserved generation originals, not by re-downloading the CDN copies. These are signed fbcdn URLs; their durable-access/expiry is uncertain and they should be treated as transfer links, not permanent hosting. Local originals are preserved in the coordination workspace under the filenames above.\r\n\r\nWhat remains uncovered: distinct per-game art for each of Hearts, FreeCell, Spider, GinRummy, GoFish and CrazyEights (this run gives shared support only); an exact, visually validated Backgammon board (deliberately not delivered); a validated SpotDifference puzzle pair with exact deliberate differences (deliberately not delivered \u2014 single scene only); any code, integration, or placement into the site (not done, per the request); and any art beyond these four placements. A further run can continue with the next non-duplicate collection.\r\n",
+    "cc": "",
+    "date": "Mon, 2 Nov 2026 11:06:59 -0600",
+    "from": "kanchristof3@gmail.com",
+    "from_name": "",
+    "id": "1a19d3a83a05dca0",
+    "internal_date_ms": 1793639219000,
+    "labels": [
+      "UNREAD",
+      "SENT",
+      "INBOX"
+    ],
+    "message_id": "<CAAZJ6ht3RD2tUsC1rfLa6YSc887yi9LmL+Ot8bHp+sBExUzt3g@mail.gmail.com>",
+    "snippet": "[COORD-RESULT:BRAINPLAY-SITEWIDE-ART-20261102-03] Request: BRAINPLAY-SITEWIDE-ART-20261102-03, received 2026-11-02 18:04 IST (Gmail id 1a19d016b7b165cc, Message-ID",
+    "subject": "[COORD-RESULT:BRAINPLAY-SITEWIDE-ART-20261102-03]",
+    "thread_id": "1a19d3a83a05dca0",
+    "to": "<kanchristof3@gmail.com>"
+  },
+  "assets": [
+    {
+      "name": "card-family",
+      "path": "/downloads/muse-sitewide-03/card-family.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/814293642_1502700145249855_3609984585030479749_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=107&_nc_ohc=m_0SRtFl_PYQ7kNvwE0kVLF&sdl=0&ccb=14-4&oh=00_AQTxzzCd61xMHkko_QAFmsLx9Lgjshk5hGKCSOYdCd_txA&oe=6AEA8886&_nc_sid=a21977",
+      "bytes": 235524,
+      "dimensions": [
+        2736,
+        912
+      ],
+      "format": "WEBP",
+      "sha256": "cc40323351f06d1bdc00aafe713423b6f050dc59f01c3bb4967a8654f1173534",
+      "source_gmail": "1a19d3a83a05dca0",
+      "source_rfc": "<CAAZJ6ht3RD2tUsC1rfLa6YSc887yi9LmL+Ot8bHp+sBExUzt3g@mail.gmail.com>"
+    },
+    {
+      "name": "backgammon-support",
+      "path": "/downloads/muse-sitewide-03/backgammon-support.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/822298929_1666630568402881_9123535323181449967_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=101&_nc_ohc=VgUTCqvhc9UQ7kNvwFwQ33o&sdl=0&ccb=14-4&oh=00_AQSgVUHjZL0P7s_QKvchcZVlYeNpCn0WnZxgiVcTnGEYmg&oe=6AEAAB44&_nc_sid=a21977",
+      "bytes": 410066,
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "format": "WEBP",
+      "sha256": "9e645068ee7724d3be6b4f9f093b594a00b80ae9205e3a1dfaf319120b797c5d",
+      "source_gmail": "1a19d3a83a05dca0",
+      "source_rfc": "<CAAZJ6ht3RD2tUsC1rfLa6YSc887yi9LmL+Ot8bHp+sBExUzt3g@mail.gmail.com>"
+    },
+    {
+      "name": "mastermind-pegs",
+      "path": "/downloads/muse-sitewide-03/mastermind-pegs.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/814128836_2340320033406285_2900504789877654554_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=109&_nc_ohc=3nP9jPrwOUcQ7kNvwEG5p0w&sdl=0&ccb=14-4&oh=00_AQQh4l32Zo65xrHXRpq7IuaQhpuShBFqQM0DrtIlP4Sz-A&oe=6AEABD1C&_nc_sid=a21977",
+      "bytes": 395176,
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "format": "WEBP",
+      "sha256": "6be7f0138385e3e7500ad1faca0ec455303515f9da7fbbf9cef6a334c0357789",
+      "source_gmail": "1a19d3a83a05dca0",
+      "source_rfc": "<CAAZJ6ht3RD2tUsC1rfLa6YSc887yi9LmL+Ot8bHp+sBExUzt3g@mail.gmail.com>"
+    },
+    {
+      "name": "spotdiff-support",
+      "path": "/downloads/muse-sitewide-03/spotdiff-support.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/818018107_1089517713911790_5924304078506012876_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=106&_nc_ohc=PkzPqE1v4qUQ7kNvwEYN0Nb&sdl=0&ccb=14-4&oh=00_AQShn3b3hcFiY5fWkhyKO4SKujk4OjmPesu2gLeUq0MQaw&oe=6AEAA21C&_nc_sid=a21977",
+      "bytes": 448212,
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "format": "WEBP",
+      "sha256": "e9dac5d769a456fbe5851abdb151f145acd3512b805bfeefa16e2d3a7d755b85",
+      "source_gmail": "1a19d3a83a05dca0",
+      "source_rfc": "<CAAZJ6ht3RD2tUsC1rfLa6YSc887yi9LmL+Ot8bHp+sBExUzt3g@mail.gmail.com>"
+    }
+  ]
+}

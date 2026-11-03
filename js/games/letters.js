@@ -17,7 +17,7 @@ function initLetters(container){
 }
 function _ltrNext(container){
     if(!gameState.active||gameState.currentId!=='letters')return;
-    const gs=gameState.letters;
+    const gs=gameState.letters; gs._locked=false;
     if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
     const isHe=currentLang==='he';
     const word=gs._words[gs._si%gs._words.length];
@@ -46,6 +46,7 @@ function _ltrNext(container){
 }
 function _ltrAnswer(btn,val){
     const gs=gameState.letters;
+    if(gs._locked)return;gs._locked=true;  // one answer per word
     const isC=val===gs._answer;
     if(isC){sfxCorrect();gs._ss++;}else sfxWrong();
     btn.classList.replace('border-gray-200',isC?'border-green-500':'border-red-500');

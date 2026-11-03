@@ -15,6 +15,7 @@ const Favorites = (() => {
     if (idx >= 0) favs.splice(idx, 1); else favs.unshift(id);
     localStorage.setItem(FAV_KEY, JSON.stringify(favs.slice(0, 6)));
     injectButtons();
+    if (typeof HubNav !== 'undefined') HubNav.render();   // the favorites row at the top of the hub
   }
 
   function recordPlay(id) {
@@ -45,8 +46,8 @@ const Favorites = (() => {
       const pinned = favs.includes(id);
       const pin = document.createElement('button');
       pin.className = 'pin-btn' + (pinned ? ' pinned' : '');
-      pin.setAttribute('aria-label', pinned ? 'Remove from favourites' : 'Add to favourites');
-      pin.innerHTML = pinned ? '❤️' : '🤍';
+      pin.setAttribute('aria-label', pinned ? 'Remove from favorites' : 'Add to favorites');
+      pin.innerHTML = Icon.ui('heart', {fill: true, fillOpacity: pinned ? 1 : 0, size: '1.2em'});
       pin.onclick = e => { e.stopPropagation(); toggle(id); };
       card.appendChild(pin);
 

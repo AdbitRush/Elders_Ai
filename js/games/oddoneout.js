@@ -9,7 +9,7 @@ function initOddOneOut(container) {
 }
 function _oddNext(container) {
     if(!gameState.active||gameState.currentId!=='oddoneout')return;
-    const gs=gameState.oddoneout;
+    const gs=gameState.oddoneout; gs._locked=false;
     if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
     const p=ODD_SETS[Math.floor(Math.random()*ODD_SETS.length)];
     const main=p[0],odd=p[Math.floor(Math.random()*(p.length-1))+1],oi=Math.floor(Math.random()*16);
@@ -20,14 +20,15 @@ function _oddNext(container) {
             <span class="text-green-600">✓ ${gs._ss}</span>
         </div>
         <div class="grid grid-cols-4 gap-3 bg-gray-50 p-4 rounded-2xl border">`;
-    for(let i=0;i<16;i++){const isOdd=(i===oi);html+=`<div onclick="clickOdd(${isOdd},this)" class="w-14 h-14 md:w-18 md:h-18 bg-white border shadow-sm rounded-xl flex items-center justify-center text-3xl md:text-4xl cursor-pointer hover:bg-amber-50 transition hover:scale-105 active:scale-95">${isOdd?odd:main}</div>`;}
+    for(let i=0;i<16;i++){const isOdd=(i===oi);html+=`<div onclick="clickOdd(${isOdd},this)" class="odd-tile w-16 h-16 md:w-20 md:h-20 bg-white border shadow-sm rounded-xl flex items-center justify-center cursor-pointer hover:bg-amber-50 transition hover:scale-105 active:scale-95">${Icon.sym(isOdd?odd:main,{size:'100%'})}</div>`;}
     container.innerHTML=html+`</div></div>`;
 }
 function clickOdd(isOdd, el) {
     if(!gameState.active||gameState.currentId!=='oddoneout')return;
     const gs=gameState.oddoneout;
+    if(gs._locked)return;   // one answer per round: a double-tap scored twice and skipped a round
     if(isOdd){
-        sfxCorrect(); gs._ss++;
+        gs._locked=true; sfxCorrect(); gs._ss++;
         el.classList.replace('bg-white','bg-green-100');
         setTimeout(()=>{gs._si++;_oddNext(document.getElementById('gameContent'));},500);
     } else {

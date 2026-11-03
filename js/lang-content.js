@@ -46,7 +46,7 @@
         {s:"Une pieuvre a 8 bras",a:true},{s:"Une semaine compte 8 jours",a:false},
         {s:"Le miel ne périme jamais",a:true},{s:"Les pingouins vivent au pôle Nord",a:false},
         {s:"La Grande Muraille est en Chine",a:true},{s:"Les tomates sont des légumes",a:false}],
-      recall_pool: ["🍎 Pomme","🚗 Voiture","🌸 Fleur","📚 Livre","🐕 Chien","☕ Café","🎸 Guitare","⚽ Ballon","🍕 Pizza","🌙 Lune","🏠 Maison","🎂 Gâteau","🌹 Rose","🦁 Lion","🍇 Raisin"],
+      recall_pool: ["🍎 Pomme","🚗 Voiture","🌸 Fleur","📚 Livre","🐕 Chien","☕ Café","🎸 Guitare","⚽ Ballon","🍕 Pizza","🌙 Lune","🏠 Maison","🎂 Gâteau","🌹 Rose","🐢 Tortue","🍇 Raisin"],
       flags_pool: [
         {flag:"🇺🇸",opts:["Canada","Australie","États-Unis","Nouvelle-Zélande"],a:2},
         {flag:"🇬🇧",opts:["Irlande","Australie","Canada","Royaume-Uni"],a:3},
@@ -97,7 +97,7 @@
         {s:"Un pulpo tiene 8 brazos",a:true},{s:"Una semana tiene 8 días",a:false},
         {s:"La miel nunca caduca",a:true},{s:"Los pingüinos viven en el Polo Norte",a:false},
         {s:"La Gran Muralla está en China",a:true},{s:"El tomate es una verdura",a:false}],
-      recall_pool: ["🍎 Manzana","🚗 Coche","🌸 Flor","📚 Libro","🐕 Perro","☕ Café","🎸 Guitarra","⚽ Balón","🍕 Pizza","🌙 Luna","🏠 Casa","🎂 Tarta","🌹 Rosa","🦁 León","🍇 Uvas"],
+      recall_pool: ["🍎 Manzana","🚗 Coche","🌸 Flor","📚 Libro","🐕 Perro","☕ Café","🎸 Guitarra","⚽ Balón","🍕 Pizza","🌙 Luna","🏠 Casa","🎂 Tarta","🌹 Rosa","🐢 Tortuga","🍇 Uvas"],
       flags_pool: [
         {flag:"🇺🇸",opts:["Canadá","Australia","Estados Unidos","Nueva Zelanda"],a:2},
         {flag:"🇬🇧",opts:["Irlanda","Australia","Canadá","Reino Unido"],a:3},
@@ -148,7 +148,7 @@
         {s:"Ein Oktopus hat 8 Arme",a:true},{s:"Eine Woche hat 8 Tage",a:false},
         {s:"Honig wird niemals schlecht",a:true},{s:"Pinguine leben am Nordpol",a:false},
         {s:"Die Große Mauer steht in China",a:true},{s:"Tomaten sind Gemüse",a:false}],
-      recall_pool: ["🍎 Apfel","🚗 Auto","🌸 Blume","📚 Buch","🐕 Hund","☕ Kaffee","🎸 Gitarre","⚽ Ball","🍕 Pizza","🌙 Mond","🏠 Haus","🎂 Kuchen","🌹 Rose","🦁 Löwe","🍇 Trauben"],
+      recall_pool: ["🍎 Apfel","🚗 Auto","🌸 Blume","📚 Buch","🐕 Hund","☕ Kaffee","🎸 Gitarre","⚽ Ball","🍕 Pizza","🌙 Mond","🏠 Haus","🎂 Kuchen","🌹 Rose","🐢 Schildkröte","🍇 Trauben"],
       flags_pool: [
         {flag:"🇺🇸",opts:["Kanada","Australien","USA","Neuseeland"],a:2},
         {flag:"🇬🇧",opts:["Irland","Australien","Kanada","Großbritannien"],a:3},
@@ -199,7 +199,7 @@
         {s:"Το χταπόδι έχει 8 πλοκάμια",a:true},{s:"Η εβδομάδα έχει 8 μέρες",a:false},
         {s:"Το μέλι δεν χαλάει ποτέ",a:true},{s:"Οι πιγκουίνοι ζουν στον Βόρειο Πόλο",a:false},
         {s:"Το Σινικό Τείχος είναι στην Κίνα",a:true},{s:"Η ντομάτα είναι λαχανικό",a:false}],
-      recall_pool: ["🍎 Μήλο","🚗 Αυτοκίνητο","🌸 Λουλούδι","📚 Βιβλίο","🐕 Σκύλος","☕ Καφές","🎸 Κιθάρα","⚽ Μπάλα","🍕 Πίτσα","🌙 Φεγγάρι","🏠 Σπίτι","🎂 Τούρτα","🌹 Τριαντάφυλλο","🦁 Λιοντάρι","🍇 Σταφύλια"],
+      recall_pool: ["🍎 Μήλο","🚗 Αυτοκίνητο","🌸 Λουλούδι","📚 Βιβλίο","🐕 Σκύλος","☕ Καφές","🎸 Κιθάρα","⚽ Μπάλα","🍕 Πίτσα","🌙 Φεγγάρι","🏠 Σπίτι","🎂 Τούρτα","🌹 Τριαντάφυλλο","🐢 Χελώνα","🍇 Σταφύλια"],
       flags_pool: [
         {flag:"🇺🇸",opts:["Καναδάς","Αυστραλία","ΗΠΑ","Νέα Ζηλανδία"],a:2},
         {flag:"🇬🇧",opts:["Ιρλανδία","Αυστραλία","Καναδάς","Ηνωμένο Βασίλειο"],a:3},
@@ -250,7 +250,7 @@
       game_tf_title:"Verdadero o falso", game_tf_desc:"Pon a prueba tus conocimientos: ¿cada frase es verdadera o falsa?",
       game_flags_title:"Quiz de banderas", game_flags_desc:"Adivina el país por su bandera.",
       game_proverbs_title:"Completa el refrán", game_proverbs_desc:"Añade la palabra que falta para terminar el dicho.",
-      game_hangman_title:"El ahorcado", game_hangman_desc:"Adivina la palabra oculta antes de agotar los intentos.",
+      game_hangman_title:"Globos de palabras", game_hangman_desc:"Adivina la palabra oculta antes de que se vayan los globos.",
       game_recall_title:"Memoria visual", game_recall_desc:"Recuerda los objetos mostrados y luego selecciónalos.",
       game_blocks_title:"Bloques que caen", game_blocks_desc:"Apila las piezas que caen para completar líneas.",
       game_colormatch_title:"Color y palabra", game_colormatch_desc:"¡Pulsa el color de la tinta, no la palabra!",
@@ -270,7 +270,7 @@
       game_tf_title:"Vrai ou faux", game_tf_desc:"Testez vos connaissances : chaque phrase est-elle vraie ou fausse ?",
       game_flags_title:"Quiz des drapeaux", game_flags_desc:"Trouvez le pays d'après son drapeau.",
       game_proverbs_title:"Complétez le proverbe", game_proverbs_desc:"Trouvez le mot manquant pour finir le dicton.",
-      game_hangman_title:"Le pendu", game_hangman_desc:"Devinez le mot caché avant d'épuiser vos chances.",
+      game_hangman_title:"Mots en ballons", game_hangman_desc:"Devinez le mot caché avant que les ballons s'envolent.",
       game_recall_title:"Mémoire visuelle", game_recall_desc:"Mémorisez les objets montrés, puis retrouvez-les.",
       game_blocks_title:"Blocs qui tombent", game_blocks_desc:"Empilez les pièces qui tombent pour compléter des lignes.",
       game_colormatch_title:"Couleur et mot", game_colormatch_desc:"Touchez la couleur de l'encre — pas le mot !",
@@ -290,7 +290,7 @@
       game_tf_title:"Wahr oder falsch", game_tf_desc:"Testen Sie Ihr Wissen — ist jede Aussage wahr oder falsch?",
       game_flags_title:"Flaggen-Quiz", game_flags_desc:"Erkennen Sie das Land an seiner Flagge.",
       game_proverbs_title:"Sprichwort vervollständigen", game_proverbs_desc:"Ergänzen Sie das fehlende Wort im Sprichwort.",
-      game_hangman_title:"Galgenmännchen", game_hangman_desc:"Erraten Sie das versteckte Wort, bevor die Versuche ausgehen.",
+      game_hangman_title:"Wörterballons", game_hangman_desc:"Erraten Sie das versteckte Wort, bevor die Ballons davonfliegen.",
       game_recall_title:"Bildergedächtnis", game_recall_desc:"Merken Sie sich die Gegenstände und wählen Sie sie danach aus.",
       game_blocks_title:"Fallende Blöcke", game_blocks_desc:"Stapeln Sie die fallenden Formen zu vollen Reihen.",
       game_colormatch_title:"Farbe und Wort", game_colormatch_desc:"Tippen Sie auf die Schriftfarbe — nicht auf das Wort!",
@@ -310,7 +310,7 @@
       game_tf_title:"Σωστό ή λάθος", game_tf_desc:"Δοκιμάστε τις γνώσεις σας — κάθε πρόταση είναι σωστή ή λάθος;",
       game_flags_title:"Κουίζ σημαιών", game_flags_desc:"Βρείτε τη χώρα από τη σημαία της.",
       game_proverbs_title:"Συμπληρώστε την παροιμία", game_proverbs_desc:"Βρείτε τη λέξη που λείπει από την παροιμία.",
-      game_hangman_title:"Κρεμάλα", game_hangman_desc:"Μαντέψτε την κρυμμένη λέξη πριν τελειώσουν οι ευκαιρίες.",
+      game_hangman_title:"Μπαλόνια λέξεων", game_hangman_desc:"Μαντέψτε την κρυμμένη λέξη πριν πετάξουν τα μπαλόνια.",
       game_recall_title:"Οπτική μνήμη", game_recall_desc:"Θυμηθείτε τα αντικείμενα και μετά επιλέξτε τα.",
       game_blocks_title:"Μπλοκ που πέφτουν", game_blocks_desc:"Στοιβάξτε τα σχήματα που πέφτουν για να γεμίσετε σειρές.",
       game_colormatch_title:"Χρώμα και λέξη", game_colormatch_desc:"Πατήστε το χρώμα του μελανιού — όχι τη λέξη!",
@@ -329,5 +329,44 @@
   };
   for (const [lang, kv] of Object.entries(UI)) {
     if (i18nData[lang]) Object.assign(i18nData[lang], kv);
+  }
+
+  // footer links (2026-10-10): About, Privacy, Cookie settings
+  const FOOT = {
+    he: { new_best: 'שיא אישי חדש!', about_link: 'אודות', articles_link: 'מאמרים', privacy_link: 'מדיניות פרטיות', cookie_settings: 'הגדרות עוגיות' },
+    en: { new_best: 'New personal best!', about_link: 'About', articles_link: 'Articles', privacy_link: 'Privacy', cookie_settings: 'Cookie settings' },
+    es: { new_best: '¡Nuevo récord personal!', photo_credits: 'Créditos de las fotos', about_link: 'Acerca de', articles_link: 'Artículos', privacy_link: 'Privacidad', cookie_settings: 'Ajustes de cookies' },
+    fr: { new_best: 'Nouveau record personnel !', photo_credits: 'Crédits photo', about_link: 'À propos', articles_link: 'Articles', privacy_link: 'Confidentialité', cookie_settings: 'Réglages des cookies' },
+    de: { new_best: 'Neue persönliche Bestleistung!', photo_credits: 'Bildnachweise', about_link: 'Über uns', articles_link: 'Artikel', privacy_link: 'Datenschutz', cookie_settings: 'Cookie-Einstellungen' },
+    el: { new_best: 'Νέο προσωπικό ρεκόρ!', photo_credits: 'Πηγές φωτογραφιών', about_link: 'Σχετικά', articles_link: 'Άρθρα', privacy_link: 'Απόρρητο', cookie_settings: 'Ρυθμίσεις cookies' },
+  };
+  for (const [lang, kv] of Object.entries(FOOT)) {
+    if (i18nData[lang]) Object.assign(i18nData[lang], kv);
+  }
+
+  // games added from 2026-10 (tools/new_games.json): English first; a language without its own text gets the English
+  for (const g of (window.NEW_GAMES || [])) {
+    for (const lang of Object.keys(i18nData)) {
+      const L = i18nData[lang];
+      if (!L['game_' + g.id + '_title']) L['game_' + g.id + '_title'] = g.title;
+      if (!L['game_' + g.id + '_desc']) L['game_' + g.id + '_desc'] = g.desc;
+      if (!L['inst_' + g.id]) L['inst_' + g.id] = g.inst;
+    }
+  }
+  for (const sec of (window.NEW_GAME_SECTIONS || [])) for (const lang of Object.keys(i18nData)) {
+    const L = i18nData[lang];
+    if (!L['sec_' + sec.key + '_title']) L['sec_' + sec.key + '_title'] = sec.title;
+    if (!L['sec_' + sec.key + '_sub']) L['sec_' + sec.key + '_sub'] = sec.sub;
+  }
+
+  // This file runs after index.html's first changeLanguage(), so the strings merged above never reached the page
+  // on first load: the Time Journey and Living Safari cards (and the "All games" list, which copies the card
+  // titles) stayed in Hebrew on every other language until the visitor switched language. Put them on the page now.
+  if (typeof currentLang !== 'undefined' && i18nData[currentLang]) {
+    const L = i18nData[currentLang], n = (window.GAME_IDS || []).length;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      const k = el.getAttribute('data-i18n');
+      if (L[k]) el.innerText = String(L[k]).replace('{n}', n);
+    });
   }
 })();

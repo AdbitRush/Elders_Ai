@@ -1,0 +1,80 @@
+{
+  "result": {
+    "attachments": [],
+    "body_text": "[COORD-RESULT:BRAINPLAY-SITEWIDE-ART-20261102-01]\r\n\r\nRequest: BRAINPLAY-SITEWIDE-ART-20261102-01, received 2026-11-02 16:52 IST, expiry 2026-11-02 22:00 IST (not expired). Source verification passed: the request item (Gmail id 1a19cbeff2d7445f, to kanchristof3@gmail.com) appears in both inbox and sent with the same id, subject and body; ID in body matches ID in subject. No prior [COORD-RESULT] for this ID and no ledger entry existed before this run.\r\n\r\nRESULT: 4 new original images generated in this run, inspected visually in full, preserved locally. This is partial coverage by design within the 15-minute run and the 4-image per-run generation limit \u2014 not completion of every game. No code was edited, no integration/deployment/publishing was done, no running QA was touched, and the three earlier assets (navy card back, Queen of Spades, crossword scene) were NOT recreated.\r\n\r\n1) Word games \u2014 wordsearch, unscramble, letters, wordladder\r\nFilename: media-generation-brainplay-word-desk-0-a2715d71-24d5-4b06-b19e-50ac1565c85e.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/886684749_1856119335568294_3107923014454070313_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=110&_nc_ohc=LVG09Lw8LHUQ7kNvwFqrHzX&sdl=0&ccb=14-4&oh=00_AQQJAx-LsGscnQwAbTuN-5MT12PdFT9doUmrrnHjvGG8YA&oe=6AEA88B7&_nc_sid=a21977\r\nDimensions: 1920x1280, format: WEBP, size: 613688 bytes\r\nInspected: open blank puzzle book with empty grids, letterpress tray with blank wooden tiles, ink pot, rollers, walnut desk in cream/navy/walnut/gold. No readable words, no logos, no people. Note: the brass ruler carries tiny tick marks only, no readable text. Use as desk atmosphere / header art; the blank grids are decorative only and must not be mistaken for the playable grid.\r\n\r\n2) Number/logic games \u2014 sudoku, math, numseq, sequence, digitspan, clock, counting\r\nFilename: media-generation-brainplay-number-tiles-0-a62eae62-1059-4659-a282-c561d9d6b511.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/883374119_1879170486862480_1402084574338154206_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=104&_nc_ohc=8a6wVO2VdDEQ7kNvwHy9Sg3&sdl=0&ccb=14-4&oh=00_AQRA-igYW6wTSqLyNOPS8Z4y_OEivGneHq85fp4E0J9_PA&oe=6AEA75B0&_nc_sid=a21977\r\nDimensions: 1920x1280, format: WEBP, size: 540162 bytes\r\nInspected: blank wooden tiles around a quiet empty central circle, pencil, paper, walnut board in cream/navy/walnut/gold. No digits, no equations, no text, no logos, no people. Use as number/logic header or background accent; the central circle is a calm area, not a playable board.\r\n\r\n3) Classic tabletop games \u2014 checkers, backgammon, dominoes\r\nFilename: media-generation-brainplay-tabletop-0-cc6d68e2-6234-4e9f-acfe-4c9335836ce0.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/883075013_28404099455935357_8043146444208722535_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=101&_nc_ohc=7nzQqvmo6gMQ7kNvwGQQCth&sdl=0&ccb=14-4&oh=00_AQQdH-0VOhHxcPdnbs6iRMs_1jYTXQVUKCGbBjOwHl4cZA&oe=6AEA8CAF&_nc_sid=a21977\r\nDimensions: 1920x1280, format: WEBP, size: 594026 bytes\r\nInspected: navy checkers discs, wooden box with tapered pieces, domino tiles with pips, green felt and walnut, cream/navy/walnut/gold. No text, no logos, no people. Caution: decorative still-life only \u2014 the tapered pieces are stylised, not an exact backgammon set, and the arrangement is NOT a playable board for any of these games. Do not use as a rules/board illustration.\r\n\r\n4) Nature/visual games \u2014 safari, jigsaw, spotdiff (as source picture only), shapes, colormatch\r\nFilename: media-generation-brainplay-garden-jigsaw-0-93ae7298-c210-4c1b-a4ee-182c548f9f05.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/883074135_1162206586763513_5567201450930766359_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=105&_nc_ohc=Oc0snQcdKFwQ7kNvwF0r_Tj&sdl=0&ccb=14-4&oh=00_AQQJB4KjDsBtTuI0Atd8yTa-SiyjURHZgAXlGYNzgQq0ew&oe=6AEA886C&_nc_sid=a21977\r\nDimensions: 1920x1280, format: WEBP, size: 1041468 bytes\r\nInspected: coastal garden with stone path, potted flowers, pine trees, cream/navy/walnut/gold watercolour style. No text, no logos, no people. Suitable as a jigsaw source picture or visual-game illustration. NOT a validated spot-the-difference pair \u2014 no second scene with deliberate differences was made, so do not claim it as a working spotdiff puzzle.\r\n\r\nLink verification: all 4 original URLs returned HTTP 200 on a HEAD check in this run. Caveat, as in the previous transfer run: these are signed generation-sidecar URLs; their long-term authorised access / expiry was NOT independently verified beyond that HEAD 200. If a link later fails, the remaining blocker is direct delivery by the main conversation through an authorised route \u2014 no new hosting, upload, public share or access change was made here.\r\n\r\nWhat remains uncovered: quiz/recall/category (trivia, truefalse, flags, category, recall), card games beyond the earlier pack (freecell, spider, solitaire, crazy8, ginrummy, gofish), proverbs, hangman, cryptoquote, blocks, nonogram, minesweeper, g2048, fifteen, mastermind, and dedicated homepage/category art. No single shared backdrop was claimed as a unique asset per game.\r\n\r\nProvenance/use conditions: original AI-generated images from Muse's no-added-cost image pipeline in this run, in the first pack's cream/navy/walnut/gold palette and dignified illustration style. No stock imagery, no real-person likeness, no embedded words/logos, no flashing animation. Local originals preserved at workspace/coord-bridge/brainplay-sitewide/ (same filenames as above).\r\n\r\nGroup post: NOT posted to Age_of_Christofs for this request only, because this request itself bars any new audience / public share (\"No new hosting/upload/public share/access change or other audience\") and requires exactly one result returned to this mailbox. This is the same restriction applied in BRAINPLAY-ASSETS-TRANSFER-20261102-01.\r\n\r\nNo attachment is included, per the bridge no-attachment rule.\r\n",
+    "cc": "",
+    "date": "Mon, 2 Nov 2026 09:24:24 -0600",
+    "from": "kanchristof3@gmail.com",
+    "from_name": "",
+    "id": "1a19cdc95f205814",
+    "internal_date_ms": 1793633064000,
+    "labels": [
+      "UNREAD",
+      "SENT",
+      "INBOX"
+    ],
+    "message_id": "<CAAZJ6huVweOM9wzF4mk21S=4wPk0weSJBfXAH3DpmNZaEbWiRQ@mail.gmail.com>",
+    "snippet": "[COORD-RESULT:BRAINPLAY-SITEWIDE-ART-20261102-01] Request: BRAINPLAY-SITEWIDE-ART-20261102-01, received 2026-11-02 16:52 IST, expiry 2026-11-02 22:00 IST (not expired). Source verification passed: the",
+    "subject": "[COORD-RESULT:BRAINPLAY-SITEWIDE-ART-20261102-01]",
+    "thread_id": "1a19cdc95f205814",
+    "to": "<kanchristof3@gmail.com>"
+  },
+  "assets": [
+    {
+      "name": "word-desk",
+      "path": "/downloads/muse-sitewide/word-desk.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/886684749_1856119335568294_3107923014454070313_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=110&_nc_ohc=LVG09Lw8LHUQ7kNvwFqrHzX&sdl=0&ccb=14-4&oh=00_AQQJAx-LsGscnQwAbTuN-5MT12PdFT9doUmrrnHjvGG8YA&oe=6AEA88B7&_nc_sid=a21977",
+      "bytes": 613688,
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "format": "WEBP",
+      "sha256": "8dfbaefb81cffb32c1f9c67052139af19edb628ee715a5b66c58e5895034f9fc",
+      "source_gmail": "1a19cdc95f205814",
+      "source_rfc": "<CAAZJ6huVweOM9wzF4mk21S=4wPk0weSJBfXAH3DpmNZaEbWiRQ@mail.gmail.com>"
+    },
+    {
+      "name": "number-tiles",
+      "path": "/downloads/muse-sitewide/number-tiles.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/883374119_1879170486862480_1402084574338154206_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=104&_nc_ohc=8a6wVO2VdDEQ7kNvwHy9Sg3&sdl=0&ccb=14-4&oh=00_AQRA-igYW6wTSqLyNOPS8Z4y_OEivGneHq85fp4E0J9_PA&oe=6AEA75B0&_nc_sid=a21977",
+      "bytes": 540162,
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "format": "WEBP",
+      "sha256": "94d9408e9b20fa4d178f8354df3bee3b26988c63c36ea93c9a41996ba408b56d",
+      "source_gmail": "1a19cdc95f205814",
+      "source_rfc": "<CAAZJ6huVweOM9wzF4mk21S=4wPk0weSJBfXAH3DpmNZaEbWiRQ@mail.gmail.com>"
+    },
+    {
+      "name": "tabletop",
+      "path": "/downloads/muse-sitewide/tabletop.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/883075013_28404099455935357_8043146444208722535_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=101&_nc_ohc=7nzQqvmo6gMQ7kNvwGQQCth&sdl=0&ccb=14-4&oh=00_AQQdH-0VOhHxcPdnbs6iRMs_1jYTXQVUKCGbBjOwHl4cZA&oe=6AEA8CAF&_nc_sid=a21977",
+      "bytes": 594026,
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "format": "WEBP",
+      "sha256": "e559c27ac1210ebf3965325709764ee528cd4aed3a8a51655a552e593018ada3",
+      "source_gmail": "1a19cdc95f205814",
+      "source_rfc": "<CAAZJ6huVweOM9wzF4mk21S=4wPk0weSJBfXAH3DpmNZaEbWiRQ@mail.gmail.com>"
+    },
+    {
+      "name": "garden-jigsaw",
+      "path": "/downloads/muse-sitewide/garden-jigsaw.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/883074135_1162206586763513_5567201450930766359_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=105&_nc_ohc=Oc0snQcdKFwQ7kNvwF0r_Tj&sdl=0&ccb=14-4&oh=00_AQQJB4KjDsBtTuI0Atd8yTa-SiyjURHZgAXlGYNzgQq0ew&oe=6AEA886C&_nc_sid=a21977",
+      "bytes": 1041468,
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "format": "WEBP",
+      "sha256": "df14fd2ebb15279b2aba655deb0b01e86505ad3deabaed3081f93ab01d8d4ecf",
+      "source_gmail": "1a19cdc95f205814",
+      "source_rfc": "<CAAZJ6huVweOM9wzF4mk21S=4wPk0weSJBfXAH3DpmNZaEbWiRQ@mail.gmail.com>"
+    }
+  ]
+}

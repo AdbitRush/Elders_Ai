@@ -9,7 +9,7 @@ function initMath(container) {
 }
 function _mathNext(container) {
     if(!gameState.active||gameState.currentId!=='math')return;
-    const gs=gameState.math;
+    const gs=gameState.math; gs._locked=false;
     if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
     const _d=gs._diff||'normal';
     const maxVal=_d==='easy'?6+(gs.level*2):_d==='hard'?14+(gs.level*4):10+(gs.level*3);
@@ -35,9 +35,10 @@ function _mathNext(container) {
 function answerMath(sel,cor) {
     if(!gameState.active||gameState.currentId!=='math')return;
     const gs=gameState.math;
+    if(gs._locked)return;   // one answer per question: a double-tap scored twice and skipped a question
     const btn=event.target;
     if(sel===cor){
-        sfxCorrect(); gs._ss++;
+        gs._locked=true; sfxCorrect(); gs._ss++;
         btn.classList.replace('bg-blue-50','bg-green-100'); btn.classList.replace('border-blue-200','border-green-400');
         setTimeout(()=>{gs._si++;_mathNext(document.getElementById('gameContent'));},500);
     } else {

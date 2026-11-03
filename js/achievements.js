@@ -22,7 +22,7 @@ const Achievements = (() => {
     { id:'brain_50',      icon:'🧬', he:'מוח בריא',          en:'Healthy Brain',    desc_he:'ניקוד בריאות מוח 50+',          desc_en:'Brain health score 50+',          check:s=>s.brainScore>=50 },
     { id:'brain_80',      icon:'⚡', he:'מוח מבריק',         en:'Brilliant Mind',   desc_he:'ניקוד בריאות מוח 80+!',         desc_en:'Brain health score 80+!',         check:s=>s.brainScore>=80 },
     { id:'trivia_ace',    icon:'📚', he:'ידען',               en:'Scholar',          desc_he:'רמה 8 בטריוויה',               desc_en:'Trivia level 8',                  check:s=>(s.hs.trivia||0)>=8 },
-    { id:'shabbat',       icon:'🕯️', he:'שבת שלום',          en:'Shabbat Shalom',   desc_he:'שיחקתם ביום שישי',             desc_en:'Played on Friday',                check:s=>new Date().getDay()===5&&s.total>=1 },
+    { id:'shabbat',       icon:'🎉', he:'שישי שמח',          en:'Friday Fun',         desc_he:'שיחקתם ביום שישי',             desc_en:'Played on Friday',                check:s=>new Date().getDay()===5&&s.total>=1 },
   ];
 
   function getEarned() {
@@ -70,8 +70,8 @@ const Achievements = (() => {
     const isHe = typeof currentLang!=='undefined' ? currentLang==='he' : true;
     const t = document.createElement('div');
     t.style.cssText = 'position:fixed;top:76px;left:50%;transform:translateX(-50%);z-index:5000;background:linear-gradient(135deg,#1a365d,#2c5282);border:2px solid #f6c048;border-radius:1.1rem;padding:1rem 1.5rem;text-align:center;box-shadow:0 16px 48px rgba(0,0,0,0.7);min-width:260px;max-width:320px;animation:badgeSlideIn 0.45s cubic-bezier(.22,.68,0,1.2) forwards';
-    t.innerHTML = `<div style="font-size:2.5rem;line-height:1.2">${def.icon}</div>
-      <div style="color:#f6c048;font-weight:800;font-size:0.9rem;margin-top:2px">${isHe?'🏅 מדליה חדשה!':'🏅 New Badge!'}</div>
+    t.innerHTML = `<div style="font-size:2.5rem;line-height:1.2">${(typeof Icon!=='undefined'&&Icon.svg)?Icon.svg('trophy',{size:'2.5rem',sw:2}):''}</div>
+      <div style="color:#f6c048;font-weight:800;font-size:0.9rem;margin-top:2px">${isHe?'מדליה חדשה!':'New Badge!'}</div>
       <div style="color:#fff;font-weight:700;font-size:1.1rem;margin-top:3px">${isHe?def.he:def.en}</div>
       <div style="color:rgba(180,210,255,0.75);font-size:0.78rem;margin-top:3px">${isHe?def.desc_he:def.desc_en}</div>`;
     document.body.appendChild(t);

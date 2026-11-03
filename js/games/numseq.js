@@ -5,7 +5,8 @@ const _SEQ_GENERATORS = [
     (lvl) => { const step=2+lvl,s=Math.floor(Math.random()*10)+1; return {seq:[s,s+step,s+2*step,s+3*step],next:s+4*step,type:'+'} },
     (lvl) => { const step=1+Math.floor(lvl/2),s=Math.floor(Math.random()*8)+10+lvl*2; return {seq:[s,s-step,s-2*step,s-3*step],next:s-4*step,type:'-'} },
     ()    => { const m=2,s=Math.floor(Math.random()*4)+1; return {seq:[s,s*m,s*m*m,s*m*m*m],next:s*m*m*m*m,type:'×2'} },
-    (lvl) => { const a=1+Math.floor(Math.random()*3),b=2+Math.floor(Math.random()*3); return {seq:[a,b,a+b,a+b+b],next:b+a+b+b,type:'fib'} },
+    // each number is the sum of the two before it (Fibonacci rule). The old one built a,b,a+b,a+2b -> a+3b, which no rule explains.
+    (lvl) => { const a=1+Math.floor(Math.random()*3),b=a+1+Math.floor(Math.random()*3); return {seq:[a,b,a+b,a+2*b],next:2*a+3*b,type:'fib'} },
     (lvl) => { const step=5+lvl*2,s=Math.floor(Math.random()*5)+1; return {seq:[s,s+step,s+2*step,s+3*step],next:s+4*step,type:'+'} },
 ];
 function initNumSeq(container){
@@ -16,7 +17,7 @@ function initNumSeq(container){
 }
 function _numseqNext(container){
     if(!gameState.active||gameState.currentId!=='numseq')return;
-    const gs=gameState.numseq;
+    const gs=gameState.numseq; gs._locked=false;
     if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
     const gen=_SEQ_GENERATORS[Math.floor(Math.random()*_SEQ_GENERATORS.length)];
     const {seq,next}=gen(gs.level);
@@ -41,9 +42,10 @@ function _numseqNext(container){
 function answerNumSeq(sel,cor){
     if(!gameState.active||gameState.currentId!=='numseq')return;
     const gs=gameState.numseq;
+    if(gs._locked)return;   // one answer per question: a double-tap scored twice and skipped a question
     const btn=event.target;
     if(sel===cor){
-        sfxCorrect(); gs._ss++;
+        gs._locked=true; sfxCorrect(); gs._ss++;
         btn.classList.replace('bg-blue-50','bg-green-100'); btn.classList.replace('border-blue-200','border-green-400');
         setTimeout(()=>{gs._si++;_numseqNext(document.getElementById('gameContent'));},500);
     } else {

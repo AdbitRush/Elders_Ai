@@ -17,7 +17,7 @@ const TextSize = (() => {
         document.documentElement.style.fontSize = SIZES[i] + '%';
         const btn = document.getElementById('textsize-btn');
         if (btn) {
-            btn.textContent = '🔠 ' + LABELS[i];
+            btn.innerHTML = (typeof Icon !== 'undefined' ? Icon.ui('a-large-small') + ' ' : '') + LABELS[i];
             btn.setAttribute('aria-label', 'Text size: ' + SIZES[i] + '%');
             btn.title = 'Text size: ' + SIZES[i] + '%';
         }

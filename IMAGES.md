@@ -98,7 +98,7 @@ If time is short, the order that gets the most out of the least work is: the
 13 broken ones first (they read as *broken*, which costs trust), then the
 remaining 14 to unify the grid.
 
-## The 27 game cards — `images/cards/<id>.jpg`
+## The 27 game cards — `images/scenes/<id>.jpg`
 
 Shown on the home grid; each is also the Open Graph image for that game's
 `/<lang>/<id>/` page, so it is what appears when someone shares the link.
@@ -107,9 +107,9 @@ Shown on the home grid; each is also the Open Graph image for that game's
 |---|---|---|---|---|
 | `klondike` | Classic Solitaire | ✅ replaced 2026-08-26 — was: card faces are smeared texture — no suits or numbers | A classic solitaire tableau part-dealt on green baize — seven columns, one ace moved up to the foundation. | classic klondike solitaire card game spread on green felt table red and black cards elegant |
 | `memory` | Memory Match | ✅ replaced 2026-08-27 — was: old woman with a puzzle — the gold standard | A dozen face-down cards laid in a neat grid on the felt, two turned face up beside each other showing the same simple symbol. | elderly woman joyful playing memory card game cozy warm living room golden hour cinematic photography lifestyle |
-| `oddoneout` | Odd One Out | ✅ replaced 2026-08-26 — was: toy lego grid, plastic gradients | Five identical smooth wooden shapes in a row and one that is plainly different — different colour, same size. | colorful geometric shapes symbols grid visual puzzle brain teaser vibrant studio high contrast |
-| `math` | Quick Math | ✅ replaced 2026-08-27 — was: old man drawing — hero quality | A short sum written in pencil on squared paper, the pencil resting across it. | senior man cheerful mental arithmetic math calculation bright warm home lifestyle photography |
-| `wordsearch` | Word Search | ✅ replaced 2026-08-27 — was: newspaper and coffee | A folded newspaper puzzle page with a letter grid, one word ringed in pencil, the pencil lying on top. | word search puzzle newspaper pencil morning coffee warm cozy overhead flat lay photography |
+| `oddoneout` | Odd One Out | ✅ replaced 2026-10-09 (Wikimedia Commons, Public domain) — was: a "Happy Birthday My Superjo!" graphic with English text baked in | Five identical smooth wooden shapes in a row and one that is plainly different — different colour, same size. | One yellow tulip among red ones |
+| `math` | Quick Math | ✅ replaced 2026-10-09 (Wikimedia Commons, CC BY-SA 4.0) — was: an abacus beside a calculator | A short sum written in pencil on squared paper, the pencil resting across it. | A row of six dice showing one to six |
+| `wordsearch` | Word Search | ✅ replaced 2026-10-09 (Wikimedia Commons, CC BY-SA 4.0) — was: a crossword grid, not a word search | A folded newspaper puzzle page with a letter grid, one word ringed in pencil, the pencil lying on top. | Letter tiles laid out in alphabetical rows (no words) |
 | `sequence` | Color Sequence | ✅ replaced 2026-08-27 — was: neon keyboard, high contrast | Four coloured discs — red, green, blue, yellow — arranged in an arc on the felt, one of them lit from beneath. | neon glowing colorful sequence says electronic buttons dark background vibrant retro game |
 | `sudoku` | Daily Sudoku | ✅ replaced 2026-08-27 — was: journal and coffee | A 9x9 grid printed on paper, part-filled in pencil, an eraser and a sharpened pencil beside it. | sudoku puzzle newspaper pencil morning coffee cozy warm soft natural light lifestyle |
 | `shapes` | Shape Sorter | ✅ replaced 2026-08-26 — was: plastic toy blocks with nonsense icons | A wooden shape-sorter board with circle, square and triangle holes, the matching blocks lying next to their slots. | colorful wooden geometric shapes sorting puzzle bright playful brain training lifestyle photography |
@@ -119,7 +119,7 @@ Shown on the home grid; each is also the Open Graph image for that game's
 | `unscramble` | Word Unscramble | ✅ replaced 2026-08-27 — was: real wooden blocks | Seven wooden letter tiles jumbled in a loose heap, three of them pushed aside into the start of a word. | wooden scrabble letter tiles word unscramble anagram game cozy warm table photography |
 | `pairs` | Opposites Pairs | ✅ replaced 2026-08-26 — was: waxy uncanny split face | Two small objects that are opposites resting side by side — a candle and an ice cube, or a key and a lock. | artistic opposites contrast hot cold day night concept photography warm tones creative |
 | `truefalse` | True or False | ✅ replaced 2026-08-26 — was: box reads “Quuik”, plus two gibberish logos | Two wooden paddles on the felt, one marked with a tick and one with a cross. | true false bold checkmark crossmark quiz decision vibrant colorful graphic design |
-| `flags` | Flag Quiz | ✅ replaced 2026-08-26 — was: misshapen continents, gibberish text over China | A handful of small paper flags of different countries in a shallow bowl, one standing clear of the rest. | world flags colorful collection globe international travel countries display vibrant |
+| `flags` | Flag Quiz | ✅ replaced 2026-10-09 (Wikimedia Commons, CC0) — was: a row of flagpoles that included the Texas state flag | A handful of small paper flags of different countries in a shallow bowl, one standing clear of the rest. | The avenue of national flags at the Palais des Nations, Geneva |
 | `proverbs` | Complete the Proverb | ✅ replaced 2026-08-27 — was: rich library light | An open book with a ribbon marker on a warm table, a pair of reading glasses folded on the page. | ancient wisdom open book candlelight cozy library golden parchment quill warm glow |
 | `hangman` | Hangman | ✅ replaced 2026-08-26 — was: chalkboard full of gibberish AI text — most urgent | A small slate with chalk, a row of blank dashes drawn on it, one letter filled in, chalk stub beside it. | hangman word guessing game chalk blackboard classic letters vintage atmospheric |
 | `recall` | Picture Recall | ✅ replaced 2026-08-26 — was: generic head-with-brain medical clip-art | Four photographs face down on the table and one face up, as though being memorised before being turned. | brain memory recall training senior cognitive focus concentration warm lifestyle calm |
@@ -154,7 +154,7 @@ generated separately and drift is easy to miss.
 | Where | Source | Leave alone? |
 |---|---|---|
 | Flags game | `flagcdn.com/w320/<code>.png` | **Yes.** Real national flags, correct and free. Do not replace with generated ones — a generated flag is a wrong flag. |
-| Card fallback | `image.pollinations.ai`, in each card's `onerror` | Once a local `images/cards/<id>.jpg` exists and loads, this never fires. Worth deleting from `index.html` after the new set lands — it is 28 long URLs of dead weight. |
+| Card fallback | `image.pollinations.ai`, in each card's `onerror` | Once a local `images/scenes/<id>.jpg` exists and loads, this never fires. Worth deleting from `index.html` after the new set lands — it is 28 long URLs of dead weight. |
 
 ---
 
@@ -169,3 +169,171 @@ generated separately and drift is easy to miss.
 
 Bump `ASSET_V` and the `sw.js` cache version when the new set lands, or
 returning players keep the old pictures from their service-worker cache.
+
+## Picture and icon sources (2026-10-09, round 3)
+
+Every photo is from Pexels (free licence, attribution not required but given on credits.html). Each was cropped and resized here; the Pexels page is the source. Icons: Lucide 1.48.0, ISC (images/icons/lucide/, built into js/lucide-icons.js by tools/build_icons.py).
+
+| File | What it shows | Photographer | Source |
+|---|---|---|---|
+| images/scenes/lifesim.jpg | Nostalgic black and white prints with vintage camera and negatives evoke a bygone era. | Yulia Ilina | https://www.pexels.com/photo/close-up-shot-of-vintage-photos-9066554/ |
+| images/scenes/safari.jpg | A majestic African elephant with calf in the wild, showcasing native wildlife beauty. | DHRUV AMIN | https://www.pexels.com/photo/a-baby-elephant-behind-a-mama-elephant-on-brown-grass-field-7715568/ |
+| images/scenes/letters.jpg | Scrabble letter tiles arranged into the alphabet on a white background. | DS stories | https://www.pexels.com/photo/alphabet-made-of-scrabble-letters-6005118/ |
+| images/scenes/memory.jpg | Close-up of wooden domino tiles arranged on a table, showcasing a strategy board game. | Arturo A | https://www.pexels.com/photo/wooden-domino-tiles-arranged-on-table-38977737/ |
+| images/scenes/blocks.jpg | Arrangement of blue and green wooden blocks on a marble surface, creating a playful geometric pattern. | Magda Ehlers | https://www.pexels.com/photo/colorful-wooden-blocks-on-marble-surface-34817526/ |
+| images/scenes/flags.jpg | International flags waving against a clear blue sky in Doha, Qatar, symbolizing unity and diversity. | Bhabin Tamang | https://www.pexels.com/photo/low-angle-shot-of-flags-on-the-background-of-a-clear-blue-sky-14676984/ |
+| images/scenes/proverbs.jpg | Open vintage book with eyeglasses resting on a wooden surface, evoking a sense of nostalgia. | Melike  B | https://www.pexels.com/photo/a-black-framed-eyeglasses-on-book-page-12009574/ |
+| images/scenes/pairs.jpg | Two elegant floral teacups on a richly patterned tablecloth, creating a cozy, inviting atmosphere. | Feyza Daştan | https://www.pexels.com/photo/two-coffee-cups-on-a-table-15804090/ |
+| images/scenes/digitspan.jpg | Bright plastic numbers on a blue background with ample copy space, ideal for educational themes. |    https://kaboompics.com/ | https://www.pexels.com/photo/plastic-numbers-to-learn-from-for-kids-5412226/ |
+| images/scenes/recall.jpg | A collection of Polaroid photos creatively arranged on a modern table. | Erik Mclean | https://www.pexels.com/photo/photo-of-polaroids-on-a-white-surface-8266758/ |
+| images/scenes/wordsearch.jpg | Vintage quill pen with magnifying glass on rustic wooden surface. Perfect for retro-themed designs. | Towfiqu barbhuiya | https://www.pexels.com/photo/magnifier-and-a-quill-pen-on-an-empty-paper-sheet-14438833/ |
+| images/scenes/math.jpg | Set of red dice stacked together on wooden table placed on sunny terrace in daylight | Matthias Groeneveld | https://www.pexels.com/photo/red-dice-stacked-on-table-on-terrace-4200740/ |
+| images/scenes/trivia.jpg | Four paper cutouts of question marks in beige and white on a brown surface, symbolizing inquiry and curiosity. | Leeloo The First | https://www.pexels.com/photo/question-marks-on-paper-crafts-5428836/ |
+| images/scenes/oddoneout.jpg | Vibrant rubber ducks arrangement highlighting a unique black duck in a playful still life setup. | jonathan bonatti | https://www.pexels.com/photo/close-up-of-rubber-ducks-6273073/ |
+| images/scenes/truefalse.jpg | Small wooden chalkboard tablet with a checkmark drawn on it, suitable for concepts like success and approval. | Markus Spiske | https://www.pexels.com/photo/silver-chain-necklace-on-brown-wooden-board-369263/ |
+| images/scenes/shapes.jpg | Close-up of a colorful wooden puzzle toy, ideal for sustainable learning. | Tara Winstead | https://www.pexels.com/photo/colorful-educational-toy-on-a-wooden-surface-6692956/ |
+| images/scenes/sudoku.jpg | A calming flat lay of a Sudoku puzzle book with coffee, ideal for relaxation and focus. | Natasa  Pecanac | https://www.pexels.com/photo/three-white-paper-documents-796510/ |
+| images/scenes/solitaire.jpg | Elegant flat lay of playing cards featuring ace of hearts on a wooden surface. | Yanina | https://www.pexels.com/photo/ace-king-jack-and-king-of-hearts-playing-cards-297507/ |
+| images/scenes/klondike.jpg | Top view of combination of four aces of different suits in poker on wooden table | Joshua Miranda | https://www.pexels.com/photo/set-of-playing-cards-on-table-4385036/ |
+| images/scenes/counting.jpg | A close-up of various colorful buttons on a textured fabric surface, perfect for craft projects. | Towfiqu barbhuiya | https://www.pexels.com/photo/colorful-plastic-sewing-buttons-14569653/ |
+| images/scenes/jigsaw.jpg | Vibrant jigsaw puzzle pieces scattered on a white background in a still life composition. | DS stories | https://www.pexels.com/photo/puzzle-on-white-background-9227507/ |
+| images/scenes/unscramble.jpg | Close-up of wooden Scrabble tiles showcasing letters and numbers for word games. | Pixabay | https://www.pexels.com/photo/pile-of-scrabble-letter-pieces-278888/ |
+| images/scenes/colormatch.jpg | Close-up of a vibrant color palette with a rainbow spectrum of hues, perfect for design inspiration. | Peter Olexa | https://www.pexels.com/photo/palette-of-colors-14299950/ |
+| images/scenes/category.jpg | A vibrant assortment of fresh vegetables including corn, peppers, beans, and tomatoes. | mali maeder | https://www.pexels.com/photo/five-assorted-vegetables-on-white-surface-142520/ |
+| images/scenes/clock.jpg | Close-up of vintage red alarm clock on rustic wood surface, indoors. | Pixabay | https://www.pexels.com/photo/red-and-white-alarm-clock-displaying-9-11-280254/ |
+| images/scenes/numseq.jpg | Close-up of wooden number stacking toy promoting creativity and learning in children. |    https://kaboompics.com/ | https://www.pexels.com/photo/wooden-children-game-with-stacks-and-circles-7269670/ |
+| images/scenes/sequence.jpg | Vibrant geometric shapes arranged in a line on a blue background, perfect for educational themes. | Towfiqu barbhuiya | https://www.pexels.com/photo/toy-blocks-in-row-11200121/ |
+| images/scenes/hangman.jpg | Top view set of multicolored round chalks for drawing scattered on dark shabby surface with painted lines in modern studio | Skyler Ewing | https://www.pexels.com/photo/colored-chalks-on-dark-table-5748813/ |
+| images/jigsaw/bg0.jpg | Scenic view of palm-lined sandy pathway at a tropical beach in Porto Seguro, Brazil. | Jerson Martins | https://www.pexels.com/photo/idyllic-beach-pathway-with-palm-trees-in-brazil-34722362/ |
+| images/jigsaw/bg1.jpg | A serene mountain lake reflecting blue skies and lush greenery, perfect for nature lovers. | gang liang | https://www.pexels.com/photo/scenic-mountain-lake-with-clear-reflections-36103492/ |
+| images/jigsaw/bg2.jpg | Colorful tulip field in bloom, showcasing vibrant spring hues and floral beauty. | Thomas Reeve | https://www.pexels.com/photo/vibrant-tulip-field-in-full-bloom-during-spring-37275261/ |
+| images/jigsaw/bg3.jpg | Vibrant hot air balloons soaring over trees in a clear summer sky. | Manuel Torres Garcia | https://www.pexels.com/photo/european-balloon-festival-en-igualada-27377785/ |
+| images/jigsaw/bg4.jpg | Peaceful park pathway framed by vibrant autumn leaves and warm sunbeams. | Dawid Zawiła | https://www.pexels.com/photo/serene-autumn-pathway-in-sunlit-forest-39704455/ |
+| images/jigsaw/bg5.jpg | Vibrant row of colorful houses in Burano, Italy, captured in bright daylight, showcasing unique architecture. | Helena Jankovičová Kováčová | https://www.pexels.com/photo/colorful-burano-houses-in-bright-daylight-39551419/ |
+| images/safari/cheetah.jpg | Intense gaze of a wild cheetah in natural habitat, showcasing its elegant features. | Piet Bakker | https://www.pexels.com/photo/adult-cheetah-88234/ |
+| images/safari/crocodile.jpg | Two crocodiles resting closely on sandy ground, showcasing their rough textured skin and open mouth. | Huibre Venter | https://www.pexels.com/photo/crocodiles-lying-on-the-ground-6407978/ |
+| images/safari/eagle.jpg | Detailed close-up of a bald eagle showcasing its striking yellow beak and piercing eyes. | Petr Ganaj | https://www.pexels.com/photo/white-and-brown-eagle-in-close-up-photography-4032039/ |
+| images/safari/elephant.jpg | Detailed close-up of an African elephant's face, showcasing its texture and expression. | Petr Ganaj | https://www.pexels.com/photo/close-up-of-elephant-head-4087147/ |
+| images/safari/flamingo.jpg | Close-up shot of a vibrant flamingo showcasing its striking orange plumage in natural lighting. | Daniel Lengies | https://www.pexels.com/photo/close-up-of-flamingo-17992964/ |
+| images/safari/giraffe.jpg | A giraffe gazes into the camera in the wild setting of Kruger National Park, South Africa. | Laura Alessia | https://www.pexels.com/photo/close-up-of-giraffe-in-the-savanna-15366079/ |
+| images/safari/lion.jpg | Close-up of a majestic lion resting in lush greenery offering a look into wildlife. | Regan Dsouza | https://www.pexels.com/photo/majestic-lion-resting-in-natural-habitat-33828273/ |
+| images/safari/monkey.jpg | Close-up of a Barbary macaque in Bouzegza Keddara, showcasing its natural habitat and expressive face. | Karim Tab | https://www.pexels.com/photo/cute-macaque-monkey-18325153/ |
+| images/safari/parrot.jpg | Vibrant macaws perched on a branch showcase tropical wildlife beauty. | Milan Kiro | https://www.pexels.com/photo/two-red-and-green-ara-macaws-on-a-branch-26341114/ |
+| images/safari/rhino.jpg | A rhinoceros grazing in an open grassy field surrounded by lush greenery. | Kyama Kilonzo | https://www.pexels.com/photo/close-up-of-rhinoceros-in-natural-habitat-29506188/ |
+| images/safari/savanna.jpg | A lone tree stands in a grassy field under a clear blue sky, capturing the beauty of rural nature. | Donovan Patrick | https://www.pexels.com/photo/green-tree-on-brown-grass-field-9939394/ |
+| images/safari/turtle.jpg | Detailed close-up image of a tortoise on sandy ground, showcasing its shell and texture. | Sami  Aksu | https://www.pexels.com/photo/brown-and-black-greek-tortoise-on-gray-sand-11169769/ |
+| images/safari/zebra.jpg | Detailed side profile of a zebra in Nairobi, showcasing distinctive black and white stripes. | Mr Sketch | https://www.pexels.com/photo/close-up-of-a-zebra-in-nairobi-s-wildlife-33382567/ |
+
+## Picture and icon sources (2026-10-09, round 3)
+
+Every photo is from Pexels (free licence, attribution not required but given on credits.html). Each was cropped and resized here; the Pexels page is the source. Icons: Lucide 1.48.0, ISC (images/icons/lucide/, built into js/lucide-icons.js by tools/build_icons.py).
+
+| File | What it shows | Photographer | Source |
+|---|---|---|---|
+| images/scenes/category.jpg | A vibrant assortment of fresh vegetables including corn, peppers, beans, and tomatoes. | mali maeder | https://www.pexels.com/photo/five-assorted-vegetables-on-white-surface-142520/ |
+| images/scenes/klondike.jpg | Top view of combination of four aces of different suits in poker on wooden table | Joshua Miranda | https://www.pexels.com/photo/set-of-playing-cards-on-table-4385036/ |
+| images/scenes/clock.jpg | Close-up of vintage red alarm clock on rustic wood surface, indoors. | Pixabay | https://www.pexels.com/photo/red-and-white-alarm-clock-displaying-9-11-280254/ |
+| images/scenes/colormatch.jpg | Close-up of a vibrant color palette with a rainbow spectrum of hues, perfect for design inspiration. | Peter Olexa | https://www.pexels.com/photo/palette-of-colors-14299950/ |
+| images/scenes/sequence.jpg | Vibrant geometric shapes arranged in a line on a blue background, perfect for educational themes. | Towfiqu barbhuiya | https://www.pexels.com/photo/toy-blocks-in-row-11200121/ |
+| images/scenes/proverbs.jpg | Open vintage book with eyeglasses resting on a wooden surface, evoking a sense of nostalgia. | Melike  B | https://www.pexels.com/photo/a-black-framed-eyeglasses-on-book-page-12009574/ |
+| images/scenes/sudoku.jpg | A calming flat lay of a Sudoku puzzle book with coffee, ideal for relaxation and focus. | Natasa  Pecanac | https://www.pexels.com/photo/three-white-paper-documents-796510/ |
+| images/scenes/blocks.jpg | Arrangement of blue and green wooden blocks on a marble surface, creating a playful geometric pattern. | Magda Ehlers | https://www.pexels.com/photo/colorful-wooden-blocks-on-marble-surface-34817526/ |
+| images/scenes/flags.jpg | International flags waving against a clear blue sky in Doha, Qatar, symbolizing unity and diversity. | Bhabin Tamang | https://www.pexels.com/photo/low-angle-shot-of-flags-on-the-background-of-a-clear-blue-sky-14676984/ |
+| images/scenes/hangman.jpg | Top view set of multicolored round chalks for drawing scattered on dark shabby surface with painted lines in modern studio | Skyler Ewing | https://www.pexels.com/photo/colored-chalks-on-dark-table-5748813/ |
+| images/scenes/jigsaw.jpg | Vibrant jigsaw puzzle pieces scattered on a white background in a still life composition. | DS stories | https://www.pexels.com/photo/puzzle-on-white-background-9227507/ |
+| images/scenes/memory.jpg | Close-up of wooden domino tiles arranged on a table, showcasing a strategy board game. | Arturo A | https://www.pexels.com/photo/wooden-domino-tiles-arranged-on-table-38977737/ |
+| images/scenes/letters.jpg | Scrabble letter tiles arranged into the alphabet on a white background. | DS stories | https://www.pexels.com/photo/alphabet-made-of-scrabble-letters-6005118/ |
+| images/scenes/digitspan.jpg | Bright plastic numbers on a blue background with ample copy space, ideal for educational themes. |    https://kaboompics.com/ | https://www.pexels.com/photo/plastic-numbers-to-learn-from-for-kids-5412226/ |
+| images/scenes/numseq.jpg | Close-up of wooden number stacking toy promoting creativity and learning in children. |    https://kaboompics.com/ | https://www.pexels.com/photo/wooden-children-game-with-stacks-and-circles-7269670/ |
+| images/scenes/oddoneout.jpg | Vibrant rubber ducks arrangement highlighting a unique black duck in a playful still life setup. | jonathan bonatti | https://www.pexels.com/photo/close-up-of-rubber-ducks-6273073/ |
+| images/scenes/pairs.jpg | Two elegant floral teacups on a richly patterned tablecloth, creating a cozy, inviting atmosphere. | Feyza Daştan | https://www.pexels.com/photo/two-coffee-cups-on-a-table-15804090/ |
+| images/scenes/recall.jpg | A collection of Polaroid photos creatively arranged on a modern table. | Erik Mclean | https://www.pexels.com/photo/photo-of-polaroids-on-a-white-surface-8266758/ |
+| images/scenes/solitaire.jpg | Elegant flat lay of playing cards featuring ace of hearts on a wooden surface. | Yanina | https://www.pexels.com/photo/ace-king-jack-and-king-of-hearts-playing-cards-297507/ |
+| images/scenes/counting.jpg | A close-up of various colorful buttons on a textured fabric surface, perfect for craft projects. | Towfiqu barbhuiya | https://www.pexels.com/photo/colorful-plastic-sewing-buttons-14569653/ |
+| images/scenes/math.jpg | Set of red dice stacked together on wooden table placed on sunny terrace in daylight | Matthias Groeneveld | https://www.pexels.com/photo/red-dice-stacked-on-table-on-terrace-4200740/ |
+| images/scenes/shapes.jpg | Close-up of a colorful wooden puzzle toy, ideal for sustainable learning. | Tara Winstead | https://www.pexels.com/photo/colorful-educational-toy-on-a-wooden-surface-6692956/ |
+| images/scenes/trivia.jpg | Four paper cutouts of question marks in beige and white on a brown surface, symbolizing inquiry and curiosity. | Leeloo The First | https://www.pexels.com/photo/question-marks-on-paper-crafts-5428836/ |
+| images/scenes/truefalse.jpg | Small wooden chalkboard tablet with a checkmark drawn on it, suitable for concepts like success and approval. | Markus Spiske | https://www.pexels.com/photo/silver-chain-necklace-on-brown-wooden-board-369263/ |
+| images/scenes/wordsearch.jpg | Vintage quill pen with magnifying glass on rustic wooden surface. Perfect for retro-themed designs. | Towfiqu barbhuiya | https://www.pexels.com/photo/magnifier-and-a-quill-pen-on-an-empty-paper-sheet-14438833/ |
+| images/scenes/unscramble.jpg | Close-up of wooden Scrabble tiles showcasing letters and numbers for word games. | Pixabay | https://www.pexels.com/photo/pile-of-scrabble-letter-pieces-278888/ |
+| images/scenes/lifesim.jpg | Nostalgic black and white prints with vintage camera and negatives evoke a bygone era. | Yulia Ilina | https://www.pexels.com/photo/close-up-shot-of-vintage-photos-9066554/ |
+| images/scenes/safari.jpg | A majestic African elephant with calf in the wild, showcasing native wildlife beauty. | DHRUV AMIN | https://www.pexels.com/photo/a-baby-elephant-behind-a-mama-elephant-on-brown-grass-field-7715568/ |
+| images/jigsaw/bg0.jpg | Scenic view of palm-lined sandy pathway at a tropical beach in Porto Seguro, Brazil. | Jerson Martins | https://www.pexels.com/photo/idyllic-beach-pathway-with-palm-trees-in-brazil-34722362/ |
+| images/jigsaw/bg1.jpg | A serene mountain lake reflecting blue skies and lush greenery, perfect for nature lovers. | gang liang | https://www.pexels.com/photo/scenic-mountain-lake-with-clear-reflections-36103492/ |
+| images/jigsaw/bg2.jpg | Colorful tulip field in bloom, showcasing vibrant spring hues and floral beauty. | Thomas Reeve | https://www.pexels.com/photo/vibrant-tulip-field-in-full-bloom-during-spring-37275261/ |
+| images/jigsaw/bg3.jpg | Vibrant hot air balloons soaring over trees in a clear summer sky. | Manuel Torres Garcia | https://www.pexels.com/photo/european-balloon-festival-en-igualada-27377785/ |
+| images/jigsaw/bg4.jpg | Peaceful park pathway framed by vibrant autumn leaves and warm sunbeams. | Dawid Zawiła | https://www.pexels.com/photo/serene-autumn-pathway-in-sunlit-forest-39704455/ |
+| images/jigsaw/bg5.jpg | Vibrant row of colorful houses in Burano, Italy, captured in bright daylight, showcasing unique architecture. | Helena Jankovičová Kováčová | https://www.pexels.com/photo/colorful-burano-houses-in-bright-daylight-39551419/ |
+| images/safari/cheetah.jpg | Intense gaze of a wild cheetah in natural habitat, showcasing its elegant features. | Piet Bakker | https://www.pexels.com/photo/adult-cheetah-88234/ |
+| images/safari/crocodile.jpg | Two crocodiles resting closely on sandy ground, showcasing their rough textured skin and open mouth. | Huibre Venter | https://www.pexels.com/photo/crocodiles-lying-on-the-ground-6407978/ |
+| images/safari/eagle.jpg | Detailed close-up of a bald eagle showcasing its striking yellow beak and piercing eyes. | Petr Ganaj | https://www.pexels.com/photo/white-and-brown-eagle-in-close-up-photography-4032039/ |
+| images/safari/elephant.jpg | Detailed close-up of an African elephant's face, showcasing its texture and expression. | Petr Ganaj | https://www.pexels.com/photo/close-up-of-elephant-head-4087147/ |
+| images/safari/flamingo.jpg | Close-up shot of a vibrant flamingo showcasing its striking orange plumage in natural lighting. | Daniel Lengies | https://www.pexels.com/photo/close-up-of-flamingo-17992964/ |
+| images/safari/giraffe.jpg | A giraffe gazes into the camera in the wild setting of Kruger National Park, South Africa. | Laura Alessia | https://www.pexels.com/photo/close-up-of-giraffe-in-the-savanna-15366079/ |
+| images/safari/lion.jpg | Close-up of a majestic lion resting in lush greenery offering a look into wildlife. | Regan Dsouza | https://www.pexels.com/photo/majestic-lion-resting-in-natural-habitat-33828273/ |
+| images/safari/monkey.jpg | Close-up of a Barbary macaque in Bouzegza Keddara, showcasing its natural habitat and expressive face. | Karim Tab | https://www.pexels.com/photo/cute-macaque-monkey-18325153/ |
+| images/safari/parrot.jpg | Vibrant macaws perched on a branch showcase tropical wildlife beauty. | Milan Kiro | https://www.pexels.com/photo/two-red-and-green-ara-macaws-on-a-branch-26341114/ |
+| images/safari/rhino.jpg | A rhinoceros grazing in an open grassy field surrounded by lush greenery. | Kyama Kilonzo | https://www.pexels.com/photo/close-up-of-rhinoceros-in-natural-habitat-29506188/ |
+| images/safari/savanna.jpg | A lone tree stands in a grassy field under a clear blue sky, capturing the beauty of rural nature. | Donovan Patrick | https://www.pexels.com/photo/green-tree-on-brown-grass-field-9939394/ |
+| images/safari/turtle.jpg | Detailed close-up image of a tortoise on sandy ground, showcasing its shell and texture. | Sami  Aksu | https://www.pexels.com/photo/brown-and-black-greek-tortoise-on-gray-sand-11169769/ |
+| images/safari/zebra.jpg | Detailed side profile of a zebra in Nairobi, showcasing distinctive black and white stripes. | Mr Sketch | https://www.pexels.com/photo/close-up-of-a-zebra-in-nairobi-s-wildlife-33382567/ |
+
+## Picture and icon sources (2026-10-09, round 3)
+
+Every photo is from Pexels (free licence, attribution not required but given on credits.html). Each was cropped and resized here; the Pexels page is the source. Icons: Lucide 1.48.0, ISC (images/icons/lucide/, built into js/lucide-icons.js by tools/build_icons.py).
+
+| File | What it shows | Photographer | Source |
+|---|---|---|---|
+| images/scenes/category.jpg | A vibrant assortment of fresh vegetables including corn, peppers, beans, and tomatoes. | mali maeder | https://www.pexels.com/photo/five-assorted-vegetables-on-white-surface-142520/ |
+| images/scenes/klondike.jpg | Top view of combination of four aces of different suits in poker on wooden table | Joshua Miranda | https://www.pexels.com/photo/set-of-playing-cards-on-table-4385036/ |
+| images/scenes/clock.jpg | Close-up of vintage red alarm clock on rustic wood surface, indoors. | Pixabay | https://www.pexels.com/photo/red-and-white-alarm-clock-displaying-9-11-280254/ |
+| images/scenes/colormatch.jpg | Close-up of a vibrant color palette with a rainbow spectrum of hues, perfect for design inspiration. | Peter Olexa | https://www.pexels.com/photo/palette-of-colors-14299950/ |
+| images/scenes/sequence.jpg | Vibrant geometric shapes arranged in a line on a blue background, perfect for educational themes. | Towfiqu barbhuiya | https://www.pexels.com/photo/toy-blocks-in-row-11200121/ |
+| images/scenes/proverbs.jpg | Open vintage book with eyeglasses resting on a wooden surface, evoking a sense of nostalgia. | Melike  B | https://www.pexels.com/photo/a-black-framed-eyeglasses-on-book-page-12009574/ |
+| images/scenes/sudoku.jpg | A calming flat lay of a Sudoku puzzle book with coffee, ideal for relaxation and focus. | Natasa  Pecanac | https://www.pexels.com/photo/three-white-paper-documents-796510/ |
+| images/scenes/blocks.jpg | Arrangement of blue and green wooden blocks on a marble surface, creating a playful geometric pattern. | Magda Ehlers | https://www.pexels.com/photo/colorful-wooden-blocks-on-marble-surface-34817526/ |
+| images/scenes/flags.jpg | International flags waving against a clear blue sky in Doha, Qatar, symbolizing unity and diversity. | Bhabin Tamang | https://www.pexels.com/photo/low-angle-shot-of-flags-on-the-background-of-a-clear-blue-sky-14676984/ |
+| images/scenes/hangman.jpg | Top view set of multicolored round chalks for drawing scattered on dark shabby surface with painted lines in modern studio | Skyler Ewing | https://www.pexels.com/photo/colored-chalks-on-dark-table-5748813/ |
+| images/scenes/jigsaw.jpg | Vibrant jigsaw puzzle pieces scattered on a white background in a still life composition. | DS stories | https://www.pexels.com/photo/puzzle-on-white-background-9227507/ |
+| images/scenes/safari.jpg | A majestic African elephant with calf in the wild, showcasing native wildlife beauty. | DHRUV AMIN | https://www.pexels.com/photo/a-baby-elephant-behind-a-mama-elephant-on-brown-grass-field-7715568/ |
+| images/scenes/memory.jpg | Close-up of wooden domino tiles arranged on a table, showcasing a strategy board game. | Arturo A | https://www.pexels.com/photo/wooden-domino-tiles-arranged-on-table-38977737/ |
+| images/scenes/letters.jpg | Scrabble letter tiles arranged into the alphabet on a white background. | DS stories | https://www.pexels.com/photo/alphabet-made-of-scrabble-letters-6005118/ |
+| images/scenes/digitspan.jpg | Bright plastic numbers on a blue background with ample copy space, ideal for educational themes. |    https://kaboompics.com/ | https://www.pexels.com/photo/plastic-numbers-to-learn-from-for-kids-5412226/ |
+| images/scenes/numseq.jpg | Close-up of wooden number stacking toy promoting creativity and learning in children. |    https://kaboompics.com/ | https://www.pexels.com/photo/wooden-children-game-with-stacks-and-circles-7269670/ |
+| images/scenes/oddoneout.jpg | Vibrant rubber ducks arrangement highlighting a unique black duck in a playful still life setup. | jonathan bonatti | https://www.pexels.com/photo/close-up-of-rubber-ducks-6273073/ |
+| images/scenes/pairs.jpg | Two elegant floral teacups on a richly patterned tablecloth, creating a cozy, inviting atmosphere. | Feyza Daştan | https://www.pexels.com/photo/two-coffee-cups-on-a-table-15804090/ |
+| images/scenes/recall.jpg | A collection of Polaroid photos creatively arranged on a modern table. | Erik Mclean | https://www.pexels.com/photo/photo-of-polaroids-on-a-white-surface-8266758/ |
+| images/scenes/solitaire.jpg | Elegant flat lay of playing cards featuring ace of hearts on a wooden surface. | Yanina | https://www.pexels.com/photo/ace-king-jack-and-king-of-hearts-playing-cards-297507/ |
+| images/scenes/counting.jpg | A close-up of various colorful buttons on a textured fabric surface, perfect for craft projects. | Towfiqu barbhuiya | https://www.pexels.com/photo/colorful-plastic-sewing-buttons-14569653/ |
+| images/scenes/math.jpg | Set of red dice stacked together on wooden table placed on sunny terrace in daylight | Matthias Groeneveld | https://www.pexels.com/photo/red-dice-stacked-on-table-on-terrace-4200740/ |
+| images/scenes/shapes.jpg | Close-up of a colorful wooden puzzle toy, ideal for sustainable learning. | Tara Winstead | https://www.pexels.com/photo/colorful-educational-toy-on-a-wooden-surface-6692956/ |
+| images/scenes/lifesim.jpg | Nostalgic black and white prints with vintage camera and negatives evoke a bygone era. | Yulia Ilina | https://www.pexels.com/photo/close-up-shot-of-vintage-photos-9066554/ |
+| images/scenes/trivia.jpg | Four paper cutouts of question marks in beige and white on a brown surface, symbolizing inquiry and curiosity. | Leeloo The First | https://www.pexels.com/photo/question-marks-on-paper-crafts-5428836/ |
+| images/scenes/truefalse.jpg | Small wooden chalkboard tablet with a checkmark drawn on it, suitable for concepts like success and approval. | Markus Spiske | https://www.pexels.com/photo/silver-chain-necklace-on-brown-wooden-board-369263/ |
+| images/scenes/wordsearch.jpg | Vintage quill pen with magnifying glass on rustic wooden surface. Perfect for retro-themed designs. | Towfiqu barbhuiya | https://www.pexels.com/photo/magnifier-and-a-quill-pen-on-an-empty-paper-sheet-14438833/ |
+| images/scenes/unscramble.jpg | Close-up of wooden Scrabble tiles showcasing letters and numbers for word games. | Pixabay | https://www.pexels.com/photo/pile-of-scrabble-letter-pieces-278888/ |
+| images/jigsaw/bg0.jpg | Scenic view of palm-lined sandy pathway at a tropical beach in Porto Seguro, Brazil. | Jerson Martins | https://www.pexels.com/photo/idyllic-beach-pathway-with-palm-trees-in-brazil-34722362/ |
+| images/jigsaw/bg1.jpg | A serene mountain lake reflecting blue skies and lush greenery, perfect for nature lovers. | gang liang | https://www.pexels.com/photo/scenic-mountain-lake-with-clear-reflections-36103492/ |
+| images/jigsaw/bg2.jpg | Colorful tulip field in bloom, showcasing vibrant spring hues and floral beauty. | Thomas Reeve | https://www.pexels.com/photo/vibrant-tulip-field-in-full-bloom-during-spring-37275261/ |
+| images/jigsaw/bg3.jpg | Vibrant hot air balloons soaring over trees in a clear summer sky. | Manuel Torres Garcia | https://www.pexels.com/photo/european-balloon-festival-en-igualada-27377785/ |
+| images/jigsaw/bg4.jpg | Peaceful park pathway framed by vibrant autumn leaves and warm sunbeams. | Dawid Zawiła | https://www.pexels.com/photo/serene-autumn-pathway-in-sunlit-forest-39704455/ |
+| images/jigsaw/bg5.jpg | Vibrant row of colorful houses in Burano, Italy, captured in bright daylight, showcasing unique architecture. | Helena Jankovičová Kováčová | https://www.pexels.com/photo/colorful-burano-houses-in-bright-daylight-39551419/ |
+| images/safari/cheetah.jpg | Intense gaze of a wild cheetah in natural habitat, showcasing its elegant features. | Piet Bakker | https://www.pexels.com/photo/adult-cheetah-88234/ |
+| images/safari/crocodile.jpg | Two crocodiles resting closely on sandy ground, showcasing their rough textured skin and open mouth. | Huibre Venter | https://www.pexels.com/photo/crocodiles-lying-on-the-ground-6407978/ |
+| images/safari/eagle.jpg | Detailed close-up of a bald eagle showcasing its striking yellow beak and piercing eyes. | Petr Ganaj | https://www.pexels.com/photo/white-and-brown-eagle-in-close-up-photography-4032039/ |
+| images/safari/elephant.jpg | Detailed close-up of an African elephant's face, showcasing its texture and expression. | Petr Ganaj | https://www.pexels.com/photo/close-up-of-elephant-head-4087147/ |
+| images/safari/flamingo.jpg | Close-up shot of a vibrant flamingo showcasing its striking orange plumage in natural lighting. | Daniel Lengies | https://www.pexels.com/photo/close-up-of-flamingo-17992964/ |
+| images/safari/giraffe.jpg | A giraffe gazes into the camera in the wild setting of Kruger National Park, South Africa. | Laura Alessia | https://www.pexels.com/photo/close-up-of-giraffe-in-the-savanna-15366079/ |
+| images/safari/lion.jpg | Close-up of a majestic lion resting in lush greenery offering a look into wildlife. | Regan Dsouza | https://www.pexels.com/photo/majestic-lion-resting-in-natural-habitat-33828273/ |
+| images/safari/monkey.jpg | Close-up of a Barbary macaque in Bouzegza Keddara, showcasing its natural habitat and expressive face. | Karim Tab | https://www.pexels.com/photo/cute-macaque-monkey-18325153/ |
+| images/safari/parrot.jpg | Vibrant macaws perched on a branch showcase tropical wildlife beauty. | Milan Kiro | https://www.pexels.com/photo/two-red-and-green-ara-macaws-on-a-branch-26341114/ |
+| images/safari/rhino.jpg | A rhinoceros grazing in an open grassy field surrounded by lush greenery. | Kyama Kilonzo | https://www.pexels.com/photo/close-up-of-rhinoceros-in-natural-habitat-29506188/ |
+| images/safari/savanna.jpg | A lone tree stands in a grassy field under a clear blue sky, capturing the beauty of rural nature. | Donovan Patrick | https://www.pexels.com/photo/green-tree-on-brown-grass-field-9939394/ |
+| images/safari/turtle.jpg | Detailed close-up image of a tortoise on sandy ground, showcasing its shell and texture. | Sami  Aksu | https://www.pexels.com/photo/brown-and-black-greek-tortoise-on-gray-sand-11169769/ |
+| images/safari/zebra.jpg | Detailed side profile of a zebra in Nairobi, showcasing distinctive black and white stripes. | Mr Sketch | https://www.pexels.com/photo/close-up-of-a-zebra-in-nairobi-s-wildlife-33382567/ |
+
+
+## 2026-10-10
+- `images/cards/<id>.jpg` are now **screenshots of the games themselves** (made by `tools/preview/card-shots.js`), not photos.
+- The Pexels photos that were the cards moved to `images/scenes/<id>.jpg`: they are the picture at the top of each game (credited on credits.html).
+- `images/scenes/lifesim.jpg` (old family prints with people's faces) was removed: no stock photos of people. Time Journey's header has no photo.

@@ -61,6 +61,9 @@ const Categories = (() => {
     safari:     ['perception', 'attention'],
   };
 
+  // games added from 2026-10 (tools/new_games.json)
+  (window.NEW_GAMES || []).forEach((g) => { MAP[g.id] = g.skills; });
+
   // ── Why each game is worth playing ────────────────────────────────────────
   // One line per game, saying what it actually asks your brain to do.
   //
@@ -91,11 +94,11 @@ const Categories = (() => {
       recall:'Look, then reproduce — short-term visual memory, directly.',
       blocks:'Rotating shapes to fit is mental rotation plus planning ahead.',
       klondike:'Holding several possible moves in mind and choosing an order.',
-      colormatch:'Naming the colour and not the word trains resisting the obvious answer.',
+      colormatch:'Naming the color and not the word trains resisting the obvious answer.',
       digitspan:'Measures and stretches your working-memory span for numbers.',
       clock:'Reading a dial turns a position into a number.',
       counting:'Counting quickly and accurately under time pressure.',
-      category:'Sorting things into groups is how meaning is organised.',
+      category:'Sorting things into groups is how meaning is organized.',
       letters:'Finding the missing letter uses spelling and the shape of the word.',
       lifesim:'Putting steps into a sensible order is everyday planning.',
       safari:'Searching a busy scene for a target trains focused attention.',
@@ -246,6 +249,7 @@ const Categories = (() => {
       safari:'Η αναζήτηση στόχου σε γεμάτη σκηνή εξασκεί την προσοχή.',
     },
   };
+  (window.NEW_GAMES || []).forEach((g) => { WHY.en[g.id] = g.why; });
 
   function whyFor(gameId) {
     const lang = (typeof currentLang !== 'undefined') ? currentLang : 'he';
@@ -283,7 +287,7 @@ const Categories = (() => {
   // Inject skill badges into all game cards on the home screen
   function injectAllBadges() {
     Object.keys(MAP).forEach(id => {
-      const card = document.querySelector(`[onclick="loadGame('${id}')"]`);
+      const card = document.querySelector(`.premium-card[onclick="loadGame('${id}')"]`);   // a card, not the hub's Continue / favorite buttons
       if (!card) return;
       let badgeRow = card.querySelector('.skill-badges');
       if (!badgeRow) {
@@ -307,7 +311,8 @@ const Categories = (() => {
         badgeRow.parentNode.insertBefore(whyRow, badgeRow.nextSibling);
       }
       const why = whyFor(id);
-      whyRow.textContent = why ? '🧠 ' + why : '';
+      whyRow.textContent = why || '';
+      if (why && typeof Icon !== 'undefined') whyRow.insertAdjacentHTML('afterbegin', Icon.ui('brain', {cls: 'lc-ui lc-why'}) + ' ');
       whyRow.style.display = why ? '' : 'none';
     });
   }

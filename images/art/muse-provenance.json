@@ -1,0 +1,26 @@
+{
+  "original_result": "1a19c53938b6d4d3",
+  "transfer_result": "1a19c985fd958397",
+  "transfer_rfc": "<CAAZJ6hvEBDX20Fie2X6AvAHRdHm+uEmuY7mX-EmDSh9-HXt+fg@mail.gmail.com>",
+  "assets": [
+    {
+      "file": "card-back.webp",
+      "source_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/814091896_1119832144023438_7184078741261611709_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=106&_nc_ohc=AxTXWsebf34Q7kNvwF_vgz3&sdl=0&ccb=14-4&oh=00_AQRAYP9qzBTf6Rlgqe8DnAXujXrwOTW8dnjVsRFy69H4XA&oe=6AEA6B65&_nc_sid=a21977",
+      "bytes": 1052000,
+      "sha256": "2f9d4ebd316f89586157f0db3c97e6dc1373ab3df3c2b683b0647debd0c11a4e"
+    },
+    {
+      "file": "queen-spades.webp",
+      "source_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/814092885_1851182139640561_5247087740526681915_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=101&_nc_ohc=OY-RSfkQtBcQ7kNvwGsuyIL&sdl=0&ccb=14-4&oh=00_AQTRplh0tCRhxnMdyGhrdaeIfqoV8gkQ_OMgvuWuJ1XQ_A&oe=6AEA7D6C&_nc_sid=a21977",
+      "bytes": 827770,
+      "sha256": "bbf7716bae39cceb0da5153b44dff22cfbc2e739c30c03b59353f67c040f7d54"
+    },
+    {
+      "file": "crossword-scene.webp",
+      "source_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/814294197_2397105184373881_7946151861343944144_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=101&_nc_ohc=YQHm8Tlmlv0Q7kNvwGVpLQC&sdl=0&ccb=14-4&oh=00_AQS15z0Jnz6kzZ8jri1dmPKrS8tpc2XQlTHnx5kq14uhlA&oe=6AEA5F43&_nc_sid=a21977",
+      "bytes": 430414,
+      "sha256": "412da2144c992ccad7c87f33ab3da049f76f6d788da78c64e74a89a5de78e2d7"
+    }
+  ],
+  "caveat": "Muse claims original built-in generations, no added cost. No independent legal clearance. Download URLs verified as intended actual images16:39Israel Nov2, may expire."
+}

@@ -92,6 +92,238 @@ stale copy). Review notes: `cat /opt/brainplay-preview/notes/notes.json`.
 e2e: `node tools/preview/e2e-suite.js <dir with node_modules/playwright>` on the preview branch - **79/79**
 (28 games x 390 light + 1440 dark, 6 languages, nothing lost vs live, ads never mid-game, toggle, links, contrast,
 review tool). Playwright now runs on Or's PC again (it hung on 2026-10-06).
+## 2026-10-12 (f) / 2026-10-10 (d) - games project, per-wave status (preview only; main untouched) - RESUME HERE
+
+Or's full plan arrived complete this time (waves 3/4 included): Wave 0 = 9 review fixes, then 36 games in 4 waves of 9.
+Wave 3 list (final): Finish the Lyric, Who Sang It, Movie Quote Quiz (60s-80s), TV Trivia (60s-80s), Name That Year,
+Famous Faces, Vintage Brands and Ads, Then vs Now prices, States & Capitals. Wave 4 (final): Space Invaders-style,
+Asteroids-style, Pong, Breakout, Frogger-style, Duck Hunt-style gallery, Missile Command-style, Snake, Whack-a-Mole.
+The 8 wave-1 games committed earlier (f4a39a1) match Or's wave-1 list exactly and were kept (not "partial work").
+
+**Wave 0 - DONE (9/9).** Items 1-5, 8, 9 in c4bc8cc (see (c) below); this round:
+- #6 Trivia: 205 American questions, 1950s-1980s x TV / music / movies / everyday life / sports / history, each with a
+  one-line explanation shown after the answer (Next button, no auto-advance), decade + topic picker, repeat avoidance
+  (localStorage `gg_qk_seen_<id>`: no question repeats until the chosen mix is used up; the next round never repeats
+  the last one). Easy = levels 1-2 of the same adult questions (best-known first), hard = levels 2-3. Hebrew keeps its
+  old general pool. Engine: **QuizKit** in js/game-kit.js (shared by trivia and all wave-3 quizzes).
+- #7 American English (practise/ageing/favourites/colour/organised -> US) and nostalgia tone: "{n} Classic Games",
+  "Pick a game and play at your own pace", Play buttons, "Tap" instead of "Click", hero mark = the record logo (was a
+  brain), daily lines are nostalgic (the old unattributed "brain is a muscle" quotes are gone), the tip carousel now
+  has checkable "Did you know?" facts instead of health claims ("sleep improves memory by up to 40%" removed), share
+  texts, manifest, landing pages ("Why it is good for you"). The health copy stays, lower on the page.
+- Found and fixed on the way (root causes):
+  - genre chips were styled as header buttons: `#hub-nav` was a `<nav>`, and warm.css styles every `body nav button`
+    with !important -> now a div with role=navigation.
+  - in-place language switch race: the tip carousel and the ticker chose their language BEFORE their 400/500 ms fade,
+    so a rotation in flight wrote the old language back; and a switch faded the old text out slowly. Both now read the
+    language when writing, and a switch writes at once (e2e 11b).
+  - Living Safari at 320 px: animals were placed by `left:x%` with an 80 px sprite, so at x=90% they hung 20 px off
+    the right edge -> `left: calc((100% - size) * t)`.
+  - play-all "recall" timeout at 1280: the driver's `text=Check` matched the hidden "Checkers" card (wave 1) -> all
+    driver text selectors are scoped to #gameContent. Not a game bug.
+  - ticker said "28 familiar games" (hard-coded) -> real count.
+- Tests added: e2e **11b** (whole page after an in-place he->en switch at 390 px: hub incl. welcome card, a game, its
+  end screen - no Hebrew left, URL ?lang=en), e2e **12** (every game, after its own Start button, at 320/390/430 px
+  and 390 RTL: nothing wider than the screen; arcade `.ak-stage` + `.ak-controls` must fit the screen height),
+  play-all QuizKit driver (explanation after every answer, double-tap scores once, no repeats in the next round).
+- Checks (local server, tree of this commit + Hearts): e2e **103/104** (the 1 = "review toolbar present", which only
+  exists on the VPS preview build); play-all **37/37 at 390** and **37/37 at 1280** (recall re-run after the selector fix).
+
+**Wave 1 - DONE (9/9).** FreeCell, Spider (1 suit), Checkers, Backgammon, Dominoes, Crazy Eights, Gin Rummy, Go Fish
+(f4a39a1) + **Hearts** (this commit): one hand vs 3 computer players, pass 3 cards (left/right/across/keep by level),
+2♣ leads, follow suit, no points on trick 1, hearts must be broken, shoot the moon; lowest (or tied lowest) score
+passes. Gold dashed = playable now, blue = the cards you were passed; an illegal card says why. play-all driver plays a
+full hand (pass cap at 3, illegal card refused, points add up to 26).
+
+**Pre-wave-2 fixes - DONE (1363259, on the preview):** About page count comes from the build
+(`<!-- gen:game-count -->`, written by build_new_games.py: 37 then, 46 now); ☰ menu on phones = bounded flex column, only
+the list scrolls (root cause: the panel's inline overflow:hidden beat warm.css's overflow-y:auto and the list had
+max-height none -> a 1,790 px list clipped by a 754 px panel); Quick Count = visible countdown (20/14/10 s), 100 points +
+10 per second left, time-out = a miss with the answer shown. e2e 13 / 13b added and passing.
+
+**Wave 2 - DONE (9/9), on the preview @ 3158b48 (assets v73).** Crossword, cryptoquote, word ladder, picture logic
+(nonogram), minesweeper, 2048, spot the difference (10 public-domain Margolies photos, credited on credits.html),
+15-puzzle, mastermind. Fixed during the round (root causes):
+- game boxes shrank to content inside the centred flex #gameContent (grids wider than the card were clipped:
+  minesweeper showed 7 of 9 columns at 320) -> width:100% on every wave-2 box and QuizKit; grid cells/keys got class
+  `gk-cell` so a11y.css's 48 px button minimum and premium.css's 1.1rem rounding (circles) do not apply; Word Ladder key
+  "Enter" -> "OK" (cut at 320). e2e 12 now measures against the game CARD edges (the card clips; the old screen-edge
+  check missed clipped grids).
+- emoji (site rule = Lucide only): minesweeper 💣🚩⛏ -> Lucide bomb / flag / search; mastermind peg glyphs ★●▲◆♥■ ->
+  Lucide star/circle/triangle/diamond/heart/square, feedback ●○ -> filled/outline Lucide circle (c46a2b2).
+- the stricter card-edge check caught 3 OLDER games (3158b48): Spider - GameKit.fit's 28 px card floor made 10 columns
+  wider than a 320 px card (outer two columns clipped) -> fit() takes a floor, Spider uses 20; Falling Blocks - touch pad
+  was `min(94vw,420px)` = 6 px past the card each side at 320 -> width:100%, canvas max-width 100%; Jigsaw - only the
+  invisible knob padding of the slot outline svgs (opacity 0, edge slots have flat sides) -> `data-allow-overflow`.
+- Tests run FROM THE VPS against the preview (PC short of memory): `/root/bp-tests` = `git archive` of tools/ from
+  /opt/brainplay-preview/repo.git; Playwright dir arg = `/opt/whatsapp-deals-bot` (the script appends node_modules).
+  Results: e2e **113/113** (incl. 12: 46 games x 320/390/430/390-RTL, 13 menu scroll, 13b Quick Count timeout, review
+  toolbar), play-all **46/46 at 390** and **46/46 at 1280**.
+  Gotcha: a wait loop `while pgrep -f play-all.js` matches its own bash command line -> use `pgrep -f "^node tools/..."`.
+
+**RESUME HERE: Wave 3** (only `tools/drafts/wave3/whosang.js` written, 61 songs) then Wave 4, as described below.
+## 2026-10-10 (c) - games project: wave 1 (8/9) + wave 0 (7/9) (preview only; main untouched)
+
+Or's plan (latest message): Wave 0 = 9 review fixes, then 36 games in 4 waves of 9. Waves 3/4 lists were cut off in his
+message; assumed = the earlier lists (trivia: song titles, who sang it, movie quotes, TV, name that year, famous faces,
+brands/slogans, then-vs-now prices, states & capitals; arcade: invaders, asteroids, pong, breakout, road crossing,
+gallery, snake, Simon-style (exists as Color Sequence), moles). Already on the site, not duplicated: Klondike, Sudoku,
+Hangman (Word Balloons), Jigsaw, Color Sequence (Simon).
+
+**Built so far**
+- Infrastructure: `tools/new_games.json` (registry) + `tools/build_new_games.py` (publishes a game once js/games/<id>.js
+  exists: hub section+cards, All-games list, maps, menu, i18n fallback, skills, daily challenge, SW precache);
+  `js/game-kit.js` (cards, buttons, felt, GameKit.finish -> shared end screen with game-reported result, GameKit.fit);
+  card pictures `tools/preview/card-shots.js` + `frame_shots.py`; landing pages via `tools/build_pages.py`.
+  Caddy `(notsite)` landing exemption is now `^/(he|en|es|fr|de|el)/[a-z0-9]+/$` (backup Caddyfile.bak-before-game-ids-20261010).
+- **Wave 1 (commit f4a39a1): FreeCell, Spider (1 suit), Checkers, Backgammon, Dominoes, Crazy Eights, Gin Rummy, Go Fish**
+  - each played to the end by play-all drivers (win and loss paths). **Hearts is still to do** (wave 1 = 9).
+- **Wave 0 (this commit), done:** #1/#2 Jigsaw fits 320/390/430 + RTL, readable on the ivory table; #3 in-place language
+  switch redraws hero quote, daily challenge (names now in the current language), practice score, tip, ticker, welcome
+  card, end-screen "new personal best" (key new_best), game title/instructions; URL ?lang= follows; e2e section 11;
+  #4 Color Sequence runs are tied to their state object (no TypeError after leaving mid-run); #5 hub: Continue +
+  favorites + genre chips (js/hub-nav.js, every game has a genre) on top, "Why train" moved below the games;
+  #8 Falling Blocks: viewport-height board, one control row, Start/Pause/Restart, Enter/P keys; #9 Klondike How to play
+  with rules + worked example. Also: default theme follows the system setting until the visitor picks one.
+- Root causes worth knowing: categories.js found cards by `[onclick=loadGame(id)]` and grabbed the new hub buttons
+  (now `.premium-card[...]`); changeLanguage called the ticker before `_adMsgs` existed (TDZ) which aborted the rest;
+  daily-challenge names used a selector that matched nothing (always Hebrew); vanilla-cookieconsent hides itself from
+  automated browsers (tests mask navigator.webdriver or pre-set cc_cookie).
+
+**NOT done yet - resume in this order**
+1. Wave 0 #6 Trivia expansion (50s-80s American sets: TV, music, movies, everyday objects, sports, history; decade/topic
+   picker; short explanation after each answer; repeat avoidance; verifiable facts only).
+2. Wave 0 #7 American English + nostalgia/fun tone across copy (practise->practice, ageing->aging, favourites->favorites...).
+3. Run play-all (both widths) + e2e on the preview; check the play-all 1280 failure on **recall** (click timeout,
+   seen on the wave-1 run - not yet investigated). Then report Wave 0 with the commit hash.
+4. Hearts (finishes wave 1), then wave 2: crossword (word list started: js/data/crossword-words.js, game not built),
+   cryptoquote, word ladder, nonogram, minesweeper, 2048, spot the difference (vintage PD photos), 15-puzzle,
+   mastermind - update tools/new_games.json to that list (anagrams was dropped; registry still lists it - remove).
+5. Waves 3 and 4 (arcade games also need start/pause/restart, relaxed mode, phone-fit controls, touch + keyboard).
+
+## 2026-10-10 (b) - honest end screen, Hebrew Shabbat content, privacy/about corrections (preview only; main untouched)
+
+Commits ea55a47 + 971c7cf on `preview/warm-redesign`, ASSET_V / sw CACHE 67. Not merged; the live site is still main 1e2755e.
+
+**Audience (Or, 2026-10-10):** primary audience is **American 50+**. Nostalgia references, trivia topics and photos should
+lean American; Hebrew is low priority (no effort on Hebrew-specific content). Applies to all future content work.
+
+- **A. Hebrew content:** trivia question "באיזה יום בשבוע חל שבת?" removed (it answered itself); "שבת" removed from the
+  Hebrew ws_pool. The "שישי שמח" badge left alone. (Other "שבת" substrings left: "לשבת" = sit, "שבתאי" = Saturn.)
+- **B3. End screen matches performance** (`levelComplete` in index.html): a scored session passes at **60% correct**
+  (`PASS_RATIO`). Below that: title "Nice try - want to play again?" (6 languages), body "x of n this time", a replay
+  icon, **no confetti, no win sound, no level saved, no personal best, no badges, no daily-challenge credit, no share
+  button**; the button is "Play again" at the same level. A finished session still counts as a game played for the
+  streak / "played today" (it was practice) - my call. Unscored puzzles (memory, sudoku, jigsaw, word search...) only end
+  when solved, so they always win. Falling Blocks is judged by lines cleared (0 = "Nice try"); Time Journey by
+  memories collected, same 60% bar; Color Sequence's own end screen says "Nice try" (and records no best) when the very
+  first colour was missed. Recall and Word Balloons already had their own gentle fail screens (unchanged).
+- **B4 / B5** were fixed in the previous round (6ea3705) and re-verified: a found Word Search letter can start or join a
+  new word; a matched Memory card stays opaque and shows its picture (checked by screenshot).
+- **C. privacy.html** - Or's wording for items 6-12: ads described as planned through Google AdSense (not active);
+  the AdSense advertising-cookies paragraph + a Google Ads Settings link next to the partner-sites link; local data,
+  retention, rights (GDPR list, withdrawal), "your browser sends your IP address to the server hosting BrainPlay"
+  replaces the unverifiable no-log sentence; "If you email us"; Cookie settings "on this page or in the games homepage
+  footer". Exactly **one** `[CONTACT EMAIL — to be added before launch]` (under "Who runs this site").
+- **D. about.html** - items 13-15 (funding planned, "Play at your own pace", medical disclaimer) and a working
+  **Cookie settings** link in its footer. Meta descriptions of both pages no longer repeat the old claims.
+- **Same rule applied where the old claim also lived (my call, consistency with item 6):** the hub footer in all 6
+  languages ("Free to play, no sign-up. Your progress stays in your browser on this device.") and the consent banner
+  text in all 6 languages now say ads are planned, not running, and no longer promise "never during a game".
+- Tools: `tools/preview/check-endscreen-legal.js <playwright dir> [url]` = the 24 targeted checks for this batch;
+  e2e-suite's footer check now asserts that no footer claims ads are already running.
+
+**PRE-LAUNCH BLOCKERS (Or - recorded, NOT done):**
+1. Verify the real server / log-retention facts (Caddy, Docker, hosting provider) before the site makes ANY logging claim.
+2. Confirm the consent setup meets Google's requirement of a **Google-certified CMP integrated with IAB TCF** for
+   personalised ads in the EEA / UK / Switzerland **before AdSense goes live** (vanilla-cookieconsent is not a certified CMP).
+3. Add the consent **vendor list** before the policy claims one.
+4. Replace `[CONTACT EMAIL — to be added before launch]` with the real address Or provides.
+5. Translate Privacy / About into the other 5 languages **only after Or approves the corrected English**.
+
+**Checks** (all against the deployed preview @ 971c7cf; the PC's local test servers were stopped for low memory)
+- `tools/preview/check-endscreen-legal.js`: **24/24** - trivia 0/10 -> "Nice try", no confetti, Play again, level not
+  saved, replay starts at level 1; true/false 8/8 -> "Well Done!" + Level 2 saved; 5/10 fails (Hebrew), 6/10 passes;
+  Falling Blocks 0 lines and Time Journey 0 memories -> "Nice try"; Word Search found-letter reuse; Memory matched card
+  (screenshot shows the picture); both Hebrew removals; every new privacy/about sentence present, old ones gone, one
+  contact placeholder per page, Cookie settings opens the dialog on both pages; no footer says ads already run.
+  (The banner library hides itself from automated browsers - the check masks `navigator.webdriver`.)
+- `tools/preview/play-all.js`: **28/28 at 1280 px, 28/28 at 390 px**, 0 console errors.
+- `tools/preview/e2e-suite.js`: **100/100**.
+
+## 2026-10-10 - audit fixes + design round 4 on `preview/warm-redesign` (preview only; main and the live site untouched)
+
+From the audit (`AUDIT-2026-10-10.md` on main) and Or's answers of 2026-10-10. ASSET_V / sw CACHE 66.
+Merge to main only with Or's yes. The logo and all new copy (privacy, about, headline, ticker, footer) are DRAFTS for
+Or's approval.
+
+**Game fixes** (re-checked with `tools/preview/play-all.js` at 1280 and 390 px; results at the end of this entry)
+- Falling Blocks: `window.gameState` / `window.currentLang` -> the `let` globals. Game over now opens the end screen;
+  arrow keys / Space work. No `_sessionScore` (a number made the modal read "undefined/undefined").
+- One answer per question in 14 games (`gs._locked`, reset when the next question renders): oddoneout, math, numseq,
+  trivia, truefalse, flags, proverbs, colormatch, clock, counting, category, letters, digitspan (OK key), lifesim.
+- Hangman: Greek keyboard (`_EL_KB`, `_hmKb()`); `_hmNorm` folds final letters and accents (ς->Σ, Ά->Α, É->E).
+- Picture Recall Hard: "Got them!" clears the countdown (`gs._iv`); a countdown can no longer draw into another game.
+- Number Sequence: 4th generator is a real "sum of the two before" rule (a,b,a+b,a+2b -> 2a+3b, b > a).
+- Time Journey / Living Safari cards were Hebrew on en/es/fr/de/el: `lang-content.js` now re-applies `[data-i18n]`.
+- Living Safari: animals 80 px+, the requested animal is drawn on top, a tap on the grass within one animal's width
+  counts for the nearest animal; taps after the last round are ignored.
+- Found on the way (also broken on the live site): Word Search - a word crossing an already-found word could never
+  be completed (found cells were untappable). Memory - a matched pair showed its BACK, not its picture (opacity < 1 on
+  the 3D card flattened it; `css/warm.css` keeps the card opaque).
+
+**Design**
+- Logo (draft): `images/logo.svg` - an old vinyl record whose label is a play button; cream rim so it reads on the
+  light and dark header. App icons regenerated from `images/icon.svg` (icon-192/512, apple-touch-icon). The per-language
+  header letter is gone. One brand everywhere: "BrainPlay" (site_title, footer, share texts, manifest, landing pages).
+- Card pictures = real screenshots: `images/cards/<id>.jpg` made by `tools/preview/card-shots.js` (plays each game a few
+  moves, captures the play area at 640 px) + `tools/preview/frame_shots.py` (instant-photo frame on warm paper - the
+  nostalgia is the frame, the picture is the game). Rebuild: run both, then `python tools/build_pages.py`.
+  The Pexels object photos moved to `images/scenes/<id>.jpg` and stay as the photo at the top of each game (credits
+  updated). `scenes/lifesim.jpg` (people's faces) removed: no stock photos of people; Time Journey has no header photo.
+  Hub thumbnails are 4:3 on phones too (16:9 cut half the game off).
+- Consent: vanilla-cookieconsent 3.1.0 (MIT) self-hosted in `js/vendor/cookieconsent/` (the UMD is wrapped in a function:
+  as a plain script its `var t` replaced the site's `t()` and broke every game). `js/consent.js` = 6 languages, equal
+  Accept / Reject, categories necessary + ads, Google Consent Mode v2 defaults DENIED in `<head>`; `css/consent.css`.
+  The banner hides itself from automated browsers (`hideFromBots`): tests pre-set the `cc_cookie` (both harnesses do).
+  The first-visit welcome card waits until the banner is answered. NO ad code yet - see "next".
+- Footer: "no data collection" / "no pop-ups" gone, in all 6 languages; links About · Privacy · Cookie settings.
+- `privacy.html` + `about.html` (English drafts, own URLs, linked from the hub footer and every landing page):
+  operator "BrainPlay", one marked placeholder `[CONTACT EMAIL — to be added before launch]`; no company, address or email
+  invented. Statements checked: localStorage only (sync.js has no URL), consent cookie 182 days, Google Fonts and
+  flagcdn.com named, no access log in the Caddyfile for the games sites.
+- Shabbat / Jewish-holiday banner removed everywhere (`js/holiday.js` keeps only the milestone celebration; slot, calls
+  and CSS gone). The Friday badge keeps its id but is now "Friday Fun" / "שישי שמח".
+- Hangman -> "Word Balloons" (6 languages; id and URLs still `hangman`): a bunch of balloons, one per allowed mistake;
+  a wrong letter lets one float away (reduced-motion: it just disappears).
+- Headline nostalgia-first: "The games you grew up with" (+5 languages), page title and manifest description.
+
+**My calls on the smaller audit questions (Or: "make the sensible call, record it")**
+- Ticker: every line rewritten to true, checkable statements (no "studies show", "no tracking", doctor or brain claims).
+- Shabbat banner: removed (Or). Holiday banner: removed with it - it was Jewish holidays only, the audience is international.
+- Falling Blocks kept (Or) and fixed; Word Balloons name and picture as above.
+- Privacy/About in English first; the other 5 languages once Or approves the English text.
+- 0/10 sessions still say "Well Done!" and advance a level - not changed this round (game-design decision, see next).
+
+**Not done / next**
+- AdSense: Or's answer says reuse the publisher ID from the allyfind/voyageworthy source without touching those sites -
+  not wired yet (this round's list did not include it). Slot = end-of-game screen only.
+- Translations of privacy/about; score-based end screen; self-host Google Fonts and the 20 flags (privacy page names them).
+- Logo final approval (Or).
+
+**Checks** (preview built from 6ea3705, https://games-preview.178-105-148-72.sslip.io)
+- `tools/preview/play-all.js` on the final tree (local server): **28/28 at 1280 px and 28/28 at 390 px, 0 console
+  errors**. Double-tap now advances one question; Falling Blocks reaches the end screen; Safari 6/6 taps on a phone.
+  Against the deployed preview at 390 px: 27/28 on the first pass - Trivia hit a 4 s click timeout in the driver (once,
+  not reproduced: Trivia passed on an immediate rerun and in both local passes); treat as a harness flake.
+- `tools/preview/e2e-suite.js` against the preview: **100/100**. Its expectations were updated where the change was
+  deliberate: header photo now from images/scenes (none for Time Journey), 46 credited Pexels photos (was 47), German /
+  Greek footers say "Anzeigen" / "διαφημίσεις", landing-page back link is `../../?lang=xx`, and the Shabbat contrast
+  check became "no Shabbat / holiday banner on a Saturday".
+- Visual: hub 390 light / 1440 dark with the consent banner (en, he), footer links, preferences dialog, Word Balloons,
+  Time Journey, About (390), Privacy (1440 dark), a landing page - screenshots checked by eye.
+- Live site (games.178-105-148-72.sslip.io, /opt/Elders_Ai @ main 1e2755e) not touched; it still has the Falling
+  Blocks, Word Search and Memory bugs above until the merge.
 
 ## 2026-10-07 - Server Claude ("incubator") + Telegram bridge (VPS infra, not the games site)
 

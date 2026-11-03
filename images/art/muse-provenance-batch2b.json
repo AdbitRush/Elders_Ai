@@ -1,0 +1,80 @@
+{
+  "result": {
+    "attachments": [],
+    "body_text": "[COORD-RESULT:BRAINPLAY-SITEWIDE-ART-20261102-02]\r\n\r\nRequest: BRAINPLAY-SITEWIDE-ART-20261102-02, received 2026-11-02 17:26 IST (mail date 09:26 -0600), expiry 2026-11-02 22:00 IST (not expired at handling time, ~17:31-17:50 IST). Source verification PASSED: the request item (Gmail id 1a19cde8310bfc55, to kanchristof3@gmail.com) appears in both Inbox and Sent with the same id, subject and body; ID in body matches ID in subject. No prior [COORD-RESULT] for this ID and no ledger entry existed before this run. No conflicting live request was found.\r\n\r\nRESULT: 4 new original images generated in this run, inspected visually in full, preserved locally. This is partial coverage within the 15-minute run and the 4-image per-run generation limit \u2014 that limit still applies per generation response, but it is NOT a total or daily cap. No code was edited, no integration/deployment/publishing was done, no running QA was touched, and none of the 7 earlier Muse originals (navy ornamental card back, Queen of Spades, crossword scene, word desk, blank number tiles, tabletop still life, coastal garden) was recreated. Total Muse originals now: 11. No new audience: as in run -01, the Telegram group post is skipped for this request only because this request bars new hosting/upload/public share/new audience; this bridge mail is the sole delivery.\r\n\r\nProvenance/use conditions for all 4: original Muse generation in this run, no added cost, no paid API, no purchase, no signup, no new terms. Decorative art only \u2014 never a substitute for semantically correct quiz content. No people, no real-person likenesses, no logos, no readable text, no questions/answers, no game boards, no buttons/rules/solutions, no flashing or looping effects.\r\n\r\n1) Quiz/study art \u2014 Trivia / TrueFalse / general knowledge\r\nFilename: media-generation-brainplay-quiz-study-0-014b0da0-378b-417a-a786-b86768be94a2.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/814091851_1335191571946921_8515475836861254202_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=101&_nc_ohc=bB8acvm_TasQ7kNvwGahbyi&sdl=0&ccb=14-4&oh=00_AQRYYyeU8hI1F9MmejpubgkL4Kygcj7vmeUdtWMgeGYS3w&oe=6AEA9B98&_nc_sid=a21977\r\nDimensions: 1920x1280, format: WEBP, size: 463160 bytes\r\nProposed placement: Trivia / general-knowledge quiz header and category art.\r\nInspected pixels: open book with blank pages, stack of cloth-bound books, reading glasses, brass desk lamp, walnut desk, cream/navy/walnut/gold watercolour. No readable words, no badges, no childish style. The open pages are blank, so this carries no question or answer.\r\n\r\n2) Travel / world-knowledge art \u2014 Flags / category / recall\r\nFilename: media-generation-brainplay-travel-departure-0-e37298d1-80eb-4a2c-acc8-31a07b205dca.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/814585483_1687140126120879_3014739071928966075_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=103&_nc_ohc=JkWKCr_x8noQ7kNvwFuQist&sdl=0&ccb=14-4&oh=00_AQRg5dcFwhJMYccXPL6GKxpbo8qKGyWqDeBHZJeNSCNnmA&oe=6AEA906F&_nc_sid=a21977\r\nDimensions: 1920x1280, format: WEBP, size: 443414 bytes\r\nProposed placement: travel / world-knowledge category art (Flags, recall).\r\nInspected pixels: vintage leather suitcase, brass compass, folded blank paper, station window at golden hour, cream/navy/walnut/gold watercolour. No flags, no country borders, no readable labels \u2014 deliberately so, because no invented flag or border may be shown. Decorative only; it does not teach any flag or geography fact.\r\n\r\n3) Proverbs / language / culture supporting art\r\nFilename: media-generation-brainplay-language-library-0-70beda1d-d85d-4fe5-a479-767b3bff65e8.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/814091919_1821157952261532_3308331417803718362_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=100&_nc_ohc=zaeO7bXGU1wQ7kNvwGxEx7r&sdl=0&ccb=14-4&oh=00_AQT1sWQ8whXbKE28Xr3nFPmoGJL3j1RhxOFy96Vv0PV_Wg&oe=6AEA97A1&_nc_sid=a21977\r\nDimensions: 1920x1280, format: WEBP, size: 713480 bytes\r\nProposed placement: proverbs / language / culture category and supporting art, distinct from the earlier word desk.\r\nInspected pixels: tall walnut bookshelves, window with evening landscape, desk with blank paper and fountain pen, navy-shaded lamp, cream/navy/walnut/gold watercolour. No readable quotes, no lettering, no fabricated writing. Book spines carry only abstract marks, no legible titles.\r\n\r\n4) Homepage / category hero art\r\nFilename: media-generation-brainplay-homepage-hero-0-cd80268a-1de2-49c9-ab0b-c572d170a693.webp\r\nOriginal URL: https://scontent.xx.fbcdn.net/v/t58.90637-1/814091551_1998549637784626_846464975070892002_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=110&_nc_ohc=9ICK8adjGNIQ7kNvwF4C1P8&sdl=0&ccb=14-4&oh=00_AQTqZPsmToMVgZQEeMPHmDzLOyjm_dGWHM_mIOqUvK_D1Q&oe=6AEA9806&_nc_sid=a21977\r\nDimensions: 2352x1008, format: WEBP, size: 261670 bytes\r\nProposed placement: welcoming homepage hero and wide category header; usable at wide hero and thumbnail sizes.\r\nInspected pixels: navy armchair, small walnut bookshelf, cup of tea on a side table, large window, large calm cream negative space on the right for separately rendered text, cream/navy/walnut/gold watercolour. No text, no logos. Not a tabletop or garden clone.\r\n\r\nDelivery verification, stated honestly: all 4 CDN URLs returned HEAD 200 with Content-Type image/webp at check time. HEAD 200 alone does not prove the right pixels or durable access \u2014 the pixel inspection above was done on the locally preserved generation originals, not by re-downloading the CDN copies. These are signed fbcdn URLs; their durable-access/expiry is uncertain and they should be treated as transfer links, not permanent hosting. Local originals are preserved in the coordination workspace.\r\n\r\nWhat remains uncovered: dedicated separate art for TrueFalse as distinct from general trivia; a distinct Flags thumbnail beyond the travel-departure scene (no flag art was made, by design); per-game quiz art beyond these four placements; additional category thumbnails; and any homepage art beyond this one hero. A further run can continue with the next non-duplicate collection.",
+    "cc": "",
+    "date": "Mon, 2 Nov 2026 09:35:15 -0600",
+    "from": "kanchristof3@gmail.com",
+    "from_name": "",
+    "id": "1a19ce6854296e4e",
+    "internal_date_ms": 1793633715000,
+    "labels": [
+      "UNREAD",
+      "SENT",
+      "INBOX"
+    ],
+    "message_id": "<CAAZJ6hsdVJgFFwtKKnT8rZZOiBzXs3gjg43QZr33CxQ8xeTg+g@mail.gmail.com>",
+    "snippet": "[COORD-RESULT:BRAINPLAY-SITEWIDE-ART-20261102-02] Request: BRAINPLAY-SITEWIDE-ART-20261102-02, received 2026-11-02 17:26 IST (mail date 09:26 -0600), expiry 2026-11-02 22:00 IST (not expired at",
+    "subject": "[COORD-RESULT:BRAINPLAY-SITEWIDE-ART-20261102-02]",
+    "thread_id": "1a19ce6854296e4e",
+    "to": "<kanchristof3@gmail.com>"
+  },
+  "assets": [
+    {
+      "name": "quiz-study",
+      "path": "/downloads/muse-sitewide-02/quiz-study.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/814091851_1335191571946921_8515475836861254202_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=101&_nc_ohc=bB8acvm_TasQ7kNvwGahbyi&sdl=0&ccb=14-4&oh=00_AQRYYyeU8hI1F9MmejpubgkL4Kygcj7vmeUdtWMgeGYS3w&oe=6AEA9B98&_nc_sid=a21977",
+      "bytes": 463160,
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "format": "WEBP",
+      "sha256": "198facf10912d027214f6193ef6091d908c167c53c033f37d0c9f270da2d2420",
+      "source_gmail": "1a19ce6854296e4e",
+      "source_rfc": "<CAAZJ6hsdVJgFFwtKKnT8rZZOiBzXs3gjg43QZr33CxQ8xeTg+g@mail.gmail.com>"
+    },
+    {
+      "name": "travel-departure",
+      "path": "/downloads/muse-sitewide-02/travel-departure.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/814585483_1687140126120879_3014739071928966075_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=103&_nc_ohc=JkWKCr_x8noQ7kNvwFuQist&sdl=0&ccb=14-4&oh=00_AQRg5dcFwhJMYccXPL6GKxpbo8qKGyWqDeBHZJeNSCNnmA&oe=6AEA906F&_nc_sid=a21977",
+      "bytes": 443414,
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "format": "WEBP",
+      "sha256": "fde59c23c61b6e151ce292687efdda3cd18439500523aef95f4ecfca36c1b132",
+      "source_gmail": "1a19ce6854296e4e",
+      "source_rfc": "<CAAZJ6hsdVJgFFwtKKnT8rZZOiBzXs3gjg43QZr33CxQ8xeTg+g@mail.gmail.com>"
+    },
+    {
+      "name": "language-library",
+      "path": "/downloads/muse-sitewide-02/language-library.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/814091919_1821157952261532_3308331417803718362_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=100&_nc_ohc=zaeO7bXGU1wQ7kNvwGxEx7r&sdl=0&ccb=14-4&oh=00_AQT1sWQ8whXbKE28Xr3nFPmoGJL3j1RhxOFy96Vv0PV_Wg&oe=6AEA97A1&_nc_sid=a21977",
+      "bytes": 713480,
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "format": "WEBP",
+      "sha256": "a8b8599490861e7f382e472db23bc5b1205716e43645030db63f5ae039f87373",
+      "source_gmail": "1a19ce6854296e4e",
+      "source_rfc": "<CAAZJ6hsdVJgFFwtKKnT8rZZOiBzXs3gjg43QZr33CxQ8xeTg+g@mail.gmail.com>"
+    },
+    {
+      "name": "homepage-hero",
+      "path": "/downloads/muse-sitewide-02/homepage-hero.webp",
+      "original_url": "https://scontent.xx.fbcdn.net/v/t58.90637-1/814091551_1998549637784626_846464975070892002_n.webp?_nc_ht=scontent.xx.fbcdn.net&_nc_cat=110&_nc_ohc=9ICK8adjGNIQ7kNvwF4C1P8&sdl=0&ccb=14-4&oh=00_AQTqZPsmToMVgZQEeMPHmDzLOyjm_dGWHM_mIOqUvK_D1Q&oe=6AEA9806&_nc_sid=a21977",
+      "bytes": 261670,
+      "dimensions": [
+        2352,
+        1008
+      ],
+      "format": "WEBP",
+      "sha256": "acf15d6819e3b54a30560bdcdb9a3d793fcfe6e81b58ab074735529320e28c15",
+      "source_gmail": "1a19ce6854296e4e",
+      "source_rfc": "<CAAZJ6hsdVJgFFwtKKnT8rZZOiBzXs3gjg43QZr33CxQ8xeTg+g@mail.gmail.com>"
+    }
+  ]
+}

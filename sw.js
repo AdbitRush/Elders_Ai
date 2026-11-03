@@ -4,7 +4,7 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v62';
+const CACHE = 'golden-games-v77';
 const PREFIX = 'golden-games-';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
@@ -16,6 +16,10 @@ const SHELL = [
   './css/premium.css',
   './css/tailwind.css',
   './css/a11y.css',
+  './css/warm.css',
+  './js/warm.js',
+  './js/icons.js',
+  './js/lucide-icons.js',
   './manifest.json',
   './images/icon.svg',
   './images/icon-192.png',
@@ -64,6 +68,27 @@ const SHELL = [
   './js/games/lifesim.js',
   './js/games/safari.js',
   './js/games/jigsaw.js',
+  './js/game-kit.js',
+  // gen:new-games
+  './js/games/freecell.js',
+  './js/games/spider.js',
+  './js/games/checkers.js',
+  './js/games/backgammon.js',
+  './js/games/dominoes.js',
+  './js/games/crazy8.js',
+  './js/games/ginrummy.js',
+  './js/games/gofish.js',
+  './js/games/hearts.js',
+  './js/games/crossword.js',
+  './js/games/cryptoquote.js',
+  './js/games/wordladder.js',
+  './js/games/nonogram.js',
+  './js/games/minesweeper.js',
+  './js/games/g2048.js',
+  './js/games/spotdiff.js',
+  './js/games/fifteen.js',
+  './js/games/mastermind.js',
+  // /gen:new-games
   './js/affiliate.js',
   './js/brainscore.js',
   './js/daily-challenge.js',

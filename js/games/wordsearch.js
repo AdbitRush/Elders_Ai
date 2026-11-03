@@ -35,7 +35,8 @@ function initWordSearch(container) {
     container.innerHTML=html+`</div></div>`;
 }
 function clickWsCell(el,letter,r,c) {
-    if(el.classList.contains('found'))return;
+    // A found cell stays tappable: words may cross on a shared letter, and with the old early return a second word
+    // through an already-found letter (MUSIC and SPRING sharing the S) could never be completed.
     const state=gameState.wordsearch;
     if(el.classList.contains('selected')){el.classList.remove('selected');state.selectedCells=state.selectedCells.filter(x=>x.el!==el);return;}
     if(state.selectedCells.length>0&&!_wsValid(state.selectedCells,r,c)){sfxWrong();el.classList.add('bg-red-500');setTimeout(()=>el.classList.remove('bg-red-500'),300);state.selectedCells.forEach(x=>x.el.classList.remove('selected'));state.selectedCells=[];return;}
@@ -53,5 +54,5 @@ function _wsValid(cells,nr,nc) {
 function checkWordSearch() {
     const state=gameState.wordsearch,cur=state.selectedCells.map(x=>x.char).join(''),curR=state.selectedCells.map(x=>x.char).reverse().join('');
     const matched=state.words.includes(cur)?cur:state.words.includes(curR)?curR:null;
-    if(matched){sfxCorrect();state.selectedCells.forEach(x=>{x.el.classList.remove('selected');x.el.classList.add('found');});const we=document.getElementById(`word-${matched}`);if(we){we.classList.replace('bg-slate-100','bg-green-100');we.classList.replace('text-gray-500','text-green-700');}state.words=state.words.filter(w=>w!==matched);state.selectedCells=[];if(state.words.length===0)setTimeout(()=>levelComplete(),500);}
+    if(matched){sfxCorrect();state.selectedCells.forEach(x=>{x.el.classList.remove('selected');x.el.classList.add('found');});const we=document.getElementById(`word-${matched}`);if(we){we.classList.replace('bg-slate-100','bg-green-100');we.classList.replace('text-gray-500','text-green-700');we.insertAdjacentHTML('afterbegin',Icon.ui('check',{sw:3})+' ');}state.words=state.words.filter(w=>w!==matched);state.selectedCells=[];if(state.words.length===0)setTimeout(()=>levelComplete(),500);}
 }

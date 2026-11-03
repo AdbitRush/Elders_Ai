@@ -36,7 +36,7 @@ function initCategory(container){
 }
 function _catNext(container){
     if(!gameState.active||gameState.currentId!=='category')return;
-    const gs=gameState.category;
+    const gs=gameState.category; gs._locked=false;
     if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
     const isHe=currentLang==='he';
     const pools=_CAT_POOLS[isHe?'he':'en'];
@@ -56,6 +56,7 @@ function _catNext(container){
 }
 function _catAnswer(btn,val){
     const gs=gameState.category;
+    if(gs._locked)return;gs._locked=true;  // one answer per question
     const isC=val===gs._answer;
     if(isC){sfxCorrect();gs._ss++;}else sfxWrong();
     btn.classList.replace('border-gray-200',isC?'border-green-500':'border-red-500');

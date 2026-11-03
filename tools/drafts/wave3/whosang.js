@@ -1,0 +1,76 @@
+// ═══════════════════════════════════════════════════════════════════════════════
+// WHO SANG IT? (2026-10, wave 3) — name the singer or group behind an American hit of the 50s to the 80s.
+// Runs on QuizKit (decade picker, explanations, no repeats). Song, year and artist are the original hit recordings;
+// the line under each answer is a documented fact about the record.
+// Row: [decade, topic, level, question, right answer, [wrong answers], explanation]
+// ═══════════════════════════════════════════════════════════════════════════════
+const WS_ROWS = [
+  ['50s', 'song', 1, '"Hound Dog" (1956)', 'Elvis Presley', ['Jerry Lee Lewis', 'Carl Perkins', 'Bill Haley & His Comets'], 'Big Mama Thornton recorded it first, in 1952; Elvis made it a No. 1 hit.'],
+  ['50s', 'song', 1, '"Peggy Sue" (1957)', 'Buddy Holly', ['Ricky Nelson', 'Eddie Cochran', 'Paul Anka'], 'Peggy Sue was the girlfriend (later wife) of Crickets drummer Jerry Allison.'],
+  ['50s', 'song', 1, '"Great Balls of Fire" (1957)', 'Jerry Lee Lewis', ['Little Richard', 'Chuck Berry', 'Fats Domino'], 'He played it pounding the piano, as he did in the film Jamboree.'],
+  ['50s', 'song', 2, '"Maybellene" (1955)', 'Chuck Berry', ['Bo Diddley', 'Little Richard', 'Carl Perkins'], 'It was his first single, on Chess Records of Chicago.'],
+  ['50s', 'song', 2, '"Only You (And You Alone)" (1955)', 'The Platters', ['The Drifters', 'The Coasters', 'The Penguins'], 'Tony Williams sang lead on the group\'s first big hit.'],
+  ['50s', 'song', 1, '"Bye Bye Love" (1957)', 'The Everly Brothers', ['The Kalin Twins', 'Simon & Garfunkel', 'The Platters'], 'Don and Phil Everly\'s close harmony came from Kentucky country music.'],
+  ['50s', 'song', 1, '"La Bamba" (1958)', 'Ritchie Valens', ['Freddy Fender', 'Trini Lopez', 'Buddy Holly'], 'He turned a Mexican folk song into rock and roll at 17.'],
+  ['50s', 'song', 1, '"Tutti Frutti" (1955)', 'Little Richard', ['Pat Boone', 'Chuck Berry', 'Fats Domino'], 'Pat Boone\'s cover also charted, but Little Richard\'s is the one remembered.'],
+  ['50s', 'song', 2, '"Ain\'t That a Shame" (1955)', 'Fats Domino', ['Little Richard', 'Ray Charles', 'Bo Diddley'], 'Fats Domino wrote it with Dave Bartholomew; Pat Boone\'s cover reached No. 1.'],
+  ['50s', 'song', 2, '"Earth Angel" (1954)', 'The Penguins', ['The Platters', 'The Flamingos', 'The Moonglows'], 'It is one of the best-known doo-wop records.'],
+  ['50s', 'song', 1, '"Mack the Knife" (1959)', 'Bobby Darin', ['Frank Sinatra', 'Dean Martin', 'Tony Bennett'], 'It was No. 1 for nine weeks and won the Grammy for Record of the Year.'],
+  ['50s', 'song', 2, '"Put Your Head on My Shoulder" (1959)', 'Paul Anka', ['Frankie Avalon', 'Bobby Rydell', 'Neil Sedaka'], 'The Canadian singer wrote it himself.'],
+  ['50s', 'song', 2, '"Yakety Yak" (1958)', 'The Coasters', ['The Drifters', 'The Del-Vikings', 'The Platters'], 'Jerry Leiber and Mike Stoller wrote it.'],
+  ['50s', 'song', 1, '"Wake Up Little Susie" (1957)', 'The Everly Brothers', ['Buddy Holly', 'Ricky Nelson', 'The Crickets'], 'Some radio stations banned it for its story of a couple falling asleep at the drive-in.'],
+
+  ['60s', 'song', 1, '"Oh, Pretty Woman" (1964)', 'Roy Orbison', ['Del Shannon', 'Gene Pitney', 'Bobby Vinton'], 'The famous guitar riff opens the record.'],
+  ['60s', 'song', 1, '"My Girl" (1965)', 'The Temptations', ['The Four Tops', 'The Miracles', 'The Drifters'], 'Smokey Robinson and Ronald White wrote it; David Ruffin sang lead.'],
+  ['60s', 'song', 1, '"Stand by Me" (1961)', 'Ben E. King', ['Sam Cooke', 'Jackie Wilson', 'Otis Redding'], 'He wrote it with Jerry Leiber and Mike Stoller after leaving the Drifters.'],
+  ['60s', 'song', 2, '"I Heard It Through the Grapevine" (1968)', 'Marvin Gaye', ['Otis Redding', 'Wilson Pickett', 'Smokey Robinson'], 'Gladys Knight & the Pips had a hit with it first, in 1967.'],
+  ['60s', 'song', 2, '"Be My Baby" (1963)', 'The Ronettes', ['The Shirelles', 'The Crystals', 'The Chiffons'], 'Phil Spector produced it with his "Wall of Sound".'],
+  ['60s', 'song', 2, '"Downtown" (1965)', 'Petula Clark', ['Dusty Springfield', 'Lulu', 'Connie Francis'], 'The British singer reached No. 1 in America with it.'],
+  ['60s', 'song', 2, '"Leader of the Pack" (1964)', 'The Shangri-Las', ['The Ronettes', 'The Dixie Cups', 'The Shirelles'], 'The record includes the roar of a motorcycle.'],
+  ['60s', 'song', 2, '"Sugar, Sugar" (1969)', 'The Archies', ['The Monkees', 'The Cowsills', 'The 1910 Fruitgum Company'], 'The Archies were a cartoon band; Ron Dante sang lead.'],
+  ['60s', 'song', 2, '"Monday, Monday" (1966)', 'The Mamas & the Papas', ['The Lovin\' Spoonful', 'The Byrds', 'The Turtles'], 'It was their only No. 1 single.'],
+  ['60s', 'song', 1, '"Hey Jude" (1968)', 'The Beatles', ['The Rolling Stones', 'The Bee Gees', 'The Hollies'], 'At over seven minutes, it spent nine weeks at No. 1.'],
+  ['60s', 'song', 1, '"Light My Fire" (1967)', 'The Doors', ['Jefferson Airplane', 'The Byrds', 'Steppenwolf'], 'Guitarist Robby Krieger wrote most of it.'],
+  ['60s', 'song', 2, '"Born to Be Wild" (1968)', 'Steppenwolf', ['The Doors', 'Cream', 'Iron Butterfly'], 'It played over the opening of the film Easy Rider.'],
+  ['60s', 'song', 1, '"These Boots Are Made for Walkin\'" (1966)', 'Nancy Sinatra', ['Petula Clark', 'Dusty Springfield', 'Lesley Gore'], 'Lee Hazlewood wrote and produced it.'],
+  ['60s', 'song', 1, '"Crazy" (1961)', 'Patsy Cline', ['Loretta Lynn', 'Brenda Lee', 'Kitty Wells'], 'Willie Nelson wrote it.'],
+  ['60s', 'song', 1, '"Ring of Fire" (1963)', 'Johnny Cash', ['Marty Robbins', 'Buck Owens', 'Roy Orbison'], 'June Carter co-wrote it with Merle Kilgore.'],
+  ['60s', 'song', 2, '"Where Did Our Love Go" (1964)', 'The Supremes', ['The Marvelettes', 'Martha and the Vandellas', 'The Shirelles'], 'It was the first of their 12 No. 1 hits.'],
+
+  ['70s', 'song', 1, '"Bridge over Troubled Water" (1970)', 'Simon & Garfunkel', ['The Carpenters', 'Bread', 'Seals and Crofts'], 'Art Garfunkel sang the lead; Paul Simon wrote it.'],
+  ['70s', 'song', 1, '"Killing Me Softly with His Song" (1973)', 'Roberta Flack', ['Aretha Franklin', 'Dionne Warwick', 'Gladys Knight'], 'It won the Grammy for Record of the Year.'],
+  ['70s', 'song', 2, '"Let\'s Stay Together" (1971)', 'Al Green', ['Marvin Gaye', 'Bill Withers', 'Teddy Pendergrass'], 'It reached No. 1 early in 1972.'],
+  ['70s', 'song', 1, '"Piano Man" (1973)', 'Billy Joel', ['Elton John', 'Harry Chapin', 'Jim Croce'], 'It is based on his months playing in a Los Angeles piano bar.'],
+  ['70s', 'song', 1, '"Dancing Queen" (1976)', 'ABBA', ['The Bee Gees', 'Donna Summer', 'Boney M.'], 'It was ABBA\'s only No. 1 hit in America.'],
+  ['70s', 'song', 1, '"Bohemian Rhapsody" (1975)', 'Queen', ['Electric Light Orchestra', 'Supertramp', 'Styx'], 'Freddie Mercury wrote it; it has no repeating chorus.'],
+  ['70s', 'song', 2, '"You\'re So Vain" (1972)', 'Carly Simon', ['Carole King', 'Joni Mitchell', 'Linda Ronstadt'], 'Mick Jagger sings backing vocals on it.'],
+  ['70s', 'song', 1, '"Superstition" (1972)', 'Stevie Wonder', ['Marvin Gaye', 'Curtis Mayfield', 'Al Green'], 'He played the famous clavinet part himself.'],
+  ['70s', 'song', 1, '"Take Me Home, Country Roads" (1971)', 'John Denver', ['Glen Campbell', 'Kenny Rogers', 'James Taylor'], 'He wrote it with Bill Danoff and Taffy Nivert.'],
+  ['70s', 'song', 2, '"Le Freak" (1978)', 'Chic', ['KC and the Sunshine Band', 'Kool & the Gang', 'Earth, Wind & Fire'], 'Nile Rodgers and Bernard Edwards wrote it.'],
+  ['70s', 'song', 1, '"Night Fever" (1978)', 'The Bee Gees', ['ABBA', 'Andy Gibb', 'The Village People'], 'It was one of their songs from Saturday Night Fever.'],
+  ['70s', 'song', 1, '"Jolene" (1973)', 'Dolly Parton', ['Loretta Lynn', 'Tammy Wynette', 'Lynn Anderson'], 'Dolly wrote it herself.'],
+  ['70s', 'song', 2, '"Rhinestone Cowboy" (1975)', 'Glen Campbell', ['John Denver', 'Kenny Rogers', 'Mac Davis'], 'It topped both the pop and country charts.'],
+  ['70s', 'song', 2, '"Hot Stuff" (1979)', 'Donna Summer', ['Gloria Gaynor', 'Diana Ross', 'Chaka Khan'], 'It won her a Grammy for rock vocal performance.'],
+  ['70s', 'song', 1, '"Y.M.C.A." (1978)', 'Village People', ['KC and the Sunshine Band', 'Chic', 'The Trammps'], 'The arm-letters dance came from audiences, not the band.'],
+  ['70s', 'song', 1, '"Rocket Man" (1972)', 'Elton John', ['David Bowie', 'Rod Stewart', 'Cat Stevens'], 'Bernie Taupin wrote the words, as for most Elton John songs.'],
+
+  ['80s', 'song', 1, '"Billie Jean" (1983)', 'Michael Jackson', ['Prince', 'Lionel Richie', 'Stevie Wonder'], 'He first did the moonwalk performing it on TV in 1983.'],
+  ['80s', 'song', 1, '"Girls Just Want to Have Fun" (1983)', 'Cyndi Lauper', ['Madonna', 'The Go-Go\'s', 'Pat Benatar'], 'Robert Hazard wrote it; Cyndi Lauper rewrote the words.'],
+  ['80s', 'song', 1, '"Eye of the Tiger" (1982)', 'Survivor', ['Journey', 'Foreigner', 'REO Speedwagon'], 'Sylvester Stallone asked for it for Rocky III.'],
+  ['80s', 'song', 1, '"Every Breath You Take" (1983)', 'The Police', ['Dire Straits', 'Duran Duran', 'U2'], 'Sting wrote it; it was No. 1 for eight weeks.'],
+  ['80s', 'song', 2, '"Jump" (1984)', 'Van Halen', ['Def Leppard', 'Bon Jovi', 'Journey'], 'Its synthesizer riff surprised fans of the guitar band.'],
+  ['80s', 'song', 2, '"Total Eclipse of the Heart" (1983)', 'Bonnie Tyler', ['Pat Benatar', 'Kim Carnes', 'Laura Branigan'], 'Jim Steinman wrote and produced it.'],
+  ['80s', 'song', 1, '"Islands in the Stream" (1983)', 'Kenny Rogers and Dolly Parton', ['Kenny Rogers and Sheena Easton', 'Willie Nelson and Waylon Jennings', 'Lionel Richie and Diana Ross'], 'The Bee Gees wrote it.'],
+  ['80s', 'song', 2, '"Lady" (1980)', 'Kenny Rogers', ['Lionel Richie', 'Barry Manilow', 'Neil Diamond'], 'Lionel Richie wrote and produced it.'],
+  ['80s', 'song', 2, '"Endless Love" (1981)', 'Diana Ross and Lionel Richie', ['Peaches & Herb', 'Marvin Gaye and Tammi Terrell', 'Kenny Rogers and Kim Carnes'], 'It was No. 1 for nine weeks, the theme of the film of the same name.'],
+  ['80s', 'song', 1, '"Physical" (1981)', 'Olivia Newton-John', ['Sheena Easton', 'Juice Newton', 'Kim Carnes'], 'It spent ten weeks at No. 1.'],
+  ['80s', 'song', 1, '"Like a Prayer" (1989)', 'Madonna', ['Janet Jackson', 'Paula Abdul', 'Whitney Houston'], 'It was the title song of her fourth album.'],
+  ['80s', 'song', 1, '"Livin\' on a Prayer" (1986)', 'Bon Jovi', ['Def Leppard', 'Poison', 'Journey'], 'Tommy and Gina, the couple in the song, are fictional.'],
+  ['80s', 'song', 2, '"Walk Like an Egyptian" (1986)', 'The Bangles', ['The Go-Go\'s', 'Heart', 'Bananarama'], 'It was the biggest US single of 1987 on Billboard\'s year-end chart.'],
+  ['80s', 'song', 1, '"Don\'t Worry, Be Happy" (1988)', 'Bobby McFerrin', ['Lionel Richie', 'Billy Ocean', 'Bob Marley'], 'It was the first a cappella song to reach No. 1.'],
+  ['80s', 'song', 1, '"9 to 5" (1980)', 'Dolly Parton', ['Sheena Easton', 'Barbara Mandrell', 'Crystal Gayle'], 'She wrote it for the movie 9 to 5, in which she also starred.'],
+];
+function initWhoSang(container) {
+    QuizKit.start(container, { id: 'whosang', items: QuizKit.rows(WS_ROWS), decades: [['50s', '1950s'], ['60s', '1960s'], ['70s', '1970s'], ['80s', '1980s']],
+        ask: (it) => `<span class="qk-sub" style="margin:0 0 6px">Who recorded...</span>${QuizKit.esc(it.q)}` });
+}

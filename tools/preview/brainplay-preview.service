@@ -1,0 +1,22 @@
+[Unit]
+Description=BrainPlay (games) redesign PREVIEW (static + review-notes endpoint, loopback only; not the live site)
+After=network.target
+[Service]
+User=allyfind-preview
+Group=allyfind-preview
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ReadWritePaths=/opt/brainplay-preview/notes
+RestrictAddressFamilies=AF_INET AF_INET6
+LockPersonality=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+Type=simple
+ExecStart=/usr/bin/python3 /opt/brainplay-preview/tool/preview-server.py 8798 /opt/brainplay-preview/site /opt/brainplay-preview/notes/notes.json
+Restart=always
+RestartSec=5
+[Install]
+WantedBy=multi-user.target
