@@ -457,3 +457,10 @@ html[data-game="freecell"] #gameView > div > div:first-child{ background-positio
 html[data-game="spider"] #gameView > div > div:first-child{ background-position:center 0, 0% 12%, 0 0 !important; }
 html[data-game="ginrummy"] #gameView > div > div:first-child{ background-position:center 0, 100% 55%, 0 0 !important; }
 html[data-game="gofish"] #gameView > div > div:first-child{ background-position:center 0, 0% 85%, 0 0 !important; }
+/* Go Fish on phones: the picture's subject (rod, reeds, water, cards) sits at its bottom, exactly where the shared fade is
+   almost opaque, so only faint reeds showed. Enlarge the art, bring the subject up into the lightly faded top of the band and
+   use a lighter fade. The title and instructions keep dark ink; contrast is measured on the rendered pixels. */
+@media (max-width:640px){
+  html[data-game="gofish"] #gameView > div > div:first-child{
+    background:linear-gradient(180deg,rgba(255,250,241,.06) 0%,rgba(255,250,241,.62) 46%,var(--w-table) 92%), var(--game-photo, none) 0 -130px/auto 215% no-repeat, #f4e3c6 !important; }
+}
