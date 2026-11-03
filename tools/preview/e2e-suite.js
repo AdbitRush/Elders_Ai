@@ -9,7 +9,13 @@ const { chromium } = require(path.join(path.resolve(process.argv[2]), 'node_modu
 const U = (process.argv[3] || 'https://games-preview.178-105-148-72.sslip.io').replace(/\/$/, '');
 const BASE = JSON.parse(fs.readFileSync(path.join(__dirname, 'baseline-inventory.json'), 'utf8'));
 const INTERACTIVE = 'a[href],button,select,input,textarea,[onclick],[role=button],[tabindex]:not([tabindex="-1"]),canvas';
-const res = []; const ok = (n, p, i) => res.push((p ? 'PASS ' : 'FAIL ') + n + (i ? '  — ' + i : ''));
+// Batches (2026-11-04, tools/preview/e2e-batches.js). All optional: with none of these set the whole suite runs as it always did.
+//   E2E_SECTIONS=1,8  only these sections.  E2E_SLICE=2/6  in sections 1, 9a, 10 and 12, only games whose index % 6 === 2.  E2E_OUT=<file>  append each result as it happens.
+const ONLY = (process.env.E2E_SECTIONS || '').split(',').filter(Boolean), RUN = (x) => !ONLY.length || ONLY.includes(x);
+const [SLI, SLN] = (process.env.E2E_SLICE || '0/1').split('/').map(Number), SL = (list) => list.filter((_, i) => i % SLN === SLI), SLTAG = SLN > 1 ? ` [slice ${SLI}/${SLN}]` : '';
+const save = (line) => { if (process.env.E2E_OUT) fs.appendFileSync(process.env.E2E_OUT, line + '\n'); };
+const secStart = (x) => save('SECTION-START ' + x), secEnd = (x) => { if (RUN(x)) save('SECTION-END ' + x); };
+const res = []; const ok = (n, p, i) => { const line = (p ? 'PASS ' : 'FAIL ') + n + (i ? '  — ' + i : ''); res.push(line); save(line); };
 let b;
 async function page(w, url, { theme = 'dark', lang = 'en', init } = {}) {
   const mob = w < 500;
@@ -64,7 +70,8 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
   b = await chromium.launch();
   const games = JSON.parse(JSON.stringify(Object.keys(BASE).filter((k) => k.startsWith('game:')).map((k) => k.slice(5))));
   // 1. every game, phone light + desktop dark: loads, has content, no errors, no sideways scroll, nothing lost
-  for (const g of games) for (const [w, theme] of [[390, 'light'], [1440, 'dark']]) {
+  if (RUN('1')) { secStart('1');
+  for (const g of SL(games)) for (const [w, theme] of [[390, 'light'], [1440, 'dark']]) {
     const { ctx, p, errs } = await page(w, '/#' + g, { theme });
     const r = await p.evaluate(() => ({ kids: document.getElementById('gameContent').children.length, inGame: document.documentElement.classList.contains('in-game'),
       game: document.documentElement.getAttribute('data-game'), over: document.documentElement.scrollWidth - innerWidth,
@@ -76,7 +83,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
       (errs[0] || '') + ' ' + JSON.stringify(r) + (miss.length ? ' LOST ' + miss.join(', ') : ''));
     await ctx.close();
   }
+  } secEnd('1');
   // 2. languages
+  if (RUN('2')) { secStart('2');
   for (const lang of ['he', 'en', 'es', 'fr', 'de', 'el']) {
     const { ctx, p, errs } = await page(390, '/', { lang });
     const r = await p.evaluate(() => ({ dir: document.documentElement.dir, lang: document.documentElement.lang, links: document.querySelectorAll('#all-games .ag-page').length,
@@ -86,7 +95,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
       JSON.stringify(r) + (errs[0] ? ' JS:' + errs[0] : ''));
     await ctx.close();
   }
+  } secEnd('2');
   // 3. hub: nothing lost (phone and desktop), every game page linked and reachable
+  if (RUN('3')) { secStart('3');
   for (const [w, key] of [[390, 'hub'], [1440, 'hub_desktop']]) {
     const { ctx, p } = await page(w, '/');
     // phones: the header's other controls live in the ☰ menu now (moved, not removed) — count them with it open
@@ -108,7 +119,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('3 a game page links back to the hub and to play', back.some((h) => /^\.\.\/\.\.\/(\?lang=[a-z]{2})?$/.test(h)) && back.some((h) => /#klondike$/.test(h)), back.slice(0, 3).join(' '));
     await ctx.close();
   }
+  } secEnd('3');
   // 4. ads: the existing ticker on the hub and between games, never during play
+  if (RUN('4')) { secStart('4');
   for (const w of [390, 1440]) {
     const { ctx, p } = await page(w, '/');
     const vis = () => p.evaluate(() => { const a = document.getElementById('adBar'); return !!a && getComputedStyle(a).display !== 'none' && !a.classList.contains('closed'); });
@@ -120,7 +133,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok(`4 @${w} ad ticker: hub yes, while playing no, between games yes`, hub && !playing && between, JSON.stringify({ hub, playing, between }));
     await ctx.close();
   }
+  } secEnd('4');
   // 5. light / dark toggle: visible, labelled, works, remembered
+  if (RUN('5')) { secStart('5');
   for (const w of [390, 1440]) {
     const { ctx, p, errs } = await page(w, '/', { theme: 'dark' });
     const r1 = await p.evaluate(() => { const b = document.getElementById('themeBtn').getBoundingClientRect(); return { inView: b.top >= 0 && b.bottom <= innerHeight && b.left >= 0 && b.right <= innerWidth, h: Math.round(b.height), label: document.querySelector('#themeBtn .w-tl').textContent }; });
@@ -132,7 +147,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
       JSON.stringify(r1) + ' ' + JSON.stringify(t) + ' kept=' + kept);
     await ctx.close();
   }
+  } secEnd('5');
   // 6. contrast of the main text, both themes
+  if (RUN('6')) { secStart('6');
   for (const theme of ['light', 'dark']) {
     const { ctx, p } = await page(390, '/', { theme });
     const hub = await contrastIn(p, ['#homeScreen .premium-card h3', '#homeScreen .premium-card p', '#greetingText', '#all-games .ag-page', 'nav #themeBtn', 'footer > div']);
@@ -144,7 +161,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok(`6 ${theme}: main text contrast ≥ 7:1 (AAA)`, !low.length, low.join(' | ') || rows.map(([s, c]) => c === 99 ? 'photo' : c.toFixed(1)).join(','));
     await ctx.close();
   }
+  } secEnd('6');
   // 7. review tool (preview only: a local run without it records the failure and moves on)
+  if (RUN('7')) { secStart('7');
   const hasBar = await (async () => { const { ctx, p } = await page(1440, '/'); const v = await p.locator('.afr-bar').isVisible(); await ctx.close(); return v; })();
   if (!hasBar) ok('7 review toolbar present', false, 'no review tool at ' + U + ' (section 7 skipped)');
   else {
@@ -166,8 +185,10 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('7 no JS errors', !errs.length, errs.join(' | '));
     await ctx.close();
   }
+  } secEnd('7');
   // 8. the 2026-10-09 fixes
   const NO_ADS = /no ads|sin anuncios|sans publicit|keine werbung|werbefrei|χωρίς διαφημίσεις|ללא פרסומות|בלי פרסומות(?! מקפיצות)/i;
+  if (RUN('8')) { secStart('8');
   {
     const { ctx, p, errs } = await page(390, '/');
     const r = await p.evaluate((src) => { const re = new RegExp(src, 'i'); const msgs = Object.values(_adMsgs).flat();
@@ -261,6 +282,7 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('8 desktop header keeps every control in place', dr.lang && dr.tools, JSON.stringify(dr));
     await d.ctx.close();
   }
+  } secEnd('8');
   // 9. round 3 (2026-10-09): one icon family (Lucide) and real photos (Pexels) instead of keyboard emoji
   // emoji pictures only; playing-card suits and the plain ✓ / ✕ glyphs are text and stay
   const EMO = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B50}\u{2B55}]/u, TEXT_GLYPHS = '♠♣♥♦✓✕✔';
@@ -268,9 +290,10 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
   // + the games added from 2026-10 (published = js/games/<id>.js exists)
   GAMES.push(...JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'new_games.json'), 'utf8')).games.map((g) => g.id).filter((id) => fs.existsSync(path.join(__dirname, '..', '..', 'js', 'games', id + '.js'))));
   const emojiIn = (t) => [...new Set([...t].filter((c) => EMO.test(c) && !TEXT_GLYPHS.includes(c)))].join('');
+  if (RUN('9a')) { secStart('9a');
   {
     const bad = [];
-    for (const g of GAMES) {
+    for (const g of SL(GAMES)) {
       const { ctx, p, errs } = await page(390, '/#' + g, { theme: 'light', lang: 'he' });
       const warn = []; p.on('console', (m) => { if (/Icon missing/.test(m.text())) warn.push(m.text()); });
       await p.evaluate((g) => { try { if (g === 'lifesim') _lsStart(Object.keys(_LS_ERAS)[0]); if (g === 'memory') flipMemory(0); } catch (e) {} }, g);
@@ -281,8 +304,10 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
       if (e || errs.length || warn.length) bad.push(g + ':' + (e || '') + errs.concat(warn).join(' ').slice(0, 80));
       await ctx.close();
     }
-    ok(`9 all ${GAMES.length} games: no emoji pictures in the game area, no missing icons, no JS errors`, !bad.length, bad.join(' | ') || GAMES.length + ' games');
+    ok(`9 all ${SL(GAMES).length} games${SLTAG}: no emoji pictures in the game area, no missing icons, no JS errors`, !bad.length, bad.join(' | ') || GAMES.length + ' games');
   }
+  } secEnd('9a');
+  if (RUN('9b')) { secStart('9b');
   {
     const { ctx, p } = await page(1440, '/', { theme: 'light' });
     const r = await p.evaluate((src) => { const re = new RegExp(src, 'u');
@@ -339,19 +364,23 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok(`9 no Shabbat / holiday banner on a Saturday, ${theme}`, !hb, String(hb));
     await ctx.close();
   }
+  } secEnd('9b');
   // 10. the games added from 2026-10: each loads at 390 light and 1440 dark with no JS error and no sideways scroll
+  if (RUN('10')) { secStart('10');
   {
     const NEW = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'new_games.json'), 'utf8')).games.map((g) => g.id).filter((id) => fs.existsSync(path.join(__dirname, '..', '..', 'js', 'games', id + '.js')));
     const bad = [];
-    for (const g of NEW) for (const [w, theme] of [[390, 'light'], [1440, 'dark']]) {
+    for (const g of SL(NEW)) for (const [w, theme] of [[390, 'light'], [1440, 'dark']]) {
       const { ctx, p, errs } = await page(w, '/#' + g, { theme });
       const r = await p.evaluate(() => ({ kids: document.getElementById('gameContent').children.length, game: document.documentElement.getAttribute('data-game'), over: document.documentElement.scrollWidth - innerWidth, inner: [...document.querySelectorAll('#gameContent *')].some((e) => e.getBoundingClientRect().right > innerWidth + 2) }));
       if (errs.length || !r.kids || r.game !== g || r.over > 0 || r.inner) bad.push(`${g}@${w}: ` + (errs[0] || JSON.stringify(r)));
       await ctx.close();
     }
-    ok(`10 ${NEW.length} new games load at 390 light + 1440 dark, no errors, nothing off the screen`, !bad.length, bad.join(' | ') || NEW.join(' '));
+    ok(`10 ${SL(NEW).length} new games${SLTAG} load at 390 light + 1440 dark, no errors, nothing off the screen`, !bad.length, bad.join(' | ') || SL(NEW).join(' '));
   }
+  } secEnd('10');
   // 11. switching language IN PLACE (2026-10-10 review): no mixed page, the URL follows, the end screen too
+  if (RUN('11')) { secStart('11');
   {
     const { ctx, p, errs } = await page(1280, '/?lang=he', { lang: 'he' });
     const HE = /[֐-׿]/;
@@ -372,7 +401,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('11 no JS errors while switching', !errs.length, errs.join(' | '));
     await ctx.close();
   }
+  } secEnd('11');
   // 11b. whole page after an in-place he -> en switch: no visible Hebrew anywhere (hub, welcome card, a game, end screen)
+  if (RUN('11b')) { secStart('11b');
   {
     const { ctx, p, errs } = await page(390, '/?lang=he', { lang: 'he' });
     const heLeft = () => p.evaluate(() => { const HE = /[֐-׿]/, out = [];
@@ -394,7 +425,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('11b no JS errors', !errs.length, errs.join(' | '));
     await ctx.close();
   }
+  } secEnd('11b');
   // 13. the ☰ menu on an iPhone-sized screen (2026-10-12): the panel fits the screen and the LIST scrolls inside it
+  if (RUN('13')) { secStart('13');
   {
     const { ctx, p, errs } = await page(390, '/?lang=en', { theme: 'light' });
     await p.setViewportSize({ width: 390, height: 844 });
@@ -411,7 +444,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('13 no JS errors', !errs.length, errs.join(' | '));
     await ctx.close();
   }
+  } secEnd('13');
   // 13b. Quick Count is quick (2026-10-12): a visible countdown; time running out = a miss, the answer is shown, next round
+  if (RUN('13b')) { secStart('13b');
   {
     const { ctx, p, errs } = await page(390, '/?lang=en#counting', { theme: 'light', init: () => { try { localStorage.setItem('gg_difficulty', 'hard'); } catch (e) {} } });
     const t0 = await p.evaluate(() => ({ timer: !!document.querySelector('#gameContent .cnt-timer'), secs: gameState.counting._secs, si: gameState.counting._si }));
@@ -425,10 +460,12 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
     ok('13b no JS errors', !errs.length, errs.join(' | '));
     await ctx.close();
   }
+  } secEnd('13b');
   // 12. responsive game stage (2026-10-10 review): every game, after its Start button, at 320 / 390 / 430 px (+ 390 RTL):
   //     nothing wider than the screen, no sideways scroll; arcade stages (.ak-stage) fit the screen height with their controls.
+  if (RUN('12')) { secStart('12');
   {
-    const ids = await (async () => { const { ctx, p } = await page(1280, '/'); const g = await p.evaluate(() => window.GAME_IDS); await ctx.close(); return g; })();
+    const ids = SL(await (async () => { const { ctx, p } = await page(1280, '/'); const g = await p.evaluate(() => window.GAME_IDS); await ctx.close(); return g; })());
     const bad = [];
     for (const [w, lang, theme] of [[320, 'en', 'light'], [390, 'en', 'dark'], [430, 'en', 'light'], [390, 'he', 'light']]) {
       for (const g of ids) {
@@ -454,8 +491,9 @@ const contrastIn = (p, sels) => p.evaluate((sels) => sels.map((s) => {
         await ctx.close();
       }
     }
-    ok(`12 ${ids.length} games x 320/390/430/390-RTL: nothing off the screen after Start, arcade controls fit`, !bad.length, bad.slice(0, 12).join(' | ') + (bad.length > 12 ? ` ... (+${bad.length - 12})` : ''));
+    ok(`12 ${ids.length} games${SLTAG} x 320/390/430/390-RTL: nothing off the screen after Start, arcade controls fit`, !bad.length, bad.slice(0, 12).join(' | ') + (bad.length > 12 ? ` ... (+${bad.length - 12})` : ''));
   }
+  } secEnd('12');
   await b.close();
   console.log(res.join('\n'));
   console.log(`\n${res.filter((r) => r.startsWith('PASS')).length}/${res.length} passed`);
