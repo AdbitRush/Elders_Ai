@@ -1,0 +1,42 @@
+{
+ "batch": "consolidated package 2026-11-03: garden-jigsaw web copy",
+ "origin": "Muse-reported original free generation, 2 November 2026 (existing original from batch2a); no new commission",
+ "caveat": "Decorative only. No independent legal clearance claim. Web copy resized to 1280px wide (WEBP q80), like the other site copies; source hash verified against ART-MANIFEST.json before conversion. The other 18 originals already have site copies (source hashes in muse-provenance*.json; matched by hash and visual comparison, nothing re-imported or overwritten).",
+ "assets": [
+  {
+   "file": "scene-garden.webp",
+   "source_file": "garden-jigsaw.webp",
+   "source_sha256": "df14fd2ebb15279b2aba655deb0b01e86505ad3deabaed3081f93ab01d8d4ecf",
+   "source_dimensions": [
+    1920,
+    1280
+   ],
+   "web_dimensions": [
+    1280,
+    853
+   ],
+   "web_bytes": 263252,
+   "web_sha256": "c5e81ec321bc9ca3c18f35fe930a9267136c52e89fc176b28a70010b4046edbd"
+  }
+ ],
+ "dedupe": {
+  "already_integrated_by_source_hash": 18,
+  "matches": {
+   "backgammon-support": "scene-backgammon",
+   "card-family": "scene-cards",
+   "crossword-scene": "muse-desk",
+   "homepage-hero": "hero-home",
+   "language-library": "scene-library",
+   "mastermind-pegs": "scene-pegs",
+   "number-tiles": "scene-numbers",
+   "queen-spades": "muse-queen",
+   "quiz-study": "scene-quiz",
+   "spotdiff-support": "scene-still",
+   "tabletop": "scene-tabletop",
+   "travel-departure": "scene-journey",
+   "word-desk": "scene-worddesk",
+   "card-back": "muse-back (provenance record)",
+   "art04 x4": "scene-freecell/spider/ginrummy/gofish (corrected GoFish phone crop untouched)"
+  }
+ }
+}

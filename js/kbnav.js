@@ -60,6 +60,9 @@
     const g = game();
     if (!g || SKIP.has(g)) return;
     if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    // 2026-11-03: Enter/Space on a control that has REAL keyboard focus (a <button>, link, role=button) is that control's own activation.
+    // Before this, kbnav swallowed it (preventDefault with no ring chosen), so Tab then Enter did nothing in every button-based game.
+    if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.closest && e.target.closest('button,a[href],summary,[role="button"]')) return;
     switch (e.key){
       case 'ArrowRight': move('right'); break;
       case 'ArrowLeft':  move('left');  break;

@@ -88,6 +88,9 @@ const SHELL = [
   './js/games/spotdiff.js',
   './js/games/fifteen.js',
   './js/games/mastermind.js',
+  './js/games/namegarden.js',
+  './js/games/patternworkshop.js',
+  './js/games/quietshelf.js',
   // /gen:new-games
   './js/affiliate.js',
   './js/brainscore.js',

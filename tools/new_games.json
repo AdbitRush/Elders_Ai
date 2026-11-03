@@ -4,7 +4,8 @@
     {"key": "cards", "title": "Cards & Board Games", "sub": "The table games you know by heart, against a patient computer."},
     {"key": "words", "title": "Words & Numbers", "sub": "Puzzles to sit down with, at your own pace."},
     {"key": "trivia", "title": "Nostalgia Trivia: the 50s to the 80s", "sub": "Real songs, shows, faces and prices from the years we remember."},
-    {"key": "arcade", "title": "Retro Arcade", "sub": "Original games in the spirit of the arcade classics. Slow to start, with big controls."}
+    {"key": "arcade", "title": "Retro Arcade", "sub": "Original games in the spirit of the arcade classics. Slow to start, with big controls."},
+    {"key": "garden", "title": "Gentle Practice: linked to our articles", "sub": "Calm, untimed games for enjoyment and practice. Each one has a short article about the research behind the idea - and what that research does not show."}
   ],
   "games": [
     {"id": "freecell", "wave": 1, "section": "cards", "init": "initFreeCell", "icon": "layers", "skills": ["planning", "logic"],
@@ -150,6 +151,10 @@
     {"id": "whack", "wave": 4, "section": "arcade", "init": "initWhack", "icon": "hammer", "skills": ["speed", "attention"],
      "title": "Pop-Up Moles", "desc": "Tap the moles as they pop up from their holes.",
      "inst": "Tap a mole when it pops up. Leave the bunnies alone.",
-     "why": "Reacting fast while holding back from the wrong target."}
+     "why": "Reacting fast while holding back from the wrong target."},
+    {"id": "namegarden", "wave": 5, "section": "garden", "init": "initNameGarden", "icon": "flower-2", "skills": ["memory", "attention"], "title": "Name Garden", "desc": "Meet four neighbours, then see who is who. The answer is always shown.", "inst": "Tap a name for each neighbour. Ask to be shown at any time.", "why": "Matching a made-up name to something you can picture, with the right answer shown every time."},
+    {"id": "patternworkshop", "wave": 5, "section": "garden", "init": "initPatternWorkshop", "icon": "grid-2x2", "skills": ["spatial", "pattern"], "title": "Pattern Workshop", "desc": "Copy a small mosaic at your own pace, with a rule example and Undo.", "inst": "Pick a piece, then pick a square. Turn pieces if the rule asks you to.", "why": "Looking carefully at shapes and how they turn, one small step at a time."},
+    {"id": "quietshelf", "wave": 5, "section": "garden", "init": "initQuietShelf", "icon": "eye", "skills": ["attention", "perception"], "title": "The Quiet Shelf", "desc": "Find the objects that match one clear rule on a calm shelf.", "inst": "Read the rule above the shelf, pick every match, then press Check shelf.", "why": "Searching a calm shelf for objects that match one rule."},
+    {"id": "daytown", "wave": 5, "section": "garden", "init": "initDayTown", "icon": "map", "skills": ["planning", "logic"], "title": "A Day in Town", "desc": "Plan a few errands in a made-up town, or follow a small map.", "inst": "Choose Plan or Map. Pick stops in order, or follow the arrows on the map.", "why": "Putting a few errands in order, or following a route on a small map, with no clock."}
   ]
 }
