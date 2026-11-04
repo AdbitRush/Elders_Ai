@@ -111,4 +111,102 @@ D.matchfix = { heKey: null, async play(p, R, H) {
     if (k < 2) await H.btn(p, 'Next puzzle');
   }
 } };
+// ---------- batch B: newspaper and puzzle-book grids ----------
+async function latinPlay(p, R, H, id, sel, key) {   // fill a Latin-style grid with keyboard digits from the stored answer
+  const g = await H.G(p, id), n = g.n, L = g.P.L;
+  // a wrong digit first: the same digit twice in row 1
+  await H.click(p, `[data-k="c0_0"]`); await p.keyboard.press('Digit' + L[0][1]); await H.click(p, `[data-k="c0_1"]`); await p.keyboard.press('Digit' + L[0][1]);
+  await H.btn(p, 'Check'); R.steps.push('same digit twice + Check -> ' + (await H.msg(p)).slice(0, 45));
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) { if (await H.modalUp(p)) return; await H.click(p, `[data-k="c${r}_${c}"]`); await p.keyboard.press('Digit' + L[r][c]); }
+  R.steps.push(`${n * n} squares typed with digit keys`);
+}
+D.cagemath = { heKey: null, async play(p, R, H) { await latinPlay(p, R, H, 'cagemath'); } };
+D.skyline = { heKey: null, async play(p, R, H) { await latinPlay(p, R, H, 'skyline'); } };
+D.bridges = { heKey: null, async play(p, R, H) {
+  const g = await H.G(p, 'bridges'), P = g.P;
+  // two islands that are not in a straight line
+  const far = P.isl.findIndex(([r, c]) => r !== P.isl[0][0] && c !== P.isl[0][1]);
+  await H.click(p, '[data-k="i0"]'); await H.click(p, `[data-k="i${far}"]`); R.steps.push('islands not in line -> ' + (await H.msg(p)).slice(0, 45));
+  await H.click(p, `[data-k="i${far}"]`);   // let go
+  for (const [a, b, k] of P.sol) for (let j = 0; j < k; j++) { if (await H.modalUp(p)) return; await H.click(p, `[data-k="i${a}"]`); await H.click(p, `[data-k="i${b}"]`); }
+  R.steps.push(`${P.sol.length} bridge lines built (${P.sol.reduce((x, y) => x + y[2], 0)} bridges)`);
+} };
+D.lamps = { heKey: { code: 'KeyH', key: 'י' }, async play(p, R, H) {
+  const g = await H.G(p, 'lamps'), { n, W, lamp } = g.P;
+  // two lamps in one open row
+  let pair = null; for (let r = 0; r < n && !pair; r++) for (let c = 0; c + 1 < n; c++) if (!W[r][c] && !W[r][c + 1]) { pair = [r, c]; break; }
+  if (pair) { await H.click(p, `[data-k="s${pair[0]}_${pair[1]}"]`); await H.click(p, `[data-k="s${pair[0]}_${pair[1] + 1}"]`); R.steps.push('two lamps facing -> ' + (await H.msg(p)).slice(0, 50)); await H.btn(p, 'Clear all'); }
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (lamp[r][c]) { if (await H.modalUp(p)) return; await H.click(p, `[data-k="s${r}_${c}"]`); }
+  R.steps.push(`${lamp.flat().filter(Boolean).length} lamps placed`);
+} };
+D.tents = { heKey: { code: 'KeyH', key: 'י' }, async play(p, R, H) {
+  const g = await H.G(p, 'tents'), { n, tree, tent } = g.P;
+  let pair = null; for (let r = 0; r < n && !pair; r++) for (let c = 0; c + 1 < n; c++) if (!tree[r][c] && !tree[r][c + 1]) { pair = [r, c]; break; }
+  await H.click(p, `[data-k="s${pair[0]}_${pair[1]}"]`); await H.click(p, `[data-k="s${pair[0]}_${pair[1] + 1}"]`); R.steps.push('two touching tents -> ' + (await H.msg(p)).slice(0, 50)); await H.btn(p, 'Clear all');
+  await H.btn(p, 'Grass away'); R.steps.push('grass shortcut -> ' + (await H.msg(p)).slice(0, 50));
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (tent[r][c]) { if (await H.modalUp(p)) return; await H.click(p, `[data-k="s${r}_${c}"]`); }
+  R.steps.push(`${tent.flat().filter(Boolean).length} tents pitched`);
+} };
+D.dropquote = { heKey: null, async play(p, R, H) {
+  const g = await H.G(p, 'dropquote'), { w, rows, ans, piles } = g.P;
+  // a letter that is not in this column's pile
+  const [r0, c0] = g.sel, miss = 'ZQXJKVW'.split('').find((L) => !piles[c0].includes(L));
+  await p.keyboard.press('Key' + miss); R.steps.push(`typed ${miss} (not in the pile) -> ` + (await H.msg(p)).slice(0, 45));
+  // Hebrew layout: the physical key for the right letter carries a Hebrew character in e.key
+  const want = ans[r0][c0];
+  await p.evaluate((code) => document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'ש', code, bubbles: true, cancelable: true })), 'Key' + want);
+  const got = (await H.G(p, 'dropquote')).g[r0][c0]; R.steps.push(`Hebrew-layout key for ${want} wrote: ${got || '(nothing)'}`); if (got !== want) R.defects.push('letter key failed with a Hebrew key value');
+  let typed = 0;
+  for (let r = 0; r < rows; r++) for (let c = 0; c < w; c++) { if (ans[r][c] === '#' || g.given[r][c]) continue; if (await H.modalUp(p)) return; await H.click(p, `[data-k="c${r}_${c}"]`); await p.keyboard.press('Key' + ans[r][c]); typed++; }
+  R.steps.push(`${typed} letters typed: ${g.P.say}`);
+} };
+D.dotdot = { heKey: null, async play(p, R, H) {
+  for (let k = 0; k < 3; k++) {
+    const g = await H.G(p, 'dotdot'), n = g.dots.length;
+    await p.locator('#gameContent .dd-b').evaluate((e) => e.scrollIntoView({ block: 'center' })); await H.sleep(100);
+    let box = await p.locator('#gameContent .dd-b').boundingBox(); const box0 = box;
+    const tapDot = async (i) => { box = await p.locator('#gameContent .dd-b').boundingBox(); if (Math.abs(box.y - box0.y) > 2) R.steps.push(`board moved ${Math.round(box.y - box0.y)}px at dot ${i + 1}`); const [x, y] = g.dots[i]; await p.mouse.click(box.x + box.width * x / 100 + Math.sign(50 - x) * 6, box.y + box.height * y / 100 + Math.sign(50 - y) * 5); await H.sleep(40); };   // a little off the dot: taps are forgiving
+    if (k === 0) { await tapDot(Math.min(5, n - 1)); R.steps.push('wrong dot -> ' + (await H.msg(p)).slice(0, 40)); }
+    for (let i = 1; i < n; i++) { await tapDot(i); const d = (await H.G(p, 'dotdot')).done; if (d !== i + 1) { const [x, y] = g.dots[i]; const el = await p.evaluate(([X, Y]) => { const e = document.elementFromPoint(X, Y); return e ? e.outerHTML.slice(0, 120) : 'none'; }, [box.x + box.width * x / 100 + Math.sign(50 - x) * 6, box.y + box.height * y / 100 + Math.sign(50 - y) * 5]); R.defects.push(`tap on dot ${i + 1} (${x.toFixed(1)},${y.toFixed(1)}) not taken: ` + (await H.msg(p)) + ' | hit ' + el); break; } }
+    if (k === 1) { await p.locator('#gameContent [data-k="d0"]').focus(); await p.keyboard.press('Enter'); } else await tapDot(0);
+    R.steps.push(`picture ${k + 1} (${n} dots${k === 1 ? ', closed by keyboard' : ''}) -> ` + (await H.msg(p)).slice(0, 30));
+    if (k < 2) await H.btn(p, 'Next picture');
+  }
+} };
+D.fenceloop = { heKey: { code: 'KeyH', key: 'י' }, async play(p, R, H) {
+  const g = await H.G(p, 'fenceloop'), { h, v } = g.P;
+  for (const k of ['h1_0', 'h1_1', 'v0_1']) await H.click(p, `[data-k="${k}"]`);
+  R.steps.push('three pieces at one dot -> ' + (await H.msg(p)).slice(0, 50)); await H.btn(p, 'Clear all');
+  let k = 0;
+  for (let r = 0; r < h.length; r++) for (let c = 0; c < h[r].length; c++) if (h[r][c]) { if (await H.modalUp(p)) return; await H.click(p, `[data-k="h${r}_${c}"]`); k++; }
+  for (let r = 0; r < v.length; r++) for (let c = 0; c < v[r].length; c++) if (v[r][c]) { if (await H.modalUp(p)) return; await H.click(p, `[data-k="v${r}_${c}"]`); k++; }
+  R.steps.push(`${k} fence pieces placed`);
+} };
+D.hose = { heKey: null, async play(p, R, H) {
+  const g = await H.G(p, 'hose'), n = g.n, rot = (m) => ((m << 1) | (m >> 3)) & 15;
+  let taps = 0;
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) { let m = g.g[r][c]; while (m !== g.P.sol[r][c]) { if (await H.modalUp(p)) return R.steps.push(`${taps} turns (finished early: another arrangement also works)`); if (r === 0 && c === 0 && taps === 0) { await p.locator('#gameContent [data-k="s0_0"]').focus(); await p.keyboard.press('Enter'); } else await H.click(p, `[data-k="s${r}_${c}"]`); m = rot(m); taps++; } }
+  R.steps.push(`${taps} quarter turns; first one by Enter`);
+} };
+D.parking = { heKey: null, async play(p, R, H) {
+  const plan = async () => p.evaluate(() => { const g = gameState.parking, seen = new Map([[g.b, null]]), q = [g.b];
+    for (let h = 0; h < q.length; h++) { const b = q[h]; if (b[17] === 'A') { const out = []; let x = b; while (seen.get(x)) { const [prev, ch, sh] = seen.get(x); out.unshift([ch, sh]); x = prev; } return out; }
+      for (const ch of Object.keys(_pkCars(b))) for (const { shift } of _pkReach(b, ch)) { const nb = _pkSlide(b, ch, shift); if (!seen.has(nb)) { seen.set(nb, [b, ch, shift]); q.push(nb); } } } return null; });
+  const g = await H.G(p, 'parking');
+  // keyboard: pick the red car with Enter, push it the wrong way into whatever is there
+  await p.locator('#gameContent [data-k="vA"]').focus(); await p.keyboard.press('Enter');
+  const reachL = await p.evaluate(() => _pkReach(gameState.parking.b, 'A').filter((x) => x.shift < 0).length);
+  for (let i = 0; i <= reachL; i++) await p.keyboard.press('ArrowLeft');
+  R.steps.push(`red car pushed left ${reachL + 1} times by keyboard -> ` + (await H.msg(p)).slice(0, 40));
+  await H.btn(p, 'Start this lot over');
+  const mv = await plan(); if (!mv) return R.defects.push('test solver found no way out');
+  for (const [ch, sh] of mv) {
+    if (await H.modalUp(p)) break;
+    const sel = (await H.G(p, 'parking')).sel; if (sel !== ch) await H.click(p, `[data-k="v${ch}"]`);
+    const cell = await p.evaluate(([ch, sh]) => _pkReach(gameState.parking.b, ch).find((x) => x.shift === sh).cell, [ch, sh]);
+    await H.click(p, `[data-k="t${cell}"]`);
+  }
+  const e = await H.G(p, 'parking'); R.steps.push(`${mv.length} slides by tapping (fewest ${g.best}); counted ${e.moves}`);
+  if (mv.length !== g.best) R.defects.push(`stored fewest ${g.best} but solver found ${mv.length}`);
+} };
 module.exports = D;

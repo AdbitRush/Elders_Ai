@@ -19,6 +19,16 @@ const STAGE = {
   numpyramid: ['.np-p', () => {}],
   frogswap: ['.fs-row', () => { fsTap(2); fsTap(4); }],
   matchfix: ['.mf-eq', () => {}],
+  cagemath: ['.cm-g', () => { const g = gameState.cagemath; for (let k = 0; k < 9; k++) { const r = Math.floor(k / g.n), c = k % g.n; g.g[r][c] = g.P.L[r][c]; } g.sel = [1, 4]; NK.render('cagemath'); }],
+  skyline: ['.sky-g', () => { const g = gameState.skyline; for (let k = 0; k < 13; k++) { const r = Math.floor(k / g.n), c = k % g.n; g.g[r][c] = g.P.L[r][c]; } NK.render('skyline'); }],
+  bridges: ['.br-b', () => { const g = gameState.bridges; g.P.sol.slice(0, Math.ceil(g.P.sol.length * 0.6)).forEach(([a, b, k]) => (g.b[_brKey(a, b)] = k)); NK.render('bridges'); }],
+  lamps: ['.lm-b', () => { const g = gameState.lamps; let k = 0; g.P.lamp.forEach((row, r) => row.forEach((x, c) => { if (x && k++ < 6) g.g[r][c] = 1; })); NK.render('lamps'); }],
+  tents: ['.tn-b', () => { const g = gameState.tents; let k = 0; g.P.tent.forEach((row, r) => row.forEach((x, c) => { if (x && k++ < 7) g.g[r][c] = 1; })); NK.render('tents'); }],
+  dropquote: ['.dq-g', () => { const g = gameState.dropquote; g.P.ans.forEach((row, r) => row.forEach((ch, c) => { if (ch !== '#' && r < 2) g.g[r][c] = ch; })); NK.render('dropquote'); }],
+  dotdot: ['.dd-b', () => { const g = gameState.dotdot; g.done = Math.ceil(g.dots.length * 0.7); NK.render('dotdot'); }],
+  fenceloop: ['.fl-b', () => { const g = gameState.fenceloop; let k = 0; g.P.h.forEach((row, r) => row.forEach((x, c) => { if (x && k++ < 9) g.h[r][c] = 1; })); NK.render('fenceloop'); }],
+  hose: ['.hs-b', () => { const g = gameState.hose; g.g = g.g.map((row, r) => row.map((m, c) => (r < 3 ? g.P.sol[r][c] : m))); NK.render('hose'); }],
+  parking: ['.pk-w', () => {}],
 };
 (async () => {
   const b = await chromium.launch();
