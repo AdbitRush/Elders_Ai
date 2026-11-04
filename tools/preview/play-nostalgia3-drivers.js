@@ -220,15 +220,6 @@ D.golfsol = { heKey: { code: 'KeyD', key: 'ג' }, async play(p, R, H) {
     if (i >= 0) await H.click(p, `[data-k="c${i}"]`); else await H.click(p, '[data-k="stock"]'); moves++; }
   R.steps.push(`${moves} plays (columns first, else the stock)`);
 } };
-D.pyramid = { focusSel: '#gameContent [data-k="p6_0"]', heKey: { code: 'KeyD', key: 'ג' }, async play(p, R, H) {
-  const bad = await p.evaluate(() => { const g = gameState.pyramid, a = _pyAvail(g).filter((x) => x[0] === 'p'); for (let i = 0; i < a.length; i++) for (let j = i + 1; j < a.length; j++) if (_pyCard(g, a[i]).r + _pyCard(g, a[j]).r !== 13 && _pyCard(g, a[i]).r !== 13 && _pyCard(g, a[j]).r !== 13) return [a[i], a[j]]; return null; });
-  if (bad) { for (const x of bad) await H.click(p, `[data-k="p${x[1]}_${x[2]}"]`); R.steps.push('two cards not making 13 -> ' + (await H.msg(p)).slice(0, 45)); await H.click(p, `[data-k="p${bad[1][1]}_${bad[1][2]}"]`); }
-  let pairs = 0, draws = 0;
-  for (let k = 0; k < 300; k++) { if (await H.modalUp(p) || await p.evaluate(() => gameState.pyramid.over)) break;
-    const pr = await p.evaluate(() => { const ps = _pyPairs(gameState.pyramid); ps.sort((a, b) => Math.min(...a.map((x) => (x[0] === 'w' ? 9 : x[1]))) - Math.min(...b.map((x) => (x[0] === 'w' ? 9 : x[1])))); return ps[0] || null; });
-    if (pr) { for (const x of pr) await H.click(p, x[0] === 'w' ? '[data-k="waste"]' : `[data-k="p${x[1]}_${x[2]}"]`); pairs++; } else { await H.click(p, '[data-k="stock"]'); draws++; } }
-  R.steps.push(`${pairs} pairs/kings removed, ${draws} stock turns`);
-} };
 D.accordion = { heKey: { code: 'KeyD', key: 'ג' }, async play(p, R, H) {
   await H.click(p, '[data-k="p2"]'); await H.click(p, '[data-k="p0"]'); R.steps.push('jump of two places -> ' + (await H.msg(p)).slice(0, 45));
   let jumps = 0, deals = 0;
@@ -339,7 +330,7 @@ D.nim = { focusSel: '#gameContent [data-k="s3_0"]', heKey: null, async play(p, R
     if ((await until(p, H, () => { const g = gameState.nim; return g.over || g.done || g.turn === 0; })) === 'modal' || await over(p, 'nim')) break;
     const g = await H.G(p, 'nim');
     if (g.done) { await H.btn(p, 'Next game'); continue; }
-    if (k === 0) { await H.btn(p, 'Take'); R.steps.push('Take with nothing marked -> ' + (await H.msg(p)).slice(0, 40)); }
+    if (k === 0) { const dis = await p.locator('#gameContent [data-k="take"]').isDisabled(); await p.keyboard.press('KeyT'); R.steps.push(`Take with nothing marked: button disabled ${dis}; T key -> ` + (await H.msg(p)).slice(0, 40)); }
     const mv = await p.evaluate(() => { const g = gameState.nim; const b = _nmBest(g.rows); if (b) return b; const r = g.rows.indexOf(Math.max(...g.rows)); return [r, g.rows[r] - 1]; });
     await H.click(p, `[data-k="s${mv[0]}_${mv[1]}"]`); if (k % 2) await p.keyboard.press('KeyT'); else await H.btn(p, 'Take');
   }
@@ -456,8 +447,160 @@ D.starhop = { heKey: null, async play(p, R, H) {
         const sc = gain * 10 + (gain > 0 ? (S - g.pts[i][0]) * 0.8 : 0) - (inG && !_shGoal(g, 1, t) ? 60 : 0) + (_shGoal(g, 1, t) && !inG ? 8 : 0) + (inG && _shGoal(g, 1, t) ? gain * 3 : 0) - Math.abs(g.pts[t][1] - g.pts[t][2]) * 0.5 + Math.random() * 0.5;
         if (!best || sc > best.sc) best = { sc, i, t }; }); }); return best; });
     if (!mv) break;
-    await H.click(p, `[data-k="h${mv.i}"]`); await H.click(p, `[data-k="h${mv.t}"]`);
+    for (const i of [mv.i, mv.t]) { const l = p.locator(`#gameContent [data-k="h${i}"]`); await l.evaluate((e) => e.scrollIntoView({ block: 'center' })); const b = await l.boundingBox(); await p.mouse.click(b.x + b.width / 2 + 3, b.y + b.height / 2 - 2); await H.sleep(40); }   // taps land on the board, near the hole
   }
   const g = await H.G(p, 'starhop'); R.steps.push(`${k} moves; blue home ${g.b.filter((v, i) => v === 1 && g.pts[i][0] > g.S).length}`);
+} };
+D.cribbage = { heKey: null, async play(p, R, H) {
+  await p.evaluate(() => { gameState.cribbage.goal = 31; }); R.steps.push('game lowered to 31 points for the test run');
+  let k = 0, hands = 0, bad = false;
+  for (; k < 400; k++) {
+    if ((await until(p, H, () => { const g = gameState.cribbage; return g.over || g.phase === 'discard' || g.phase === 'show' || (g.phase === 'play' && g.turn === 0); }, 30000)) === 'modal' || await over(p, 'cribbage')) break;
+    const g = await H.G(p, 'cribbage');
+    if (g.phase === 'discard') { const h = g.hands[0]; await H.click(p, `[data-k="h${h[0].r}_${h[0].s}"]`); await H.click(p, `[data-k="h${h[1].r}_${h[1].s}"]`); await H.btn(p, 'Send to crib'); continue; }
+    if (g.phase === 'show') { hands++; R.steps.push('show: ' + (await p.locator('#gameContent .cb-show h4').allInnerTexts()).join(' / ')); await H.btn(p, 'Next hand'); continue; }
+    const c = g.hands[0].find((x) => g.count + Math.min(10, x.r) <= 31), over31 = g.hands[0].find((x) => g.count + Math.min(10, x.r) > 31);
+    if (!bad && over31) { bad = true; await p.evaluate((x) => cbCard(gameState.cribbage.hands[0].findIndex((y) => y.r === x.r && y.s === x.s)), over31); R.steps.push('card past 31 -> ' + (await H.msg(p)).slice(0, 45)); }
+    if (c) await H.click(p, `[data-k="h${c.r}_${c.s}"]`); else await H.sleep(300);
+  }
+  const g = await H.G(p, 'cribbage'); R.steps.push(`${k} actions over ${hands} shows; score you ${g.sc[0]}, computer ${g.sc[1]}`);
+} };
+// ---------- batch E: arcade and early computer games ----------
+D.crates = { heKey: null, async play(p, R, H) {
+  // one legal step, then Undo with the U key as a Hebrew layout sends it
+  const d = await p.evaluate(() => { const g = gameState.crates, W = g.W; return [[-1, 'ArrowLeft'], [1, 'ArrowRight'], [-W, 'ArrowUp'], [W, 'ArrowDown']].find(([x]) => !g.wall.includes(g.pl + x) && !g.box.includes(g.pl + x))[1]; });
+  const pl0 = (await H.G(p, 'crates')).pl; await p.keyboard.press(d);
+  await p.evaluate(() => document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'ו', code: 'KeyU', bubbles: true, cancelable: true })));
+  const pl1 = (await H.G(p, 'crates')).pl; R.steps.push(`step then Hebrew-layout U: worker back at start ${pl1 === pl0}`); if (pl1 !== pl0) R.defects.push('undo key failed with a Hebrew key value');
+  await H.btn(p, 'Start room over');
+  for (let room = 0; room < 3; room++) {
+    const path = await p.evaluate(() => { const g = gameState.crates, W = g.W, key = (pl, b) => pl + ':' + b.slice().sort((a, c) => a - c).join(',');
+      const q = [[g.pl, g.box, '']], seen = new Set([key(g.pl, g.box)]);
+      for (let h = 0; h < q.length; h++) { const [pl, b, path] = q[h]; if (b.every((x) => g.goal.includes(x))) return path;
+        for (const [d, ch] of [[-1, 'L'], [1, 'R'], [-W, 'U'], [W, 'D']]) { const n = pl + d; if (g.wall.includes(n)) continue; const bi = b.indexOf(n); let nb = b; if (bi >= 0) { const n2 = n + d; if (g.wall.includes(n2) || b.includes(n2)) continue; nb = b.slice(); nb[bi] = n2; } const k = key(n, nb); if (!seen.has(k)) { seen.add(k); q.push([n, nb, path + ch]); } } }
+      return null; });
+    if (!path) { R.defects.push('test solver found no solution'); return; }
+    for (const ch of path) { if (room === 1) await H.click(p, `[data-k="${{ L: 'left', R: 'right', U: 'up', D: 'down' }[ch]}"]`); else await p.keyboard.press({ L: 'ArrowLeft', R: 'ArrowRight', U: 'ArrowUp', D: 'ArrowDown' }[ch]); }
+    const g = await H.G(p, 'crates'); R.steps.push(`room ${room + 1}: solved in ${g.moves} steps by ${room === 1 ? 'arrow buttons' : 'arrow keys'} (fewest ${g.best})`);
+    if (room < 2) await H.btn(p, 'Next room');
+  }
+} };
+D.muncher = { heKey: null, async play(p, R, H) {
+  let k = 0;
+  for (; k < 1200; k++) {
+    if (await H.modalUp(p) || await over(p, 'muncher')) break;
+    const d = await p.evaluate(() => { const g = gameState.muncher, W = g.W, ds = [1, -1, W, -W];
+      const danger = (i) => g.cats.some((c) => c === i || (!g.scared && ds.some((x) => c + x === i)));
+      const prev = new Map([[g.pl, null]]), q = [g.pl];
+      for (let h = 0; h < q.length; h++) { const i = q[h]; if (i !== g.pl && (g.crumb.has(i) || g.cheese.has(i))) { let x = i; while (prev.get(x) !== g.pl) x = prev.get(x); return x - g.pl; } for (const dd of ds) { const j = i + dd; if (!g.g[j] && !prev.has(j) && !(danger(j) && h < 3)) { prev.set(j, i); q.push(j); } } }
+      const safe = ds.filter((dd) => !g.g[g.pl + dd] && !danger(g.pl + dd)); return safe.length ? safe[0] : ds.find((dd) => !g.g[g.pl + dd]); });
+    await p.keyboard.press({ 1: 'ArrowRight', '-1': 'ArrowLeft' }[d] || (d > 0 ? 'ArrowDown' : 'ArrowUp'));
+  }
+  const g = await H.G(p, 'muncher'); R.steps.push(`${k} steps by arrow keys; crumbs left ${g.crumb.length}, lives ${g.lives}`);
+} };
+D.telegraph = { focusSel: '#gameContent [data-k="LA"]', heKey: null, async play(p, R, H) {
+  for (let k = 0; k < 5; k++) {
+    const g = await H.G(p, 'telegraph'), want = g.msgText.replace(/ /g, '');
+    if (k === 0) { const wrong = 'QZXJ'.split('').find((L) => L !== want[0]); await p.keyboard.press('Key' + wrong); R.steps.push('wrong letter -> ' + (await H.msg(p)).slice(0, 45)); await p.evaluate((code) => document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'ש', code, bubbles: true, cancelable: true })), 'Key' + want[0]); R.steps.push(`Hebrew-layout key for ${want[0]} -> decoded ${(await H.G(p, 'telegraph')).pos}`); }
+    for (const L of want.slice((await H.G(p, 'telegraph')).pos)) { if (k === 1) await H.click(p, `[data-k="L${L}"]`); else await p.keyboard.press('Key' + L); }
+    R.steps.push(`telegram ${k + 1}: ${g.msgText}${k === 1 ? ' (on-screen letters)' : ''}`);
+    if (k < 4) await H.btn(p, 'Next telegram');
+  }
+} };
+D.cavehunt = { heKey: { code: 'KeyN', key: 'מ' }, async play(p, R, H) {
+  let miss = false;
+  for (let k = 0; k < 60; k++) {
+    if (await H.modalUp(p) || await over(p, 'cavehunt')) break;
+    const a = await p.evaluate(() => { const g = gameState.cavehunt, adj = _CV_ADJ;
+      if (adj[g.at].includes(g.bear)) return { net: g.bear, adjEmpty: adj[g.at].find((x) => x !== g.bear && !g.pits.includes(x)) };
+      const bad = (x) => g.pits.includes(x) || g.bats.includes(x) || x === g.bear, prev = new Map([[g.at, null]]), q = [g.at];
+      for (let h = 0; h < q.length; h++) { const i = q[h]; if (adj[i].includes(g.bear) && i !== g.at) { let x = i; while (prev.get(x) !== g.at) x = prev.get(x); return { go: x }; } for (const j of adj[i]) if (!prev.has(j) && !bad(j)) { prev.set(j, i); q.push(j); } }
+      return { go: adj[g.at].find((x) => !g.pits.includes(x) && x !== g.bear) }; });
+    if (a.net) {
+      if (!miss && a.adjEmpty) { miss = true; await H.btn(p, 'Throw a net'); await H.click(p, `[data-k="r${a.adjEmpty}"]`); R.steps.push('net into an empty cavern -> ' + (await H.msg(p)).slice(0, 50)); continue; }
+      await H.btn(p, 'Throw a net'); await H.click(p, `[data-k="r${a.net}"]`); R.steps.push(`net thrown into cavern ${a.net}`);
+    } else await H.click(p, `[data-k="r${a.go}"]`);
+  }
+} };
+D.gemswap = { heKey: null, async play(p, R, H) {
+  let k = 0, bad = false;
+  for (; k < 60; k++) {
+    if (await H.modalUp(p) || await over(p, 'gemswap')) break;
+    const m = await p.evaluate(() => { const b = gameState.gemswap.b, N = _GM_N; let best = null, nope = null;
+      for (let i = 0; i < N * N; i++) for (const j of [i + 1, i + N]) { if (j >= N * N || (j === i + 1 && i % N === N - 1)) continue; _gmSwap(b, i, j); const L = _gmLines(b); _gmSwap(b, i, j); if (L.hit.size && (!best || L.hit.size > best.n)) best = { i, j, n: L.hit.size }; if (!L.hit.size && !nope) nope = { i, j }; }
+      return { best, nope }; });
+    if (!bad && m.nope) { bad = true; await H.click(p, `[data-k="g${m.nope.i}"]`); await H.click(p, `[data-k="g${m.nope.j}"]`); R.steps.push('swap with no line -> ' + (await H.msg(p)).slice(0, 45)); }
+    await H.click(p, `[data-k="g${m.best.i}"]`); await H.click(p, `[data-k="g${m.best.j}"]`);
+  }
+  const g = await H.G(p, 'gemswap'); R.steps.push(`${k} swaps by tapping; ${g.got} of ${g.goal} gems`);
+} };
+D.bubbles = { focusSel: '#gameContent [data-k="shoot"]', heKey: { code: 'KeyS', key: 'ד' }, async play(p, R, H) {
+  // one aim by tapping the board
+  const box = await p.locator('#gameContent .bb-w').boundingBox(); await p.mouse.click(box.x + box.width * 0.3, box.y + box.height * 0.3); R.steps.push('aim by tap -> ' + (await H.msg(p)).slice(0, 30));
+  let k = 0;
+  for (; k < 200; k++) {
+    if (await H.modalUp(p) || await over(p, 'bubbles')) break;
+    await p.evaluate(() => { const g = gameState.bubbles, save = g.ang; let best = null;
+      for (let a = -Math.PI + 0.2; a < -0.2; a += 0.025) { g.ang = a; const T = _bbTrace(g); if (!T.hit) continue; const [r, c] = T.hit; g.g[r][c] = g.cur; const grp = [[r, c]], seen = new Set([r + ',' + c]); for (let h = 0; h < grp.length; h++) for (const [y, x] of _bbNb(g, ...grp[h])) if (!seen.has(y + ',' + x) && g.g[y][x] === g.cur) { seen.add(y + ',' + x); grp.push([y, x]); } g.g[r][c] = -1; const v = grp.length * 10 - r; if (!best || v > best.v) best = { v, a }; }
+      g.ang = best ? best.a : save; NK.render('bubbles'); });
+    if (k % 2) await p.keyboard.press('Space'); else await H.btn(p, 'Shoot');
+  }
+  const g = await H.G(p, 'bubbles'); R.steps.push(`${k} shots (Space and the Shoot button); popped ${g.popped}`);
+} };
+D.crane = { focusSel: '#gameContent [data-k="drop"]', heKey: { code: 'KeyD', key: 'ג' }, async play(p, R, H) {
+  let k = 0;
+  for (; k < 40; k++) {
+    if ((await until(p, H, () => gameState.crane.state === 'idle' || gameState.crane.over)) === 'modal' || await over(p, 'crane')) break;
+    const tx = await p.evaluate(() => { const g = gameState.crane; return g.pr.reduce((b, x) => (!b || Math.abs(x.x - g.x) < Math.abs(b.x - g.x) ? x : b), null).x; });
+    for (let j = 0; j < 30; j++) { const x = (await H.G(p, 'crane')).x; if (Math.abs(x - tx) <= 2) break; if (j % 2) await p.keyboard.press(x < tx ? 'ArrowRight' : 'ArrowLeft'); else await H.click(p, `[data-k="${x < tx ? 'right' : 'left'}"]`); }
+    await H.click(p, '[data-k="drop"]');
+  }
+  const g = await H.G(p, 'crane'); R.steps.push(`${k} drops; prizes ${g.won.length} of ${g.goal}, tokens left ${g.tok}`);
+} };
+D.adventure = { focusSel: '#gameContent [data-k="look"]', heKey: null, async play(p, R, H) {
+  const g = await H.G(p, 'adventure'), go = (d) => H.click(p, `[data-k="go${d}"]`), x = (t) => H.click(p, `[data-k="x${t}"]`), take = () => H.click(p, '[data-k="take"]'), use = (i) => H.click(p, `[data-k="use${i}"]`);
+  await go('north'); await go('east'); R.steps.push('locked shed -> ' + (await H.msg(p)).slice(0, 40));
+  if (g.hide.key === 'logbook') { await go('north'); await x('logbook'); await take(); await go('south'); await go('south'); await go('east'); }
+  else { await go('south'); await go('east'); await x(g.hide.key); await take(); }
+  await x(g.hide.matches); await take(); if (g.hide.key !== 'logbook') { /* still in the cottage */ }
+  await go('west'); await go('north'); await go('east');
+  await x('shelf'); await take(); await use('matches'); await go('down'); await x('barrels'); await take(); await go('up'); await go('west'); await go('north'); await go('up');
+  await use('matches'); R.steps.push('match before oil -> ' + (await H.msg(p)).slice(0, 45));
+  await use('oil'); await use('matches');
+  R.steps.push(`walked the island with buttons; key was under/in the ${g.hide.key}, matches in the ${g.hide.matches}`);
+} };
+D.wagontrail = { focusSel: '#gameContent [data-k="steady"]', heKey: null, async play(p, R, H) {
+  let k = 0;
+  for (; k < 200; k++) {
+    if (await H.modalUp(p) || await over(p, 'wagontrail')) break;
+    const g = await H.G(p, 'wagontrail');
+    if (g.at === 'river') { await H.click(p, `[data-k="${g.money >= 30 ? 'ferry' : 'ford'}"]`); continue; }
+    if (g.at === 'fort') { if (g.food < 300 && g.money >= 10) await H.click(p, '[data-k="food"]'); else if (!g.parts && g.money >= 15) await H.click(p, '[data-k="part"]'); else await H.click(p, '[data-k="leave"]'); continue; }
+    const behind = g.mi < (g.day - 1) * 14.5;
+    await H.click(p, `[data-k="${g.stuck ? 'steady' : g.health < 40 ? 'rest' : g.food < 30 ? 'forage' : behind && g.health > 60 ? 'push' : 'steady'}"]`);
+  }
+  const g = await H.G(p, 'wagontrail'); R.steps.push(`${k} days chosen; reached mile ${Math.round(g.mi)} on day ${g.day}, health ${Math.round(g.health)}`);
+} };
+D.victorygarden = { heKey: { code: 'KeyE', key: 'ק' }, async play(p, R, H) {
+  let k = 0, bad = false;
+  for (; k < 20; k++) {
+    if (await H.modalUp(p) || await over(p, 'victorygarden')) break;
+    for (let c = 0; c < 6; c++) {
+      if (await H.modalUp(p) || await over(p, 'victorygarden')) break;
+      const a = await p.evaluate(() => { const g = gameState.victorygarden; if (!g.left) return null; const wl = g.weeks - g.week;
+        let i = g.beds.findIndex((b) => b.crop && !b.dead && b.age >= _VG_CROP[b.crop].grow); if (i >= 0) return ['harvest', i];
+        i = g.beds.findIndex((b) => b.dead); if (i >= 0) return ['harvest', i];
+        i = g.beds.findIndex((b) => b.crop && b.water <= 1); if (i >= 0) return ['water', i];
+        i = g.beds.findIndex((b) => b.crop && b.weeds >= 2); if (i >= 0) return ['weed', i];
+        const crop = wl >= 8 ? 'squash' : wl >= 7 ? 'tomato' : wl >= 5 ? 'beans' : wl >= 4 ? 'carrot' : null;
+        i = g.beds.findIndex((b) => !b.crop); if (crop && i >= 0) return [crop, i]; return null; });
+      if (!a) break;
+      if (!bad) { bad = true; await H.click(p, '[data-k="tharvest"]'); await H.click(p, '[data-k="b0"]'); R.steps.push('harvest an empty bed -> ' + (await H.msg(p)).slice(0, 40)); }
+      await H.click(p, `[data-k="t${a[0]}"]`); await H.click(p, `[data-k="b${a[1]}"]`);
+    }
+    if (await H.modalUp(p) || await over(p, 'victorygarden')) break;
+    await H.click(p, '[data-k="end"]');
+  }
+  const g = await H.G(p, 'victorygarden'); R.steps.push(`${k} weeks gardened by tapping; harvest ${g.lb} of ${g.goal} lb`);
 } };
 module.exports = D;
