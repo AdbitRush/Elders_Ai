@@ -8,7 +8,7 @@
 // Grid: C columns; odd rows are shifted half a bubble right and hold C - 1 bubbles. Units: 1 = one bubble width.
 // ═══════════════════════════════════════════════════════════════════════════════
 const _BB_C = 8, _BB_ROWS = 13;
-const _BB_COL = [['#dc2626', 'red', '♥'], ['#2563eb', 'blue', '◆'], ['#16a34a', 'green', '♣'], ['#ca8a04', 'yellow', '★'], ['#9333ea', 'purple', '●']];
+const _BB_COL = [['#dc2626', 'red', '♥'], ['#2563eb', 'blue', '◆'], ['#16a34a', 'green', '♣'], ['#ca8a04', 'yellow', '▲'], ['#9333ea', 'purple', '●']];
 function initBubbles() {
     NK.start('bubbles', {
         setup(gs, diff) {
