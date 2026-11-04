@@ -488,3 +488,11 @@ html[data-game="daytown"] #gameView{ --game-photo:url(../images/art/scene-journe
 @media (min-width:768px){ #gameView > div > div:first-child{ min-height:100px !important; padding:18px 32px 10px !important; } }
 #gameView #gameTitle{ font-size:clamp(1.6rem,3.6vw,2.3rem) !important; line-height:1.15 !important; margin:0 !important; }
 #gameView #gameInstructions{ font-size:1.1rem !important; line-height:1.35 !important; margin-top:4px !important; }
+/* hub search (2026-11): a big, plain search box above the chips; the count is read out as it changes */
+#hub-nav .hn-search{ margin:0 0 12px; }
+#hub-nav .hn-qrow{ display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+#hub-nav #hn-q{ flex:1 1 16rem; min-width:0; min-height:56px; padding:10px 16px; font-size:1.2rem; border:2px solid var(--w-line); border-radius:14px; background:var(--w-card); color:var(--w-ink); }
+#hub-nav #hn-q:focus{ outline:3px solid #f59e0b; outline-offset:2px; }
+#hub-nav .hn-clear{ min-height:56px; padding:8px 18px; border-radius:14px; border:2px solid var(--w-line); background:var(--w-card); color:var(--w-ink); font-weight:800; font-size:1.05rem; cursor:pointer; }
+#hub-nav .hn-count{ margin:6px 2px 0; font-weight:700; font-size:1.05rem; color:var(--w-ink); opacity:.85; }
+.hn-empty{ font-size:1.2rem; font-weight:700; text-align:center; padding:24px 8px; }
