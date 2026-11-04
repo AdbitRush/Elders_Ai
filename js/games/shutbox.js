@@ -134,9 +134,10 @@ function _sbView(gs) {
     const open = mine ? gs.open : gs.cpuOpen;
     const tiles = open.map((o, i) => {
         const v = i + 1, pk = mine && gs.pick.includes(v);
-        if (!o) return `<span class="nk-cell sb-t sb-shut" aria-label="tile ${v}, shut">${v}</span>`;
-        return mine ? `<button type="button" class="nk-cell sb-t${pk ? ' sb-pick' : ''}" onclick="sbTile(${v})" data-k="t${v}"${v === 1 ? ' data-first' : ''} aria-pressed="${pk}" aria-label="tile ${v}${pk ? ', picked' : ''}"${gs.need && !gs.over ? '' : ' disabled'}>${v}</button>`
-            : `<span class="nk-cell sb-t" aria-label="tile ${v}, open">${v}</span>`;
+        // every tile is a real control whose label says its state, even when it cannot be pressed (review 2026-11-04)
+        if (!mine) return `<span class="nk-cell sb-t${o ? '' : ' sb-shut'}" role="img" aria-label="computer's tile ${v}, ${o ? 'open' : 'shut'}">${v}</span>`;
+        if (!o) return `<button type="button" class="nk-cell sb-t sb-shut" data-k="t${v}" aria-label="tile ${v}, shut" disabled>${v}</button>`;
+        return `<button type="button" class="nk-cell sb-t${pk ? ' sb-pick' : ''}" onclick="sbTile(${v})" data-k="t${v}"${v === 1 ? ' data-first' : ''} aria-pressed="${pk}" aria-label="tile ${v}, open${pk ? ', picked' : ''}"${gs.need && !gs.over ? '' : ' disabled'}>${v}</button>`;
     }).join('');
     const sum = gs.pick.reduce((a, b) => a + b, 0);
     const dice = gs.dice.length ? gs.dice.map(_sbDie).join('') + `<span class="sb-sum">= ${gs.dice.reduce((a, b) => a + b, 0)}</span>` : '<span class="sb-sum" style="color:#6b5640">Dice not rolled yet</span>';

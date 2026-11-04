@@ -44,7 +44,9 @@
     ['gameTitle', 'gameInstructions', 'modalTitle', 'modalBody'].forEach((x) => { const e = document.getElementById(x); if (e) e.setAttribute('dir', 'auto'); });
     if (def.css && !document.getElementById('nk-css-' + id)) { const st = document.createElement('style'); st.id = 'nk-css-' + id; st.textContent = def.css; document.head.appendChild(st); }
     const el = document.getElementById('gameContent');
-    el.innerHTML = `<div class="nk nk-${id}" dir="ltr" tabindex="-1"></div>`;
+    // the live region sits OUTSIDE the redrawn root, so screen readers hear every new message (a region that is
+    // replaced on each redraw is often not announced at all)
+    el.innerHTML = `<div class="nk nk-${id}" dir="ltr" tabindex="-1"></div><div class="nk-live" role="status" aria-live="polite" aria-atomic="true" dir="auto"></div>`;
     const diff = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
     def.setup(gs, diff);
     render(id);
@@ -55,6 +57,8 @@
     const a = document.activeElement, key = a && root.contains(a) && a.dataset ? a.dataset.k : null, hadFocus = a && root.contains(a);
     const gs = gameState[id];
     root.innerHTML = s.def.view(gs) + (s.def.rules ? rules(s.def.rules, gs) : '');
+    const m = root.querySelector('.nk-msg'), lv = document.querySelector('#gameContent > .nk-live');
+    if (m && lv) { const t = m.textContent.trim(); if (t !== s.said) { s.said = t; lv.textContent = t; } }
     if (key) { const n = root.querySelector(`[data-k="${CSS.escape(key)}"]`); if (n && !n.disabled) n.focus({ preventScroll: true }); else root.focus({ preventScroll: true }); }
     else if (hadFocus) root.focus({ preventScroll: true });
   }
@@ -73,7 +77,8 @@
   // helpers for views
   const btn = (label, onclick, o) => { o = o || {}; return `<button type="button" class="gk-btn${o.cls ? ' ' + o.cls : ''}" onclick="${onclick}" data-k="${esc(o.k || onclick)}"${o.disabled ? ' disabled' : ''}${o.label ? ` aria-label="${esc(o.label)}"` : ''}${o.pressed !== undefined ? ` aria-pressed="${!!o.pressed}"` : ''}>${label}</button>`; };
   const icon = (n) => (typeof Icon !== 'undefined' ? Icon.ui(n) + ' ' : '');
-  const msg = (text) => `<div class="nk-msg" role="status" aria-live="polite" dir="auto">${text || ''}</div>`;
+  // the visible message line; it is read out through the persistent .nk-live region (see start/render)
+  const msg = (text) => `<div class="nk-msg" dir="auto">${text || ''}</div>`;
   const rules = (items, gs) => `<details class="nk-rules"${gs && gs._rulesOpen ? ' open' : ''} ontoggle="NK._rt(this)"><summary data-k="nk-rules">How to play</summary><ul>${(typeof items === 'function' ? items(gs) : items).map((x) => `<li>${x}</li>`).join('')}</ul></details>`;
   function _rt(d) { const s = cur(); if (s) gameState[s.id]._rulesOpen = d.open; }
   const pl = (n, w, ws) => `${n} ${n === 1 ? w : ws || w + 's'}`;   // "1 shot", "2 shots"
@@ -127,6 +132,7 @@
 .nk{width:100%;box-sizing:border-box;max-width:46rem;margin:0 auto;color:#2b1b0d;outline:none}
 .nk-top{display:flex;justify-content:space-between;align-items:center;gap:8px 14px;flex-wrap:wrap;font-size:1.15rem;margin:0 2px 10px}
 .nk-msg{text-align:center;font-weight:800;font-size:1.15rem;line-height:1.4;margin:12px 4px;min-height:2.9em;color:#2b1b0d}
+.nk-live{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 .nk-rules{background:#fff3d6;border:2px solid #e8cfa8;border-radius:14px;padding:6px 14px;margin-top:8px;font-size:1.05rem;color:#2b1b0d}
 .nk-rules summary{font-weight:800;cursor:pointer;min-height:48px;display:flex;align-items:center}
 .nk-rules li{margin:6px 0 6px 1.2em;list-style:disc;line-height:1.45}
