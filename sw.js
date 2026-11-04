@@ -4,7 +4,7 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v83';
+const CACHE = 'golden-games-v84';
 const PREFIX = 'golden-games-';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
@@ -69,6 +69,7 @@ const SHELL = [
   './js/games/safari.js',
   './js/games/jigsaw.js',
   './js/game-kit.js',
+  './js/nostalgia-kit.js',
   // gen:new-games
   './js/games/freecell.js',
   './js/games/spider.js',
@@ -97,6 +98,26 @@ const SHELL = [
   './js/games/patternworkshop.js',
   './js/games/quietshelf.js',
   './js/games/daytown.js',
+  './js/games/reversi.js',
+  './js/games/fourrow.js',
+  './js/games/shutbox.js',
+  './js/games/lights.js',
+  './js/games/maze.js',
+  './js/games/morris.js',
+  './js/games/salvo.js',
+  './js/games/bingo.js',
+  './js/games/moonland.js',
+  './js/games/jellybean.js',
+  './js/games/golf.js',
+  './js/games/crosssums.js',
+  './js/games/logicgrid.js',
+  './js/games/fillin.js',
+  './js/games/colorbynum.js',
+  './js/games/chess.js',
+  './js/games/railyard.js',
+  './js/games/twentyq.js',
+  './js/games/sticks.js',
+  './js/games/tilematch.js',
   // /gen:new-games
   './js/affiliate.js',
   './js/brainscore.js',
