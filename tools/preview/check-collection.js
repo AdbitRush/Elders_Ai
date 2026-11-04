@@ -470,10 +470,10 @@ async function articleLinks() {
   const dead = [];
   for (const id of ids) { await p.goto(`${U}/?lang=en#${id}`, { waitUntil: 'domcontentloaded' }); await p.waitForFunction(() => { const c = document.getElementById('gameContent'); return c && c.children.length > 0; }, null, { timeout: 15000 }).catch(() => {}); const hs = await p.evaluate(() => [...document.querySelectorAll('#gameContent a[href^="article-"]')].map((a) => a.getAttribute('href'))); if (!hs.length) dead.push(id + ': no article link'); for (const h of hs) { if ((await status(h)) !== 200) dead.push(id + ' -> ' + h); } }
   ok('games: every new game and the crossword link to a real article page (HTTP 200)', dead.length === 0, dead.join('; '));
-  // index lists 13 and every link is 200
+  // index lists 17 (13 + 4 history notes) and every link is 200
   await p.goto(U + '/articles.html', { waitUntil: 'domcontentloaded' }); const idx = await p.evaluate(() => [...document.querySelectorAll('ul.articles a')].map((a) => a.getAttribute('href')));
   const idxDead = []; for (const h of idx) if ((await status(h)) !== 200) idxDead.push(h);
-  ok('articles index: 13 cards (3 existing + 10 new), all pages exist', idx.length === 13 && idxDead.length === 0, `${idx.length} ${idxDead.join(',')}`);
+  ok('articles index: 17 cards (3 existing + 10 new + 4 history notes), all pages exist', idx.length === 17 && idxDead.length === 0, `${idx.length} ${idxDead.join(',')}`);
   // existing three articles unchanged except nothing (byte-identical to the deployed ones is verified outside this script)
   await ctx.close();
 }
@@ -484,10 +484,10 @@ async function finalFixes() {
   await ctx.addCookies([{ name: 'cc_cookie', value: encodeURIComponent(JSON.stringify({ categories: ['necessary'], revision: 0, data: null, consentTimestamp: new Date().toISOString(), consentId: 'test', services: { necessary: [], ads: [] }, languageCode: 'en', lastConsentTimestamp: new Date().toISOString(), expirationTime: Date.now() + 864e5 })), url: U }]);
   const p = await ctx.newPage(); await p.route(/pagead2|googlesyndication|fonts\.g/, (r) => r.abort());
   // every article has its own title and description
-  const pages = ['articles.html', 'article-the-pleasure-of-being-a-beginner.html', 'article-why-coming-back-can-help-learning.html', 'article-try-to-remember-then-check.html', 'article-give-a-new-name-a-connection.html', 'article-a-quieter-screen-for-play.html', 'article-a-plan-you-can-change.html', 'article-play-a-rhythm-not-a-health-promise.html', 'article-a-small-map-to-explore.html', 'article-what-a-crossword-trial-can-tell-us.html', 'article-let-the-player-choose.html', 'article-what-brain-games-can-and-cannot-do.html', 'article-make-a-game-an-invitation.html', 'article-a-game-is-one-part-of-your-day.html'];
+  const pages = ['articles.html', 'article-the-pleasure-of-being-a-beginner.html', 'article-why-coming-back-can-help-learning.html', 'article-try-to-remember-then-check.html', 'article-give-a-new-name-a-connection.html', 'article-a-quieter-screen-for-play.html', 'article-a-plan-you-can-change.html', 'article-play-a-rhythm-not-a-health-promise.html', 'article-a-small-map-to-explore.html', 'article-what-a-crossword-trial-can-tell-us.html', 'article-let-the-player-choose.html', 'article-what-brain-games-can-and-cannot-do.html', 'article-make-a-game-an-invitation.html', 'article-a-game-is-one-part-of-your-day.html', 'article-painting-by-numbers.html', 'article-the-typed-moon-landing.html', 'article-animal-vegetable-mineral.html', 'article-a-puzzle-on-a-shelf.html'];
   const titles = [], descs = [], mismatch = [];
   for (const f of pages) { await p.goto(`${U}/${f}`, { waitUntil: 'domcontentloaded' }); const r = await p.evaluate(() => ({ t: document.title, h: document.querySelector('h1').textContent.trim(), d: document.querySelector('meta[name=description]').content })); titles.push(r.t); descs.push(r.d); if (!r.t.startsWith(r.h)) mismatch.push(r.t + ' / ' + r.h); }
-  ok('articles: 14 pages have 14 different titles and descriptions, and each title matches its heading', new Set(titles).size === 14 && new Set(descs).size === 14 && !mismatch.length, mismatch.join(' | '));
+  ok('articles: 18 pages have 18 different titles and descriptions, and each title matches its heading', new Set(titles).size === 18 && new Set(descs).size === 18 && !mismatch.length, mismatch.join(' | '));
   // the rhythm article opens Porch Rhythm, not Classic
   await p.goto(`${U}/article-play-a-rhythm-not-a-health-promise.html`, { waitUntil: 'domcontentloaded' }); await p.click('.related a'); await p.waitForSelector('#prp-go', { timeout: 15000 }).catch(() => {});
   ok('articles: clicking the rhythm article link opens the Porch Rhythm start screen', !!(await p.$('#prp-go')));

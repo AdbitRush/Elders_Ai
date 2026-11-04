@@ -46,7 +46,7 @@ function initMoonLand() {
         enter() { mlFire(); },
         css: `.ml-scene{position:relative;max-width:min(100%,30rem);margin:0 auto;border-radius:16px;overflow:hidden;background:linear-gradient(#0b1026,#1e2a55);aspect-ratio:3/2}
 .ml-scene svg{display:block;width:100%;height:100%}
-.ml-gauges{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px auto 0;max-width:30rem}
+.ml-gauges{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,5.6rem),1fr));gap:8px;margin:10px auto 0;max-width:30rem}
 .ml-g{background:#fff3d6;border:2px solid #e8cfa8;border-radius:12px;padding:6px 8px;text-align:center}
 .ml-g small{display:block;font-weight:800;color:#4a3420;font-size:.9rem;white-space:nowrap}.ml-g b{font:900 clamp(1.05rem,5.2vw,1.45rem)/1.2 Georgia,serif;white-space:nowrap}
 .ml-g.ml-warn{border-color:#b91c1c;background:#fee2e2}

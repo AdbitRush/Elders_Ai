@@ -114,7 +114,7 @@ async function after(p, id, R) {
       await DRV[id].play(p, R, H);
       if (!(await waitModal(p))) R.defects.push('no end screen');
       else await after(p, id, R);
-    } catch (e) { R.defects.push('DRIVER/GAME ERROR: ' + e.message.split('\n')[0]); await p.screenshot({ path: `${OUT}/${id}-error-${W}.png` }).catch(() => {}); }
+    } catch (e) { R.defects.push('DRIVER/GAME ERROR: ' + e.message.replace(/\x1b\[[0-9;]*m/g, '').split('\n').slice(0, 14).join(' | ').slice(0, 900)); await p.screenshot({ path: `${OUT}/${id}-error-${W}.png` }).catch(() => {}); }
     R.errors = [...new Set(errs)]; delete R._undone; delete R._miss;
     report[id] = R;
     console.log('\n## ' + id + ` @${W} ${DIFF}` + (R.defects.length || R.errors.length ? '  [ISSUES]' : '  [OK]'));
