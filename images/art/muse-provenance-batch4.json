@@ -1,0 +1,85 @@
+{
+ "batch": "brainplay-game-images-20261104",
+ "received": "2026-11-04",
+ "zip_sha256": "48a962b87b522c8459162bf1146e475342dd9e9f632084583413dd856949a6dd",
+ "source": "Muse built-in image generator, as reported by Muse: free allowance only, no paid credits, signup, purchase or new terms acceptance. Source-reported, not independently inspected.",
+ "rights": "NOT marked CC0, public domain, exclusive or legally cleared. Muse terms (updated 2026-09-08) and Meta AI terms (effective 2026-05-13) were read 2026-11-04: neither gives an express commercial image-output licence, exclusivity or a non-infringement guarantee; no blanket commercial-output ban was established; suitability and third-party rights rest with the user. Site use approved by the owner on 2026-11-04.",
+ "images": [
+  {
+   "game": "bingo",
+   "web_file": "images/art/scene-bingo.webp",
+   "web_size": [
+    960,
+    640
+   ],
+   "web_bytes": 104478,
+   "web_sha256": "8612a44534ae5304baa1216f4676f83b019e5a4f32099cd7ccdad0bdf3cf2fc6",
+   "master_file": "media-generation-brainplay-bingo-night-0-e508b645-9b26-4ac3-a167-76871c69b82e.webp",
+   "master_size": [
+    1920,
+    1280
+   ],
+   "master_bytes": 617914,
+   "master_sha256": "288e8b1ffa6d3be28c8f8c3a3d4b62d0b98312ce726de8777b884cd370950e8c",
+   "alt": "A wire cage of bingo balls beside a dauber and blank card.",
+   "use": "decorative game header only; boards and rules stay in code"
+  },
+  {
+   "game": "moonland",
+   "web_file": "images/art/scene-moonland.webp",
+   "web_size": [
+    960,
+    640
+   ],
+   "web_bytes": 72234,
+   "web_sha256": "1095bcd727bebdb3ae7acab6b748878a6ded34d9005fb34f8fe517ba173e4b75",
+   "master_file": "media-generation-brainplay-moon-landing-0-0d455426-328f-409a-894d-fc3ec8cbf7c0.webp",
+   "master_size": [
+    1920,
+    1280
+   ],
+   "master_bytes": 489994,
+   "master_sha256": "ef5887a52cec4c0c5fef8a72be12e80f402b32e1333d6ac70a30b6a3ffd336ca",
+   "alt": "A lunar lander above a cratered surface in a vintage space illustration.",
+   "use": "decorative game header only; boards and rules stay in code"
+  },
+  {
+   "game": "railyard",
+   "web_file": "images/art/scene-railyard.webp",
+   "web_size": [
+    960,
+    640
+   ],
+   "web_bytes": 58478,
+   "web_sha256": "776bfe0e565c717845cacfd4f0852b698b830502df2209274f664653191b0bf6",
+   "master_file": "media-generation-brainplay-rail-yard-shuffle-0-651b39de-d05e-4ab9-b7d4-6d985c28478c.webp",
+   "master_size": [
+    1920,
+    1280
+   ],
+   "master_bytes": 490486,
+   "master_sha256": "2a26bb90abd33428aab50adca29feccf540c2f15124fea11a8f0e9f5d707007b",
+   "alt": "A model steam train and freight cars on a tabletop rail yard.",
+   "use": "decorative game header only; boards and rules stay in code"
+  },
+  {
+   "game": "salvo",
+   "web_file": "images/art/scene-salvo.webp",
+   "web_size": [
+    960,
+    640
+   ],
+   "web_bytes": 72004,
+   "web_sha256": "dc89c4c457b14a6b08e977a99d3a4543c308e37d72dcc078d740b22669a42e62",
+   "master_file": "media-generation-brainplay-sea-salvo-0-2984f3d6-1a84-458e-891d-f09d1d5a7cc8.webp",
+   "master_size": [
+    1920,
+    1280
+   ],
+   "master_bytes": 494040,
+   "master_sha256": "5515404d363aadb4898ef253cbd4bf6c40c9b955dfa669746f9b30bfb3459cd3",
+   "alt": "Model ships, a compass and a rolled chart by a sea-facing window.",
+   "use": "decorative game header only; boards and rules stay in code"
+  }
+ ]
+}
