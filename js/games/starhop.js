@@ -2,7 +2,7 @@
 // STAR HOP (2026-11, nostalgia batch 3) — the star-board marble game for two: race all your marbles from your home
 // point of the star into the point straight across, against the computer. A marble moves to a neighboring hole, or
 // HOPS over any marble next to it into the empty hole right behind, and may keep hopping in one turn. Nothing is
-// captured. First to fill the far point wins. Easy and normal: a small star with 6 marbles each (easy computer is
+// captured. First to fill the far point wins; after 80 turns (120 on the full star) more marbles home wins. Easy and normal: a small star with 6 marbles each (easy computer is
 // careless). Hard: the full 121-hole star with 10 marbles each. Taps are forgiving: a tap near a hole counts.
 // Holes use cube coordinates (x, y, z), x + y + z = 0. The star is two big triangles: all coordinates <= S, or all
 // >= -S (S = 3 small, 4 full). Your home is the point where x < -S; your goal is the point where x > S.
@@ -17,7 +17,7 @@ function initStarhop() {
     NK.start('starhop', {
         setup(gs, diff) {
             gs.diff = diff; gs.S = diff === 'hard' ? 4 : 3; gs.pts = _shBoard(gs.S); gs.idx = new Map(gs.pts.map((p, i) => [p.join(), i]));
-            gs.b = gs.pts.map(([x]) => (x < -gs.S ? 1 : x > gs.S ? 2 : 0)); gs.turn = 1; gs.sel = -1; gs.over = false; gs.last = []; gs.moves = 0;
+            gs.b = gs.pts.map(([x]) => (x < -gs.S ? 1 : x > gs.S ? 2 : 0)); gs.turn = 1; gs.sel = -1; gs.over = false; gs.last = []; gs.moves = 0; gs.limit = gs.S === 3 ? 80 : 120;
             gs.msg = 'You are blue, at the bottom point. Tap a marble, then a dotted hole. Hop over marbles to go far.';
         },
         view: _shView,
@@ -26,7 +26,7 @@ function initStarhop() {
             'A marble moves one step to a <b>neighboring</b> empty hole, or <b>hops</b> over a marble right next to it (yours or the computer\'s) into the empty hole just behind.',
             'In one turn you may make <b>several hops in a row</b>, but not a step and a hop. Tap the marble, then any dotted hole: the game finds the hops.',
             'Nothing is ever captured. The first to fill the far point wins (a computer marble still sitting at home in your goal does not block you).',
-            'Taps are forgiving: a tap near a hole counts. No clock. Keyboard: arrow keys move between holes, Enter picks and moves.'],
+            `After ${gs.limit} turns each, whoever has more marbles home wins. Taps are forgiving: a tap near a hole counts. No clock. Keyboard: arrow keys move between holes, Enter picks and moves.`],
         css: `.sh-b{position:relative;width:min(100%,32rem,max(18rem,calc((100vh - 290px) * .92)));margin:0 auto;background:radial-gradient(circle at 50% 45%,#fef3c7,#fcd34d 75%);border-radius:24px;box-shadow:inset 0 0 0 4px #b45309;touch-action:manipulation}
 .sh-svg{display:block;width:100%;height:auto}
 #gameContent .nk button.sh-h{position:absolute}
@@ -77,14 +77,18 @@ function _shCpu() {
     const pick = gs.diff === 'easy' && opts.length > 2 && Math.random() < 0.45 ? opts[1 + Math.floor(Math.random() * Math.min(4, opts.length - 1))] : opts[0];
     gs.b[pick[0]] = 0; gs.b[pick[1]] = 2; gs.last = pick[2]; if (typeof sfxFlip === 'function') sfxFlip();
     if (_shWon(gs, 2)) return _shEnd(gs, 2);
+    if (gs.moves >= gs.limit) {   // turn limit: more marbles home wins; a tie goes to whoever has come further
+        const home = (p) => gs.b.filter((v, i) => v === p && _shGoal(gs, p, i)).length, far = (p) => gs.b.reduce((a, v, i) => a + (v === p ? (p === 1 ? gs.pts[i][0] : -gs.pts[i][0]) : 0), 0);
+        const a = home(1), b = home(2); return _shEnd(gs, a > b || (a === b && far(1) > far(2)) ? 1 : 2, `Turn ${gs.limit} reached: you have ${a} marbles home, the computer ${b}.`);
+    }
     gs.turn = 1; const inG = gs.b.filter((v, i) => v === 1 && _shGoal(gs, 1, i)).length;
     gs.msg = `The computer ${pick[2].length > 2 ? `hopped ${NK.pl(pick[2].length - 1, 'time')}` : 'stepped'} (shown in yellow). You have ${inG} of ${gs.S === 3 ? 6 : 10} marbles home. Your turn.`;
     NK.render('starhop');
 }
-function _shEnd(gs, who) {
-    gs.over = true; gs.turn = 0; gs.msg = who === 1 ? 'Every blue marble is home. You win!' : 'The computer filled the far point first.';
+function _shEnd(gs, who, said) {
+    gs.over = true; gs.turn = 0; gs.msg = said ? `${said} ${who === 1 ? 'You win!' : 'The computer wins.'}` : who === 1 ? 'Every blue marble is home. You win!' : 'The computer filled the far point first.';
     NK.render('starhop'); if (who === 1 && typeof sfxCorrect === 'function') sfxCorrect();
-    NK.finish('starhop', who === 1, who === 1 ? `All your marbles home in ${NK.pl(gs.moves, 'move')}.` : 'The computer got all its marbles home first. A rematch is one tap away.');
+    NK.finish('starhop', who === 1, said ? gs.msg : who === 1 ? `All your marbles home in ${NK.pl(gs.moves, 'move')}.` : 'The computer got all its marbles home first. A rematch is one tap away.');
 }
 function shNew() { initStarhop(); }
 function _shLay(gs) {   // screen positions; your home at the bottom
@@ -105,7 +109,7 @@ function _shView(gs) {
         if (v === 1 || dot) btn += `<button type="button" class="nk-cell sh-h" style="left:${x / L.W * 100}%;top:${y / L.H * 100}%;width:${L.step / L.W * 92}%;height:${L.step / L.H * 92}%;margin:-${L.step / L.W * 46}% 0 0 -${L.step / L.W * 46}%" onclick="event.stopPropagation();shTap(${i})" data-k="h${i}"${v === 1 && !btn.includes('data-first') ? ' data-first' : ''} aria-label="${v === 1 ? 'your marble' + (gs.sel === i ? ', picked' : '') : 'empty hole, you can move here'}${_shGoal(gs, 1, i) ? ', in your goal' : ''}"${gs.turn === 1 && !gs.over ? '' : ' disabled'}></button>`;
     });
     const home = gs.b.filter((v, i) => v === 1 && _shGoal(gs, 1, i)).length, cHome = gs.b.filter((v, i) => v === 2 && _shGoal(gs, 2, i)).length, N = gs.S === 3 ? 6 : 10;
-    return `<div class="nk-top"><span>Your marbles home: <b>${home}</b> of ${N}</span><span>Computer: <b>${cHome}</b> of ${N}</span></div>
+    return `<div class="nk-top"><span>Your marbles home: <b>${home}</b> of ${N}</span><span>Computer: <b>${cHome}</b> of ${N}</span><span>Turn <b>${gs.moves + 1}</b> of ${gs.limit}</span></div>
       <div class="sh-b" onclick="shBoard(event)"><svg class="sh-svg" viewBox="0 0 ${L.W} ${L.H.toFixed(2)}" aria-hidden="true"><defs><radialGradient id="shB" cx=".35" cy=".3"><stop offset="0" stop-color="#bfdbfe"/><stop offset=".7" stop-color="#1d4ed8"/></radialGradient><radialGradient id="shR" cx=".35" cy=".3"><stop offset="0" stop-color="#fecaca"/><stop offset=".7" stop-color="#b91c1c"/></radialGradient></defs>${svg}</svg>${btn}</div>
       <div class="sh-hint">Blue (you): bottom to top · Red: top to bottom</div>
       ${NK.msg(gs.msg)}
