@@ -67,7 +67,7 @@ function initReversi() {
             'If you have no move, you pass (the game does it for you). When neither side can move, the game ends.',
             'The player with more discs wins. There is no clock.',
             'Keyboard: arrow keys move around the board, Enter places a disc, H shows or hides the rings.'],
-        css: `.rv-board{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;background:#1f5c38;padding:6px;border-radius:14px;box-shadow:inset 0 0 0 3px #174a2c;max-width:min(100%,30rem);margin:0 auto}
+        css: `.rv-board{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;background:#1f5c38;padding:6px;border-radius:14px;box-shadow:inset 0 0 0 3px #174a2c;max-width:min(100%,30rem,max(18rem,calc(100vh - 290px)));margin:0 auto}
 .rv-sq{aspect-ratio:1;background:#2f7d4f;display:flex;align-items:center;justify-content:center;padding:0;min-width:0;cursor:pointer;--nk-r:5px}
 .rv-sq:disabled{cursor:default}
 .rv-d{width:82%;height:82%;border-radius:50%;box-shadow:0 2px 0 rgba(0,0,0,.35)}

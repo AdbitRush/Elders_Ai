@@ -139,7 +139,7 @@ function initChess() {
             'A king in <b>check</b> is ringed in red; you must get out of check. Checkmate wins. Stalemate, three repetitions of a position, 50 moves without a capture or pawn move, or too few pieces to mate are draws.',
             '<b>Take back</b> undoes your last move and the computer\'s reply, as often as you like. There is no clock.',
             'Keyboard: arrow keys move around the board, Enter picks and moves, T takes back.'],
-        css: `.ch-wrap{max-width:min(100%,32rem);margin:0 auto}
+        css: `.ch-wrap{max-width:min(100%,32rem,max(18rem,calc(100vh - 300px)));margin:0 auto}
 .ch-board{display:grid;grid-template-columns:repeat(8,1fr);border:6px solid #6b4220;border-radius:10px;overflow:hidden}
 .ch-sq{aspect-ratio:1;border:0;padding:0;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;--nk-r:0;min-width:0}
 .ch-l{background:#f3e2c2}.ch-d{background:#b07b4f}

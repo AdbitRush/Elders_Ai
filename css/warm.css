@@ -481,3 +481,10 @@ html[data-game="daytown"] #gameView{ --game-photo:url(../images/art/scene-journe
   background:linear-gradient(180deg,rgba(255,250,241,.20) 0%,rgba(255,250,241,.88) 42%,var(--w-table) 88%), var(--game-photo, none) center 40%/cover no-repeat, #f4e3c6 !important; }
 @media (max-width:640px){ :is(html[data-game="patternworkshop"],html[data-game="namegarden"],html[data-game="quietshelf"],html[data-game="daytown"]) #gameView > div > div:first-child{
   background:linear-gradient(180deg,rgba(255,250,241,.45) 0%,rgba(255,250,241,.82) 34%,var(--w-table) 88%), var(--game-photo, none) center 40%/cover no-repeat, #f4e3c6 !important; } }
+/* ── 2026-11-04 review: the playing area is the priority. The game header (photo band + title + one-line rule) was
+   140-180px tall and pushed boards such as Chess below an 800px-high laptop screen. Same look, less height;
+   title and rule keep large type (title >= 1.6rem, rule 1.1rem). ── */
+#gameView > div > div:first-child{ min-height:92px !important; padding:16px 16px 8px !important; margin:0 0 10px !important; }
+@media (min-width:768px){ #gameView > div > div:first-child{ min-height:100px !important; padding:18px 32px 10px !important; } }
+#gameView #gameTitle{ font-size:clamp(1.6rem,3.6vw,2.3rem) !important; line-height:1.15 !important; margin:0 !important; }
+#gameView #gameInstructions{ font-size:1.1rem !important; line-height:1.35 !important; margin-top:4px !important; }
