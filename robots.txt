@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://adbitrush.github.io/Elders_Ai/sitemap.xml
+Sitemap: https://games.178-105-148-72.sslip.io/sitemap.xml

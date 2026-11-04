@@ -48,8 +48,11 @@ BASE = "/Elders_Ai"                      # the GitHub Pages project subpath
 # card image, the icon and the manifest 404d on the VPS while looking perfect
 # on Pages. Canonical, hreflang and og:image stay absolute (SITE) on purpose:
 # those are for crawlers and must point at the canonical deployment.
+# 2026-11: the canonical deployment is the live site on the VPS (served at the
+# domain root), not the GitHub Pages copy, so crawlers are sent there; the Pages
+# copy then points its canonical links at the live site too.
 REL = "../.."
-SITE = "https://adbitrush.github.io" + BASE
+SITE = "https://games.178-105-148-72.sslip.io"
 LANGS = ["he", "en", "es", "fr", "de", "el"]
 RTL = {"he"}
 LANG_NAME = {"he": "עברית", "en": "English", "es": "Español",
