@@ -83,6 +83,7 @@ const PLAY = {
       const e = free[Math.floor(Math.random() * free.length)];
       const sel = `.db [onclick="dbTap('${e[0]}',${e[1]},${e[2]})"]`;
       // locate by the line's centre: the diamond tap area is the point that matters
+      await p.locator(sel).scrollIntoViewIfNeeded();   // like a person: bring the line on screen first, or a stale position lands on the sticky header
       const bx = await p.locator(sel).boundingBox();
       await p.mouse.click(bx.x + bx.width / 2, bx.y + bx.height / 2);
       if (k === 0) R.steps.push('first tap -> ' + (await msg(p)).slice(0, 60));

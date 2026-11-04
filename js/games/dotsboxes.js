@@ -126,7 +126,9 @@ function _dbRender() {
         const cx = e.t === 'h' ? (e.c + 0.5) * u : e.c * u, cy = e.t === 'h' ? e.r * u : (e.r + 0.5) * u;
         const cls = 'db-e db-' + e.t + (who ? ' db-w' + who : '') + (gs.sel && _dbKey(gs.sel) === k ? ' db-sel' : '') + (gs.lastCpu.includes(k) ? ' db-last' : '');
         const name = e.t === 'h' ? `line across, row ${e.r + 1}, between dots ${e.c + 1} and ${e.c + 2}` : `line down, column ${e.c + 1}, between dots ${e.r + 1} and ${e.r + 2}`;
-        const st = `left:${cx - u / 2}%;top:${cy - u / 2}%;width:${u}%;height:${u}%`;
+        // the outer columns' tap areas stay inside the game card, which clips what passes its edge (capped at 56 px wide, still above the 44 px minimum)
+        const outer = e.t === 'v' && (e.c === 0 || e.c === n);
+        const st = outer ? `left:calc(${cx}% - min(${u / 2}%, 28px));top:${cy - u / 2}%;width:min(${u}%, 56px);height:${u}%` : `left:${cx - u / 2}%;top:${cy - u / 2}%;width:${u}%;height:${u}%`;
         html += who ? `<div class="${cls}" style="${st}"><i></i></div>`
             : `<button type="button" class="${cls}" style="${st}" onclick="dbTap('${e.t}',${e.r},${e.c})" aria-label="${name}"${can ? '' : ' disabled'}><i></i></button>`;
     }

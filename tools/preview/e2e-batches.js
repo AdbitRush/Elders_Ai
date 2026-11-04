@@ -23,8 +23,7 @@ function run(B) { return new Promise((res) => {
 }); }
 (async () => { let stopped = '';
   for (const B of BATCHES) { const prev = state[B.name];
-    if (prev && prev.status === 'complete') continue;
-    if (prev && prev.status === 'interrupted' && retry !== B.name) continue;
+    if (prev && retry !== B.name) continue;   // one attempt per batch, unless this batch is named with --retry
     if (Date.now() + 60000 > deadline) { stopped = 'time budget used'; break; }
     const f = freeMB(); if (f < +MINF) { stopped = `low memory: ${f} MB free, below ${MINF}`; break; }
     const r = await run(B); r.freeMBBefore = f; state[B.name] = { ...r, sections: B.sections, slice: B.slice || '' }; saveState();
