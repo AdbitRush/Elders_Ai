@@ -46,7 +46,7 @@ function vgBed(i) {
     else if (t === 'weed') { if (!b.weeds) { gs.msg = 'No weeds there.'; return NK.render('victorygarden'); } b.weeds = 0; did = `Pulled the weeds in bed ${i + 1}.`; }
     else if (t === 'harvest') {
         if (!b.crop) { gs.msg = 'Nothing growing there.'; return NK.render('victorygarden'); }
-        if (b.dead) { b.crop = null; did = `Cleared the wilted plants from bed ${i + 1}.`; }
+        if (b.dead) { b.crop = null; b.dead = false; did = `Cleared the wilted plants from bed ${i + 1}.`; }
         else if (b.age < _VG_CROP[b.crop].grow) { gs.msg = `The ${_VG_CROP[b.crop].n} need ${_VG_CROP[b.crop].grow - b.age} more week${_VG_CROP[b.crop].grow - b.age === 1 ? '' : 's'}.`; return NK.render('victorygarden'); }
         else { const lb = b.ripe >= 2 ? Math.round(_VG_CROP[b.crop].lb / 2) : _VG_CROP[b.crop].lb; gs.lb += lb; gs.basket.push(b.crop); did = `Harvested ${lb} lb of ${_VG_CROP[b.crop].n}${b.ripe >= 2 ? ' (a little past their best)' : ''}!`; b.crop = null; if (typeof sfxCorrect === 'function') sfxCorrect(); }
     }
