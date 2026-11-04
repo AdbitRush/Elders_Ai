@@ -65,7 +65,7 @@ function initFenceloop() {
 .fl-n{position:absolute;transform:translate(-50%,-50%);font:900 clamp(1.05rem,4.8vw,1.6rem) Georgia,serif;color:#1c1917;pointer-events:none}
 .fl-n.fl-ok{color:#15803d}.fl-n.fl-bad{color:#b91c1c}
 #gameContent .nk button.fl-e{position:absolute}
-.fl-e{transform:translate(-50%,-50%);border:0;padding:0;background:transparent;cursor:pointer;--nk-r:8px;display:flex;align-items:center;justify-content:center;z-index:2}
+.fl-e{border:0;padding:0;background:transparent;cursor:pointer;--nk-r:8px;display:flex;align-items:center;justify-content:center;z-index:2}
 .fl-e:hover{background:rgba(161,98,7,.12)}
 .fl-x{font:900 1rem sans-serif;color:#b91c1c}`,
     });
@@ -101,11 +101,11 @@ function _flView(gs) {
     let svg = '', btn = '', nums = '', first = true;
     for (let r = 0; r <= n; r++) for (let c = 0; c < n; c++) {
         const s = gs.h[r][c]; if (s === 1) svg += `<line x1="${X(c)}" y1="${X(r)}" x2="${X(c + 1)}" y2="${X(r)}" stroke="#7c2d12" stroke-width="1.6" stroke-linecap="round"/>`;
-        btn += `<button type="button" class="nk-cell fl-e" style="left:${X(c + 0.5)}%;top:${X(r)}%;width:${u * 0.8}%;height:${Math.min(u * 0.45, 9)}%" onclick="flTap('h',${r},${c})" data-k="h${r}_${c}"${first ? ' data-first' : ''} aria-label="side between dots, row ${r + 1}, gap ${c + 1} across: ${s === 1 ? 'fence' : s === 2 ? 'no fence' : 'open'}"${gs.over ? ' disabled' : ''}>${s === 2 ? '<span class="fl-x" aria-hidden="true">×</span>' : ''}</button>`; first = false;
+        btn += `<button type="button" class="nk-cell fl-e" style="left:${X(c + 0.5)}%;top:${X(r)}%;width:${u * 0.8}%;height:${Math.min(u * 0.45, 9)}%;margin:-${Math.min(u * 0.45, 9) / 2}% 0 0 -${u * 0.4}%" onclick="flTap('h',${r},${c})" data-k="h${r}_${c}"${first ? ' data-first' : ''} aria-label="side between dots, row ${r + 1}, gap ${c + 1} across: ${s === 1 ? 'fence' : s === 2 ? 'no fence' : 'open'}"${gs.over ? ' disabled' : ''}>${s === 2 ? '<span class="fl-x" aria-hidden="true">×</span>' : ''}</button>`; first = false;
     }
     for (let r = 0; r < n; r++) for (let c = 0; c <= n; c++) {
         const s = gs.v[r][c]; if (s === 1) svg += `<line x1="${X(c)}" y1="${X(r)}" x2="${X(c)}" y2="${X(r + 1)}" stroke="#7c2d12" stroke-width="1.6" stroke-linecap="round"/>`;
-        btn += `<button type="button" class="nk-cell fl-e" style="left:${X(c)}%;top:${X(r + 0.5)}%;height:${u * 0.8}%;width:${Math.min(u * 0.45, 9)}%" onclick="flTap('v',${r},${c})" data-k="v${r}_${c}" aria-label="side between dots, column ${c + 1}, gap ${r + 1} down: ${s === 1 ? 'fence' : s === 2 ? 'no fence' : 'open'}"${gs.over ? ' disabled' : ''}>${s === 2 ? '<span class="fl-x" aria-hidden="true">×</span>' : ''}</button>`;
+        btn += `<button type="button" class="nk-cell fl-e" style="left:${X(c)}%;top:${X(r + 0.5)}%;height:${u * 0.8}%;width:${Math.min(u * 0.45, 9)}%;margin:-${u * 0.4}% 0 0 -${Math.min(u * 0.45, 9) / 2}%" onclick="flTap('v',${r},${c})" data-k="v${r}_${c}" aria-label="side between dots, column ${c + 1}, gap ${r + 1} down: ${s === 1 ? 'fence' : s === 2 ? 'no fence' : 'open'}"${gs.over ? ' disabled' : ''}>${s === 2 ? '<span class="fl-x" aria-hidden="true">×</span>' : ''}</button>`;
     }
     for (let r = 0; r <= n; r++) for (let c = 0; c <= n; c++) svg += `<circle cx="${X(c)}" cy="${X(r)}" r="1.1" fill="#44403c"/>`;
     for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (show[r][c] >= 0) { const k = _flSides(gs, r, c); nums += `<span class="fl-n${k === show[r][c] ? ' fl-ok' : k > show[r][c] ? ' fl-bad' : ''}" style="left:${X(c + 0.5)}%;top:${X(r + 0.5)}%" role="img" aria-label="square row ${r + 1} column ${c + 1}: needs ${show[r][c]} sides, has ${k}">${show[r][c]}</span>`; }
