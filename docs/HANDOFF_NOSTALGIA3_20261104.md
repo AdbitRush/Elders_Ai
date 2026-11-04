@@ -83,7 +83,7 @@ valid answer.
   Shut the Box tiles announce open / picked / shut.
 - `site: hub search box and a filter chip for every section` (57f26d6): chips covered only 4 of 8 sections; now all
   8 plus a search box (titles and descriptions, live count, clear button, no-match message). Checked en/he/es.
-- `site: canonical domain` (see log): sitemap, robots.txt, canonical, hreflang and og:url pointed at
+- `site: canonical domain is the live site` (see log): sitemap, robots.txt, canonical, hreflang and og:url pointed at
   adbitrush.github.io/Elders_Ai; they now point at the live site https://games.178-105-148-72.sslip.io/.
 - Chess "278 px overflow after resizing to 390": investigated, **not reproduced** (1280/1440/1920 -> 390, idle and
   mid-game, every frame for 1.5 s: 0 px overflow). Likely the moment before warm.js moves header controls into the
@@ -99,7 +99,26 @@ old session is ignored; Enter on the focused header Back button works; Next open
 loss); back to the hub and reopen works. Win AND loss end screens both count as a complete loop (the drivers are
 honest players, they do not cheat to win).
 
-RESULTS_PLACEHOLDER
+Results (local server, this branch; every game played to its end screen):
+
+| Batch | 390 px normal | 1280 px hard | 1280 px easy |
+|-------|---------------|--------------|--------------|
+| A (10) | 10/10 (re-run after the header/hub changes: 10/10) | 10/10 | 10/10 |
+| B (10) | 10/10 | 10/10 | 10/10 |
+| C (10, Cribbage counted in E row) | 9/9 + Pyramid (since removed) | 10/10 | 10/10 |
+| D (10) | 10/10 (Star Hop, Fox and Geese re-run after the end-rule fixes) | 10/10 after fixes (Fox and Geese, Hex, Star Hop re-run) | 10/10 |
+| E (10) + Cribbage | 11/11 (7 changed games re-run after balance/layout fixes: 7/7) | 11/11 | 11/11 |
+
+Batch B and the first batch C runs were tagged [ISSUES] by the harness only because the card pictures did not
+exist yet (image 404s in the console); there were no game defects in those runs, and the pictures were added after.
+Every result line includes the kit checks listed above (all passed in the final runs) and at least one rejected
+illegal move with the game's message. Outcomes were mixed wins and honest losses, e.g. Five in a Row once ended
+in a full-board draw, Liar's Dice and Hot Dice lost to the computer, Mate in One solved all five.
+Shortcut targets for long games were lowered by the drivers only (Spades 60, Hot Dice 1500, Cribbage 31) and this
+is printed in their logs. One unexplained result: Victory Garden at 1280 hard once ended with 0 lb; it did not
+reproduce (re-run: 70/70 lb), and a 100-game simulation with the same priorities wins hard 95-99%.
+Reports: the play logs were written to the session scratchpad (`pA*/pB*/pC*/pD*/pE*.txt`); the summary above is
+copied from them.
 
 Layout sweep (`sweep-nostalgia2.js`: 320 dark with 130% text, 390 light with 130% text, 390 Hebrew RTL, 1280 dark;
 no horizontal scroll, nothing outside the game box, no small buttons, no script errors): all 50 games, all 4
