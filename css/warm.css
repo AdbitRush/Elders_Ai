@@ -487,12 +487,12 @@ html[data-game="moonland"] #gameView{ --game-photo:url(../images/art/scene-moonl
 html[data-game="railyard"] #gameView{ --game-photo:url(../images/art/scene-railyard.webp) !important; }
 html[data-game="salvo"] #gameView{ --game-photo:url(../images/art/scene-salvo.webp) !important; }
 html[data-game="bingo"] #gameView > div > div:first-child{ background:linear-gradient(180deg,rgba(255,250,241,.20) 0%,rgba(255,250,241,.88) 42%,var(--w-table) 88%), var(--game-photo, none) center 30%/cover no-repeat, #f4e3c6 !important; }
-html[data-game="moonland"] #gameView > div > div:first-child{ background:linear-gradient(180deg,rgba(255,250,241,.20) 0%,rgba(255,250,241,.88) 42%,var(--w-table) 88%), var(--game-photo, none) center 62%/cover no-repeat, #f4e3c6 !important; }
+html[data-game="moonland"] #gameView > div > div:first-child{ background:linear-gradient(180deg,rgba(255,250,241,.20) 0%,rgba(255,250,241,.88) 42%,var(--w-table) 88%), var(--game-photo, none) center 50%/cover no-repeat, #f4e3c6 !important; }
 html[data-game="railyard"] #gameView > div > div:first-child{ background:linear-gradient(180deg,rgba(255,250,241,.20) 0%,rgba(255,250,241,.88) 42%,var(--w-table) 88%), var(--game-photo, none) center 60%/cover no-repeat, #f4e3c6 !important; }
 html[data-game="salvo"] #gameView > div > div:first-child{ background:linear-gradient(180deg,rgba(255,250,241,.20) 0%,rgba(255,250,241,.88) 42%,var(--w-table) 88%), var(--game-photo, none) center 72%/cover no-repeat, #f4e3c6 !important; }
 @media (max-width:640px){
 html[data-game="bingo"] #gameView > div > div:first-child{ background:linear-gradient(180deg,rgba(255,250,241,.45) 0%,rgba(255,250,241,.82) 34%,var(--w-table) 88%), var(--game-photo, none) center 30%/cover no-repeat, #f4e3c6 !important; }
-html[data-game="moonland"] #gameView > div > div:first-child{ background:linear-gradient(180deg,rgba(255,250,241,.45) 0%,rgba(255,250,241,.82) 34%,var(--w-table) 88%), var(--game-photo, none) center 62%/cover no-repeat, #f4e3c6 !important; }
+html[data-game="moonland"] #gameView > div > div:first-child{ background:linear-gradient(180deg,rgba(255,250,241,.45) 0%,rgba(255,250,241,.82) 34%,var(--w-table) 88%), var(--game-photo, none) center 50%/cover no-repeat, #f4e3c6 !important; }
 html[data-game="railyard"] #gameView > div > div:first-child{ background:linear-gradient(180deg,rgba(255,250,241,.45) 0%,rgba(255,250,241,.82) 34%,var(--w-table) 88%), var(--game-photo, none) center 60%/cover no-repeat, #f4e3c6 !important; }
 html[data-game="salvo"] #gameView > div > div:first-child{ background:linear-gradient(180deg,rgba(255,250,241,.45) 0%,rgba(255,250,241,.82) 34%,var(--w-table) 88%), var(--game-photo, none) center 72%/cover no-repeat, #f4e3c6 !important; }
 }
