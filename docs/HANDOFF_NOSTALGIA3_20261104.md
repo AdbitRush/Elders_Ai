@@ -133,8 +133,11 @@ Golf Solitaire 7th column clipped at 390, Five in a Row missing vertical lines, 
 (now 6/7/9), Claw Crane prizes overlapping, Telegraph keyboard off-screen, Fox and Geese could go on forever (now
 a move limit), several 320 px large-text overflows.
 
-Not tested: real phones, real screen readers, human players, native speakers. play-all/e2e suites were not run;
-their expected counts (75 cards, about-page count) must be updated to 125 before they will pass.
+Not tested: real phones, real screen readers, human players, native speakers.
+e2e suite: it has no hardcoded game count (it counts from window.GAME_IDS), so nothing needed updating. Sections 3
+and 8 were run on this build against the local server: 20/20 passed, including "all 125 games linked from the hub
+list and from their cards: 125 / 125", every game page answers 200, and 750 landing pages. The other e2e sections
+and play-all were not run.
 
 ## Integration notes (shared files)
 
