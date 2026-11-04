@@ -29,6 +29,16 @@ const STAGE = {
   fenceloop: ['.fl-b', () => { const g = gameState.fenceloop; let k = 0; g.P.h.forEach((row, r) => row.forEach((x, c) => { if (x && k++ < 9) g.h[r][c] = 1; })); NK.render('fenceloop'); }],
   hose: ['.hs-b', () => { const g = gameState.hose; g.g = g.g.map((row, r) => row.map((m, c) => (r < 3 ? g.P.sol[r][c] : m))); NK.render('hose'); }],
   parking: ['.pk-w', () => {}],
+  golfsol: ['.gs-t', () => { const g = gameState.golfsol; for (let k = 0; k < 6; k++) { const i = g.cols.findIndex((c) => c.length && _gsFits(g, c[c.length - 1])); if (i < 0) break; gsTap(i); } }],
+  pyramid: ['.py-t', () => { gameState.pyramid.glow = true; NK.render('pyramid'); }],
+  accordion: ['.ac-t', () => { for (let k = 0; k < 10; k++) acDeal(); }],
+  calculation: ['.ca-t', () => { for (let k = 0; k < 5; k++) { const g = gameState.calculation; const f = [0, 1, 2, 3].find((q) => _caNeed(g, q) === g.cur.r); if (f !== undefined) caF(f); else caW(k % 4); } }],
+  pokersq: ['.pq-t', () => { for (let k = 0; k < 11; k++) pqPlace([0, 1, 2, 5, 6, 7, 10, 12, 18, 3, 24][k]); }],
+  hilo: ['.hl-t', () => { gameState.hilo.rung = 4; NK.render('hilo'); }],
+  kingscorner: ['.kc-t', () => {}],
+  casino: ['.cs-t', () => {}],
+  spades: ['.sp-t', () => { spBid(3); }],
+  oldmaid: ['.om-t', () => {}],
 };
 (async () => {
   const b = await chromium.launch();
