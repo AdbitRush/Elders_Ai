@@ -464,6 +464,96 @@
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/boardwalk/"/>
   </url>
   <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/hanoi/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hanoi/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/queens/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/queens/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/queens/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/queens/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/queens/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/queens/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/queens/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/knightour/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/knightour/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/jugs/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/jugs/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/river/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/river/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/river/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/river/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/river/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/river/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/river/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/balance/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/balance/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/balance/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/balance/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/balance/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/balance/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/balance/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/magicsq/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/magicsq/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/numpyramid/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/numpyramid/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/frogswap/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/frogswap/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/he/matchfix/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/matchfix/"/>
+  </url>
+  <url>
     <loc>https://adbitrush.github.io/Elders_Ai/he/namegarden/</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/namegarden/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/namegarden/"/>
@@ -1137,6 +1227,96 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/boardwalk/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/boardwalk/"/>
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/boardwalk/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/hanoi/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hanoi/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/queens/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/queens/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/queens/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/queens/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/queens/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/queens/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/queens/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/knightour/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/knightour/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/jugs/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/jugs/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/river/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/river/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/river/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/river/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/river/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/river/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/river/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/balance/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/balance/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/balance/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/balance/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/balance/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/balance/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/balance/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/magicsq/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/magicsq/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/numpyramid/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/numpyramid/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/frogswap/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/frogswap/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/en/matchfix/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/matchfix/"/>
   </url>
   <url>
     <loc>https://adbitrush.github.io/Elders_Ai/en/namegarden/</loc>
@@ -1814,6 +1994,96 @@
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/boardwalk/"/>
   </url>
   <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/hanoi/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hanoi/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/queens/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/queens/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/queens/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/queens/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/queens/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/queens/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/queens/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/knightour/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/knightour/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/jugs/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/jugs/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/river/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/river/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/river/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/river/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/river/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/river/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/river/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/balance/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/balance/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/balance/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/balance/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/balance/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/balance/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/balance/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/magicsq/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/magicsq/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/numpyramid/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/numpyramid/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/frogswap/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/frogswap/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/es/matchfix/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/matchfix/"/>
+  </url>
+  <url>
     <loc>https://adbitrush.github.io/Elders_Ai/es/namegarden/</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/namegarden/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/namegarden/"/>
@@ -2487,6 +2757,96 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/boardwalk/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/boardwalk/"/>
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/boardwalk/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/hanoi/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hanoi/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/queens/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/queens/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/queens/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/queens/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/queens/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/queens/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/queens/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/knightour/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/knightour/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/jugs/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/jugs/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/river/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/river/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/river/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/river/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/river/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/river/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/river/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/balance/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/balance/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/balance/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/balance/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/balance/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/balance/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/balance/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/magicsq/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/magicsq/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/numpyramid/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/numpyramid/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/frogswap/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/frogswap/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/fr/matchfix/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/matchfix/"/>
   </url>
   <url>
     <loc>https://adbitrush.github.io/Elders_Ai/fr/namegarden/</loc>
@@ -3164,6 +3524,96 @@
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/boardwalk/"/>
   </url>
   <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/hanoi/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hanoi/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/queens/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/queens/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/queens/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/queens/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/queens/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/queens/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/queens/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/knightour/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/knightour/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/jugs/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/jugs/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/river/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/river/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/river/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/river/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/river/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/river/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/river/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/balance/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/balance/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/balance/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/balance/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/balance/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/balance/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/balance/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/magicsq/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/magicsq/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/numpyramid/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/numpyramid/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/frogswap/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/frogswap/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/de/matchfix/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/matchfix/"/>
+  </url>
+  <url>
     <loc>https://adbitrush.github.io/Elders_Ai/de/namegarden/</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/namegarden/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/namegarden/"/>
@@ -3837,6 +4287,96 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/boardwalk/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/boardwalk/"/>
     <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/boardwalk/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/hanoi/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/hanoi/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/hanoi/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/queens/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/queens/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/queens/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/queens/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/queens/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/queens/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/queens/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/knightour/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/knightour/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/knightour/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/jugs/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/jugs/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/jugs/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/river/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/river/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/river/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/river/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/river/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/river/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/river/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/balance/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/balance/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/balance/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/balance/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/balance/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/balance/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/balance/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/magicsq/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/magicsq/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/magicsq/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/numpyramid/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/numpyramid/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/numpyramid/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/frogswap/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/frogswap/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/frogswap/"/>
+  </url>
+  <url>
+    <loc>https://adbitrush.github.io/Elders_Ai/el/matchfix/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://adbitrush.github.io/Elders_Ai/he/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://adbitrush.github.io/Elders_Ai/en/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://adbitrush.github.io/Elders_Ai/es/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://adbitrush.github.io/Elders_Ai/fr/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://adbitrush.github.io/Elders_Ai/de/matchfix/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://adbitrush.github.io/Elders_Ai/el/matchfix/"/>
   </url>
   <url>
     <loc>https://adbitrush.github.io/Elders_Ai/el/namegarden/</loc>
