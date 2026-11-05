@@ -32,7 +32,7 @@ function initWagontrail() {
 .wt-st div{background:#fff7e6;border:2px solid #fde7c4;border-radius:12px;padding:6px;text-align:center;font-weight:800;font-size:.95rem}
 .wt-st b{display:block;font-size:1.35rem}
 .wt-st .wt-low{border-color:#dc2626;background:#fee2e2}
-.wt-bar{height:8px;border-radius:4px;background:#e5e7eb;margin-top:3px;overflow:hidden}.wt-bar i{display:block;height:100%}
+.wt-st .wt-bar{height:8px;border:0;padding:0;border-radius:4px;background:#e5e7eb;margin-top:3px;overflow:hidden}.wt-bar i{display:block;height:100%}
 .wt-log{font-size:.98rem;color:#57534e;margin:6px 0 0;padding-left:1.1rem}
 .wt-log li{margin:2px 0}`,
     });

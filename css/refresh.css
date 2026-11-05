@@ -338,8 +338,6 @@ html[data-theme] body footer .look-toggle label.look-on{ color:#fffaf1 !importan
 :root[data-look="refreshed"] #gameContent .vg-b{ margin:0; width:100%; }
 /* tiles must not squeeze together */
 :root[data-look="refreshed"] #gameContent .cnt-o{ flex:0 0 auto; }
-/* Prairie Wagon's health and wagon bars: the stat box's own padding was collapsing them (Classic has the same flaw; left alone there) */
-:root[data-look="refreshed"] #gameContent .wt-st .wt-bar{ padding:0; border:0; border-radius:4px; background:#e5e7eb; }
 /* hub cards: picture, name, one short line, actions. The "why" sentence stays on each game's own page. */
 :root[data-look="refreshed"][data-theme] body #homeScreen .why-line{ display:none; }
 :root[data-look="refreshed"] #homeScreen .premium-card .p-5 p{ flex-grow:0 !important; }
@@ -351,4 +349,64 @@ html[data-theme] body footer .look-toggle label.look-on{ color:#fffaf1 !importan
   :root[data-look="refreshed"] #homeScreen-header > #dc-banner-slot{ grid-column:1; grid-row:3; }
   :root[data-look="refreshed"] #homeScreen-header > #diff-selector{ grid-column:2; grid-row:2; align-self:center; justify-self:end; }
   :root[data-look="refreshed"] #homeScreen-header > #tips-slot{ grid-column:2; grid-row:3; align-self:start; max-width:22rem; }
+}
+
+/* ── 16. Hub: the first game must show on the first screen. Nothing is removed from the page except the daily tip on phones
+   (it is a "did you know" line, and the tips still show on wider screens). ── */
+:root[data-look="refreshed"] #hub-nav .hn-label{ font-size:1rem; }
+:root[data-look="refreshed"] #hub-nav .hn-count{ font-size:.95rem; opacity:1; color:var(--w-muted); }
+:root[data-look="refreshed"] #homeScreen-header > .flex.items-center p{ margin-top:0 !important; font-size:1rem !important; }
+@media (min-width:900px){
+  :root[data-look="refreshed"][data-theme] body #hero{ padding:10px 0 0 !important; margin-bottom:2px !important; }
+  :root[data-look="refreshed"] #hero #retentionBar{ margin-top:4px !important; padding-top:6px !important; }
+  /* the label sits beside the search box, and the chips keep one row where they fit */
+  :root[data-look="refreshed"] #hub-nav .hn-search{ display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:0 10px; }
+  :root[data-look="refreshed"] #hub-nav .hn-qrow{ margin:0; }
+  :root[data-look="refreshed"] #hub-nav .hn-count{ margin:0; white-space:nowrap; }
+  :root[data-look="refreshed"] #homeScreen-header > .look-hub{ padding-top:2px; }
+  :root[data-look="refreshed"] #homeScreen-header{ gap:6px 20px !important; margin-bottom:10px !important; }
+  :root[data-look="refreshed"][data-theme] body #daily-challenge-banner{ padding:4px 12px !important; }
+  :root[data-look="refreshed"][data-theme] body #daily-challenge-banner > *{ flex-wrap:nowrap; }
+  :root[data-look="refreshed"][data-theme] body #tips-slot > *{ padding:4px 10px !important; font-size:.95rem; }
+  :root[data-look="refreshed"][data-theme] body #tips-slot #tips-text{ font-size:.95rem; line-height:1.25; }
+  :root[data-look="refreshed"] #homeScreen-header > #tips-slot{ max-width:24rem; }
+}
+@media (max-width:639px){
+  :root[data-look="refreshed"][data-theme] body #hero{ padding:6px 0 0 !important; margin-bottom:0 !important; }
+  :root[data-look="refreshed"][data-theme] body #hero h2{ font-size:1.35rem !important; }
+  :root[data-look="refreshed"][data-theme] body #hero #dailyQuote{ display:none; }
+  :root[data-look="refreshed"] #hero #retentionBar{ margin-top:4px !important; padding-top:4px !important; border-top:0 !important; gap:4px 6px; }
+  :root[data-look="refreshed"] #retentionBar > div:first-child{ gap:4px 6px !important; }
+  :root[data-look="refreshed"][data-theme] body #hero #greetingText{ font-size:1rem !important; }
+  :root[data-look="refreshed"][data-theme] body #hero .streak-pill,
+  :root[data-look="refreshed"][data-theme] body #hero #retentionBar .rounded-full{ padding:2px 8px !important; min-height:34px; }
+  :root[data-look="refreshed"][data-theme] body #hero #streakText,
+  :root[data-look="refreshed"][data-theme] body #hero #dailyGoalText{ font-size:.95rem !important; }
+  :root[data-look="refreshed"][data-theme] body #brain-score-slot > *{ padding-top:2px !important; padding-bottom:2px !important; }
+  :root[data-look="refreshed"] #homeScreen-header{ gap:6px !important; margin-bottom:8px !important; }
+  :root[data-look="refreshed"] #hub-nav{ gap:6px; }
+  /* the label stays for screen readers; the box already says what it is for */
+  :root[data-look="refreshed"] #hub-nav .hn-search .hn-label{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+  :root[data-look="refreshed"] #hub-nav .hn-qrow{ margin:0; }
+  :root[data-look="refreshed"] #hub-nav #hn-q{ min-height:48px; }
+  :root[data-look="refreshed"] #hub-nav .hn-count{ margin:2px 2px 0; font-size:.92rem; }
+  /* one sliding row of chips: the next chip is always part-showing, and keyboard focus scrolls it into view */
+  :root[data-look="refreshed"] #hub-nav .hn-chips{ flex-wrap:nowrap; overflow-x:auto; margin:0 -12px; padding:2px 12px 4px; scrollbar-width:thin; overscroll-behavior-x:contain; }
+  :root[data-look="refreshed"] #hub-nav .hn-chip{ flex:0 0 auto; }
+  :root[data-look="refreshed"] #homeScreen-header > .flex.items-center p{ display:none; }
+  :root[data-look="refreshed"][data-theme] body #homeScreen-header h2,
+  :root[data-look="refreshed"][data-theme] body #homeScreen-header h3{ font-size:1.2rem !important; }
+  :root[data-look="refreshed"] #tips-slot{ display:none; }
+  :root[data-look="refreshed"][data-theme] body #daily-challenge-banner{ padding:4px 8px !important; }
+  :root[data-look="refreshed"][data-theme] body #daily-challenge-banner .dc-game-pill{ font-size:.95rem !important; padding:4px 10px !important; }
+  :root[data-look="refreshed"] #diff-selector{ gap:4px !important; flex-wrap:nowrap !important; }
+  :root[data-look="refreshed"] #diff-selector > span{ display:none; }
+  :root[data-look="refreshed"] #diff-selector .diff-btn{ flex:1 1 0; padding:2px 4px !important; }
+}
+@media (max-width:639px){
+  :root[data-look="refreshed"][data-theme] body #daily-challenge-banner{ position:relative; display:block !important; }
+  :root[data-look="refreshed"] #daily-challenge-banner div:has(> .dc-game-pill){ flex-wrap:nowrap !important; overflow-x:auto; gap:6px; margin:2px -8px 0; padding:2px 8px 4px; }
+  :root[data-look="refreshed"] #daily-challenge-banner .dc-game-pill{ flex:0 0 auto; white-space:nowrap; }
+  :root[data-look="refreshed"] #daily-challenge-banner div:has(> #dc-stars){ position:absolute; top:4px; inset-inline-end:8px; display:flex; align-items:center; gap:6px; }
+  :root[data-look="refreshed"][data-theme] body #daily-challenge-banner #dc-stars{ font-size:1.05rem !important; letter-spacing:0 !important; }
 }
