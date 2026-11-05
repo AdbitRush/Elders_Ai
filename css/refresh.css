@@ -422,5 +422,5 @@ html[data-theme] body footer .look-toggle label.look-on span{ color:#fffaf1 !imp
 :root[data-look="refreshed"] #gameContent button:hover{ transform:none; }
 :root[data-look="refreshed"] #gameContent button:not(.nk-cell):hover{ border-color:var(--r-act); }
 
-/* a flex column must not squeeze the 48 px target (measured 47 px on phones) */
-:root[data-look="refreshed"] #homeScreen .premium-card a.w-page{ flex:0 0 auto; }
+/* cards sit at 98% scale until they scroll into view (premium.css): 50 px keeps the About link above 48 px then too */
+:root[data-look="refreshed"] #homeScreen .premium-card a.w-page{ flex:0 0 auto; min-height:50px; }
