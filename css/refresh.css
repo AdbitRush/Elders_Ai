@@ -410,3 +410,14 @@ html[data-theme] body footer .look-toggle label.look-on{ color:#fffaf1 !importan
   :root[data-look="refreshed"] #daily-challenge-banner div:has(> #dc-stars){ position:absolute; top:4px; inset-inline-end:8px; display:flex; align-items:center; gap:6px; }
   :root[data-look="refreshed"][data-theme] body #daily-challenge-banner #dc-stars{ font-size:1.05rem !important; letter-spacing:0 !important; }
 }
+
+/* ── 17. Second review ── */
+/* warm.css colours every element in the footer, the label's text included (both looks) */
+html[data-theme] body footer .look-toggle label span{ color:#2b1b0d !important; }
+html[data-theme] body footer .look-toggle label.look-on span{ color:#fffaf1 !important; }
+:root[data-look="refreshed"][data-theme] body footer .look-toggle label span{ color:var(--w-ink) !important; }
+:root[data-look="refreshed"][data-theme] body footer .look-toggle label.look-on span{ color:var(--w-on-accent) !important; }
+/* buttons do not move under the pointer in this look. With the lift on hover, a resting pointer at a button's edge made it shake:
+   lifted, the pointer fell off it; dropped, the pointer was back on it. Hover still shows through the border colour. */
+:root[data-look="refreshed"] #gameContent button:hover{ transform:none; }
+:root[data-look="refreshed"] #gameContent button:not(.nk-cell):hover{ border-color:var(--r-act); }
