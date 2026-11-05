@@ -20,7 +20,9 @@
            rules: [html...] }.  The game's state is gameState[id] (gs). */
 (function () {
   const defs = {};
-  let sess = null, seq = 0;
+  let sess = null, seq = 0, lastInputKey = false;
+  window.addEventListener('keydown', () => { lastInputKey = true; }, true);
+  window.addEventListener('pointerdown', () => { lastInputKey = false; }, true);
   const modalOpen = () => { const m = document.getElementById('modal'); return m && !m.classList.contains('hidden'); };
   const cur = () => (sess && typeof gameState !== 'undefined' && gameState.active && gameState.currentId === sess.id ? sess : null);
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -44,12 +46,21 @@
     ['gameTitle', 'gameInstructions', 'modalTitle', 'modalBody'].forEach((x) => { const e = document.getElementById(x); if (e) e.setAttribute('dir', 'auto'); });
     if (def.css && !document.getElementById('nk-css-' + id)) { const st = document.createElement('style'); st.id = 'nk-css-' + id; st.textContent = def.css; document.head.appendChild(st); }
     const el = document.getElementById('gameContent');
+    // Keyboard players keep their place across a restart or next level (the redraw below would drop focus to the page, so the
+    // next Tab started from the top). Pointer players are left alone: their Enter and Space keep going to the game's own keys.
+    const a = document.activeElement, oldRoot = el.querySelector(':scope > .nk'), m = document.getElementById('modal');
+    const keepKey = oldRoot && oldRoot.contains(a) && a.dataset ? a.dataset.k : null;
+    const dropped = (oldRoot && oldRoot.contains(a)) || !a || a === document.body || (m && m.contains(a));
     // the live region sits OUTSIDE the redrawn root, so screen readers hear every new message (a region that is
     // replaced on each redraw is often not announced at all)
     el.innerHTML = `<div class="nk nk-${id}" dir="ltr" tabindex="-1"></div><div class="nk-live" role="status" aria-live="polite" aria-atomic="true" dir="auto"></div>`;
     const diff = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
     def.setup(gs, diff);
     render(id);
+    if (lastInputKey && dropped) {
+      const root = el.querySelector(':scope > .nk'), now = document.activeElement;
+      if (root && !root.contains(now)) { const n = keepKey && root.querySelector(`[data-k="${CSS.escape(keepKey)}"]`); (n && !n.disabled ? n : root).focus({ preventScroll: true }); }
+    }
   }
   function render(id) {
     const s = cur(); if (!s || s.id !== id) return;
