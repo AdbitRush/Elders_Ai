@@ -77,6 +77,9 @@ async function kitChecks(p, id, R) {
     await p.locator(`#gameContent [data-k="${D.restartK || 'restart'}"]`).first().click(); await sleep(100);
   }
   // (6) stale finish: finish, then restart at once - no end screen may appear
+  // The win end screen opens 600 ms after NK.finish, and the previous restart's 450 ms entry animation (premium.css gg-round-in) was eating most of that window:
+  // a click that took over 600 ms found the end screen correctly up and timed out. Let the animation end first, so this checks the kit and not the test's timing.
+  await p.waitForFunction(() => [...document.querySelectorAll('#gameContent > *')].every((e) => e.getAnimations().every((a) => a.playState !== 'running')));
   await p.evaluate((id) => NK.finish(id, true, 'stale'), id);
   await p.locator(`#gameContent [data-k="${D.restartK || 'restart'}"]`).first().click();
   await sleep(1400);

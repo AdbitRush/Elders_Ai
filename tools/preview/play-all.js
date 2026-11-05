@@ -97,7 +97,9 @@ async function playQuiz(p, id, R) {
   // answer the rest correctly
   let guard = 0;
   while (!(await modalUp(p)) && guard++ < 40) {
-    if (!(await clickWhere(p, q.right))) { await sleep(400); continue; }
+    // the end screen can open during this click (the last answer's delay ends just then). Only that case is excused: the end modal is still read and checked below.
+    let clicked; try { clicked = await clickWhere(p, q.right); } catch (e) { if (await modalUp(p)) break; throw e; }
+    if (!clicked) { await sleep(400); continue; }
     await sleep(900);
   }
   const up = await waitModal(p, 4000);
