@@ -168,6 +168,7 @@ const SHELL = [
   './js/games/twentyq.js',
   './js/games/sticks.js',
   './js/games/tilematch.js',
+  './js/games/digger.js',
   // /gen:new-games
   './js/affiliate.js',
   './js/brainscore.js',

@@ -8,7 +8,7 @@ const U = (process.argv[3] || 'http://127.0.0.1:8931').replace(/\/$/, '');
 const OUT = path.resolve(process.argv[4] || 'shots'); fs.mkdirSync(OUT, { recursive: true });
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // id: [element to capture, staging code run in the page]
-const STAGE = {
+const STAGE = { digger: ['.dg-wrap', () => { ['up', 'up', 'left', 'left', 'up', 'up'].forEach((d) => dgMove(d)); }],
   hanoi: ['.hn-row', () => { hnTap(0); hnTap(2); hnTap(0); hnTap(1); }],
   queens: ['.qn-b', () => { const s = _qnSolve(8, {}); [0, 1, 2, 3, 4].forEach((r) => qnTap(r, s[r])); }],
   knightour: ['.kt-b', () => { ktTap(0, 0); ktTap(1, 2); ktTap(2, 4); ktTap(0, 5); ktTap(2, 4) ; }],
