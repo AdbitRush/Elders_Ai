@@ -603,4 +603,18 @@ D.victorygarden = { heKey: { code: 'KeyE', key: 'ק' }, async play(p, R, H) {
   }
   const g = await H.G(p, 'victorygarden'); R.steps.push(`${k} weeks gardened by tapping; harvest ${g.lb} of ${g.goal} lb`);
 } };
+// ---------- 2026-11: Tunnel Digger, played with real arrow keys ----------
+D.digger = { restartK: 'restart', focusSel: '#gameContent [data-k="dg-wait"]', heKey: { key: '\u05d5', code: 'KeyW' }, async play(p, R, H) {
+  const KEY = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
+  await p.keyboard.press('ArrowDown'); R.steps.push('dig into the bottom edge -> ' + (await H.msg(p)).slice(0, 40));
+  for (let n = 0; n < 500 && !(await H.modalUp(p)); n++) {
+    const d = await p.evaluate(() => { const g = gameState.digger.g; const DIR = _DG_DIR; const seen = new Map([[g.px + ',' + g.py, null]]), q = [[g.px, g.py]]; let hit = null; const bl = (x, y) => g.sacks.some((s) => s.x === x && s.y === y);
+      while (q.length && !hit) { const [x, y] = q.shift(); for (const k of ['up', 'left', 'right', 'down']) { const [dx, dy] = DIR[k], nx = x + dx, ny = y + dy, key = nx + ',' + ny; if (nx < 0 || ny < 0 || nx >= g.W || ny >= g.H || seen.has(key) || bl(nx, ny)) continue; seen.set(key, [x + ',' + y, k]); if (g.gems.some((m) => m.x === nx && m.y === ny)) { hit = key; break; } q.push([nx, ny]); } }
+      let f = null; for (let k = hit; k && seen.get(k); k = seen.get(k)[0]) f = seen.get(k)[1];
+      const safe = (dd) => { const c = JSON.parse(JSON.stringify(g)), l = c.lives; const r = _dgTurn(c, dd); return r.moved && c.lives === l; };
+      if (f && safe(f)) return f; for (const k of ['up', 'left', 'right', 'down']) if (safe(k)) return k; return f; });
+    if (!d) break; await p.keyboard.press(KEY[d]); await p.waitForTimeout(25);
+  }
+  const g = await H.G(p, 'digger'); R.steps.push(`${g.g.turn} turns, ${g.g.lives} lives left, won ${g.g.won}`);
+} };
 module.exports = D;

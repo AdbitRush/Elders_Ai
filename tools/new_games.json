@@ -464,6 +464,10 @@
     {"id": "tilematch", "wave": 6, "section": "pastimes", "init": "initTileMatch", "icon": "layout-grid", "skills": ["perception", "planning"],
      "title": "Tile Match", "desc": "Mahjong-style tile solitaire: clear the stack in matching pairs.",
      "inst": "Tap two free tiles with the same picture. A tile is free with nothing on top and one side open.",
-     "why": "Choosing which pair to take first keeps the rest of the board open."}
+     "why": "Choosing which pair to take first keeps the rest of the board open."},
+    {"id": "digger", "wave": 7, "section": "arcade", "init": "initDigger", "icon": "pickaxe", "skills": ["planning", "attention"],
+     "title": "Tunnel Digger", "desc": "Dig for gems, drop sacks of gold and stay clear of the creatures. Nothing moves until you do.",
+     "inst": "Dig with the arrows and collect every gem. Creatures follow your tunnels, and sacks fall when you dig under them.",
+     "why": "Every tunnel you dig is one the creatures can use, so each step is a small plan."}
   ]
 }

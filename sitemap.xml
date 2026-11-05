@@ -1130,6 +1130,15 @@
     <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/tilematch/"/>
   </url>
   <url>
+    <loc>https://games.178-105-148-72.sslip.io/he/digger/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://games.178-105-148-72.sslip.io/he/digger/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://games.178-105-148-72.sslip.io/en/digger/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://games.178-105-148-72.sslip.io/es/digger/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://games.178-105-148-72.sslip.io/fr/digger/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://games.178-105-148-72.sslip.io/de/digger/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/digger/"/>
+  </url>
+  <url>
     <loc>https://games.178-105-148-72.sslip.io/en/klondike/</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://games.178-105-148-72.sslip.io/he/klondike/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://games.178-105-148-72.sslip.io/en/klondike/"/>
@@ -2253,6 +2262,15 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://games.178-105-148-72.sslip.io/fr/tilematch/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://games.178-105-148-72.sslip.io/de/tilematch/"/>
     <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/tilematch/"/>
+  </url>
+  <url>
+    <loc>https://games.178-105-148-72.sslip.io/en/digger/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://games.178-105-148-72.sslip.io/he/digger/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://games.178-105-148-72.sslip.io/en/digger/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://games.178-105-148-72.sslip.io/es/digger/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://games.178-105-148-72.sslip.io/fr/digger/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://games.178-105-148-72.sslip.io/de/digger/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/digger/"/>
   </url>
   <url>
     <loc>https://games.178-105-148-72.sslip.io/es/klondike/</loc>
@@ -3380,6 +3398,15 @@
     <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/tilematch/"/>
   </url>
   <url>
+    <loc>https://games.178-105-148-72.sslip.io/es/digger/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://games.178-105-148-72.sslip.io/he/digger/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://games.178-105-148-72.sslip.io/en/digger/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://games.178-105-148-72.sslip.io/es/digger/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://games.178-105-148-72.sslip.io/fr/digger/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://games.178-105-148-72.sslip.io/de/digger/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/digger/"/>
+  </url>
+  <url>
     <loc>https://games.178-105-148-72.sslip.io/fr/klondike/</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://games.178-105-148-72.sslip.io/he/klondike/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://games.178-105-148-72.sslip.io/en/klondike/"/>
@@ -4503,6 +4530,15 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://games.178-105-148-72.sslip.io/fr/tilematch/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://games.178-105-148-72.sslip.io/de/tilematch/"/>
     <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/tilematch/"/>
+  </url>
+  <url>
+    <loc>https://games.178-105-148-72.sslip.io/fr/digger/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://games.178-105-148-72.sslip.io/he/digger/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://games.178-105-148-72.sslip.io/en/digger/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://games.178-105-148-72.sslip.io/es/digger/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://games.178-105-148-72.sslip.io/fr/digger/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://games.178-105-148-72.sslip.io/de/digger/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/digger/"/>
   </url>
   <url>
     <loc>https://games.178-105-148-72.sslip.io/de/klondike/</loc>
@@ -5630,6 +5666,15 @@
     <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/tilematch/"/>
   </url>
   <url>
+    <loc>https://games.178-105-148-72.sslip.io/de/digger/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://games.178-105-148-72.sslip.io/he/digger/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://games.178-105-148-72.sslip.io/en/digger/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://games.178-105-148-72.sslip.io/es/digger/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://games.178-105-148-72.sslip.io/fr/digger/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://games.178-105-148-72.sslip.io/de/digger/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/digger/"/>
+  </url>
+  <url>
     <loc>https://games.178-105-148-72.sslip.io/el/klondike/</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://games.178-105-148-72.sslip.io/he/klondike/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://games.178-105-148-72.sslip.io/en/klondike/"/>
@@ -6753,5 +6798,14 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://games.178-105-148-72.sslip.io/fr/tilematch/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://games.178-105-148-72.sslip.io/de/tilematch/"/>
     <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/tilematch/"/>
+  </url>
+  <url>
+    <loc>https://games.178-105-148-72.sslip.io/el/digger/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://games.178-105-148-72.sslip.io/he/digger/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://games.178-105-148-72.sslip.io/en/digger/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://games.178-105-148-72.sslip.io/es/digger/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://games.178-105-148-72.sslip.io/fr/digger/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://games.178-105-148-72.sslip.io/de/digger/"/>
+    <xhtml:link rel="alternate" hreflang="el" href="https://games.178-105-148-72.sslip.io/el/digger/"/>
   </url>
 </urlset>
