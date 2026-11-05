@@ -16,7 +16,7 @@ run keys-R node tools/preview/check-nostalgia-keys.js "$PW" $R
 run reg-R node tools/preview/check-regressions.js "$PW" $R
 run layout-R node tools/preview/check-nostalgia-layout.js "$PW" $R "$O/layout-R"
 run collection-R node tools/preview/check-collection.js "$PW" $R
-run header-R node tools/preview/check-header.js $R "$O/header-R"
+run header-R env PW_DIR="$PW" node tools/preview/check-header.js $R "$O/header-R"
 for s in 12.3 12.4 12.5 12.6 12.7; do
   run e2e-$s-R env E2E_SECTIONS=$s E2E_OUT="$O/e2e-$s-R.detail" node tools/preview/e2e-suite.js "$PW" $R
   run e2e-$s-C env E2E_SECTIONS=$s E2E_OUT="$O/e2e-$s-C.detail" node tools/preview/e2e-suite.js "$PW" $C
