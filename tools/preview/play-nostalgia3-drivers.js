@@ -468,7 +468,7 @@ D.cribbage = { heKey: null, async play(p, R, H) {
 // ---------- batch E: arcade and early computer games ----------
 D.crates = { heKey: null, async play(p, R, H) {
   // one legal step, then Undo with the U key as a Hebrew layout sends it
-  const d = await p.evaluate(() => { const g = gameState.crates, W = g.W; return [[-1, 'ArrowLeft'], [1, 'ArrowRight'], [-W, 'ArrowUp'], [W, 'ArrowDown']].find(([x]) => !g.wall.includes(g.pl + x) && !g.box.includes(g.pl + x)) || [[-1, 'ArrowLeft'], [1, 'ArrowRight'], [-W, 'ArrowUp'], [W, 'ArrowDown']].find(([x]) => !g.wall.includes(g.pl + x) && !g.wall.includes(g.pl + 2 * x) && !g.box.includes(g.pl + 2 * x)))[1]; });
+  const d = await p.evaluate(() => { const g = gameState.crates, W = g.W; return ([[-1, 'ArrowLeft'], [1, 'ArrowRight'], [-W, 'ArrowUp'], [W, 'ArrowDown']].find(([x]) => !g.wall.includes(g.pl + x) && !g.box.includes(g.pl + x)) || [[-1, 'ArrowLeft'], [1, 'ArrowRight'], [-W, 'ArrowUp'], [W, 'ArrowDown']].find(([x]) => !g.wall.includes(g.pl + x) && !g.wall.includes(g.pl + 2 * x) && !g.box.includes(g.pl + 2 * x)))[1]; });
   const pl0 = (await H.G(p, 'crates')).pl; await p.keyboard.press(d);
   await p.evaluate(() => document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'ו', code: 'KeyU', bubbles: true, cancelable: true })));
   const pl1 = (await H.G(p, 'crates')).pl; R.steps.push(`step then Hebrew-layout U: worker back at start ${pl1 === pl0}`); if (pl1 !== pl0) R.defects.push('undo key failed with a Hebrew key value');
