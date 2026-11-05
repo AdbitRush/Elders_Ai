@@ -421,3 +421,6 @@ html[data-theme] body footer .look-toggle label.look-on span{ color:#fffaf1 !imp
    lifted, the pointer fell off it; dropped, the pointer was back on it. Hover still shows through the border colour. */
 :root[data-look="refreshed"] #gameContent button:hover{ transform:none; }
 :root[data-look="refreshed"] #gameContent button:not(.nk-cell):hover{ border-color:var(--r-act); }
+
+/* a flex column must not squeeze the 48 px target (measured 47 px on phones) */
+:root[data-look="refreshed"] #homeScreen .premium-card a.w-page{ flex:0 0 auto; }
