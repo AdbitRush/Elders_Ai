@@ -1,0 +1,354 @@
+/* refresh.css: the Refreshed look (review candidate, 2026-11-05). The last stylesheet on every page.
+   Section 1 styles the Classic / Refreshed control, which shows in both looks. Everything after it applies only under
+   html[data-look="refreshed"], so Classic keeps its current appearance. js/look.js sets the attribute.
+
+   Direction: warm paper and clear ink, one terracotta accent, a plain serif for headings, flat surfaces with thin rules.
+   Games: less chrome above the board. The play surface stays light in both themes, because every game draws dark ink on it.
+   Felt tables, wooden boards and crossword paper come from the games and are not touched.
+   Fonts are system fonts: nothing to download, nothing extra to cache for offline. */
+
+/* ── 1. The control (both looks) ── */
+.look-toggle{ border:0; margin:0; padding:0; min-width:0; display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; font-size:1rem; line-height:1.2; color:inherit; }
+.look-toggle legend{ float:left; padding:0; margin:0; font-weight:800; }
+.look-toggle .look-opts{ display:inline-flex; flex-wrap:wrap; gap:6px; }
+.look-toggle label{ position:relative; display:inline-flex; align-items:center; justify-content:center; gap:6px; min-height:48px; min-width:48px; padding:6px 14px; cursor:pointer;
+  font-weight:800; border-radius:10px; border:2px solid #8a6f4d; background:#fffaf1; color:#2b1b0d; }
+.look-toggle input{ position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; min-height:0; }
+.look-toggle .look-on{ background:#2b1b0d; border-color:#2b1b0d; color:#fffaf1; }
+.look-toggle .look-on span::before{ content:"✓ "; }
+.look-toggle label:has(input:focus-visible){ outline:4px solid #1d4ed8; outline-offset:2px; }
+.look-toggle.look-hub{ margin:0 0 2px; }
+.look-toggle.look-menu{ padding:6px 14px 8px; color:var(--w-ink,inherit); }
+.look-toggle.look-foot{ justify-content:center; margin:10px auto 0; }
+.look-toggle.look-page{ margin:0 0 14px; max-width:820px; }
+body:not(.min-h-screen) > .look-toggle.look-page{ margin-inline:auto; }
+@media (forced-colors:active){ .look-toggle .look-on{ outline:3px solid Highlight; } }
+
+/* ── 2. Tokens (light is the base; the app always sets data-theme, the other pages only for dark) ── */
+:root[data-look="refreshed"]{
+  --r-serif:Charter,"Bitstream Charter",Cambria,"Noto Serif","Noto Serif Hebrew","David Libre",David,Georgia,serif;
+  --r-sans:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Hebrew",Arial,sans-serif;
+  --r-act:#8f3b1c; --r-act-ink:#ffffff; --r-btn-line:#a18c6d; --r-shadow:0 1px 2px rgba(50,35,15,.10);
+  --w-bg:#f6f1e7; --w-bg2:#f6f1e7; --w-card:#fffdf9; --w-card2:#faf5ec; --w-line:#d8cbb5;
+  --w-ink:#211810; --w-ink2:#43362a; --w-muted:#5f5040;
+  --w-accent:#8f3b1c; --w-accent2:#6f2c13; --w-on-accent:#ffffff;
+  --w-table:#fffdf8; --w-table-ink:#211810; --w-table-ink2:#4a3c2e; --w-table-line:#d8cbb5; --w-nav:#fffdf9;
+  --bg:#f6f1e7; --bg2:#efe8da; --card:#fffdf9; --line:#d8cbb5; --ink:#211810; --ink2:#43362a; --head:#7a3116; --accent:#8f3b1c; --on-accent:#ffffff;
+  --chip:#f3ecdf; --chip-ink:#43362a; --ph:#f3ecdf; --ph-ink:#6f2c13;
+}
+:root[data-look="refreshed"][data-theme="dark"]{
+  --r-shadow:0 1px 2px rgba(0,0,0,.4);
+  --w-bg:#16120e; --w-bg2:#16120e; --w-card:#221c16; --w-card2:#2b241c; --w-line:#54483a;
+  --w-ink:#f7f1e6; --w-ink2:#e3d8c7; --w-muted:#cbbda8;
+  --w-accent:#eba873; --w-accent2:#f4c39b; --w-on-accent:#241307; --w-nav:#1c1712;
+  --bg:#16120e; --bg2:#1c1712; --card:#221c16; --line:#54483a; --ink:#f7f1e6; --ink2:#e3d8c7; --head:#f4c39b; --accent:#eba873; --on-accent:#241307;
+  --chip:#2b241c; --chip-ink:#e3d8c7; --ph:#2b241c; --ph-ink:#f4c39b;
+}
+
+/* ── 3. The control inside the Refreshed look ── */
+:root[data-look="refreshed"] .look-toggle label{ background:var(--w-card); color:var(--w-ink); border-color:var(--w-line); }
+:root[data-look="refreshed"] .look-toggle .look-on{ background:var(--w-accent); border-color:var(--w-accent); color:var(--w-on-accent); }
+
+/* ── 4. App page: base ── */
+:root[data-look="refreshed"] body.min-h-screen{ font-family:var(--r-sans); background:var(--w-bg) !important; }
+:root[data-look="refreshed"] #ambientBg{ display:none !important; }
+:root[data-look="refreshed"] :focus-visible{ outline:3px solid #1d4ed8 !important; outline-offset:2px !important; }
+:root[data-look="refreshed"][data-theme="dark"] :focus-visible{ outline-color:#9cc0ff !important; }
+:root[data-look="refreshed"][data-theme="dark"] #gameContent :focus-visible,
+:root[data-look="refreshed"][data-theme="dark"] #modal :focus-visible{ outline-color:#1d4ed8 !important; }
+
+/* ── 5. Header: one flat bar ── */
+:root[data-look="refreshed"][data-theme] body nav{ background:var(--w-nav) !important; backdrop-filter:none !important; border-bottom:1px solid var(--w-line) !important; box-shadow:none !important; padding-top:6px !important; padding-bottom:6px !important; }
+:root[data-look="refreshed"][data-theme] body nav h1{ font-family:var(--r-serif); font-weight:700 !important; font-size:1.4rem !important; letter-spacing:0; }
+:root[data-look="refreshed"][data-theme] body nav #logoLetter{ width:2.25rem !important; height:2.25rem !important; }
+:root[data-look="refreshed"][data-theme] body nav button,
+:root[data-look="refreshed"][data-theme] body nav select,
+:root[data-look="refreshed"][data-theme] body nav #levelIndicator{ border-width:1px !important; border-radius:10px !important; font-size:1rem !important; font-weight:600 !important; padding:4px 12px !important; background:transparent !important; color:var(--w-ink) !important; border-color:var(--w-line) !important; }
+:root[data-look="refreshed"][data-theme] body nav button:hover,
+:root[data-look="refreshed"][data-theme] body nav select:hover{ border-color:var(--w-accent) !important; }
+:root[data-look="refreshed"][data-theme] body nav select option{ background:var(--w-card); color:var(--w-ink); }
+:root[data-look="refreshed"][data-theme] body nav #themeBtn{ border-color:var(--w-line) !important; }
+:root[data-look="refreshed"][data-theme] body nav #backBtn:not(.hidden){ background:var(--r-act-nav,var(--w-accent)) !important; color:var(--w-on-accent) !important; border-color:var(--w-accent) !important; font-weight:700 !important; }
+:root[data-look="refreshed"] #levelIndicator{ font-variant-numeric:tabular-nums; }
+@media (max-width:639px){
+  :root[data-look="refreshed"][data-theme] body nav{ padding-top:4px !important; padding-bottom:4px !important; }
+  :root[data-look="refreshed"][data-theme] body nav #menuBtn,
+  :root[data-look="refreshed"][data-theme] body nav #themeBtn,
+  :root[data-look="refreshed"][data-theme] body nav #backBtn:not(.hidden){ min-height:52px !important; min-width:54px; padding:2px 6px !important; font-size:1.1rem !important; }
+  :root[data-look="refreshed"][data-theme] body nav #backBtn:not(.hidden){ font-size:13px !important; }
+  :root[data-look="refreshed"][data-theme] body #gameMenu{ top:64px !important; max-height:calc(100dvh - 64px - 8px) !important; }
+}
+
+/* ── 6. Menu panel ── */
+:root[data-look="refreshed"][data-theme] body #gameMenu{ background:var(--w-card) !important; backdrop-filter:none !important; border:1px solid var(--w-line) !important; border-radius:12px !important; box-shadow:0 12px 32px rgba(30,20,8,.25) !important; color:var(--w-ink); }
+:root[data-look="refreshed"][data-theme] body #gameMenu #gameMenuSearch{ background:var(--w-card2) !important; color:var(--w-ink) !important; border:1px solid var(--w-line) !important; min-height:48px; }
+:root[data-look="refreshed"][data-theme] body #gameMenuList button{ color:var(--w-ink) !important; min-height:48px; }
+:root[data-look="refreshed"][data-theme] body #gameMenuList button span{ color:inherit !important; }
+:root[data-look="refreshed"][data-theme] body #gameMenuList button:hover{ background:var(--w-card2) !important; }
+:root[data-look="refreshed"] .w-menu-ic{ color:var(--w-accent) !important; }
+:root[data-look="refreshed"].w-phone-head #w-tools{ border-bottom:1px solid var(--w-line); }
+:root[data-look="refreshed"].w-phone-head #w-tools .w-grid > *{ border-width:1px !important; border-radius:10px !important; background:transparent !important; }
+:root[data-look="refreshed"].w-phone-head #w-tools #langSelect{ border-width:1px !important; border-radius:10px !important; }
+
+/* ── 7. Hub: a short welcome, then the games ── */
+:root[data-look="refreshed"][data-theme] body #hero{ background:none !important; border-bottom:0 !important; padding:18px 0 4px !important; margin-bottom:6px !important; }
+:root[data-look="refreshed"][data-theme] body #hero > div:first-child{ display:none; }
+:root[data-look="refreshed"][data-theme] body #hero > .container{ margin-left:auto !important; margin-right:auto !important; width:100% !important; text-align:start; }
+:root[data-look="refreshed"] #hero .w-hero-mark{ display:none; }
+:root[data-look="refreshed"][data-theme] body #hero h2{ font-family:var(--r-serif); font-size:clamp(1.7rem,3.4vw,2.4rem) !important; font-weight:700 !important; line-height:1.15; margin:0 0 2px !important; filter:none; }
+:root[data-look="refreshed"][data-theme] body #hero #dailyQuote{ font-size:1.05rem !important; font-style:normal !important; margin:0 0 4px !important; max-width:62ch; color:var(--w-muted) !important; }
+:root[data-look="refreshed"] #hero #retentionBar{ margin-top:8px !important; padding-top:8px !important; border-top:1px solid var(--w-line) !important; }
+:root[data-look="refreshed"] #retentionBar > div:first-child{ justify-content:flex-start !important; }
+:root[data-look="refreshed"] #brain-score-slot{ justify-content:flex-start !important; }
+:root[data-look="refreshed"][data-theme] body #hero .streak-pill,
+:root[data-look="refreshed"][data-theme] body #hero #retentionBar .rounded-full{ border-width:1px !important; box-shadow:none !important; }
+:root[data-look="refreshed"][data-theme] body #brain-score-slot > *,
+:root[data-look="refreshed"][data-theme] body #tips-slot > *,
+:root[data-look="refreshed"][data-theme] body #daily-challenge-banner,
+:root[data-look="refreshed"][data-theme] body #why-train{ border-width:1px !important; border-radius:12px !important; box-shadow:none !important; }
+:root[data-look="refreshed"][data-theme] body #daily-challenge-banner .dc-game-pill{ border-width:1px !important; border-radius:10px !important; min-height:48px; }
+:root[data-look="refreshed"] main.container{ padding-left:20px !important; padding-right:20px !important; }
+:root[data-look="refreshed"] #homeScreen-header{ gap:12px !important; margin-bottom:14px !important; }
+:root[data-look="refreshed"][data-theme] body #homeScreen-header h2,
+:root[data-look="refreshed"][data-theme] body #homeScreen-header h3{ font-family:var(--r-serif); font-size:1.5rem !important; }
+:root[data-look="refreshed"] #homeScreen-header > .flex > div[style*="width:48px"]{ display:none; }
+:root[data-look="refreshed"] #hub-nav .hn-continue{ min-height:52px; border-radius:10px; box-shadow:none; font-weight:800; font-size:1.1rem; }
+:root[data-look="refreshed"] #hub-nav #hn-q{ min-height:52px; border-width:1px; border-radius:10px; font-size:1.1rem; }
+:root[data-look="refreshed"] #hub-nav #hn-q:focus{ outline:3px solid #1d4ed8; }
+:root[data-look="refreshed"] #hub-nav .hn-clear,
+:root[data-look="refreshed"] #hub-nav .hn-fav{ border-width:1px; border-radius:10px; min-height:48px; }
+:root[data-look="refreshed"] #hub-nav .hn-chips{ gap:6px; }
+:root[data-look="refreshed"] #hub-nav .hn-chip{ min-height:48px; padding:6px 14px; border-width:1px; border-radius:10px; font-weight:700; font-size:1rem; }
+:root[data-look="refreshed"] #hub-nav .hn-chip[aria-pressed="true"]{ background:var(--w-accent); border-color:var(--w-accent); color:var(--w-on-accent); }
+:root[data-look="refreshed"][data-theme] body .diff-btn{ border-width:1px !important; border-radius:10px !important; }
+:root[data-look="refreshed"][data-theme] body .diff-btn.active{ background:var(--w-accent) !important; border-color:var(--w-accent) !important; color:var(--w-on-accent) !important; }
+:root[data-look="refreshed"] #diff-selector > span{ color:var(--w-ink2) !important; font-size:1rem !important; }
+
+/* cards: picture, name, one short line, then the actions */
+:root[data-look="refreshed"] #homeScreen{ gap:14px !important; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)) !important; }
+:root[data-look="refreshed"][data-theme] body #homeScreen .premium-card{ border:1px solid var(--w-line) !important; border-radius:12px !important; box-shadow:var(--r-shadow) !important; transition:border-color .15s ease; }
+:root[data-look="refreshed"][data-theme] body #homeScreen .premium-card::before{ display:none; }
+:root[data-look="refreshed"][data-theme] body #homeScreen .premium-card:hover{ transform:none !important; border-color:var(--w-accent) !important; box-shadow:var(--r-shadow) !important; }
+:root[data-look="refreshed"] #homeScreen .premium-card:hover .thumbnail-container img{ transform:none; }
+:root[data-look="refreshed"] #homeScreen .premium-card .thumbnail-container{ aspect-ratio:16/10; height:auto !important; animation:none; }
+:root[data-look="refreshed"] #homeScreen .premium-card .thumbnail-img{ filter:none; }
+:root[data-look="refreshed"] #homeScreen .premium-card .p-5{ padding:12px 14px 10px; }
+:root[data-look="refreshed"][data-theme] body #homeScreen .premium-card h3{ font-family:var(--r-serif); font-size:1.25rem !important; font-weight:700 !important; line-height:1.2 !important; margin-bottom:4px !important; }
+:root[data-look="refreshed"][data-theme] body #homeScreen .premium-card p{ font-size:1rem !important; line-height:1.4 !important; color:var(--w-muted) !important; }
+:root[data-look="refreshed"] #homeScreen .premium-card .btn-premium{ margin-top:10px; min-height:48px; font-size:1.05rem !important; font-weight:700; border-radius:10px !important; box-shadow:none; transform:none; }
+:root[data-look="refreshed"] #homeScreen .premium-card a.w-page{ min-height:48px; margin-top:2px; font-size:.98rem; font-weight:600; color:var(--w-ink2); }
+:root[data-look="refreshed"] #homeScreen .w-sec{ margin:18px 0 0; padding:12px 0 0; border-top:1px solid var(--w-line); }
+:root[data-look="refreshed"] #homeScreen .w-sec-h{ font-family:var(--r-serif); font-weight:700; font-size:clamp(1.35rem,2.6vw,1.65rem); }
+:root[data-look="refreshed"] #homeScreen .w-sec-p{ font-size:1.02rem; color:var(--w-muted); }
+:root[data-look="refreshed"] #all-games{ border-width:1px; border-radius:12px; }
+:root[data-look="refreshed"] #all-games h3{ font-family:var(--r-serif); font-weight:700; }
+:root[data-look="refreshed"] #all-games .ag-play{ min-height:48px; display:inline-flex; align-items:center; border-radius:10px; }
+/* phones: picture beside the words, so a screen holds about three games instead of one */
+@media (max-width:639px){
+  :root[data-look="refreshed"] main.container{ padding-left:12px !important; padding-right:12px !important; }
+  :root[data-look="refreshed"] #homeScreen{ grid-template-columns:1fr !important; gap:10px !important; }
+  :root[data-look="refreshed"][data-theme] body #homeScreen .premium-card{ display:grid !important; grid-template-columns:clamp(84px,27vw,120px) minmax(0,1fr); align-items:stretch; height:auto !important; }
+  :root[data-look="refreshed"] #homeScreen .premium-card .thumbnail-container{ aspect-ratio:auto; height:100% !important; min-height:100%; }
+  :root[data-look="refreshed"] #homeScreen .premium-card .p-5{ padding:10px 12px 6px; min-width:0; }
+  :root[data-look="refreshed"][data-theme] body #homeScreen .premium-card h3{ font-size:1.15rem !important; }
+  :root[data-look="refreshed"][data-theme] body #homeScreen .premium-card p{ font-size:.98rem !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  :root[data-look="refreshed"] #homeScreen .premium-card .btn-premium{ margin-top:8px; }
+}
+
+/* ── 8. In a game: the board comes first ── */
+:root[data-look="refreshed"].in-game main.container{ padding-left:12px !important; padding-right:12px !important; padding-bottom:16px !important; padding-top:8px; }
+:root[data-look="refreshed"] #gameView{ padding:0; }
+:root[data-look="refreshed"] #gameView::before{ display:none; }
+:root[data-look="refreshed"][data-theme] body #gameView > div{ border:1px solid var(--w-line) !important; border-radius:12px !important; box-shadow:none !important; min-height:0 !important; animation:none; background:var(--w-table) !important; }
+/* no picture band in this look; the title and the one-line rule share a compact block */
+:root[data-look="refreshed"][data-theme] body #gameView > div > div:first-child{ background:none !important; min-height:0 !important; padding:10px 16px 2px !important; margin:0 0 6px !important; border:0 !important; border-radius:0; display:flex; flex-flow:row wrap; align-items:baseline; justify-content:flex-start; gap:0 12px; text-align:start; }
+:root[data-look="refreshed"] #gameView .text-center.mb-6::after{ display:none; }
+:root[data-look="refreshed"][data-theme] body #gameView #gameTitle{ font-family:var(--r-serif); font-size:clamp(1.3rem,2.4vw,1.6rem) !important; font-weight:700 !important; filter:none; text-shadow:none; background:none !important; }
+:root[data-look="refreshed"][data-theme] body #gameView #gameInstructions{ font-size:1.02rem !important; font-weight:500 !important; line-height:1.3 !important; margin:0 !important; }
+:root[data-look="refreshed"][data-theme] body #gameView #gameContent{ min-height:0; padding:0 14px 14px; justify-content:flex-start; }
+:root[data-look="refreshed"] #gameContent > *{ animation-duration:.16s; }
+:root[data-look="refreshed"][data-theme] body #gameContent .gk-btn{ border:1px solid var(--r-btn-line); border-radius:10px; background:#fff; color:#211810; box-shadow:none; font-weight:700; }
+:root[data-look="refreshed"][data-theme] body #gameContent .gk-btn::after{ display:none; }
+:root[data-look="refreshed"][data-theme] body #gameContent .gk-btn:hover:not(:disabled){ border-color:var(--r-act); transform:none; box-shadow:none; }
+:root[data-look="refreshed"][data-theme] body #gameContent .gk-btn.gk-primary,
+:root[data-look="refreshed"][data-theme] body #gameContent .nk .gk-btn[aria-pressed="true"]{ background:var(--r-act); border-color:var(--r-act); color:var(--r-act-ink); }
+:root[data-look="refreshed"] #gameContent .nk-top{ margin:0 0 6px; font-variant-numeric:tabular-nums; }
+:root[data-look="refreshed"] #gameContent .nk-msg{ margin:8px 4px; font-weight:700; font-size:1.1rem; }
+:root[data-look="refreshed"] #gameContent .nk-rules{ background:transparent; border:1px solid var(--w-table-line); border-radius:10px; }
+:root[data-look="refreshed"] #gameContent .nk-paper{ border-width:1px; border-radius:10px; box-shadow:none; }
+@media (max-width:639px){
+  :root[data-look="refreshed"].in-game main.container{ padding-left:4px !important; padding-right:4px !important; padding-top:4px; }
+  :root[data-look="refreshed"][data-theme] body #gameView > div{ border-width:0 !important; border-radius:10px !important; }
+  :root[data-look="refreshed"][data-theme] body #gameView > div > div:first-child{ padding:8px 10px 0 !important; margin:0 0 4px !important; }
+  :root[data-look="refreshed"][data-theme] body #gameView #gameContent{ padding:0 6px 10px; }
+}
+
+/* ── 9. End of game ── */
+:root[data-look="refreshed"] #modal{ background:rgba(25,18,10,.6) !important; }
+:root[data-look="refreshed"][data-theme] body #modal > div{ border:1px solid var(--w-table-line) !important; border-radius:14px !important; box-shadow:0 16px 40px rgba(20,12,4,.4) !important; padding:22px 22px 18px !important; }
+:root[data-look="refreshed"] #modal .w-modal-mark{ width:60px; height:60px; font-size:32px; margin-bottom:8px; }
+:root[data-look="refreshed"][data-theme] body #modal #modalTitle{ font-family:var(--r-serif); font-size:1.7rem !important; margin-bottom:6px !important; }
+:root[data-look="refreshed"][data-theme] body #modal #nextLevelBtn{ background:var(--r-act) !important; color:var(--r-act-ink) !important; border-radius:10px !important; min-height:52px; }
+:root[data-look="refreshed"][data-theme] body #modal button:not(#nextLevelBtn){ border-radius:10px !important; min-height:52px; background:#fff !important; color:#211810 !important; border:1px solid var(--r-btn-line) !important; }
+
+/* ── 10. Footer and ad strip ── */
+:root[data-look="refreshed"][data-theme] body footer{ background:var(--w-bg) !important; border-top:1px solid var(--w-line) !important; }
+:root[data-look="refreshed"] #adBar{ background:var(--w-nav) !important; border-top:1px solid var(--w-line) !important; }
+
+/* ── 11. Articles, about, privacy, credits, game landing pages (their colours are the variables in section 2) ── */
+:root[data-look="refreshed"] body:not(.min-h-screen){ background:var(--bg); font-family:var(--r-sans); font-size:19px; line-height:1.6; padding:10px 14px 40px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .wrap{ max-width:760px; border:0; border-radius:12px; box-shadow:none; padding:18px 22px 24px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .brand{ max-width:760px; font-family:var(--r-serif); font-size:22px; margin-bottom:8px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .brand a{ font-size:22px; font-weight:700; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .brand img{ width:36px; height:36px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .look-page{ max-width:760px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .theme{ border-width:1px; border-color:var(--line); border-radius:10px; font-size:17px; font-weight:600; }
+:root[data-look="refreshed"] body:not(.min-h-screen) h1{ font-family:var(--r-serif); font-weight:700; font-size:clamp(28px,5vw,38px); line-height:1.18; text-wrap:balance; }
+:root[data-look="refreshed"] body:not(.min-h-screen) h2{ font-family:var(--r-serif); font-weight:700; font-size:23px; margin-top:24px; line-height:1.25; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .hero{ border-radius:10px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .hero img,
+:root[data-look="refreshed"] body:not(.min-h-screen) .photo{ border:0; border-radius:10px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .play{ border-radius:10px; font-size:20px; padding:12px 28px; margin:14px 0; min-height:52px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .note,
+:root[data-look="refreshed"] body:not(.min-h-screen) .related,
+:root[data-look="refreshed"] body:not(.min-h-screen) .bottom,
+:root[data-look="refreshed"] body:not(.min-h-screen) .articles li{ border-width:1px; border-radius:10px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .note{ border-inline-start-width:4px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) .articles a{ font-family:var(--r-serif); font-weight:700; font-size:21px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) footer,
+:root[data-look="refreshed"] body:not(.min-h-screen) .back,
+:root[data-look="refreshed"] body:not(.min-h-screen) .sources{ border-top-width:1px; }
+:root[data-look="refreshed"] body:not(.min-h-screen) :focus-visible{ outline:3px solid #1d4ed8; outline-offset:2px; }
+:root[data-look="refreshed"][data-theme="dark"] body:not(.min-h-screen) :focus-visible{ outline-color:#9cc0ff; }
+@media (max-width:520px){
+  :root[data-look="refreshed"] body:not(.min-h-screen){ padding:6px 8px 30px; }
+  :root[data-look="refreshed"] body:not(.min-h-screen) .wrap{ padding:14px 14px 20px; }
+}
+
+/* ── 12. Reduced motion ── */
+@media (prefers-reduced-motion:reduce){
+  :root[data-look="refreshed"] #gameContent > *, :root[data-look="refreshed"] #gameView > div{ animation:none !important; }
+  :root[data-look="refreshed"] #homeScreen .premium-card{ transition:none !important; }
+}
+
+/* ── 13. Hub top: everything before the first game kept short (first review pass) ── */
+:root[data-look="refreshed"] #retentionBar > div:first-child{ gap:6px 10px !important; }
+:root[data-look="refreshed"][data-theme] body #hero #greetingText{ font-size:1.1rem !important; font-weight:700 !important; }
+:root[data-look="refreshed"][data-theme] body #hero .streak-pill,
+:root[data-look="refreshed"][data-theme] body #hero #retentionBar .rounded-full{ padding:4px 12px !important; min-height:40px; }
+:root[data-look="refreshed"][data-theme] body #hero #streakText,
+:root[data-look="refreshed"][data-theme] body #hero #dailyGoalText,
+:root[data-look="refreshed"][data-theme] body #hero #totalGamesText{ font-size:1rem !important; }
+:root[data-look="refreshed"] #retentionBar{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; }
+:root[data-look="refreshed"] #retentionBar.hidden{ display:none; }
+:root[data-look="refreshed"] #brain-score-slot{ margin-top:0 !important; }
+:root[data-look="refreshed"] #homeScreen-header > .flex.items-center.justify-between > div:first-child{ display:flex; flex-wrap:wrap; align-items:baseline; gap:0 12px; }
+:root[data-look="refreshed"] #hub-nav{ gap:8px; }
+:root[data-look="refreshed"] #hub-nav .hn-search{ margin:0; }
+:root[data-look="refreshed"] #hub-nav .hn-count{ margin:2px 2px 0; font-size:1rem; }
+:root[data-look="refreshed"][data-theme] body #daily-challenge-banner{ padding:8px 14px !important; }
+:root[data-look="refreshed"][data-theme] body #daily-challenge-banner > *{ row-gap:6px; }
+@media (min-width:900px){
+  :root[data-look="refreshed"] #homeScreen-header:not(.hidden){ display:grid !important; grid-template-columns:minmax(0,1fr) auto; align-items:start; gap:10px 20px !important; }
+  :root[data-look="refreshed"] #homeScreen-header > *{ grid-column:1 / -1; }
+  :root[data-look="refreshed"] #homeScreen-header > #hub-nav-slot{ grid-column:1; grid-row:1; }
+  :root[data-look="refreshed"] #homeScreen-header > .look-hub{ grid-column:2; grid-row:1; margin:0; padding-top:26px; flex-wrap:nowrap; }
+}
+@media (max-width:639px){
+  :root[data-look="refreshed"][data-theme] body #hero{ padding:10px 0 2px !important; margin-bottom:2px !important; }
+  :root[data-look="refreshed"] #hero > .container{ padding-left:12px !important; padding-right:12px !important; }
+  :root[data-look="refreshed"] #hub-nav .hn-chips{ gap:4px; }
+  :root[data-look="refreshed"] #hub-nav .hn-chip{ padding:4px 10px; font-size:.98rem; }
+  :root[data-look="refreshed"] body:not(.min-h-screen) .look-page{ padding-inline:6px; }
+}
+
+/* ── 14. Muse pilot pictures (images/pilot/provenance.json: not CC0, not legally cleared). Refreshed look only; Classic never loads them.
+   Decoration on real states: no picture is a control, and no rule depends on one. ── */
+.pilot-scene{ display:none; }
+.cnt-o{ display:contents; }
+:root[data-look="refreshed"] .pilot-scene{ display:block; background-repeat:no-repeat; background-size:cover; }
+
+/* Victory Garden: bigger beds; the frame round each picture is the old soil colour, so wet and dry still read */
+:root[data-look="refreshed"] #gameContent .vg-b{ gap:6px; padding:6px; border-radius:10px; box-shadow:none; max-width:none; }
+:root[data-look="refreshed"] #gameContent .vg-s::before{ content:""; position:absolute; inset:4px; border-radius:7px; background:center/cover no-repeat; }
+:root[data-look="refreshed"] #gameContent .vg-a-empty::before,
+:root[data-look="refreshed"] #gameContent .vg-a-soil::before{ background-image:url(../images/pilot/garden-empty.webp); }
+:root[data-look="refreshed"] #gameContent .vg-a-tomato-grow::before{ background-image:url(../images/pilot/garden-growing.webp); }
+:root[data-look="refreshed"] #gameContent .vg-a-tomato-ripe::before{ background-image:url(../images/pilot/garden-ripe.webp); }
+:root[data-look="refreshed"] #gameContent :is(.vg-a-tomato-grow,.vg-a-tomato-ripe) svg{ display:none; }
+:root[data-look="refreshed"] #gameContent .vg-a-soil svg{ z-index:1; top:0; height:68%; }
+:root[data-look="refreshed"] #gameContent .vg-tag{ z-index:2; font-size:.88rem; background:rgba(33,24,16,.82); padding:2px 6px; margin-bottom:2px; }
+:root[data-look="refreshed"] #gameContent .vg-drops{ z-index:2; top:7px; left:8px; gap:2px; }
+:root[data-look="refreshed"] #gameContent .vg-drops i{ width:10px; height:13px; background:#0369a1; box-shadow:0 0 0 1px #fff; }
+:root[data-look="refreshed"] #gameContent .vg-wd{ z-index:2; top:6px; right:8px; font-size:.95rem; color:#14532d; text-shadow:0 0 2px #fff,0 0 2px #fff; }
+:root[data-look="refreshed"] #gameContent .vg-s.vg-ripe{ box-shadow:0 0 0 3px #b45309; }
+:root[data-look="refreshed"] #gameContent .vg-bar{ margin:0 0 8px; }
+:root[data-look="refreshed"] #gameContent .vg-tools{ margin:8px 0; }
+@media (min-width:900px){
+  :root[data-look="refreshed"] #gameContent .nk.nk-victorygarden{ max-width:66rem; display:grid; grid-template-columns:minmax(0,1.45fr) minmax(0,1fr); column-gap:18px; align-items:start; }
+  :root[data-look="refreshed"] .nk-victorygarden > .nk-top,
+  :root[data-look="refreshed"] .nk-victorygarden > .vg-bar{ grid-column:1 / -1; }
+  :root[data-look="refreshed"] .nk-victorygarden > .vg-b{ grid-column:1; grid-row:3 / span 4; }
+  :root[data-look="refreshed"] .nk-victorygarden > :not(.nk-top,.vg-bar,.vg-b){ grid-column:2; }
+  :root[data-look="refreshed"] #gameContent .vg-tools{ margin:0 0 6px; justify-content:flex-start; }
+  :root[data-look="refreshed"] #gameContent .vg-tools .gk-btn{ flex:1 1 44%; }
+}
+@media (max-width:639px){
+  :root[data-look="refreshed"] #gameContent .vg-b{ grid-template-columns:repeat(3,1fr); }
+  :root[data-look="refreshed"] #gameContent .vg-s{ aspect-ratio:1/.92; }
+  :root[data-look="refreshed"] #gameContent .vg-tools{ display:grid; grid-template-columns:1fr 1fr; }
+}
+
+/* Prairie Wagon: a short painted strip joined to the trail. Not a header: it scrolls with the game and the trail stays beneath it. */
+:root[data-look="refreshed"] #gameContent .pilot-wagon{ height:clamp(84px,17vw,132px); margin:4px 0 0; border-radius:10px 10px 0 0; background-image:url(../images/pilot/scene-wagon.webp); background-position:58% 45%; }
+:root[data-look="refreshed"] #gameContent .pilot-wagon + .wt-trail{ margin-top:0; border-radius:0 0 10px 10px; height:52px; box-shadow:inset 0 0 0 2px #166534; }
+:root[data-look="refreshed"] #gameContent .wt-st div{ border-width:1px; border-radius:10px; }
+
+/* The Old Lighthouse: only at the dock, the one room the picture shows. The picture is calm; the room's text keeps the storm. */
+:root[data-look="refreshed"] #gameContent .pilot-dock{ float:inline-end; width:min(42%,300px); aspect-ratio:3/2; margin:0 0 8px 12px; border-radius:8px; background-image:url(../images/pilot/scene-lighthouse.webp); background-position:center; }
+@media (max-width:639px){
+  :root[data-look="refreshed"] #gameContent .pilot-dock{ float:none; width:100%; aspect-ratio:auto; height:132px; margin:0 0 8px; background-position:center 40%; }
+}
+
+/* Telegraph Office: the key beside the form's heading; an illustration, not a control */
+:root[data-look="refreshed"] #gameContent .tg-head{ align-items:center; gap:10px; }
+:root[data-look="refreshed"] #gameContent .tg-head::before{ content:""; flex:0 0 auto; width:clamp(66px,14vw,96px); aspect-ratio:1.68; background:url(../images/pilot/telegraph-key.webp) center/contain no-repeat; mix-blend-mode:multiply; order:-1; }
+:root[data-look="refreshed"] #gameContent .tg-head > span:first-child{ margin-inline-end:auto; }
+
+/* Quick Count: every object on the same cream tile, so the field reads as one set */
+:root[data-look="refreshed"] #gameContent .cnt-field{ gap:6px; padding:12px; font-size:clamp(2.5rem,8vw,3rem); }
+:root[data-look="refreshed"] #gameContent .cnt-o{ display:inline-flex; align-items:center; justify-content:center; width:1.12em; height:1.12em; border-radius:9px; background:#f8ecd7 center/cover no-repeat; line-height:0; }
+:root[data-look="refreshed"] #gameContent .cnt-o .lc-sym{ font-size:.82em; }
+:root[data-look="refreshed"] #gameContent .cnt-o[data-art] .lc-sym{ visibility:hidden; }
+:root[data-look="refreshed"] #gameContent .cnt-o[data-art="apple"]{ background-image:url(../images/pilot/object-apple.webp); }
+:root[data-look="refreshed"] #gameContent .cnt-o[data-art="cup"]{ background-image:url(../images/pilot/object-cup.webp); }
+:root[data-look="refreshed"] #gameContent .cnt-o[data-art="key"]{ background-image:url(../images/pilot/object-key.webp); }
+:root[data-look="refreshed"] #gameContent .cnt-o[data-art="leaf"]{ background-image:url(../images/pilot/object-leaf.webp); }
+:root[data-look="refreshed"] #gameContent p .cnt-o{ font-size:1.5em; vertical-align:middle; }
+:root[data-look="refreshed"] #gameContent p .cnt-o .cnt-q{ vertical-align:baseline; }
+
+/* ── 15. First pixel review ── */
+/* warm.css forces every footer colour, which hid the selected label (both looks) */
+html[data-theme] body footer .look-toggle label{ color:#2b1b0d !important; }
+html[data-theme] body footer .look-toggle legend{ color:inherit; }
+html[data-theme] body footer .look-toggle label.look-on{ color:#fffaf1 !important; }
+:root[data-look="refreshed"][data-theme] body footer .look-toggle label{ color:var(--w-ink) !important; }
+:root[data-look="refreshed"][data-theme] body footer .look-toggle label.look-on{ color:var(--w-on-accent) !important; }
+/* the board sits in a grid cell: auto margins would shrink it to its content */
+:root[data-look="refreshed"] #gameContent .vg-b{ margin:0; width:100%; }
+/* tiles must not squeeze together */
+:root[data-look="refreshed"] #gameContent .cnt-o{ flex:0 0 auto; }
+/* Prairie Wagon's health and wagon bars: the stat box's own padding was collapsing them (Classic has the same flaw; left alone there) */
+:root[data-look="refreshed"] #gameContent .wt-st .wt-bar{ padding:0; border:0; border-radius:4px; background:#e5e7eb; }
+/* hub cards: picture, name, one short line, actions. The "why" sentence stays on each game's own page. */
+:root[data-look="refreshed"][data-theme] body #homeScreen .why-line{ display:none; }
+:root[data-look="refreshed"] #homeScreen .premium-card .p-5 p{ flex-grow:0 !important; }
+:root[data-look="refreshed"] #homeScreen .premium-card .p-5 .btn-premium{ margin-top:auto; }
+:root[data-look="refreshed"] #homeScreen .premium-card .p-5 > p + *{ margin-top:6px; }
+@media (min-width:900px){
+  :root[data-look="refreshed"][data-theme] body #tips-slot > *{ padding:6px 12px !important; }
+  :root[data-look="refreshed"] #homeScreen-header > .flex.items-center{ grid-column:1; grid-row:2; }
+  :root[data-look="refreshed"] #homeScreen-header > #dc-banner-slot{ grid-column:1; grid-row:3; }
+  :root[data-look="refreshed"] #homeScreen-header > #diff-selector{ grid-column:2; grid-row:2; align-self:center; justify-self:end; }
+  :root[data-look="refreshed"] #homeScreen-header > #tips-slot{ grid-column:2; grid-row:3; align-self:start; max-width:22rem; }
+}

@@ -4,7 +4,7 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v86';
+const CACHE = 'golden-games-v87';
 const PREFIX = 'golden-games-';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
@@ -17,6 +17,18 @@ const SHELL = [
   './css/tailwind.css',
   './css/a11y.css',
   './css/warm.css',
+  './css/refresh.css',
+  './images/pilot/garden-empty.webp',
+  './images/pilot/garden-growing.webp',
+  './images/pilot/garden-ripe.webp',
+  './images/pilot/object-apple.webp',
+  './images/pilot/object-cup.webp',
+  './images/pilot/object-key.webp',
+  './images/pilot/object-leaf.webp',
+  './images/pilot/scene-wagon.webp',
+  './images/pilot/scene-lighthouse.webp',
+  './images/pilot/telegraph-key.webp',
+  './js/look.js',
   './js/warm.js',
   './js/icons.js',
   './js/lucide-icons.js',

@@ -76,11 +76,13 @@ function _vgPlant(b) {
     if (b.age >= C.grow) s += b.crop === 'carrot' ? '<path d="M14 36 l3 -9 l3 9 z M21 36 l3 -9 l3 9 z" fill="#ea580c"/>' : `<circle cx="13" cy="${40 - h * 0.45}" r="${b.crop === 'squash' ? 6 : 4}" fill="${C.c}"/><circle cx="27" cy="${40 - h * 0.6}" r="${b.crop === 'squash' ? 6 : 4}" fill="${C.c}"/>`;
     return `<svg viewBox="0 0 40 40" aria-hidden="true">${s}</svg>`;
 }
+// the Refreshed look's bed pictures (css/refresh.css); these classes change nothing else. Only real states are mapped, and wilted beds keep the drawn plants.
+const _vgArt = (b, ripe) => (b.dead ? '' : !b.crop ? ' vg-a-empty' : b.crop !== 'tomato' ? ' vg-a-soil' : ripe ? ' vg-a-tomato-ripe' : ' vg-a-tomato-grow');
 function _vgView(gs) {
     const beds = gs.beds.map((b, i) => {
         const C = b.crop && _VG_CROP[b.crop], ripe = C && !b.dead && b.age >= C.grow;
         const st = !b.crop ? 'empty' : b.dead ? `${C.n}, wilted` : ripe ? `${C.n}, ripe${b.ripe >= 2 ? ', past its best' : ''}` : `${C.n}, ${C.grow - b.age} week${C.grow - b.age === 1 ? '' : 's'} to go`;
-        return `<button type="button" class="nk-cell vg-s${b.water >= 2 ? ' vg-wet' : ''}${ripe ? ' vg-ripe' : ''}${b.dead ? ' vg-dead' : ''}" onclick="vgBed(${i})" data-k="b${i}"${i === 0 ? ' data-first' : ''} aria-label="bed ${i + 1}: ${st}, water ${b.water} of 3${b.weeds ? `, ${b.weeds} weeds` : ''}"${gs.over ? ' disabled' : ''}>
+        return `<button type="button" class="nk-cell vg-s${b.water >= 2 ? ' vg-wet' : ''}${ripe ? ' vg-ripe' : ''}${b.dead ? ' vg-dead' : ''}${_vgArt(b, ripe)}" onclick="vgBed(${i})" data-k="b${i}"${i === 0 ? ' data-first' : ''} aria-label="bed ${i + 1}: ${st}, water ${b.water} of 3${b.weeds ? `, ${b.weeds} weeds` : ''}"${gs.over ? ' disabled' : ''}>
           <span class="vg-drops" aria-hidden="true">${'<i></i>'.repeat(b.water)}</span>${b.weeds ? `<span class="vg-wd" aria-hidden="true">${'✿'.repeat(b.weeds)}</span>` : ''}${b.crop ? _vgPlant(b) : ''}<span class="vg-tag">${!b.crop ? 'empty' : b.dead ? 'wilted' : ripe ? 'ripe!' : `${C.grow - b.age} wk`}</span></button>`; }).join('');
     const tool = (t, lab) => NK.btn(lab, `vgTool('${t}')`, { k: 't' + t, pressed: gs.tool === t, cls: gs.tool === t ? 'gk-primary' : '', disabled: gs.over });
     return `<div class="nk-top"><span>Week <b>${gs.week}</b> of ${gs.weeks}</span><span>Chores left: <b>${gs.left}</b></span><span>Harvest: <b>${gs.lb}</b> of ${gs.goal} lb</span></div>

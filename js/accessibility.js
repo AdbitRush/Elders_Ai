@@ -75,6 +75,8 @@ const A11y = (() => {
   function enableHomeKeyNav() {
     document.addEventListener('keydown', e => {
       if (document.getElementById('gameView')?.classList.contains('hidden') === false) return;
+      // form controls keep their arrow keys: the Appearance radios, and the caret in the hub search box
+      if (e.target && e.target.closest && e.target.closest('input,select,textarea')) return;
       const cards = Array.from(document.querySelectorAll('.premium-card'));
       const idx = cards.indexOf(document.activeElement?.closest('.premium-card'));
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {

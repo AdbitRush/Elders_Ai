@@ -261,7 +261,8 @@ def page(gid, lang, i18n, why, skills, slabels) -> str:
 <link rel="manifest" href="{REL}/manifest.json">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 <script>/* the visitor's saved theme (same key as the app); light unless they chose dark */
-try{{if(localStorage.getItem('gg-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}}catch(e){{}}</script>
+try{{if(localStorage.getItem('gg-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}}catch(e){{}}
+try{{if(localStorage.getItem('gg-look')==='refreshed')document.documentElement.setAttribute('data-look','refreshed')}}catch(e){{}}</script>
 <style>
 /* Light, warm and photo-free behind the text (2026-10-09): the game's photo is a framed picture on the card,
    never a dark background. Dark only when the visitor picked it (button below, or in the app). Tiny inline
@@ -300,6 +301,7 @@ footer{{margin-top:36px;padding-top:16px;border-top:2px solid var(--line);font-s
 footer a{{display:inline-flex;align-items:center;min-height:48px;padding:0 6px;font-weight:700}}
 :focus-visible{{outline:4px solid var(--accent);outline-offset:3px}}
 </style>
+<link rel="stylesheet" href="{REL}/css/refresh.css?v=83">
 </head>
 <body>
 <div class="wrap">
@@ -324,6 +326,7 @@ footer a{{display:inline-flex;align-items:center;min-height:48px;padding:0 6px;f
 function lab(){{var d=r.getAttribute('data-theme')==='dark',t=d?b.dataset.light:b.dataset.dark;b.innerHTML=(d?'<svg width="1.15em" height="1.15em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-.2em;pointer-events:none"><circle cx="12" cy="12" r="4"/> <path d="M12 2v2"/> <path d="M12 20v2"/> <path d="m4.93 4.93 1.41 1.41"/> <path d="m17.66 17.66 1.41 1.41"/> <path d="M2 12h2"/> <path d="M20 12h2"/> <path d="m6.34 17.66-1.41 1.41"/> <path d="m19.07 4.93-1.41 1.41"/></svg>':'<svg width="1.15em" height="1.15em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-.2em;pointer-events:none"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>')+' '+t;b.setAttribute('aria-label',t)}}
 b.onclick=function(){{var d=r.getAttribute('data-theme')!=='dark';if(d)r.setAttribute('data-theme','dark');else r.removeAttribute('data-theme');
 try{{localStorage.setItem('gg-theme',d?'dark':'light')}}catch(e){{}}lab()}};lab()}})()</script>
+<script src="{REL}/js/look.js?v=83"></script>
 </body>
 </html>
 """

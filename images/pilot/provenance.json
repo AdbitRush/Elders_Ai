@@ -1,0 +1,168 @@
+{
+ "status": "PILOT, review candidate only. NOT CC0 and NOT legally cleared; applicable use rights not independently verified.",
+ "origin": "Muse, built-in image generator, free allowance, 2026-11-05 (as reported by Muse). Package brainplay-pilot-qualified-handoff-20261105.zip, sha256 9ef8234665edb20829f6f989c14c4e26348db4519c5b7634fc31a62515b9b4d7, verified on receipt.",
+ "telegraph_note": "Illustration only. Not a technically certified diagram or working mechanism.",
+ "garden_note": "Tomato states empty, growing and ripe only. No wilted, harvested or other-crop art exists.",
+ "files": [
+  {
+   "file": "images/pilot/garden-empty.webp",
+   "size": [
+    360,
+    360
+   ],
+   "bytes": 7298,
+   "source": "media-generation-brainplay-completion-garden-st-0-d0277855-a9d1-479d-aadc-919195a0b043.webp",
+   "source_sha256": "a5e6585eddf7d34431e55f3664aca94b80f25c238755e945d37b659447951f3f",
+   "crop_box": [
+    46,
+    46,
+    866,
+    866
+   ]
+  },
+  {
+   "file": "images/pilot/garden-growing.webp",
+   "size": [
+    360,
+    360
+   ],
+   "bytes": 9150,
+   "source": "media-generation-brainplay-completion-garden-st-0-d0277855-a9d1-479d-aadc-919195a0b043.webp",
+   "source_sha256": "a5e6585eddf7d34431e55f3664aca94b80f25c238755e945d37b659447951f3f",
+   "crop_box": [
+    958,
+    46,
+    1778,
+    866
+   ]
+  },
+  {
+   "file": "images/pilot/garden-ripe.webp",
+   "size": [
+    360,
+    360
+   ],
+   "bytes": 17136,
+   "source": "media-generation-brainplay-completion-garden-st-0-d0277855-a9d1-479d-aadc-919195a0b043.webp",
+   "source_sha256": "a5e6585eddf7d34431e55f3664aca94b80f25c238755e945d37b659447951f3f",
+   "crop_box": [
+    1870,
+    46,
+    2690,
+    866
+   ]
+  },
+  {
+   "file": "images/pilot/object-apple.webp",
+   "size": [
+    160,
+    160
+   ],
+   "bytes": 2174,
+   "source": "media-generation-brainplay-completion-counting-0-139273c0-e41d-4db9-9051-ccc1766ae892.webp",
+   "source_sha256": "93c2b9ef0d323c64ff4613940dbe87fc68994417d5928931266ade72f6f78632",
+   "crop_box": [
+    210,
+    50,
+    750,
+    590
+   ]
+  },
+  {
+   "file": "images/pilot/object-cup.webp",
+   "size": [
+    160,
+    160
+   ],
+   "bytes": 2498,
+   "source": "media-generation-brainplay-completion-counting-0-139273c0-e41d-4db9-9051-ccc1766ae892.webp",
+   "source_sha256": "93c2b9ef0d323c64ff4613940dbe87fc68994417d5928931266ade72f6f78632",
+   "crop_box": [
+    1170,
+    50,
+    1710,
+    590
+   ]
+  },
+  {
+   "file": "images/pilot/object-key.webp",
+   "size": [
+    160,
+    160
+   ],
+   "bytes": 1722,
+   "source": "media-generation-brainplay-completion-counting-0-139273c0-e41d-4db9-9051-ccc1766ae892.webp",
+   "source_sha256": "93c2b9ef0d323c64ff4613940dbe87fc68994417d5928931266ade72f6f78632",
+   "crop_box": [
+    210,
+    690,
+    750,
+    1230
+   ]
+  },
+  {
+   "file": "images/pilot/object-leaf.webp",
+   "size": [
+    160,
+    160
+   ],
+   "bytes": 2040,
+   "source": "media-generation-brainplay-completion-counting-0-139273c0-e41d-4db9-9051-ccc1766ae892.webp",
+   "source_sha256": "93c2b9ef0d323c64ff4613940dbe87fc68994417d5928931266ade72f6f78632",
+   "crop_box": [
+    1170,
+    690,
+    1710,
+    1230
+   ]
+  },
+  {
+   "file": "images/pilot/scene-wagon.webp",
+   "size": [
+    1120,
+    332
+   ],
+   "bytes": 45988,
+   "source": "media-generation-brainplay-pilot-prairie-wagon-0-d3b71094-f310-427d-b269-c98c53162473.webp",
+   "source_sha256": "afdde94f2b8e83fa20f4aec58c5da9d633690a2b342bf1ed80f76f89188a6fdf",
+   "crop_box": [
+    0,
+    0,
+    2240,
+    665
+   ]
+  },
+  {
+   "file": "images/pilot/scene-lighthouse.webp",
+   "size": [
+    720,
+    480
+   ],
+   "bytes": 29846,
+   "source": "media-generation-brainplay-pilot-old-lighthouse-0-a77b7091-2492-4fda-ab8b-9af17f107573.webp",
+   "source_sha256": "243c68c3bccdf84f774b1567464eee0bf278a056f34d4eef47f240bb3725c6eb",
+   "crop_box": [
+    0,
+    0,
+    1920,
+    1280
+   ]
+  },
+  {
+   "file": "images/pilot/telegraph-key.webp",
+   "size": [
+    360,
+    214
+   ],
+   "bytes": 10986,
+   "source": "media-generation-brainplay-completion-telegraph-0-15fe2550-88a8-4d0e-94a5-6e5cc91fd21c.webp",
+   "source_sha256": "adde9d2896178ddb876ed1e1ec015e3e3cb087751962a30e6eb1a9bceb4b591c",
+   "crop_box": [
+    120,
+    200,
+    1800,
+    1200
+   ]
+  }
+ ]
+}

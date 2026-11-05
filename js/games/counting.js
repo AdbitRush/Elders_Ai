@@ -6,6 +6,9 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 const _CNT_EMOJIS=['🍎','🌸','⭐','🐟','🍀','🎈','🐦','🍇']; // keys into Icon.SYM: eight shapes in eight clearly different colours
 const _CNT_SECS={easy:20,normal:14,hard:10};
+// Refreshed look only (css/refresh.css draws the picture over these): four of the eight kinds, each kept in its colour family, so the number and kind of targets do not change.
+const _CNT_ART={'🍎':'apple','⭐':'key','🐟':'cup','🍀':'leaf'};
+const _cntSym=(e,o)=>`<span class="cnt-o"${_CNT_ART[e]?` data-art="${_CNT_ART[e]}"`:''}>${Icon.sym(e,o)}</span>`;
 function initCounting(container){
     const gs=gameState.counting;
     const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
@@ -43,8 +46,8 @@ function _cntNext(container){
     let html=`<div class="max-w-2xl w-full text-center">
       <div class="flex justify-between text-sm font-bold text-gray-400 mb-2"><span>${gt('Round', 'סיבוב')} ${gs._si+1}/${gs._sq}</span><span class="cnt-pts">${gt('Points', 'נקודות')}: ${gs._pts}</span><span class="text-green-600">✓ ${gs._ss}</span></div>
       <div class="cnt-timer" role="timer" aria-live="off"><div class="cnt-bar" id="cnt-bar"></div><span id="cnt-sec">${gs._secs}</span></div>
-      <p class="text-xl text-gray-600 mb-4 font-bold">${isHe?`כמה ${Icon.sym(target,{cls:'cnt-q'})} יש בתמונה?`:`How many ${Icon.sym(target,{cls:'cnt-q'})} do you see?`}</p>
-      <div class="cnt-field bg-white rounded-2xl p-5 mb-6 shadow-inner">${shuffle(cells).map(e=>Icon.sym(e)).join('')}</div>
+      <p class="text-xl text-gray-600 mb-4 font-bold">${isHe?`כמה ${_cntSym(target,{cls:'cnt-q'})} יש בתמונה?`:`How many ${_cntSym(target,{cls:'cnt-q'})} do you see?`}</p>
+      <div class="cnt-field bg-white rounded-2xl p-5 mb-6 shadow-inner">${shuffle(cells).map(e=>_cntSym(e)).join('')}</div>
       <div class="grid grid-cols-4 gap-3">`;
     shuffle([...opts]).forEach(o=>{
         html+=`<button onclick="_cntAnswer(this,${o})" data-v="${o}" class="bg-white border-2 border-gray-200 hover:border-[#b7791f] text-3xl font-bold p-4 rounded-xl transition shadow-sm">${o}</button>`;

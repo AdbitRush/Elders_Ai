@@ -108,7 +108,7 @@ function _avView(gs) {
     const take = gs.found ? NK.btn(`Take the ${_AV_ITEM[gs.found]}`, 'avTake()', { k: 'take', cls: 'gk-primary', disabled: gs.over }) : '';
     const inv = gs.inv.map((x) => NK.btn(`Use the ${_AV_ITEM[x]}`, `avUse('${x}')`, { k: 'use' + x, disabled: gs.over })).join('');
     return `<div class="nk-top"><span>Moves: <b>${gs.moves}</b>${gs.diff === 'hard' ? ' of 45' : ''}</span>${gs.diff === 'hard' ? '' : `<span>Hints: <b>${gs.hints}</b></span>`}</div>
-      <div class="av-scr"><h3>${R.name}</h3>${gs.log.map((t) => `<p class="av-old">${t}</p>`).join('')}</div>
+      <div class="av-scr">${gs.at === 'dock' ? '<div class="pilot-scene pilot-dock" aria-hidden="true"></div>' : ''}<h3>${R.name}</h3>${gs.log.map((t) => `<p class="av-old">${t}</p>`).join('')}</div>
       ${NK.msg(gs.msg)}
       <div class="av-sec"><div class="gk-label">Go</div><div class="av-row">${exits}</div></div>
       <div class="av-sec"><div class="gk-label">Here</div><div class="av-row">${NK.btn(NK.icon('eye') + 'Look around', 'avLook()', { k: 'look', disabled: gs.over })}${things}${take}</div></div>
