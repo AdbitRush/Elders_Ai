@@ -1,0 +1,15 @@
+/* Research charts page (2026-11-06): reviewed chart images on top of info-pages.css + articles.css, same light/dark variables. */
+.howto{margin:14px 0 18px;padding:14px 16px;border:2px solid var(--line);border-radius:14px;background:var(--bg)}
+.howto h2{margin:0 0 6px;font-size:1.15em}
+.howto ul{margin:0;padding-left:1.3em}
+.howto li{margin:0 0 8px}
+.chart{margin:16px 0 10px;padding:12px;border:2px solid var(--line);border-radius:16px;background:var(--bg)}
+.chart img{display:block;width:100%;max-width:460px;height:auto;margin:0 auto;border-radius:10px;background:#faf9f7}
+.chart figcaption{margin:12px 4px 2px;font-size:18px;line-height:1.5;color:var(--ink2)}
+.chart figcaption strong{color:var(--ink)}
+.limits{margin:8px 0 6px;padding-left:1.3em}
+.limits li{margin:0 0 8px}
+.sources .small{margin:8px 0 0;font-size:17px;color:var(--ink2)}
+@media (max-width:520px){.chart{padding:8px}.chart figcaption{font-size:17px}}
+.chart .zoom{display:block;border-radius:10px}
+.chart .zoom:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
