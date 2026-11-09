@@ -96,7 +96,7 @@ const DailyChallenge = (() => {
     banner.id = 'daily-challenge-banner';
 
     const pills = games.map(g =>
-      `<span class="dc-game-pill${done.has(g)?' done':''}" onclick="loadGame('${g}',1)" title="${g}">
+      `<span class="dc-game-pill${done.has(g)?' done':''}" role="button" tabindex="0" onclick="loadGame('${g}',1)" title="${g}">
         ${done.has(g)?Icon.ui('circle-check'):''} ${_gameLabel(g)}
       </span>`
     ).join('');
@@ -110,6 +110,17 @@ const DailyChallenge = (() => {
         <div id="dc-stars" style="font-size:1.4rem;letter-spacing:2px">${_starStr()}</div>
         <div style="font-size:0.7rem;color:rgba(148,163,184,0.7);margin-top:2px">${done.size}/${games.length}</div>
       </div>`;
+
+    // keyboard activation: Enter/Space on the focused pill (spans have no native button activation).
+    // Space/Enter always preventDefault (so held Space never scrolls); only the activation itself is skipped on auto-repeat.
+    banner.querySelectorAll('.dc-game-pill').forEach((p, i) => {
+      const g = games[i];
+      p.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+        e.preventDefault();
+        if (!e.repeat) loadGame(g, 1);
+      });
+    });
 
     container.prepend(banner);
     _highlightCards(games, done);
