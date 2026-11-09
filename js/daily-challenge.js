@@ -96,7 +96,7 @@ const DailyChallenge = (() => {
     banner.id = 'daily-challenge-banner';
 
     const pills = games.map(g =>
-      `<span class="dc-game-pill${done.has(g)?' done':''}" onclick="loadGame('${g}',1)" title="${g}">
+      `<span class="dc-game-pill${done.has(g)?' done':''}" role="button" tabindex="0" onclick="loadGame('${g}',1)" onkeydown="if((event.key==='Enter'||event.key===' ')&&!event.repeat){event.preventDefault();loadGame('${g}',1)}" title="${g}">
         ${done.has(g)?Icon.ui('circle-check'):''} ${_gameLabel(g)}
       </span>`
     ).join('');
