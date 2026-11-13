@@ -67,7 +67,7 @@ function _hxCpu() {
     b[pick] = 2; gs.last = pick; if (typeof sfxFlip === 'function') sfxFlip();
     const w = _hxWon(b, n, 2); if (w) return _hxEnd(gs, 2, w);
     gs.turn = 1; const need = _hxDist(b, n, 1).d;
-    gs.msg = `The computer played row ${Math.floor(pick / n) + 1}, column ${pick % n + 1}. You need ${NK.pl(need, 'more hexagon')} to join top and bottom.`;
+    gs.msg = `The computer played row ${Math.floor(pick / n) + 1}, column ${pick % n + 1}. ${need >= 1e9 ? 'Blocked - no path left.' : `You need ${NK.pl(need, 'more hexagon')} to join top and bottom.`}`;
     NK.render('hex');
 }
 function _hxEnd(gs, who, path) {
@@ -90,7 +90,7 @@ function _hxView(gs) {
         btn += `<button type="button" class="nk-cell hx-c" style="left:${x / VW * 100}%;top:${y / VH * 100}%;width:${W * 0.92}%;height:${(W * 0.92 * VW / VH).toFixed(2)}%;margin:-${(W * 0.46).toFixed(2)}% 0 0 -${(W * 0.46).toFixed(2)}%" onclick="hxTap(${i})" data-k="h${i}"${!v && !btn.includes('data-first') ? ' data-first' : ''} aria-label="row ${r + 1} column ${c + 1}: ${v === 1 ? 'red, yours' : v === 2 ? 'blue, computer' : 'empty'}${gs.last === i ? ', last move' : ''}"${!gs.over && !v ? '' : ' disabled'}></button>`;   // empty cells stay focusable while the computer moves; hxTap ignores taps until it is your turn
     }
     const me = _hxDist(gs.b, n, 1).d, cpu = _hxDist(gs.b, n, 2).d;
-    return `<div class="nk-top"><span>${gs.over ? 'Game over' : gs.turn === 1 ? 'Your move (red)' : "Computer's move"}</span><span>You need: <b>${me}</b></span><span>Computer needs: <b>${cpu}</b></span></div>
+    return `<div class="nk-top"><span>${gs.over ? 'Game over' : gs.turn === 1 ? 'Your move (red)' : "Computer's move"}</span><span>You need: <b>${me >= 1e9 ? 'Blocked - no path left' : me}</b></span><span>Computer needs: <b>${cpu >= 1e9 ? 'Blocked - no path left' : cpu}</b></span></div>
       <div class="hx-b"><svg class="hx-svg" viewBox="0 0 ${VW} ${VH.toFixed(2)}" aria-hidden="true">${svg}</svg>${btn}</div>
       <div class="hx-keys"><span><i style="background:#dc2626"></i>You: top to bottom</span><span><i style="background:#2563eb"></i>Computer: left to right</span></div>
       ${NK.msg(gs.msg)}
