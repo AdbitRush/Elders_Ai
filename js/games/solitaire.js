@@ -9,11 +9,17 @@ function initSolitaire(container) {
     const suits=['♥','♦','♠','♣'];
     const pc=Math.min(Math.max(3,5+state.level+_adj),13);
     let dc=[];
-    for(let i=0;i<pc;i++){const p=po[Math.floor(Math.random()*po.length)];dc.push(p[0]);if(p[0]!==13)dc.push(p[1]);}
-    const deck=shuffle(dc).map(v=>{
+    // Each value exists once per suit (4 copies) in a standard deck: never exceed that.
+    const left={};for(let v=1;v<=13;v++)left[v]=shuffle(suits.slice());
+    for(let i=0;i<pc;i++){
+        const ok=po.filter(p=>p[0]===13?left[13].length>=1:left[p[0]].length>=1&&left[p[1]].length>=1);
+        if(!ok.length)break;
+        const p=ok[Math.floor(Math.random()*ok.length)];dc.push({v:p[0],suit:left[p[0]].pop()});if(p[0]!==13)dc.push({v:p[1],suit:left[p[1]].pop()});
+    }
+    const taken=shuffle(dc);
+    const deck=taken.map(({v,suit})=>{
         let l=v;
         if(v===1)l='A';if(v===11)l='J';if(v===12)l='Q';if(v===13)l='K';
-        const suit=suits[Math.floor(Math.random()*4)];
         const red=suit==='♥'||suit==='♦';
         return{val:v,label:l,suit,red};
     });
