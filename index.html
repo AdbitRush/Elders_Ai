@@ -6,6 +6,7 @@
     <title>BrainPlay - The games you grew up with</title>
     <link rel="canonical" href="https://games.178-105-148-72.sslip.io/">
     <script>try{if(localStorage.getItem('gg-look')==='refreshed')document.documentElement.setAttribute('data-look','refreshed')}catch(e){}</script>
+    <script>try{var _l=(new URLSearchParams(location.search).get('lang')||'').toLowerCase();if(['he','en','es','fr','de','el'].indexOf(_l)>-1){document.documentElement.lang=_l;document.documentElement.dir=_l==='he'?'rtl':'ltr';}}catch(e){}</script>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="icon" href="images/icon.svg" type="image/svg+xml">
@@ -1765,7 +1766,9 @@ const Retention = {
 // ═══════════════════════════════════════════════════════════════════════════════
 // CORE
 // ═══════════════════════════════════════════════════════════════════════════════
-let currentLang=localStorage.getItem('gg-lang')||'he';
+const _SUPPORTED_LANGS=['he','en','es','fr','de','el'];
+const _urlLang=(function(){try{const p=(new URLSearchParams(location.search).get('lang')||'').toLowerCase();return _SUPPORTED_LANGS.includes(p)?p:null;}catch(e){return null;}})();
+let currentLang=_urlLang||localStorage.getItem('gg-lang')||'he';
 let gameState={active:false,currentId:null};
 const ALL_EMOJIS=['🌿','🎹','☕','⛵','🏠','🍎','🌻','🚗','🎸','🚲','🐶','🐱','🐟','⚽','🎨','🚀','⭐','🎈','🎁','🎂'];
 const SHAPE_EMOJIS=['⚪','🟦','🔺','⭐','♦️','🟩','🌙','❤️','💠','🔶'];
@@ -2266,7 +2269,7 @@ applyTheme(localStorage.getItem('gg-theme')||((window.matchMedia&&matchMedia('(p
   }catch(e){}
 })();
 
-const _initLang = new URLSearchParams(location.search).get('lang') || localStorage.getItem('gg-lang') || 'he';
+const _initLang = currentLang;
 changeLanguage(_initLang);
 document.getElementById('langSelect').value = _initLang;
 Retention.renderBar();
