@@ -17,7 +17,7 @@ function _oddNext(container) {
     let html=`<div class="w-full max-w-sm mx-auto">
         <div class="flex justify-between text-sm font-bold text-gray-400 mb-4">
             <span>${gt('Round', 'סיבוב')} ${gs._si+1}/${gs._sq}</span>
-            <span class="text-green-600">✓ ${gs._ss}</span>
+            <span id="oddScore" class="text-green-600">✓ ${gs._ss}</span>
         </div>
         <div class="grid grid-cols-4 gap-3 bg-gray-50 p-4 rounded-2xl border">`;
     for(let i=0;i<16;i++){const isOdd=(i===oi);html+=`<div onclick="clickOdd(${isOdd},this)" class="odd-tile w-16 h-16 md:w-20 md:h-20 bg-white border shadow-sm rounded-xl flex items-center justify-center cursor-pointer hover:bg-amber-50 transition hover:scale-105 active:scale-95">${Icon.sym(isOdd?odd:main,{size:'100%'})}</div>`;}
@@ -29,6 +29,7 @@ function clickOdd(isOdd, el) {
     if(gs._locked)return;   // one answer per round: a double-tap scored twice and skipped a round
     if(isOdd){
         gs._locked=true; sfxCorrect(); gs._ss++;
+        const sc=document.getElementById('oddScore'); if(sc)sc.textContent='✓ '+gs._ss;
         el.classList.replace('bg-white','bg-green-100');
         setTimeout(()=>{gs._si++;_oddNext(document.getElementById('gameContent'));},500);
     } else {
