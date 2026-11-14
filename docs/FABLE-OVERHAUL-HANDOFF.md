@@ -1,0 +1,95 @@
+# Fable Visual Overhaul — Running Handoff
+
+Owner request: Or Kandel, WhatsApp 2026-11-14 21:54 IST (via main agent; anchor wamid...RD6DC0ABCB1B50C08):
+"יש לי פייבל מתנה נראה לי. תבדוק עם קלוד. אם כן שיעיף את כל המשחקים שיהיו ברמה ויזואלית כמו שמצופה מאתר שיגרום לזקנים להיות בו שעות."
+Overhaul ALL BrainPlay games' visuals to the level expected of a site that keeps seniors (65+) playing for hours, using the free Claude Fable gift. Follow-ups 21:56 (shippable chunks, weakest first, exact remainder list) and 22:04 (this handoff file, updated after EVERY chunk).
+
+## Fable offer facts (verified live in Or's claude.ai account 2026-11-14 21:58 IST, https://claude.ai/settings/usage)
+
+- Plan: Pro. "Fable is included in your plan, up to 50% of your weekly usage limits, through November 16 at 11:59 PM PT" (= 2026-11-17 09:59 IST).
+- Chat model picker: "Fable 5.2 — Included until November 16".
+- At verification: week 17% used (resets Monday 9:00), 5-hour 0%, Fable allowance untouched, 1 free Fable limit reset available (expires 17.11 09:59 IST), full reset available (expires 11.12).
+- Usage credits: OFF, $0 balance, monthly cap $0.00, auto-reload OFF. NEVER enable paid usage credits. If a limit is hit, generation simply stops — nothing bills. If any step would cost money: STOP and escalate to Or via the main agent.
+
+## Approach
+
+- Fable runs through Or's signed-in claude.ai web chat (cloud browser profile, config-c). One chat per game. Model: Fable 5.2, effort Medium.
+- Server Claude (Junior, VPS) CANNOT verify account/quota state (asked 14.11 22:01, result mail [INSTINCT-JUNIOR:RESULT:FABLE-STATUS-20261114-01]: runs claude-haiku-5-5, no introspection, no tools). Junior's mail bridge model tiers are haiku/sonnet/opus — Fable via Junior is unproven; do not rely on it.
+- If Fable quota runs out mid-work: finished chunks stand (each is committed+deployed+verified). Continue remaining games with Sonnet/Haiku (via Junior code-fix route or claude.ai chat with Sonnet 5.5) using the same prompt template below.
+
+## Prompt template (send the whole thing + the complete current game file pasted after "CURRENT FILE:")
+
+```
+You are overhauling the VISUALS of one game on BrainPlay, a games site for seniors (65+). The game logic is finished and loved; only the presentation is weak (called "sparse" in a visual audit).
+
+Below is the complete current file. Rewrite it with a much richer, calmer, more beautiful presentation while keeping the code contract EXACTLY:
+
+HARD RULES (must not change):
+- Keep the NK.start('<id>', {...}) structure and every function name, global name, and handler name exactly as-is.
+- Do not touch game logic, math, events, probabilities, scoring, persistence (localStorage keys, save/load field lists), NK.after/NK.render usage, sfx hooks, or the rules array text.
+- The view function must keep returning an HTML string; keep NK.msg(gs.msg), NK.btn usage, and all aria labels/roles. Keep keyboard support and data-k attributes.
+- No external assets, fonts, images or libraries: pure inline SVG + CSS only (site constraint).
+- No new global names beyond the existing ones.
+
+VISUAL BAR (what "richer" means here):
+- Audience: seniors 65+. Large readable type (nothing under ~1rem), high contrast, calm warm palette, generous spacing. No neon, no tiny UI, no visual noise.
+- Meaningful functional art: a real scene or props that show game STATE (not decorative headers). The scene should subtly reflect state changes (progress, danger, success).
+- Buttons stay NK.btn. Respect prefers-reduced-motion. RTL-safe (site is Hebrew-first; avoid hardcoded text alignment that breaks under dir=rtl).
+- Keep the same DOM structure ids/classes the logic queries (e.g. getElementById targets must still exist).
+
+DELIVERABLE: the COMPLETE new file as ONE artifact (or a single fenced code block if artifacts are unavailable), nothing omitted, ready to deploy verbatim. After it, at most 5 short bullets on what changed visually.
+```
+Then append: 2-4 lines naming the game, its theme, and 2-3 concrete scene ideas; then `CURRENT FILE:` and the full current file contents.
+
+Non-NK games (oddoneout, counting are the old core-game style, not NK): adapt the "NK.start structure" rule to "keep the existing init function name, DOM ids, and integration contract of the file".
+
+## Repo/deploy mechanics (all proven 2026-11-14)
+
+- Live site: https://games.178-105-148-72.sslip.io (caddy 443 → static-server.py :8792 serving /opt/Elders_Ai on VPS 178.105.148.72). Repo /opt/Elders_Ai == origin/main (git@github.com:AdbitRush/Elders_Ai.git). Committing to main on the VPS IS publishing.
+- Game files: /opt/Elders_Ai/js/games/<id>.js (NK framework: js/nostalgia-kit.js, cards: js/game-kit.js, i18n: gt(en,he) from js/gametext.js).
+- Deploy from the coordinator sandbox: export vault item "Existing VPS SSH key - Base64 private key" (single-use, re-export before EVERY SSH call) with `tools vault write-file`, then run a driver importing /tmp/ssh-vault-transfer/ssh_private_session.py (`execute(python_script)` runs python3 as root over SSH, prints stdout). One export = one execute call: batch write+git add/commit/push+marker greps in ONE script.
+- After ANY js change: bump ASSET_V in index.html (script loader cache-buster) and commit it too.
+- After each deployed chunk: append a row to /var/lib/or-office/instinct-results.json (format: {"at": "<UTC ISO>", "title": "...", "project": "brainplay", "evidence": "..."}).
+
+## Verification procedure per chunk (all required before "done")
+
+1. Syntax: `node --check` the new file.
+2. Logic smoke in node with stubs (NK/GameKit/localStorage/gt): boot, one full game loop through the real handlers, persistence save/restore if the game has it.
+3. Deploy to VPS, commit, push.
+4. Live HTTPS check in cloud browser (default Hebrew): loadGame('<id>'), no JS errors, screenshot BEFORE (if not already archived) and AFTER; confirm the new scene renders, play a few real moves, confirm state changes reflect in the scene.
+5. Update THIS FILE's status table + the office results file; report to the main agent with screenshots.
+
+## Work order (weakest first, per the 2026-11-05 125-game pixel audit)
+
+Chunk 1 (weakest 8, in this order):
+1. wagontrail  (Prairie Wagon, handheld)   — sparse
+2. telegraph   (Telegraph Office, handheld) — sparse
+3. adventure   (The Old Lighthouse, handheld) — sparse
+4. victorygarden (Victory Garden, pastimes) — sparse
+5. crane       (Claw Crane, arcade)         — cheap/neon
+6. muncher     (Cheese Chase, arcade)       — flat
+7. oddoneout   (Odd One Out, core game)     — generic
+8. counting    (Quick Count, core game)     — generic
+
+Chunk 2: remaining "fair" games from the audit (fill in from audit when chunk 1 done; strong felt-card/wood-board/newspaper families are LOW priority — preserve them, polish last if quota remains).
+
+## Status table (update after EVERY chunk)
+
+| Game | File | Status | Commit | Verified live | Notes |
+|---|---|---|---|---|---|
+| wagontrail | js/games/wagontrail.js | IN PROGRESS (Fable generating, chat 69250242-e912-471e-aefa-f6554d505ffe) | - | - | chunk 1.1 |
+| telegraph | js/games/telegraph.js | pending | - | - | |
+| adventure | js/games/adventure.js | pending | - | - | |
+| victorygarden | js/games/victorygarden.js | pending | - | - | |
+| crane | js/games/crane.js | pending | - | - | |
+| muncher | js/games/muncher.js | pending | - | - | |
+| oddoneout | js/games/oddoneout.js | pending | - | - | core-game style, 2.7KB |
+| counting | js/games/counting.js | pending | - | - | core-game style, 6.8KB |
+
+## If you pick this up cold
+
+1. Read this file fully. Check the status table for the first non-done game.
+2. Confirm Fable still free: claude.ai/settings/usage (signed-in cloud browser profile) — if the offer expired or credits would be needed, STOP and tell the main agent.
+3. Get the current game file from /opt/Elders_Ai (or https://games.178-105-148-72.sslip.io/js/games/<id>.js).
+4. Run the prompt template + file through Fable (or Sonnet/Haiku if Fable is exhausted), then follow "Verification procedure per chunk" exactly.
+5. Update this file and the office results file after every chunk. Report to the main agent.
