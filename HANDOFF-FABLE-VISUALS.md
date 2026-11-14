@@ -1,0 +1,1 @@
+| muncher | Cheese Chase | 2.3 | ✅ live | 780c267 | v92 | pantry maze (shelf walls/tile floor), mouse+cats, danger glow, cheese-scare state, lives/steps props | smoke PASS + UI arrow moves verified (steps/cats/crumbs), desktop+375+360 ✓ |
