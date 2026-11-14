@@ -143,3 +143,11 @@ Full per-game classification (all 124 games, from the Nov-4 audit sheets): docs/
 
 ### Hermes budget ($3 total cap, Or 22:20)
 $0 spent. Default code-drawn SVG/CSS everywhere. Only candidate: adventure scene art, and ONLY after Or's explicit yes on that specific spend.
+
+### 2026-11-14 23:53 - Phase 1 CARD TABLE DONE LIVE (chunk 2.1)
+- Fable-built rewrite of js/game-kit.js card layer (commit a8741cd, ASSET_V 87). Same API (RANKS/SUITS/isRed/deck/card/finish/btn/icon/css/fit/keyBlocked/focusKey/restoreFocus), so all 17 GameKit card games inherit with zero per-game changes (games already wrap boards in .gk-table).
+- New look: warm felt table (radial vignette + SVG speckle, !important so per-game greens are overridden), wooden rail edge, ornate lattice card backs (navy/gold), bigger high-contrast rank+suit, deep warm red suits, gold dashed hint glow, selected-card lift.
+- Verified live: freecell (52 cards render, real move fcTap -> moves 1), hearts (pass-3 phase, opponent backs), crazy8 (playable-card hint glow). Screenshots: cloud-browser-20261114-215249.png (hearts), -215256.png (crazy8) + inline freecell.
+- Klondike still has its own renderer (kl-card) - gets its treatment in Phase 2 A-tier work or a small rewiring later.
+- Hermes: bash spent. Fable chat: https://claude.ai/chat/c194ffe3-cd4b-4802-8614-234ae8dc586e (also produced a "Shot" PNG preview, not needed).
+- SSH key path this session: /tmp/vps_key.pem (workspace box; re-export vault item per session).
