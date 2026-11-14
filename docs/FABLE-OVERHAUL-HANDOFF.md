@@ -97,7 +97,7 @@ Chunk 2: remaining "fair" games from the audit (fill in from audit when chunk 1 
 | telegraph | js/games/telegraph.js | DONE | a69d6ca | YES 14.11 22:20 IST | chunk 1.2; telegraph-office scene (brass key+sounder, paper tape, lamp, pigeonholes), telegram-form paper, wooden type-block keys; full-shift smoke + live typing verified; ASSET_V 86 |
 | adventure | js/games/adventure.js | DONE | eacfc66 | YES 15.11 00:34 IST | phase 2.1; lighthouse/sea SVG scene w/ state (storm darkens on hard, lamp beam when lit), keeper-journal room pages, wooden-shelf inventory; smoke parity vs orig (same 15-move win); live full win 29 moves via UI; desktop+375+360 verified; ASSET_V 90 |
 | victorygarden | js/games/victorygarden.js | pending | - | - | |
-| crane | js/games/crane.js | pending | - | - | |
+| crane | js/games/crane.js | DONE | 275ca6a | YES 15.11 00:49 IST | phase 2.2; wooden/brass arcade cabinet + glass-box scene, plush prizes at true positions, state claw (slide/drop/close/lift), won-prize shelf, token coin props; smoke parity vs orig; live real-UI drop won a prize (1 of 3, tok 9->8); desktop+375+360 verified; ASSET_V 91 |
 | muncher | js/games/muncher.js | pending | - | - | |
 | oddoneout | js/games/oddoneout.js | pending | - | - | core-game style, 2.7KB |
 | counting | js/games/counting.js | pending | - | - | core-game style, 6.8KB |
