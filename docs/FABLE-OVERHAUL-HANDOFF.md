@@ -4,6 +4,22 @@ Owner request: Or Kandel, WhatsApp 2026-11-14 21:54 IST (via main agent; anchor 
 "יש לי פייבל מתנה נראה לי. תבדוק עם קלוד. אם כן שיעיף את כל המשחקים שיהיו ברמה ויזואלית כמו שמצופה מאתר שיגרום לזקנים להיות בו שעות."
 Overhaul ALL BrainPlay games' visuals to the level expected of a site that keeps seniors (65+) playing for hours, using the free Claude Fable gift. Follow-ups 21:56 (shippable chunks, weakest first, exact remainder list) and 22:04 (this handoff file, updated after EVERY chunk).
 
+## STRATEGY CHANGE 14.11 22:16 (Or, via main) - READ FIRST
+
+Scope is ALL ~125 games, not just the weak 8. Method:
+1. PLANNING PASS FIRST over every game: per-game what+how, building on the Nov-5 audit. Keep it CHEAP - minimal/no Fable usage (coordinator can classify from the audit + repo).
+2. THEN execute, quota-budgeted so the free allowance covers everyone at a good level - broad coverage, NOT a few perfect games.
+3. Plan shape to report: tiers (A: weak 8 full rebuild ~5% Fable each; B: middle/fair games light visual passes, batched; C: strong felt/wood/newspaper families - preserve, polish only if quota remains), per-game depth, quota budget. Re-check claude.ai/settings/usage before each batch; STOP if credits would be needed.
+4. Budget anchors (22:15 live read): Fable allowance = 50% of weekly limit; ~5% per heavy full-rebuild chunk; week resets Monday 9:00 IST; 1 free Fable reset available (expires 17.11 09:59 IST) which refills the Fable allowance. Usage credits stay OFF/$0 - never enable.
+
+## IMAGE RULE 14.11 22:18 + MONEY GRANT 22:20 (Or, via main)
+
+Default: code-drawn visuals (inline SVG/CSS), no raster files - Fable draws with code. If a game genuinely needs a real image asset and no free source exists: route through HERMES image generation. Or approved up to $3 TOTAL on Hermes images for BrainPlay art (characters, backgrounds, card images, effects). No per-image approval within the cap. TRACK THE SPEND, report the running total with every chunk report, STOP at $3 - beyond that needs Or's fresh yes. This is the ONLY money exception; everything else that costs money stops for explicit approval. Hermes spend so far: $0.00.
+
+## ROME PARALLEL 14.11 22:17 (Or, via main)
+
+Rome site (Muse-built, for the 2-7.12 trip) is driven to done IN PARALLEL with the overhaul, with the whole agent team (Muse, Junior, Hermes as fits) - not queued after. Tracked under todo-01M4NMTCRF26NVX6892ETA5VF3; bookings still need Or's explicit yes for payment.
+
 ## Fable offer facts (verified live in Or's claude.ai account 2026-11-14 21:58 IST, https://claude.ai/settings/usage)
 
 - Plan: Pro. "Fable is included in your plan, up to 50% of your weekly usage limits, through November 16 at 11:59 PM PT" (= 2026-11-17 09:59 IST).
@@ -78,7 +94,7 @@ Chunk 2: remaining "fair" games from the audit (fill in from audit when chunk 1 
 | Game | File | Status | Commit | Verified live | Notes |
 |---|---|---|---|---|---|
 | wagontrail | js/games/wagontrail.js | DONE | a408ae4 | YES 14.11 22:11 IST | chunk 1.1; panoramic prairie scene, state-tinted sky, wooden sign-board stat cards, paper journal; autosave/restore gg_wagontrail_save verified live (moves + reload-resume); 29,043 bytes; ASSET_V 85 |
-| telegraph | js/games/telegraph.js | pending | - | - | |
+| telegraph | js/games/telegraph.js | DONE | a69d6ca | YES 14.11 22:20 IST | chunk 1.2; telegraph-office scene (brass key+sounder, paper tape, lamp, pigeonholes), telegram-form paper, wooden type-block keys; full-shift smoke + live typing verified; ASSET_V 86 |
 | adventure | js/games/adventure.js | pending | - | - | |
 | victorygarden | js/games/victorygarden.js | pending | - | - | |
 | crane | js/games/crane.js | pending | - | - | |
