@@ -1,1 +1,2 @@
 | muncher | Cheese Chase | 2.3 | ✅ live | 780c267 | v92 | pantry maze (shelf walls/tile floor), mouse+cats, danger glow, cheese-scare state, lives/steps props | smoke PASS + UI arrow moves verified (steps/cats/crumbs), desktop+375+360 ✓ |
+| blocks | Falling Blocks | 2.4 | ✅ live | 32ee579 | v93 | warm wooden toy blocks on walnut board, paper score tiles, labeled Next preview, wooden control pad, PRM-aware | logic functions textually identical; smoke PASS both files; live Start/moves/board render verified desktop+375+360 ✓ |
