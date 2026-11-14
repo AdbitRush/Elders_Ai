@@ -95,7 +95,7 @@ Chunk 2: remaining "fair" games from the audit (fill in from audit when chunk 1 
 |---|---|---|---|---|---|
 | wagontrail | js/games/wagontrail.js | DONE | a408ae4 | YES 14.11 22:11 IST | chunk 1.1; panoramic prairie scene, state-tinted sky, wooden sign-board stat cards, paper journal; autosave/restore gg_wagontrail_save verified live (moves + reload-resume); 29,043 bytes; ASSET_V 85 |
 | telegraph | js/games/telegraph.js | DONE | a69d6ca | YES 14.11 22:20 IST | chunk 1.2; telegraph-office scene (brass key+sounder, paper tape, lamp, pigeonholes), telegram-form paper, wooden type-block keys; full-shift smoke + live typing verified; ASSET_V 86 |
-| adventure | js/games/adventure.js | pending | - | - | |
+| adventure | js/games/adventure.js | DONE | eacfc66 | YES 15.11 00:34 IST | phase 2.1; lighthouse/sea SVG scene w/ state (storm darkens on hard, lamp beam when lit), keeper-journal room pages, wooden-shelf inventory; smoke parity vs orig (same 15-move win); live full win 29 moves via UI; desktop+375+360 verified; ASSET_V 90 |
 | victorygarden | js/games/victorygarden.js | pending | - | - | |
 | crane | js/games/crane.js | pending | - | - | |
 | muncher | js/games/muncher.js | pending | - | - | |
