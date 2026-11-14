@@ -233,7 +233,8 @@ function cwKey(k) {
         const [r2, c2] = gs.word.cells[gs.pos]; gs.ent[r2][c2] = ''; delete gs.bad[r2 + ',' + c2];
     } else {
         gs.ent[r][c] = k; delete gs.bad[r + ',' + c];
-        if (gs.pos < gs.word.cells.length - 1) gs.pos++;
+        const _nx = gs.word.cells.findIndex(([a, b], i) => i > gs.pos && !gs.ent[a][b]);
+        if (_nx >= 0) gs.pos = _nx;
         else { const nx = gs.P.placed.find((p) => p.cells.some(([a, b]) => !gs.ent[a][b])); if (nx && nx !== gs.word) cwPick(gs.P.placed.indexOf(nx)); }
     }
     if (typeof sfxClick === 'function') sfxClick();
