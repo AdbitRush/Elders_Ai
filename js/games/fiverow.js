@@ -53,7 +53,7 @@ function frTap(i) {
     gs.b[i] = 1; gs.last = i; gs.moves++; if (typeof sfxFlip === 'function') sfxFlip();
     const w = _frFive(gs.b, gs.n, i, 1); if (w) return _frEnd(gs, 1, w);
     if (!gs.b.includes(0)) return _frEnd(gs, 0, []);
-    gs.turn = 2; gs.msg = 'The computer is thinking...'; NK.render('fiverow'); NK.after(600, _frCpu);
+    gs.turn = 2; gs.msg = 'The computer is thinking...'; NK.render('fiverow'); NK.after(600, _frCpu); NK.after(4000, _frWatch);
 }
 function _frCpu() {
     const gs = gameState.fiverow; if (gs.over || gs.turn !== 2) return; const n = gs.n, b = gs.b;
@@ -77,6 +77,12 @@ function _frCpu() {
     const threat = opts[0][1] >= 20000 ? ' Careful: it has four in a line!' : _frVal(b, n, pick, 2).v >= 1500 ? ' Watch that line.' : '';
     gs.msg = `The computer played row ${r + 1}, column ${c + 1}.${threat} Your turn.`;
     NK.render('fiverow');
+}
+function _frWatch() {
+    const gs = gameState.fiverow; if (gs.over || gs.turn !== 2) return;
+    try { _frCpu(); } catch (e) {}
+    if (gs.over || gs.turn !== 2) return;   // the retry recovered
+    gs.turn = 1; gs.msg = 'The computer hesitated - your turn again.'; NK.render('fiverow');
 }
 function _frEnd(gs, who, line) {
     gs.over = true; gs.turn = 0; gs.line = line;
