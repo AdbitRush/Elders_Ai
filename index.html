@@ -1320,6 +1320,8 @@ he: {
     game_counting_title:"ספירה מהירה", game_counting_desc:"כמה פרפרים בתמונה? ספרו מהר!",
     game_category_title:"קטגוריות", game_category_desc:"איזו מילה שייכת לקטגוריה?",
     game_letters_title:"אות חסרה", game_letters_desc:"השלימו את האות החסרה במילה.",
+    game_spades_title:"ספיידס", game_spades_desc:"הציעו לקיחות וזכו בהן עם השותף — עלה תמיד שלט.",
+    inst_spades:"הציעו כמה לקיחות תיקחו, לכו אחרי הסדרה, וזכרו: עלה תמיד שלט!",
     inst_blocks:"הזזה: חצי שמאל/ימין | סיבוב: חץ למעלה | האצה: חץ למטה",
     inst_tf:"קראו את המשפט ובחרו — נכון או לא נכון",
     inst_flags:"הסתכלו על הדגל ובחרו את שם המדינה הנכון",
@@ -1511,6 +1513,8 @@ en: {
     game_counting_title:"Quick Count", game_counting_desc:"Count the target symbols in the grid.",
     game_category_title:"Categories", game_category_desc:"Pick the word that fits the category.",
     game_letters_title:"Missing Letter", game_letters_desc:"Complete the missing letter in the word.",
+    game_spades_title:"Spades", game_spades_desc:"Bid and take tricks with your partner; spades are always trump.",
+    inst_spades:"Bid how many tricks you will take, follow suit, and remember: spades are always trump!",
     inst_blocks:"Move: ← → | Rotate: ↑ | Drop: ↓ | Touch: swipe or tap buttons",
     inst_tf:"Read the statement and choose — True or False",
     inst_flags:"Look at the flag and choose the correct country name",
@@ -1681,7 +1685,7 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '83';
+const ASSET_V = '84';
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 // The games added from 2026-10 (tools/new_games.json). Their maps, menu, i18n and skills are filled from this list.
 // gen:new-games (tools/build_new_games.py; do not edit by hand)
