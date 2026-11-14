@@ -77,7 +77,7 @@ Chunk 2: remaining "fair" games from the audit (fill in from audit when chunk 1 
 
 | Game | File | Status | Commit | Verified live | Notes |
 |---|---|---|---|---|---|
-| wagontrail | js/games/wagontrail.js | IN PROGRESS (Fable generating, chat 69250242-e912-471e-aefa-f6554d505ffe) | - | - | chunk 1.1 |
+| wagontrail | js/games/wagontrail.js | DONE | a408ae4 | YES 14.11 22:11 IST | chunk 1.1; panoramic prairie scene, state-tinted sky, wooden sign-board stat cards, paper journal; autosave/restore gg_wagontrail_save verified live (moves + reload-resume); 29,043 bytes; ASSET_V 85 |
 | telegraph | js/games/telegraph.js | pending | - | - | |
 | adventure | js/games/adventure.js | pending | - | - | |
 | victorygarden | js/games/victorygarden.js | pending | - | - | |
@@ -85,6 +85,10 @@ Chunk 2: remaining "fair" games from the audit (fill in from audit when chunk 1 
 | muncher | js/games/muncher.js | pending | - | - | |
 | oddoneout | js/games/oddoneout.js | pending | - | - | core-game style, 2.7KB |
 | counting | js/games/counting.js | pending | - | - | core-game style, 6.8KB |
+
+## Fable output extraction (proven 14.11 chunk 1.1)
+
+Getting the artifact code OUT of claude.ai is the fiddly part. What works: ONE execute-js call that clicks the Copy button inside the div whose innerText starts with '<Title> · JS', waits >=1200ms, then returns `JSON.stringify(await navigator.clipboard.readText())` — all atomically. The clipboard goes stale BETWEEN calls (later reads return garbage); waits under ~700ms race the copy. Capture the single-line JSON from stdout (grep -o '^".*"$'), decode with python json.load. The DOM code-line scrape is virtualized and unreliable; the conversation API exposes tool calls but not artifact file bytes (file download endpoints 404). Fable also self-renders states with node+playwright in its own sandbox before delivering — keep asking for that in the brief.
 
 ## If you pick this up cold
 
