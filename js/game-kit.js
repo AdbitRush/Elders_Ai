@@ -56,7 +56,7 @@
     if (document.getElementById('gk-css')) return;
     const st = document.createElement('style'); st.id = 'gk-css';
     st.textContent = `
-.gk-table,.gk-wood{--w:clamp(40px,10.5vw,74px);width:100%;box-sizing:border-box}
+.gk-table,.gk-wood{--w:clamp(46px,11.5vw,96px);width:100%;box-sizing:border-box}
 /* the felt table. background is !important on purpose: adding gk-table to a board that still carries its own
    green (inline style or per-game CSS) must win, so every game gets the same felt without touching its code */
 .gk-table{background:radial-gradient(ellipse 80% 62% at 50% 30%,rgba(255,255,255,.10),rgba(255,255,255,0) 72%),radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 50%,rgba(0,0,0,.36) 100%),${FELT} #1c6240 !important;border-radius:18px;padding:12px;box-shadow:inset 0 0 0 3px #113b26,inset 0 0 0 4px rgba(255,236,190,.20),inset 0 4px 20px rgba(0,0,0,.45),0 12px 30px -14px rgba(0,0,0,.6);color:#fff7e6}
@@ -65,7 +65,7 @@
 .gk-row{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;align-items:flex-start}
 
 /* ---- cards. Size comes only from --w (set by the table default or by GameKit.fit); border stays 2px so no layout moves ---- */
-.gk-card,.gk-slot{width:var(--w,clamp(40px,10.5vw,74px));height:calc(var(--w,clamp(40px,10.5vw,74px))*1.4);border-radius:clamp(6px,calc(var(--w,60px)*.17),12px);flex:0 0 auto;position:relative;user-select:none;-webkit-user-select:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.gk-card,.gk-slot{width:var(--w,clamp(46px,11.5vw,96px));height:calc(var(--w,clamp(46px,11.5vw,96px))*1.4);border-radius:clamp(6px,calc(var(--w,60px)*.17),12px);flex:0 0 auto;position:relative;user-select:none;-webkit-user-select:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 /* face: warm white paper, cream inner border, a dark hairline + layered soft shadows so it reads as a physical card */
 .gk-card.gk-up{background:linear-gradient(180deg,#fffefa,#fbf5e6);border:2px solid #eadcb9;color:#17140f;box-shadow:0 0 0 1px rgba(58,40,12,.42),0 1px 1px rgba(0,0,0,.30),0 3px 7px rgba(0,0,0,.30);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;line-height:1;overflow:hidden;font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-variant-numeric:lining-nums}
 /* top strip: must stay inside the 0.4 x --w that shows when .gk-col overlaps cards, so it sits tight to the top edge */

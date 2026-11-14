@@ -79,4 +79,4 @@ function _fcRender() {
     .fc .fc-top .gk-row{gap:4px;flex-wrap:nowrap}.fc .fc-cols{gap:4px;flex-wrap:nowrap}</style>`;
     _fitNow_freecell();
 }
-function _fitNow_freecell() { GameKit.fit('.gk-table.fc', 8, 4, 74); }
+function _fitNow_freecell() { GameKit.fit('.gk-table.fc', 8, 4, 96); }
