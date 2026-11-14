@@ -3,6 +3,8 @@
 // (no dragging): tap a card, tap where it goes. Undo, Hint, Draw 1/3.
 // Difficulty: easy = draw 1 + unlimited redeals, normal = draw 1,
 //             hard = draw 3 + 3 redeals.
+// Visuals (2026-11 overhaul): warm felt card-table in a wood rim, cream paper
+// cards with inline-SVG suits, burgundy lattice backs. Logic is unchanged.
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const KL_SUITS = ['♥','♦','♠','♣'];          // 0,1 red — 2,3 black
@@ -52,9 +54,37 @@ function _klCardHtml(c, where, pi, ci, sel) {
     if (!c.up) return `<div class="kl-card kl-down" onclick="klTap('${where}',${pi},${ci})"></div>`;
     const red = _klRed(c) ? 'kl-red' : 'kl-black';
     const isSel = sel && sel.where === where && sel.pi === pi && ci >= sel.ci ? ' kl-sel' : '';
-    return `<div class="kl-card kl-up ${red}${isSel}" onclick="klTap('${where}',${pi},${ci})">` +
-           `<span>${KL_LABEL[c.v]}</span><span>${KL_SUITS[c.s]}</span></div>`;
+    const lbl = KL_LABEL[c.v];
+    const corner = `<b${c.v === 10 ? ' class="kl-ten"' : ''}>${lbl}</b>${_klCardHtml.suit(c.s)}`;
+    const mid = c.v > 10 ? _klCardHtml.face(c) : _klCardHtml.suit(c.s);
+    return `<div class="kl-card kl-up ${red}${isSel}${c.v === 1 ? ' kl-ace' : ''}" aria-label="${lbl}${KL_SUITS[c.s]}" onclick="klTap('${where}',${pi},${ci})">` +
+           `<span class="kl-cn">${corner}</span><span class="kl-mid">${mid}</span><span class="kl-cn kl-cn2">${corner}</span></div>`;
 }
+
+// Inline-SVG art (kept as properties of _klCardHtml so no new global names are introduced).
+// Suit shapes on a 24x24 grid, index-matched to KL_SUITS: heart, diamond, spade, club.
+_klCardHtml.paths = [
+    '<path d="M12 21.2C5.4 16 2 12.6 2 8.4A5.2 5.2 0 0 1 12 6.3 5.2 5.2 0 0 1 22 8.4C22 12.6 18.6 16 12 21.2z"/>',
+    '<path d="M12 1.5C14.5 5.5 17 9 20.5 12 17 15 14.5 18.5 12 22.5 9.5 18.5 7 15 3.5 12 7 9 9.5 5.5 12 1.5z"/>',
+    '<path d="M12 2C9 6.5 2.5 9.8 2.5 14.6A4.6 4.6 0 0 0 10.9 16.9C10.7 19 10 20.6 8.6 22H15.4C14 20.6 13.3 19 13.1 16.9A4.6 4.6 0 0 0 21.5 14.6C21.5 9.8 15 6.5 12 2z"/>',
+    '<circle cx="12" cy="7.2" r="4.7"/><circle cx="6.7" cy="14.2" r="4.7"/><circle cx="17.3" cy="14.2" r="4.7"/><circle cx="12" cy="12.4" r="2.6"/><path d="M12 10.5c-.1 6-.9 9.4-3.4 11.5h6.8c-2.5-2.1-3.3-5.5-3.4-11.5z"/>'
+];
+_klCardHtml.suit = function (s) {
+    return `<svg class="kl-suit" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">${_klCardHtml.paths[s]}</svg>`;
+};
+// Court cards: a framed gold panel with a crown (K: cross, Q: pearls, J: coronet) over the suit.
+_klCardHtml.face = function (c) {
+    const gold = 'fill="#cf9d33" stroke="#7a5a12" stroke-width=".7" stroke-linejoin="round"';
+    const band = `<rect x="10" y="18.4" width="20" height="2.6" rx="1" ${gold}/>`;
+    const crown = `<path d="M10 18 8.5 9l6 4.5L20 7l5.5 6.5 6-4.5L30 18z" ${gold}/>`;
+    const top = c.v === 13 ? crown + band + '<path d="M20 2.4v4.6M18 4.2h4" fill="none" stroke="#7a5a12" stroke-width="1.3" stroke-linecap="round"/>'
+              : c.v === 12 ? crown + band + `<circle cx="8.5" cy="8.3" r="1.6" ${gold}/><circle cx="20" cy="6.1" r="1.6" ${gold}/><circle cx="31.5" cy="8.3" r="1.6" ${gold}/>`
+              : `<path d="M10.5 18v-6l4.7 3 4.8-4 4.8 4 4.7-3v6z" ${gold}/>` + band;
+    return `<svg class="kl-face" viewBox="0 0 40 40" aria-hidden="true" focusable="false">` +
+           `<rect x="1.5" y="1.5" width="37" height="37" rx="5" fill="#f8ebc8" stroke="currentColor" stroke-width="1.3"/>` +
+           `<rect x="4.3" y="4.3" width="31.4" height="31.4" rx="3.2" fill="none" stroke="#c9a35a" stroke-width=".8"/>` +
+           top + `<g fill="currentColor" transform="translate(13.3 22.2) scale(.56)">${_klCardHtml.paths[c.s]}</g></svg>`;
+};
 
 function _klRender(container) {
     const s = gameState.klondike;
@@ -62,34 +92,118 @@ function _klRender(container) {
     const L = he ? {undo:Icon.ui('undo-2')+' ביטול', hint:Icon.ui('lightbulb')+' רמז', deal:Icon.ui('rotate-ccw')+' חלוקה חדשה', moves:'מהלכים'}
                  : {undo:Icon.ui('undo-2')+' Undo', hint:Icon.ui('lightbulb')+' Hint', deal:Icon.ui('rotate-ccw')+' New deal', moves:'Moves'};
     let h = `<style>
-      .kl-board{direction:ltr;max-width:860px;margin:0 auto;user-select:none}
-      .kl-row{display:flex;gap:8px;justify-content:center;margin-bottom:14px;flex-wrap:nowrap}
-      .kl-pile{width:11.5%;min-width:52px;min-height:84px;border-radius:10px;position:relative}
-      .kl-slot{border:2px dashed rgba(255,255,255,.35);background:rgba(255,255,255,.05)}
-      .kl-card{width:100%;aspect-ratio:5/7;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,.35);
-        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-        font-weight:800;font-size:clamp(18px,2.8vw,26px);cursor:pointer;background:#fff}
-      .kl-down{background:repeating-linear-gradient(45deg,#1e3a8a,#1e3a8a 6px,#2c4fae 6px,#2c4fae 12px);border:2px solid #172a63}
-      .kl-red{color:#dc2626}.kl-black{color:#1f2937}
-      .kl-sel{outline:4px solid #f6c048;outline-offset:-2px;transform:translateY(-4px)}
+      /* ── table ─────────────────────────────────────────────────────────── */
+      .kl-board{direction:ltr;max-width:860px;margin:0 auto;user-select:none;-webkit-user-select:none;box-sizing:border-box;
+        --kl-fs:clamp(18px,3.4vw,28px);            /* corner rank size: never under 18px */
+        --kl-up:calc(var(--kl-fs) * 1.36);         /* stack offset under a face-up card */
+        --kl-dn:calc(var(--kl-fs) * .5);           /* stack offset under a face-down card */
+        --kl-gap:clamp(3px,1.2vw,12px);
+        --kl-r:clamp(5px,1.2vw,11px);
+        padding:clamp(8px,2.2vw,22px) clamp(5px,2vw,22px) clamp(14px,3vw,28px);
+        border:clamp(5px,1.3vw,11px) solid #70472a;border-radius:clamp(14px,3vw,26px);
+        background:
+          radial-gradient(ellipse at 50% 30%,rgba(255,255,255,.13),rgba(255,255,255,0) 62%),
+          repeating-linear-gradient(45deg,rgba(255,255,255,.022) 0 2px,rgba(255,255,255,0) 2px 4px),
+          repeating-linear-gradient(-45deg,rgba(0,0,0,.03) 0 2px,rgba(0,0,0,0) 2px 4px),
+          #236c4d;
+        box-shadow:inset 0 0 0 2px rgba(0,0,0,.28),inset 0 0 80px rgba(0,0,0,.42),0 0 0 2px #4a2d16,0 12px 28px rgba(0,0,0,.32);
+        font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+      .kl-board *{box-sizing:border-box}
+      .kl-row{display:flex;gap:var(--kl-gap);justify-content:center;margin-bottom:clamp(12px,2.6vw,20px);flex-wrap:nowrap}
+      .kl-row:last-child{margin-bottom:0}
+      .kl-pile{flex:1 1 0;min-width:0;max-width:108px;border-radius:var(--kl-r);position:relative}
+
+      /* ── empty places ──────────────────────────────────────────────────── */
+      .kl-slot{width:100%;aspect-ratio:5/7;border-radius:var(--kl-r);border:2px dashed rgba(255,244,214,.6);
+        background:rgba(0,0,0,.16);box-shadow:inset 0 2px 8px rgba(0,0,0,.3);
+        display:flex;align-items:center;justify-content:center;color:rgba(255,244,214,.5);cursor:pointer}
+      .kl-slot .kl-suit,.kl-slot .kl-ico{width:52%;height:auto;aspect-ratio:1/1;color:#fff4d6;opacity:.5}
+      .kl-slot-k{position:absolute;top:0;left:0;right:0;font-weight:800;font-size:clamp(22px,5vw,44px);color:rgba(255,244,214,.38)}
+      .kl-sizer{width:100%;aspect-ratio:5/7;pointer-events:none}
+
+      /* ── cards ─────────────────────────────────────────────────────────── */
+      .kl-card{width:100%;aspect-ratio:5/7;border-radius:var(--kl-r);position:relative;overflow:hidden;cursor:pointer;
+        font-weight:800;font-size:var(--kl-fs);line-height:1;font-variant-numeric:lining-nums;
+        box-shadow:0 1px 1px rgba(30,15,0,.3),0 3px 6px rgba(20,10,0,.3)}
+      .kl-up{border:1px solid #cdbb91;
+        background:
+          repeating-linear-gradient(0deg,rgba(125,95,40,.035) 0 1px,rgba(125,95,40,0) 1px 3px),
+          repeating-linear-gradient(90deg,rgba(125,95,40,.025) 0 1px,rgba(125,95,40,0) 1px 4px),
+          linear-gradient(150deg,#fffdf7 0%,#fbf4e2 55%,#f3e8cd 100%)}
+      .kl-red{color:#b3141c}.kl-black{color:#1b1a1f}
+      .kl-down{border:clamp(2px,.45vw,4px) solid #fbf3e0;
+        background:
+          repeating-linear-gradient(45deg,rgba(255,232,190,.2) 0 2px,rgba(255,232,190,0) 2px 9px),
+          repeating-linear-gradient(-45deg,rgba(255,232,190,.2) 0 2px,rgba(255,232,190,0) 2px 9px),
+          linear-gradient(160deg,#8f3140,#681c2a);
+        box-shadow:inset 0 0 0 1.5px #d2ae62,0 1px 1px rgba(30,15,0,.3),0 3px 6px rgba(20,10,0,.3)}
+      .kl-down::after{content:"";position:absolute;left:50%;top:50%;width:36%;aspect-ratio:1/1;
+        transform:translate(-50%,-50%) rotate(45deg);background:#741f2e;border:2px solid #e3c47c;border-radius:3px;
+        box-shadow:0 0 0 2px #741f2e}
+      .kl-suit{display:block;fill:currentColor}
+      .kl-cn{position:absolute;top:.13em;left:.15em;display:flex;align-items:center;gap:.05em}
+      .kl-cn b{font-weight:800}
+      .kl-cn .kl-suit{width:.72em;height:.72em;flex:none}
+      .kl-ten{letter-spacing:-.07em;margin-right:.05em}
+      .kl-cn2{top:auto;left:auto;right:.15em;bottom:.13em;transform:rotate(180deg)}
+      .kl-mid{position:absolute;left:0;right:0;top:50%;height:30%;transform:translateY(-50%);
+        display:flex;align-items:center;justify-content:center;pointer-events:none}
+      .kl-mid svg{height:100%;width:auto;aspect-ratio:1/1;display:block}
+      .kl-mid .kl-suit{filter:drop-shadow(0 1px 0 rgba(255,255,255,.7))}
+      @media (min-width:600px){.kl-mid{height:42%}.kl-ace .kl-mid{height:50%}}
+
+      /* selected: lift + thick two-tone ring + deeper shadow (not colour alone) */
+      .kl-sel{transform:translateY(-4px);z-index:2;
+        box-shadow:0 0 0 4px #f6c048,0 0 0 6px #2a1a08,0 12px 18px rgba(0,0,0,.5);animation:kl-lift .16s ease-out}
+      @keyframes kl-lift{from{transform:translateY(0)}to{transform:translateY(-4px)}}
       .kl-stack .kl-card{position:absolute;left:0;right:0}
-      .kl-bar{display:flex;gap:10px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
-      .kl-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#f8fafc;
-        border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:1rem}
-      .kl-btn:hover{background:rgba(246,192,72,.25)}
-      .kl-count{color:#cbd5e1;font-size:.95rem;align-self:center}
-      .kl-help{max-width:860px;margin:0 auto 14px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:8px 14px;color:#fff7e6;font-size:1.05rem;line-height:1.5}
-      .kl-help summary{cursor:pointer;font-weight:800;font-size:1.15rem;min-height:44px;display:flex;align-items:center;gap:6px}
-      .kl-help ul{margin:4px 0 8px 1.1em;padding:0}.kl-help li{margin:4px 0}
-      .kl-ex{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-weight:700}
-      .kl-ex-card{display:inline-flex;align-items:center;justify-content:center;width:46px;height:64px;border-radius:8px;background:#fff;font-size:1.3rem;font-weight:900;box-shadow:0 2px 4px rgba(0,0,0,.35)}
-      .kl-ex-arrow{font-size:1.6rem;color:#fde68a}
+      .kl-badge{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);pointer-events:none;
+        min-width:2em;padding:.18em .5em;border-radius:999px;background:rgba(32,10,14,.88);color:#fff4d6;
+        border:1px solid #e3c47c;font-weight:800;font-size:clamp(14px,2.3vw,17px);line-height:1;text-align:center}
+
+      /* ── toolbar ───────────────────────────────────────────────────────── */
+      .kl-bar{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:clamp(12px,2.6vw,20px);flex-wrap:wrap}
+      .kl-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;
+        background:linear-gradient(#fffaf0,#f4e3bd);border:2px solid #a9792f;color:#3b2a12;border-radius:14px;
+        font:inherit;font-weight:800;font-size:1.08rem;line-height:1.2;cursor:pointer;
+        box-shadow:0 3px 0 #7d5720,0 5px 10px rgba(0,0,0,.25)}
+      .kl-btn:hover{background:linear-gradient(#fff3d3,#f1d695)}
+      .kl-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #7d5720,0 2px 4px rgba(0,0,0,.25)}
+      .kl-btn:focus-visible{outline:4px solid #fff;outline-offset:2px}
+      .kl-count{display:inline-flex;align-items:center;min-height:48px;padding:8px 18px;border-radius:14px;
+        background:rgba(0,0,0,.28);border:1px solid rgba(255,244,214,.4);color:#fff4d6;font-weight:800;font-size:1.08rem}
+
+      /* ── how to play ───────────────────────────────────────────────────── */
+      .kl-help{margin:0 auto clamp(12px,2.6vw,20px);background:linear-gradient(#fffaf0,#f8ecd0);border:2px solid #c9a35a;
+        border-radius:14px;padding:6px 16px;color:#3b2a12;font-size:1.08rem;line-height:1.55;box-shadow:0 4px 10px rgba(0,0,0,.25)}
+      .kl-help summary{cursor:pointer;font-weight:800;font-size:1.18rem;min-height:48px;display:flex;align-items:center;gap:8px;list-style:none}
+      .kl-help summary::-webkit-details-marker{display:none}
+      .kl-help summary::after{content:"+";margin-left:auto;font-size:1.6rem;line-height:1;color:#8a5a14}
+      .kl-help[open] summary::after{content:"\\2212"}
+      .kl-help summary:focus-visible{outline:3px solid #8a5a14;outline-offset:2px;border-radius:8px}
+      .kl-help ul{margin:4px 0 10px 1.2em;padding:0}.kl-help li{margin:6px 0}
+      .kl-ex{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-weight:700;padding:10px 0 8px;border-top:1px solid #dcc48e}
+      .kl-ex-card{display:inline-flex;align-items:center;justify-content:center;gap:3px;width:58px;height:80px;border-radius:9px;
+        background:linear-gradient(150deg,#fffdf7,#f3e8cd);border:1px solid #cdbb91;font-size:1.5rem;font-weight:900;line-height:1;
+        box-shadow:0 2px 5px rgba(40,20,0,.3)}
+      .kl-ex-card .kl-suit{width:.78em;height:.78em}
+      .kl-ex-arrow{font-size:1.9rem;line-height:1;color:#8a5a14}
+
+      @media (max-width:480px){
+        .kl-btn{padding:8px 14px;font-size:1rem;gap:6px}.kl-count{padding:8px 14px;font-size:1rem}
+        .kl-help{padding:4px 12px;font-size:1.02rem}
+        .kl-sel{transform:translateY(-3px);box-shadow:0 0 0 3px #f6c048,0 0 0 5px #2a1a08,0 9px 14px rgba(0,0,0,.5);animation:none}
+        .kl-badge{bottom:5%;padding:.14em .4em}
+      }
+      @media (prefers-reduced-motion:reduce){
+        .kl-sel{animation:none}.kl-btn:active{transform:none}
+      }
     </style><div class="kl-board">`;
 
     // How to play (2026-10-10 review: the tableau, empty-column and stock rules were missing). Open on the first
     // visit, then remembered as folded; a worked example shows a legal move.
     let helpOpen = true; try { helpOpen = !localStorage.getItem('gg_kl_help_seen'); localStorage.setItem('gg_kl_help_seen', '1'); } catch (e) {}
-    const ex = (lbl, suit, red) => `<span class="kl-ex-card ${red ? 'kl-red' : 'kl-black'}">${lbl}${suit}</span>`;
+    const ex = (lbl, suit, red) => `<span class="kl-ex-card ${red ? 'kl-red' : 'kl-black'}">${lbl}${_klCardHtml.suit(suit)}</span>`;
     h += `<details class="kl-help"${helpOpen ? ' open' : ''}><summary>${Icon.ui('book-open')} How to play</summary>
       <ul>
         <li><b>Goal:</b> move all 52 cards to the four home piles at the top right, each suit from Ace up to King.</li>
@@ -99,42 +213,48 @@ function _klRender(container) {
         <li><b>The deck</b> (top left): tap it to turn a card onto the pile next to it; you may play that card. When the deck is empty, tap its spot to turn the pile back over.${s.draw === 3 ? ' On Hard, three cards turn at a time and you can go through the deck three more times.' : ''}</li>
         <li><b>Tap to move:</b> tap a card, then tap where it goes. Tap a card twice to send it home if it fits.</li>
       </ul>
-      <div class="kl-ex"><span>Example:</span>${ex('8', '♠', false)}<span class="kl-ex-arrow">←</span>${ex('7', '♥', true)}<span>The red 7♥ can go on the black 8♠.</span></div>
+      <div class="kl-ex"><span>Example:</span>${ex('8', 2, false)}<span class="kl-ex-arrow">←</span>${ex('7', 0, true)}<span>The red 7♥ can go on the black 8♠.</span></div>
     </details>`;
-    h += `<div class="kl-bar">
+    h += `<div class="kl-bar"${he ? ' dir="rtl"' : ''}>
       <button class="kl-btn" onclick="klUndo()">${L.undo}</button>
       <button class="kl-btn" onclick="klHint()">${L.hint}</button>
       <button class="kl-btn" onclick="initKlondike(document.getElementById('gameContent'))">${L.deal}</button>
       <span class="kl-count">${L.moves}: ${s.moves}</span></div>`;
 
     // top row: stock, waste, gap, 4 foundations
+    const canRedeal = s.waste.length && s.redeals < s.maxRedeals;
+    const stockIco = canRedeal
+        ? `<svg class="kl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12a7 7 0 1 1-2.2-5.1"/><path d="M17.6 2.6v4.8h-4.8"/></svg>`
+        : `<svg class="kl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M6.8 17.2 17.2 6.8"/></svg>`;
     h += `<div class="kl-row">`;
     h += `<div class="kl-pile">` + (s.stock.length
-        ? `<div class="kl-card kl-down" onclick="klDraw()"></div>`
-        : `<div class="kl-pile kl-slot" style="width:100%;height:100%;position:absolute" onclick="klDraw()"></div><div style="min-height:84px"></div>`) + `</div>`;
+        ? `<div class="kl-card kl-down" onclick="klDraw()"></div><span class="kl-badge">${s.stock.length}</span>`
+        : `<div class="kl-slot" onclick="klDraw()">${stockIco}</div>`) + `</div>`;
     const w = s.waste[s.waste.length - 1];
-    h += `<div class="kl-pile">` + (w ? _klCardHtml(w, 'w', 0, s.waste.length - 1, s.sel) : `<div class="kl-slot" style="width:100%;height:100%;position:absolute"></div><div style="min-height:84px"></div>`) + `</div>`;
+    h += `<div class="kl-pile">` + (w ? _klCardHtml(w, 'w', 0, s.waste.length - 1, s.sel) : `<div class="kl-slot" style="cursor:default"></div>`) + `</div>`;
     h += `<div class="kl-pile" style="visibility:hidden"></div>`;
     for (let i = 0; i < 4; i++) {
         const top = s.f[i][s.f[i].length - 1];
         h += `<div class="kl-pile" onclick="klTap('f',${i},-1)">` + (top
             ? _klCardHtml(top, 'f', i, s.f[i].length - 1, s.sel)
-            : `<div class="kl-slot" style="width:100%;height:100%;position:absolute;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:1.4rem">${KL_SUITS[i]}</div><div style="min-height:84px"></div>`) + `</div>`;
+            : `<div class="kl-slot">${_klCardHtml.suit(i)}</div>`) + `</div>`;
     }
     h += `</div>`;
 
-    // tableau
-    const maxLen = Math.max(6, ...s.t.map(p => p.length));
+    // tableau: cards are absolutely positioned; face-down cards overlap more tightly than face-up ones.
+    // An invisible in-flow sizer (same offset as the last card) gives the column its height at any card size.
     h += `<div class="kl-row" style="align-items:flex-start">`;
     for (let pi = 0; pi < 7; pi++) {
         const pile = s.t[pi];
-        const height = 84 + (pile.length ? (pile.length - 1) * 28 : 0);
-        h += `<div class="kl-pile kl-stack" style="min-height:${height}px" onclick="if(event.target===this)klTap('t',${pi},-1)">`;
-        if (!pile.length) h += `<div class="kl-slot" style="width:100%;min-height:84px;position:absolute" onclick="klTap('t',${pi},-1)"></div>`;
+        let dn = 0, up = 0, top = '0px';
+        h += `<div class="kl-pile kl-stack" onclick="if(event.target===this)klTap('t',${pi},-1)">`;
+        if (!pile.length) h += `<div class="kl-slot kl-slot-k" onclick="klTap('t',${pi},-1)">K</div>`;
         pile.forEach((c, ci) => {
-            h += `<div style="position:absolute;top:${ci * 28}px;left:0;right:0">${_klCardHtml(c, 't', pi, ci, s.sel)}</div>`;
+            top = `calc(${dn} * var(--kl-dn) + ${up} * var(--kl-up))`;
+            h += `<div style="position:absolute;top:${top};left:0;right:0">${_klCardHtml(c, 't', pi, ci, s.sel)}</div>`;
+            if (c.up) up++; else dn++;
         });
-        h += `</div>`;
+        h += `<div class="kl-sizer" style="margin-top:${top}"></div></div>`;
     }
     h += `</div></div>`;
     container.innerHTML = h;
