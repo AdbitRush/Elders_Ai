@@ -34,6 +34,7 @@ function answerFlag(sel, correct) {
     const gs = gameState.flags;
     if(gs._locked)return;gs._locked=true;  // one answer per question
     if(sel === correct) { sfxCorrect(); gs.score++; } else sfxWrong();
+    {const _c=document.querySelector('#gameContent .text-green-600');if(_c)_c.textContent='✓ '+gs.score;}
     gs.idx++;
     setTimeout(() => _flagNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);
 }
