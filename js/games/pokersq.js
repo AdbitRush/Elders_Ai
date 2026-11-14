@@ -37,7 +37,7 @@ function initPokersq() {
             'Points: royal flush 100, straight flush 75, four of a kind 50, full house 25, flush 20, straight 15, three of a kind 10, two pair 5, one pair 2.',
             'A good plan: keep some columns for one suit (flushes) while the rows collect pairs.',
             `Goal for this level: <b>${gs.goal} points</b>. No money, no betting, no clock. Keyboard: arrow keys and Enter on the squares.`],
-        css: `.pq-t{--w:clamp(40px,12.2vw,66px)}
+        css: `.pq-t{--w:clamp(44px,12.2vw,92px)}
 .pq-g{display:grid;grid-template-columns:repeat(5,var(--w)) auto;gap:6px;justify-content:center;align-items:center}
 #gameContent .nk button.pq-b{background:none;border:0;padding:0;--nk-r:9px;display:block}
 .pq-b:disabled{cursor:default}

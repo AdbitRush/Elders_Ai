@@ -25,7 +25,7 @@ function initGolfsol() {
             `The score is the number of cards left in the columns. Par for this level is <b>${gs.par}</b>: finish at or under par to win.${gs.diff === 'hard' ? '' : ' Undo is free.'}`,
             'Keyboard: arrow keys and Enter on the cards, D draws, U undoes.'],
         css: `.gs-cols{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;justify-items:center;margin:4px 0 12px}
-.gs-t{--w:clamp(34px,10.6vw,74px)}
+.gs-t{--w:clamp(38px,10.6vw,96px)}
 .gs-mid{display:flex;justify-content:center;align-items:flex-end;gap:22px}
 .gs-pl{display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;color:#fde7c4}
 #gameContent .nk button.gs-b{background:none;border:0;padding:0;--nk-r:9px;display:block}

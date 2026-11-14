@@ -29,7 +29,7 @@ function initGolf() {
             'Scores: Ace 1, <b>2 is minus 2</b>, 3 to 10 as shown, Jack and Queen 10, <b>King 0</b>. Two equal cards in the same column score <b>0</b>.',
             'When someone has all six cards face up, the other player gets one last turn and the hole is scored. Three holes; the lower total wins. No clock.',
             'Keyboard: arrow keys move between cards, Enter picks; S draws from the stock, D takes the discard.'],
-        css: `.gf-t{--w:clamp(44px,13vw,70px)}
+        css: `.gf-t{--w:clamp(44px,13vw,92px)}
 .gf-hand{display:grid;grid-template-columns:repeat(3,auto);gap:8px;justify-content:center}
 .gf-slot{background:transparent;border:0;padding:0;cursor:pointer;--nk-r:10px;display:block}
 .gf-slot:disabled{cursor:default}

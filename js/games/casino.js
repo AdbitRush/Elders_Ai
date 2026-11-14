@@ -42,7 +42,7 @@ function initCasino() {
             'Clearing the whole table is a <b>sweep</b> (1 point). The last player to capture takes what is left at the end.',
             'Points: most cards 3, most spades 1, Big Casino (10♦) 2, Little Casino (2♠) 1, each Ace 1, each sweep 1. Higher total wins. This is the simple family game, without builds.',
             'No money, no clock. Keyboard: arrow keys and Enter, T takes, L trails.'],
-        css: `.cs-t{--w:clamp(44px,13vw,70px)}
+        css: `.cs-t{--w:clamp(44px,13vw,92px)}
 .cs-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:calc(var(--w)*1.4);margin:4px 0 8px}
 #gameContent .nk button.cs-b{background:none;border:0;padding:0;--nk-r:9px;display:block}
 .cs-b:disabled{cursor:default}

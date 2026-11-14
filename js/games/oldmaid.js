@@ -27,7 +27,7 @@ function initOldmaid() {
             'On your turn, tap any face-down card in the other player\'s hand. The others will draw blind from yours.',
             gs.diff === 'easy' ? 'On this level Rose never shuffles her hand, so watch where the Old Maid goes.' : 'The computer players shuffle their hands after every turn.',
             'No money, no clock. Keyboard: arrow keys and Enter on the face-down cards.'],
-        css: `.om-t{--w:clamp(36px,10.4vw,60px)}
+        css: `.om-t{--w:clamp(40px,10.4vw,88px)}
 .om-p{margin:2px 0 10px}
 .om-nm{font:800 1rem system-ui,sans-serif;color:#fde7c4;text-align:center;margin-bottom:4px}
 .om-nm b{color:#fff}

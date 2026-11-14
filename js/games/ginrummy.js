@@ -159,7 +159,7 @@ function _grRender() {
       <div class="gk-label gk-big">Your hand · deadwood ${b.dw}${b.dw <= 10 ? ' (you may knock after discarding)' : ''}</div>
       <div class="gr-hand">${groups}${dead ? `<div class="gr-dead">${dead}</div>` : ''}</div>
     </div>
-    <style>.gk-table.gr{--w:clamp(42px,9.6vw,70px)}.gr .gr-cpu .gk-card{--w:28px}.gr .gr-cpu{gap:2px}.gr .gr-mid{gap:24px;margin:12px 0}
+    <style>.gk-table.gr{--w:clamp(42px,9.6vw,92px)}.gr .gr-cpu .gk-card{--w:36px}.gr .gr-cpu{gap:2px}.gr .gr-mid{gap:24px;margin:12px 0}
     .gr .gr-pile{display:flex;flex-direction:column;align-items:center}
     .gr .gr-hand{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
     .gr .gr-meld{display:flex;gap:3px;padding:5px;border-radius:12px;background:rgba(253,230,138,.22);box-shadow:inset 0 0 0 2px #fde68a}

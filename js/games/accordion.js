@@ -23,7 +23,7 @@ function initAccordion() {
             'The whole pile moves, and the row closes up. Keep dealing until the deck is used, folding the row as you go.',
             `Goal for this level: finish with <b>${gs.goal} piles or fewer</b>. One single pile is the old legend.`,
             `${gs.diff === 'hard' ? 'No undo on this level.' : 'Undo is free.'} No clock. Keyboard: arrow keys and Enter, D deals, U undoes.`],
-        css: `.ac-t{--w:clamp(38px,11vw,64px)}
+        css: `.ac-t{--w:clamp(40px,11vw,88px)}
 .ac-row{display:flex;flex-wrap:wrap;gap:8px 5px;justify-content:center;padding:4px 0 8px}
 #gameContent .nk button.ac-b{background:none;border:0;padding:0;--nk-r:9px;display:block;position:relative}
 .ac-b:disabled{cursor:default}

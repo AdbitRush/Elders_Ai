@@ -25,7 +25,7 @@ function initCalculation() {
             'Each card turned from the stock must go somewhere: onto a foundation it fits, or onto one of the four <b>waste piles</b>.',
             'Tap <b>Put here</b> under a waste pile to put the turned card there. The top card of a waste pile may move onto a foundation at any time: tap it, then tap the foundation.',
             `Goal for this level: <b>${gs.goal}</b> cards on the foundations${gs.goal === 52 ? ' (every card)' : ''}. ${gs.diff === 'hard' ? 'No undo on this level.' : 'Undo is free.'} No clock. Keys 1-4 send the picked card to a foundation; U undoes.`],
-        css: `.ca-t{--w:clamp(44px,13.5vw,74px)}
+        css: `.ca-t{--w:clamp(44px,13.5vw,96px)}
 .ca-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;justify-items:center}
 .ca-lab{font:800 .9rem system-ui,sans-serif;color:#fde7c4;text-align:center;margin:3px 0 0;line-height:1.25}
 .ca-lab b{display:block;font-size:1.15rem;color:#fff}

@@ -59,7 +59,7 @@ function initSpades() {
                `עמדתם בחוזה: 10 נקודות על כל לקיחה שהוצעה, ועוד 1 על כל לקיחה עודפת ("שקית"). פספסתם: מינוס 10 על כל לקיחה שהוצעה. כל 10 שקיות עולות 100. הקבוצה הראשונה ל-<b>${gs.target}</b> מנצחת.`),
             gt('No money, no clock. Keyboard: arrow keys and Enter on your cards and the bid buttons.',
                'בלי כסף, בלי שעון. מקלדת: חצים ו-Enter על הקלפים ועל כפתורי ההצעה.')],
-        css: `.sp-t{--w:clamp(36px,10.6vw,62px)}
+        css: `.sp-t{--w:clamp(40px,10.6vw,88px)}
 .sp-tab{display:grid;grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto auto;align-items:center;justify-items:center;gap:4px;min-height:calc(var(--w)*3.6)}
 .sp-seat{font:800 .9rem system-ui,sans-serif;color:#fde7c4;text-align:center;line-height:1.25}
 .sp-seat b{color:#fff}

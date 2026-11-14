@@ -177,7 +177,7 @@ function _hzRender() {
       ${gs.phase === 'play' ? `<div class="gk-label hz-key">Gold dashed outline = a card you can play now.${gs.got.length ? ' Blue = the cards you were passed.' : ''} Hearts 1 point each, Q♠ 13. Lowest score wins.</div>` : ''}
     </div>
     <style>
-      .gk-table.hz{--w:clamp(40px,12.4vw,70px)}
+      .gk-table.hz{--w:clamp(44px,12.4vw,88px)}
       .hz .hz-trick{display:grid;grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto auto;gap:4px 6px;justify-items:center;align-items:center;margin:4px auto 10px;max-width:420px}
       .hz .hz-trick .gk-card,.hz .hz-empty{--w:clamp(40px,11vw,60px)}
       .hz .hz-p2{grid-column:2;grid-row:1}.hz .hz-p1{grid-column:1;grid-row:2}.hz .hz-center{grid-column:2;grid-row:2;color:#ffd0d0;font-weight:800;min-width:60px;text-align:center}

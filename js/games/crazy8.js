@@ -79,5 +79,5 @@ function _c8Render() {
       <div class="gk-hand">${hand}</div>
       <div class="gk-btns">${GameKit.btn(gs.drew ? 'Pass' : GameKit.icon('layers') + 'Draw a card', 'c8Draw()', { cls: 'gk-primary', disabled: gs.turn !== 0 || gs.choose || gs.over })}</div>
     </div>
-    <style>.gk-table.c8{--w:clamp(48px,13vw,78px)}.c8 .c8-cpu{gap:2px}.c8 .c8-cpu .gk-card{--w:26px}.c8 .c8-mid{gap:18px;align-items:center;margin:12px 0}</style>`;
+    <style>.gk-table.c8{--w:clamp(48px,13vw,96px)}.c8 .c8-cpu{gap:2px}.c8 .c8-cpu .gk-card{--w:36px}.c8 .c8-mid{gap:18px;align-items:center;margin:12px 0}</style>`;
 }

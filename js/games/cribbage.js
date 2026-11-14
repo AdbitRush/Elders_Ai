@@ -47,7 +47,7 @@ function initCribbage() {
             '<b>The play:</b> take turns laying a card and adding to the count, never past 31. Score 2 for making exactly 15 or 31, 2 for a pair (6 for three, 12 for four), and a run of 3 or more (any order) scores its length. If you cannot play, the game says <b>Go</b> for you; the last card before the count resets scores 1.',
             '<b>The show:</b> each hand is counted with the starter: 2 for each 15, 2 per pair, run length per run, 4 for a flush (5 with the starter), 1 for his nobs. The crib goes to the dealer. The game does all the counting and shows how.',
             'No money, no clock. Keyboard: arrow keys and Enter on your cards.'],
-        css: `.cb-t{--w:clamp(44px,13.4vw,70px)}
+        css: `.cb-t{--w:clamp(44px,13.4vw,92px)}
 .cb-row{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;min-height:calc(var(--w)*1.4)}
 #gameContent .nk button.cb-b{background:none;border:0;padding:0;--nk-r:9px;display:block}
 .cb-b:disabled{cursor:default}

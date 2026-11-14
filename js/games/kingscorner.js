@@ -34,7 +34,7 @@ function initKingscorner() {
             'You may also move a <b>whole side pile</b> onto another pile when the pile\'s bottom card fits the other pile\'s top card. Tap the pile, then where it goes. This opens a side space.',
             'Tap <b>End turn</b> when you are done. The first player with an empty hand wins. If the deck is gone and neither player can play, fewer cards wins.',
             `${gs.glow ? 'The places your picked card fits are dashed.' : 'On this level nothing is highlighted.'} No clock. Keyboard: arrow keys and Enter, E ends your turn.`],
-        css: `.kc-t{--w:clamp(44px,13vw,70px)}
+        css: `.kc-t{--w:clamp(44px,13vw,92px)}
 .kc-board{display:grid;grid-template-columns:repeat(3,auto);gap:8px 14px;justify-content:center;align-items:center;justify-items:center;margin:6px 0 10px}
 #gameContent .nk button.kc-b{background:none;border:0;padding:0;--nk-r:9px;display:block;position:relative}
 .kc-b:disabled{cursor:default}

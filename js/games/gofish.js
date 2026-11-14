@@ -91,6 +91,6 @@ function _gfRender() {
       <div class="gk-label gk-big">Your books: ${books(0)}</div>
       <div class="gk-hand">${hand}</div>
     </div>
-    <style>.gk-table.gf{--w:clamp(46px,12vw,76px)}.gf .gf-cpu .gk-card{--w:26px}.gf .gf-cpu{gap:2px}.gf .gf-mid{gap:14px;align-items:center;margin:12px 0}
+    <style>.gk-table.gf{--w:clamp(46px,12vw,96px)}.gf .gf-cpu .gk-card{--w:36px}.gf .gf-cpu{gap:2px}.gf .gf-mid{gap:14px;align-items:center;margin:12px 0}
     .gf .gf-book{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 6px;margin:0 2px;border-radius:8px;background:#fff7e6;color:#3b1d0e;font-weight:900;font-family:Georgia,serif}</style>`;
 }
