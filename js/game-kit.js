@@ -149,7 +149,10 @@
      cfg.ask     optional item -> HTML for the question card (default: item.q)
    Every round: no repeats until the player has seen the whole (filtered) pool (localStorage gg_qk_seen_<id>);
    after each answer the right answer and the explanation stay on screen until the player taps Next.
-   The score goes to the shared end screen (60% = Well Done!). */
+   The score goes to the shared end screen (60% = Well Done!).
+   Look (2026-11 storybook pass): a wooden progress strip, a cream deckle-edged question card, four warm
+   numbered answer buttons, a pinned note card for the explanation, wooden tags on the picker.
+   Pure CSS + inline SVG; every state is also carried by a shape or icon, never by colour alone. */
 (function () {
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const T = {
@@ -164,37 +167,126 @@
   };
   const cfgs = {};
 
+  // Inline SVG pieces (decorative: all aria-hidden, none of them adds text to a button's textContent).
+  const SVG = (cls, body) => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${body}</svg>`;
+  const P_OK = 'M5 12.6l4.6 4.6L19 7.4', P_BAD = 'M6.6 6.6l10.8 10.8M17.4 6.6L6.6 17.4';
+  const ICON = {
+    // the answer mark holds both shapes; CSS shows the one that matches .qk-ok / .qk-bad
+    mark: SVG('qk-mark', `<path class="qk-m-ok" d="${P_OK}"/><path class="qk-m-bad" d="${P_BAD}"/>`),
+    tick: SVG('qk-tick', `<path d="${P_OK}"/>`),
+    arrow: SVG('qk-arr', '<path d="M8 4.5l11.5 7.5L8 19.5z"/>'),
+    pin: SVG('qk-pin', '<ellipse cx="12.6" cy="18.6" rx="6.4" ry="2.4" fill="rgba(60,35,10,.28)"/><circle cx="12" cy="11" r="7.6" fill="#b4472f"/><circle cx="12" cy="11" r="7.6" fill="none" stroke="#7d2c1b" stroke-width="1.4"/><circle cx="9.4" cy="8.3" r="2.3" fill="#eba28c"/>'),
+    exOk: SVG('qk-exi', `<circle cx="12" cy="12" r="10.4" class="qk-exi-disc"/><path class="qk-exi-line" d="${P_OK}"/>`),
+    exBad: SVG('qk-exi', `<circle cx="12" cy="12" r="10.4" class="qk-exi-disc"/><path class="qk-exi-line" d="${P_BAD}"/>`),
+    // the deckle-edge filter for the question card (static noise, no motion)
+    defs: '<svg class="qk-defs" width="0" height="0" aria-hidden="true" focusable="false"><filter id="qk-deckle" x="-4%" y="-8%" width="108%" height="116%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="8" xChannelSelector="R" yChannelSelector="G"/></filter></svg>',
+  };
+
   function css() {
     if (document.getElementById('qk-css')) return;
     const st = document.createElement('style'); st.id = 'qk-css';
     st.textContent = `
-.qk{width:100%;box-sizing:border-box;max-width:44rem;margin:0 auto;color:var(--w-table-ink,#2b1b0d)}
-.qk-top{display:flex;justify-content:space-between;font-weight:800;font-size:1.05rem;color:var(--w-table-ink2,#4a3420);margin:0 2px 10px}
-.qk-card{background:#fff3d6;border:3px solid #e8cfa8;border-radius:18px;padding:18px 16px;font-size:clamp(1.3rem,4.6vw,1.75rem);font-weight:800;line-height:1.35;text-align:center;margin-bottom:16px;color:#2b1b0d}
-.qk-card .qk-sub{display:block;font-size:.72em;font-weight:700;color:#5b3f22;margin-top:6px}
-.qk-card img{display:block;margin:0 auto 10px;max-width:100%;max-height:42vh;border-radius:12px;border:3px solid #e8cfa8;background:#efe3cc}
-.qk-credit{font-size:.75rem;font-weight:600;color:#6b5236;margin-top:4px}
-.qk-opts{display:grid;gap:12px}
+.qk{width:100%;box-sizing:border-box;max-width:44rem;margin:0 auto;color:var(--w-table-ink,#2b1b0d);position:relative}
+.qk *,.qk *::before,.qk *::after{box-sizing:border-box}
+.qk button{font-family:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.qk button:focus-visible{outline:4px solid #1d4f8f;outline-offset:3px}
+.qk svg{flex:none}
+.qk-defs{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+
+/* top strip: a slim wooden plank with the question number, the score and one pip per question */
+.qk-top{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px 12px;font-weight:800;font-size:1.05rem;line-height:1.2;color:#fff3dc;margin:0 0 20px;padding:10px 14px 12px;border-radius:14px;border:2px solid #4a2c12;background-color:#7a4d29;background-image:repeating-linear-gradient(91deg,rgba(255,236,200,.07) 0 2px,rgba(255,236,200,0) 2px 11px),linear-gradient(180deg,#8d5c34,#6c4223);box-shadow:inset 0 1px 0 rgba(255,236,200,.28),0 3px 8px rgba(50,28,8,.28)}
+.qk-num{min-width:0}
+.qk-score{justify-self:end;padding:3px 12px;border-radius:999px;background:#fff6e2;border:2px solid #4a2c12;color:var(--w-ok,#1b6e3c);font-weight:900;white-space:nowrap}
+.qk-prog{grid-column:1 / -1;display:flex;align-items:center;gap:4px;height:16px}
+.qk-pip{flex:1 1 0;min-width:3px;height:8px;border-radius:4px;background:rgba(40,20,5,.5);box-shadow:inset 0 1px 2px rgba(0,0,0,.45)}
+.qk-pip.qk-pip-done{background:#f0c869;box-shadow:inset 0 -2px 0 rgba(120,70,10,.35)}
+.qk-pip.qk-pip-now{height:16px;background:#fff6e2;box-shadow:0 0 0 2px #4a2c12}
+
+/* question card: cream paper, deckle fringe behind a clean face, soft drop shadow */
+.qk-card{position:relative;isolation:isolate;border-radius:16px;padding:26px 20px;font-size:clamp(1.3rem,4.6vw,1.75rem);font-weight:800;line-height:1.4;text-align:center;margin:0 4px 22px;color:#2b1b0d;box-shadow:0 10px 22px rgba(50,28,8,.24),0 2px 5px rgba(50,28,8,.2);overflow-wrap:break-word}
+.qk-card::before{content:"";position:absolute;inset:-5px;z-index:-1;border-radius:18px;background:#e6cf9f;filter:url(#qk-deckle)}
+.qk-card::after{content:"";position:absolute;inset:0;z-index:-1;border-radius:16px;background-color:#fff6e0;background-image:linear-gradient(180deg,#fffaf0,#fdeecb);box-shadow:inset 0 0 0 1px rgba(170,125,60,.35),inset 0 0 26px rgba(214,170,95,.28)}
+.qk-card .qk-sub{display:block;font-size:.72em;font-weight:700;color:#5b3f22;margin-top:8px}
+.qk-card img{display:block;margin:0 auto 14px;max-width:100%;max-height:42vh;border-radius:8px;border:6px solid #fffdf7;outline:1px solid #cfb181;background:#efe3cc;box-shadow:0 3px 8px rgba(50,28,8,.25)}
+.qk-credit{font-size:.8rem;font-weight:600;color:#5b4326;margin-top:6px}
+
+/* answers: four large numbered buttons, warm muted colours, a solid lower edge that presses in */
+.qk-opts{display:grid;gap:14px;counter-reset:qk-n}
 @media (min-width:640px){.qk-opts{grid-template-columns:1fr 1fr}}
-.qk-opt{min-height:64px;padding:12px 14px;border-radius:16px;border:3px solid;font-size:1.25rem;font-weight:800;color:var(--w-q-ink,#1f1406);cursor:pointer;text-align:center;line-height:1.25}
-.qk-opt:nth-child(4n+1){background:var(--w-q1,#ffe08a);border-color:var(--w-q1b,#c98a00)}
-.qk-opt:nth-child(4n+2){background:var(--w-q2,#b9f0d2);border-color:var(--w-q2b,#2f9e66)}
-.qk-opt:nth-child(4n+3){background:var(--w-q3,#cfe0ff);border-color:var(--w-q3b,#4a78c9)}
-.qk-opt:nth-child(4n+4){background:var(--w-q4,#ffd0e1);border-color:var(--w-q4b,#c2507e)}
-.qk-opt[disabled]{cursor:default;opacity:.7}
-.qk-opt.qk-ok{background:var(--w-ok,#15803d)!important;border-color:var(--w-ok,#15803d)!important;color:#fff!important;opacity:1}
-.qk-opt.qk-bad{background:var(--w-bad,#b91c1c)!important;border-color:var(--w-bad,#b91c1c)!important;color:#fff!important;opacity:1}
-.qk-opt.qk-ok::after{content:"  ✓"}.qk-opt.qk-bad::after{content:"  ✗"}
-.qk-ex{margin-top:16px;background:#fffdf7;border:3px solid #e8cfa8;border-left:8px solid var(--w-ok,#15803d);border-radius:14px;padding:14px 16px;font-size:1.15rem;line-height:1.45;color:#2b1b0d}
-.qk-ex.qk-exbad{border-left-color:var(--w-bad,#b91c1c)}
-.qk-ex b{font-size:1.2rem}
-.qk-next{display:flex;justify-content:center;margin-top:14px}
-.qk-btn{min-height:56px;min-width:160px;padding:10px 24px;border-radius:16px;border:3px solid #92400e;background:#f59e0b;color:#2a1700;font-weight:900;font-size:1.25rem;cursor:pointer}
-.qk-pick h4{font-size:1.25rem;font-weight:900;margin:6px 0 10px;text-align:center;color:#2b1b0d}
-.qk-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:16px}
-.qk-chip{min-height:52px;padding:8px 18px;border-radius:999px;border:3px solid #c9a46a;background:#fffdf7;color:#2b1b0d;font-weight:800;font-size:1.1rem;cursor:pointer}
-.qk-chip[aria-pressed="true"]{background:#2b1b0d;border-color:#2b1b0d;color:#fff6e8}
-.qk-count{text-align:center;font-weight:700;color:#5b3f22;margin:-4px 0 12px}`;
+.qk-opt{--qk-b:#8a6a3a;counter-increment:qk-n;display:flex;align-items:center;gap:12px;width:100%;min-height:64px;margin:0;padding:10px 14px;border-radius:16px;border:3px solid var(--qk-b);background-image:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0) 58%);font-size:1.25rem;font-weight:800;color:var(--w-q-ink,#1f1406);cursor:pointer;text-align:start;line-height:1.25;box-shadow:0 4px 0 var(--qk-b),0 8px 12px rgba(50,28,8,.2)}
+.qk-opt:nth-child(4n+1){background-color:var(--w-q1,#f4d68f);--qk-b:var(--w-q1b,#9c6a12)}
+.qk-opt:nth-child(4n+2){background-color:var(--w-q2,#cfe0b6);--qk-b:var(--w-q2b,#56773a)}
+.qk-opt:nth-child(4n+3){background-color:var(--w-q3,#c8d9e8);--qk-b:var(--w-q3b,#476a8c)}
+.qk-opt:nth-child(4n+4){background-color:var(--w-q4,#f0c8b9);--qk-b:var(--w-q4b,#9f5038)}
+.qk-opt::before{content:counter(qk-n);flex:none;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(255,253,246,.82);border:2px solid var(--qk-b);font-size:1.1rem;font-weight:900;line-height:1}
+.qk-lab{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.qk-mark{display:none;width:42px;height:42px;padding:6px;border-radius:50%;background:#fffdf6;fill:none;stroke:currentColor;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.qk-mark path{display:none}
+.qk-opt:not([disabled]):hover{filter:brightness(1.04)}
+.qk-opt:not([disabled]):active{transform:translateY(3px);box-shadow:0 1px 0 var(--qk-b),0 2px 4px rgba(50,28,8,.2)}
+.qk-opt[disabled]{cursor:default;opacity:.7;box-shadow:none;transform:translateY(2px)}
+.qk-opt.qk-ok,.qk-opt.qk-bad{opacity:1;transform:none;background-image:none;color:#fff!important}
+.qk-opt.qk-ok::before,.qk-opt.qk-bad::before{display:none}
+.qk-opt.qk-ok .qk-mark,.qk-opt.qk-bad .qk-mark{display:block}
+.qk-opt.qk-ok{background-color:var(--w-ok,#1b6e3c)!important;border-color:var(--w-ok,#1b6e3c)!important;box-shadow:0 0 0 4px #fff6e0,0 0 0 7px var(--w-ok,#1b6e3c),0 0 22px 8px rgba(120,170,70,.55)}
+.qk-opt.qk-ok .qk-mark{color:var(--w-ok,#1b6e3c)}
+.qk-opt.qk-ok .qk-m-ok{display:inline}
+.qk-opt.qk-bad{background-color:var(--w-bad,#a2382b)!important;border:3px dashed #fff3dc!important;box-shadow:0 0 0 3px var(--w-bad,#a2382b)}
+.qk-opt.qk-bad .qk-mark{color:var(--w-bad,#a2382b)}
+.qk-opt.qk-bad .qk-m-bad{display:inline}
+
+/* explanation: a note card pinned under the answers */
+.qk-ex{position:relative;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:start;margin:34px 4px 0;background-color:#fffaf0;background-image:linear-gradient(180deg,#fffdf7,#fbefd2);border:2px solid #dcc391;border-inline-start:10px solid var(--w-ok,#1b6e3c);border-radius:6px 14px 14px 6px;padding:22px 16px 16px;font-size:1.15rem;line-height:1.5;color:#2b1b0d;box-shadow:0 8px 16px rgba(50,28,8,.2),0 2px 4px rgba(50,28,8,.18)}
+.qk-ex.qk-exbad{border-inline-start-color:var(--w-bad,#a2382b)}
+.qk-ex b{grid-column:2;font-size:1.25rem;line-height:1.35}
+.qk-ex>div{grid-column:2}
+.qk-pin{position:absolute;top:-17px;left:50%;width:34px;height:34px;margin-left:-17px}
+.qk-exi{grid-column:1;grid-row:1 / span 2;width:36px;height:36px;margin-top:-2px;color:var(--w-ok,#1b6e3c)}
+.qk-exbad .qk-exi{color:var(--w-bad,#a2382b)}
+.qk-exi-disc{fill:currentColor}
+.qk-exi-line{fill:none;stroke:#fffdf6;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+
+/* Next / Start */
+.qk-next{display:flex;justify-content:center;margin-top:20px;padding-bottom:6px}
+.qk-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:60px;min-width:180px;padding:10px 28px;border-radius:16px;border:3px solid #7c3a0a;background-color:#f0a52b;background-image:linear-gradient(180deg,#f9c765,#e8951c);color:#2a1700;font-weight:900;font-size:1.3rem;line-height:1.2;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 5px 0 #7c3a0a,0 10px 14px rgba(50,28,8,.25)}
+.qk-btn:not([disabled]):hover{filter:brightness(1.05)}
+.qk-btn:not([disabled]):active{transform:translateY(4px);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 1px 0 #7c3a0a,0 2px 4px rgba(50,28,8,.25)}
+.qk-btn[disabled]{cursor:default;background:#d9cbb2;border:3px dashed #8a7556;color:#5b4a33;box-shadow:none}
+.qk-arr{width:20px;height:20px;fill:currentColor}
+[dir="rtl"] .qk-arr{transform:scaleX(-1)}
+.qk[dir="ltr"] .qk-arr{transform:none}
+.qk[dir="rtl"] .qk-arr{transform:scaleX(-1)}
+
+/* picker: a cream board with wooden tags */
+.qk-pick{padding:20px 14px 18px;border-radius:20px;border:2px solid #dcc391;background-color:#fff6e0;background-image:linear-gradient(180deg,#fffaf0,#fbecc8);box-shadow:0 10px 22px rgba(50,28,8,.22),0 2px 5px rgba(50,28,8,.18)}
+.qk-pick h4{display:flex;align-items:center;gap:12px;font-size:1.3rem;font-weight:900;margin:4px 0 14px;text-align:center;color:#2b1b0d;line-height:1.3}
+.qk-pick h4::before,.qk-pick h4::after{content:"";flex:1 1 0;height:2px;border-radius:2px;background:#d3b579}
+.qk-chips{display:flex;flex-wrap:wrap;gap:12px 10px;justify-content:center;margin-bottom:22px}
+.qk-chip{display:inline-flex;align-items:center;gap:10px;min-height:56px;margin:0;padding:8px 18px 8px 14px;padding-inline:14px 18px;border-radius:10px 14px 14px 10px;border:3px solid #8f6230;background-color:#e9c88f;background-image:repeating-linear-gradient(92deg,rgba(120,75,25,.09) 0 2px,rgba(120,75,25,0) 2px 9px),linear-gradient(180deg,#f3dcae,#e0bb7e);color:#2b1b0d;font-weight:800;font-size:1.15rem;line-height:1.2;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 4px 0 #8f6230,0 7px 10px rgba(50,28,8,.2)}
+.qk-chip::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;background:#5b3a17;box-shadow:inset 0 2px 2px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.5)}
+.qk-tick{display:none;width:24px;height:24px;padding:3px;border-radius:50%;background:#fff6e0;fill:none;stroke:#2b1b0d;stroke-width:3.6;stroke-linecap:round;stroke-linejoin:round}
+.qk-chip:hover{filter:brightness(1.04)}
+.qk-chip:active{transform:translateY(3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 1px 0 #8f6230}
+.qk-chip[aria-pressed="true"]{transform:translateY(3px);border-color:#3f2609;background-color:#bd8c4d;background-image:repeating-linear-gradient(92deg,rgba(70,40,10,.12) 0 2px,rgba(70,40,10,0) 2px 9px),linear-gradient(180deg,#b58445,#c6965a);color:#1f1205;font-weight:900;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;box-shadow:inset 0 4px 7px rgba(40,20,0,.5),inset 0 -1px 0 rgba(255,236,200,.35)}
+.qk-chip[aria-pressed="true"]::before{display:none}
+.qk-chip[aria-pressed="true"] .qk-tick{display:block}
+.qk-count{text-align:center;font-weight:700;font-size:1.05rem;color:#5b3f22;margin:-6px 0 4px}
+
+@media (max-width:400px){
+  .qk-card{padding:22px 14px;margin-inline:3px}
+  .qk-opt{padding:10px 12px;gap:10px}
+  .qk-chip{font-size:1.1rem;padding-inline:12px 14px}
+  .qk-ex{padding-inline:12px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .qk-opt,.qk-chip,.qk-btn{transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
+  .qk-ex{animation:qk-note .28s ease-out both}
+  @keyframes qk-note{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+@media (forced-colors:active){
+  .qk-opt.qk-ok{outline:4px solid Highlight;outline-offset:2px}
+  .qk-chip[aria-pressed="true"]{outline:3px solid Highlight;outline-offset:2px}
+}`;
     document.head.appendChild(st);
   }
 
@@ -245,13 +337,13 @@
     const cfg = cfgs[id], gs = gameState[id], l = L(); gs.phase = 'pick';
     if (!live(id)) return;
     const chips = (list, field, fn) => `<div class="qk-chips">${[['all', l.all]].concat(list).map(([k, lab]) =>
-      `<button type="button" class="qk-chip" aria-pressed="${gs.pick[field] === k}" onclick="QuizKit.setPick('${id}','${field}','${k}')">${esc(lab)}</button>`).join('')}</div>`;
+      `<button type="button" class="qk-chip" aria-pressed="${gs.pick[field] === k}" onclick="QuizKit.setPick('${id}','${field}','${k}')">${ICON.tick}${esc(lab)}</button>`).join('')}</div>`;
     const n = pool(cfg, gs.pick).length;
     el().innerHTML = `<div class="qk qk-pick">
       ${cfg.decades ? `<h4>${l.decade}</h4>${chips(cfg.decades, 'd')}` : ''}
       ${cfg.topics ? `<h4>${l.topic}</h4>${chips(cfg.topics, 't')}` : ''}
       <div class="qk-count">${l.pool(n)}</div>
-      <div class="qk-next"><button type="button" class="qk-btn" onclick="QuizKit.go('${id}')"${n ? '' : ' disabled'}>${l.start} ▶</button></div></div>`;
+      <div class="qk-next"><button type="button" class="qk-btn" onclick="QuizKit.go('${id}')"${n ? '' : ' disabled'}>${l.start}${ICON.arrow}</button></div></div>`;
   }
   function setPick(id, field, k) {
     const gs = gameState[id]; gs.pick[field] = k;
@@ -276,10 +368,12 @@
     gs.phase = 'ask'; gs._locked = false;
     const Q = gs.questions[gs.current], it = Q.it;
     const ask = cfg.ask ? cfg.ask(it) : esc(it.q);
-    el().innerHTML = `<div class="qk" dir="${currentLang === 'he' && !cfg.ltr ? 'rtl' : 'ltr'}">
-      <div class="qk-top"><span>${l.q} ${gs.current + 1}/${gs.questions.length}</span><span style="color:var(--w-ok,#15803d)">✓ ${gs.score}</span></div>
+    // one pip per question: done = filled, now = tall, to come = groove (drawn from state, nothing animates)
+    const pips = gs.questions.map((q, k) => `<i class="qk-pip${k < gs.current ? ' qk-pip-done' : k === gs.current ? ' qk-pip-now' : ''}"></i>`).join('');
+    el().innerHTML = `<div class="qk" dir="${currentLang === 'he' && !cfg.ltr ? 'rtl' : 'ltr'}">${ICON.defs}
+      <div class="qk-top"><span class="qk-num">${l.q} ${gs.current + 1}/${gs.questions.length}</span><span class="qk-score">✓ ${gs.score}</span><span class="qk-prog" aria-hidden="true">${pips}</span></div>
       <div class="qk-card">${ask}</div>
-      <div class="qk-opts">${Q.opts.map((o, i) => `<button type="button" class="qk-opt" onclick="QuizKit.answer('${id}',${i})">${esc(o)}</button>`).join('')}</div>
+      <div class="qk-opts">${Q.opts.map((o, i) => `<button type="button" class="qk-opt" onclick="QuizKit.answer('${id}',${i})"><span class="qk-lab">${esc(o)}</span>${ICON.mark}</button>`).join('')}</div>
       <div id="qk-after"></div></div>`;
   }
   function answer(id, i) {
@@ -292,8 +386,8 @@
     bs.forEach((b, k) => { b.disabled = true; if (k === Q.ans) b.classList.add('qk-ok'); else if (k === i) b.classList.add('qk-bad'); });
     const last = gs.current + 1 >= gs.questions.length;
     const ex = Q.it.x ? `<div>${esc(Q.it.x)}</div>` : '';
-    document.getElementById('qk-after').innerHTML = `<div class="qk-ex${ok ? '' : ' qk-exbad'}" role="status"><b>${ok ? l.right : l.wrong + ' ' + l.was + ' ' + esc(Q.it.a) + '.'}</b>${ex}</div>
-      <div class="qk-next"><button type="button" class="qk-btn" onclick="QuizKit.next('${id}')">${last ? l.last : l.next} ▶</button></div>`;
+    document.getElementById('qk-after').innerHTML = `<div class="qk-ex${ok ? '' : ' qk-exbad'}" role="status">${ICON.pin}${ok ? ICON.exOk : ICON.exBad}<b>${ok ? l.right : l.wrong + ' ' + l.was + ' ' + esc(Q.it.a) + '.'}</b>${ex}</div>
+      <div class="qk-next"><button type="button" class="qk-btn" onclick="QuizKit.next('${id}')">${last ? l.last : l.next}${ICON.arrow}</button></div>`;
     const nb = el().querySelector('.qk-next .qk-btn'); if (nb && nb.scrollIntoView) nb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
   function next(id) {
