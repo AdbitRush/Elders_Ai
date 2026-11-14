@@ -113,3 +113,33 @@ Getting the artifact code OUT of claude.ai is the fiddly part. What works: ONE e
 3. Get the current game file from /opt/Elders_Ai (or https://games.178-105-148-72.sslip.io/js/games/<id>.js).
 4. Run the prompt template + file through Fable (or Sonnet/Haiku if Fable is exhausted), then follow "Verification procedure per chunk" exactly.
 5. Update this file and the office results file after every chunk. Report to the main agent.
+
+---
+
+## ALL-GAMES VISUAL PLAN (2026-11-14 23:45, per Or's 22:16 strategy: plan-first, broad coverage, quota-budgeted)
+
+Full per-game classification (all 124 games, from the Nov-4 audit sheets): docs/FABLE-VISUAL-PLAN.md
+
+### Tiers
+- A (heavy overhaul, 5 remaining): adventure, crane, muncher, blocks, klondike. (wagontrail, telegraph DONE)
+- B (moderate themed pass, ~47): card/dice table family (~23), scene/story games (~24)
+- C (light polish: palette/typography/spacing/target size, ~70): everything else; batched 8-10/chunk
+
+### Shared-component passes (the leverage: half the catalog in 4 passes)
+1. CARD TABLE (bigger cards, unified table chrome, collapsible help): ~19-23 games
+2. QUIZ CHROME (themed header + button kit): ~9 games
+3. LETTER TILES/KEYBOARD: ~7 games
+4. CHESS/BOARD styling kit: ~6 games
+
+### Phases
+1. CARD TABLE shared pass (GO from Or via main 23:43)
+2. A-tier scenes: adventure, crane, muncher, blocks (1-2 games/chunk)
+3. QUIZ CHROME + LETTER TILES (2 chunks, 16 games)
+4. Scene B-tier pairs (victorygarden+namegarden, safari+foxgeese, daytown+lifesim, gemswap+bubbles, ...)
+5. C sweep batches
+
+### Quota budget
+~5% Fable allowance per heavy chunk; Phases 1-4 ~8 chunks ~40%, Phase 5 ~7 chunks ~35%; total ~75% of allowance inside the promo window (ends 16.11 11:59 PM PT), free reset expires 17.11 09:59 IST. Baseline at plan time: allowance 9%, week 21%, session 26%.
+
+### Hermes budget ($3 total cap, Or 22:20)
+$0 spent. Default code-drawn SVG/CSS everywhere. Only candidate: adventure scene art, and ONLY after Or's explicit yes on that specific spend.
