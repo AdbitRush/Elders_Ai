@@ -44,6 +44,7 @@ function _cmAnswer(id){
     if(gs._locked)return;gs._locked=true;  // one answer per round
     const isC=id===gs._answer;
     if(isC){sfxCorrect();gs._ss++;}else sfxWrong();
+    {const _c=document.querySelector('#gameContent .text-green-600');if(_c)_c.textContent='✓ '+gs._ss;}
     gs._si++;
     setTimeout(()=>_cmNext(document.getElementById('gameContent')),isC?350:800);
 }

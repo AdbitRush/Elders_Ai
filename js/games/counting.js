@@ -86,6 +86,7 @@ function _cntAnswer(btn,val){
     gs._times.push(took);
     const isC=val===gs._answer;
     if(isC){sfxCorrect();gs._ss++;gs._pts+=100+Math.round(Math.max(0,gs._secs-took))*10;}else sfxWrong();
+    {const _c=document.querySelector('#gameContent .text-green-600');if(_c)_c.textContent='✓ '+gs._ss;}
     btn.classList.replace('border-gray-200',isC?'border-green-500':'border-red-500');
     btn.classList.add(isC?'bg-green-50':'bg-red-50');
     gs._si++;

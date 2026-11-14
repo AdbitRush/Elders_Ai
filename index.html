@@ -2015,8 +2015,9 @@ function ensureGameLoaded(id) {
     const sc = document.createElement('script');
     sc.src = 'js/games/' + id + '.js?v=' + ASSET_V;
     sc.async = false;
-    sc.onload  = function () { resolve(true); };
-    sc.onerror = function () { delete _gameLoaded[id]; resolve(false); };
+    const _to = setTimeout(function () { delete _gameLoaded[id]; resolve(false); }, 15000);
+    sc.onload  = function () { clearTimeout(_to); resolve(true); };
+    sc.onerror = function () { clearTimeout(_to); delete _gameLoaded[id]; resolve(false); };
     document.head.appendChild(sc);
   });
   return _gameLoaded[id];
@@ -2103,6 +2104,7 @@ async function loadGame(gameId, level=0) {
     const adSide=_el('adSide'); if(adSide) adSide.classList.add('game-active');
     if(level===1){window.scrollTo(0,0); history.replaceState(null,'','#'+gameId);}
     const content=document.getElementById('gameContent'); content.innerHTML='';
+    {const _m=_el('modal'); if(_m) _m.classList.add('hidden');} // never carry a finished game's modal into the next game
     gameState.active=true; gameState.currentId=gameId;
     if(!gameState[gameId]||level===1) gameState[gameId]={level}; else gameState[gameId].level=level;
     if(level===1&&typeof Favorites!=='undefined') Favorites.recordPlay(gameId);
@@ -2127,6 +2129,8 @@ async function loadGame(gameId, level=0) {
         + '</div>';
       return;
     }
+    // A newer loadGame (or a return Home) may have won the race while this script loaded.
+    if (gameState.currentId !== gameId || !gameState.active) return;
     const fn = window[GAME_INIT[gameId]];
     if (typeof fn === 'function') fn(content);
 }
