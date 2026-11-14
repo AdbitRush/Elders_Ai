@@ -2104,6 +2104,7 @@ async function loadGame(gameId, level=0) {
     const adSide=_el('adSide'); if(adSide) adSide.classList.add('game-active');
     if(level===1){window.scrollTo(0,0); history.replaceState(null,'','#'+gameId);}
     const content=document.getElementById('gameContent'); content.innerHTML='';
+    {const _m=_el('modal'); if(_m) _m.classList.add('hidden');} // never carry a finished game's modal into the next game
     gameState.active=true; gameState.currentId=gameId;
     if(!gameState[gameId]||level===1) gameState[gameId]={level}; else gameState[gameId].level=level;
     if(level===1&&typeof Favorites!=='undefined') Favorites.recordPlay(gameId);
