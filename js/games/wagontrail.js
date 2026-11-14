@@ -15,6 +15,8 @@ function initWagontrail() {
             gs.diff = diff; gs.last = E ? 84 : H ? 80 : 80; gs.day = 1; gs.mi = 0; gs.food = E ? 420 : H ? 300 : 340; gs.money = E ? 120 : H ? 70 : 90; gs.parts = E ? 2 : 1; gs.health = 100; gs.wagon = 100;
             gs.stop = 0; gs.at = null; gs.over = false; gs.log = []; gs.stuck = 0;
             gs.msg = `The wagon is packed and the oxen are hitched. 1,000 miles to the valley, and the pass closes on day ${gs.last}. Choose how to spend the first day.`;
+            const sv = _wtLoad();
+            if (sv) { Object.assign(gs, sv); gs.msg = `Welcome back: your journey resumes on day ${gs.day}. Choose what to do next.`; }
         },
         view: _wtView,
         rules: (gs) => [
@@ -36,6 +38,27 @@ function initWagontrail() {
 .wt-log{font-size:.98rem;color:#57534e;margin:6px 0 0;padding-left:1.1rem}
 .wt-log li{margin:2px 0}`,
     });
+}
+// Autosave of the active journey (same try/catch localStorage pattern as the other games). Cleared when the journey ends or a new one starts.
+const _WT_KEY = 'gg_wagontrail_save';
+const _WT_FIELDS = ['diff', 'last', 'day', 'mi', 'food', 'money', 'parts', 'health', 'wagon', 'stop', 'at', 'log', 'stuck', 'waited'];
+function _wtSave(gs) {
+    try {
+        if (gs.over) return localStorage.removeItem(_WT_KEY);
+        const o = { v: 1 }; _WT_FIELDS.forEach((k) => { if (gs[k] !== undefined) o[k] = gs[k]; });
+        localStorage.setItem(_WT_KEY, JSON.stringify(o));
+    } catch (e) {}
+}
+function _wtLoad() {
+    try {
+        const o = JSON.parse(localStorage.getItem(_WT_KEY));
+        const num = (k) => typeof o[k] === 'number' && isFinite(o[k]);
+        if (!o || o.v !== 1 || !['day', 'mi', 'food', 'money', 'parts', 'health', 'wagon', 'stop', 'last', 'stuck'].every(num)) return null;
+        if (!['easy', 'normal', 'hard'].includes(o.diff) || o.stop < 0 || o.stop >= _WT_STOPS.length || o.day > o.last || o.health <= 0 || !Array.isArray(o.log)) return null;
+        if (o.at !== null && o.at !== 'river' && o.at !== 'fort') return null;
+        delete o.v;
+        return o;
+    } catch (e) { return null; }
 }
 const _wtR = (a, b) => a + Math.random() * (b - a);
 function _wtNext(gs) { return _WT_STOPS[gs.stop]; }
@@ -93,9 +116,10 @@ function _wtEnd(gs, win, said) {
     gs.over = true; gs.msg = said; NK.render('wagontrail'); if (win && typeof sfxCorrect === 'function') sfxCorrect();
     NK.finish('wagontrail', win, win ? `Arrived on day ${gs.day - 1} with ${Math.round(gs.food)} pounds of food and the family in ${gs.health > 70 ? 'good' : gs.health > 40 ? 'fair' : 'poor'} health.` : `${said} A new journey is one tap away.`);
 }
-function wtNew() { initWagontrail(); }
+function wtNew() { try { localStorage.removeItem(_WT_KEY); } catch (e) {} initWagontrail(); }
 const _WT_WAGON = '<svg viewBox="0 0 44 34" class="wt-wag" aria-hidden="true"><path d="M6 20 Q6 4 22 4 Q38 4 38 20 Z" fill="#fefce8" stroke="#78350f" stroke-width="2"/><rect x="4" y="19" width="36" height="6" rx="1" fill="#92400e"/><circle cx="11" cy="28" r="5" fill="#fef3c7" stroke="#451a03" stroke-width="2"/><circle cx="33" cy="28" r="5" fill="#fef3c7" stroke="#451a03" stroke-width="2"/></svg>';
 function _wtView(gs) {
+    _wtSave(gs);   // every state change redraws, so the view is the single point that autosaves
     const pct = (m) => 4 + m / 1000 * 92;
     const mk = _WT_STOPS.map(([m, t, n]) => `<span class="wt-mk wt-${t}" style="left:${pct(m)}%" title="${n}"></span>`).join('');
     const stat = (lab, v, low, col) => `<div class="${low ? 'wt-low' : ''}">${lab}<b>${v}</b>${col ? `<div class="wt-bar"><i style="width:${Math.max(0, Math.min(100, col[0]))}%;background:${col[1]}"></i></div>` : ''}</div>`;
