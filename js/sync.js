@@ -83,7 +83,6 @@ const Sync = (() => {
     let ach = [];
     try { ach = JSON.parse(localStorage.getItem('gg_achievements') || '[]'); } catch (e) {}
     return {
-      name:         localStorage.getItem('gg_name') || '',
       avatar:       localStorage.getItem('gg_avatar') || '⭐',
       streak:       parseInt(localStorage.getItem('gg_streak') || '0', 10),
       total_games:  parseInt(localStorage.getItem('gg_total_games') || '0', 10),
@@ -101,9 +100,7 @@ const Sync = (() => {
     if (!row || !row.id) return false;
     const num = k => parseInt(localStorage.getItem(k) || '0', 10);
 
-    // Name and avatar only fill a blank. Someone who renamed themselves on this
-    // device should not be renamed back by an older row.
-    if (row.name   && !localStorage.getItem('gg_name'))   localStorage.setItem('gg_name', row.name);
+    // Avatar only fills a blank; a current device choice wins.
     if (row.avatar && !localStorage.getItem('gg_avatar')) localStorage.setItem('gg_avatar', row.avatar);
 
     if ((row.streak      || 0) > num('gg_streak'))      localStorage.setItem('gg_streak', String(row.streak));

@@ -7,7 +7,7 @@
 // and one clear thing to do per step.
 // ═══════════════════════════════════════════════════════════════════════════════
 const Profile = (() => {
-  const K_NAME = 'gg_name', K_AV = 'gg_avatar', K_SEEN = 'gg_profile_seen';
+  const K_AV = 'gg_avatar', K_SEEN = 'gg_profile_seen';
   const AVATARS = ['⭐','🦁','🌺','🦋','🎨','🎵','🌻','🦅','🏡','🕊️','🌈','🎭'];
 
   // The site runs in six languages. The old modal spoke two, so a Greek or
@@ -32,15 +32,6 @@ const Profile = (() => {
           ph:'π.χ. Δαυίδ, Ρουθ…', avatar:'Διαλέξτε το σύμβολό σας', go:'Ας ξεκινήσουμε',
           skip:'Συνέχεια χωρίς αυτό', chosen:'επιλέχθηκε', preview:'Έτσι θα σας υποδεχόμαστε:' }
   };
-  // Times of day, in the same six languages the rest of the app speaks.
-  const GREET = {
-    he: ['בוקר טוב','צהריים טובים','ערב טוב','לילה שקט'],
-    en: ['Good morning','Good afternoon','Good evening','Good night'],
-    es: ['Buenos días','Buenas tardes','Buenas noches','Buenas noches'],
-    fr: ['Bonjour','Bon après-midi','Bonsoir','Bonne nuit'],
-    de: ['Guten Morgen','Guten Tag','Guten Abend','Gute Nacht'],
-    el: ['Καλημέρα','Καλό απόγευμα','Καλησπέρα','Καληνύχτα']
-  };
   const PROFILE_WORD = { he:'פרופיל', en:'Profile', es:'Perfil', fr:'Profil', de:'Profil', el:'Προφίλ' };
 
   function lang() {
@@ -49,40 +40,18 @@ const Profile = (() => {
   }
   function isRTL(l) { return l === 'he'; }
 
-  function get()   { return { name: localStorage.getItem(K_NAME)||'', avatar: localStorage.getItem(K_AV)||'⭐' }; }
-  function set(n,a){ localStorage.setItem(K_NAME, n.trim()); localStorage.setItem(K_AV, a); }
-  function hasName(){ return !!localStorage.getItem(K_NAME); }
-
-  function timeWord(l) {
-    const h = new Date().getHours();
-    const i = h>=5&&h<12 ? 0 : h>=12&&h<17 ? 1 : h>=17&&h<21 ? 2 : 3;
-    return (GREET[l] || GREET.en)[i];
-  }
-
-  // Spanish opens an exclamation, French puts a space before it. Hard-coding
-  // "!" gave "Buenas noches!" and "Bonne nuit!", which read as foreign.
-  function exclaim(l, phrase) {
-    if (l === 'es') return '¡' + phrase + '!';
-    if (l === 'fr') return phrase + ' !';
-    return phrase + '!';
-  }
-
-  function greeting() {
-    const l = lang();
-    const { name, avatar } = get();
-    return exclaim(l, name ? `${timeWord(l)}, ${name}` : timeWord(l))
-         + (name ? ' ' + avatar : '');
-  }
+  function get()   { return { avatar: localStorage.getItem(K_AV)||'⭐' }; }
+  function set(n,a){ localStorage.setItem(K_AV, a); }
 
   function updateGreetingEl() {
     const el = document.getElementById('greetingText');
-    if (el) el.innerText = greeting();
-    const { name, avatar } = get();
+    if (el) el.remove();
+    const { avatar } = get();
     const chip = document.getElementById('profile-chip');
     if (chip) {
       const av = chip.querySelector('.av'), nm = chip.querySelector('.nm');
       if (av) av.textContent = avatar;
-      if (nm) nm.textContent = name || PROFILE_WORD[lang()] || 'Profile';
+      if (nm) nm.textContent = PROFILE_WORD[lang()] || 'Profile';
     }
   }
 
@@ -171,65 +140,8 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
     document.head.appendChild(st);
   }
 
-  // First visit (2026-10-09): a SMALL card in the corner, shown once, that does not cover the site. It asks
-  // for the name only; the symbol picker is one tap away ("Pick a symbol"), and the full dialog below is
-  // still what the profile button opens. Marked seen as soon as it shows, so it never comes back.
-  function injectCardStyles() {
-    if (document.getElementById('profile-card-css')) return;
-    const st = document.createElement('style');
-    st.id = 'profile-card-css';
-    st.textContent = `
-.pw-card{position:fixed;z-index:450;inset-inline-end:16px;bottom:72px;width:min(360px,calc(100vw - 32px));
-  background:var(--w-card,#2f2218);color:var(--w-ink,#fff6e8);border:2px solid var(--w-accent,#f6b545);border-radius:20px;
-  padding:16px 16px 14px;box-shadow:0 18px 44px -14px rgba(0,0,0,.55);font-size:1.05rem;animation:pwIn .35s ease both}
-.pw-head{display:flex;align-items:center;gap:10px;margin:0 0 10px}
-.pw-title{flex:1;font-size:1.3rem;font-weight:800;margin:0;color:var(--w-ink,#fff6e8)}
-.pw-x{min-width:48px;min-height:48px;border-radius:12px;border:2px solid var(--w-line,#6b4f33);background:transparent;
-  color:var(--w-ink,#fff6e8);font-size:1.3rem;cursor:pointer}
-.pw-label{display:block;font-weight:700;margin:0 0 6px;color:var(--w-ink2,#f3e2c7)}
-.pw-row{display:flex;gap:8px}
-.pw-input{flex:1;min-width:0;min-height:52px;border-radius:12px;border:2px solid var(--w-line,#6b4f33);padding:0 12px;
-  font:inherit;font-size:1.15rem;background:var(--w-card2,#3a2a1d);color:var(--w-ink,#fff6e8)}
-.pw-go{min-height:52px;padding:0 16px;border:0;border-radius:12px;background:var(--w-accent,#f6b545);
-  color:var(--w-on-accent,#2a1700);font:inherit;font-weight:800;cursor:pointer}
-.pw-more{margin-top:8px;min-height:48px;background:none;border:0;padding:0 4px;font:inherit;font-weight:700;
-  color:var(--w-ink,#fff6e8);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.pw-card :focus-visible{outline:3px solid var(--w-accent,#f6b545);outline-offset:2px}
-@media (max-width:639px){.pw-card{inset-inline:12px;width:auto;bottom:64px}}
-@keyframes pwIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.pw-card{animation:none}}`;
-    document.head.appendChild(st);
-  }
-
-  function showWelcomeCard(onComplete) {
-    if (localStorage.getItem(K_SEEN) || document.querySelector('.pw-card')) { onComplete && onComplete(); return; }
-    localStorage.setItem(K_SEEN, '1');            // shown once
-    injectCardStyles();
-    const l = lang(), tx = L[l], rtl = isRTL(l);
-    const card = document.createElement('section');
-    card.className = 'pw-card';
-    card.setAttribute('role', 'region');
-    card.setAttribute('aria-labelledby', 'pw-title');
-    card.dir = rtl ? 'rtl' : 'ltr';
-    card.innerHTML = `
-      <div class="pw-head"><span aria-hidden="true" style="font-size:1.8rem;line-height:0">${typeof Icon !== 'undefined' ? Icon.ui('brain') : ''}</span>
-        <h2 class="pw-title" id="pw-title">${tx.title}</h2>
-        <button type="button" class="pw-x" id="pw-x" aria-label="${tx.skip}" title="${tx.skip}">✕</button></div>
-      <label class="pw-label" for="pw-name">${tx.name}</label>
-      <div class="pw-row"><input class="pw-input" id="pw-name" type="text" maxlength="20" autocomplete="given-name"
-          placeholder="${tx.ph}" dir="${rtl ? 'rtl' : 'ltr'}"><button type="button" class="pw-go" id="pw-go">${tx.go}</button></div>
-      <button type="button" class="pw-more" id="pw-more">${tx.avatar} →</button>`;
-    const $ = (s) => card.querySelector(s);
-    const done = () => { card.remove(); updateGreetingEl(); onComplete && onComplete(); };
-    $('#pw-go').addEventListener('click', () => { const n = $('#pw-name').value.trim(); if (n) set(n, get().avatar); done(); });
-    $('#pw-name').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#pw-go').click(); });
-    $('#pw-x').addEventListener('click', done);
-    $('#pw-more').addEventListener('click', () => { const n = $('#pw-name').value.trim(); if (n) set(n, get().avatar); card.remove(); edit(); });
-    document.body.appendChild(card);
-  }
-
   function showFirstVisitModal(onComplete, full) {
-    if (!full) return showWelcomeCard(onComplete);
+    if (!full) { onComplete && onComplete(); return; }
     if (localStorage.getItem(K_SEEN)) { onComplete && onComplete(); return; }
     injectStyles();
 
@@ -246,13 +158,7 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
     overlay.innerHTML = `
       <div class="pm-card" dir="${rtl ? 'rtl' : 'ltr'}">
         <span class="pm-mark" aria-hidden="true">🧠</span>
-        <h2 class="pm-title" id="pm-title">${tx.title}</h2>
-        <p class="pm-sub">${tx.sub}</p>
-
-        <label class="pm-label" for="pm-name" style="text-align:${rtl ? 'right' : 'left'}">${tx.name}</label>
-        <input class="pm-input" id="pm-name" type="text" maxlength="20" autocomplete="given-name"
-               placeholder="${tx.ph}" dir="${rtl ? 'rtl' : 'ltr'}"
-               style="text-align:${rtl ? 'right' : 'left'};margin-bottom:24px">
+        <h2 class="pm-title" id="pm-title">${PROFILE_WORD[l]}</h2>
 
         <p class="pm-label" id="pm-avlabel" style="text-align:${rtl ? 'right' : 'left'}">${tx.avatar}</p>
         <div class="pm-grid" role="radiogroup" aria-labelledby="pm-avlabel">
@@ -261,24 +167,12 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
               data-av="${a}" data-i="${i}" aria-label="${a} ${a === picked ? tx.chosen : ''}">${a}</button>`).join('')}
         </div>
 
-        <div class="pm-preview" aria-hidden="true">
-          <p class="pm-preview-cap">${tx.preview}</p>
-          <p class="pm-preview-line" id="pm-preview"></p>
-        </div>
-
         <button type="button" class="pm-go" id="pm-go">✅ ${tx.go}</button>
         <button type="button" class="pm-skip" id="pm-skip">${tx.skip}</button>
       </div>`;
 
     const $ = sel => overlay.querySelector(sel);
-    const nameEl = $('#pm-name'), previewEl = $('#pm-preview');
     const avButtons = Array.from(overlay.querySelectorAll('.pm-av'));
-
-    // Show the payoff while they type: the actual greeting they will get.
-    function paintPreview() {
-      const n = nameEl.value.trim();
-      previewEl.textContent = exclaim(l, n ? `${timeWord(l)}, ${n}` : timeWord(l)) + ' ' + picked;
-    }
 
     function pick(av) {
       picked = av;
@@ -288,7 +182,6 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
         b.tabIndex = on ? 0 : -1;
         b.setAttribute('aria-label', `${b.dataset.av} ${on ? tx.chosen : ''}`.trim());
       });
-      paintPreview();
     }
 
     avButtons.forEach(b => {
@@ -305,15 +198,13 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
       });
     });
 
-    nameEl.addEventListener('input', paintPreview);
-    nameEl.addEventListener('keydown', e => { if (e.key === 'Enter') save(); });
 
     function close() {
       document.removeEventListener('keydown', onKey, true);
       overlay.remove();
     }
     function save() {
-      set(nameEl.value.trim(), picked);
+      set('', picked);
       localStorage.setItem(K_SEEN, '1');
       close(); updateGreetingEl(); onComplete && onComplete();
     }
@@ -328,7 +219,7 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
     function onKey(e) {
       if (e.key === 'Escape') { e.preventDefault(); skip(); return; }
       if (e.key !== 'Tab') return;
-      const stops = [nameEl, avButtons.find(b => b.tabIndex === 0), $('#pm-go'), $('#pm-skip')].filter(Boolean);
+      const stops = [avButtons.find(b => b.tabIndex === 0), $('#pm-go'), $('#pm-skip')].filter(Boolean);
       const i = stops.indexOf(document.activeElement);
       if (i === -1) return;
       const next = e.shiftKey ? i - 1 : i + 1;
@@ -337,8 +228,7 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
     document.addEventListener('keydown', onKey, true);
 
     document.body.appendChild(overlay);
-    paintPreview();
-    setTimeout(() => nameEl.focus(), 380);
+    setTimeout(() => avButtons.find(b => b.tabIndex === 0).focus(), 380);
   }
 
   function edit() {
@@ -346,12 +236,6 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
     showFirstVisitModal(updateGreetingEl, true);
   }
 
-  // an open welcome card follows a language switch: rebuilt in the new language, the typed name kept
-  function relang() {
-    const c = document.querySelector('.pw-card'); if (!c) return;
-    const typed = (c.querySelector('#pw-name') || {}).value || '';
-    c.remove(); localStorage.removeItem(K_SEEN); showWelcomeCard();
-    const n = document.querySelector('#pw-name'); if (n) n.value = typed;
-  }
-  return { get, set, hasName, greeting, updateGreetingEl, showFirstVisitModal, edit, relang };
+  function relang() {}
+  return { get, set, updateGreetingEl, showFirstVisitModal, edit, relang };
 })();
