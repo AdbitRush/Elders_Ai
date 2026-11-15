@@ -226,7 +226,7 @@ function _klRender(container) {
     // visit, then remembered as folded; a worked example shows a legal move.
     let helpOpen = true; try { helpOpen = !localStorage.getItem('gg_kl_help_seen'); localStorage.setItem('gg_kl_help_seen', '1'); } catch (e) {}
     const ex = (lbl, suit, red) => `<span class="kl-ex-card ${red ? 'kl-red' : 'kl-black'}">${lbl}${_klCardHtml.suit(suit)}</span>`;
-    h += `<details class="kl-help"${helpOpen ? ' open' : ''}><summary>${Icon.ui('book-open')} How to play</summary>
+    h += `<details class="kl-help"${helpOpen ? ' open' : ''}><summary>${Icon.ui('book-open')} ${(typeof currentLang!=='undefined'&&currentLang==='he')?'איך משחקים':'How to play'}</summary>
       <ul>
         <li><b>Goal:</b> move all 52 cards to the four home piles at the top right, each suit from Ace up to King.</li>
         <li><b>Columns:</b> build down in <b>alternating colors</b> - a red 7 goes on a black 8, a black 6 on a red 7.</li>

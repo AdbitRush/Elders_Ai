@@ -191,7 +191,7 @@
 <link rel="stylesheet" href="css/refresh.css?v=83">
 <script src="js/lucide-icons.js?v=83"></script>
 <script src="js/icons.js?v=83"></script>
-<script src="js/game-kit.js?v=109"></script>
+<script src="js/game-kit.js?v=110"></script>
 <script src="js/nostalgia-kit.js?v=83"></script>
 <!-- Consent (2026-10-10): Google Consent Mode v2 defaults are DENIED before any other script runs; js/consent.js
      (vanilla-cookieconsent 3.1.0, self-hosted) asks once and grants ad storage only after "Accept". -->
@@ -199,6 +199,12 @@
 gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});</script>
 <link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=83">
 <link rel="stylesheet" href="css/consent.css?v=83">
+<style id="ad-slots-css">
+/* Ad slots: reserved placements, hidden until AdSense connects (2026-11-15). Flip window.ADS_ENABLED to true to show. Senior-safe: normal-flow blocks BELOW content; they never shrink or move the game area. */
+.ad-slot{display:none}
+body.ads-on .ad-slot{display:flex;align-items:center;justify-content:center;min-height:90px;margin:22px auto 0;max-width:970px;border:1px dashed #b9bdc4;border-radius:12px;background:rgba(120,130,140,.07)}
+body.ads-on .ad-slot::before{content:'Advertisement';font:600 11px/1 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#9aa0a6}
+</style>
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -1133,6 +1139,9 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
             <p style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(251,191,36,0.16);
                       font-size:0.78rem;color:rgba(180,200,255,0.62);line-height:1.6" data-i18n="why_note"></p>
         </section>
+
+    <!-- Reserved ad slot: below the games grid (hidden until AdSense) -->
+    <div class="ad-slot" data-ad-slot="home-after-grid" aria-hidden="true"></div>
 </div>
 
     <!-- Game Canvas -->
@@ -1145,6 +1154,9 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
             <div id="gameContent" class="flex flex-col items-center justify-center min-h-[400px]"></div>
         </div>
     </div>
+
+    <!-- Reserved ad slot: below the game area (hidden until AdSense) -->
+    <div class="ad-slot" data-ad-slot="game-below-area" aria-hidden="true"></div>
 </main>
 
 <footer class="bg-gray-100 border-t border-gray-200 py-5 text-center mt-auto">
@@ -1685,7 +1697,9 @@ document.head.appendChild(_confettiStyle);
   } catch (e) { /* private mode: nothing to migrate into */ }
 })();
 
-const ASSET_V = '109';
+const ASSET_V = '110';
+window.ADS_ENABLED = false; // flip to true when AdSense is connected; slots stay invisible and take no space until then
+document.addEventListener('DOMContentLoaded', function(){ if (window.ADS_ENABLED === true) document.body.classList.add('ads-on'); });
 window.GAME_IDS = ['klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes','solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs','hangman','recall','blocks','colormatch','digitspan','clock','counting','category','letters','lifesim','safari','jigsaw'];
 // The games added from 2026-10 (tools/new_games.json). Their maps, menu, i18n and skills are filled from this list.
 // gen:new-games (tools/build_new_games.py; do not edit by hand)
