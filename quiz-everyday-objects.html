@@ -165,6 +165,11 @@
   .ns-bar-fill,.ns-option{transition:none}
 
 }
+.ns-question{scroll-margin-top:210px}
+.ns-question-image{margin:0 0 1.25rem;border:1px solid var(--mp-line,#c9c4b8);background:var(--mp-paper,transparent)}
+.ns-question-image img{width:100%;height:auto;display:block}
+.ns-question-image figcaption{font:400 13px/1.5 Arial,sans-serif;padding:10px 12px;overflow-wrap:anywhere}
+.ns-question-image a{color:inherit;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -197,6 +202,7 @@
       <p class="ns-progress" id="nsProgress">Question 1 of 10</p>
       <div class="ns-bar" aria-hidden="true"><div class="ns-bar-fill" id="nsBarFill"></div></div>
       <h3 class="ns-question" id="nsQuestion" tabindex="-1"></h3>
+      <figure class="ns-question-image" id="nsQuestionFigure"><img id="nsQuestionImage" width="1200" height="800" alt=""><figcaption id="nsQuestionCredit"></figcaption></figure>
       <ul class="ns-options" id="nsOptions" aria-labelledby="nsQuestion"></ul>
       <div class="ns-feedback" id="nsFeedback" hidden>
         <p class="ns-feedback-title" id="nsFeedbackTitle"></p>
@@ -234,109 +240,106 @@
 (function(){
   var QUESTIONS = [
     {
-      "q": "What did a flour sifter help a baker do?",
-      "options": [
-        "Sift flour through a mesh screen",
-        "Measure the oven temperature",
-        "Sharpen kitchen knives"
-      ],
-      "correct": 0,
-
-      "explanation": "A flour sifter passes flour through a screen to break up lumps."
+        "q": "When you turned the handle on a hand-crank flour sifter, what moved the flour through the screen?",
+        "options": [
+            "Curved wires sweeping over the screen",
+            "A little paddle scooping flour out the top",
+            "A roller pressing flour into a flat sheet"
+        ],
+        "correct": 0,
+        "explanation": "Turning the handle moved curved wires across the mesh screen, helping the flour fall through as a fine, soft powder."
     },
     {
-      "q": "What was a transistor radio designed to let you do?",
-      "options": [
-        "Print a newspaper",
-        "Listen to radio broadcasts",
-        "Record a television show"
-      ],
-      "correct": 1,
-      "explanation": "A transistor radio is a radio receiver, often small enough to carry around."
+        "q": "What did transistors replace inside radios, letting sets shrink to pocket size?",
+        "options": [
+            "The batteries",
+            "The vacuum tubes",
+            "The loudspeaker behind the grille"
+        ],
+        "correct": 1,
+        "explanation": "Portable radios existed before, but their vacuum tubes were bulky, fragile and power-hungry. Transistors did the same job on a fraction of the power, and pocket sets like the 1954 Regency TR-1 took off."
     },
     {
-      "q": "What did you use a pencil to rewind?",
-      "options": [
-        "A cassette tape",
-        "A vinyl record",
-        "A television antenna"
-      ],
-      "correct": 0,
-      "explanation": "A pencil fitted into a cassette reel could turn it by hand."
+        "q": "When you wound a cassette tape with a pencil, which part were you turning?",
+        "options": [
+            "The little metal wheel that pulls the tape along",
+            "The rubber roller pressing the tape against it",
+            "One of the two reel hubs the tape winds around"
+        ],
+        "correct": 2,
+        "explanation": "The pencil gripped the notched hub of a spool, winding the tape neatly back onto it."
     },
     {
-      "q": "What were \u201crabbit ears\u201d on top of a television?",
-      "options": [
-        "A carrying handle",
-        "An indoor antenna",
-        "A speaker cover"
-      ],
-      "correct": 1,
-      "explanation": "The two adjustable antenna rods gave rabbit ears their nickname."
-    },
-
-    {
-      "q": "What did you turn to make a call on a rotary phone?",
-      "options": [
-        "The receiver",
-        "The base",
-        "A numbered dial"
-      ],
-      "correct": 2,
-      "explanation": "You rotated the numbered dial and let it return for each digit."
+        "q": "On a TV antenna with rabbit-ear rods and a round loop, which channels were the rods meant to receive?",
+        "options": [
+            "The higher channels, 14 and up",
+            "All channels equally; the loop was just a support",
+            "The low channels, 2 through 13"
+        ],
+        "correct": 2,
+        "explanation": "The rods received channels 2 through 13. The loop was another working antenna, for higher-numbered channels, not just a support."
     },
     {
-      "q": "What was a card catalog used for?",
-      "options": [
-        "Finding library books",
-        "Ordering groceries",
-        "Keeping score at bridge"
-      ],
-      "correct": 0,
-      "explanation": "Libraries used catalog cards to help readers find books."
+        "q": "Why did dialing a 0 take the longest on a rotary phone?",
+        "options": [
+            "It sent ten pulses - the most of any digit",
+            "It connected you to the operator first",
+            "It was reserved for emergency calls"
+        ],
+        "correct": 0,
+        "explanation": "The dial sent as many pulses as the digit dialed - one pulse for 1, seven for 7 - and 0 stood for ten pulses, so it had the furthest to travel back."
     },
     {
-      "q": "Which item would you play on a turntable?",
-      "options": [
-        "A slide",
-        "A vinyl record",
-        "An eight-track cartridge"
-      ],
-      "correct": 1,
-      "explanation": "A turntable spins a record while a stylus follows its groove."
+        "q": "In a traditional library card catalog, what were the three main alphabetical ways to find a book?",
+        "options": [
+            "Author, publisher and publication year",
+            "Title, publisher and publication year",
+            "Author, title and subject"
+        ],
+        "correct": 2,
+        "explanation": "The drawers were filled with author, title and subject cards, all filed alphabetically."
     },
     {
-      "q": "What did you put in a slide projector?",
-
-      "options": [
-        "Photographic transparencies",
-        "Recipe cards",
-        "Cassette tapes"
-      ],
-      "correct": 0,
-      "explanation": "A slide projector shines light through photographic transparencies."
+        "q": "Which speed did you choose for a standard 7-inch single with the big hole in the middle?",
+        "options": [
+            "78 rpm",
+            "45 rpm",
+            "33 1/3 rpm"
+        ],
+        "correct": 1,
+        "explanation": "The familiar big-hole single played at 45 rpm. Set the speed and enjoy your song."
     },
     {
-      "q": "What would you use a hand-cranked eggbeater for?",
-      "options": [
-        "Peeling apples",
-        "Whisking ingredients",
-        "Opening cans"
-      ],
-      "correct": 1,
-      "explanation": "Turning the handle moves the beaters to whisk eggs and other ingredients."
+        "q": "What gave the Kodak “Carousel” projector its name?",
+        "options": [
+            "Its round rotary slide tray",
+            "Its rotating color wheel",
+            "The fan that spun to cool the bulb"
+        ],
+        "correct": 0,
+        "explanation": "The slides sat in a round tray that turned each one into place, like a carousel."
     },
     {
-      "q": "Where would you usually find a drive-in movie screen?",
-      "options": [
-        "Inside a department store",
-        "At a railway station",
-        "In an outdoor theater"
-      ],
-      "correct": 2,
-      "explanation": "Drive-in movie theaters let audiences watch from their cars."
+        "q": "In a traditional hand-crank eggbeater, what carried the turning motion from the crank to the beaters?",
+        "options": [
+            "Gear teeth engaging smaller wheels",
+            "A spring winding inside the handle",
+            "A belt running around small pulleys"
+        ],
+        "correct": 0,
+        "explanation": "The crank turned a large gear whose teeth engaged smaller gears on the beaters. A few turns of the handle set the beaters spinning."
+    },
+    {
+        "q": "At a classic 1950s-60s drive-in theater, how did you hear the movie?",
+        "options": [
+            "Through your car radio, tuned to the theater's own FM station",
+            "Through a speaker you hung on your car window",
+            "Through a speaker clipped to your sun visor"
+        ],
+        "correct": 1,
+        "explanation": "Each parking post carried a detachable wired speaker that hooked over a half-open window; broadcasting the soundtrack to car radios only came years later."
     }
-  ];
+];
 
   var BEST_KEY = "gg_quiz_objects_best";
   var LETTERS = ["A", "B", "C", "D"];
@@ -380,6 +383,7 @@
     window.setTimeout(function(){ elStatus.textContent = text; }, 50);
   }
 
+  var QUESTION_IMAGES = [{"file": "q01-sifter.webp", "src": "images/dod/quiz-objects/q01-sifter.webp", "credit": "\"Flour Sifter\" (c. 1937) by Arthur Wegg, Index of American Design, National Gallery of Art, CC0, via Wikimedia Commons. Changes: cropped and resized from the original.", "source": "https://commons.wikimedia.org/wiki/File:Arthur_Wegg,_Flour_Sifter,_c._1937,_NGA_22402.jpg", "label": "Period illustration: Arthur Wegg, Flour Sifter, circa 1937.", "sha256": "9575bdfe3df702932de40f2c25e99db98703659665568a8da70d762d0dd4fc07"}, {"file": "q02-transistor.webp", "src": "images/dod/quiz-objects/q02-transistor.webp", "credit": "\"Vintage Coronet 2-Transistor Boy's Radio, Circa 1960s\" by Joe Haupt, CC BY-SA 2.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by-sa/2.0/ Changes: cropped and resized from the original.", "source": "https://commons.wikimedia.org/wiki/File:Vintage_Coronet_2-Transistor_Boy%27s_Radio,_No_Model_Number,_Made_in_Japan,_Circa_1960s_(10072642174).jpg", "label": "", "sha256": "ee6781ac9456ae7a3f0f4703ec6ddf8d955c0cb1d32b8822c6a2cbb6f3435459"}, {"file": "q03-cassette.webp", "src": "images/dod/quiz-objects/q03-cassette.webp", "credit": "\"TDK SA90 Compact Cassette\" by Thegreenj, CC BY-SA 3.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by-sa/3.0/ Changes: cropped and resized from the original.", "source": "https://commons.wikimedia.org/wiki/File:Compactcassette.jpg", "label": "", "sha256": "3190206de263d2120b3e8408aaa237881938a2c915201fc4365a118d31cd518a"}, {"file": "q04-rabbitears.webp", "src": "images/dod/quiz-objects/q04-rabbitears.webp", "credit": "\"Old rabbit ears\" by Daniel Christensen, CC BY 3.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by/3.0/ Changes: cropped and resized from the original.", "source": "https://commons.wikimedia.org/wiki/File:Old_rabbit_ears.jpg", "label": "", "sha256": "34cf7848a1dd3d5fe84e5814043afa83daecefe38129595a119bec7703fef26e"}, {"file": "q05-rotary.webp", "src": "images/dod/quiz-objects/q05-rotary.webp", "credit": "\"Rotary dial telephone\" by Maksym Kozlenko, CC BY-SA 4.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by-sa/4.0/ Changes: cropped and resized from the original.", "source": "https://commons.wikimedia.org/wiki/File:Rotary_dial_telephone.jpg", "label": "", "sha256": "9350a0b739f066cd7ffb9e0795b1075add069d357f36330c2c8abe67c4b63e51"}, {"file": "q06-cardcatalog.webp", "src": "images/dod/quiz-objects/q06-cardcatalog.webp", "credit": "\"Card catalog at the Indiana State Library\" by TBurmeister (WMF), CC BY-SA 4.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by-sa/4.0/ Changes: cropped and resized from the original.", "source": "https://commons.wikimedia.org/wiki/File:Card_catalog_at_the_Indiana_State_Library_-_interior_view_of_catalog_cards.jpg", "label": "", "sha256": "1b235fb653d05f2913627fb8a1ea003b5770aa6268b8913533e168337b866479"}, {"file": "q07-turntable.webp", "src": "images/dod/quiz-objects/q07-turntable.webp", "credit": "\"Dual 1010V record player\" by Hannes Grobe, CC BY 3.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by/3.0/ Changes: cropped and resized from the original.", "source": "https://commons.wikimedia.org/wiki/File:Plattenspieler_dual-1010V_hg.jpg", "label": "", "sha256": "25f5777d8f030a36ff0e3cf49ded12db8717ae9065313633add39b2f8afd4238"}, {"file": "q08-slideproj.webp", "src": "images/dod/quiz-objects/q08-slideproj.webp", "credit": "\"Kodak Carousel 4400 slide projector with 140-slide tray\" by Steve Morgan, CC BY-SA 4.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by-sa/4.0/ Changes: cropped and resized from the original.", "source": "https://commons.wikimedia.org/wiki/File:Kodak_Carousel_4400_projector_with_140-slide_tray.jpg", "label": "", "sha256": "a301d311a86f38a90456f5974324a0ccafe79d3f768071cb6a4b3a4451bd600e"}, {"file": "q09-eggbeater.webp", "src": "images/dod/quiz-objects/q09-eggbeater.webp", "credit": "\"Vintage mixer\" by Levi Szekeres, public domain, via Wikimedia Commons. Changes: cropped and resized from the original.", "source": "https://commons.wikimedia.org/wiki/File:VintageMixer.jpg", "label": "", "sha256": "6b34bd68436b7e6bb7cf811b40b45e8d0a9a2cc877066645b8e3dac6f5dbcf51"}, {"file": "q10-drivein.webp", "src": "images/dod/quiz-objects/q10-drivein.webp", "credit": "Airport Drive-In advertisement, The Morning Call (Allentown, PA), 7 July 1951 - public domain (published in the US without copyright notice), via Wikimedia Commons. Changes: cropped and resized from the original.", "source": "https://commons.wikimedia.org/wiki/File:1951_-_Airport_Drive-In_-_7_Jul_MC_-_Allentown_PA.jpg", "label": "Period newspaper advertisement: Airport Drive-In, 7 July 1951.", "sha256": "1891fcaafa9d764748e4e82c78908f0f8f692121bfd2d4474ce5db60e4c40632"}];
   function renderQuestion(focusHeading){
     var item = QUESTIONS[index];
     answered = false;
@@ -387,6 +391,17 @@
     elProgress.textContent = "Question " + (index + 1) + " of " + QUESTIONS.length;
     elBar.style.width = (index / QUESTIONS.length * 100) + "%";
     elQuestion.textContent = item.q;
+    var media = QUESTION_IMAGES[index];
+    var image = document.getElementById('nsQuestionImage');
+    image.src = media.src;
+    image.alt = media.label || media.credit.split(' by ')[0];
+    var caption = document.getElementById('nsQuestionCredit');
+    caption.textContent = '';
+    if(media.label){var label = document.createElement('strong');label.textContent=media.label;caption.appendChild(label);caption.appendChild(document.createElement('br'));}
+    var source = document.createElement('a');source.href=media.source;var licenseMatch = media.credit.match(/https:\/\/creativecommons\.org\/licenses\/[^ ]+/);
+    source.textContent=licenseMatch ? media.credit.slice(0,licenseMatch.index) : media.credit;caption.appendChild(source);
+    if(licenseMatch){var license=document.createElement('a');license.href=licenseMatch[0];license.textContent=licenseMatch[0];caption.appendChild(license);caption.appendChild(document.createTextNode(media.credit.slice(licenseMatch.index+licenseMatch[0].length)));}
+
 
     elOptions.innerHTML = "";
     item.options.forEach(function(text, i){
