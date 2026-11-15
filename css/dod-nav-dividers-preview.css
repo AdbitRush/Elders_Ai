@@ -1,0 +1,9 @@
+/* Preview only: clear separators between magazine navigation cells. */
+html:root:not(#dod) .dod-tabs-in>.dod-tab{border-inline-end:1px solid var(--dod-gold);box-sizing:border-box}
+html:root:not(#dod) .dod-tabs-in>.dod-tab:last-child{border-inline-end:0}
+@media(max-width:640px){
+ html:root:not(#dod) .dod-tabs-in{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+ html:root:not(#dod) .dod-tabs-in>.dod-tab{width:100%;min-width:0}
+ html:root:not(#dod) .dod-tabs-in>.dod-tab:nth-child(3n){border-inline-end:0}
+ html:root:not(#dod) .dod-tabs-in>.dod-tab:nth-child(n+4){border-top:1px solid var(--dod-gold)}
+}
