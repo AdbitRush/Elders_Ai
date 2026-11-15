@@ -90,6 +90,10 @@
     language: { default: lang, rtl: ['he'], translations },
     onConsent: applyAds,
     onChange: applyAds,
+  }).then(function () {
+    const root = document.getElementById('cc-main');
+    if (root) document.body.prepend(root);
+    if (document.documentElement.classList.contains('show--consent')) window.scrollTo(0, 0);
   });
 
   // follow the site's language switch

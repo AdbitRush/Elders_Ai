@@ -35,3 +35,10 @@ html[data-theme="dark"] #cc-main{ --cc-bg:#2a1c12; --cc-primary-color:#fff6e8; -
   #cc-main .cm__btn[data-role="show"]{ grid-column:1 / -1; }
   #cc-main .cm__btn[data-role="all"]{ grid-column:1; } #cc-main .cm__btn[data-role="necessary"]{ grid-column:2; }
 }
+
+/* Owner fix 2026-11-15: first-visit consent is in document flow above content.
+   Preferences remain an explicit modal; consent categories and choices are unchanged. */
+html body #cc-main{position:relative!important;inset:auto!important;width:100%;z-index:auto!important;}
+html body #cc-main .cm{position:relative!important;inset:auto!important;margin:0!important;max-height:none!important;width:100%!important;max-width:none!important;transform:none!important;transition:none!important;}
+html:not(.show--consent) #cc-main .cm{display:none!important;}
+html.show--consent #cc-main .cm{display:block!important;}
