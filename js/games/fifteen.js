@@ -3,6 +3,8 @@
 // Tap a tile in the same row or column as the gap and it slides (with the tiles between). Arrow keys work too.
 // Easy = 3x3 (8-puzzle), normal and hard = 4x4 (hard is shuffled longer). Always solvable: shuffled by real moves.
 // Solving ends the game ("Well Done!" with the move count); there is no way to lose, only to give up (= "Nice try").
+// Presentation (2026-11 visual pass): a wooden sliding-tile box - walnut frame, felt-lined tray, wooden number blocks
+// with engraved numerals, a lift cue on the tiles that can slide, a walnut moves plaque, a warm glow on the win.
 // ═══════════════════════════════════════════════════════════════════════════════
 function initFifteen(container) {
     const gs = gameState.fifteen;
@@ -45,21 +47,50 @@ function ftGiveUp() { const gs = gameState.fifteen; if (gs.over) return; gs.over
 function _ftRender() {
     const gs = gameState.fifteen, el = document.getElementById('gameContent');
     if (!el || gameState.currentId !== 'fifteen') return;
-    const tiles = gs.t.map((v, i) => v ? `<button type="button" class="ft-t${v === i + 1 ? ' ft-ok' : ''}" onclick="ftTap(${i})" aria-label="tile ${v}">${v}</button>` : '<div class="ft-gap" aria-label="gap"></div>').join('');
-    el.innerHTML = `<div class="ft" dir="ltr">
+    const n = gs.n, g = gs.t.indexOf(0), gr = Math.floor(g / n), gc = g % n;
+    // View-only memory (gs._v), written and read here alone; the game logic never looks at it.
+    //   t, m = the board and move count at the last paint, so the tiles that just moved can slide in from where they were
+    //   w    = the move count at the last paint while still playing: a finish that adds a move is a real solve (warm
+    //          celebration), a finish that does not is "Give up" (the finished board, shown calmly)
+    const pv = gs._v;
+    const slid = !!pv && pv.t.length === gs.t.length && gs.moves === pv.m + 1;
+    const won = gs.over && !!pv && gs.moves > pv.w;
+    gs._v = { t: gs.t.slice(), m: gs.moves, w: gs.over ? (pv ? pv.w : gs.moves) : gs.moves };
+    const tiles = gs.t.map((v, i) => {
+        if (!v) return '<div class="ft-gap" aria-label="gap"></div>';
+        const r = Math.floor(i / n), c = i % n, mv = !gs.over && (r === gr || c === gc);
+        let sl = '';
+        if (slid) { const pi = pv.t.indexOf(v); if (pi !== i) sl = ` style="--dx:${(pi % n) - c};--dy:${Math.floor(pi / n) - r}"`; }
+        return `<button type="button" class="ft-t${v === i + 1 ? ' ft-ok' : ''}${mv ? ' ft-mv' : ''}${sl ? ' ft-sl' : ''}" onclick="ftTap(${i})" aria-label="tile ${v}"${sl}>${v}</button>`;
+    }).join('');
+    el.innerHTML = `<div class="ft${gs.over ? ' ft-over' : ''}${won ? ' ft-won' : ''}" dir="ltr">
       <div class="g2-top"><span>Moves: <b>${gs.moves}</b></span><span>Goal: 1 to ${gs.t.length - 1} in order</span></div>
-      <div class="ft-board" style="grid-template-columns:repeat(${gs.n},1fr)">${tiles}</div>
+      <div class="ft-box"><div class="ft-board" style="grid-template-columns:repeat(${gs.n},1fr)">${tiles}</div></div>
       <div class="cw-msg" role="status">${gs.msg || 'Tap a tile next to the gap - or further along the same row or column.'}</div>
       <div class="gk-btns">${GameKit.btn('Give up', 'ftGiveUp()')}</div>
     </div>
     <style>
       .ft{width:100%;box-sizing:border-box;max-width:26rem;margin:0 auto;color:#2b1b0d}
-      .g2-top{display:flex;justify-content:space-between;font-size:1.15rem;margin-bottom:8px;gap:8px}
-      .ft-board{display:grid;gap:6px;background:#6b4220;padding:8px;border-radius:14px}
-      .ft-t{aspect-ratio:1;border-radius:10px;border:0;background:linear-gradient(#fff7e6,#f0d9b0);box-shadow:inset 0 -5px 0 rgba(0,0,0,.18);font:900 clamp(1.8rem,9vw,2.8rem)/1 Georgia,serif;color:#2b1b0d;cursor:pointer;min-width:0}
-      .ft-t.ft-ok{background:linear-gradient(#e6f7e6,#bfe3bf)}
-      .ft-gap{aspect-ratio:1}
+      .ft .g2-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;font-size:1.15rem;font-weight:700;margin-bottom:10px;gap:8px}
+      .ft .g2-top span:first-child{display:inline-flex;align-items:baseline;gap:.4em;padding:7px 14px;border-radius:10px;color:#fff4dc;text-shadow:0 -1px 0 rgba(40,20,5,.6);background:repeating-linear-gradient(93deg,rgba(0,0,0,0) 0 9px,rgba(0,0,0,.09) 9px 10px,rgba(0,0,0,0) 10px 17px,rgba(255,220,170,.06) 17px 19px),linear-gradient(180deg,#7d4c23 0%,#5a3415 100%);box-shadow:inset 0 1px 0 rgba(255,220,170,.4),inset 0 -2px 0 rgba(0,0,0,.3),0 2px 4px rgba(60,30,8,.3)}
+      .ft .g2-top span:first-child b{font-size:1.35rem;font-weight:900;color:#ffe2a6}
+      .ft-box{box-sizing:border-box;padding:clamp(10px,3.2vw,14px);border-radius:20px;background:repeating-linear-gradient(94deg,rgba(40,18,4,0) 0 11px,rgba(40,18,4,.16) 11px 12px,rgba(40,18,4,0) 12px 27px,rgba(255,220,170,.08) 27px 29px,rgba(40,18,4,0) 29px 41px,rgba(40,18,4,.1) 41px 43px),linear-gradient(150deg,#96622f 0%,#7a4a22 45%,#5c3615 100%);box-shadow:inset 0 2px 0 rgba(255,225,180,.4),inset 0 -4px 0 rgba(0,0,0,.35),0 12px 18px -8px rgba(60,30,8,.55)}
+      .ft-board{display:grid;gap:6px;padding:8px;border-radius:12px;background:radial-gradient(rgba(255,255,255,.06) 1px,rgba(255,255,255,0) 1.3px) 0 0/5px 5px,radial-gradient(rgba(0,0,0,.18) 1px,rgba(0,0,0,0) 1.3px) 2px 3px/5px 5px,#25352b;box-shadow:inset 0 5px 9px rgba(0,0,0,.65),inset 0 0 0 2px rgba(0,0,0,.4),0 1px 0 rgba(255,225,180,.35)}
+      .ft-t{position:relative;aspect-ratio:1;min-width:0;margin:0;padding:0;border:0;border-radius:10px;cursor:default;-webkit-tap-highlight-color:transparent;font:900 clamp(1.8rem,9vw,2.8rem)/1 Georgia,serif;color:#3a2208;text-shadow:0 1px 0 rgba(255,246,222,.75),0 -1px 0 rgba(60,30,5,.35);background:repeating-linear-gradient(92deg,rgba(120,70,20,0) 0 7px,rgba(120,70,20,.11) 7px 8px,rgba(120,70,20,0) 8px 13px,rgba(120,70,20,.07) 13px 15px,rgba(120,70,20,0) 15px 24px,rgba(255,250,235,.16) 24px 26px),radial-gradient(120% 70% at 30% 15%,rgba(255,255,255,.38),rgba(255,255,255,0) 60%),linear-gradient(180deg,#f6dfae 0%,#e9c98c 55%,#d8ae69 100%);box-shadow:inset 0 2px 0 rgba(255,250,235,.7),inset 0 -5px 0 rgba(95,55,15,.38),inset 0 0 0 1px rgba(95,55,15,.3),0 2px 3px rgba(0,0,0,.5);transition:transform .12s ease-out,box-shadow .12s ease-out}
+      .ft-t.ft-ok{background:repeating-linear-gradient(92deg,rgba(70,90,20,0) 0 7px,rgba(70,90,20,.11) 7px 8px,rgba(70,90,20,0) 8px 13px,rgba(70,90,20,.07) 13px 15px,rgba(70,90,20,0) 15px 24px,rgba(255,255,240,.16) 24px 26px),radial-gradient(120% 70% at 30% 15%,rgba(255,255,255,.38),rgba(255,255,255,0) 60%),linear-gradient(180deg,#e9efcb 0%,#d3dea4 55%,#b9c97f 100%)}
+      .ft-t.ft-ok::after{content:"";position:absolute;top:9%;right:9%;width:12%;height:12%;min-width:7px;min-height:7px;border-radius:50%;background:#2f6b2a;box-shadow:inset 0 1px 1px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.6)}
+      .ft-t.ft-mv{cursor:pointer;box-shadow:inset 0 2px 0 rgba(255,250,235,.7),inset 0 -5px 0 rgba(95,55,15,.38),inset 0 0 0 1px rgba(95,55,15,.3),0 0 0 2px rgba(255,214,130,.85),0 4px 6px rgba(0,0,0,.55)}
+      @media (hover:hover){.ft-t.ft-mv:hover{transform:translateY(-3px);box-shadow:inset 0 2px 0 rgba(255,250,235,.7),inset 0 -5px 0 rgba(95,55,15,.38),inset 0 0 0 1px rgba(95,55,15,.3),0 0 0 3px rgba(255,214,130,1),0 8px 10px rgba(0,0,0,.55)}}
+      .ft-t.ft-mv:active{transform:translateY(1px)}
+      .ft-t:focus-visible{outline:3px solid #fff;outline-offset:1px;box-shadow:0 0 0 6px #1d4ed8}
+      .ft-t.ft-sl{animation:ft-slide .16s ease-out}
+      .ft-gap{aspect-ratio:1;min-width:0;border-radius:10px;background:rgba(0,0,0,.22);box-shadow:inset 0 4px 9px rgba(0,0,0,.6),inset 0 -1px 0 rgba(255,255,255,.06)}
+      .ft-won .ft-box{animation:ft-glow 2.4s ease-in-out infinite alternate}
+      .ft-won .ft-t,.ft-won .ft-t.ft-ok{background:repeating-linear-gradient(92deg,rgba(130,80,10,0) 0 7px,rgba(130,80,10,.11) 7px 8px,rgba(130,80,10,0) 8px 13px,rgba(130,80,10,.07) 13px 15px,rgba(130,80,10,0) 15px 24px,rgba(255,255,240,.18) 24px 26px),radial-gradient(120% 70% at 30% 15%,rgba(255,255,255,.45),rgba(255,255,255,0) 60%),linear-gradient(180deg,#fdeab0 0%,#f6cf74 55%,#e6b24a 100%)}
       .ft .gk-btn{border-color:#c9a46a}
-      .cw-msg{text-align:center;font-weight:700;margin:10px 0;min-height:1.5em}
+      .ft .cw-msg{text-align:center;font-weight:700;font-size:1.05rem;margin:12px 0 10px;min-height:1.5em}
+      @keyframes ft-slide{from{transform:translate(calc(var(--dx,0)*(100% + 6px)),calc(var(--dy,0)*(100% + 6px)))}to{transform:none}}
+      @keyframes ft-glow{from{box-shadow:inset 0 2px 0 rgba(255,225,180,.4),inset 0 -4px 0 rgba(0,0,0,.35),0 0 0 3px rgba(245,180,60,.4),0 0 14px rgba(245,170,50,.35)}to{box-shadow:inset 0 2px 0 rgba(255,225,180,.4),inset 0 -4px 0 rgba(0,0,0,.35),0 0 0 5px rgba(245,180,60,.7),0 0 36px rgba(245,170,50,.7)}}
+      @media (prefers-reduced-motion:reduce){.ft-t{transition:none}.ft-t.ft-sl{animation:none}.ft-t.ft-mv:hover,.ft-t.ft-mv:active{transform:none}.ft-won .ft-box{animation:none;box-shadow:inset 0 2px 0 rgba(255,225,180,.4),inset 0 -4px 0 rgba(0,0,0,.35),0 0 0 4px rgba(245,180,60,.6),0 0 24px rgba(245,170,50,.5)}}
     </style>`;
 }
