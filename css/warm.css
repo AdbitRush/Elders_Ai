@@ -511,3 +511,8 @@ html[data-game="salvo"] #gameView > div > div:first-child{ background:linear-gra
 #hub-nav .hn-clear{ min-height:56px; padding:8px 18px; border-radius:14px; border:2px solid var(--w-line); background:var(--w-card); color:var(--w-ink); font-weight:800; font-size:1.05rem; cursor:pointer; }
 #hub-nav .hn-count{ margin:6px 2px 0; font-weight:700; font-size:1.05rem; color:var(--w-ink); opacity:.85; }
 .hn-empty{ font-size:1.2rem; font-weight:700; text-align:center; padding:24px 8px; }
+
+/* 2026-11-15: the dismissible notice belongs to document flow, not over content.
+   A taller translated notice or text-size setting now pushes later content down. */
+html body #adBar{position:relative!important;inset:auto!important;height:auto!important;min-height:52px;box-sizing:border-box;transform:none!important;transition:none!important;z-index:auto!important;flex-shrink:0;}
+html body #adBar.closed{display:none!important;}
