@@ -3,6 +3,8 @@
 // The first square you open is always safe (and opens an area). Numbers count the mines in the 8 squares around.
 // Big squares; a "Flag" switch (no long-press needed) marks a suspected mine. Easy 8x8/8, normal 9x9/10, hard 10x10/16.
 // Open every safe square = "Well Done!"; opening a mine shows the field and ends it as "Nice try".
+// Visuals (2026-11): a garden — checkered grass squares, warm sand where opened, red garden flags and
+// pebble mines drawn in inline SVG, picket fence, win glow / loss mute. Presentation only; logic untouched.
 // ═══════════════════════════════════════════════════════════════════════════════
 function initMinesweeper(container) {
     const gs = gameState.minesweeper;
@@ -48,35 +50,71 @@ function _msLeft() { const gs = gameState.minesweeper; let k = 0; for (let r = 0
 function _msRender() {
     const gs = gameState.minesweeper, el = document.getElementById('gameContent');
     if (!el || gameState.currentId !== 'minesweeper') return;
-    const COL = ['', '#1d4ed8', '#15803d', '#b91c1c', '#6d28d9', '#9a3412', '#0e7490', '#1d1b18', '#57534e'];
+    // classic number colours, darkened where needed to stay bold on sand
+    const COL = ['', '#1d4ed8', '#14632f', '#b91c1c', '#6d28d9', '#9a3412', '#0b5a70', '#1d1b18', '#57534e'];
+    // inline art (no external assets): garden flag, pebble mine, little spade
+    const FLAG = (cls) => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="9" cy="21" rx="5.5" ry="1.8" fill="#6b4a2a"/><path d="M8.5 3.6V21" stroke="#4a2f14" stroke-width="2.2" stroke-linecap="round"/><path d="M9.6 4.2 20.5 8.4 9.6 12.8Z" fill="#d42a1f" stroke="#8f1510" stroke-width="1.3" stroke-linejoin="round"/></svg>`;
+    const PEB = (cls) => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="12" cy="19.6" rx="8" ry="2.1" fill="rgba(40,25,10,.3)"/><ellipse cx="12" cy="12.4" rx="8.6" ry="7.4" fill="#59524c" stroke="#2c2723" stroke-width="1.3"/><ellipse cx="9" cy="9.4" rx="3.3" ry="1.9" fill="#aaa298" opacity=".85"/><circle cx="15.6" cy="14.6" r="1" fill="#3a342f"/><circle cx="12.4" cy="16.4" r=".7" fill="#3a342f"/></svg>`;
+    const SPADE = `<svg class="ms-ui" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3.2h6M12 3.2V12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M7.4 11.6h9.2v3.6c0 2.8-2.3 4.8-4.6 5.9-2.3-1.1-4.6-3.1-4.6-5.9Z" fill="currentColor"/></svg>`;
     let cells = '', flags = 0;
     for (let r = 0; r < gs.n; r++) for (let c = 0; c < gs.n; c++) {
         if (gs.flag[r][c]) flags++;
         const o = gs.open[r][c], mine = gs.over && gs.mine && gs.mine[r][c], k = o ? _msNear(r, c) : 0;
         const boom = gs.boom && gs.boom[0] === r && gs.boom[1] === c;
-        const inner = o ? (k ? `<span style="color:${COL[k]}">${k}</span>` : '') : mine ? Icon.svg('bomb', { size: '62%', sw: 2.4, cls: 'ms-ic ms-bomb' }) : gs.flag[r][c] ? Icon.svg('flag', { size: '62%', sw: 2.6, fill: true, fillOpacity: 1, cls: 'ms-ic ms-flag' }) : '';
-        cells += `<button type="button" class="gk-cell ms-c${o ? ' ms-o' : ''}${boom ? ' ms-boom' : ''}" onclick="msTap(${r},${c})" aria-label="row ${r + 1} column ${c + 1}${o ? ', ' + k : gs.flag[r][c] ? ', flagged' : ''}">${inner}</button>`;
+        const inner = o ? (k ? `<span style="color:${COL[k]}">${k}</span>` : '') : mine ? PEB('ms-ic ms-bomb') : gs.flag[r][c] ? FLAG('ms-ic ms-flag') : '';
+        cells += `<button type="button" class="gk-cell ms-c ${(r + c) % 2 ? 'ms-b' : 'ms-a'}${o ? ' ms-o' : ''}${!o && mine ? ' ms-mine' : ''}${boom ? ' ms-boom' : ''}" onclick="msTap(${r},${c})" aria-label="row ${r + 1} column ${c + 1}${o ? ', ' + k : gs.flag[r][c] ? ', flagged' : ''}">${inner}</button>`;
     }
-    el.innerHTML = `<div class="ms" dir="ltr">
-      <div class="ms-top"><span>${Icon.ui('bomb')} ${gs.mines} mines</span><span>${Icon.ui('flag', { cls: 'lc-ui ms-flag' })} ${flags} flagged</span></div>
+    const state = (gs.over ? (gs.boom ? ' ms-lost' : ' ms-won') : '') + (gs.mode === 'flag' && !gs.over ? ' ms-flagging' : '');
+    el.innerHTML = `<div class="ms${state}" dir="ltr">
+      <div class="ms-top"><span>${PEB('ms-ui')} ${gs.mines} mines</span><span>${FLAG('ms-ui ms-flag')} ${flags} flagged</span></div>
       <div class="ms-mode" role="group" aria-label="What a tap does">
-        <button type="button" class="ms-m" aria-pressed="${gs.mode === 'open'}" onclick="msMode('open')">${Icon.ui('search')} Open</button>
-        <button type="button" class="ms-m" aria-pressed="${gs.mode === 'flag'}" onclick="msMode('flag')">${Icon.ui('flag')} Flag</button></div>
+        <button type="button" class="ms-m ms-m-open" aria-pressed="${gs.mode === 'open'}" onclick="msMode('open')">${SPADE} Open</button>
+        <button type="button" class="ms-m ms-m-flag" aria-pressed="${gs.mode === 'flag'}" onclick="msMode('flag')">${FLAG('ms-ui')} Flag</button></div>
+      <svg class="ms-fence" width="100%" height="22" aria-hidden="true" focusable="false"><defs><pattern id="ms-pk" width="18" height="22" patternUnits="userSpaceOnUse"><path d="M4 22V7.5L9 2l5 5.5V22Z" fill="#fdf6e4" stroke="#b39566" stroke-width="1.2" stroke-linejoin="round"/></pattern></defs><rect x="0" y="11" width="100%" height="4.5" fill="#eadfc4" stroke="#b39566" stroke-width="1"/><rect x="0" y="0" width="100%" height="22" fill="url(#ms-pk)"/></svg>
       <div class="ms-grid" style="grid-template-columns:repeat(${gs.n},1fr)">${cells}</div>
       <div class="cw-msg" role="status">${gs.msg || '&nbsp;'}</div>
     </div>
     <style>
       .ms{width:100%;box-sizing:border-box;max-width:34rem;margin:0 auto;color:#2b1b0d}
-      .ms-top{display:flex;justify-content:space-between;font-weight:800;font-size:1.15rem;margin-bottom:8px}
-      .ms-mode{display:flex;gap:8px;justify-content:center;margin-bottom:10px}
-      .ms-m{min-height:52px;flex:1;max-width:12rem;border-radius:14px;border:3px solid #c9a46a;background:#fffdf7;color:#2b1b0d;font-weight:900;font-size:1.15rem;cursor:pointer}
-      .ms-m[aria-pressed="true"]{background:#2b1b0d;color:#fff6e8;border-color:#2b1b0d}
-      .ms-grid{display:grid;gap:3px;background:#8a6a43;padding:4px;border-radius:10px}
-      .ms-c{aspect-ratio:1;min-width:0;border:0;border-radius:5px;background:linear-gradient(#e9d3a8,#d6b98a);box-shadow:inset 0 -3px 0 rgba(0,0,0,.18);font:900 clamp(1rem,5vw,1.5rem)/1 system-ui,sans-serif;cursor:pointer;padding:0;color:#1d1b18}
-      .ms-c.ms-o{background:#fffaf0;box-shadow:none;cursor:default}
-      .ms-c.ms-boom{background:#fca5a5}
-      .ms-ic{display:block;margin:auto}.ms-flag{color:#b91c1c}.ms-bomb{color:#1d1b18}
-      .ms-top span,.ms-m{display:inline-flex;align-items:center;justify-content:center;gap:6px}
-      .cw-msg{text-align:center;font-weight:800;margin:10px 0;min-height:1.5em}
+      .ms *{box-sizing:border-box}
+      .ms-ui{width:1.35em;height:1.35em;flex:none;display:block}
+      /* counters */
+      .ms-top{display:flex;justify-content:space-between;gap:8px;font-weight:800;font-size:1.15rem;margin-bottom:10px}
+      .ms-top span{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:6px 12px;border-radius:12px;background:#fff8e6;border:2px solid #c9a46a;box-shadow:0 2px 0 rgba(120,85,40,.25)}
+      /* Open / Flag switch — one track, the active side is filled and raised */
+      .ms-mode{display:flex;gap:4px;justify-content:center;margin:0 auto 12px;padding:4px;max-width:26rem;border-radius:18px;background:#eadcbd;border:3px solid #7a5a36;box-shadow:inset 0 2px 3px rgba(90,60,25,.3)}
+      .ms-m{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;flex:1;border-radius:12px;border:2px solid transparent;background:transparent;color:#2b1b0d;font-weight:900;font-size:1.2rem;cursor:pointer;padding:0 8px;touch-action:manipulation}
+      .ms-m[aria-pressed="true"]{color:#fff;border-color:rgba(0,0,0,.35);box-shadow:0 3px 0 rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.3)}
+      .ms-m-open[aria-pressed="true"]{background:#24552f}
+      .ms-m-flag[aria-pressed="true"]{background:#a3211a}
+      .ms-m-flag[aria-pressed="true"] path:last-child{fill:#fff;stroke:#fff}
+      .ms-m[aria-pressed="true"]::after{content:"";width:.5em;height:.9em;margin:0 0 .2em .2em;border:solid #fff;border-width:0 .2em .2em 0;transform:rotate(45deg)}
+      .ms-m:focus-visible{outline:3px solid #1d4ed8;outline-offset:2px}
+      /* garden */
+      .ms-fence{display:block;margin:0 0 -3px;position:relative;z-index:1}
+      .ms-grid{display:grid;gap:0;background:#7a5a36;padding:4px;border-radius:12px;overflow:hidden;box-shadow:0 5px 12px rgba(70,45,15,.3);transition:box-shadow .4s ease;user-select:none;-webkit-user-select:none}
+      .ms .ms-c{--g:#9ccd79;aspect-ratio:1;min-width:0;min-height:0;margin:0;padding:0;border:0;border-radius:0;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#1d1b18;touch-action:manipulation;
+        font:900 clamp(1.4rem,5.5vw,1.75rem)/1 system-ui,sans-serif;
+        background:radial-gradient(circle at 24% 30%,rgba(35,95,30,.2) 0 1.4px,transparent 2px),radial-gradient(circle at 72% 62%,rgba(35,95,30,.18) 0 1.4px,transparent 2px),radial-gradient(circle at 46% 84%,rgba(255,255,255,.22) 0 1.2px,transparent 1.8px),linear-gradient(rgba(255,255,255,.24),rgba(255,255,255,0) 55%),var(--g);
+        box-shadow:inset 0 -3px 0 rgba(30,75,20,.3),inset 0 1px 0 rgba(255,255,255,.4)}
+      .ms .ms-c.ms-b{--g:#88bd66}
+      .ms .ms-c.ms-o{--g:#f7ebcc;background:var(--g);box-shadow:inset 0 2px 3px rgba(120,85,40,.2);cursor:default}
+      .ms .ms-c.ms-o.ms-b{--g:#efdfb6}
+      .ms .ms-c.ms-mine{--g:#cfb283;background:var(--g);box-shadow:inset 0 2px 4px rgba(90,60,25,.4)}
+      .ms .ms-c.ms-mine.ms-b{--g:#c4a674}
+      .ms .ms-c.ms-boom{background:#f0a08c;box-shadow:inset 0 0 0 3px #a3211a}
+      .ms .ms-c:focus-visible{outline:3px solid #1d4ed8;outline-offset:-3px;position:relative;z-index:1}
+      @media (hover:hover){.ms:not(.ms-won):not(.ms-lost) .ms-c:not(.ms-o):hover{filter:brightness(1.08)}}
+      .ms-ic{display:block;margin:auto;width:74%;height:74%;pointer-events:none}.ms-flag{color:#b91c1c}.ms-bomb{color:#1d1b18}
+      .ms-c span{pointer-events:none}
+      /* state in the scene */
+      .ms-flagging .ms-grid{background:#a3211a;box-shadow:0 0 0 3px #a3211a,0 5px 12px rgba(70,45,15,.3)}
+      .ms-won .ms-grid{background:#e0a92a;box-shadow:0 0 0 4px #f5c84b,0 0 36px 10px rgba(245,195,70,.75);animation:msglow 1.8s ease-in-out 2}
+      .ms-won .ms-c:not(.ms-o){cursor:default}
+      @keyframes msglow{50%{box-shadow:0 0 0 4px #ffe08a,0 0 50px 16px rgba(250,208,95,.9)}}
+      .ms-lost .ms-c:not(.ms-boom){filter:saturate(.35) brightness(.96);cursor:default}
+      .ms-lost .ms-fence{filter:grayscale(.6)}
+      .ms .cw-msg{text-align:center;font-weight:800;font-size:1.1rem;margin:10px 0;min-height:1.5em}
+      @media (prefers-reduced-motion:reduce){.ms-won .ms-grid{animation:none}.ms-grid{transition:none}}
     </style>`;
 }

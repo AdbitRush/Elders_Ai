@@ -3,6 +3,8 @@
 // Big arrow buttons, swipe on the board, or the keyboard arrows. Undo one move at a time.
 // The goal grows with the level and the difficulty (easy 128 / normal 256 / hard 512 on Level 1, doubling each level
 // up to 2048). Reach it = "Well Done!"; a full board with no moves left first = "Nice try".
+// Visuals (2026-11): wooden puzzle board — framed wood tray, recessed wells, one block colour per value,
+// goal/score plaques, progress groove, win glow / loss mute. Presentation only; logic untouched.
 // ═══════════════════════════════════════════════════════════════════════════════
 function init2048(container) {
     const gs = gameState.g2048;
@@ -57,27 +59,85 @@ function g2Undo() { const gs = gameState.g2048; if (gs.over || !gs.hist.length) 
 function _g2Render() {
     const gs = gameState.g2048, el = document.getElementById('gameContent');
     if (!el || gameState.currentId !== 'g2048') return;
-    const C = { 2: '#fff3d6', 4: '#ffe2a8', 8: '#ffbf69', 16: '#ff9f43', 32: '#ff7b54', 64: '#e8553f', 128: '#f4d35e', 256: '#e9c46a', 512: '#d4a017', 1024: '#7fb069', 2048: '#2a9d8f' };
-    const tiles = gs.b.flat().map((v, i) => `<div class="g2-t${i === gs.fresh ? ' g2-new' : ''}" style="background:${v ? C[v] || '#264653' : 'rgba(255,250,240,.35)'};color:${v >= 128 ? '#fff' : '#2b1b0d'};font-size:${v >= 1024 ? 'clamp(1.2rem,6vw,2rem)' : 'clamp(1.6rem,8vw,2.6rem)'}">${v || ''}</div>`).join('');
+    // value -> [block face, block edge (darker side), number ink]. Every pair is checked for strong contrast.
+    const C = {
+        2: ['#f8eed8', '#d6c19a', '#33220f'],      // pale birch
+        4: ['#efd7a4', '#c9a868', '#33220f'],      // maple
+        8: ['#eab66c', '#bf8436', '#2e1c0a'],      // honey oak
+        16: ['#e3924a', '#b0621f', '#2a1506'],     // amber
+        32: ['#d9744a', '#a3482a', '#260f04'],     // terracotta
+        64: ['#b2412d', '#7c2617', '#fff6ea'],     // brick
+        128: ['#f2cc4d', '#bd9520', '#2e2203'],    // gold
+        256: ['#aebb68', '#7f8d3c', '#1f2606'],    // olive
+        512: ['#3f7d55', '#275a3a', '#f6fff4'],    // moss green
+        1024: ['#2f6f7e', '#1c4d59', '#f2fcff'],   // river stone teal
+        2048: ['#6b4a8a', '#48305f', '#fbf4ff'],   // plum
+    };
+    const top = Math.max(...gs.b.flat());
+    const state = gs.over ? (top >= gs.goal ? ' g2-won' : ' g2-lost') : '';
+    const pct = Math.max(0, Math.min(100, Math.round(((Math.log2(Math.max(top, 2)) - 1) / (Math.log2(gs.goal) - 1)) * 100)));
+    const tiles = gs.b.flat().map((v, i) => {
+        const fresh = i === gs.fresh ? ' g2-new' : '';
+        if (!v) return `<div class="g2-t${fresh}"></div>`;
+        const [f, e, k] = C[v] || ['#3a332d', '#1f1a16', '#fff8ea'];
+        const sz = v >= 1024 ? ' g2-s4' : v >= 128 ? ' g2-s3' : '';
+        return `<div class="g2-t g2-v${sz}${v >= 128 ? ' g2-hi' : ''}${v >= gs.goal ? ' g2-goal' : ''}${fresh}" style="--f:${f};--e:${e};--k:${k}">${v}</div>`;
+    }).join('');
+    const chev = (p) => `<svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true" focusable="false"><path d="${p}" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     const arrow = (d, s, l) => `<button type="button" class="g2-a" onclick="g2Move('${d}')" aria-label="${l}">${s}</button>`;
-    el.innerHTML = `<div class="g2" dir="ltr">
-      <div class="g2-top"><span>Goal: <b>${gs.goal}</b></span><span>Score: <b>${gs.score}</b></span></div>
-      <div class="g2-board" id="g2-board">${tiles}</div>
+    el.innerHTML = `<div class="g2${state}" dir="ltr">
+      <div class="g2-top"><span class="g2-plq">Goal: <b>${gs.goal}</b></span><span class="g2-plq">Score: <b>${gs.score}</b></span></div>
+      <div class="g2-prog" aria-hidden="true"><i style="width:${pct}%"></i></div>
+      <div class="g2-frame"><div class="g2-board" id="g2-board">${tiles}</div></div>
       <div class="cw-msg" role="status">${gs.msg || '&nbsp;'}</div>
-      <div class="g2-pad">${arrow('u', '▲', 'up')}<div class="g2-mid">${arrow('l', '◀', 'left')}${GameKit.btn('Undo', 'g2Undo()', { disabled: !gs.hist.length || gs.over })}${arrow('r', '▶', 'right')}</div>${arrow('d', '▼', 'down')}</div>
+      <div class="g2-pad">${arrow('u', chev('M5 15l7-7 7 7'), 'up')}<div class="g2-mid">${arrow('l', chev('M15 5l-7 7 7 7'), 'left')}${GameKit.btn('Undo', 'g2Undo()', { disabled: !gs.hist.length || gs.over })}${arrow('r', chev('M9 5l7 7-7 7'), 'right')}</div>${arrow('d', chev('M5 9l7 7 7-7'), 'down')}</div>
     </div>
     <style>
       .g2{width:100%;box-sizing:border-box;max-width:26rem;margin:0 auto;color:#2b1b0d}
-      .g2-top{display:flex;justify-content:space-between;font-size:1.2rem;margin-bottom:8px}
-      .g2-board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:#b08d5c;padding:8px;border-radius:14px;touch-action:none;user-select:none}
-      .g2-t{aspect-ratio:1;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-family:system-ui,sans-serif}
-      .g2-new{animation:g2pop .18s ease-out}@keyframes g2pop{from{transform:scale(.6)}to{transform:scale(1)}}
-      @media (prefers-reduced-motion:reduce){.g2-new{animation:none}}
-      .g2-pad{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:4px}
-      .g2-mid{display:flex;gap:6px;align-items:center}
-      .g2-a{width:72px;height:60px;border-radius:14px;border:3px solid #92400e;background:#f59e0b;color:#2a1700;font-size:1.6rem;font-weight:900;cursor:pointer}
+      .g2 *{box-sizing:border-box}
+      /* plaques */
+      .g2-top{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}
+      .g2-plq{flex:1;display:flex;align-items:baseline;justify-content:center;gap:8px;padding:8px 14px;border-radius:12px;font-size:1.2rem;font-weight:700;color:#fff3dc;
+        background:radial-gradient(circle at 9px 50%,#e9c98f 0 2.5px,rgba(0,0,0,.35) 3px 4px,transparent 4.5px),radial-gradient(circle at calc(100% - 9px) 50%,#e9c98f 0 2.5px,rgba(0,0,0,.35) 3px 4px,transparent 4.5px),repeating-linear-gradient(91deg,rgba(0,0,0,.07) 0 2px,transparent 2px 11px),linear-gradient(#7d5230,#5e3a1d);
+        box-shadow:inset 0 1px 0 rgba(255,225,175,.35),inset 0 -2px 0 rgba(0,0,0,.3),0 2px 4px rgba(60,35,10,.3)}
+      .g2-plq b{font-size:1.5rem;font-weight:900;color:#fff;font-variant-numeric:tabular-nums}
+      /* progress groove: biggest tile on its way to the goal */
+      .g2-prog{height:10px;border-radius:6px;background:#d9c3a0;box-shadow:inset 0 2px 3px rgba(70,40,10,.4);margin:0 4px 12px;overflow:hidden}
+      .g2-prog i{display:block;height:100%;border-radius:6px;background:linear-gradient(#f4c552,#d99a1f);transition:width .3s ease}
+      /* tray */
+      .g2-frame{padding:10px;border-radius:22px;
+        background:repeating-linear-gradient(93deg,rgba(80,45,15,.10) 0 2px,transparent 2px 9px),repeating-linear-gradient(88deg,rgba(255,235,200,.08) 0 1px,transparent 1px 17px),linear-gradient(150deg,#c79a63,#a9783f 55%,#b98950);
+        box-shadow:inset 0 2px 0 rgba(255,235,200,.55),inset 0 -3px 0 rgba(70,40,10,.35),0 6px 14px rgba(70,40,10,.32);transition:box-shadow .4s ease}
+      .g2-board{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;padding:10px;border-radius:14px;touch-action:none;user-select:none;-webkit-user-select:none;
+        background:repeating-linear-gradient(92deg,rgba(0,0,0,.08) 0 2px,transparent 2px 10px),linear-gradient(#7f5630,#6c4624);
+        box-shadow:inset 0 4px 8px rgba(30,15,0,.55),inset 0 -1px 0 rgba(255,225,175,.25)}
+      /* empty well */
+      .g2-t{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-family:system-ui,sans-serif;line-height:1;
+        font-size:clamp(1.7rem,8.5vw,2.7rem);font-variant-numeric:tabular-nums;background:rgba(40,20,5,.26);box-shadow:inset 0 3px 5px rgba(25,10,0,.45),inset 0 -1px 0 rgba(255,225,175,.18)}
+      /* block */
+      .g2-v{color:var(--k);background:linear-gradient(160deg,rgba(255,255,255,.42),rgba(255,255,255,0) 46%),linear-gradient(0deg,rgba(0,0,0,.07),rgba(0,0,0,0) 40%),var(--f);
+        box-shadow:0 4px 0 var(--e),0 7px 8px rgba(25,10,0,.38),inset 0 1px 0 rgba(255,255,255,.6);transform:translateY(-2px)}
+      .g2-s3{font-size:clamp(1.5rem,7vw,2.3rem)}
+      .g2-s4{font-size:clamp(1.4rem,6vw,1.9rem)}
+      .g2-hi{box-shadow:0 4px 0 var(--e),0 7px 8px rgba(25,10,0,.38),inset 0 1px 0 rgba(255,255,255,.6),inset 0 0 0 3px rgba(255,255,255,.32)}
+      .g2-new{animation:g2pop .22s ease-out}@keyframes g2pop{from{transform:translateY(-2px) scale(.6);opacity:.3}to{transform:translateY(-2px) scale(1);opacity:1}}
+      /* state in the scene */
+      .g2-won .g2-frame{box-shadow:inset 0 2px 0 rgba(255,235,200,.55),inset 0 -3px 0 rgba(70,40,10,.35),0 0 0 4px #f5c84b,0 0 34px 10px rgba(245,190,60,.7);animation:g2glow 1.8s ease-in-out 2}
+      .g2-won .g2-goal{box-shadow:0 4px 0 var(--e),0 0 0 4px #ffe08a,0 0 18px 6px rgba(255,215,110,.9),inset 0 1px 0 rgba(255,255,255,.6)}
+      .g2-won .g2-prog i{background:linear-gradient(#ffe08a,#f0b429)}
+      @keyframes g2glow{50%{box-shadow:inset 0 2px 0 rgba(255,235,200,.55),inset 0 -3px 0 rgba(70,40,10,.35),0 0 0 4px #ffe08a,0 0 48px 16px rgba(250,205,90,.85)}}
+      .g2-lost .g2-frame{filter:grayscale(.6) brightness(.93)}
+      .g2-lost .g2-prog{filter:grayscale(.7)}
+      /* controls */
+      .g2-pad{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:4px}
+      .g2-mid{display:flex;gap:8px;align-items:center}
+      .g2-a{width:72px;height:60px;border-radius:14px;border:2px solid #6b3f14;background:linear-gradient(#f6c477,#dd9438);color:#2a1700;font-size:1.6rem;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;
+        box-shadow:0 4px 0 #8a5318,inset 0 1px 0 rgba(255,255,255,.55);transition:transform .08s ease,box-shadow .08s ease;touch-action:manipulation}
+      .g2-a:active{transform:translateY(3px);box-shadow:0 1px 0 #8a5318,inset 0 1px 0 rgba(255,255,255,.55)}
+      .g2-a:focus-visible{outline:3px solid #1d4ed8;outline-offset:3px}
       .g2 .gk-btn{border-color:#c9a46a}
-      .cw-msg{text-align:center;font-weight:800;margin:8px 0;min-height:1.5em}
+      .g2 .cw-msg{text-align:center;font-weight:800;font-size:1.1rem;margin:10px 0 8px;min-height:1.5em}
+      @media (prefers-reduced-motion:reduce){.g2-new,.g2-won .g2-frame{animation:none}.g2-prog i,.g2-frame,.g2-a{transition:none}}
     </style>`;
     // swipe on the board
     const bd = document.getElementById('g2-board'); let sx = 0, sy = 0;
