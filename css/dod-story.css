@@ -1,0 +1,97 @@
+/* Dear Old Days - story/article pages, built from dod-theme tokens.
+   Same palette and type system as the magazine front page: white paper,
+   green Georgia headings, Arial body, rust accents. Dark mode via the
+   same data-theme attribute and dod-theme.css variables. */
+
+/* brand header -> editorial masthead look */
+header.brand{display:flex;align-items:center;justify-content:center;gap:12px;padding:22px 16px 18px;background:var(--dod-paper);border-bottom:1px solid var(--dod-line);position:relative}
+header.brand a{display:flex;align-items:center;gap:10px;text-decoration:none}
+header.brand img{width:36px;height:36px}
+header.brand span{color:var(--dod-green);font:700 clamp(1.6rem,4vw,2.2rem)/1.05 Georgia,"Times New Roman",serif;letter-spacing:-.01em}
+header.brand .theme{position:absolute;inset-inline-end:16px;top:50%;transform:translateY(-50%);background:var(--dod-paper);border:1px solid var(--dod-line);color:var(--dod-green);border-radius:8px;padding:8px 14px;font:700 14px/1 Arial,sans-serif;cursor:pointer;min-height:44px}
+header.brand .theme:hover{background:var(--dod-soft)}
+header.brand .theme:focus-visible{outline:3px solid var(--dod-green);outline-offset:2px}
+
+/* section nav -> dod tabs look */
+.mp-nav{display:flex;flex-wrap:wrap;justify-content:center;background:var(--dod-paper);border-bottom:2px solid var(--dod-green);padding:0 8px}
+.mp-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:10px 22px;color:var(--dod-green);text-decoration:none;font:700 16px/1.2 Georgia,serif;border-inline-end:1px solid var(--dod-line)}
+.mp-nav a:first-child{border-inline-start:1px solid var(--dod-line)}
+.mp-nav a:hover{background:var(--dod-soft)}
+.mp-nav a[aria-current="page"]{box-shadow:inset 0 -4px 0 var(--dod-green)}
+.mp-nav .ns-nav-pending{color:var(--dod-muted);pointer-events:none;opacity:.85;font-weight:400}
+
+/* page body */
+body{background:var(--dod-paper);color:var(--dod-ink);margin:0}
+main.wrap{max-width:740px;margin:0 auto;padding:24px 20px 48px;font:1.12rem/1.65 Arial,sans-serif}
+main.wrap p{margin:0 0 1.1em}
+.crumb a,.ns-story-links a,.back a{color:var(--dod-rust);text-decoration:none;font-weight:700}
+.crumb a:hover,.ns-story-links a:hover,.back a:hover{text-decoration:underline}
+.crumb{font-size:.95rem}
+
+.ns-eyebrow{margin:1.25rem 0 .5rem;font:700 12px/1 Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--dod-rust)}
+h1{color:var(--dod-green);font:700 clamp(1.8rem,4.5vw,2.5rem)/1.15 Georgia,"Times New Roman",serif;margin:.2em 0 .4em}
+h2{color:var(--dod-green);font:700 clamp(1.25rem,3vw,1.5rem)/1.25 Georgia,"Times New Roman",serif;margin:1.6em 0 .5em}
+.ns-standfirst{margin:.4rem 0 1.8rem;font:italic 400 1.25rem/1.55 Georgia,serif;color:var(--dod-muted)}
+
+aside.note{margin:1.8rem 0;padding:16px 18px;background:var(--dod-soft);border:1px solid var(--dod-line);border-radius:10px;font-size:1rem}
+aside.note strong{color:var(--dod-green)}
+
+/* save-this-story button -> dod outline button */
+.ns-save-wrap{margin:2rem 0 1.5rem}
+.ns-save{display:inline-flex;align-items:center;gap:.6rem;min-height:52px;padding:.8rem 1.5rem;border:2px solid var(--dod-green);border-radius:10px;background:var(--dod-paper);color:var(--dod-green);font:700 1.1rem/1 Arial,sans-serif;cursor:pointer}
+.ns-save:hover{background:var(--dod-soft)}
+.ns-save:focus-visible{outline:3px solid var(--dod-green);outline-offset:3px}
+.ns-save[aria-pressed="true"]{background:var(--dod-green);color:var(--dod-paper)}
+.ns-save-icon{font-size:1.2rem;line-height:1}
+
+.ns-story-links{margin:1.75rem 0 .75rem;font-size:1.05rem}
+.back{margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--dod-line);font-size:.95rem;color:var(--dod-muted)}
+
+/* stories listing */
+.ns-welcome{font-size:1.15rem;color:var(--dod-ink);max-width:56ch}
+.ns-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin:1rem 0 2rem}
+.ns-card{display:flex;flex-direction:column;background:var(--dod-paper);border:1px solid var(--dod-line);border-radius:12px;padding:18px;box-shadow:none}
+.ns-card:hover{border-color:var(--dod-green)}
+.ns-card .ns-eyebrow{margin-top:0}
+.ns-card-title{color:var(--dod-green);font:700 1.25rem/1.25 Georgia,serif;margin:.2em 0 .4em}
+.ns-card-intro{color:var(--dod-ink);font-size:1rem;flex:1}
+.ns-time{font:600 11px/1 Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--dod-muted);margin:.4rem 0}
+.ns-card-link{display:inline-flex;align-items:center;margin-top:.9rem;color:var(--dod-rust);font:700 1rem/1 Arial,sans-serif;text-decoration:none}
+.ns-card-link:hover{text-decoration:underline}
+.ns-card-link:focus-visible{outline:3px solid var(--dod-green);outline-offset:3px}
+.ns-quiz-card{border-style:dashed}
+.ns-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (max-width:640px){
+  header.brand span{font-size:1.5rem}
+  header.brand .theme{position:static;transform:none;margin-inline-start:auto}
+  header.brand{flex-wrap:wrap}
+  .mp-nav a{padding:10px 14px;font-size:15px}
+  main.wrap{padding:20px 16px 40px}
+}
+
+/* single-look design: the Classic/Refreshed switcher is legacy on story pages */
+fieldset:has(> .look-opts){display:none}
+
+/* masthead shell on content pages: theme button sits in the masthead corner */
+.dod-masthead{position:relative}
+.dod-masthead .theme{position:absolute;inset-inline-end:16px;top:50%;transform:translateY(-50%);background:var(--dod-paper);border:1px solid var(--dod-line);color:var(--dod-green);border-radius:8px;padding:8px 14px;font:700 14px/1 Arial,sans-serif;cursor:pointer;min-height:44px}
+.dod-masthead .theme:hover{background:var(--dod-soft)}
+.dod-masthead .theme:focus-visible{outline:3px solid var(--dod-green);outline-offset:2px}
+.dod-masthead a{text-decoration:none}
+
+/* story lead image + mandatory credit */
+figure.ns-leadimg{margin:0 0 1.6rem;border:1px solid var(--dod-line);background:var(--dod-soft)}
+figure.ns-leadimg img{width:100%;display:block;aspect-ratio:2/1;object-fit:cover}
+figure.ns-leadimg figcaption{padding:6px 10px;font:400 11px/1.4 Arial,sans-serif;color:var(--dod-muted)}
+figure.ns-leadimg figcaption a{color:var(--dod-muted);text-decoration:underline;text-underline-offset:2px}
+
+/* listing card images + credit */
+.ns-card-img{margin:-18px -18px 12px;border-bottom:1px solid var(--dod-line)}
+.ns-card-img img{width:100%;height:auto;display:block;aspect-ratio:3/2;object-fit:cover}
+.ns-card-credit{font:400 10px/1.35 Arial,sans-serif;color:var(--dod-muted);margin:0 0 8px}
+.ns-card-credit a{color:var(--dod-muted);text-decoration:underline;text-underline-offset:2px}
+
+@media (max-width:640px){
+  .dod-masthead .theme{position:static;transform:none;margin:8px auto 0}
+}

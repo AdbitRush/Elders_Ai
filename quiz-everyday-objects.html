@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Can You Name These Everyday Objects From the Past? - Dear Old Days</title>
+<meta name="description" content="A friendly 10-question nostalgia quiz about everyday objects from the past. One question at a time, no timer, and a short explanation after every answer.">
+<link rel="icon" href="images/icon.svg" type="image/svg+xml">
+<link rel="icon" href="images/icon-192.png" sizes="192x192" type="image/png">
+<script>try{if(localStorage.getItem('gg-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script>try{if(localStorage.getItem('gg-look')==='refreshed')document.documentElement.setAttribute('data-look','refreshed')}catch(e){}</script>
+<link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=77">
+<link rel="stylesheet" href="css/consent.css?v=77">
+<link rel="stylesheet" href="css/info-pages.css?v=77">
+<link rel="stylesheet" href="css/articles.css?v=77">
+<link rel="stylesheet" href="css/refresh.css?v=83">
+<link rel="stylesheet" href="css/memory-post.css?v=16">
+<style>
+.ns-quiz{
+  margin:1.75rem 0 2.25rem;
+  padding:1.5rem 1.25rem 1.75rem;
+  border:2px solid rgba(0,0,0,.15);
+  border-radius:16px;
+  background:rgba(0,0,0,.025);
+  font-size:1.2rem;
+  line-height:1.55;
+}
+[data-theme="dark"] .ns-quiz{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
+.ns-intro p{margin:0 0 1rem}
+.ns-progress{
+  margin:0 0 .5rem;
+  font-size:1.1rem;
+  font-weight:700;
+
+  letter-spacing:.01em;
+  opacity:.85;
+}
+.ns-bar{
+  height:10px;
+  margin:0 0 1.25rem;
+  border-radius:999px;
+  background:rgba(0,0,0,.1);
+  overflow:hidden;
+}
+[data-theme="dark"] .ns-bar{background:rgba(255,255,255,.15)}
+.ns-bar-fill{
+  height:100%;
+  width:0;
+  border-radius:999px;
+  background:#2f6f9f;
+  transition:width .3s ease;
+}
+[data-theme="dark"] .ns-bar-fill{background:#8cc4ee}
+.ns-question{
+  margin:0 0 1.25rem;
+  font-size:1.6rem;
+  line-height:1.35;
+}
+.ns-question:focus{outline:none}
+.ns-question:focus-visible{outline:3px solid #2f6f9f;outline-offset:4px;border-radius:4px}
+.ns-options{
+  list-style:none;
+  margin:0 0 1.25rem;
+  padding:0;
+  display:grid;
+  gap:.85rem;
+
+}
+.ns-option{
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+  width:100%;
+  min-height:64px;
+  padding:1rem 1.15rem;
+  border:2px solid rgba(0,0,0,.3);
+  border-radius:12px;
+  background:#fff;
+  color:#1a1a1a;
+  font:inherit;
+  font-size:1.25rem;
+  text-align:left;
+  cursor:pointer;
+  transition:border-color .15s ease,background-color .15s ease;
+}
+[data-theme="dark"] .ns-option{background:#1f2328;color:#f2f2f2;border-color:rgba(255,255,255,.35)}
+.ns-option:hover:not([disabled]){border-color:#2f6f9f;background:#eef5fb}
+[data-theme="dark"] .ns-option:hover:not([disabled]){border-color:#8cc4ee;background:#25303a}
+.ns-option:focus-visible{outline:3px solid #2f6f9f;outline-offset:3px}
+[data-theme="dark"] .ns-option:focus-visible{outline-color:#8cc4ee}
+.ns-option[disabled]{cursor:default}
+.ns-letter{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:2.2rem;
+  height:2.2rem;
+  border-radius:50%;
+
+  border:2px solid currentColor;
+  font-weight:700;
+  font-size:1.05rem;
+}
+.ns-text{flex:1 1 auto}
+.ns-mark{flex:0 0 auto;font-weight:700;font-size:1.05rem;white-space:nowrap}
+.ns-option.ns-is-correct{border-color:#2e7d32;background:#e8f5e9;color:#14401a}
+[data-theme="dark"] .ns-option.ns-is-correct{border-color:#81c784;background:#1d3320;color:#e6f4e7}
+.ns-option.ns-is-wrong{border-color:#a14a12;background:#fdf0e6;color:#4d2208}
+[data-theme="dark"] .ns-option.ns-is-wrong{border-color:#f0a46c;background:#3a2617;color:#fbe9dc}
+.ns-option.ns-is-other{opacity:.65}
+.ns-feedback{
+  margin:0 0 1.25rem;
+  padding:1rem 1.15rem;
+  border-left:6px solid #2f6f9f;
+  border-radius:8px;
+  background:rgba(47,111,159,.08);
+}
+.ns-feedback[hidden]{display:none}
+.ns-feedback.ns-good{border-left-color:#2e7d32;background:rgba(46,125,50,.09)}
+.ns-feedback.ns-gentle{border-left-color:#a14a12;background:rgba(161,74,18,.08)}
+[data-theme="dark"] .ns-feedback.ns-good{border-left-color:#81c784}
+[data-theme="dark"] .ns-feedback.ns-gentle{border-left-color:#f0a46c}
+.ns-feedback-title{margin:0 0 .35rem;font-weight:700;font-size:1.25rem}
+.ns-feedback-body{margin:0}
+.ns-actions{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+.ns-btn{
+  min-height:56px;
+  padding:.85rem 1.6rem;
+  border:2px solid #2f6f9f;
+  border-radius:12px;
+  background:#2f6f9f;
+
+  color:#fff;
+  font:inherit;
+  font-size:1.2rem;
+  font-weight:700;
+  cursor:pointer;
+}
+.ns-btn:hover{background:#245a82;border-color:#245a82}
+.ns-btn:focus-visible{outline:3px solid #1a1a1a;outline-offset:3px}
+[data-theme="dark"] .ns-btn{background:#8cc4ee;border-color:#8cc4ee;color:#10202c}
+[data-theme="dark"] .ns-btn:hover{background:#a9d4f3;border-color:#a9d4f3}
+[data-theme="dark"] .ns-btn:focus-visible{outline-color:#fff}
+.ns-btn[hidden]{display:none}
+.ns-result{text-align:center}
+.ns-result[hidden]{display:none}
+.ns-result-title{margin:0 0 .75rem;font-size:1.7rem}
+.ns-result-title:focus{outline:none}
+.ns-result-title:focus-visible{outline:3px solid #2f6f9f;outline-offset:4px;border-radius:4px}
+.ns-score{margin:0 0 .75rem;font-size:1.9rem;font-weight:700}
+.ns-result-msg{margin:0 0 1rem}
+.ns-best{margin:0 0 1.5rem;font-size:1.1rem;opacity:.85}
+.ns-best:empty{display:none}
+.ns-result .ns-actions{justify-content:center}
+.ns-link{font-size:1.2rem;font-weight:700}
+.ns-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (max-width:520px){
+  .ns-quiz{padding:1.15rem .9rem 1.4rem}
+  .ns-question{font-size:1.4rem}
+  .ns-option{font-size:1.15rem}
+  .ns-btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  .ns-bar-fill,.ns-option{transition:none}
+
+}
+</style>
+</head>
+<body>
+<header class="brand"><a href="./"><img src="images/logo.svg" alt="" width="48" height="48"><span>Dear Old Days</span></a>
+  <button type="button" class="theme" id="themeBtn">Dark</button></header>
+<div class="mp-nav" role="navigation" aria-label="Sections">
+  <a href="./">Games</a>
+  <a href="stories.html">Stories</a>
+  <a href="quiz-everyday-objects.html" aria-current="page">Quizzes</a>
+  <a href="decades.html">Decades</a>
+  <a href="saved-stories.html">Saved</a>
+</div>
+<main class="wrap">
+  <p class="crumb"><a href="stories.html">&larr; Stories &amp; quizzes</a></p>
+  <h1>Can You Name These Everyday Objects From the Past?</h1>
+  <p class="meta">10 questions. No timer.</p>
+  <figure style="margin:0 0 1.4rem;border:1px solid #d9cfbd;border-radius:10px;overflow:hidden">
+<img src="images/dod/objects-hero-lead.webp" alt="Illustration of vintage everyday objects: telephone, radio, camera, clock and kitchen tools" width="1600" style="width:100%;display:block" loading="eager" decoding="async">
+<figcaption style="padding:6px 10px;font:400 11px/1.4 Arial,sans-serif;opacity:.75">Illustration of vintage everyday objects. Original illustration created for Dear Old Days. Not an archival photograph.</figcaption>
+</figure>
+
+  <aside class="note" role="note"><strong>Please note:</strong> This quiz is for entertainment and a bit of friendly nostalgia. It is not a memory test or a medical assessment, and your score says nothing about your health.</aside>
+  <p>Kitchen drawers, living rooms and libraries used to be full of clever gadgets. Some are still around, and some have mostly retired. See how many you recognize.</p>
+  <p>Take as long as you like on each question. After you choose an answer, you will see a short explanation before moving on.</p>
+
+  <section class="ns-quiz" id="nsQuiz" aria-labelledby="nsQuizLabel">
+    <h2 class="ns-sr" id="nsQuizLabel">Everyday objects quiz</h2>
+
+    <div id="nsPlay">
+      <p class="ns-progress" id="nsProgress">Question 1 of 10</p>
+      <div class="ns-bar" aria-hidden="true"><div class="ns-bar-fill" id="nsBarFill"></div></div>
+      <h3 class="ns-question" id="nsQuestion" tabindex="-1"></h3>
+      <ul class="ns-options" id="nsOptions" aria-labelledby="nsQuestion"></ul>
+      <div class="ns-feedback" id="nsFeedback" hidden>
+        <p class="ns-feedback-title" id="nsFeedbackTitle"></p>
+        <p class="ns-feedback-body" id="nsFeedbackBody"></p>
+      </div>
+      <div class="ns-actions">
+        <button type="button" class="ns-btn" id="nsNext" hidden>Next question</button>
+      </div>
+    </div>
+
+    <div class="ns-result" id="nsResult" hidden>
+
+      <h3 class="ns-result-title" id="nsResultTitle" tabindex="-1">Thanks for playing!</h3>
+      <p class="ns-score" id="nsScore"></p>
+      <p class="ns-result-msg" id="nsResultMsg"></p>
+      <p class="ns-best" id="nsBest"></p>
+      <div class="ns-actions">
+        <button type="button" class="ns-btn" id="nsAgain">Play again</button>
+        <a class="ns-link" href="stories.html">&larr; Back to Stories &amp; quizzes</a>
+      </div>
+    </div>
+
+    <p class="ns-sr" id="nsStatus" aria-live="polite" aria-atomic="true"></p>
+  </section>
+
+  <p class="bottom">There is no prize and no penalty here. Whether you knew every gadget or learned something new, the point is to enjoy the trip down memory lane.</p>
+
+  <p class="back"><a href="./">&larr; Back to the games</a> &middot; <a href="articles.html">All articles</a> &middot; <a href="about.html">About</a> &middot; <a href="privacy.html">Privacy policy</a> &middot; <a href="credits.html">Photo credits</a> &middot; <a href="#" onclick="if(window.CookieConsent){CookieConsent.showPreferences();}return false">Cookie settings</a></p>
+</main>
+<script src="js/info-pages.js?v=77"></script>
+<script src="js/vendor/cookieconsent/cookieconsent.umd.js?v=77"></script>
+<script src="js/consent.js?v=77"></script>
+<script src="js/look.js?v=83"></script>
+<script>
+(function(){
+  var QUESTIONS = [
+    {
+      "q": "What did a flour sifter help a baker do?",
+      "options": [
+        "Sift flour through a mesh screen",
+        "Measure the oven temperature",
+        "Sharpen kitchen knives"
+      ],
+      "correct": 0,
+
+      "explanation": "A flour sifter passes flour through a screen to break up lumps."
+    },
+    {
+      "q": "What was a transistor radio designed to let you do?",
+      "options": [
+        "Print a newspaper",
+        "Listen to radio broadcasts",
+        "Record a television show"
+      ],
+      "correct": 1,
+      "explanation": "A transistor radio is a radio receiver, often small enough to carry around."
+    },
+    {
+      "q": "What did you use a pencil to rewind?",
+      "options": [
+        "A cassette tape",
+        "A vinyl record",
+        "A television antenna"
+      ],
+      "correct": 0,
+      "explanation": "A pencil fitted into a cassette reel could turn it by hand."
+    },
+    {
+      "q": "What were \u201crabbit ears\u201d on top of a television?",
+      "options": [
+        "A carrying handle",
+        "An indoor antenna",
+        "A speaker cover"
+      ],
+      "correct": 1,
+      "explanation": "The two adjustable antenna rods gave rabbit ears their nickname."
+    },
+
+    {
+      "q": "What did you turn to make a call on a rotary phone?",
+      "options": [
+        "The receiver",
+        "The base",
+        "A numbered dial"
+      ],
+      "correct": 2,
+      "explanation": "You rotated the numbered dial and let it return for each digit."
+    },
+    {
+      "q": "What was a card catalog used for?",
+      "options": [
+        "Finding library books",
+        "Ordering groceries",
+        "Keeping score at bridge"
+      ],
+      "correct": 0,
+      "explanation": "Libraries used catalog cards to help readers find books."
+    },
+    {
+      "q": "Which item would you play on a turntable?",
+      "options": [
+        "A slide",
+        "A vinyl record",
+        "An eight-track cartridge"
+      ],
+      "correct": 1,
+      "explanation": "A turntable spins a record while a stylus follows its groove."
+    },
+    {
+      "q": "What did you put in a slide projector?",
+
+      "options": [
+        "Photographic transparencies",
+        "Recipe cards",
+        "Cassette tapes"
+      ],
+      "correct": 0,
+      "explanation": "A slide projector shines light through photographic transparencies."
+    },
+    {
+      "q": "What would you use a hand-cranked eggbeater for?",
+      "options": [
+        "Peeling apples",
+        "Whisking ingredients",
+        "Opening cans"
+      ],
+      "correct": 1,
+      "explanation": "Turning the handle moves the beaters to whisk eggs and other ingredients."
+    },
+    {
+      "q": "Where would you usually find a drive-in movie screen?",
+      "options": [
+        "Inside a department store",
+        "At a railway station",
+        "In an outdoor theater"
+      ],
+      "correct": 2,
+      "explanation": "Drive-in movie theaters let audiences watch from their cars."
+    }
+  ];
+
+  var BEST_KEY = "gg_quiz_objects_best";
+  var LETTERS = ["A", "B", "C", "D"];
+
+  var RIGHT_TITLES = ["That's right!", "Well done!", "Exactly right!", "You got it!"];
+
+  var elPlay = document.getElementById("nsPlay");
+  var elProgress = document.getElementById("nsProgress");
+  var elBar = document.getElementById("nsBarFill");
+  var elQuestion = document.getElementById("nsQuestion");
+  var elOptions = document.getElementById("nsOptions");
+  var elFeedback = document.getElementById("nsFeedback");
+  var elFbTitle = document.getElementById("nsFeedbackTitle");
+  var elFbBody = document.getElementById("nsFeedbackBody");
+  var elNext = document.getElementById("nsNext");
+  var elResult = document.getElementById("nsResult");
+  var elResultTitle = document.getElementById("nsResultTitle");
+  var elScore = document.getElementById("nsScore");
+  var elResultMsg = document.getElementById("nsResultMsg");
+  var elBest = document.getElementById("nsBest");
+  var elAgain = document.getElementById("nsAgain");
+  var elStatus = document.getElementById("nsStatus");
+
+  var index = 0;
+  var score = 0;
+  var answered = false;
+
+  function getBest(){
+    try {
+      var v = parseInt(localStorage.getItem(BEST_KEY), 10);
+      return isNaN(v) ? null : v;
+    } catch (e) { return null; }
+  }
+  function saveBest(v){
+    try { localStorage.setItem(BEST_KEY, String(v)); } catch (e) {}
+  }
+
+
+  function announce(text){
+    elStatus.textContent = "";
+    window.setTimeout(function(){ elStatus.textContent = text; }, 50);
+  }
+
+  function renderQuestion(focusHeading){
+    var item = QUESTIONS[index];
+    answered = false;
+
+    elProgress.textContent = "Question " + (index + 1) + " of " + QUESTIONS.length;
+    elBar.style.width = (index / QUESTIONS.length * 100) + "%";
+    elQuestion.textContent = item.q;
+
+    elOptions.innerHTML = "";
+    item.options.forEach(function(text, i){
+      var li = document.createElement("li");
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "ns-option";
+      btn.setAttribute("data-index", String(i));
+
+      var letter = document.createElement("span");
+      letter.className = "ns-letter";
+      letter.setAttribute("aria-hidden", "true");
+      letter.textContent = LETTERS[i];
+
+      var label = document.createElement("span");
+      label.className = "ns-text";
+      label.textContent = text;
+
+      var mark = document.createElement("span");
+
+      mark.className = "ns-mark";
+
+      btn.appendChild(letter);
+      btn.appendChild(label);
+      btn.appendChild(mark);
+      btn.addEventListener("click", function(){ choose(i); });
+      li.appendChild(btn);
+      elOptions.appendChild(li);
+    });
+
+    elFeedback.hidden = true;
+    elFeedback.className = "ns-feedback";
+    elNext.hidden = true;
+
+    if (focusHeading) {
+      elQuestion.focus();
+    }
+  }
+
+  function choose(choice){
+    if (answered) return;
+    answered = true;
+
+    var item = QUESTIONS[index];
+    var isRight = choice === item.correct;
+    if (isRight) score++;
+
+    var buttons = elOptions.querySelectorAll(".ns-option");
+    Array.prototype.forEach.call(buttons, function(btn, i){
+      btn.disabled = true;
+      var mark = btn.querySelector(".ns-mark");
+      if (i === item.correct) {
+
+        btn.classList.add("ns-is-correct");
+        mark.textContent = "\u2713 Correct answer";
+      } else if (i === choice) {
+        btn.classList.add("ns-is-wrong");
+        mark.textContent = "Your choice";
+      } else {
+        btn.classList.add("ns-is-other");
+      }
+    });
+
+    var title, body;
+    if (isRight) {
+      title = RIGHT_TITLES[index % RIGHT_TITLES.length];
+      body = item.explanation;
+      elFeedback.classList.add("ns-good");
+    } else {
+      title = "Good try! The answer is: " + item.options[item.correct] + ".";
+      body = item.explanation;
+      elFeedback.classList.add("ns-gentle");
+    }
+    elFbTitle.textContent = title;
+    elFbBody.textContent = body;
+    elFeedback.hidden = false;
+
+    elBar.style.width = ((index + 1) / QUESTIONS.length * 100) + "%";
+
+    var last = index === QUESTIONS.length - 1;
+    elNext.textContent = last ? "See my results" : "Next question";
+    elNext.hidden = false;
+
+    announce(title + " " + body);
+    elNext.focus();
+
+  }
+
+  function showResult(){
+    elPlay.hidden = true;
+    elResult.hidden = false;
+
+    var total = QUESTIONS.length;
+    elScore.textContent = "You got " + score + " out of " + total;
+
+    var msg;
+    if (score === total) {
+      msg = "A perfect round! You clearly remember these everyday treasures well.";
+    } else if (score >= 7) {
+      msg = "Wonderful! You know your way around a vintage kitchen and living room.";
+    } else if (score >= 4) {
+      msg = "Nicely done! We hope a few of these brought back some happy memories.";
+    } else {
+      msg = "Thanks for playing! Every round is a chance to discover a few fun facts.";
+    }
+    elResultMsg.textContent = msg;
+
+    var best = getBest();
+    var bestText = "";
+    if (best === null || score > best) {
+      saveBest(score);
+      if (best !== null) {
+        bestText = "That is your best score on this quiz so far.";
+      }
+    } else {
+      bestText = "Your best score on this quiz: " + best + " out of " + total + ".";
+    }
+    elBest.textContent = bestText;
+
+
+    announce("Quiz complete. You got " + score + " out of " + total + ". " + msg);
+    elResultTitle.focus();
+  }
+
+  function restart(){
+    index = 0;
+    score = 0;
+    elResult.hidden = true;
+    elPlay.hidden = false;
+    renderQuestion(true);
+    announce("New round started. Question 1 of " + QUESTIONS.length + ".");
+  }
+
+  elNext.addEventListener("click", function(){
+    if (index < QUESTIONS.length - 1) {
+      index++;
+      renderQuestion(true);
+    } else {
+      showResult();
+    }
+  });
+
+  elAgain.addEventListener("click", restart);
+
+  renderQuestion(false);
+})();
+</script>
+</body>
+</html>

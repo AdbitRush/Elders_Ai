@@ -97,7 +97,8 @@ html:root:not(#dod) footer,html:root:not(#dod) footer *{color:var(--dod-green)!i
 html:root:not(#dod) footer a{text-decoration:underline;text-underline-offset:3px}
 
 @media (max-width:640px){
- html:root:not(#dod) .dod-tab{flex:1 1 45%;flex-direction:column;gap:2px}
+ .dod-tabs-in{display:grid;grid-template-columns:repeat(3,1fr)}
+ html:root:not(#dod) .dod-tab{flex:initial;flex-direction:column;gap:2px;border-inline-start:1px solid var(--dod-line)}
  .dod-tab small,.dod-soon{margin:2px 0 0}
  .dod-sechead{flex-wrap:wrap;gap:8px 12px}
  .dod-sechead .dod-rule{display:none}
@@ -202,3 +203,11 @@ html[dir="rtl"]:root:not(#dod) body>nav.sticky .container>div:last-child{directi
  .dod-lead .dod-btn,.dod-lead{scroll-margin-bottom:80px}
  html:root:not(#dod) .dod-lead{padding-bottom:6px}
 }
+
+/* real card/story images + mandatory credits */
+.dod-img img{width:100%;height:100%;object-fit:cover;display:block}
+.dod-credit{display:block;font:400 10px/1.35 Arial,sans-serif;color:var(--dod-muted);margin-top:4px;letter-spacing:0}
+.dod-credit a{color:var(--dod-muted);text-decoration:underline;text-underline-offset:2px}
+.ns-card-link{display:inline-flex;align-items:center;color:var(--dod-rust);font:700 11px/1.3 Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+.ns-card-link:hover{text-decoration:underline}
+.ns-card-link:focus-visible{outline:3px solid var(--dod-green);outline-offset:3px}
