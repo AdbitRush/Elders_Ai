@@ -93,32 +93,50 @@ function _klRender(container) {
                  : {undo:Icon.ui('undo-2')+' Undo', hint:Icon.ui('lightbulb')+' Hint', deal:Icon.ui('rotate-ccw')+' New deal', moves:'Moves'};
     let h = `<style>
       /* ── table ─────────────────────────────────────────────────────────── */
-      .kl-board{direction:ltr;max-width:860px;margin:0 auto;user-select:none;-webkit-user-select:none;box-sizing:border-box;
-        --kl-fs:clamp(18px,3.4vw,28px);            /* corner rank size: never under 18px */
+      .kl-board{direction:ltr;width:100%;max-width:min(1440px,calc(140vh + 80px));max-width:min(1440px,calc(140dvh + 80px));
+        margin:0 auto;user-select:none;-webkit-user-select:none;box-sizing:border-box;
+        /* fallback sizing (browsers without container queries); refined per row below */
+        --kl-fs:clamp(18px,2.5vw,36px);            /* corner rank size: never under 18px */
         --kl-up:calc(var(--kl-fs) * 1.36);         /* stack offset under a face-up card */
         --kl-dn:calc(var(--kl-fs) * .5);           /* stack offset under a face-down card */
-        --kl-gap:clamp(3px,1.2vw,12px);
-        --kl-r:clamp(5px,1.2vw,11px);
-        padding:clamp(8px,2.2vw,22px) clamp(5px,2vw,22px) clamp(14px,3vw,28px);
-        border:clamp(5px,1.3vw,11px) solid #70472a;border-radius:clamp(14px,3vw,26px);
+        --kl-gap:clamp(3px,1.3vw,20px);
+        --kl-r:clamp(5px,1vw,13px);
+        padding:clamp(8px,1.8vw,26px) clamp(5px,1.8vw,28px) clamp(14px,2.4vw,32px);
+        border:clamp(5px,1vw,13px) solid #70472a;border-radius:clamp(14px,2.4vw,30px);
         background:
           radial-gradient(ellipse at 50% 30%,rgba(255,255,255,.13),rgba(255,255,255,0) 62%),
           repeating-linear-gradient(45deg,rgba(255,255,255,.022) 0 2px,rgba(255,255,255,0) 2px 4px),
           repeating-linear-gradient(-45deg,rgba(0,0,0,.03) 0 2px,rgba(0,0,0,0) 2px 4px),
           #236c4d;
-        box-shadow:inset 0 0 0 2px rgba(0,0,0,.28),inset 0 0 80px rgba(0,0,0,.42),0 0 0 2px #4a2d16,0 12px 28px rgba(0,0,0,.32);
+        box-shadow:inset 0 0 0 2px rgba(0,0,0,.28),inset 0 0 clamp(60px,8vw,130px) rgba(0,0,0,.42),0 0 0 2px #4a2d16,0 12px 28px rgba(0,0,0,.32);
         font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
       .kl-board *{box-sizing:border-box}
-      .kl-row{display:flex;gap:var(--kl-gap);justify-content:center;margin-bottom:clamp(12px,2.6vw,20px);flex-wrap:nowrap}
+      .kl-row{display:flex;gap:var(--kl-gap);justify-content:center;margin-bottom:clamp(12px,2vw,30px);flex-wrap:nowrap}
       .kl-row:last-child{margin-bottom:0}
-      .kl-pile{flex:1 1 0;min-width:0;max-width:108px;border-radius:var(--kl-r);position:relative}
+      /* every pile is exactly 1/7 of the row (minus gaps): 7 tableau piles span edge to edge */
+      .kl-pile{flex:1 1 0;min-width:0;max-width:calc((100% - 6 * var(--kl-gap)) / 7);border-radius:var(--kl-r);position:relative}
+
+      /* card size follows the real pile width (row = size container) */
+      @supports (container-type:inline-size){
+        .kl-row{container-type:inline-size;
+          --kl-pw:calc((100cqi - 6 * var(--kl-gap)) / 7);
+          --kl-fs:clamp(18px,calc(var(--kl-pw) * .25),40px);
+          --kl-up:max(calc(var(--kl-fs) * 1.36),min(calc(var(--kl-pw) * .6),6vh));
+          --kl-dn:max(calc(var(--kl-fs) * .5),min(calc(var(--kl-pw) * .16),2.6vh));
+          --kl-r:clamp(5px,calc(var(--kl-pw) * .075),13px)}
+        /* tableau reserves a real table's depth so the felt is a play surface, not a strip */
+        .kl-row ~ .kl-row .kl-pile{min-height:calc(var(--kl-pw) * 1.4 + 6 * var(--kl-dn) + 2 * var(--kl-up))}
+        .kl-slot-k{font-size:clamp(22px,calc(var(--kl-pw) * .42),72px)}
+        .kl-down{border-width:clamp(2px,calc(var(--kl-pw) * .028),5px)}
+        .kl-badge{font-size:clamp(14px,calc(var(--kl-pw) * .12),22px)}
+      }
 
       /* ── empty places ──────────────────────────────────────────────────── */
       .kl-slot{width:100%;aspect-ratio:5/7;border-radius:var(--kl-r);border:2px dashed rgba(255,244,214,.6);
         background:rgba(0,0,0,.16);box-shadow:inset 0 2px 8px rgba(0,0,0,.3);
         display:flex;align-items:center;justify-content:center;color:rgba(255,244,214,.5);cursor:pointer}
       .kl-slot .kl-suit,.kl-slot .kl-ico{width:52%;height:auto;aspect-ratio:1/1;color:#fff4d6;opacity:.5}
-      .kl-slot-k{position:absolute;top:0;left:0;right:0;font-weight:800;font-size:clamp(22px,5vw,44px);color:rgba(255,244,214,.38)}
+      .kl-slot-k{position:absolute;top:0;left:0;right:0;font-weight:800;font-size:clamp(22px,4vw,60px);color:rgba(255,244,214,.38)}
       .kl-sizer{width:100%;aspect-ratio:5/7;pointer-events:none}
 
       /* ── cards ─────────────────────────────────────────────────────────── */
@@ -131,7 +149,7 @@ function _klRender(container) {
           repeating-linear-gradient(90deg,rgba(125,95,40,.025) 0 1px,rgba(125,95,40,0) 1px 4px),
           linear-gradient(150deg,#fffdf7 0%,#fbf4e2 55%,#f3e8cd 100%)}
       .kl-red{color:#b3141c}.kl-black{color:#1b1a1f}
-      .kl-down{border:clamp(2px,.45vw,4px) solid #fbf3e0;
+      .kl-down{border:clamp(2px,.4vw,5px) solid #fbf3e0;
         background:
           repeating-linear-gradient(45deg,rgba(255,232,190,.2) 0 2px,rgba(255,232,190,0) 2px 9px),
           repeating-linear-gradient(-45deg,rgba(255,232,190,.2) 0 2px,rgba(255,232,190,0) 2px 9px),
@@ -153,16 +171,16 @@ function _klRender(container) {
       @media (min-width:600px){.kl-mid{height:42%}.kl-ace .kl-mid{height:50%}}
 
       /* selected: lift + thick two-tone ring + deeper shadow (not colour alone) */
-      .kl-sel{transform:translateY(-4px);z-index:2;
-        box-shadow:0 0 0 4px #f6c048,0 0 0 6px #2a1a08,0 12px 18px rgba(0,0,0,.5);animation:kl-lift .16s ease-out}
-      @keyframes kl-lift{from{transform:translateY(0)}to{transform:translateY(-4px)}}
+      .kl-sel{transform:translateY(-5px);z-index:2;
+        box-shadow:0 0 0 4px #f6c048,0 0 0 6px #2a1a08,0 14px 22px rgba(0,0,0,.5);animation:kl-lift .16s ease-out}
+      @keyframes kl-lift{from{transform:translateY(0)}to{transform:translateY(-5px)}}
       .kl-stack .kl-card{position:absolute;left:0;right:0}
       .kl-badge{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);pointer-events:none;
         min-width:2em;padding:.18em .5em;border-radius:999px;background:rgba(32,10,14,.88);color:#fff4d6;
-        border:1px solid #e3c47c;font-weight:800;font-size:clamp(14px,2.3vw,17px);line-height:1;text-align:center}
+        border:1px solid #e3c47c;font-weight:800;font-size:clamp(14px,1.6vw,20px);line-height:1;text-align:center}
 
       /* ── toolbar ───────────────────────────────────────────────────────── */
-      .kl-bar{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:clamp(12px,2.6vw,20px);flex-wrap:wrap}
+      .kl-bar{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:clamp(12px,2vw,22px);flex-wrap:wrap}
       .kl-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;
         background:linear-gradient(#fffaf0,#f4e3bd);border:2px solid #a9792f;color:#3b2a12;border-radius:14px;
         font:inherit;font-weight:800;font-size:1.08rem;line-height:1.2;cursor:pointer;
@@ -174,7 +192,7 @@ function _klRender(container) {
         background:rgba(0,0,0,.28);border:1px solid rgba(255,244,214,.4);color:#fff4d6;font-weight:800;font-size:1.08rem}
 
       /* ── how to play ───────────────────────────────────────────────────── */
-      .kl-help{margin:0 auto clamp(12px,2.6vw,20px);background:linear-gradient(#fffaf0,#f8ecd0);border:2px solid #c9a35a;
+      .kl-help{margin:0 auto clamp(12px,2vw,22px);background:linear-gradient(#fffaf0,#f8ecd0);border:2px solid #c9a35a;
         border-radius:14px;padding:6px 16px;color:#3b2a12;font-size:1.08rem;line-height:1.55;box-shadow:0 4px 10px rgba(0,0,0,.25)}
       .kl-help summary{cursor:pointer;font-weight:800;font-size:1.18rem;min-height:48px;display:flex;align-items:center;gap:8px;list-style:none}
       .kl-help summary::-webkit-details-marker{display:none}
@@ -190,6 +208,10 @@ function _klRender(container) {
       .kl-ex-arrow{font-size:1.9rem;line-height:1;color:#8a5a14}
 
       @media (max-width:480px){
+        /* thin rim + minimal padding so 7 piles get every possible pixel */
+        .kl-board{--kl-gap:clamp(2px,.9vw,4px);padding:6px 3px 10px;border-width:4px;border-radius:12px;
+          box-shadow:inset 0 0 0 2px rgba(0,0,0,.28),inset 0 0 40px rgba(0,0,0,.42),0 0 0 1px #4a2d16,0 6px 14px rgba(0,0,0,.3)}
+        .kl-row{margin-bottom:10px}
         .kl-btn{padding:8px 14px;font-size:1rem;gap:6px}.kl-count{padding:8px 14px;font-size:1rem}
         .kl-help{padding:4px 12px;font-size:1.02rem}
         .kl-sel{transform:translateY(-3px);box-shadow:0 0 0 3px #f6c048,0 0 0 5px #2a1a08,0 9px 14px rgba(0,0,0,.5);animation:none}
