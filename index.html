@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>BrainPlay - The games you grew up with</title>
+    <title>Dear Old Days - The games you grew up with</title>
     <link rel="canonical" href="https://games.178-105-148-72.sslip.io/">
     <script>try{if(localStorage.getItem('gg-look')==='refreshed')document.documentElement.setAttribute('data-look','refreshed')}catch(e){}</script>
     <script>try{var _l=(new URLSearchParams(location.search).get('lang')||'').toLowerCase();if(['he','en','es','fr','de','el'].indexOf(_l)>-1){document.documentElement.lang=_l;document.documentElement.dir=_l==='he'?'rtl':'ltr';}}catch(e){}</script>
@@ -14,7 +14,7 @@
     <meta name="theme-color" content="#b7791f">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="BrainPlay">
+    <meta name="apple-mobile-web-app-title" content="Dear Old Days">
     <!-- Supabase SDK intentionally not loaded: js/sync.js has no project URL/key configured, so it never used it. Re-add the jsdelivr @supabase/supabase-js@2 UMD script here when sync is configured. -->
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -199,6 +199,7 @@
 gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});</script>
 <link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=83">
 <link rel="stylesheet" href="css/consent.css?v=83">
+<link rel="stylesheet" href="css/dod-theme.css?v=2">
 <style id="ad-slots-css">
 /* Ad slots: reserved placements, hidden until AdSense connects (2026-11-15). Flip window.ADS_ENABLED to true to show. Senior-safe: normal-flow blocks BELOW content; they never shrink or move the game area. */
 .ad-slot{display:none}
@@ -213,6 +214,22 @@ body.ads-on .ad-slot::before{content:'Advertisement';font:600 11px/1 system-ui,s
      of it keeps its own opaque surfaces. -->
 <div id="ambientBg" aria-hidden="true"><div class="ab-layer ab-a"></div><div class="ab-layer ab-b"></div><div class="ab-scrim"></div><div class="ab-vignette"></div></div>
 
+<!-- Dear Old Days: editorial masthead -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="dod-ic-record" viewBox="0 0 300 210"><rect x="30" y="45" width="240" height="145" rx="12" fill="#a66d45"/><rect x="42" y="55" width="216" height="120" fill="#e8d6b6"/><circle cx="130" cy="115" r="53" fill="#253830"/><circle cx="130" cy="115" r="38" fill="none" stroke="#5d7163"/><circle cx="130" cy="115" r="17" fill="#bb593a"/><circle cx="130" cy="115" r="3" fill="#f8f5ed"/><path d="M227 68v47l-32 29" fill="none" stroke="#52634e" stroke-width="9"/><rect x="65" y="190" width="10" height="14" fill="#583c2f"/><rect x="228" y="190" width="10" height="14" fill="#583c2f"/></symbol>
+<symbol id="dod-ic-kitchen" viewBox="0 0 300 210"><path d="M53 82h140v65q0 25-25 25H78q-25 0-25-25Z" fill="#f7f1db" stroke="#335e50" stroke-width="5"/><path d="M193 95h25q30 0 20 30t-45 20M75 72h96" fill="none" stroke="#335e50" stroke-width="7"/><path d="M115 70v-9q0-15 16-15" fill="none" stroke="#335e50" stroke-width="5"/><path d="M88 34q-12-16 0-28M141 32q-12-16 0-28" fill="none" stroke="#c08e6b" stroke-width="5"/><rect x="34" y="174" width="225" height="11" rx="5" fill="#a66842"/><path d="M109 113h29m-15-14v29" stroke="#a34228" stroke-width="5"/></symbol>
+<symbol id="dod-ic-tv" viewBox="0 0 300 210"><path d="m125 45-35-32m45 32 33-32" stroke="#43594a" stroke-width="5"/><rect x="30" y="45" width="240" height="140" rx="15" fill="#9a633e"/><rect x="44" y="59" width="175" height="110" rx="23" fill="#294c41"/><rect x="53" y="68" width="157" height="92" rx="20" fill="#a8baa3"/><circle cx="242" cy="82" r="9" fill="#ded5b5"/><circle cx="242" cy="113" r="9" fill="#ded5b5"/><path d="M231 145h21m-21 9h21m-21 9h21" stroke="#543c2e" stroke-width="3"/><path d="m75 185-7 20m155-20 7 20" stroke="#543c2e" stroke-width="9"/></symbol>
+</svg>
+<div class="dod-topline" dir="ltr" lang="en"><span>A LITTLE TRIP BACK IN TIME</span></div>
+<div class="dod-masthead" dir="ltr" lang="en"><div class="dod-brand">Dear Old Days</div><div class="dod-tagline"><span>GOOD MEMORIES. NEW DISCOVERIES.</span></div></div>
+<div class="dod-tabs" dir="ltr" lang="en" role="navigation" aria-label="Sections"><div class="dod-tabs-in">
+<button type="button" class="dod-tab dod-tab-live" aria-current="page" onclick="window.scrollTo({top:0,behavior:'smooth'})">Home</button>
+<span class="dod-tab ns-nav-pending" aria-disabled="true">Stories <small>coming soon</small></span>
+<span class="dod-tab ns-nav-pending" aria-disabled="true">Quizzes <small>coming soon</small></span>
+<button type="button" class="dod-tab dod-tab-live" onclick="var c=document.getElementById('dod-catalog');if(c)c.scrollIntoView({behavior:'smooth'})">Games</button>
+<span class="dod-tab ns-nav-pending" aria-disabled="true">Decades <small>coming soon</small></span>
+<span class="dod-tab ns-nav-pending" aria-disabled="true">Saved <small>coming soon</small></span>
+</div></div>
 <!-- Navbar -->
 <nav style="background:rgba(5,10,25,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(183,121,31,0.3);box-shadow:0 4px 32px rgba(0,0,0,0.6)" class="text-white py-4 sticky top-0 z-50">
     <div class="container mx-auto px-4 sm:px-6 flex flex-wrap justify-between items-center gap-x-3 gap-y-2">
@@ -246,7 +263,6 @@ body.ads-on .ad-slot::before{content:'Advertisement';font:600 11px/1 system-ui,s
         </div>
     </div>
 </nav>
-
 <!-- Game quick-picker dropdown (☰) — search + full list without scrolling -->
 <div id="gameMenu" class="hidden" style="position:fixed;top:64px;left:10px;right:10px;max-width:420px;margin:0 auto;z-index:400;background:rgba(10,18,40,0.98);backdrop-filter:blur(14px);border:1px solid rgba(183,121,31,0.35);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,0.55);overflow:hidden">
     <div style="padding:12px 14px 8px">
@@ -263,6 +279,22 @@ body.ads-on .ad-slot::before{content:'Advertisement';font:600 11px/1 system-ui,s
 <header id="hero" style="background:linear-gradient(160deg,#0a1628 0%,#0f2744 50%,#112a50 100%);border-bottom:1px solid rgba(183,121,31,0.2)" class="py-12 mb-8 relative overflow-hidden">
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(183,121,31,0.12) 0%,transparent 70%);pointer-events:none"></div>
     <div class="container mx-auto px-6 text-center relative">
+<section id="dod-front" class="dod-front" dir="ltr" lang="en" aria-label="Front page">
+<div class="dod-kicker">YOUR DAILY DOSE OF NOSTALGIA</div>
+<div class="dod-sechead"><h2 class="dod-h1">Remember this?</h2><span class="dod-rule dod-rule-rust"></span></div>
+<div class="dod-lead-grid">
+<article class="dod-lead" aria-disabled="true"><div class="dod-img dod-img-lead" data-image-slot="lead-quiz"><div class="dod-collage"><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-tv"/></svg><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-record"/></svg><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-kitchen"/></svg></div></div><span class="dod-cat dod-cat-green">THE NOSTALGIA QUIZ</span><h3>Can You Name These Everyday Objects From the Past?</h3><p>10 questions. A few smiles. No ticking clock.</p><span class="dod-btn dod-btn-rust dod-btn-pending ns-nav-pending" aria-disabled="true">Take the quiz <small>coming soon</small></span></article>
+<div class="dod-side"><article class="dod-side-card" data-story="saturday-records" aria-disabled="true"><div class="dod-img" data-image-slot="side-saturday-records"><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-record"/></svg></div><h3>The records we played again and again</h3><div class="dod-meta"><span>MUSIC &amp; MEMORIES &middot; 3 MIN READ</span><span class="ns-nav-pending dod-soon" aria-disabled="true">coming soon</span></div></article><article class="dod-side-card" data-story="grandmas-kitchen" aria-disabled="true"><div class="dod-img" data-image-slot="side-grandmas-kitchen"><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-kitchen"/></svg></div><h3>A little trip back to Grandma&rsquo;s kitchen</h3><div class="dod-meta"><span>HOME &amp; EVERYDAY LIFE &middot; 3 MIN READ</span><span class="ns-nav-pending dod-soon" aria-disabled="true">coming soon</span></div></article></div>
+</div>
+<div class="dod-adslot" role="complementary" aria-label="Advertisement slot"><span>ADVERTISEMENT</span></div>
+<div class="dod-sechead"><h2 class="dod-h2">A few minutes of fun</h2><span class="dod-rule dod-rule-rust"></span><button type="button" class="dod-link" onclick="var c=document.getElementById('dod-catalog');if(c)c.scrollIntoView({behavior:'smooth'})">Explore all games &rarr;</button></div>
+<div class="dod-games"><article class="dod-game"><div class="dod-img dod-img-game" data-image-slot="game-solitaire"><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-tv"/></svg></div><div class="dod-game-body"><h3>Pyramid Solitaire</h3><p>Card pairs that add to 13.</p><button type="button" class="dod-btn dod-btn-rust" onclick="loadGame('solitaire')">Play now &rarr;</button></div></article><article class="dod-game"><div class="dod-img dod-img-game" data-image-slot="game-unscramble"><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-record"/></svg></div><div class="dod-game-body"><h3>Word Unscramble</h3><p>Familiar words, mixed up for a little fun.</p><button type="button" class="dod-btn dod-btn-rust" onclick="loadGame('unscramble')">Play now &rarr;</button></div></article><article class="dod-game"><div class="dod-img dod-img-game" data-image-slot="game-memory"><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-kitchen"/></svg></div><div class="dod-game-body"><h3>Memory Match</h3><p>Find the pairs. Enjoy every little discovery.</p><button type="button" class="dod-btn dod-btn-rust" onclick="loadGame('memory')">Play now &rarr;</button></div></article></div>
+<div class="dod-sechead"><h2 class="dod-h2">Find your favorite decade</h2><span class="dod-rule dod-rule-rust"></span></div>
+<div class="dod-decades"><span class="dod-decade ns-nav-pending" aria-disabled="true">1950s<small>coming soon</small></span><span class="dod-decade ns-nav-pending" aria-disabled="true">1960s<small>coming soon</small></span><span class="dod-decade ns-nav-pending" aria-disabled="true">1970s<small>coming soon</small></span><span class="dod-decade ns-nav-pending" aria-disabled="true">1980s<small>coming soon</small></span></div>
+<div class="dod-sechead"><h2 class="dod-h2">More stories worth remembering</h2><span class="dod-rule dod-rule-rust"></span></div>
+<div class="dod-cards"><article class="dod-card" data-story="saturday-records" aria-disabled="true"><div class="dod-img" data-image-slot="story-saturday-records"><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-record"/></svg></div><div class="dod-card-body"><span class="dod-cat">Music &amp; memories</span><h3>When choosing a record was part of the magic</h3><p>The sleeve, the soft crackle, the song you played again. Remember listening with your whole attention?</p><div class="dod-meta"><span>3 min read &middot; 1960s</span><span class="ns-nav-pending dod-soon" aria-disabled="true">coming soon</span></div></div></article><article class="dod-card" data-story="grandmas-kitchen" aria-disabled="true"><div class="dod-img" data-image-slot="story-grandmas-kitchen"><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-kitchen"/></svg></div><div class="dod-card-body"><span class="dod-cat">Home &amp; everyday life</span><h3>The little things we remember about Grandma&rsquo;s kitchen</h3><p>A recipe tin, a well-used apron, and a table where there was always room for one more.</p><div class="dod-meta"><span>3 min read &middot; 1950s</span><span class="ns-nav-pending dod-soon" aria-disabled="true">coming soon</span></div></div></article><article class="dod-card" data-story="family-tv" aria-disabled="true"><div class="dod-img" data-image-slot="story-family-tv"><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-tv"/></svg></div><div class="dod-card-body"><span class="dod-cat">TV &amp; entertainment</span><h3>When the whole family watched the same show</h3><p>One television, a favorite seat, and a theme tune that brought everyone into the room.</p><div class="dod-meta"><span>3 min read &middot; 1970s</span><span class="ns-nav-pending dod-soon" aria-disabled="true">coming soon</span></div></div></article><article class="dod-card" data-story="mixtape-memories" aria-disabled="true"><div class="dod-img" data-image-slot="story-mixtape-memories"><svg viewBox="0 0 300 210" aria-hidden="true"><use href="#dod-ic-record"/></svg></div><div class="dod-card-body"><span class="dod-cat">Music &amp; memories</span><h3>The mixtape that said it all</h3><p>A blank cassette, a favorite song, and the patience to make something personal.</p><div class="dod-meta"><span>3 min read &middot; 1980s</span><span class="ns-nav-pending dod-soon" aria-disabled="true">coming soon</span></div></div></article></div>
+</section>
+
         <div class="w-hero-mark" aria-hidden="true"><img src="images/logo.svg" alt="" width="64" height="64" style="width:1em;height:1em;display:block"></div>
         <h2 class="text-4xl font-bold mb-2 drop-shadow" style="background:linear-gradient(135deg,#fff 0%,#f6c048 60%,#b7791f 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" data-i18n="hero_title">המשחקים שגדלנו עליהם</h2>
         <p id="dailyQuote" class="text-base max-w-2xl mx-auto italic mb-4" style="color:rgba(210,220,255,0.8)"></p>
@@ -287,7 +319,7 @@ body.ads-on .ad-slot::before{content:'Advertisement';font:600 11px/1 system-ui,s
 
 <main class="flex-grow container mx-auto px-6 pb-12">
     <!-- Game Grid Header -->
-    <div id="homeScreen-header" class="flex flex-col gap-4 mb-6">
+    <div id="homeScreen-header" class="flex flex-col gap-4 mb-6"><span id="dod-catalog" style="display:block;scroll-margin-top:90px"></span>
 
         <!-- quick start + genre chips (js/hub-nav.js); the health block moved below the games (2026-10-10 review) -->
         <div id="hub-nav-slot"></div>
@@ -1160,7 +1192,7 @@ body.ads-on .ad-slot::before{content:'Advertisement';font:600 11px/1 system-ui,s
 </main>
 
 <footer class="bg-gray-100 border-t border-gray-200 py-5 text-center mt-auto">
-    <div class="text-gray-500 font-medium" data-i18n="footer_rights">BrainPlay © 2026</div>
+    <div class="text-gray-500 font-medium" data-i18n="footer_rights">Dear Old Days © 2026</div>
     <p class="text-sm text-gray-400 mt-1" data-i18n="footer_desc">חינם, בלי הרשמה. ההתקדמות שלכם נשמרת בדפדפן במכשיר הזה.</p>
     <p class="mt-2"><a href="credits.html" id="photoCredits" style="display:inline-flex;align-items:center;min-height:48px;text-decoration:underline;text-underline-offset:3px;gap:6px"><svg class="lc lc-ui" width="1.15em" height="1.15em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/> <circle cx="12" cy="13" r="3"/></svg><span data-i18n="photo_credits">קרדיט לתמונות</span></a></p>
     <p class="w-footlinks"><a href="about.html" data-i18n="about_link">אודות</a> · <a href="articles.html" data-i18n="articles_link">מאמרים</a> · <a href="privacy.html" data-i18n="privacy_link">מדיניות פרטיות</a> · <button type="button" onclick="if(window.CookieConsent)CookieConsent.showPreferences()" data-i18n="cookie_settings">הגדרות עוגיות</button></p>
@@ -1214,11 +1246,11 @@ body.ads-on .ad-slot::before{content:'Advertisement';font:600 11px/1 system-ui,s
 // ═══════════════════════════════════════════════════════════════════════════════
 const i18nData = {
 he: {
-    site_title:"BrainPlay", menu_search_ph:"חיפוש משחק...", menu_no_results:"לא נמצאו משחקים", invite_friends:"הזמן חברים", back_menu:"חזרה לתפריט", next_level:"המשך לשלב הבא",
+    site_title:"Dear Old Days", menu_search_ph:"חיפוש משחק...", menu_no_results:"לא נמצאו משחקים", invite_friends:"הזמן חברים", back_menu:"חזרה לתפריט", next_level:"המשך לשלב הבא",
     level_str:"שלב", hero_title:"המשחקים שגדלנו עליהם", btn_start:"התחילו לשחק",
     section_games:"{n} משחקים קלאסיים", section_games_sub:"לחצו על משחק להתחיל",
     why_title:"כיף, בקצב שלכם", why1_t:"מה כל משחק מבקש", why1_d:"כל משחק מבקש משהו: לזכור, לשים לב, למצוא מילה, לתכנן מהלך. השתפרות במשחק לא מוכיחה שיכולות אחרות משתפרות.", why2_t:"משחקים מתי שרוצים", why2_d:"אין כמות מומלצת. משחקים כל עוד זה נעים, ועוצרים מתי שרוצים.", why3_t:"להישאר פעילים", why3_d:"פעילות מחשבתית וחברתית קשורה להזדקנות מוחית טובה יותר — לצד תנועה, שינה וטיפול בלחץ הדם.", why_note:"המשחקים כאן נועדו להנאה ולתרגול. שום משחק — לא כאן ולא באף מקום אחר — אינו מונע, מטפל או מרפא אלצהיימר או דמנציה. אם יש דאגה לגבי הזיכרון, כדאי לפנות לרופא. מה שכן נתמך במחקר לבריאות המוח: פעילות גופנית, איזון לחץ דם, טיפול בשמיעה ובראייה, שינה טובה, הימנעות מעישון וקשר חברתי.",
-    footer_rights:"BrainPlay © 2026", photo_credits:"קרדיט לתמונות", footer_desc:"חינם, בלי הרשמה. ההתקדמות שלכם נשמרת בדפדפן במכשיר הזה.",
+    footer_rights:"Dear Old Days © 2026", photo_credits:"קרדיט לתמונות", footer_desc:"חינם, בלי הרשמה. ההתקדמות שלכם נשמרת בדפדפן במכשיר הזה.",
     game_memory_title:"משחק זיכרון", game_memory_desc:"הופכים קלפים ומוצאים זוגות.",
     game_odd_title:"יוצא דופן", game_odd_desc:"מצאו את הסמל השונה.",
     game_math_title:"חשבון מהיר", game_math_desc:"חיבור וחיסור קלים.",
@@ -1405,11 +1437,11 @@ he: {
     recall_pool:["🍎 תפוח","🚗 מכונית","🌸 פרח","📚 ספר","🐕 כלב","☕ קפה","🎸 גיטרה","⚽ כדור","🍕 פיצה","🌙 ירח","🏠 בית","🚀 רקטה","🎂 עוגה","🌺 ורד","🐢 צב","🍇 ענבים","🎈 בלון","🏆 גביע","🐦 ציפור","🎭 מסכה","🎹 פסנתר","🐠 דג","🌿 עשב","🎪 קרקס","🎨 ציור"],
 },
 en: {
-    site_title:"BrainPlay", menu_search_ph:"Search games...", menu_no_results:"No games found", invite_friends:"Invite friends", back_menu:"Back to Menu", next_level:"Next Level",
+    site_title:"Dear Old Days", menu_search_ph:"Search games...", menu_no_results:"No games found", invite_friends:"Invite friends", back_menu:"Back to Menu", next_level:"Next Level",
     level_str:"Level", hero_title:"The games you grew up with", btn_start:"Play",
     section_games:"{n} Classic Games", section_games_sub:"Pick a game and play at your own pace",
     why_title:"Good fun, at your own pace", why1_t:"What each game asks of you", why1_d:"Each game asks for something: remembering, noticing, finding a word, planning a move. Getting better at a game does not show that other skills improve.", why2_t:"Play when you like", why2_d:"There is no recommended amount. Play for as long as it is enjoyable, and stop whenever you want.", why3_t:"Staying engaged matters", why3_d:"Mental and social activity is linked with healthier cognitive aging — alongside exercise, sleep and looking after your blood pressure.", why_note:"These games are for enjoyment and practice. No game — here or anywhere else — prevents, treats or cures Alzheimer's disease or dementia. If you are worried about your memory, speak to your doctor. What evidence does support for brain health: physical activity, treating high blood pressure, correcting hearing and vision, good sleep, not smoking, and staying socially connected.",
-    footer_rights:"BrainPlay © 2026", photo_credits:"Photo credits", footer_desc:"Free to play, no sign-up. Your progress stays in your browser on this device.",
+    footer_rights:"Dear Old Days © 2026", photo_credits:"Photo credits", footer_desc:"Free to play, no sign-up. Your progress stays in your browser on this device.",
     game_memory_title:"Memory Match", game_memory_desc:"Flip the cards and find the matching pairs.",
     game_odd_title:"Odd One Out", game_odd_desc:"Find the different symbol.",
     game_math_title:"Quick Math", game_math_desc:"Simple addition and subtraction.",
@@ -1801,11 +1833,11 @@ function t(k){return i18nData[currentLang][k]||k;}
 // Game-content pools (words, trivia…) inherit English so every game stays playable;
 // only the visible interface is localized. Add a language = add a block here.
 i18nData.es = Object.assign({}, i18nData.en, {
-  site_title:"BrainPlay", menu_search_ph:"Buscar juegos...", menu_no_results:"No se encontraron juegos", invite_friends:"Invitar amigos", back_menu:"Volver al menú", next_level:"Siguiente nivel",
+  site_title:"Dear Old Days", menu_search_ph:"Buscar juegos...", menu_no_results:"No se encontraron juegos", invite_friends:"Invitar amigos", back_menu:"Volver al menú", next_level:"Siguiente nivel",
   level_str:"Nivel", hero_title:"Los juegos de toda la vida", btn_start:"Empezar",
   section_games:"{n} juegos clásicos", section_games_sub:"Elige un juego para empezar",
     why_title:"Diversión, a tu ritmo", why1_t:"Lo que pide cada juego", why1_d:"Cada juego pide algo: recordar, fijarse, encontrar una palabra, planear una jugada. Mejorar en un juego no demuestra que mejoren otras capacidades.", why2_t:"Juega cuando quieras", why2_d:"No hay una cantidad recomendada. Juega mientras lo disfrutes y para cuando quieras.", why3_t:"Mantenerse activo importa", why3_d:"La actividad mental y social se asocia con un envejecimiento cognitivo más sano — junto al ejercicio, el sueño y cuidar la tensión arterial.", why_note:"Estos juegos son para disfrutar y practicar. Ningún juego — ni aquí ni en ningún sitio — previene, trata ni cura el alzhéimer o la demencia. Si te preocupa tu memoria, habla con tu médico. Lo que sí respalda la evidencia para la salud cerebral: actividad física, controlar la tensión arterial, corregir audición y visión, dormir bien, no fumar y mantener el contacto social.",
-  footer_rights:"BrainPlay © 2026", footer_desc:"Gratis y sin registro. Su progreso se guarda en el navegador de este dispositivo.",
+  footer_rights:"Dear Old Days © 2026", footer_desc:"Gratis y sin registro. Su progreso se guarda en el navegador de este dispositivo.",
   game_memory_title:"Memoria", game_memory_desc:"Da la vuelta a las cartas y encuentra las parejas.",
   game_odd_title:"El diferente", game_odd_desc:"Encuentra el símbolo distinto.",
   game_math_title:"Cálculo rápido", game_math_desc:"Sumas y restas sencillas.",
@@ -1832,11 +1864,11 @@ i18nData.es = Object.assign({}, i18nData.en, {
   streak_label:"días seguidos", goal_label:"Jugadas", goal_of:"de 3 hoy", total_games:"Partidas totales",
 });
 i18nData.fr = Object.assign({}, i18nData.en, {
-  site_title:"BrainPlay", menu_search_ph:"Rechercher des jeux...", menu_no_results:"Aucun jeu trouvé", invite_friends:"Inviter des amis", back_menu:"Retour au menu", next_level:"Niveau suivant",
+  site_title:"Dear Old Days", menu_search_ph:"Rechercher des jeux...", menu_no_results:"Aucun jeu trouvé", invite_friends:"Inviter des amis", back_menu:"Retour au menu", next_level:"Niveau suivant",
   level_str:"Niveau", hero_title:"Les jeux de notre jeunesse", btn_start:"Commencer",
   section_games:"{n} jeux classiques", section_games_sub:"Cliquez sur un jeu pour commencer",
     why_title:"Du plaisir, à votre rythme", why1_t:"Ce que demande chaque jeu", why1_d:"Chaque jeu demande quelque chose : se souvenir, remarquer, trouver un mot, prévoir un coup. Progresser à un jeu ne prouve pas que d'autres capacités progressent.", why2_t:"Jouez quand vous voulez", why2_d:"Il n'y a pas de durée recommandée. Jouez tant que cela vous plaît et arrêtez quand vous voulez.", why3_t:"Rester engagé compte", why3_d:"L'activité mentale et sociale est associée à un vieillissement cognitif plus sain — avec l'exercice, le sommeil et le suivi de la tension artérielle.", why_note:"Ces jeux sont faits pour le plaisir et la pratique. Aucun jeu — ici ou ailleurs — ne prévient, ne traite ni ne guérit la maladie d'Alzheimer ou la démence. Si votre mémoire vous inquiète, parlez-en à votre médecin. Ce que les données soutiennent pour la santé du cerveau : activité physique, traitement de l'hypertension, correction de l'audition et de la vue, bon sommeil, arrêt du tabac et lien social.",
-  footer_rights:"BrainPlay © 2026", footer_desc:"Gratuit et sans inscription. Votre progression reste dans le navigateur de cet appareil.",
+  footer_rights:"Dear Old Days © 2026", footer_desc:"Gratuit et sans inscription. Votre progression reste dans le navigateur de cet appareil.",
   game_memory_title:"Mémoire", game_memory_desc:"Retournez les cartes et trouvez les paires.",
   game_odd_title:"L'intrus", game_odd_desc:"Trouvez le symbole différent.",
   game_math_title:"Calcul rapide", game_math_desc:"Additions et soustractions simples.",
@@ -1863,11 +1895,11 @@ i18nData.fr = Object.assign({}, i18nData.en, {
   streak_label:"jours d'affilée", goal_label:"Parties", goal_of:"sur 3 aujourd'hui", total_games:"Parties totales",
 });
 i18nData.de = Object.assign({}, i18nData.en, {
-  site_title:"BrainPlay", menu_search_ph:"Spiele suchen...", menu_no_results:"Keine Spiele gefunden", invite_friends:"Freunde einladen", back_menu:"Zurück zum Menü", next_level:"Nächste Stufe",
+  site_title:"Dear Old Days", menu_search_ph:"Spiele suchen...", menu_no_results:"Keine Spiele gefunden", invite_friends:"Freunde einladen", back_menu:"Zurück zum Menü", next_level:"Nächste Stufe",
   level_str:"Stufe", hero_title:"Die Spiele unserer Jugend", btn_start:"Starten",
   section_games:"{n} klassische Spiele", section_games_sub:"Auf ein Spiel klicken zum Starten",
     why_title:"Spaß, in Ihrem Tempo", why1_t:"Was jedes Spiel verlangt", why1_d:"Jedes Spiel verlangt etwas: sich erinnern, etwas bemerken, ein Wort finden, einen Zug planen. Wer in einem Spiel besser wird, hat damit nicht gezeigt, dass andere Fähigkeiten besser werden.", why2_t:"Spielen, wann Sie möchten", why2_d:"Es gibt keine empfohlene Menge. Spielen Sie, solange es Freude macht, und hören Sie auf, wann Sie möchten.", why3_t:"Aktiv bleiben zählt", why3_d:"Geistige und soziale Aktivität hängt mit gesünderem kognitivem Altern zusammen — neben Bewegung, Schlaf und der Kontrolle des Blutdrucks.", why_note:"Diese Spiele dienen dem Vergnügen und der Übung. Kein Spiel — hier oder anderswo — verhindert, behandelt oder heilt Alzheimer oder Demenz. Bei Sorgen um Ihr Gedächtnis sprechen Sie mit Ihrer Ärztin oder Ihrem Arzt. Was die Evidenz für die Gehirngesundheit stützt: körperliche Aktivität, Behandlung von Bluthochdruck, Korrektur von Hör- und Sehvermögen, guter Schlaf, Rauchverzicht und soziale Kontakte.",
-  footer_rights:"BrainPlay © 2026", footer_desc:"Kostenlos und ohne Anmeldung. Ihr Fortschritt bleibt im Browser auf diesem Gerät.",
+  footer_rights:"Dear Old Days © 2026", footer_desc:"Kostenlos und ohne Anmeldung. Ihr Fortschritt bleibt im Browser auf diesem Gerät.",
   game_memory_title:"Gedächtnis", game_memory_desc:"Karten aufdecken und Paare finden.",
   game_odd_title:"Das Andere", game_odd_desc:"Finde das abweichende Symbol.",
   game_math_title:"Schnelles Rechnen", game_math_desc:"Einfaches Addieren und Subtrahieren.",
@@ -1894,11 +1926,11 @@ i18nData.de = Object.assign({}, i18nData.en, {
   streak_label:"Tage in Folge", goal_label:"Gespielt", goal_of:"von 3 heute", total_games:"Spiele gesamt",
 });
 i18nData.el = Object.assign({}, i18nData.en, {
-  site_title:"BrainPlay", menu_search_ph:"Αναζήτηση παιχνιδιών...", menu_no_results:"Δεν βρέθηκαν παιχνίδια", invite_friends:"Προσκαλέστε φίλους", back_menu:"Πίσω στο μενού", next_level:"Επόμενο επίπεδο",
+  site_title:"Dear Old Days", menu_search_ph:"Αναζήτηση παιχνιδιών...", menu_no_results:"Δεν βρέθηκαν παιχνίδια", invite_friends:"Προσκαλέστε φίλους", back_menu:"Πίσω στο μενού", next_level:"Επόμενο επίπεδο",
   level_str:"Επίπεδο", hero_title:"Τα παιχνίδια που μεγαλώσαμε", btn_start:"Έναρξη",
   section_games:"{n} κλασικά παιχνίδια", section_games_sub:"Πατήστε ένα παιχνίδι για να ξεκινήσετε",
     why_title:"Διασκέδαση, με τον δικό σας ρυθμό", why1_t:"Τι ζητά κάθε παιχνίδι", why1_d:"Κάθε παιχνίδι ζητά κάτι: να θυμηθείτε, να προσέξετε, να βρείτε μια λέξη, να σχεδιάσετε μια κίνηση. Η βελτίωση σε ένα παιχνίδι δεν δείχνει ότι βελτιώνονται άλλες ικανότητες.", why2_t:"Παίξτε όποτε θέλετε", why2_d:"Δεν υπάρχει προτεινόμενη ποσότητα. Παίξτε όσο το απολαμβάνετε και σταματήστε όποτε θέλετε.", why3_t:"Η συμμετοχή μετράει", why3_d:"Η πνευματική και κοινωνική δραστηριότητα συνδέεται με πιο υγιή γνωστική γήρανση — μαζί με άσκηση, ύπνο και έλεγχο της πίεσης.", why_note:"Τα παιχνίδια αυτά είναι για ευχαρίστηση και εξάσκηση. Κανένα παιχνίδι — εδώ ή οπουδήποτε αλλού — δεν προλαμβάνει, δεν θεραπεύει και δεν γιατρεύει τη νόσο Αλτσχάιμερ ή την άνοια. Αν ανησυχείτε για τη μνήμη σας, μιλήστε με τον γιατρό σας. Τι στηρίζουν τα δεδομένα για την υγεία του εγκεφάλου: σωματική άσκηση, αντιμετώπιση της υψηλής πίεσης, διόρθωση ακοής και όρασης, καλός ύπνος, αποφυγή καπνίσματος και κοινωνική επαφή.",
-  footer_rights:"BrainPlay © 2026", footer_desc:"Δωρεάν, χωρίς εγγραφή. Η πρόοδός σας μένει στο πρόγραμμα περιήγησης αυτής της συσκευής.",
+  footer_rights:"Dear Old Days © 2026", footer_desc:"Δωρεάν, χωρίς εγγραφή. Η πρόοδός σας μένει στο πρόγραμμα περιήγησης αυτής της συσκευής.",
   game_memory_title:"Μνήμη", game_memory_desc:"Γυρίστε τις κάρτες και βρείτε τα ζευγάρια.",
   game_odd_title:"Το διαφορετικό", game_odd_desc:"Βρείτε το διαφορετικό σύμβολο.",
   game_math_title:"Γρήγοροι υπολογισμοί", game_math_desc:"Απλές προσθέσεις και αφαιρέσεις.",
@@ -2273,7 +2305,7 @@ window.addEventListener('popstate', ()=>{ if(!location.hash) showHome(); });
 function applyTheme(t,save){document.documentElement.setAttribute('data-theme',t);if(save!==false)localStorage.setItem('gg-theme',t);const b=document.getElementById('themeBtn');if(b)b.innerHTML=Icon.ui(t==='light'?'moon':'sun');if(gameState&&gameState.active&&gameState.currentId==='sudoku'){_sudokuRender(document.getElementById('gameContent'));}}
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='light'?'dark':'light');}
 // no saved choice yet: follow the phone / computer setting (2026-10-10); the Light/Dark button still overrides it
-applyTheme(localStorage.getItem('gg-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark'),false);
+applyTheme(localStorage.getItem('gg-theme')||'light',false); /* Dear Old Days: light is the default on first load, whatever the OS colour scheme is; the toggle still saves a manual choice */
 
 
 // ── Geo language: first visit with no saved choice → pick by country ──

@@ -1,0 +1,204 @@
+/* Dear Old Days - visual theme + magazine front page (presentation only).
+   Palette: white background, green text and accents. No large green blocks.
+   Rules use :not(#dod) so they win over the Classic/Refreshed and light/dark layers. */
+:root{--dod-paper:#ffffff;--dod-ink:#1d3a30;--dod-green:#214c40;--dod-accent:#214c40;--dod-line:#bcd3c8;--dod-soft:#f2f7f4;--dod-muted:#4f6b60;--dod-rust:#a34228}
+:root[data-theme="dark"]{--dod-paper:#0f1a16;--dod-ink:#e6f1ea;--dod-green:#8fd1b0;--dod-accent:#8fd1b0;--dod-line:#2f5244;--dod-soft:#16251f;--dod-muted:#9fbfb0;--dod-rust:#e08a6c}
+html:root:not(#dod) body{background:var(--dod-paper)!important;background-image:none!important;color:var(--dod-ink)!important}
+html:root:not(#dod) #ambientBg{display:none!important}
+.dod-topline,.dod-masthead,.dod-tabs,.dod-front{font-family:Georgia,"Times New Roman",serif}
+
+/* masthead */
+html:root:not(#dod) .dod-topline{background:var(--dod-paper);color:var(--dod-green);text-align:center;font-size:13px;letter-spacing:.28em;padding:9px 12px;border-bottom:1px solid var(--dod-line)}
+html:root:not(#dod) .dod-masthead{background:var(--dod-paper);text-align:center;padding:22px 16px 18px}
+html:root:not(#dod) .dod-brand{color:var(--dod-green);font-size:clamp(2.2rem,6vw,3.8rem);font-weight:700;line-height:1.05;letter-spacing:-.01em}
+html:root:not(#dod) .dod-tagline{color:var(--dod-muted);font:600 12px/1.4 Arial,sans-serif;letter-spacing:.24em;margin-top:8px}
+
+/* toolbar (kept for all existing controls): white with green controls */
+html:root:not(#dod) body>nav.sticky{background:var(--dod-paper)!important;backdrop-filter:none!important;border-top:1px solid var(--dod-line)!important;border-bottom:1px solid var(--dod-line)!important;box-shadow:none!important}
+html:root:not(#dod) body>nav.sticky h1,html:root:not(#dod) body>nav.sticky #logoLetter{display:none!important}
+html:root:not(#dod) body>nav.sticky .container{justify-content:center!important}
+html:root:not(#dod) body>nav.sticky button,
+html:root:not(#dod) body>nav.sticky select{background:var(--dod-paper)!important;border:1px solid var(--dod-line)!important;color:var(--dod-green)!important}
+html:root:not(#dod) body>nav.sticky button *{color:inherit!important}
+html:root:not(#dod) body>nav.sticky select option{color:#1d3a30;background:#fff}
+html:root:not(#dod) body>nav.sticky #profile-chip .nm{color:var(--dod-green)!important}
+
+/* tab bar */
+html:root:not(#dod) .dod-tabs{background:var(--dod-paper);border-bottom:2px solid var(--dod-green);padding:0 8px;overflow:hidden}
+.dod-tabs-in{display:flex;flex-wrap:wrap;justify-content:center;max-width:1100px;margin:0 auto}
+html:root:not(#dod) .dod-tab{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:10px 22px;margin:0;border:0;border-inline-end:1px solid var(--dod-line);background:transparent;color:var(--dod-green);font:700 16px/1.2 Georgia,serif;cursor:pointer;border-radius:0}
+html:root:not(#dod) .dod-tab:first-child{border-inline-start:1px solid var(--dod-line)}
+html:root:not(#dod) .dod-tab-live:hover{background:var(--dod-soft)}
+html:root:not(#dod) .dod-tab[aria-current]{box-shadow:inset 0 -4px 0 var(--dod-green)}
+html:root:not(#dod) .dod-tab:focus-visible{outline:3px solid var(--dod-green);outline-offset:-4px}
+html:root:not(#dod) .dod-tab.ns-nav-pending{color:var(--dod-muted)!important;cursor:default;pointer-events:none;opacity:.85;font-weight:400}
+.dod-tab small,.dod-soon{font:600 10px/1 Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;margin-inline-start:6px}
+
+/* hero wrapper becomes the front page */
+html:root:not(#dod) #hero{background:var(--dod-paper)!important;background-image:none!important;border-bottom:0!important;padding-top:1rem!important}
+html:root:not(#dod) #hero>div:first-child{display:none!important}
+html:root:not(#dod) #hero .w-hero-mark,
+html:root:not(#dod) #hero h2[data-i18n="hero_title"],
+html:root:not(#dod) #hero #dailyQuote{display:none!important}
+html:root:not(#dod) #hero>.container{width:100%!important;margin-inline:auto!important;max-width:1180px!important;padding-inline:1.25rem!important;text-align:start!important}
+html:root:not(#dod) #hero #greetingText{color:var(--dod-ink)!important}
+html:root:not(#dod) #retentionBar{border-top:1px solid var(--dod-line)!important}
+html:root:not(#dod) #retentionBar .flex{justify-content:center}
+
+/* front page */
+html:root:not(#dod) .dod-front{color:var(--dod-ink);text-align:start;margin-bottom:2.5rem}
+.dod-kicker{font:700 12px/1 Arial,sans-serif;letter-spacing:.2em;color:var(--dod-rust);margin:6px 0 8px}
+.dod-sechead{display:flex;align-items:center;gap:16px;margin:30px 0 16px}
+.dod-sechead:first-of-type{margin-top:0}
+.dod-rule{flex:1;height:1px;background:var(--dod-line);min-width:20px}
+html:root:not(#dod) .dod-front h2{background:none!important;-webkit-text-fill-color:var(--dod-green)!important;color:var(--dod-green)!important;font-family:Georgia,serif!important;margin:0;text-shadow:none!important;filter:none!important;display:block!important}
+.dod-h1{font-size:clamp(2rem,5vw,2.9rem)!important;font-weight:700;line-height:1.1}
+.dod-h2{font-size:clamp(1.35rem,3vw,1.7rem)!important;font-weight:700}
+.dod-front h3{font-family:Georgia,serif;color:var(--dod-green);margin:0;font-weight:700;line-height:1.2}
+.dod-front p{font-family:Arial,sans-serif;color:var(--dod-ink);margin:8px 0 0;line-height:1.5}
+.dod-img{background:var(--dod-soft);border:1px solid var(--dod-line);aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.dod-img svg{width:70%;height:90%}
+.dod-img[data-image-slot]{position:relative}
+.dod-lead-grid{display:grid;grid-template-columns:1.65fr 1fr;gap:28px}
+.dod-lead h3{font-size:clamp(1.5rem,3.2vw,2.1rem);margin-top:10px}
+.dod-lead .dod-img{aspect-ratio:16/9}
+.dod-cat{display:block;margin-top:14px;font:700 12px/1 Arial,sans-serif;letter-spacing:.14em;color:var(--dod-rust);text-transform:uppercase}
+.dod-side{display:grid;gap:22px;align-content:start;border-inline-start:1px solid var(--dod-line);padding-inline-start:26px}
+.dod-side-card h3{font-size:1.25rem;margin-top:12px}
+.dod-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;font:600 11px/1.3 Arial,sans-serif;letter-spacing:.06em;color:var(--dod-muted);text-transform:uppercase}
+.dod-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;margin-top:14px;padding:10px 22px;background:var(--dod-paper);color:var(--dod-green);border:2px solid var(--dod-green);border-radius:4px;font:700 15px/1.2 Arial,sans-serif;cursor:pointer}
+button.dod-btn:hover{background:var(--dod-soft)}
+.dod-btn-pending{border-style:dashed;border-color:var(--dod-line);color:var(--dod-muted);cursor:default;pointer-events:none}
+.dod-link{background:none;border:0;border-bottom:1px solid var(--dod-rust);color:var(--dod-rust);font:700 12px/1.6 Arial,sans-serif;letter-spacing:.04em;cursor:pointer;padding:0}
+.dod-games{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.dod-game{border:1px solid var(--dod-line);padding:12px 12px 18px;text-align:center;background:var(--dod-paper)}
+.dod-game .dod-img{aspect-ratio:2/1}
+.dod-game h3{font-size:1.35rem;margin-top:12px}
+.dod-game p{font-size:.9rem;color:var(--dod-muted)}
+.dod-decades{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+html:root:not(#dod) .dod-decade{display:flex;align-items:center;justify-content:center;min-height:62px;border:1px dashed var(--dod-line);color:var(--dod-muted)!important;font:700 1.5rem/1 Georgia,serif;pointer-events:none}
+.dod-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.dod-card{border:1px solid var(--dod-line);background:var(--dod-paper)}
+.dod-card .dod-img{border:0;border-bottom:1px solid var(--dod-line);aspect-ratio:3/2}
+.dod-card-body{padding:6px 16px 16px}
+.dod-card-body .dod-cat{margin-top:10px;font-size:11px}
+.dod-card h3{font-size:1.15rem;margin-top:8px}
+.dod-card p{font-size:.88rem}
+/* inactive items: not links, not buttons */
+html:root:not(#dod) .ns-nav-pending{cursor:default}
+.dod-front [aria-disabled="true"]{cursor:default}
+
+@media (max-width:900px){.dod-cards{grid-template-columns:repeat(2,1fr)}.dod-lead-grid{grid-template-columns:1fr}.dod-side{border-inline-start:0;padding-inline-start:0;grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.dod-games{grid-template-columns:1fr}.dod-decades{grid-template-columns:repeat(2,1fr)}.dod-cards{grid-template-columns:1fr}.dod-side{grid-template-columns:1fr}.dod-tab{padding:8px 12px;min-height:44px;font-size:14px;flex:1 1 33%}.dod-tab small{display:block;margin:2px 0 0}}
+
+/* footer: white with green text */
+html:root:not(#dod) footer{background:var(--dod-paper)!important;border-top:2px solid var(--dod-green)!important}
+html:root:not(#dod) footer,html:root:not(#dod) footer *{color:var(--dod-green)!important}
+html:root:not(#dod) footer a{text-decoration:underline;text-underline-offset:3px}
+
+@media (max-width:640px){
+ html:root:not(#dod) .dod-tab{flex:1 1 45%;flex-direction:column;gap:2px}
+ .dod-tab small,.dod-soon{margin:2px 0 0}
+ .dod-sechead{flex-wrap:wrap;gap:8px 12px}
+ .dod-sechead .dod-rule{display:none}
+ .dod-sechead .dod-link{margin-inline-start:auto}
+ .dod-meta{flex-wrap:wrap}
+}
+.dod-front .dod-sechead{direction:ltr}
+
+/* fixed bottom bar (#adBar): reserve its real height (plus the phone safe area) so it never hides the end of the page */
+html:root:not(#dod) body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))!important}
+html:root:not(#dod) #adBar{height:calc(52px + env(safe-area-inset-bottom,0px))!important;padding-bottom:env(safe-area-inset-bottom,0px)!important;box-sizing:border-box}
+/* anchored scrolls land below the sticky toolbar */
+.dod-front,#dod-catalog{scroll-margin-top:88px}
+
+/* mobile: compact masthead and tab bar so the front page heading and lead card sit above the bottom bar */
+@media (max-width:640px){
+ html:root:not(#dod) .dod-topline{padding:6px 10px;font-size:11px;letter-spacing:.2em}
+ html:root:not(#dod) .dod-masthead{padding:10px 12px 8px}
+ html:root:not(#dod) .dod-brand{font-size:2rem}
+ html:root:not(#dod) .dod-tagline{font-size:10px;margin-top:4px;letter-spacing:.18em}
+ html:root:not(#dod) body>nav.sticky{padding-top:6px!important;padding-bottom:6px!important}
+ html:root:not(#dod) body>nav.sticky button{min-height:40px!important;padding:2px 8px!important}
+ html:root:not(#dod) .dod-tab{flex:1 1 30%;min-height:40px;padding:4px 6px;font-size:14px}
+ .dod-tab small,.dod-soon{font-size:9px}
+ html:root:not(#dod) #hero{padding-top:.25rem!important}
+ .dod-kicker{margin:2px 0 4px;font-size:11px}
+ .dod-sechead{margin:18px 0 12px}
+ .dod-h1{font-size:1.9rem!important}
+ .dod-lead .dod-img{aspect-ratio:2/1}
+ .dod-img svg{height:86%}
+}
+
+/* toolbar: Menu button on the far left (both languages), other controls to its right */
+html:root:not(#dod) body>nav.sticky .container>div:first-child{display:none!important}
+html:root:not(#dod) body>nav.sticky .container>div:last-child{direction:ltr;width:100%;justify-content:flex-end;align-items:center}
+html:root:not(#dod) body>nav.sticky #menuBtn{order:-1;margin-right:auto}
+html:root:not(#dod) body>nav.sticky .container>div:last-child>*{direction:inherit}
+html:root:not(#dod) body>nav.sticky .container>div:last-child>button,
+html:root:not(#dod) body>nav.sticky .container>div:last-child>select{direction:ltr}
+html:root:not(#dod) html[dir="rtl"] body>nav.sticky .container>div:last-child>button{direction:rtl}
+
+/* ===== Layout and palette of the approved mockup: cream page, deep-green masthead and nav bands, rust accents ===== */
+:root{--dod-paper:#fbf8f1;--dod-band:#1f4a3d;--dod-band-ink:#fffaf0;--dod-band-soft:#b9cbc2;--dod-gold:#e6c894;--dod-line:#cdd9d1;--dod-soft:#f1ece0}
+:root[data-theme="dark"]{--dod-paper:#0f1a16;--dod-band:#153b30;--dod-band-ink:#e6f1ea;--dod-band-soft:#9fbfb0;--dod-gold:#8fd1b0;--dod-soft:#16251f}
+
+/* top strip with side rules */
+html:root:not(#dod) .dod-topline{background:var(--dod-band);color:var(--dod-band-ink);border-bottom:0;padding:9px 12px}
+.dod-topline span{display:inline-flex;align-items:center;gap:18px}
+.dod-topline span::before,.dod-topline span::after{content:"";width:clamp(30px,10vw,130px);height:1px;background:var(--dod-band-ink);opacity:.7}
+/* masthead */
+html:root:not(#dod) .dod-masthead{background:var(--dod-paper);padding:14px 16px 12px}
+html:root:not(#dod) .dod-brand{font-size:clamp(2.4rem,7vw,4.4rem);color:var(--dod-green)}
+.dod-tagline span{display:inline-flex;align-items:center;gap:16px}
+.dod-tagline span::before,.dod-tagline span::after{content:"";width:clamp(24px,8vw,70px);height:1px;background:var(--dod-rust)}
+/* tab bar as a green band */
+html:root:not(#dod) .dod-tabs{background:var(--dod-band);border-bottom:0;padding:0 8px}
+html:root:not(#dod) .dod-tab{color:var(--dod-band-ink);border-inline-end:1px solid rgba(255,250,240,.28);min-height:46px;padding:8px 26px;font-size:15px}
+html:root:not(#dod) .dod-tab:first-child{border-inline-start:0}
+html:root:not(#dod) .dod-tab:last-child{border-inline-end:0}
+html:root:not(#dod) .dod-tab-live:hover{background:rgba(255,250,240,.10)}
+html:root:not(#dod) .dod-tab[aria-current]{box-shadow:inset 0 -4px 0 var(--dod-gold)}
+html:root:not(#dod) .dod-tab:focus-visible{outline:3px solid var(--dod-gold)}
+html:root:not(#dod) .dod-tab.ns-nav-pending{color:var(--dod-band-soft)!important;opacity:1;font-weight:400}
+/* toolbar sits under the band, quiet */
+html:root:not(#dod) body>nav.sticky{border-top:0!important}
+
+/* front page parts */
+.dod-rule-rust{background:var(--dod-rust)!important;opacity:.55}
+.dod-cat-green{color:var(--dod-green)!important}
+.dod-lead .dod-img-lead{aspect-ratio:3/2;background:var(--dod-soft)}
+.dod-collage{display:grid;grid-template-columns:1.2fr 1fr;grid-template-rows:1fr 1fr;gap:6px;width:100%;height:100%;padding:8px;box-sizing:border-box}
+.dod-collage svg{width:100%;height:100%;background:var(--dod-paper);border:1px solid var(--dod-line)}
+.dod-collage svg:first-child{grid-row:1/3}
+.dod-btn-rust{background:var(--dod-rust);border-color:var(--dod-rust);color:#fff;border-radius:3px}
+button.dod-btn-rust:hover{background:#8a3620}
+.dod-btn-pending.dod-btn-rust{background:transparent;border:2px dashed var(--dod-rust);color:var(--dod-rust)}
+.dod-adslot{margin:26px 0 4px;min-height:54px;display:flex;align-items:center;justify-content:center;background:var(--dod-soft);border:1px solid var(--dod-line);color:var(--dod-muted);font:600 11px/1 Arial,sans-serif;letter-spacing:.2em}
+.dod-game{padding:0;border:1px solid var(--dod-line);overflow:hidden;text-align:center}
+.dod-game .dod-img{border:0;border-bottom:1px solid var(--dod-line);aspect-ratio:16/9}
+.dod-game-body{padding:12px 12px 18px}
+.dod-game-body h3{font-size:1.35rem;margin:0}
+.dod-decade{flex-direction:column;gap:4px;border:2px solid var(--dod-green)!important;border-style:dashed!important;border-color:var(--dod-line)!important}
+html:root:not(#dod) .dod-decade small{font:600 9px/1 Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+@media (max-width:640px){
+ html:root:not(#dod) .dod-tab{padding:4px 6px}
+ .dod-topline span{gap:10px}
+ .dod-tagline span{gap:10px}
+}
+/* mockup: green game footers and green decade buttons */
+html:root:not(#dod) .dod-game{background:var(--dod-band);border-color:var(--dod-band)}
+html:root:not(#dod) .dod-game-body h3,html:root:not(#dod) .dod-game-body p{color:var(--dod-band-ink)}
+html:root:not(#dod) .dod-game-body p{opacity:.85;font-size:.95rem;margin:4px 0 10px}
+html:root:not(#dod) .dod-decade{background:var(--dod-band)!important;color:var(--dod-band-ink)!important;border:2px solid var(--dod-gold)!important;border-style:solid!important}
+html:root:not(#dod) .dod-decade small{color:var(--dod-band-soft)}
+/* Hebrew: force the toolbar row to flow left to right so Menu stays leftmost */
+html[dir="rtl"]:root:not(#dod) body>nav.sticky .container{direction:ltr}
+html[dir="rtl"]:root:not(#dod) body>nav.sticky .container>div:last-child{direction:ltr}
+/* small screens: shorter collage so the quiz button clears the fixed bottom bar at 390x844 */
+@media (max-width:640px){
+ html:root:not(#dod) .dod-lead .dod-img-lead{aspect-ratio:2.4/1}
+ .dod-collage{padding:5px;gap:4px}
+ .dod-lead .dod-btn,.dod-lead{scroll-margin-bottom:80px}
+ html:root:not(#dod) .dod-lead{padding-bottom:6px}
+}
