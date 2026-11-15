@@ -50,7 +50,7 @@ aside.note strong{color:var(--dod-green)}
 /* stories listing */
 .ns-welcome{font-size:1.15rem;color:var(--dod-ink);max-width:56ch}
 .ns-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin:1rem 0 2rem}
-.ns-card{display:flex;flex-direction:column;background:var(--dod-paper);border:1px solid var(--dod-line);border-radius:12px;padding:18px;box-shadow:none}
+.ns-card{display:flex;flex-direction:column;background:var(--dod-paper);border:2px solid var(--dod-green);border-radius:12px;padding:18px;box-shadow:none}
 .ns-card:hover{border-color:var(--dod-green)}
 .ns-card .ns-eyebrow{margin-top:0}
 .ns-card-title{color:var(--dod-green);font:700 1.25rem/1.25 Georgia,serif;margin:.2em 0 .4em}
