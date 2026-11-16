@@ -211,7 +211,7 @@ UI = {
 }
 
 
-def page(gid, lang, i18n, why, skills, slabels) -> str:
+def preserved_english_page(gid) -> str:
     d = i18n[lang]
     title = d.get(TITLE_OVERRIDE.get(gid, f"game_{gid}_title")) \
         or i18n["en"].get(TITLE_OVERRIDE.get(gid, f"game_{gid}_title")) or gid
@@ -343,6 +343,21 @@ def new_games() -> list:
     return [g for g in reg["games"] if (ROOT / "js" / "games" / (g["id"] + ".js")).exists()]
 
 
+def preserved_english_page(gid):
+    """Pinned current-production landing content/design, with English-only navigation.
+
+    This baseline intentionally keeps independent landing edits rather than
+    regenerating them from app keys that do not match legacy28 game IDs.
+    Refresh the checked-in baseline explicitly when those landing edits change.
+    """
+    baseline = json.loads((ROOT / "tools/english-production-landings-baseline.json").read_text())
+    value = baseline["pages"][gid]
+    value = re.sub(r'<link rel="alternate" hreflang="(?:he|es|fr|de|el)"[^>]*>\n?', '', value)
+    value = re.sub(r'    <p[^>]*>In other languages:.*?</p>\n?', '', value)
+    value = value.replace('BrainPlay', 'Dear Old Days')
+    return value
+
+
 def main() -> None:
     i18n, ids = read_i18n(), read_game_ids()
     why, skills, slabels = read_why(), read_skills(), skill_labels()
@@ -361,7 +376,7 @@ def main() -> None:
             out = ROOT / lang / gid
             out.mkdir(parents=True, exist_ok=True)
             (out / "index.html").write_text(
-                page(gid, lang, i18n, why, skills, slabels), encoding="utf-8")
+                preserved_english_page(gid), encoding="utf-8")
             written += 1
 
     urls = [f"{SITE}/"] + [f"{SITE}/{l}/{g}/" for l in LANGS for g in ids]
