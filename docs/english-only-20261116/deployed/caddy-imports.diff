@@ -1,0 +1,18 @@
+--- /root/backups/locale-301-20261116-2204/Caddyfile.before	2026-11-16 22:03:59.700164506 +0000
++++ /root/caddy/Caddyfile	2026-11-16 22:04:14.321133133 +0000
+@@ -96,6 +96,7 @@
+ }
+ 
+ games.178-105-148-72.sslip.io {
++    import /etc/caddy/dearolddays-legacy-301.caddy
+ 	import notsite
+     encode gzip
+     @nocache path / *.html *.js *.css /sw.js /manifest.json
+@@ -1948,6 +1949,7 @@
+ 
+ # Dear Old Days custom domain connection, owner-approved16Nov2026. Same production origin, no alias redirects.
+ dearolddays.com, www.dearolddays.com {
++    import /etc/caddy/dearolddays-legacy-301.caddy
+     import notsite
+     encode gzip
+     @nocache path / *.html *.js *.css /sw.js /manifest.json
