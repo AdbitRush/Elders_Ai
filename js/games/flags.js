@@ -1,27 +1,32 @@
-// Windows has no flag-emoji glyphs — render real flag images from the emoji's
-// regional-indicator pair (🇺🇸 → "us" → flagcdn), emoji text as a fallback.
-function _flagUrl(emoji){
-    const code = [...emoji].map(ch => String.fromCharCode(ch.codePointAt(0) - 127397)).join('').toLowerCase();
-    return 'https://flagcdn.com/w320/' + code + '.png';
+function _flagUrl(emoji) {
+  const code = [...emoji].map(ch => String.fromCharCode(ch.codePointAt(0) - 127397)).join('').toLowerCase();
+  return 'https://flagcdn.com/w320/' + code + '.png';
 }
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 14: FLAG QUIZ
-// ═══════════════════════════════════════════════════════════════════════════════
 function initFlags(c) {
-    const gs = gameState.flags;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    gs.pool = shuffle([...i18nData[currentLang].flags_pool]);
-    gs.idx = 0; gs.perLevel = _d==='easy'?6:_d==='hard'?14:10; gs.score = 0;
-    _flagNext(c);
+  const gs = gameState.flags;
+  const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+  gs.pool = shuffle([...i18nData[currentLang].flags_pool]);
+  gs.idx = 0;
+  gs.perLevel = _d === 'easy' ? 6 : _d === 'hard' ? 14 : 10;
+  gs.score = 0;
+  _flagNext(c);
 }
 function _flagNext(c) {
-    if(!gameState.active || gameState.currentId !== 'flags') return;
-    const gs = gameState.flags; gs._locked=false;
-    if(gs.idx >= gs.perLevel) { gs._sessionScore={correct:gs.score,total:gs.perLevel}; levelComplete(); return; }
-    const item = gs.pool[gs.idx % gs.pool.length];
-    const isHe = currentLang === 'he';
-    // ── presentation only below: an explorer's desk (styles are scoped under .bpf) ──
-    const css = `
+  if (!gameState.active || gameState.currentId !== 'flags')
+    return;
+  const gs = gameState.flags;
+  gs._locked = false;
+  if (gs.idx >= gs.perLevel) {
+    gs._sessionScore = {
+      correct: gs.score,
+      total: gs.perLevel
+    };
+    levelComplete();
+    return;
+  }
+  const item = gs.pool[gs.idx % gs.pool.length];
+  const isHe = false;
+  const css = `
 .bpf,.bpf *{box-sizing:border-box}
 .bpf{width:100%;max-width:28rem;margin-left:auto;margin-right:auto;text-align:center}
 .bpf-desk{position:relative;padding:14px 12px 16px;border-radius:22px;overflow:hidden;
@@ -105,37 +110,53 @@ function _flagNext(c) {
 @keyframes bpfInk{from{opacity:0;transform:rotate(-14deg) scale(1.5)}to{opacity:.95;transform:rotate(-14deg) scale(1)}}
 @keyframes bpfShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
 `;
-    const rose = `<svg class="bpf-rose" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16 2.5l3 13.5-3 13.5-3-13.5z" fill="currentColor"/><path d="M2.5 16l13.5-3 13.5 3-13.5 3z" fill="currentColor" opacity=".55"/><circle cx="16" cy="16" r="2" fill="#fbf3df"/></svg>`;
-    const route = Array.from({length:gs.perLevel},(_,i)=>`<i class="bpf-dot ${i<gs.idx?'is-done':i===gs.idx?'is-now':'is-todo'}"></i>`).join('');
-    c.innerHTML = `<div class="bpf${isHe?' bpf-he':''} max-w-md w-full text-center"><style>${css}</style>
+  const rose = `<svg class="bpf-rose" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16 2.5l3 13.5-3 13.5-3-13.5z" fill="currentColor"/><path d="M2.5 16l13.5-3 13.5 3-13.5 3z" fill="currentColor" opacity=".55"/><circle cx="16" cy="16" r="2" fill="#fbf3df"/></svg>`;
+  const route = Array.from({ length: gs.perLevel }, (_, i) => `<i class="bpf-dot ${ i < gs.idx ? 'is-done' : i === gs.idx ? 'is-now' : 'is-todo' }"></i>`).join('');
+  c.innerHTML = `<div class="bpf${ '' } max-w-md w-full text-center"><style>${ css }</style>
       <div class="bpf-desk">
         <svg class="bpf-wm" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4"/><path d="M50 4l8 46-8 46-8-46z" fill="currentColor"/><path d="M4 50l46-8 46 8-46 8z" fill="currentColor" opacity=".6"/><path d="M18 18l36 28-4 4zM82 18L54 54l-4-4zM82 82L46 54l4-4zM18 82l28-36 4 4z" fill="currentColor" opacity=".35"/></svg>
-        <div class="bpf-top"><span class="bpf-tag">${gt('Q', 'שאלה')} ${gs.idx+1}/${gs.perLevel}</span><span class="bpf-tag text-green-600">&#10003; ${gs.score}</span></div>
-        <div class="bpf-route" aria-hidden="true">${route}</div>
+        <div class="bpf-top"><span class="bpf-tag">${ gt('Q') } ${ gs.idx + 1 }/${ gs.perLevel }</span><span class="bpf-tag text-green-600">&#10003; ${ gs.score }</span></div>
+        <div class="bpf-route" aria-hidden="true">${ route }</div>
         <div class="bpf-card">
           <svg class="bpf-post" viewBox="0 0 40 48" aria-hidden="true" focusable="false"><rect x="1" y="1" width="38" height="46" fill="#f7ecd0" stroke="#d8c08a" stroke-width="2" stroke-dasharray="3 3"/><rect x="6" y="6" width="28" height="36" fill="#2f6f73"/><circle cx="20" cy="24" r="9" fill="none" stroke="#f3d9a0" stroke-width="1.5"/><path d="M20 13l2.5 11-2.5 11-2.5-11z" fill="#f3d9a0"/><path d="M9 24l11-2.5 11 2.5-11 2.5z" fill="#f3d9a0" opacity=".7"/></svg>
           <span class="bpf-pm" aria-hidden="true"></span>
           <div class="bpf-mount select-none">
-            <img class="bpf-flag" src="${_flagUrl(item.flag)}" alt="flag"
-                 onerror="this.outerHTML='<div style=&quot;font-size:clamp(4rem,20vw,8rem)&quot;>'+decodeURIComponent('${encodeURIComponent(item.flag)}')+'</div>'">
+            <img class="bpf-flag" src="${ _flagUrl(item.flag) }" alt="flag"
+                 onerror="this.outerHTML='<div style=&quot;font-size:clamp(4rem,20vw,8rem)&quot;>'+decodeURIComponent('${ encodeURIComponent(item.flag) }')+'</div>'">
           </div>
           <span class="bpf-ink" aria-hidden="true"></span>
         </div>
-        <div class="bpf-opts">${item.opts.map((o,i)=>`<button onclick="answerFlag(${i},${item.a})" class="bpf-opt" data-ok="${i===item.a?1:0}">${rose}${o}</button>`).join('')}</div>
+        <div class="bpf-opts">${ item.opts.map((o, i) => `<button onclick="answerFlag(${ i },${ item.a })" class="bpf-opt" data-ok="${ i === item.a ? 1 : 0 }">${ rose }${ o }</button>`).join('') }</div>
       </div>
     </div>`;
 }
 function answerFlag(sel, correct) {
-    if(!gameState.active || gameState.currentId !== 'flags') return;
-    const gs = gameState.flags;
-    if(gs._locked)return;gs._locked=true;  // one answer per question
-    if(sel === correct) { sfxCorrect(); gs.score++; } else sfxWrong();
-    {const _c=document.querySelector('#gameContent .text-green-600');if(_c)_c.textContent='✓ '+gs.score;}
-    // visual feedback only (ink stamp on the postcard, glow / shake, reveal the right destination)
-    try{const _r=document.getElementById('gameContent'),_w=_r&&_r.querySelector?_r.querySelector('.bpf'):null;
-        if(_w){_w.setAttribute('data-state',sel===correct?'right':'wrong');
-            const _b=_w.querySelectorAll('.bpf-opt')[sel];if(_b)_b.classList.add('is-pick');}}catch(_e){}
-    gs.idx++;
-    setTimeout(() => _flagNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);
+  if (!gameState.active || gameState.currentId !== 'flags')
+    return;
+  const gs = gameState.flags;
+  if (gs._locked)
+    return;
+  gs._locked = true;
+  if (sel === correct) {
+    sfxCorrect();
+    gs.score++;
+  } else
+    sfxWrong();
+  {
+    const _c = document.querySelector('#gameContent .text-green-600');
+    if (_c)
+      _c.textContent = '\u2713 ' + gs.score;
+  }
+  try {
+    const _r = document.getElementById('gameContent'), _w = _r && _r.querySelector ? _r.querySelector('.bpf') : null;
+    if (_w) {
+      _w.setAttribute('data-state', sel === correct ? 'right' : 'wrong');
+      const _b = _w.querySelectorAll('.bpf-opt')[sel];
+      if (_b)
+        _b.classList.add('is-pick');
+    }
+  } catch (_e) {
+  }
+  gs.idx++;
+  setTimeout(() => _flagNext(document.getElementById('gameContent')), sel === correct ? 350 : 800);
 }
- 

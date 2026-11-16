@@ -1,27 +1,34 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 20: DIGIT SPAN — memorize a number, type it back
-// Scene: a flip-clock on a wooden desk shows the number, then a retro telephone
-// dial pad rises for the answer. All art is inline CSS/SVG (no external assets).
-// ═══════════════════════════════════════════════════════════════════════════════
-function initDigitSpan(container){
-    const gs=gameState.digitspan;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    const _adj=_d==='easy'?-1:_d==='hard'?1:0;
-    gs._len=Math.min(9,Math.max(3,3+Math.floor(((gs.level||1)-1)/2)+_adj));  // digits per number
-    gs._sq=5; gs._si=0; gs._ss=0;
-    _dsNext(container);
+function initDigitSpan(container) {
+  const gs = gameState.digitspan;
+  const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+  const _adj = _d === 'easy' ? -1 : _d === 'hard' ? 1 : 0;
+  gs._len = Math.min(9, Math.max(3, 3 + Math.floor(((gs.level || 1) - 1) / 2) + _adj));
+  gs._sq = 5;
+  gs._si = 0;
+  gs._ss = 0;
+  _dsNext(container);
 }
-function _dsNext(container){
-    if(!gameState.active||gameState.currentId!=='digitspan')return;
-    const gs=gameState.digitspan; gs._locked=false;
-    if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
-    const isHe=currentLang==='he';
-    let num='';
-    for(let i=0;i<gs._len;i++)num+=Math.floor(Math.random()*10);
-    gs._target=num; gs._input='';
-    const showMs=1200+gs._len*450;
-    // ── presentation only below ──
-    const css=`
+function _dsNext(container) {
+  if (!gameState.active || gameState.currentId !== 'digitspan')
+    return;
+  const gs = gameState.digitspan;
+  gs._locked = false;
+  if (gs._si >= gs._sq) {
+    gs._sessionScore = {
+      correct: gs._ss,
+      total: gs._sq
+    };
+    levelComplete();
+    return;
+  }
+  const isHe = false;
+  let num = '';
+  for (let i = 0; i < gs._len; i++)
+    num += Math.floor(Math.random() * 10);
+  gs._target = num;
+  gs._input = '';
+  const showMs = 1200 + gs._len * 450;
+  const css = `
 .ds-root{margin-inline:auto;color:#fbf3df}
 .ds-root *{box-sizing:border-box}
 .ds-root .hidden{display:none}
@@ -92,63 +99,91 @@ verflow:hidden}
 @media (hover:hover){.ds-root .ds-key:hover{border-color:#ffe9a8}}
 @media (prefers-reduced-motion:reduce){.ds-root *{animation:none!important;transition:none!important}}
 `;
-    const pips=Array.from({length:gs._sq},(_,i)=>`<i class="ds-pip${i<gs._si?' ds-pip-done':i===gs._si?' ds-pip-now':''}"></i>`).join('');
-    const cards=num.split('').map(c=>`<span class="ds-card" aria-hidden="true">${c}</span>`).join('');
-    container.innerHTML=`<div class="ds-root max-w-xl w-full text-center">
-      <style>${css}</style>
+  const pips = Array.from({ length: gs._sq }, (_, i) => `<i class="ds-pip${ i < gs._si ? ' ds-pip-done' : i === gs._si ? ' ds-pip-now' : '' }"></i>`).join('');
+  const cards = num.split('').map(c => `<span class="ds-card" aria-hidden="true">${ c }</span>`).join('');
+  container.innerHTML = `<div class="ds-root max-w-xl w-full text-center">
+      <style>${ css }</style>
       <div class="ds-desk">
-        <div class="ds-head"><span>${gt('Round', 'סיבוב')} ${gs._si+1}/${gs._sq}</span><span class="ds-pips" aria-hidden="true">${pips}</span><span class="text-green-600 ds-score">✓ ${gs._ss}</span></div>
-        <div id="ds-display" class="ds-display ds-show" dir="ltr" style="--n:${gs._len}">
-          <p class="ds-cap" dir="auto">${gt('Memorize the number!', 'זכרו את המספר!')}</p>
-          <div class="ds-flip" role="img" aria-label="${num.split('').join(' ')}">${cards}</div>
-          <div class="ds-timer" aria-hidden="true"><i style="animation-duration:${showMs}ms"></i></div>
+        <div class="ds-head"><span>${ gt('Round') } ${ gs._si + 1 }/${ gs._sq }</span><span class="ds-pips" aria-hidden="true">${ pips }</span><span class="text-green-600 ds-score">✓ ${ gs._ss }</span></div>
+        <div id="ds-display" class="ds-display ds-show" dir="ltr" style="--n:${ gs._len }">
+          <p class="ds-cap" dir="auto">${ gt('Memorize the number!') }</p>
+          <div class="ds-flip" role="img" aria-label="${ num.split('').join(' ') }">${ cards }</div>
+          <div class="ds-timer" aria-hidden="true"><i style="animation-duration:${ showMs }ms"></i></div>
         </div>
         <div id="ds-pad" class="hidden"></div>
       </div>
     </div>`;
-    setTimeout(()=>_dsShowPad(),showMs);
+  setTimeout(() => _dsShowPad(), showMs);
 }
-function _dsShowPad(){
-    if(!gameState.active||gameState.currentId!=='digitspan')return;
-    const gs=gameState.digitspan;
-    const isHe=currentLang==='he';
-    const disp=document.getElementById('ds-display');
-    disp.innerHTML=`<span id="ds-typed" class="ds-typed text-[#b7791f]"><span class="ds-card ds-cursor"></span></span>`;
-    if(disp.classList){disp.classList.remove('ds-show');disp.classList.add('ds-recall');}   // scene: clock becomes the answer slot
-    const pad=document.getElementById('ds-pad');
-    pad.classList.remove('hidden');
-    let html=`<div class="ds-phone"><p class="ds-phone-cap"><svg viewBox="0 0 48 24" width="44" height="22" aria-hidden="true"><path d="M4 14C4 6 12 3 24 3s20 3 20 11v3c0 2-1.5 3-3.5 3h-5c-2 0-3-1-3-3v-3c-3-1.5-14-1.5-17 0v3c0 2-1 3-3 3h-5C5.5 20 4 19 4 17z" fill="#f6e2b0"/></svg><span>${gt('Type the number:', 'הקלידו את המספר:')}</span></p><div class="ds-keys" dir="ltr">`;
-    [1,2,3,4,5,6,7,8,9].forEach(d=>{html+=`<button type="button" onclick="_dsKey(${d})" class="ds-key">${d}</button>`;});
-    html+=`<button type="button" onclick="_dsKey(-1)" class="ds-key ds-key-del" aria-label="Delete">${Icon.ui('delete',{size:'1.2em'})}</button>
+function _dsShowPad() {
+  if (!gameState.active || gameState.currentId !== 'digitspan')
+    return;
+  const gs = gameState.digitspan;
+  const isHe = false;
+  const disp = document.getElementById('ds-display');
+  disp.innerHTML = `<span id="ds-typed" class="ds-typed text-[#b7791f]"><span class="ds-card ds-cursor"></span></span>`;
+  if (disp.classList) {
+    disp.classList.remove('ds-show');
+    disp.classList.add('ds-recall');
+  }
+  const pad = document.getElementById('ds-pad');
+  pad.classList.remove('hidden');
+  let html = `<div class="ds-phone"><p class="ds-phone-cap"><svg viewBox="0 0 48 24" width="44" height="22" aria-hidden="true"><path d="M4 14C4 6 12 3 24 3s20 3 20 11v3c0 2-1.5 3-3.5 3h-5c-2 0-3-1-3-3v-3c-3-1.5-14-1.5-17 0v3c0 2-1 3-3 3h-5C5.5 20 4 19 4 17z" fill="#f6e2b0"/></svg><span>${ gt('Type the number:') }</span></p><div class="ds-keys" dir="ltr">`;
+  [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ].forEach(d => {
+    html += `<button type="button" onclick="_dsKey(${ d })" class="ds-key">${ d }</button>`;
+  });
+  html += `<button type="button" onclick="_dsKey(-1)" class="ds-key ds-key-del" aria-label="Delete">${ Icon.ui('delete', { size: '1.2em' }) }</button>
            <button type="button" onclick="_dsKey(0)" class="ds-key">0</button>
-           <button type="button" onclick="_dsKey(-2)" class="ds-key ds-key-ok" aria-label="OK">${Icon.ui('check',{size:'1.2em',sw:3})}</button>`;
-    pad.innerHTML=html+`</div></
+           <button type="button" onclick="_dsKey(-2)" class="ds-key ds-key-ok" aria-label="OK">${ Icon.ui('check', {
+    size: '1.2em',
+    sw: 3
+  }) }</button>`;
+  pad.innerHTML = html + `</div></
 div>`;
 }
-function _dsKey(d){
-    const gs=gameState.digitspan;
-    if(gs._locked)return;   // after OK the round is judged: a second OK scored the same number twice and skipped a round
-    if(d===-2)gs._locked=true;
-    if(d===-1){gs._input=gs._input.slice(0,-1);}
-    else if(d===-2){
-        const isC=gs._input===gs._target;
-        if(isC){sfxCorrect();gs._ss++;}else sfxWrong();
-        const el=document.getElementById('ds-typed');
-        if(el&&!isC){el.innerHTML=`<span class="ds-miss text-red-500 line-through">${gs._input||'—'}</span> <span class="ds-fix text-green-600">${gs._target}</span>`;}
-        if(el&&isC&&el.classList)el.classList.add('ds-gold');        // correct: the cards glow warm gold
-        const pad=document.getElementById('ds-pad');
-        if(pad&&pad.classList)pad.classList.add('ds-done');          // keys rest while the round is judged
-        gs._si++;
-        setTimeout(()=>_dsNext(document.getElementById('gameContent')),isC?400:1600);
-        return;
+function _dsKey(d) {
+  const gs = gameState.digitspan;
+  if (gs._locked)
+    return;
+  if (d === -2)
+    gs._locked = true;
+  if (d === -1) {
+    gs._input = gs._input.slice(0, -1);
+  } else if (d === -2) {
+    const isC = gs._input === gs._target;
+    if (isC) {
+      sfxCorrect();
+      gs._ss++;
+    } else
+      sfxWrong();
+    const el = document.getElementById('ds-typed');
+    if (el && !isC) {
+      el.innerHTML = `<span class="ds-miss text-red-500 line-through">${ gs._input || '\u2014' }</span> <span class="ds-fix text-green-600">${ gs._target }</span>`;
     }
-    else if(gs._input.length<gs._len+2){gs._input+=d;}
-    const el=document.getElementById('ds-typed');
-    if(el){
-        el.innerText=gs._input||' ';
-        // dress the typed number as flip cards, plus a dashed "next digit" card while more can be typed
-        el.innerHTML=gs._input.split('').map((c,i,a)=>`<span class="ds-card${d>=0&&i===a.length-1?' ds-new':''}">${c}</span>`).join('')
-            +(gs._input.length<gs._len+2?`<span class="ds-card ds-cursor"></span>`:'');
-    }
+    if (el && isC && el.classList)
+      el.classList.add('ds-gold');
+    const pad = document.getElementById('ds-pad');
+    if (pad && pad.classList)
+      pad.classList.add('ds-done');
+    gs._si++;
+    setTimeout(() => _dsNext(document.getElementById('gameContent')), isC ? 400 : 1600);
+    return;
+  } else if (gs._input.length < gs._len + 2) {
+    gs._input += d;
+  }
+  const el = document.getElementById('ds-typed');
+  if (el) {
+    el.innerText = gs._input || ' ';
+    el.innerHTML = gs._input.split('').map((c, i, a) => `<span class="ds-card${ d >= 0 && i === a.length - 1 ? ' ds-new' : '' }">${ c }</span>`).join('') + (gs._input.length < gs._len + 2 ? `<span class="ds-card ds-cursor"></span>` : '');
+  }
 }
- 

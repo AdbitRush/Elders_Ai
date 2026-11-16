@@ -1,35 +1,102 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 10: NUMBER SEQUENCE
-// Scene: a chalkboard "number train" — painted cars carry the sequence, the
-// dashed car waits for the answer, wooden number blocks sit on a shelf below.
-// All art is inline CSS/SVG (no external assets).
-// ═══════════════════════════════════════════════════════════════════════════════
 const _SEQ_GENERATORS = [
-    (lvl) => { const step=2+lvl,s=Math.floor(Math.random()*10)+1; return {seq:[s,s+step,s+2*step,s+3*step],next:s+4*step,type:'+'} },
-    (lvl) => { const step=1+Math.floor(lvl/2),s=Math.floor(Math.random()*8)+10+lvl*2; return {seq:[s,s-step,s-2*step,s-3*step],next:s-4*step,type:'-'} },
-    ()    => { const m=2,s=Math.floor(Math.random()*4)+1; return {seq:[s,s*m,s*m*m,s*m*m*m],next:s*m*m*m*m,type:'×2'} },
-    // each number is the sum of the two before it (Fibonacci rule). The old one built a,b,a+b,a+2b -> a+3b, which no rule explains.
-    (lvl) => { const a=1+Math.floor(Math.random()*3),b=a+1+Math.floor(Math.random()*3); return {seq:[a,b,a+b,a+2*b],next:2*a+3*b,type:'fib'} },
-    (lvl) => { const step=5+lvl*2,s=Math.floor(Math.random()*5)+1; return {seq:[s,s+step,s+2*step,s+3*step],next:s+4*step,type:'+'} },
+  lvl => {
+    const step = 2 + lvl, s = Math.floor(Math.random() * 10) + 1;
+    return {
+      seq: [
+        s,
+        s + step,
+        s + 2 * step,
+        s + 3 * step
+      ],
+      next: s + 4 * step,
+      type: '+'
+    };
+  },
+  lvl => {
+    const step = 1 + Math.floor(lvl / 2), s = Math.floor(Math.random() * 8) + 10 + lvl * 2;
+    return {
+      seq: [
+        s,
+        s - step,
+        s - 2 * step,
+        s - 3 * step
+      ],
+      next: s - 4 * step,
+      type: '-'
+    };
+  },
+  () => {
+    const m = 2, s = Math.floor(Math.random() * 4) + 1;
+    return {
+      seq: [
+        s,
+        s * m,
+        s * m * m,
+        s * m * m * m
+      ],
+      next: s * m * m * m * m,
+      type: '\xD72'
+    };
+  },
+  lvl => {
+    const a = 1 + Math.floor(Math.random() * 3), b = a + 1 + Math.floor(Math.random() * 3);
+    return {
+      seq: [
+        a,
+        b,
+        a + b,
+        a + 2 * b
+      ],
+      next: 2 * a + 3 * b,
+      type: 'fib'
+    };
+  },
+  lvl => {
+    const step = 5 + lvl * 2, s = Math.floor(Math.random() * 5) + 1;
+    return {
+      seq: [
+        s,
+        s + step,
+        s + 2 * step,
+        s + 3 * step
+      ],
+      next: s + 4 * step,
+      type: '+'
+    };
+  }
 ];
-function initNumSeq(container){
-    const gs=gameState.numseq;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    gs._sq=_d==='easy'?6:_d==='hard'?14:10; gs._si=0; gs._ss=0;
-    _numseqNext(container);
+function initNumSeq(container) {
+  const gs = gameState.numseq;
+  const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+  gs._sq = _d === 'easy' ? 6 : _d === 'hard' ? 14 : 10;
+  gs._si = 0;
+  gs._ss = 0;
+  _numseqNext(container);
 }
-function _numseqNext(container){
-    if(!gameState.active||gameState.currentId!=='numseq')return;
-    const gs=gameState.numseq; gs._locked=false;
-    if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
-    const gen=_SEQ_GENERATORS[Math.floor(Math.random()*_SEQ_GENERATORS.length)];
-    const {seq,next}=gen(gs.level);
-    let opts=new Set([next]);
-    while(opts.size<4){const d=next+(Math.floor(Math.random()*10)-5);if(d!==next&&d>0)opts.add(d);}
-    const optsArr=shuffle(Array.from(opts));
-    const isHe=currentLang==='he';
-    // ── presentation only below ──
-    const css=`
+function _numseqNext(container) {
+  if (!gameState.active || gameState.currentId !== 'numseq')
+    return;
+  const gs = gameState.numseq;
+  gs._locked = false;
+  if (gs._si >= gs._sq) {
+    gs._sessionScore = {
+      correct: gs._ss,
+      total: gs._sq
+    };
+    levelComplete();
+    return;
+  }
+  const gen = _SEQ_GENERATORS[Math.floor(Math.random() * _SEQ_GENERATORS.length)];
+  const {seq, next} = gen(gs.level);
+  let opts = new Set([next]);
+  while (opts.size < 4) {
+    const d = next + (Math.floor(Math.random() * 10) - 5);
+    if (d !== next && d > 0)
+      opts.add(d);
+  }
+  const optsArr = shuffle(Array.from(opts));
+  const isHe = false;
+  const css = `
 
 .ns-root{color:#2a1d12;max-width:1000px;
   --ns-car-h:clamp(3.3rem,10vw,7.5rem);
@@ -103,49 +170,69 @@ function _numseqNext(container){
 @media (hover:hover){.ns-root .ns-block:hover{border-color:#6b4526;transform:translateY(-2px)}.ns-root .ns-block:hover:active{transform:scale(.96)}}
 @media (prefers-reduced-motion:reduce){.ns-root *{animation:none!important;transition:none!important}}
 `;
-    const paints=['#b5533c','#c9962e','#5f8a6b','#4f7396'];
-    const span=Math.max(1,gs._sq-1);
-    const pos=f=>`calc((100% - 3rem)*${(Math.min(1,f)).toFixed(4)})`;
-    const ties=Array.from({length:gs._sq},(_,i)=>`<i class="ns-tie${i<gs._si?' ns-tie-done':i===gs._si?' ns-tie-now':''}"></i>`).join('');
-    const arrow=`<span class="ns-arrow text-gray-400 font-bold">→</span>`;
-    container.innerHTML=`<div class="ns-root w-full mx-auto text-center">
-        <style>${css}</style>
+  const paints = [
+    '#b5533c',
+    '#c9962e',
+    '#5f8a6b',
+    '#4f7396'
+  ];
+  const span = Math.max(1, gs._sq - 1);
+  const pos = f => `calc((100% - 3rem)*${ Math.min(1, f).toFixed(4) })`;
+  const ties = Array.from({ length: gs._sq }, (_, i) => `<i class="ns-tie${ i < gs._si ? ' ns-tie-done' : i === gs._si ? ' ns-tie-now' : '' }"></i>`).join('');
+  const arrow = `<span class="ns-arrow text-gray-400 font-bold">→</span>`;
+  container.innerHTML = `<div class="ns-root w-full mx-auto text-center">
+        <style>${ css }</style>
         <div class="ns-board">
         <div class="ns-head">
-            <span>${gt('Q', 'שאלה')} ${gs._si+1}/${gs._sq}</span>
-            <span class="text-green-600 ns-score">✓ ${gs._ss}</span>
+            <span>${ gt('Q') } ${ gs._si + 1 }/${ gs._sq }</span>
+            <span class="text-green-600 ns-score">✓ ${ gs._ss }</span>
         </div>
         <div class="ns-track" aria-hidden="true">
-            <div class="ns-ties">${ties}</div>
-            <div class="ns-engine" style="--ns-from:${pos(Math.max(0,gs._si-1)/span)};--ns-to:${pos(gs._si/span)}"><svg viewBox="0 0 48 32" fill="none" stroke="#f4f1e4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V8h12v14"/><path d="M8 12h4v4H8z"/><path d="M16 13h20a4 4 0 0 1 4 4v5H4"/><path d="M30 13V6h5v7"/><path d="M40 22l5 4"/><circle cx="12" cy="25" r="4.5" fill="#2d4a40"/><circle cx="30" cy="25" r="4.5" fill="#2d4a40"/><circle class="ns-puff" cx="35" cy="1.5" r="1.8" fill="#f4f1e4" stroke="none"/><circle class="ns-puff ns-puff2" cx="40" cy="-2" r="2.4" fill="#f4f1e4" stroke="none"/></svg></div>
+            <div class="ns-ties">${ ties }</div>
+            <div class="ns-engine" style="--ns-from:${ pos(Math.max(0, gs._si - 1) / span) };--ns-to:${ pos(gs._si / span) }"><svg viewBox="0 0 48 32" fill="none" stroke="#f4f1e4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V8h12v14"/><path d="M8 12h4v4H8z"/><path d="M16 13h20a4 4 0 0 1 4 4v5H4"/><path d="M30 13V6h5v7"/><path d="M40 22l5 4"/><circle cx="12" cy="25" r="4.5" fill="#2d4a40"/><circle cx="30" cy="25" r="4.5" fill="#2d4a40"/><circle class="ns-puff" cx="35" cy="1.5" r="1.8" fill="#f4f1e4" stroke="none"/><circle class="ns-puff ns-puff2" cx="40" cy="-2" r="2.4" fill="#f4f1e4" stroke="none"/></svg></div>
         </div>
         <div class="ns-train">
-            ${seq.map((n,i)=>`<div class="ns-car${String(n).length>2?' ns-long':''}" style="--c:${paints[i%paints.length]}">${n}</div>`).join(arrow)}
-            ${arrow}
+            ${ seq.map((n, i) => `<div class="ns-car${ String(n).length > 2 ? ' ns-long' : '' }" style="--c:${ paints[i % paints.length] }">${ n }</div>`).join(arrow) }
+            ${ arrow }
             <div id="ns-q" class="ns-car ns-q">?</div>
         </div>
         <div class="ns-tray" aria-hidden="true"></div>
 
         </div>
         <div class="ns-shelf">
-            ${optsArr.map(opt=>`<button type="button" onclick="answerNumSeq(${opt},${next})" class="ns-block bg-blue-50 border-blue-200">${opt}</button>`).join('')}
+            ${ optsArr.map(opt => `<button type="button" onclick="answerNumSeq(${ opt },${ next })" class="ns-block bg-blue-50 border-blue-200">${ opt }</button>`).join('') }
 
         </div></div>`;
 }
-function answerNumSeq(sel,cor){
-    if(!gameState.active||gameState.currentId!=='numseq')return;
-    const gs=gameState.numseq;
-    if(gs._locked)return;   // one answer per question: a double-tap scored twice and skipped a question
-    const btn=event.target;
-    if(sel===cor){
-        gs._locked=true; sfxCorrect(); gs._ss++;
-        btn.classList.replace('bg-blue-50','bg-green-100'); btn.classList.replace('border-blue-200','border-green-400');
-        const q=document.getElementById('ns-q');
-        if(q&&q.classList){q.textContent=cor;q.classList.add('ns-solved');}   // the empty car receives its number
-        setTimeout(()=>{gs._si++;_numseqNext(document.getElementById('gameContent'));},500);
-    } else {
-        sfxWrong();
-        btn.classList.replace('bg-blue-50','bg-red-100'); btn.classList.replace('border-blue-200','border-red-300');
-        setTimeout(()=>{btn.classList.replace('bg-red-100','bg-blue-50');btn.classList.replace('border-red-300','border-blue-200');},600);
+function answerNumSeq(sel, cor) {
+  if (!gameState.active || gameState.currentId !== 'numseq')
+    return;
+  const gs = gameState.numseq;
+  if (gs._locked)
+    return;
+  const btn = event.target;
+  if (sel === cor) {
+    gs._locked = true;
+    sfxCorrect();
+    gs._ss++;
+    btn.classList.replace('bg-blue-50', 'bg-green-100');
+    btn.classList.replace('border-blue-200', 'border-green-400');
+    const q = document.getElementById('ns-q');
+    if (q && q.classList) {
+      q.textContent = cor;
+      q.classList.add('ns-solved');
     }
+    setTimeout(() => {
+      gs._si++;
+      _numseqNext(document.getElementById('gameContent'));
+    }, 500);
+  } else {
+    sfxWrong();
+    btn.classList.replace('bg-blue-50', 'bg-red-100');
+    btn.classList.replace('border-blue-200', 'border-red-300');
+    setTimeout(() => {
+      btn.classList.replace('bg-red-100', 'bg-blue-50');
+      btn.classList.replace('border-red-300', 'border-blue-200');
+    }, 600);
+  }
 }

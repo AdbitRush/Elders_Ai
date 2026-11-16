@@ -1,23 +1,67 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 7: SHAPES
-// ═══════════════════════════════════════════════════════════════════════════════
-// Solid shapes, each its own colour (Lucide outlines filled in). Matching is by id; the picture is only what you see.
-// Scene: wooden toy blocks on a soft play mat, a felt board with shadow cut-outs, a painted wooden arrow between.
-// All styling is scoped under .tb-scene and shipped with the render (no globals, no assets). The state classes
-// toggled by selectShape/dropShape (border-amber-500, border-green-500, border-red-400, border-dashed) drive the scene.
-const _SHAPES=[['circle','#0369a1'],['square','#15803d'],['triangle','#c62828'],['star','#a16207'],['diamond','#7e22ce'],
-    ['hexagon','#c2410c'],['moon','#4338ca'],['heart','#be185d'],['pentagon','#0f766e'],['cloud','#475569']];
-const _shapeSvg=(s)=>`<span class="shp" style="color:${s[1]}">${Icon.svg(s[0],{size:'100%',fill:true,fillOpacity:1,sw:1.5})}</span>`;
+const _SHAPES = [
+  [
+    'circle',
+    '#0369a1'
+  ],
+  [
+    'square',
+    '#15803d'
+  ],
+  [
+    'triangle',
+    '#c62828'
+  ],
+  [
+    'star',
+    '#a16207'
+  ],
+  [
+    'diamond',
+    '#7e22ce'
+  ],
+  [
+    'hexagon',
+    '#c2410c'
+  ],
+  [
+    'moon',
+    '#4338ca'
+  ],
+  [
+    'heart',
+    '#be185d'
+  ],
+  [
+    'pentagon',
+    '#0f766e'
+  ],
+  [
+    'cloud',
+    '#475569'
+  ]
+];
+const _shapeSvg = s => `<span class="shp" style="color:${ s[1] }">${ Icon.svg(s[0], {
+  size: '100%',
+  fill: true,
+  fillOpacity: 1,
+  sw: 1.5
+}) }</span>`;
 function initShapes(container) {
-    const state=gameState.shapes;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    const _adj=_d==='easy'?-1:_d==='hard'?2:0;
-    const count=Math.min(Math.max(2,4+Math.floor(state.level/3)+_adj),_d==='hard'?10:8);
-    const items=shuffle([..._SHAPES]).slice(0,count).map((s,id)=>({id,icon:_shapeSvg(s)}));
-    state.selected=null; state.placed=0; state.total=count; state.items=items;
-    const gc=count>4?'tb-g3':'tb-g2';
-    const dropItems=shuffle([...items]);
-    const css=`
+  const state = gameState.shapes;
+  const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+  const _adj = _d === 'easy' ? -1 : _d === 'hard' ? 2 : 0;
+  const count = Math.min(Math.max(2, 4 + Math.floor(state.level / 3) + _adj), _d === 'hard' ? 10 : 8);
+  const items = shuffle([..._SHAPES]).slice(0, count).map((s, id) => ({
+    id,
+    icon: _shapeSvg(s)
+  }));
+  state.selected = null;
+  state.placed = 0;
+  state.total = count;
+  state.items = items;
+  const gc = count > 4 ? 'tb-g3' : 'tb-g2';
+  const dropItems = shuffle([...items]);
+  const css = `
 .tb-scene{box-sizing:border-box;width:100%;container-type:inline-size;padding:8px;border-radius:24px;border:6px solid #b17a43;
   background:linear-gradient(180deg,#fcf4e5,#f3e6cf);box-shadow:inset 0 0 0 2px rgba(255,236,200,.7),inset 0 4px 10px rgba(90,55,20,.18),0 6px 14px rgba(70,42,14,.2);
   -webkit-tap-highlight-color:transparent;--tb-s:min(72px,19vw)}
@@ -89,20 +133,42 @@ function initShapes(container) {
 @keyframes tb-pop{0%{transform:scale(.82)}55%{transform:scale(1.09) translateY(-3px)}100%{transform:none}}
 @keyframes tb-no{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
 `;
-    let html=`<style>${css}</style><div class="tb-scene${currentLang==='he'?' tb-he':''}"><div class="tb-wrap">
-        <div class="tb-mat"><div id="shapePick" class="tb-grid ${gc}">${items.map(i=>`<div onclick="selectShape(${i.id},this)" class="tb-block">${i.icon}</div>`).join('')}</div></div>
+  let html = `<style>${ css }</style><div class="tb-scene${ '' }"><div class="tb-wrap">
+        <div class="tb-mat"><div id="shapePick" class="tb-grid ${ gc }">${ items.map(i => `<div onclick="selectShape(${ i.id },this)" class="tb-block">${ i.icon }</div>`).join('') }</div></div>
         <span class="tb-arrow" aria-hidden="true"><svg viewBox="0 0 96 64"><path d="M7 22H54V8L90 32 54 56V42H7Z" fill="#e2a052" stroke="#8a5a2b" stroke-width="4" stroke-linejoin="round"/><path d="M14 28H50M14 36H44" stroke="#b9772f" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M60 18 80 32 60 46Z" fill="#d9603b"/><path d="M12 25H52" stroke="#f6cf8f" stroke-width="2" stroke-linecap="round" fill="none"/></svg></span>
         <div class="tb-board"><div class="tb-felt">
-            <div id="shapeDrop" class="tb-grid ${gc}">${dropItems.map(i=>`<div onclick="dropShape(${i.id},this)" data-target="${i.id}" class="tb-slot border-dashed"><span class="shp-slot opacity-25 select-none pointer-events-none">${i.icon}</span></div>`).join('')}</div>
-            <div class="tb-tag" aria-hidden="true" data-total="${count}"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8Z" fill="#f2b632" stroke="#8a5a2b" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div id="shapeDrop" class="tb-grid ${ gc }">${ dropItems.map(i => `<div onclick="dropShape(${ i.id },this)" data-target="${ i.id }" class="tb-slot border-dashed"><span class="shp-slot opacity-25 select-none pointer-events-none">${ i.icon }</span></div>`).join('') }</div>
+            <div class="tb-tag" aria-hidden="true" data-total="${ count }"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8Z" fill="#f2b632" stroke="#8a5a2b" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
         </div></div>
     </div></div>`;
-    container.innerHTML=html;
+  container.innerHTML = html;
 }
-function selectShape(id,el){document.querySelectorAll('#shapePick div').forEach(d=>d.classList.remove('border-amber-500','bg-amber-50'));el.classList.add('border-amber-500','bg-amber-50');gameState.shapes.selected={id,icon:el.innerHTML,el};}
-function dropShape(id,el){
-    const state=gameState.shapes; if(!state.selected)return;
-    if(state.selected.id===id){sfxCorrect();el.innerHTML=`<span class="shp-slot">${state.selected.icon}</span>`;el.classList.remove('border-dashed');el.classList.add('border-solid','border-green-500','bg-green-50');state.selected.el.style.visibility='hidden';state.selected=null;state.placed++;if(state.placed===state.total)setTimeout(()=>levelComplete(),500);}
-    else{sfxWrong();el.classList.add('border-red-400');setTimeout(()=>el.classList.remove('border-red-400'),400);}
+function selectShape(id, el) {
+  document.querySelectorAll('#shapePick div').forEach(d => d.classList.remove('border-amber-500', 'bg-amber-50'));
+  el.classList.add('border-amber-500', 'bg-amber-50');
+  gameState.shapes.selected = {
+    id,
+    icon: el.innerHTML,
+    el
+  };
 }
- 
+function dropShape(id, el) {
+  const state = gameState.shapes;
+  if (!state.selected)
+    return;
+  if (state.selected.id === id) {
+    sfxCorrect();
+    el.innerHTML = `<span class="shp-slot">${ state.selected.icon }</span>`;
+    el.classList.remove('border-dashed');
+    el.classList.add('border-solid', 'border-green-500', 'bg-green-50');
+    state.selected.el.style.visibility = 'hidden';
+    state.selected = null;
+    state.placed++;
+    if (state.placed === state.total)
+      setTimeout(() => levelComplete(), 500);
+  } else {
+    sfxWrong();
+    el.classList.add('border-red-400');
+    setTimeout(() => el.classList.remove('border-red-400'), 400);
+  }
+}

@@ -1,144 +1,289 @@
-/* nostalgia-kit.js — shared runtime for the 2026-11 nostalgia games (batch 2 onward). Loaded on every page after
-   game-kit.js. Each game stays one file in js/games/<id>.js and calls NK.start(id, def) from its init function.
-
-   Why it exists (the batch-1 review found these, and every game would otherwise repeat the fixes):
-   - ONE global key listener (capture phase), installed once. Starting, restarting or levelling up a game never adds
-     another listener, so nothing accumulates. It is active only while an NK game is the current game.
-   - Held keys: a game action never repeats on key auto-repeat (only plain focus movement may repeat).
-   - Header controls keep their keys: Enter/Space on a focused button outside the game area is left to the browser
-     (the shared kbnav.js would otherwise swallow it), and Ctrl/Cmd/Alt shortcuts are never touched.
-   - Letter shortcuts match the PHYSICAL key (e.code), so they work on a Hebrew (or any) keyboard layout.
-   - Focus survives redraws: buttons carry data-k; the focused one is focused again after every render.
-   - Timers belong to a session: NK.after / NK.every / NK.raf callbacks are dropped after a restart, level-up or exit,
-     and NK.finish only opens the end screen for the session that finished.
-   - The game root element is created once per session, so premium.css's entrance animation (on #gameContent > *)
-     plays once, not on every move.
-   - Right-to-left pages: the game root is dir="ltr" (English game text), status lines and the shared title,
-     instructions and end-screen text get dir="auto" so punctuation lands on the correct side.
-
-   def = { setup(gs, diff), view(gs) -> html, keys: {code: fn | {fn, repeat}}, arrows(dir, e) -> handled?, css,
-           rules: [html...] }.  The game's state is gameState[id] (gs). */
 (function () {
   const defs = {};
   let sess = null, seq = 0, lastInputKey = false;
-  window.addEventListener('keydown', () => { lastInputKey = true; }, true);
-  window.addEventListener('pointerdown', () => { lastInputKey = false; }, true);
-  const modalOpen = () => { const m = document.getElementById('modal'); return m && !m.classList.contains('hidden'); };
-  const cur = () => (sess && typeof gameState !== 'undefined' && gameState.active && gameState.currentId === sess.id ? sess : null);
-  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-
+  window.addEventListener('keydown', () => {
+    lastInputKey = true;
+  }, true);
+  window.addEventListener('pointerdown', () => {
+    lastInputKey = false;
+  }, true);
+  const modalOpen = () => {
+    const m = document.getElementById('modal');
+    return m && !m.classList.contains('hidden');
+  };
+  const cur = () => sess && typeof gameState !== 'undefined' && gameState.active && gameState.currentId === sess.id ? sess : null;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;'
+  }[c]));
   function stop() {
-    if (!sess) return;
-    sess.timers.forEach((t) => { clearTimeout(t); clearInterval(t); });
-    sess.rafs.forEach((r) => cancelAnimationFrame(r));
+    if (!sess)
+      return;
+    sess.timers.forEach(t => {
+      clearTimeout(t);
+      clearInterval(t);
+    });
+    sess.rafs.forEach(r => cancelAnimationFrame(r));
     sess = null;
   }
   function start(id, def) {
-    // a foreign cleanup (another game's) is honoured once; ours is just stop()
-    if (window._gameCleanup && window._gameCleanup !== stop) { try { window._gameCleanup(); } catch (e) {} }
+    if (window._gameCleanup && window._gameCleanup !== stop) {
+      try {
+        window._gameCleanup();
+      } catch (e) {
+      }
+    }
     stop();
-    css(); if (typeof GameKit !== 'undefined') GameKit.css();   // .gk-btn styles live in game-kit.js
+    css();
+    if (typeof GameKit !== 'undefined')
+      GameKit.css();
     defs[id] = def;
     const gs = gameState[id];
-    sess = { id, def, token: ++seq, timers: [], rafs: [] };
+    sess = {
+      id,
+      def,
+      token: ++seq,
+      timers: [],
+      rafs: []
+    };
     gs._nk = sess.token;
     window._gameCleanup = stop;
-    ['gameTitle', 'gameInstructions', 'modalTitle', 'modalBody'].forEach((x) => { const e = document.getElementById(x); if (e) e.setAttribute('dir', 'auto'); });
-    if (def.css && !document.getElementById('nk-css-' + id)) { const st = document.createElement('style'); st.id = 'nk-css-' + id; st.textContent = def.css; document.head.appendChild(st); }
+    [
+      'gameTitle',
+      'gameInstructions',
+      'modalTitle',
+      'modalBody'
+    ].forEach(x => {
+      const e = document.getElementById(x);
+      if (e)
+        e.setAttribute('dir', 'auto');
+    });
+    if (def.css && !document.getElementById('nk-css-' + id)) {
+      const st = document.createElement('style');
+      st.id = 'nk-css-' + id;
+      st.textContent = def.css;
+      document.head.appendChild(st);
+    }
     const el = document.getElementById('gameContent');
-    // Keyboard players keep their place across a restart or next level (the redraw below would drop focus to the page, so the
-    // next Tab started from the top). Pointer players are left alone: their Enter and Space keep going to the game's own keys.
     const a = document.activeElement, oldRoot = el.querySelector(':scope > .nk'), m = document.getElementById('modal');
     const keepKey = oldRoot && oldRoot.contains(a) && a.dataset ? a.dataset.k : null;
-    const dropped = (oldRoot && oldRoot.contains(a)) || !a || a === document.body || (m && m.contains(a));
-    // the live region sits OUTSIDE the redrawn root, so screen readers hear every new message (a region that is
-    // replaced on each redraw is often not announced at all)
-    el.innerHTML = `<div class="nk nk-${id}" dir="ltr" tabindex="-1"></div><div class="nk-live" role="status" aria-live="polite" aria-atomic="true" dir="auto"></div>`;
+    const dropped = oldRoot && oldRoot.contains(a) || !a || a === document.body || m && m.contains(a);
+    el.innerHTML = `<div class="nk nk-${ id }" dir="ltr" tabindex="-1"></div><div class="nk-live" role="status" aria-live="polite" aria-atomic="true" dir="auto"></div>`;
     const diff = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
     def.setup(gs, diff);
     render(id);
     if (lastInputKey && dropped) {
       const root = el.querySelector(':scope > .nk'), now = document.activeElement;
-      if (root && !root.contains(now)) { const n = keepKey && root.querySelector(`[data-k="${CSS.escape(keepKey)}"]`); (n && !n.disabled ? n : root).focus({ preventScroll: true }); }
+      if (root && !root.contains(now)) {
+        const n = keepKey && root.querySelector(`[data-k="${ CSS.escape(keepKey) }"]`);
+        (n && !n.disabled ? n : root).focus({ preventScroll: true });
+      }
     }
   }
   function render(id) {
-    const s = cur(); if (!s || s.id !== id) return;
-    const root = document.querySelector('#gameContent > .nk'); if (!root) return;
+    const s = cur();
+    if (!s || s.id !== id)
+      return;
+    const root = document.querySelector('#gameContent > .nk');
+    if (!root)
+      return;
     const a = document.activeElement, key = a && root.contains(a) && a.dataset ? a.dataset.k : null, hadFocus = a && root.contains(a);
     const gs = gameState[id];
     root.innerHTML = s.def.view(gs) + (s.def.rules ? rules(s.def.rules, gs) : '');
     const m = root.querySelector('.nk-msg'), lv = document.querySelector('#gameContent > .nk-live');
-    if (m && lv) { const t = m.textContent.trim(); if (t !== s.said) { s.said = t; lv.textContent = t; } }
-    if (key) { const n = root.querySelector(`[data-k="${CSS.escape(key)}"]`); if (n && !n.disabled) n.focus({ preventScroll: true }); else root.focus({ preventScroll: true }); }
-    else if (hadFocus) root.focus({ preventScroll: true });
+    if (m && lv) {
+      const t = m.textContent.trim();
+      if (t !== s.said) {
+        s.said = t;
+        lv.textContent = t;
+      }
+    }
+    if (key) {
+      const n = root.querySelector(`[data-k="${ CSS.escape(key) }"]`);
+      if (n && !n.disabled)
+        n.focus({ preventScroll: true });
+      else
+        root.focus({ preventScroll: true });
+    } else if (hadFocus)
+      root.focus({ preventScroll: true });
   }
-  // the session's own timers: dropped on restart / exit, and never run for another session
-  function after(ms, fn) { const s = sess; if (!s) return; const tok = s.token; const t = setTimeout(() => { if (sess && sess.token === tok && cur()) fn(); }, ms); s.timers.push(t); return t; }
-  function every(ms, fn) { const s = sess; if (!s) return; const tok = s.token; const t = setInterval(() => { if (sess && sess.token === tok && cur()) fn(); }, ms); s.timers.push(t); return t; }
-  function raf(fn) { const s = sess; if (!s) return; const tok = s.token; const r = requestAnimationFrame((ts) => { if (sess && sess.token === tok && cur()) fn(ts); }); s.rafs.push(r); return r; }
-  const live = (id) => !!(sess && sess.id === id && cur());
-
+  function after(ms, fn) {
+    const s = sess;
+    if (!s)
+      return;
+    const tok = s.token;
+    const t = setTimeout(() => {
+      if (sess && sess.token === tok && cur())
+        fn();
+    }, ms);
+    s.timers.push(t);
+    return t;
+  }
+  function every(ms, fn) {
+    const s = sess;
+    if (!s)
+      return;
+    const tok = s.token;
+    const t = setInterval(() => {
+      if (sess && sess.token === tok && cur())
+        fn();
+    }, ms);
+    s.timers.push(t);
+    return t;
+  }
+  function raf(fn) {
+    const s = sess;
+    if (!s)
+      return;
+    const tok = s.token;
+    const r = requestAnimationFrame(ts => {
+      if (sess && sess.token === tok && cur())
+        fn(ts);
+    });
+    s.rafs.push(r);
+    return r;
+  }
+  const live = id => !!(sess && sess.id === id && cur());
   function finish(id, win, text) {
-    const gs = gameState[id]; if (!gs || !live(id)) return;
-    gs._outcome = { win: !!win, text: text || '' };
-    after(win ? 600 : 900, () => { if (gameState.currentId === id && gameState[id] === gs && !modalOpen()) levelComplete(); });
+    const gs = gameState[id];
+    if (!gs || !live(id))
+      return;
+    gs._outcome = {
+      win: !!win,
+      text: text || ''
+    };
+    after(win ? 600 : 900, () => {
+      if (gameState.currentId === id && gameState[id] === gs && !modalOpen())
+        levelComplete();
+    });
   }
-
-  // helpers for views
-  const btn = (label, onclick, o) => { o = o || {}; return `<button type="button" class="gk-btn${o.cls ? ' ' + o.cls : ''}" onclick="${onclick}" data-k="${esc(o.k || onclick)}"${o.disabled ? ' disabled' : ''}${o.label ? ` aria-label="${esc(o.label)}"` : ''}${o.pressed !== undefined ? ` aria-pressed="${!!o.pressed}"` : ''}>${label}</button>`; };
-  const icon = (n) => (typeof Icon !== 'undefined' ? Icon.ui(n) + ' ' : '');
-  // the visible message line; it is read out through the persistent .nk-live region (see start/render)
-  const msg = (text) => `<div class="nk-msg" dir="auto">${text || ''}</div>`;
-  const rules = (items, gs) => `<details class="nk-rules"${gs && gs._rulesOpen ? ' open' : ''} ontoggle="NK._rt(this)"><summary data-k="nk-rules">How to play</summary><ul>${(typeof items === 'function' ? items(gs) : items).map((x) => `<li>${x}</li>`).join('')}</ul></details>`;
-  function _rt(d) { const s = cur(); if (s) gameState[s.id]._rulesOpen = d.open; }
-  const pl = (n, w, ws) => `${n} ${n === 1 ? w : ws || w + 's'}`;   // "1 shot", "2 shots"
-  const digits = (fn, n) => { const o = {}; for (let i = 1; i <= (n || 9); i++) { o['Digit' + i] = () => fn(i); o['Numpad' + i] = () => fn(i); } return o; };
-
-  // spatial focus movement among the game's buttons
+  const btn = (label, onclick, o) => {
+    o = o || {};
+    return `<button type="button" class="gk-btn${ o.cls ? ' ' + o.cls : '' }" onclick="${ onclick }" data-k="${ esc(o.k || onclick) }"${ o.disabled ? ' disabled' : '' }${ o.label ? ` aria-label="${ esc(o.label) }"` : '' }${ o.pressed !== undefined ? ` aria-pressed="${ !!o.pressed }"` : '' }>${ label }</button>`;
+  };
+  const icon = n => typeof Icon !== 'undefined' ? Icon.ui(n) + ' ' : '';
+  const msg = text => `<div class="nk-msg" dir="auto">${ text || '' }</div>`;
+  const rules = (items, gs) => `<details class="nk-rules"${ gs && gs._rulesOpen ? ' open' : '' } ontoggle="NK._rt(this)"><summary data-k="nk-rules">How to play</summary><ul>${ (typeof items === 'function' ? items(gs) : items).map(x => `<li>${ x }</li>`).join('') }</ul></details>`;
+  function _rt(d) {
+    const s = cur();
+    if (s)
+      gameState[s.id]._rulesOpen = d.open;
+  }
+  const pl = (n, w, ws) => `${ n } ${ n === 1 ? w : ws || w + 's' }`;
+  const digits = (fn, n) => {
+    const o = {};
+    for (let i = 1; i <= (n || 9); i++) {
+      o['Digit' + i] = () => fn(i);
+      o['Numpad' + i] = () => fn(i);
+    }
+    return o;
+  };
   function moveFocus(dir) {
-    const root = document.querySelector('#gameContent > .nk'); if (!root) return false;
-    const els = [...root.querySelectorAll('button:not([disabled]),summary,[data-k][tabindex]')].filter((x) => { const r = x.getBoundingClientRect(); return r.width > 2 && r.height > 2; });
-    if (!els.length) return false;
+    const root = document.querySelector('#gameContent > .nk');
+    if (!root)
+      return false;
+    const els = [...root.querySelectorAll('button:not([disabled]),summary,[data-k][tabindex]')].filter(x => {
+      const r = x.getBoundingClientRect();
+      return r.width > 2 && r.height > 2;
+    });
+    if (!els.length)
+      return false;
     const a = document.activeElement;
     let i = els.indexOf(a);
-    if (i < 0) { (root.querySelector('[data-first]:not([disabled])') || els[0]).focus(); return true; }
+    if (i < 0) {
+      (root.querySelector('[data-first]:not([disabled])') || els[0]).focus();
+      return true;
+    }
     const c = a.getBoundingClientRect(), cx = c.left + c.width / 2, cy = c.top + c.height / 2;
     let best = null, bs = Infinity;
-    els.forEach((x) => {
-      if (x === a) return; const r = x.getBoundingClientRect(), dx = r.left + r.width / 2 - cx, dy = r.top + r.height / 2 - cy;
+    els.forEach(x => {
+      if (x === a)
+        return;
+      const r = x.getBoundingClientRect(), dx = r.left + r.width / 2 - cx, dy = r.top + r.height / 2 - cy;
       const along = dir === 'right' ? dx : dir === 'left' ? -dx : dir === 'down' ? dy : -dy, perp = dir === 'right' || dir === 'left' ? Math.abs(dy) : Math.abs(dx);
-      if (along <= 4) return; const sc = along + perp * 2.2; if (sc < bs) { bs = sc; best = x; }
+      if (along <= 4)
+        return;
+      const sc = along + perp * 2.2;
+      if (sc < bs) {
+        bs = sc;
+        best = x;
+      }
     });
-    if (best) { best.focus(); best.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }
+    if (best) {
+      best.focus();
+      best.scrollIntoView({
+        block: 'nearest',
+        inline: 'nearest'
+      });
+    }
     return true;
   }
-  const DIRS = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down' };
-  window.addEventListener('keydown', (e) => {
-    const s = cur(); if (!s || modalOpen()) return;
-    if (e.ctrlKey || e.metaKey || e.altKey) return;                       // browser and system shortcuts stay untouched
+  const DIRS = {
+    ArrowLeft: 'left',
+    ArrowRight: 'right',
+    ArrowUp: 'up',
+    ArrowDown: 'down'
+  };
+  window.addEventListener('keydown', e => {
+    const s = cur();
+    if (!s || modalOpen())
+      return;
+    if (e.ctrlKey || e.metaKey || e.altKey)
+      return;
     const t = e.target || document.body;
-    if (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)
+      return;
     const root = document.querySelector('#gameContent > .nk');
-    const inGame = t === document.body || t === document.documentElement || (root && root.contains(t));
-    if (!inGame) { if (e.key === 'Enter' || e.key === ' ') e.stopPropagation(); return; }   // header controls: native Enter/Space
-    const done = () => { e.preventDefault(); e.stopPropagation(); };
+    const inGame = t === document.body || t === document.documentElement || root && root.contains(t);
+    if (!inGame) {
+      if (e.key === 'Enter' || e.key === ' ')
+        e.stopPropagation();
+      return;
+    }
+    const done = () => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
     const k = s.def.keys && (s.def.keys[e.code] || s.def.keys[e.key]);
-    if (k) { const fn = typeof k === 'function' ? k : k.fn; if (e.repeat && !(k.repeat)) return done(); fn(e); return done(); }
+    if (k) {
+      const fn = typeof k === 'function' ? k : k.fn;
+      if (e.repeat && !k.repeat)
+        return done();
+      fn(e);
+      return done();
+    }
     const dir = DIRS[e.key];
-    if (dir) { if (s.def.arrows && s.def.arrows(dir, e) !== false) return done(); moveFocus(dir); return done(); }
+    if (dir) {
+      if (s.def.arrows && s.def.arrows(dir, e) !== false)
+        return done();
+      moveFocus(dir);
+      return done();
+    }
     if (e.key === 'Enter' || e.key === ' ') {
-      if (e.repeat) return done();
-      if (t.tagName === 'SUMMARY') { e.stopPropagation(); return; }         // native toggle of "How to play" (kbnav must not swallow it)
-      if (t !== document.body && t !== root && typeof t.click === 'function') { t.click(); return done(); }
-      if (s.def.enter) { s.def.enter(e); return done(); }
+      if (e.repeat)
+        return done();
+      if (t.tagName === 'SUMMARY') {
+        e.stopPropagation();
+        return;
+      }
+      if (t !== document.body && t !== root && typeof t.click === 'function') {
+        t.click();
+        return done();
+      }
+      if (s.def.enter) {
+        s.def.enter(e);
+        return done();
+      }
       return done();
     }
   }, true);
-
   function css() {
-    if (document.getElementById('nk-css')) return;
-    const st = document.createElement('style'); st.id = 'nk-css';
+    if (document.getElementById('nk-css'))
+      return;
+    const st = document.createElement('style');
+    st.id = 'nk-css';
     st.textContent = `
 .nk{width:100%;box-sizing:border-box;max-width:46rem;margin:0 auto;color:#2b1b0d;outline:none}
 .nk-top{display:flex;justify-content:space-between;align-items:center;gap:8px 14px;flex-wrap:wrap;font-size:1.15rem;margin:0 2px 10px}
@@ -159,5 +304,24 @@
 @media (prefers-reduced-motion:reduce){.nk *{animation:none!important;transition:none!important}}`;
     document.head.appendChild(st);
   }
-  window.NK = { start, stop, render, after, every, raf, live, finish, btn, icon, msg, rules, digits, pl, esc, _rt, moveFocus, modalOpen };
-})();
+  window.NK = {
+    start,
+    stop,
+    render,
+    after,
+    every,
+    raf,
+    live,
+    finish,
+    btn,
+    icon,
+    msg,
+    rules,
+    digits,
+    pl,
+    esc,
+    _rt,
+    moveFocus,
+    modalOpen
+  };
+}());

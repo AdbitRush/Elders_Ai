@@ -53,8 +53,8 @@ BASE = "/Elders_Ai"                      # the GitHub Pages project subpath
 # copy then points its canonical links at the live site too.
 REL = "../.."
 SITE = "https://games.178-105-148-72.sslip.io"
-LANGS = ["he", "en", "es", "fr", "de", "el"]
-RTL = {"he"}
+LANGS = ["en"]
+RTL = set()
 LANG_NAME = {"he": "עברית", "en": "English", "es": "Español",
              "fr": "Français", "de": "Deutsch", "el": "Ελληνικά"}
 OG_LOCALE = {"he": "he_IL", "en": "en_US", "es": "es_ES",

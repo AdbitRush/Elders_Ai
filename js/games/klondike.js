@@ -1,97 +1,143 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 27: KLONDIKE SOLITAIRE — the classic. Senior-friendly click-to-move
-// (no dragging): tap a card, tap where it goes. Undo, Hint, Draw 1/3.
-// Difficulty: easy = draw 1 + unlimited redeals, normal = draw 1,
-//             hard = draw 3 + 3 redeals.
-// Visuals (2026-11 overhaul): warm felt card-table in a wood rim, cream paper
-// cards with inline-SVG suits, burgundy lattice backs. Logic is unchanged.
-// ═══════════════════════════════════════════════════════════════════════════════
-
-const KL_SUITS = ['♥','♦','♠','♣'];          // 0,1 red — 2,3 black
-const KL_LABEL = ['','A','2','3','4','5','6','7','8','9','10','J','Q','K'];
-
+const KL_SUITS = [
+  '\u2665',
+  '\u2666',
+  '\u2660',
+  '\u2663'
+];
+const KL_LABEL = [
+  '',
+  'A',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  'J',
+  'Q',
+  'K'
+];
 function _klNew() {
-    const deck = [];
-    for (let s = 0; s < 4; s++) for (let v = 1; v <= 13; v++) deck.push({v, s, up: false});
-    for (let i = deck.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]];
-    }
-    const t = [[], [], [], [], [], [], []];
-    for (let col = 0; col < 7; col++) {
-        for (let n = 0; n <= col; n++) t[col].push(deck.pop());
-        t[col][t[col].length - 1].up = true;
-    }
-    return {stock: deck, waste: [], f: [[], [], [], []], t,
-            sel: null, undo: [], redeals: 0, moves: 0};
+  const deck = [];
+  for (let s = 0; s < 4; s++)
+    for (let v = 1; v <= 13; v++)
+      deck.push({
+        v,
+        s,
+        up: false
+      });
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [
+      deck[j],
+      deck[i]
+    ];
+  }
+  const t = [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ];
+  for (let col = 0; col < 7; col++) {
+    for (let n = 0; n <= col; n++)
+      t[col].push(deck.pop());
+    t[col][t[col].length - 1].up = true;
+  }
+  return {
+    stock: deck,
+    waste: [],
+    f: [
+      [],
+      [],
+      [],
+      []
+    ],
+    t,
+    sel: null,
+    undo: [],
+    redeals: 0,
+    moves: 0
+  };
 }
-
-function _klRed(c) { return c.s < 2; }
-
+function _klRed(c) {
+  return c.s < 2;
+}
 function initKlondike(container) {
-    const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
-    const st = _klNew();
-    st.draw = _d === 'hard' ? 3 : 1;
-    st.maxRedeals = _d === 'hard' ? 3 : Infinity;
-    gameState.klondike = Object.assign(gameState.klondike || {level: 1}, st);
-    _klRender(container);
+  const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+  const st = _klNew();
+  st.draw = _d === 'hard' ? 3 : 1;
+  st.maxRedeals = _d === 'hard' ? 3 : Infinity;
+  gameState.klondike = Object.assign(gameState.klondike || { level: 1 }, st);
+  _klRender(container);
 }
-
 function _klSnapshot() {
-    const s = gameState.klondike;
-    s.undo.push(JSON.stringify({stock: s.stock, waste: s.waste, f: s.f, t: s.t, redeals: s.redeals, moves: s.moves}));   // moves too: Undo takes the move back, so the counter goes back with it
-    if (s.undo.length > 100) s.undo.shift();
+  const s = gameState.klondike;
+  s.undo.push(JSON.stringify({
+    stock: s.stock,
+    waste: s.waste,
+    f: s.f,
+    t: s.t,
+    redeals: s.redeals,
+    moves: s.moves
+  }));
+  if (s.undo.length > 100)
+    s.undo.shift();
 }
-
 function klUndo() {
-    const s = gameState.klondike;
-    if (!s.undo.length) { sfxWrong(); return; }
-    const prev = JSON.parse(s.undo.pop());
-    Object.assign(s, prev); s.sel = null; sfxFlip();
-    _klRender(document.getElementById('gameContent'));
+  const s = gameState.klondike;
+  if (!s.undo.length) {
+    sfxWrong();
+    return;
+  }
+  const prev = JSON.parse(s.undo.pop());
+  Object.assign(s, prev);
+  s.sel = null;
+  sfxFlip();
+  _klRender(document.getElementById('gameContent'));
 }
-
 function _klCardHtml(c, where, pi, ci, sel) {
-    if (!c.up) return `<div class="kl-card kl-down" onclick="klTap('${where}',${pi},${ci})"></div>`;
-    const red = _klRed(c) ? 'kl-red' : 'kl-black';
-    const isSel = sel && sel.where === where && sel.pi === pi && ci >= sel.ci ? ' kl-sel' : '';
-    const lbl = KL_LABEL[c.v];
-    const corner = `<b${c.v === 10 ? ' class="kl-ten"' : ''}>${lbl}</b>${_klCardHtml.suit(c.s)}`;
-    const mid = c.v > 10 ? _klCardHtml.face(c) : _klCardHtml.suit(c.s);
-    return `<div class="kl-card kl-up ${red}${isSel}${c.v === 1 ? ' kl-ace' : ''}" aria-label="${lbl}${KL_SUITS[c.s]}" onclick="klTap('${where}',${pi},${ci})">` +
-           `<span class="kl-cn">${corner}</span><span class="kl-mid">${mid}</span><span class="kl-cn kl-cn2">${corner}</span></div>`;
+  if (!c.up)
+    return `<div class="kl-card kl-down" onclick="klTap('${ where }',${ pi },${ ci })"></div>`;
+  const red = _klRed(c) ? 'kl-red' : 'kl-black';
+  const isSel = sel && sel.where === where && sel.pi === pi && ci >= sel.ci ? ' kl-sel' : '';
+  const lbl = KL_LABEL[c.v];
+  const corner = `<b${ c.v === 10 ? ' class="kl-ten"' : '' }>${ lbl }</b>${ _klCardHtml.suit(c.s) }`;
+  const mid = c.v > 10 ? _klCardHtml.face(c) : _klCardHtml.suit(c.s);
+  return `<div class="kl-card kl-up ${ red }${ isSel }${ c.v === 1 ? ' kl-ace' : '' }" aria-label="${ lbl }${ KL_SUITS[c.s] }" onclick="klTap('${ where }',${ pi },${ ci })">` + `<span class="kl-cn">${ corner }</span><span class="kl-mid">${ mid }</span><span class="kl-cn kl-cn2">${ corner }</span></div>`;
 }
-
-// Inline-SVG art (kept as properties of _klCardHtml so no new global names are introduced).
-// Suit shapes on a 24x24 grid, index-matched to KL_SUITS: heart, diamond, spade, club.
 _klCardHtml.paths = [
-    '<path d="M12 21.2C5.4 16 2 12.6 2 8.4A5.2 5.2 0 0 1 12 6.3 5.2 5.2 0 0 1 22 8.4C22 12.6 18.6 16 12 21.2z"/>',
-    '<path d="M12 1.5C14.5 5.5 17 9 20.5 12 17 15 14.5 18.5 12 22.5 9.5 18.5 7 15 3.5 12 7 9 9.5 5.5 12 1.5z"/>',
-    '<path d="M12 2C9 6.5 2.5 9.8 2.5 14.6A4.6 4.6 0 0 0 10.9 16.9C10.7 19 10 20.6 8.6 22H15.4C14 20.6 13.3 19 13.1 16.9A4.6 4.6 0 0 0 21.5 14.6C21.5 9.8 15 6.5 12 2z"/>',
-    '<circle cx="12" cy="7.2" r="4.7"/><circle cx="6.7" cy="14.2" r="4.7"/><circle cx="17.3" cy="14.2" r="4.7"/><circle cx="12" cy="12.4" r="2.6"/><path d="M12 10.5c-.1 6-.9 9.4-3.4 11.5h6.8c-2.5-2.1-3.3-5.5-3.4-11.5z"/>'
+  '<path d="M12 21.2C5.4 16 2 12.6 2 8.4A5.2 5.2 0 0 1 12 6.3 5.2 5.2 0 0 1 22 8.4C22 12.6 18.6 16 12 21.2z"/>',
+  '<path d="M12 1.5C14.5 5.5 17 9 20.5 12 17 15 14.5 18.5 12 22.5 9.5 18.5 7 15 3.5 12 7 9 9.5 5.5 12 1.5z"/>',
+  '<path d="M12 2C9 6.5 2.5 9.8 2.5 14.6A4.6 4.6 0 0 0 10.9 16.9C10.7 19 10 20.6 8.6 22H15.4C14 20.6 13.3 19 13.1 16.9A4.6 4.6 0 0 0 21.5 14.6C21.5 9.8 15 6.5 12 2z"/>',
+  '<circle cx="12" cy="7.2" r="4.7"/><circle cx="6.7" cy="14.2" r="4.7"/><circle cx="17.3" cy="14.2" r="4.7"/><circle cx="12" cy="12.4" r="2.6"/><path d="M12 10.5c-.1 6-.9 9.4-3.4 11.5h6.8c-2.5-2.1-3.3-5.5-3.4-11.5z"/>'
 ];
 _klCardHtml.suit = function (s) {
-    return `<svg class="kl-suit" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">${_klCardHtml.paths[s]}</svg>`;
+  return `<svg class="kl-suit" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">${ _klCardHtml.paths[s] }</svg>`;
 };
-// Court cards: a framed gold panel with a crown (K: cross, Q: pearls, J: coronet) over the suit.
 _klCardHtml.face = function (c) {
-    const gold = 'fill="#cf9d33" stroke="#7a5a12" stroke-width=".7" stroke-linejoin="round"';
-    const band = `<rect x="10" y="18.4" width="20" height="2.6" rx="1" ${gold}/>`;
-    const crown = `<path d="M10 18 8.5 9l6 4.5L20 7l5.5 6.5 6-4.5L30 18z" ${gold}/>`;
-    const top = c.v === 13 ? crown + band + '<path d="M20 2.4v4.6M18 4.2h4" fill="none" stroke="#7a5a12" stroke-width="1.3" stroke-linecap="round"/>'
-              : c.v === 12 ? crown + band + `<circle cx="8.5" cy="8.3" r="1.6" ${gold}/><circle cx="20" cy="6.1" r="1.6" ${gold}/><circle cx="31.5" cy="8.3" r="1.6" ${gold}/>`
-              : `<path d="M10.5 18v-6l4.7 3 4.8-4 4.8 4 4.7-3v6z" ${gold}/>` + band;
-    return `<svg class="kl-face" viewBox="0 0 40 40" aria-hidden="true" focusable="false">` +
-           `<rect x="1.5" y="1.5" width="37" height="37" rx="5" fill="#f8ebc8" stroke="currentColor" stroke-width="1.3"/>` +
-           `<rect x="4.3" y="4.3" width="31.4" height="31.4" rx="3.2" fill="none" stroke="#c9a35a" stroke-width=".8"/>` +
-           top + `<g fill="currentColor" transform="translate(13.3 22.2) scale(.56)">${_klCardHtml.paths[c.s]}</g></svg>`;
+  const gold = 'fill="#cf9d33" stroke="#7a5a12" stroke-width=".7" stroke-linejoin="round"';
+  const band = `<rect x="10" y="18.4" width="20" height="2.6" rx="1" ${ gold }/>`;
+  const crown = `<path d="M10 18 8.5 9l6 4.5L20 7l5.5 6.5 6-4.5L30 18z" ${ gold }/>`;
+  const top = c.v === 13 ? crown + band + '<path d="M20 2.4v4.6M18 4.2h4" fill="none" stroke="#7a5a12" stroke-width="1.3" stroke-linecap="round"/>' : c.v === 12 ? crown + band + `<circle cx="8.5" cy="8.3" r="1.6" ${ gold }/><circle cx="20" cy="6.1" r="1.6" ${ gold }/><circle cx="31.5" cy="8.3" r="1.6" ${ gold }/>` : `<path d="M10.5 18v-6l4.7 3 4.8-4 4.8 4 4.7-3v6z" ${ gold }/>` + band;
+  return `<svg class="kl-face" viewBox="0 0 40 40" aria-hidden="true" focusable="false">` + `<rect x="1.5" y="1.5" width="37" height="37" rx="5" fill="#f8ebc8" stroke="currentColor" stroke-width="1.3"/>` + `<rect x="4.3" y="4.3" width="31.4" height="31.4" rx="3.2" fill="none" stroke="#c9a35a" stroke-width=".8"/>` + top + `<g fill="currentColor" transform="translate(13.3 22.2) scale(.56)">${ _klCardHtml.paths[c.s] }</g></svg>`;
 };
-
 function _klRender(container) {
-    const s = gameState.klondike;
-    const he = (typeof currentLang !== 'undefined' && currentLang === 'he');
-    const L = he ? {undo:Icon.ui('undo-2')+' ביטול', hint:Icon.ui('lightbulb')+' רמז', deal:Icon.ui('rotate-ccw')+' חלוקה חדשה', moves:'מהלכים'}
-                 : {undo:Icon.ui('undo-2')+' Undo', hint:Icon.ui('lightbulb')+' Hint', deal:Icon.ui('rotate-ccw')+' New deal', moves:'Moves'};
-    let h = `<style>
+  const s = gameState.klondike;
+  const he = false;
+  const L = {
+    undo: Icon.ui('undo-2') + ' Undo',
+    hint: Icon.ui('lightbulb') + ' Hint',
+    deal: Icon.ui('rotate-ccw') + ' New deal',
+    moves: 'Moves'
+  };
+  let h = `<style>
       /* ── table ─────────────────────────────────────────────────────────── */
       .kl-board{direction:ltr;width:100%;max-width:min(1440px,calc(140vh + 80px));max-width:min(1440px,calc(140dvh + 80px));
         margin:0 auto;user-select:none;-webkit-user-select:none;box-sizing:border-box;
@@ -221,171 +267,262 @@ function _klRender(container) {
         .kl-sel{animation:none}.kl-btn:active{transform:none}
       }
     </style><div class="kl-board">`;
-
-    // How to play (2026-10-10 review: the tableau, empty-column and stock rules were missing). Open on the first
-    // visit, then remembered as folded; a worked example shows a legal move.
-    let helpOpen = true; try { helpOpen = !localStorage.getItem('gg_kl_help_seen'); localStorage.setItem('gg_kl_help_seen', '1'); } catch (e) {}
-    const ex = (lbl, suit, red) => `<span class="kl-ex-card ${red ? 'kl-red' : 'kl-black'}">${lbl}${_klCardHtml.suit(suit)}</span>`;
-    h += `<details class="kl-help"${helpOpen ? ' open' : ''}><summary>${Icon.ui('book-open')} ${(typeof currentLang!=='undefined'&&currentLang==='he')?'איך משחקים':'How to play'}</summary>
+  let helpOpen = true;
+  try {
+    helpOpen = !localStorage.getItem('gg_kl_help_seen');
+    localStorage.setItem('gg_kl_help_seen', '1');
+  } catch (e) {
+  }
+  const ex = (lbl, suit, red) => `<span class="kl-ex-card ${ red ? 'kl-red' : 'kl-black' }">${ lbl }${ _klCardHtml.suit(suit) }</span>`;
+  h += `<details class="kl-help"${ helpOpen ? ' open' : '' }><summary>${ Icon.ui('book-open') } ${ 'How to play' }</summary>
       <ul>
         <li><b>Goal:</b> move all 52 cards to the four home piles at the top right, each suit from Ace up to King.</li>
         <li><b>Columns:</b> build down in <b>alternating colors</b> - a red 7 goes on a black 8, a black 6 on a red 7.</li>
         <li>You can move a whole face-up run at once. When you uncover a face-down card, it turns over.</li>
         <li><b>Empty column:</b> only a King (or a run that starts with a King) can go there.</li>
-        <li><b>The deck</b> (top left): tap it to turn a card onto the pile next to it; you may play that card. When the deck is empty, tap its spot to turn the pile back over.${s.draw === 3 ? ' On Hard, three cards turn at a time and you can go through the deck three more times.' : ''}</li>
+        <li><b>The deck</b> (top left): tap it to turn a card onto the pile next to it; you may play that card. When the deck is empty, tap its spot to turn the pile back over.${ s.draw === 3 ? ' On Hard, three cards turn at a time and you can go through the deck three more times.' : '' }</li>
         <li><b>Tap to move:</b> tap a card, then tap where it goes. Tap a card twice to send it home if it fits.</li>
       </ul>
-      <div class="kl-ex"><span>Example:</span>${ex('8', 2, false)}<span class="kl-ex-arrow">←</span>${ex('7', 0, true)}<span>The red 7♥ can go on the black 8♠.</span></div>
+      <div class="kl-ex"><span>Example:</span>${ ex('8', 2, false) }<span class="kl-ex-arrow">←</span>${ ex('7', 0, true) }<span>The red 7♥ can go on the black 8♠.</span></div>
     </details>`;
-    h += `<div class="kl-bar"${he ? ' dir="rtl"' : ''}>
-      <button class="kl-btn" onclick="klUndo()">${L.undo}</button>
-      <button class="kl-btn" onclick="klHint()">${L.hint}</button>
-      <button class="kl-btn" onclick="initKlondike(document.getElementById('gameContent'))">${L.deal}</button>
-      <span class="kl-count">${L.moves}: ${s.moves}</span></div>`;
-
-    // top row: stock, waste, gap, 4 foundations
-    const canRedeal = s.waste.length && s.redeals < s.maxRedeals;
-    const stockIco = canRedeal
-        ? `<svg class="kl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12a7 7 0 1 1-2.2-5.1"/><path d="M17.6 2.6v4.8h-4.8"/></svg>`
-        : `<svg class="kl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M6.8 17.2 17.2 6.8"/></svg>`;
-    h += `<div class="kl-row">`;
-    h += `<div class="kl-pile">` + (s.stock.length
-        ? `<div class="kl-card kl-down" onclick="klDraw()"></div><span class="kl-badge">${s.stock.length}</span>`
-        : `<div class="kl-slot" onclick="klDraw()">${stockIco}</div>`) + `</div>`;
-    const w = s.waste[s.waste.length - 1];
-    h += `<div class="kl-pile">` + (w ? _klCardHtml(w, 'w', 0, s.waste.length - 1, s.sel) : `<div class="kl-slot" style="cursor:default"></div>`) + `</div>`;
-    h += `<div class="kl-pile" style="visibility:hidden"></div>`;
-    for (let i = 0; i < 4; i++) {
-        const top = s.f[i][s.f[i].length - 1];
-        h += `<div class="kl-pile" onclick="klTap('f',${i},-1)">` + (top
-            ? _klCardHtml(top, 'f', i, s.f[i].length - 1, s.sel)
-            : `<div class="kl-slot">${_klCardHtml.suit(i)}</div>`) + `</div>`;
-    }
-    h += `</div>`;
-
-    // tableau: cards are absolutely positioned; face-down cards overlap more tightly than face-up ones.
-    // An invisible in-flow sizer (same offset as the last card) gives the column its height at any card size.
-    h += `<div class="kl-row" style="align-items:flex-start">`;
-    for (let pi = 0; pi < 7; pi++) {
-        const pile = s.t[pi];
-        let dn = 0, up = 0, top = '0px';
-        h += `<div class="kl-pile kl-stack" onclick="if(event.target===this)klTap('t',${pi},-1)">`;
-        if (!pile.length) h += `<div class="kl-slot kl-slot-k" onclick="klTap('t',${pi},-1)">K</div>`;
-        pile.forEach((c, ci) => {
-            top = `calc(${dn} * var(--kl-dn) + ${up} * var(--kl-up))`;
-            h += `<div style="position:absolute;top:${top};left:0;right:0">${_klCardHtml(c, 't', pi, ci, s.sel)}</div>`;
-            if (c.up) up++; else dn++;
-        });
-        h += `<div class="kl-sizer" style="margin-top:${top}"></div></div>`;
-    }
-    h += `</div></div>`;
-    container.innerHTML = h;
+  h += `<div class="kl-bar"${ '' }>
+      <button class="kl-btn" onclick="klUndo()">${ L.undo }</button>
+      <button class="kl-btn" onclick="klHint()">${ L.hint }</button>
+      <button class="kl-btn" onclick="initKlondike(document.getElementById('gameContent'))">${ L.deal }</button>
+      <span class="kl-count">${ L.moves }: ${ s.moves }</span></div>`;
+  const canRedeal = s.waste.length && s.redeals < s.maxRedeals;
+  const stockIco = canRedeal ? `<svg class="kl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12a7 7 0 1 1-2.2-5.1"/><path d="M17.6 2.6v4.8h-4.8"/></svg>` : `<svg class="kl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M6.8 17.2 17.2 6.8"/></svg>`;
+  h += `<div class="kl-row">`;
+  h += `<div class="kl-pile">` + (s.stock.length ? `<div class="kl-card kl-down" onclick="klDraw()"></div><span class="kl-badge">${ s.stock.length }</span>` : `<div class="kl-slot" onclick="klDraw()">${ stockIco }</div>`) + `</div>`;
+  const w = s.waste[s.waste.length - 1];
+  h += `<div class="kl-pile">` + (w ? _klCardHtml(w, 'w', 0, s.waste.length - 1, s.sel) : `<div class="kl-slot" style="cursor:default"></div>`) + `</div>`;
+  h += `<div class="kl-pile" style="visibility:hidden"></div>`;
+  for (let i = 0; i < 4; i++) {
+    const top = s.f[i][s.f[i].length - 1];
+    h += `<div class="kl-pile" onclick="klTap('f',${ i },-1)">` + (top ? _klCardHtml(top, 'f', i, s.f[i].length - 1, s.sel) : `<div class="kl-slot">${ _klCardHtml.suit(i) }</div>`) + `</div>`;
+  }
+  h += `</div>`;
+  h += `<div class="kl-row" style="align-items:flex-start">`;
+  for (let pi = 0; pi < 7; pi++) {
+    const pile = s.t[pi];
+    let dn = 0, up = 0, top = '0px';
+    h += `<div class="kl-pile kl-stack" onclick="if(event.target===this)klTap('t',${ pi },-1)">`;
+    if (!pile.length)
+      h += `<div class="kl-slot kl-slot-k" onclick="klTap('t',${ pi },-1)">K</div>`;
+    pile.forEach((c, ci) => {
+      top = `calc(${ dn } * var(--kl-dn) + ${ up } * var(--kl-up))`;
+      h += `<div style="position:absolute;top:${ top };left:0;right:0">${ _klCardHtml(c, 't', pi, ci, s.sel) }</div>`;
+      if (c.up)
+        up++;
+      else
+        dn++;
+    });
+    h += `<div class="kl-sizer" style="margin-top:${ top }"></div></div>`;
+  }
+  h += `</div></div>`;
+  container.innerHTML = h;
 }
-
 function klDraw() {
-    const s = gameState.klondike;
-    _klSnapshot(); s.sel = null;
-    if (s.stock.length) {
-        for (let i = 0; i < s.draw && s.stock.length; i++) {
-            const c = s.stock.pop(); c.up = true; s.waste.push(c);
-        }
-        sfxFlip();
-    } else if (s.waste.length) {
-        if (s.redeals >= s.maxRedeals) { s.undo.pop(); sfxWrong(); return; }
-        s.stock = s.waste.reverse().map(c => (c.up = false, c)); s.waste = [];
-        s.redeals++; sfxFlip();
-    } else { s.undo.pop(); return; }
-    s.moves++;
-    _klRender(document.getElementById('gameContent'));
+  const s = gameState.klondike;
+  _klSnapshot();
+  s.sel = null;
+  if (s.stock.length) {
+    for (let i = 0; i < s.draw && s.stock.length; i++) {
+      const c = s.stock.pop();
+      c.up = true;
+      s.waste.push(c);
+    }
+    sfxFlip();
+  } else if (s.waste.length) {
+    if (s.redeals >= s.maxRedeals) {
+      s.undo.pop();
+      sfxWrong();
+      return;
+    }
+    s.stock = s.waste.reverse().map(c => (c.up = false, c));
+    s.waste = [];
+    s.redeals++;
+    sfxFlip();
+  } else {
+    s.undo.pop();
+    return;
+  }
+  s.moves++;
+  _klRender(document.getElementById('gameContent'));
 }
-
 function _klCanFoundation(c, fi) {
-    const s = gameState.klondike, f = s.f[fi];
-    return f.length ? (f[f.length - 1].s === c.s && f[f.length - 1].v === c.v - 1) : (c.v === 1 && c.s === fi);
+  const s = gameState.klondike, f = s.f[fi];
+  return f.length ? f[f.length - 1].s === c.s && f[f.length - 1].v === c.v - 1 : c.v === 1 && c.s === fi;
 }
-
 function _klCanTableau(c, pi) {
-    const s = gameState.klondike, p = s.t[pi];
-    if (!p.length) return c.v === 13;
-    const top = p[p.length - 1];
-    return top.up && _klRed(top) !== _klRed(c) && top.v === c.v + 1;
+  const s = gameState.klondike, p = s.t[pi];
+  if (!p.length)
+    return c.v === 13;
+  const top = p[p.length - 1];
+  return top.up && _klRed(top) !== _klRed(c) && top.v === c.v + 1;
 }
-
 function _klTake(sel) {
-    const s = gameState.klondike;
-    if (sel.where === 'w') return [s.waste.pop()];
-    return s.t[sel.pi].splice(sel.ci);
+  const s = gameState.klondike;
+  if (sel.where === 'w')
+    return [s.waste.pop()];
+  return s.t[sel.pi].splice(sel.ci);
 }
-
 function _klAfterMove() {
-    const s = gameState.klondike;
-    s.t.forEach(p => { if (p.length && !p[p.length - 1].up) p[p.length - 1].up = true; });
-    s.sel = null; s.moves++;
-    if (s.f.every(f => f.length === 13)) { sfxWin(); setTimeout(() => levelComplete(), 500); return; }
-    _klRender(document.getElementById('gameContent'));
+  const s = gameState.klondike;
+  s.t.forEach(p => {
+    if (p.length && !p[p.length - 1].up)
+      p[p.length - 1].up = true;
+  });
+  s.sel = null;
+  s.moves++;
+  if (s.f.every(f => f.length === 13)) {
+    sfxWin();
+    setTimeout(() => levelComplete(), 500);
+    return;
+  }
+  _klRender(document.getElementById('gameContent'));
 }
-
 function klTap(where, pi, ci) {
-    const s = gameState.klondike;
-    const sel = s.sel;
-
-    if (!sel) {  // select source
-        if (where === 'w' && s.waste.length) { s.sel = {where: 'w', pi: 0, ci: s.waste.length - 1}; }
-        else if (where === 't' && ci >= 0 && s.t[pi][ci] && s.t[pi][ci].up) { s.sel = {where: 't', pi, ci}; }
-        else return;
-        sfxFlip(); _klRender(document.getElementById('gameContent')); return;
-    }
-
-    const srcCard = sel.where === 'w' ? s.waste[s.waste.length - 1] : s.t[sel.pi][sel.ci];
-    const single = sel.where === 'w' || sel.ci === s.t[sel.pi].length - 1;
-
-    // tap the selected card again → try auto-foundation
-    if (sel.where === where && sel.pi === pi && (where === 'w' || ci === sel.ci)) {
-        if (single) for (let fi = 0; fi < 4; fi++) if (_klCanFoundation(srcCard, fi)) {
-            _klSnapshot(); s.undo[s.undo.length-1] = s.undo[s.undo.length-1]; // snapshot before take
-            const snap = s.undo.pop(); s.undo.push(snap);
-            _klTake(sel); s.f[fi].push(srcCard); sfxCorrect(); _klAfterMove(); return;
-        }
-        s.sel = null; _klRender(document.getElementById('gameContent')); return;
-    }
-
-    if (where === 'f' && single && _klCanFoundation(srcCard, pi)) {
-        _klSnapshot(); _klTake(sel); s.f[pi].push(srcCard); sfxCorrect(); _klAfterMove(); return;
-    }
-    if (where === 't' && _klCanTableau(srcCard, pi)) {
-        _klSnapshot(); const run = _klTake(sel); s.t[pi].push(...run); sfxCorrect(); _klAfterMove(); return;
-    }
-    // illegal → reselect if tapping another face-up card, else clear
-    if (where === 't' && ci >= 0 && s.t[pi][ci] && s.t[pi][ci].up) { s.sel = {where: 't', pi, ci}; }
-    else if (where === 'w' && s.waste.length) { s.sel = {where: 'w', pi: 0, ci: s.waste.length - 1}; }
-    else { s.sel = null; sfxWrong(); }
+  const s = gameState.klondike;
+  const sel = s.sel;
+  if (!sel) {
+    if (where === 'w' && s.waste.length) {
+      s.sel = {
+        where: 'w',
+        pi: 0,
+        ci: s.waste.length - 1
+      };
+    } else if (where === 't' && ci >= 0 && s.t[pi][ci] && s.t[pi][ci].up) {
+      s.sel = {
+        where: 't',
+        pi,
+        ci
+      };
+    } else
+      return;
+    sfxFlip();
     _klRender(document.getElementById('gameContent'));
-}
-
-function klHint() {
-    const s = gameState.klondike;
-    // 1) any top card → foundation
-    const tops = [];
-    if (s.waste.length) tops.push({where: 'w', pi: 0, ci: s.waste.length - 1, c: s.waste[s.waste.length - 1]});
-    s.t.forEach((p, pi) => { if (p.length && p[p.length - 1].up) tops.push({where: 't', pi, ci: p.length - 1, c: p[p.length - 1]}); });
-    for (const t of tops) for (let fi = 0; fi < 4; fi++)
-        if (_klCanFoundation(t.c, fi)) { s.sel = {where: t.where, pi: t.pi, ci: t.ci}; sfxFlip(); _klRender(document.getElementById('gameContent')); return; }
-    // 2) any face-up run head → tableau
-    for (let pi = 0; pi < 7; pi++) {
-        const p = s.t[pi];
-        for (let ci = 0; ci < p.length; ci++) {
-            if (!p[ci].up) continue;
-            for (let ti = 0; ti < 7; ti++) {
-                if (ti === pi) continue;
-                if (_klCanTableau(p[ci], ti) && !(ci === 0 && p[ci].v === 13)) {
-                    s.sel = {where: 't', pi, ci}; sfxFlip(); _klRender(document.getElementById('gameContent')); return;
-                }
-            }
+    return;
+  }
+  const srcCard = sel.where === 'w' ? s.waste[s.waste.length - 1] : s.t[sel.pi][sel.ci];
+  const single = sel.where === 'w' || sel.ci === s.t[sel.pi].length - 1;
+  if (sel.where === where && sel.pi === pi && (where === 'w' || ci === sel.ci)) {
+    if (single)
+      for (let fi = 0; fi < 4; fi++)
+        if (_klCanFoundation(srcCard, fi)) {
+          _klSnapshot();
+          s.undo[s.undo.length - 1] = s.undo[s.undo.length - 1];
+          const snap = s.undo.pop();
+          s.undo.push(snap);
+          _klTake(sel);
+          s.f[fi].push(srcCard);
+          sfxCorrect();
+          _klAfterMove();
+          return;
         }
+    s.sel = null;
+    _klRender(document.getElementById('gameContent'));
+    return;
+  }
+  if (where === 'f' && single && _klCanFoundation(srcCard, pi)) {
+    _klSnapshot();
+    _klTake(sel);
+    s.f[pi].push(srcCard);
+    sfxCorrect();
+    _klAfterMove();
+    return;
+  }
+  if (where === 't' && _klCanTableau(srcCard, pi)) {
+    _klSnapshot();
+    const run = _klTake(sel);
+    s.t[pi].push(...run);
+    sfxCorrect();
+    _klAfterMove();
+    return;
+  }
+  if (where === 't' && ci >= 0 && s.t[pi][ci] && s.t[pi][ci].up) {
+    s.sel = {
+      where: 't',
+      pi,
+      ci
+    };
+  } else if (where === 'w' && s.waste.length) {
+    s.sel = {
+      where: 'w',
+      pi: 0,
+      ci: s.waste.length - 1
+    };
+  } else {
+    s.sel = null;
+    sfxWrong();
+  }
+  _klRender(document.getElementById('gameContent'));
+}
+function klHint() {
+  const s = gameState.klondike;
+  const tops = [];
+  if (s.waste.length)
+    tops.push({
+      where: 'w',
+      pi: 0,
+      ci: s.waste.length - 1,
+      c: s.waste[s.waste.length - 1]
+    });
+  s.t.forEach((p, pi) => {
+    if (p.length && p[p.length - 1].up)
+      tops.push({
+        where: 't',
+        pi,
+        ci: p.length - 1,
+        c: p[p.length - 1]
+      });
+  });
+  for (const t of tops)
+    for (let fi = 0; fi < 4; fi++)
+      if (_klCanFoundation(t.c, fi)) {
+        s.sel = {
+          where: t.where,
+          pi: t.pi,
+          ci: t.ci
+        };
+        sfxFlip();
+        _klRender(document.getElementById('gameContent'));
+        return;
+      }
+  for (let pi = 0; pi < 7; pi++) {
+    const p = s.t[pi];
+    for (let ci = 0; ci < p.length; ci++) {
+      if (!p[ci].up)
+        continue;
+      for (let ti = 0; ti < 7; ti++) {
+        if (ti === pi)
+          continue;
+        if (_klCanTableau(p[ci], ti) && !(ci === 0 && p[ci].v === 13)) {
+          s.sel = {
+            where: 't',
+            pi,
+            ci
+          };
+          sfxFlip();
+          _klRender(document.getElementById('gameContent'));
+          return;
+        }
+      }
     }
-    // 3) waste → tableau
-    if (s.waste.length) { const c = s.waste[s.waste.length - 1];
-        for (let ti = 0; ti < 7; ti++) if (_klCanTableau(c, ti)) {
-            s.sel = {where: 'w', pi: 0, ci: s.waste.length - 1}; sfxFlip(); _klRender(document.getElementById('gameContent')); return; } }
-    sfxWrong();  // no move found → draw
+  }
+  if (s.waste.length) {
+    const c = s.waste[s.waste.length - 1];
+    for (let ti = 0; ti < 7; ti++)
+      if (_klCanTableau(c, ti)) {
+        s.sel = {
+          where: 'w',
+          pi: 0,
+          ci: s.waste.length - 1
+        };
+        sfxFlip();
+        _klRender(document.getElementById('gameContent'));
+        return;
+      }
+  }
+  sfxWrong();
 }

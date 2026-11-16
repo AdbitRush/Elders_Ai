@@ -4,8 +4,8 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v133';
-const PREFIX = 'golden-games-';
+const CACHE = 'english-only-review-v134';
+const PREFIX = 'english-only-review-';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
 const SHELL = [
@@ -263,7 +263,7 @@ self.addEventListener('fetch', e => {
   // installed users until the cache name bumped — stale-while-revalidate
   // self-heals every visit.)
   e.respondWith(
-    caches.match(e.request).then(cached => {
+    caches.match(e.request, {ignoreSearch: true}).then(cached => {
       const network = fetch(e.request).then(res => {
         if (res && res.status === 200) {
           const clone = res.clone();
