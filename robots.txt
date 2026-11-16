@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://games.178-105-148-72.sslip.io/sitemap.xml
+Sitemap: https://dearolddays.com/sitemap.xml
