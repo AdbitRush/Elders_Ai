@@ -5,25 +5,25 @@
   'use strict';
   var ID = 'picnicorder', ROUNDS = 3, WIN_AT = 2; // WIN_AT: rounds needed for win=true (host decision)
 
-  var SVG_OPEN = '<svg viewBox="0 0 48 48" width="56" height="56" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">';
+  var SVG_OPEN = '<svg viewBox="0 0 48 48" width="56" height="56" aria-hidden="true" focusable="false" fill="none" stroke="#32251e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">';
 
-  // Original line drawings; shapes differ by outline, so colour is never needed.
+  // Original colorful drawings retain distinct outlines and text labels; color is never the only cue.
   var ITEMS = [
-    { id: 'basket', svg: '<path d="M8 22h32l-4 18H12z"/><path d="M14 22c0-14 20-14 20 0"/><path d="M18 22l2 18M30 22l-2 18M10 31h28"/>',
+    { id: 'basket', svg: '<path fill="#dca65d" d="M8 22h32l-4 18H12z"/><path d="M14 22c0-14 20-14 20 0"/><path d="M18 22l2 18M30 22l-2 18M10 31h28"/>',
       n: { he: 'סל', en: 'Basket', es: 'Cesta', fr: 'Panier', de: 'Korb', el: 'Καλάθι' } },
-    { id: 'apple', svg: '<path d="M24 16c-7-5-15 0-14 10 1 9 8 16 14 12 6 4 13-3 14-12 1-10-7-15-14-10z"/><path d="M24 16c0-4 1-7 3-9"/><path d="M27 10c3-4 8-3 9-2-2 4-6 5-9 2z"/>',
+    { id: 'apple', svg: '<path fill="#ed625b" d="M24 16c-7-5-15 0-14 10 1 9 8 16 14 12 6 4 13-3 14-12 1-10-7-15-14-10z"/><path d="M24 16c0-4 1-7 3-9"/><path fill="#65ad60" d="M27 10c3-4 8-3 9-2-2 4-6 5-9 2z"/>',
       n: { he: 'תפוח', en: 'Apple', es: 'Manzana', fr: 'Pomme', de: 'Apfel', el: 'Μήλο' } },
-    { id: 'sandwich', svg: '<path d="M6 38L24 8l18 30z"/><path d="M12 28h24M9 33h30"/>',
+    { id: 'sandwich', svg: '<path fill="#ffe0a1" d="M6 38L24 8l18 30z"/><path stroke="#53a261" stroke-width="4" d="M12 28h24"/><path stroke="#dc6f53" stroke-width="3" d="M9 33h30"/>',
       n: { he: 'כריך', en: 'Sandwich', es: 'Sándwich', fr: 'Sandwich', de: 'Sandwich', el: 'Σάντουιτς' } },
-    { id: 'bottle', svg: '<path d="M20 4h8v8c4 3 6 6 6 11v19H14V23c0-5 2-8 6-11z"/><path d="M14 28h20M20 8h8"/>',
+    { id: 'bottle', svg: '<path fill="#78c8e4" d="M20 4h8v8c4 3 6 6 6 11v19H14V23c0-5 2-8 6-11z"/><path d="M14 28h20M20 8h8"/>',
       n: { he: 'בקבוק', en: 'Bottle', es: 'Botella', fr: 'Bouteille', de: 'Flasche', el: 'Μπουκάλι' } },
-    { id: 'mug', svg: '<path d="M10 16h22v20a6 6 0 0 1-6 6H16a6 6 0 0 1-6-6z"/><path d="M32 21h4a5 5 0 0 1 0 10h-4"/><path d="M17 4c-2 3 2 4 0 7M25 4c-2 3 2 4 0 7"/>',
+    { id: 'mug', svg: '<path fill="#eea05b" d="M10 16h22v20a6 6 0 0 1-6 6H16a6 6 0 0 1-6-6z"/><path d="M32 21h4a5 5 0 0 1 0 10h-4"/><path d="M17 4c-2 3 2 4 0 7M25 4c-2 3 2 4 0 7"/>',
       n: { he: 'ספל', en: 'Mug', es: 'Taza', fr: 'Tasse', de: 'Tasse', el: 'Κούπα' } },
-    { id: 'blanket', svg: '<rect x="6" y="10" width="36" height="28" rx="2"/><path d="M18 10v28M30 10v28M6 19h36M6 29h36"/>',
+    { id: 'blanket', svg: '<rect fill="#ea8d91" x="6" y="10" width="36" height="28" rx="2"/><path stroke="#fff1cc" stroke-width="4" d="M18 10v28M30 10v28M6 19h36M6 29h36"/>',
       n: { he: 'שמיכה', en: 'Blanket', es: 'Manta', fr: 'Couverture', de: 'Decke', el: 'Κουβέρτα' } },
-    { id: 'cheese', svg: '<path d="M4 26L36 12l8 14v12H4z"/><path d="M4 26h40"/><circle cx="14" cy="32" r="2.5"/><circle cx="27" cy="33" r="2"/><circle cx="37" cy="31" r="1.5"/>',
+    { id: 'cheese', svg: '<path fill="#f8cf55" d="M4 26L36 12l8 14v12H4z"/><path d="M4 26h40"/><circle fill="#d99b31" cx="14" cy="32" r="2.5"/><circle fill="#d99b31" cx="27" cy="33" r="2"/><circle fill="#d99b31" cx="37" cy="31" r="1.5"/>',
       n: { he: 'גבינה', en: 'Cheese', es: 'Queso', fr: 'Fromage', de: 'Käse', el: 'Τυρί' } },
-    { id: 'grapes', svg: '<circle cx="14" cy="20" r="5"/><circle cx="24" cy="20" r="5"/><circle cx="34" cy="20" r="5"/><circle cx="19" cy="29" r="5"/><circle cx="29" cy="29" r="5"/><circle cx="24" cy="38" r="5"/><path d="M24 15V6M24 9c3-4 8-3 10-1"/>',
+    { id: 'grapes', svg: '<circle fill="#a889d7" cx="14" cy="20" r="5"/><circle fill="#a889d7" cx="24" cy="20" r="5"/><circle fill="#a889d7" cx="34" cy="20" r="5"/><circle fill="#a889d7" cx="19" cy="29" r="5"/><circle fill="#a889d7" cx="29" cy="29" r="5"/><circle fill="#a889d7" cx="24" cy="38" r="5"/><path d="M24 15V6M24 9c3-4 8-3 10-1"/>',
       n: { he: 'ענבים', en: 'Grapes', es: 'Uvas', fr: 'Raisin', de: 'Trauben', el: 'Σταφύλια' } }
   ];
 
@@ -68,10 +68,11 @@
       ok: 'σωστή θέση', no: 'λάθος θέση' }
   };
 
-  // Colours inherit from the host and all strokes use currentColor, so light and dark themes keep the host's contrast.
+  // Controls inherit the host contrast. Original illustrations use fixed colors and dark outlines on a cream tile.
   var CSS = [
     '.po-root{font-size:18px;line-height:1.4;color:inherit;width:100%;max-width:720px;margin:0 auto;padding:8px;box-sizing:border-box}',
     '.po-root *{box-sizing:border-box}',
+    '.po-card svg{background:#fff8e9;border-radius:10px;padding:2px;flex-shrink:0}',
     '.po-h{font-size:24px;margin:0 0 4px}',
     '.po-sub{font-size:18px;margin:6px 0}',
     '.po-strong,.po-msg{font-weight:700}',
