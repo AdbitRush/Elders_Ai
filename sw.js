@@ -4,7 +4,7 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'golden-games-v135';
+const CACHE = 'golden-games-v136';
 const PREFIX = 'golden-games-';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
@@ -243,7 +243,7 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   const isExternal = url.origin !== self.location.origin;
   if (isExternal) {
-    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+    e.respondWith(fetch(e.request).catch(() => caches.open(CACHE).then(c => c.match(e.request))));
     return;
   }
   // Navigations (the HTML shell): network-first so deploys reach installed
@@ -254,7 +254,7 @@ self.addEventListener('fetch', e => {
         const clone = res.clone();
         caches.open(CACHE).then(c => c.put(e.request, clone));
         return res;
-      }).catch(() => caches.match(e.request).then(c => c || caches.match('./index.html')))
+      }).catch(() => caches.open(CACHE).then(c => c.match(e.request)).then(c => c || caches.open(CACHE).then(c => c.match('./index.html'))))
     );
     return;
   }
@@ -264,7 +264,7 @@ self.addEventListener('fetch', e => {
   // installed users until the cache name bumped — stale-while-revalidate
   // self-heals every visit.)
   e.respondWith(
-    caches.match(e.request).then(cached => {
+    caches.open(CACHE).then(c => c.match(e.request)).then(cached => {
       const network = fetch(e.request).then(res => {
         if (res && res.status === 200) {
           const clone = res.clone();
