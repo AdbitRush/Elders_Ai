@@ -2,7 +2,7 @@
 
 REVIEW ONLY. No production publish or redirects installed.
 
-Base: production35ddf20f01ae5953f779e4873a046b8091a8a908, not the older English branch. Reapplies the reviewed English-only language transformation and126current English landing pages. Keeps the current five-card homepage, games.html126catalog, current meta description, magazine, stories and branding.
+Base: production354307f8ff805c4eb11cf94549f33d15d5b23446 (includes35ddf20ffive-card/catalog plus354307f8catalog favicon), not the older English branch. Reapplies the reviewed English-only language transformation and126current English landing pages. Keeps the current five-card homepage, games.html126catalog, current meta description, magazine, stories and branding.
 
 Additional UI-only change: remove retentionBar (played-today/streak/total/practice-score UI), brain-score-slot inside it, and the entire why-train-wrap section including its3columns and disclaimer. Retention.renderBar exits safely when the optional bar is absent. Retention load/save/recordWin and score storage remain unchanged. No storage keys deleted.
 
