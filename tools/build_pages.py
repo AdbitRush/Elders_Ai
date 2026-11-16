@@ -307,7 +307,6 @@ footer a{{display:inline-flex;align-items:center;min-height:48px;padding:0 6px;f
 <div class="wrap">
   <a class="brand" href="{REL}/?lang={lang}"><img src="{REL}/images/logo.svg" alt="" width="46" height="46"><span>BrainPlay</span></a>
   <div class="top">
-    <span class="free">{e(UI['free'][lang])}</span>
     <button type="button" class="theme" id="themeBtn" data-light="{e(UI['light'][lang])}" data-dark="{e(UI['dark'][lang])}"></button>
   </div>
   <h1>{e(title)}</h1>
