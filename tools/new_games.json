@@ -468,6 +468,46 @@
     {"id": "digger", "wave": 7, "section": "arcade", "init": "initDigger", "icon": "pickaxe", "skills": ["planning", "attention"],
      "title": "Tunnel Digger", "desc": "Dig for gems, drop sacks of gold and stay clear of the creatures. Nothing moves until you do.",
      "inst": "Dig with the arrows and collect every gem. Creatures follow your tunnels, and sacks fall when you dig under them.",
-     "why": "Every tunnel you dig is one the creatures can use, so each step is a small plan."}
+     "why": "Every tunnel you dig is one the creatures can use, so each step is a small plan."},
+    {
+      "id": "picnicorder",
+      "init": "initPicnicOrder",
+      "icon": "brain",
+      "section": "pastimes",
+      "skills": [
+        "memory",
+        "attention"
+      ],
+      "why": "Practise remembering a short sequence of pictures in order, at your own pace with no timer.",
+      "title": "Picnic Order",
+      "desc": "Remember the order of the picnic items, then pick them in the same order.",
+      "inst": "Look at the items in order for as long as you like. Press Ready, then pick the items in the order you saw. Use Undo to change a choice, then press Check.",
+      "localized": {
+        "title": {
+          "he": "סדר הפיקניק",
+          "en": "Picnic Order",
+          "es": "Orden de pícnic",
+          "fr": "L’ordre du pique-nique",
+          "de": "Picknick-Reihenfolge",
+          "el": "Η σειρά του πικνίκ"
+        },
+        "desc": {
+          "he": "זכרו את סדר פריטי הפיקניק ובחרו אותם באותו סדר.",
+          "en": "Remember the order of the picnic items, then pick them in the same order.",
+          "es": "Recuerde el orden de los objetos del pícnic y elíjalos en el mismo orden.",
+          "fr": "Retenez l’ordre des objets du pique-nique, puis choisissez-les dans le même ordre.",
+          "de": "Merken Sie sich die Reihenfolge der Picknick-Dinge und wählen Sie sie in derselben Reihenfolge.",
+          "el": "Θυμηθείτε τη σειρά των αντικειμένων του πικνίκ και επιλέξτε τα με την ίδια σειρά."
+        },
+        "inst": {
+          "he": "התבוננו בפריטים לפי הסדר, כמה זמן שתרצו. לחצו על מוכנים ובחרו את הפריטים לפי הסדר שראיתם. ביטול משנה בחירה, ואז לחצו על בדיקה.",
+          "en": "Look at the items in order for as long as you like. Press Ready, then pick the items in the order you saw. Use Undo to change a choice, then press Check.",
+          "es": "Mire los objetos en orden el tiempo que quiera. Pulse Listo y elija los objetos en el orden que vio. Use Deshacer para cambiar una elección y luego pulse Comprobar.",
+          "fr": "Regardez les objets dans l’ordre aussi longtemps que vous voulez. Appuyez sur Prêt, puis choisissez les objets dans l’ordre que vous avez vu. Annuler permet de changer un choix, puis appuyez sur Vérifier.",
+          "de": "Sehen Sie sich die Dinge der Reihe nach an, so lange Sie möchten. Drücken Sie Bereit und wählen Sie die Dinge in der gesehenen Reihenfolge. Mit Rückgängig ändern Sie eine Wahl, dann drücken Sie Prüfen.",
+          "el": "Δείτε τα αντικείμενα με τη σειρά για όσο θέλετε. Πατήστε Έτοιμοι και επιλέξτε τα αντικείμενα με τη σειρά που είδατε. Με την Αναίρεση αλλάζετε μια επιλογή και μετά πατήστε Έλεγχος."
+        }
+      }
+    }
   ]
 }

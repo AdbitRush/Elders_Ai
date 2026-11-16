@@ -346,6 +346,9 @@ def main() -> None:
         if g["id"] not in ids: ids.append(g["id"])
         for lang in LANGS:
             d = i18n.setdefault(lang, {})
+            for field, texts in g.get("localized", {}).items():
+                if lang in texts:
+                    d[f"inst_{g['id']}" if field == "inst" else f"game_{g['id']}_{field}"] = texts[lang]
             d.setdefault(f"game_{g['id']}_title", g["title"]); d.setdefault(f"game_{g['id']}_desc", g["desc"])
             d.setdefault(f"inst_{g['id']}", g["inst"])
         why.setdefault("en", {})[g["id"]] = g["why"]

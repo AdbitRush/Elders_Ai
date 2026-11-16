@@ -818,6 +818,12 @@
   for (const g of (window.NEW_GAMES || [])) {
     for (const lang of Object.keys(i18nData)) {
       const L = i18nData[lang];
+      if (g.localized) {
+        for (const field of ['title','desc','inst']) {
+          const text = g.localized[field] && g.localized[field][lang];
+          if (text) L[field === 'inst' ? 'inst_' + g.id : 'game_' + g.id + '_' + field] = text;
+        }
+      }
       if (!L['game_' + g.id + '_title']) L['game_' + g.id + '_title'] = g.title;
       if (!L['game_' + g.id + '_desc']) L['game_' + g.id + '_desc'] = g.desc;
       if (!L['inst_' + g.id]) L['inst_' + g.id] = g.inst;

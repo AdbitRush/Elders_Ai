@@ -51,7 +51,7 @@ def main():
     lst = ''.join(f'\n    <li data-game="{g["id"]}"><a class="ag-page" href="en/{g["id"]}/">{e(g["title"])}</a> '
                   f'<a class="ag-play" href="?lang=en#{g["id"]}">▶ Play</a></li>' for g in games)
     data = [{'id': g['id'], 'init': g['init'], 'icon': g['icon'], 'section': g['section'], 'skills': g['skills'],
-             'why': g['why'], 'title': g['title'], 'desc': g['desc'], 'inst': g['inst']} for g in games]
+             'why': g['why'], 'title': g['title'], 'desc': g['desc'], 'inst': g['inst'], **({'localized': g['localized']} if 'localized' in g else {})} for g in games]
     sections = [{'key': s['key'], 'title': s['title'], 'sub': s['sub']} for s in secs]
     js = ('\nwindow.NEW_GAMES = ' + json.dumps(data, ensure_ascii=False, separators=(',', ':'))
           + ';\nwindow.NEW_GAME_SECTIONS = ' + json.dumps(sections, ensure_ascii=False, separators=(',', ':'))

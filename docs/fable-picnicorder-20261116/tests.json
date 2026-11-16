@@ -1,0 +1,86 @@
+[
+  {
+    "lang": "en",
+    "finish": [
+      [
+        "picnicorder",
+        true,
+        "2 of 3 rounds in the correct order."
+      ]
+    ],
+    "errors": [],
+    "overflow": false,
+    "title": "Picnic Order",
+    "dir": "ltr"
+  },
+  {
+    "lang": "he",
+    "finish": [
+      [
+        "picnicorder",
+        true,
+        "2 מתוך 3 סיבובים בסדר הנכון."
+      ]
+    ],
+    "errors": [],
+    "overflow": false,
+    "title": "סדר הפיקניק",
+    "dir": "rtl"
+  },
+  {
+    "lang": "es",
+    "finish": [
+      [
+        "picnicorder",
+        true,
+        "2 de 3 rondas en el orden correcto."
+      ]
+    ],
+    "errors": [],
+    "overflow": false,
+    "title": "Orden de pícnic",
+    "dir": "ltr"
+  },
+  {
+    "lang": "fr",
+    "finish": [
+      [
+        "picnicorder",
+        true,
+        "2 manches sur 3 dans le bon ordre."
+      ]
+    ],
+    "errors": [],
+    "overflow": false,
+    "title": "L’ordre du pique-nique",
+    "dir": "ltr"
+  },
+  {
+    "lang": "de",
+    "finish": [
+      [
+        "picnicorder",
+        true,
+        "2 von 3 Runden in der richtigen Reihenfolge."
+      ]
+    ],
+    "errors": [],
+    "overflow": false,
+    "title": "Picknick-Reihenfolge",
+    "dir": "ltr"
+  },
+  {
+    "lang": "el",
+    "finish": [
+      [
+        "picnicorder",
+        true,
+        "2 από 3 γύρους με τη σωστή σειρά."
+      ]
+    ],
+    "errors": [],
+    "overflow": false,
+    "title": "Η σειρά του πικνίκ",
+    "dir": "ltr"
+  }
+]
