@@ -159,7 +159,8 @@ function _m1Load(gs) {
     gs.msg = `Puzzle ${gs.k + 1} of 5. ${gs.S.t === 'w' ? 'White' : 'Black'} to move and checkmate in one.`;
 }
 const _m1View = (gs) => {
-    const S = gs.S, flip = S.t === 'b', my = !gs.over && !gs.solved;
+    const S = gs.S, mover = gs.solved ? (S.t === 'w' ? 'b' : 'w') : S.t;
+    const flip = mover === 'b', my = !gs.over && !gs.solved;
     const legal = gs.sel >= 0 ? _chLegal(S).filter((m) => m.f === gs.sel) : [];
     const chk = _chInCheck(S, S.t) ? _chKing(S.b, S.t) : -1, mate = gs.solved ? _chKing(S.b, S.t) : -1;
     const side = (p) => (p === p.toUpperCase() ? 'w' : 'b');
@@ -173,7 +174,7 @@ const _m1View = (gs) => {
     const files = (flip ? 'hgfedcba' : 'abcdefgh').split('').map((x) => `<span>${x}</span>`).join('');
     const dots = gs.list.map((_, k) => `<i class="${k < gs.k || (k === gs.k && gs.solved) ? 'm1-ok' : k === gs.k ? 'm1-now' : ''}"></i>`).join('');
     return `<div class="nk-top"><span>Puzzle <b>${gs.k + 1}</b> of 5</span><span class="m1-dots" role="img" aria-label="${gs.k + (gs.solved ? 1 : 0)} of 5 solved">${dots}</span><span>Hints: <b>${gs.hints}</b></span></div>
-      <div class="m1-side"><i style="background:${S.t === 'w' ? '#fffdf7' : '#2b1f17'}"></i>${S.t === 'w' ? 'White' : 'Black'} to move: mate in one</div>
+      <div class="m1-side"><i style="background:${mover === 'w' ? '#fffdf7' : '#2b1f17'}"></i>${gs.solved ? `Checkmate! ${mover === 'w' ? 'White' : 'Black'} wins.` : `${mover === 'w' ? 'White' : 'Black'} to move: mate in one`}</div>
       <div class="m1-wrap"><div class="m1-board">${sq}</div><div class="m1-files" aria-hidden="true">${files}</div></div>
       ${NK.msg(gs.msg)}
       <div class="gk-btns">${gs.solved && !gs.over ? NK.btn(NK.icon('arrow-right') + 'Next puzzle', 'm1Next()', { k: 'next', cls: 'gk-primary' }) : NK.btn(NK.icon('lightbulb') + 'Hint', 'm1Hint()', { k: 'hint', disabled: !my })}${NK.btn(NK.icon('rotate-ccw') + 'New round', 'm1New()', { k: 'restart' })}</div>`;
