@@ -4,8 +4,8 @@
 // the cache; navigations are now network-first so site updates actually reach
 // installed users (v1 was cache-first with a never-bumped cache name).
 
-const CACHE = 'english-block-review-v135';
-const PREFIX = 'english-block-review-';
+const CACHE = 'golden-games-v135';
+const PREFIX = 'golden-games-';
 
 // Relative URLs — resolved against the SW's own location, deployment-path agnostic
 const SHELL = [
