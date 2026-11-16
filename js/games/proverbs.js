@@ -1,21 +1,28 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 15: PROVERBS
-// ═══════════════════════════════════════════════════════════════════════════════
 function initProverbs(c) {
-    const gs = gameState.proverbs;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    gs.pool = shuffle([...i18nData[currentLang].proverbs_pool]);
-    gs.idx = 0; gs.perLevel = _d==='easy'?4:_d==='hard'?9:6; gs.score = 0;
-    _provNext(c);
+  const gs = gameState.proverbs;
+  const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+  gs.pool = shuffle([...i18nData[currentLang].proverbs_pool]);
+  gs.idx = 0;
+  gs.perLevel = _d === 'easy' ? 4 : _d === 'hard' ? 9 : 6;
+  gs.score = 0;
+  _provNext(c);
 }
 function _provNext(c) {
-    if(!gameState.active || gameState.currentId !== 'proverbs') return;
-    const gs = gameState.proverbs; gs._locked=false;
-    if(gs.idx >= gs.perLevel) { gs._sessionScore={correct:gs.score,total:gs.perLevel}; levelComplete(); return; }
-    const item = gs.pool[gs.idx % gs.pool.length];
-    const isHe = currentLang === 'he';
-    // ── presentation only below: a study scene (styles are scoped under .bpv) ──
-    const css = `
+  if (!gameState.active || gameState.currentId !== 'proverbs')
+    return;
+  const gs = gameState.proverbs;
+  gs._locked = false;
+  if (gs.idx >= gs.perLevel) {
+    gs._sessionScore = {
+      correct: gs.score,
+      total: gs.perLevel
+    };
+    levelComplete();
+    return;
+  }
+  const item = gs.pool[gs.idx % gs.pool.length];
+  const isHe = false;
+  const css = `
 .bpv,.bpv *{box-sizing:border-box}
 .bpv{--g:90deg;width:100%;max-width:36rem;margin-left:auto;margin-right:auto;text-align:center}
 .bpv-he{--g:270deg}
@@ -109,31 +116,45 @@ function _provNext(c) {
 @keyframes bpvLamp{from{box-shadow:0 0 8px 2px rgba(255,190,80,.5)}to{box-shadow:0 0 15px 5px rgba(255,190,80,.85)}}
 @keyframes bpvShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
 `;
-    const orn = `<svg class="bpv-orn" viewBox="0 0 120 12" aria-hidden="true" focusable="false"><path d="M2 6h44M74 6h44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M60 1l5 5-5 5-5-5z" fill="currentColor"/><circle cx="50" cy="6" r="1.6" fill="currentColor"/><circle cx="70" cy="6" r="1.6" fill="currentColor"/></svg>`;
-    const books = Array.from({length:gs.perLevel},(_,i)=>`<i class="bpv-bk ${i<gs.idx?'is-done':i===gs.idx?'is-now':'is-todo'}"></i>`).join('');
-    c.innerHTML = `<div class="bpv${isHe?' bpv-he':''} max-w-xl w-full text-center"><style>${css}</style>
+  const orn = `<svg class="bpv-orn" viewBox="0 0 120 12" aria-hidden="true" focusable="false"><path d="M2 6h44M74 6h44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M60 1l5 5-5 5-5-5z" fill="currentColor"/><circle cx="50" cy="6" r="1.6" fill="currentColor"/><circle cx="70" cy="6" r="1.6" fill="currentColor"/></svg>`;
+  const books = Array.from({ length: gs.perLevel }, (_, i) => `<i class="bpv-bk ${ i < gs.idx ? 'is-done' : i === gs.idx ? 'is-now' : 'is-todo' }"></i>`).join('');
+  c.innerHTML = `<div class="bpv${ '' } max-w-xl w-full text-center"><style>${ css }</style>
       <div class="bpv-room">
-        <div class="bpv-top"><span class="bpv-plate">${gt('Proverb', 'פתגם')} ${gs.idx+1}/${gs.perLevel}</span><span class="bpv-plate text-green-600">&#10003; ${gs.score}</span></div>
-        <div class="bpv-row" aria-hidden="true">${books}</div>
+        <div class="bpv-top"><span class="bpv-plate">${ gt('Proverb') } ${ gs.idx + 1 }/${ gs.perLevel }</span><span class="bpv-plate text-green-600">&#10003; ${ gs.score }</span></div>
+        <div class="bpv-row" aria-hidden="true">${ books }</div>
         <div class="bpv-book">
-          <div class="bpv-page">${orn}<div class="bpv-q">"${item.q}"</div>${orn}</div>
+          <div class="bpv-page">${ orn }<div class="bpv-q">"${ item.q }"</div>${ orn }</div>
           <span class="bpv-ribbon" aria-hidden="true"></span>
         </div>
-        <div class="bpv-shelf">${item.opts.map((o,i)=>`<button onclick="answerProv(${i},${item.a})" class="bpv-opt" data-ok="${i===item.a?1:0}">${o}</button>`).join('')}</div>
+        <div class="bpv-shelf">${ item.opts.map((o, i) => `<button onclick="answerProv(${ i },${ item.a })" class="bpv-opt" data-ok="${ i === item.a ? 1 : 0 }">${ o }</button>`).join('') }</div>
       </div>
     </div>`;
 }
 function answerProv(sel, correct) {
-    if(!gameState.active || gameState.currentId !== 'proverbs') return;
-    const gs = gameState.proverbs;
-    if(gs._locked)return;gs._locked=true;  // one answer per question
-    if(sel === correct) { sfxCorrect(); gs.score++; } else sfxWrong();
-    // visual feedback only (glow / shake, reveal the right spine, refresh the brass score plate)
-    try{const _r=document.getElementById('gameContent'),_w=_r&&_r.querySelector?_r.querySelector('.bpv'):null;
-        if(_w){_w.setAttribute('data-state',sel===correct?'right':'wrong');
-            const _b=_w.querySelectorAll('.bpv-opt')[sel];if(_b)_b.classList.add('is-pick');
-            const _c=_w.querySelector('.text-green-600');if(_c)_c.textContent='✓ '+gs.score;}}catch(_e){}
-    gs.idx++;
-    setTimeout(() => _provNext(document.getElementById('gameContent')), sel===correct ? 350 : 800);
+  if (!gameState.active || gameState.currentId !== 'proverbs')
+    return;
+  const gs = gameState.proverbs;
+  if (gs._locked)
+    return;
+  gs._locked = true;
+  if (sel === correct) {
+    sfxCorrect();
+    gs.score++;
+  } else
+    sfxWrong();
+  try {
+    const _r = document.getElementById('gameContent'), _w = _r && _r.querySelector ? _r.querySelector('.bpv') : null;
+    if (_w) {
+      _w.setAttribute('data-state', sel === correct ? 'right' : 'wrong');
+      const _b = _w.querySelectorAll('.bpv-opt')[sel];
+      if (_b)
+        _b.classList.add('is-pick');
+      const _c = _w.querySelector('.text-green-600');
+      if (_c)
+        _c.textContent = '\u2713 ' + gs.score;
+    }
+  } catch (_e) {
+  }
+  gs.idx++;
+  setTimeout(() => _provNext(document.getElementById('gameContent')), sel === correct ? 350 : 800);
 }
- 

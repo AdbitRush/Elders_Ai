@@ -1,35 +1,138 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 23: WORD CATEGORY — pick the word that belongs to the category
-// Presentation: market stall — hanging wooden sign + labelled jars on a shelf
-// ═══════════════════════════════════════════════════════════════════════════════
-const _CAT_POOLS={
-  he:[
-    {cat:'פירות',        members:['תפוח','בננה','אגס','ענבים','אבטיח','תות','משמש','שזיף']},
-    {cat:'ירקות',        members:['מלפפון','עגבנייה','גזר','חסה','בצל','פלפל','קישוא','כרוב']},
-    {cat:'בעלי חיים',    members:['כלב','חתול','סוס','פרה','אריה','דוב','שועל','ארנב']},
-    {cat:'כלי תחבורה',   members:['מכונית','אוטובוס','רכבת','אופניים','מטוס','אונייה','משאית','קטנוע']},
-    {cat:'חלקי הבית',    members:['מטבח','סלון','מרפסת','מקלחת','חדר שינה','מסדרון','מחסן','גינה']},
-    {cat:'בגדים',        members:['חולצה','מכנסיים','שמלה','מעיל','גרביים','כובע','חצאית','סוודר']},
-    {cat:'מקצועות',      members:['רופא','מורה','נגר','טבח','נהג','חשמלאי','שוטר','גנן']},
-    {cat:'כלי נגינה',    members:['כינור','פסנתר','גיטרה','חליל','תוף','חצוצרה','נבל','אקורדיון']},
-    {cat:'מזג אוויר',    members:['גשם','שמש','רוח','שלג','ברד','ערפל','סערה','קשת']},
-    {cat:'רגשות',        members:['שמחה','עצב','כעס','פחד','אהבה','גאווה','הפתעה','געגוע']},
-  ],
-  en:[
-    {cat:'Fruits',       members:['Apple','Banana','Pear','Grapes','Melon','Strawberry','Apricot','Plum']},
-    {cat:'Vegetables',   members:['Cucumber','Tomato','Carrot','Lettuce','Onion','Pepper','Zucchini','Cabbage']},
-    {cat:'Animals',      members:['Dog','Cat','Horse','Cow','Lion','Bear','Fox','Rabbit']},
-    {cat:'Vehicles',     members:['Car','Bus','Train','Bicycle','Plane','Ship','Truck','Scooter']},
-    {cat:'Rooms',        members:['Kitchen','Living room','Balcony','Bathroom','Bedroom','Hallway','Garage','Garden']},
-    {cat:'Clothing',     members:['Shirt','Pants','Dress','Coat','Socks','Hat','Skirt','Sweater']},
-    {cat:'Professions',  members:['Doctor','Teacher','Carpenter','Chef','Driver','Electrician','Officer','Gardener']},
-    {cat:'Instruments',  members:['Violin','Piano','Guitar','Flute','Drum','Trumpet','Harp','Accordion']},
-    {cat:'Weather',      members:['Rain','Sun','Wind','Snow','Hail','Fog','Storm','Rainbow']},
-    {cat:'Feelings',     members:['Joy','Sadness','Anger','Fear','Love','Pride','Surprise','Longing']},
-  ],
+const _CAT_POOLS = {
+  en: [
+    {
+      cat: 'Fruits',
+      members: [
+        'Apple',
+        'Banana',
+        'Pear',
+        'Grapes',
+        'Melon',
+        'Strawberry',
+        'Apricot',
+        'Plum'
+      ]
+    },
+    {
+      cat: 'Vegetables',
+      members: [
+        'Cucumber',
+        'Tomato',
+        'Carrot',
+        'Lettuce',
+        'Onion',
+        'Pepper',
+        'Zucchini',
+        'Cabbage'
+      ]
+    },
+    {
+      cat: 'Animals',
+      members: [
+        'Dog',
+        'Cat',
+        'Horse',
+        'Cow',
+        'Lion',
+        'Bear',
+        'Fox',
+        'Rabbit'
+      ]
+    },
+    {
+      cat: 'Vehicles',
+      members: [
+        'Car',
+        'Bus',
+        'Train',
+        'Bicycle',
+        'Plane',
+        'Ship',
+        'Truck',
+        'Scooter'
+      ]
+    },
+    {
+      cat: 'Rooms',
+      members: [
+        'Kitchen',
+        'Living room',
+        'Balcony',
+        'Bathroom',
+        'Bedroom',
+        'Hallway',
+        'Garage',
+        'Garden'
+      ]
+    },
+    {
+      cat: 'Clothing',
+      members: [
+        'Shirt',
+        'Pants',
+        'Dress',
+        'Coat',
+        'Socks',
+        'Hat',
+        'Skirt',
+        'Sweater'
+      ]
+    },
+    {
+      cat: 'Professions',
+      members: [
+        'Doctor',
+        'Teacher',
+        'Carpenter',
+        'Chef',
+        'Driver',
+        'Electrician',
+        'Officer',
+        'Gardener'
+      ]
+    },
+    {
+      cat: 'Instruments',
+      members: [
+        'Violin',
+        'Piano',
+        'Guitar',
+        'Flute',
+        'Drum',
+        'Trumpet',
+        'Harp',
+        'Accordion'
+      ]
+    },
+    {
+      cat: 'Weather',
+      members: [
+        'Rain',
+        'Sun',
+        'Wind',
+        'Snow',
+        'Hail',
+        'Fog',
+        'Storm',
+        'Rainbow'
+      ]
+    },
+    {
+      cat: 'Feelings',
+      members: [
+        'Joy',
+        'Sadness',
+        'Anger',
+        'Fear',
+        'Love',
+        'Pride',
+        'Surprise',
+        'Longing'
+      ]
+    }
+  ]
 };
-// Scene styles live on the existing function object (no new global name).
-_catNext._css=`<style>
+_catNext._css = `<style>
 .cat-scene{margin-inline:auto;color:#3b2a1a}
 .cat-scene .cat-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;font-size:1.3rem;font-weight:800;color:#4a3320}
 .cat-scene .cat-score{min-width:76px;padding:4px 14px;border-radius:999px;background:#e7f3e4;border:2px solid #2f7d4f;color:#1f5c38;font-variant-numeric:tabular-nums}
@@ -63,48 +166,67 @@ ght:800;line-height:1.2;color:#3b2a1a;overflow-wrap:anywhere}
 @keyframes catGlow{0%{box-shadow:0 0 0 0 #f6c453,0 0 0 0 rgba(246,196,83,0)}100%{box-shadow:0 0 0 4px #f6c453,0 0 26px 6px rgba(246,196,83,.85)}}
 @media (prefers-reduced-motion:reduce){.cat-scene .cat-jar,.cat-scene .cat-jar.cat-ok{animation:none;transition:none}.cat-scene .cat-jar:hover,.cat-scene .cat-jar.cat-ok{transform:none}}
 </style>`;
-function initCategory(container){
-    const gs=gameState.category;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    gs._sq=(typeof Levels!=='undefined')?Levels.count('category',_d==='easy'?5:_d==='hard'?10:7,0.5,15):7;
-    gs._si=0; gs._ss=0;
-    _catNext(container);
+function initCategory(container) {
+  const gs = gameState.category;
+  const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+  gs._sq = typeof Levels !== 'undefined' ? Levels.count('category', _d === 'easy' ? 5 : _d === 'hard' ? 10 : 7, 0.5, 15) : 7;
+  gs._si = 0;
+  gs._ss = 0;
+  _catNext(container);
 }
-function _catNext(container){
-    if(!gameState.active||gameState.currentId!=='category')return;
-    const gs=gameState.category; gs._locked=false;
-    if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
-    const isHe=currentLang==='he';
-    const pools=_CAT_POOLS[isHe?'he':'en'];
-    const pool=pools[Math.floor(Math.random()*pools.length)];
-    const correct=pool.members[Math.floor(Math.random()*pool.members.length)];
-    const others=shuffle(pools.filter(p=>p.cat!==pool.cat)).slice(0,3)
-        .map(p=>p.members[Math.floor(Math.random()*p.members.length)]);
-    gs._answer=correct;
-    let html=`<div class="max-w-xl w-full text-center cat-scene">${_catNext._css}
-      <div class="cat-top"><span>${gt('Question', 'שאלה')} ${gs._si+1}/${gs._sq}</span><span class="text-green-600 cat-score">✓ ${gs._ss}</span></div>
-      <div class="cat-prog" aria-hidden="true"><i style="width:${Math.round(gs._si/gs._sq*100)}%"></i></div>
+function _catNext(container) {
+  if (!gameState.active || gameState.currentId !== 'category')
+    return;
+  const gs = gameState.category;
+  gs._locked = false;
+  if (gs._si >= gs._sq) {
+    gs._sessionScore = {
+      correct: gs._ss,
+      total: gs._sq
+    };
+    levelComplete();
+    return;
+  }
+  const isHe = false;
+  const pools = _CAT_POOLS['en'];
+  const pool = pools[Math.floor(Math.random() * pools.length)];
+  const correct = pool.members[Math.floor(Math.random() * pool.members.length)];
+  const others = shuffle(pools.filter(p => p.cat !== pool.cat)).slice(0, 3).map(p => p.members[Math.floor(Math.random() * p.members.length)]);
+  gs._answer = correct;
+  let html = `<div class="max-w-xl w-full text-center cat-scene">${ _catNext._css }
+      <div class="cat-top"><span>${ gt('Question') } ${ gs._si + 1 }/${ gs._sq }</span><span class="text-green-600 cat-score">✓ ${ gs._ss }</span></div>
+      <div class="cat-prog" aria-hidden="true"><i style="width:${ Math.round(gs._si / gs._sq * 100) }%"></i></div>
       <div class="cat-stall">
-      <svg class="cat-awn" viewBox="0 0 360 44" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs><pattern id="catAwnP" width="40" height="44" patternUnits="userSpaceOnUse"><rect width="20" height="44" fill="#b5533c"/><rect x="20" width="20" height="44" fill="#fbf3e0"/></pattern></defs><path d="M0 0H360V28${'q-10 16-20 0'.repeat(18)}Z" fill="url(#catAwnP)"/><rect width="360" height="5" fill="#7b4f27"/></svg>
-      <div class="cat-signwrap"><h3 class="cat-sign">${gt('Which one belongs to:', 'מה שייך לקטגוריה:')}<br><span class="cat-name">${pool.cat}</span>?</h3></div>
+      <svg class="cat-awn" viewBox="0 0 360 44" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs><pattern id="catAwnP" width="40" height="44" patternUnits="userSpaceOnUse"><rect width="20" height="44" fill="#b5533c"/><rect x="20" width="20" height="44" fill="#fbf3e0"/></pattern></defs><path d="M0 0H360V28${ 'q-10 16-20 0'.repeat(18) }Z" fill="url(#catAwnP)"/><rect width="360" height="5" fill="#7b4f27"/></svg>
+      <div class="cat-signwrap"><h3 class="cat-sign">${ gt('Which one belongs to:') }<br><span class="cat-name">${ pool.cat }</span>?</h3></div>
       <div class="cat-shelf">`;
-    shuffle([correct,...others]).forEach(w=>{
-        html+=`<div class="cat-slot"><button onclick="_catAnswer(this,'${w.replace(/'/g,"\\'")}')" class="cat-jar border-2 border-gray-200"><span class="cat-label">${w}</span></button></div>`;
-    });
-    container.innerHTML=html+`</div></div></div>`;
+  shuffle([
+    correct,
+    ...others
+  ]).forEach(w => {
+    html += `<div class="cat-slot"><button onclick="_catAnswer(this,'${ w.replace(/'/g, '\\\'') }')" class="cat-jar border-2 border-gray-200"><span class="cat-label">${ w }</span></button></div>`;
+  });
+  container.innerHTML = html + `</div></div></div>`;
 }
-function _catAnswer(btn,val){
-    const gs=gameState.category;
-    if(gs._locked)return;gs._locked=true;  // one answer per question
-    const isC=val===gs._answer;
-    if(isC){sfxCorrect();gs._ss++;}else sfxWrong();
-    {const _c=document.querySelector('#gameContent .text-green-600');if(_c)_c.textContent='✓ '+gs._ss;}
-    btn.classList.replace('border-gray-200',isC?'border-green-500':'border-red-500');
-    btn.classList.add(isC?'bg-green-50':'bg-red-50');
-    btn.classList.add(isC?'cat-ok':'cat-no');   // golden glow + check rosette / soft dim
-    gs._si++;
-    setTimeout(()=>_catNext(document.getElementById('gameContent')),isC?450:1000);
+function _catAnswer(btn, val) {
+  const gs = gameState.category;
+  if (gs._locked)
+    return;
+  gs._locked = true;
+  const isC = val === gs._answer;
+  if (isC) {
+    sfxCorrect();
+    gs._ss++;
+  } else
+    sfxWrong();
+  {
+    const _c = document.querySelector('#gameContent .text-green-600');
+    if (_c)
+      _c.textContent = '\u2713 ' + gs._ss;
+  }
+  btn.classList.replace('border-gray-200', isC ? 'border-green-500' : 'border-red-500');
+  btn.classList.add(isC ? 'bg-green-50' : 'bg-red-50');
+  btn.classList.add(isC ? 'cat-ok' : 'cat-no');
+  gs._si++;
+  setTimeout(() => _catNext(document.getElementById('gameContent')), isC ? 450 : 1000);
 }
- 
-
-

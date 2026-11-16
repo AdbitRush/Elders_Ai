@@ -1,46 +1,75 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 19: COLOR MATCH (Stroop) — tap the INK color, not the word
-// Presentation: painter's canvas + palette of paint daubs. Logic unchanged.
-// ═══════════════════════════════════════════════════════════════════════════════
-const _CM_COLORS=[
-    {id:'red',    he:'אדום',  en:'Red',    hex:'#ef4444'},
-    {id:'blue',   he:'כחול',  en:'Blue',   hex:'#3b82f6'},
-    {id:'green',  he:'ירוק',  en:'Green',  hex:'#22c55e'},
-    {id:'yellow', he:'צהוב',  en:'Yellow', hex:'#eab308'},
-    {id:'purple', he:'סגול',  en:'Purple', hex:'#a855f7'},
-    {id:'orange', he:'כתום',  en:'Orange', hex:'#f97316'},
+const _CM_COLORS = [
+  {
+    id: 'red',
+    en: 'Red',
+    hex: '#ef4444'
+  },
+  {
+    id: 'blue',
+    en: 'Blue',
+    hex: '#3b82f6'
+  },
+  {
+    id: 'green',
+    en: 'Green',
+    hex: '#22c55e'
+  },
+  {
+    id: 'yellow',
+    en: 'Yellow',
+    hex: '#eab308'
+  },
+  {
+    id: 'purple',
+    en: 'Purple',
+    hex: '#a855f7'
+  },
+  {
+    id: 'orange',
+    en: 'Orange',
+    hex: '#f97316'
+  }
 ];
-function initColorMatch(container){
-    const gs=gameState.colormatch;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    gs._sq=(typeof Levels!=='undefined')?Levels.count('colormatch',_d==='easy'?6:_d==='hard'?10:8,0.5,20):8;
-    gs._si=0; gs._ss=0;
-    _cmNext(container);
+function initColorMatch(container) {
+  const gs = gameState.colormatch;
+  const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+  gs._sq = typeof Levels !== 'undefined' ? Levels.count('colormatch', _d === 'easy' ? 6 : _d === 'hard' ? 10 : 8, 0.5, 20) : 8;
+  gs._si = 0;
+  gs._ss = 0;
+  _cmNext(container);
 }
-function _cmNext(container){
-    if(!gameState.active||gameState.currentId!=='colormatch')return;
-    const gs=gameState.colormatch; gs._locked=false;
-    if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
-    const isHe=currentLang==='he';
-    // Higher levels use more colors (4 → 6)
-    const nColors=Math.min(_CM_COLORS.length,4+Math.floor(((gs.level||1)-1)/4));
-    const palette=shuffle([..._CM_COLORS]).slice(0,nColors);
-    const word=palette[Math.floor(Math.random()*palette.length)];
-    let ink=palette[Math.floor(Math.random()*palette.length)];
-    // From level 2 on, force the tricky mismatch most of the time
-    if((gs.level||1)>1&&Math.random()<0.8){const others=palette.filter(c=>c.id!==word.id);ink=others[Math.floor(Math.random()*others.length)];}
-    gs._answer=ink.id;
-
-    // ── Scene styles (scoped to this game; injected with the markup) ──────────
-    const wood=`repeating-linear-gradient(90deg,rgba(120,72,24,.09) 0 1px,rgba(0,0,0,0) 1px 8px,rgba(120,72,24,.05) 8px 10px,rgba(0,0,0,0) 10px 19px),linear-gradient(180deg,#f3d9a8 0%,#dcb779 100%)`;
-    const css=`
+function _cmNext(container) {
+  if (!gameState.active || gameState.currentId !== 'colormatch')
+    return;
+  const gs = gameState.colormatch;
+  gs._locked = false;
+  if (gs._si >= gs._sq) {
+    gs._sessionScore = {
+      correct: gs._ss,
+      total: gs._sq
+    };
+    levelComplete();
+    return;
+  }
+  const isHe = false;
+  const nColors = Math.min(_CM_COLORS.length, 4 + Math.floor(((gs.level || 1) - 1) / 4));
+  const palette = shuffle([..._CM_COLORS]).slice(0, nColors);
+  const word = palette[Math.floor(Math.random() * palette.length)];
+  let ink = palette[Math.floor(Math.random() * palette.length)];
+  if ((gs.level || 1) > 1 && Math.random() < 0.8) {
+    const others = palette.filter(c => c.id !== word.id);
+    ink = others[Math.floor(Math.random() * others.length)];
+  }
+  gs._answer = ink.id;
+  const wood = `repeating-linear-gradient(90deg,rgba(120,72,24,.09) 0 1px,rgba(0,0,0,0) 1px 8px,rgba(120,72,24,.05) 8px 10px,rgba(0,0,0,0) 10px 19px),linear-gradient(180deg,#f3d9a8 0%,#dcb779 100%)`;
+  const css = `
 .bp-cm{box-sizing:border-box;margin:0 auto;text-align:center;padding:14px 12px 16px;border-radius:26px;color:#3a2a1a;
   background:radial-gradient(130% 80% at 50% 0%,#fffaf0 0%,#f8edd8 60%,#f0e0c4 100%);
   box-shadow:inset 0 0 0 1px rgba(150,110,60,.28),0 8px 22px rgba(90,60,25,.16)}
 .bp-cm *{box-sizing:border-box}
 .bp-cm .bp-cm-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 10px}
 .bp-cm .bp-cm-plaque{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:6px 16px;border-radius:12px;
-  font-size:1.3rem;font-weight:800;line-height:1.2;white-space:nowrap;color:#38200e;background:${wood};
+  font-size:1.3rem;font-weight:800;line-height:1.2;white-space:nowrap;color:#38200e;background:${ wood };
   box-shadow:inset 0 2px 0 rgba(255,255,255,.7),inset 0 0 0 1px rgba(110,70,25,.45),0 3px 0 #8c5f2d,0 6px 10px rgba(60,35,15,.25);
   transition:box-shadow .25s ease}
 .bp-cm .bp-cm-plaque.text-green-600{color:#16502a;min-width:76px}
@@ -72,7 +101,7 @@ function _cmNext(container){
 .bp-cm.bp-cm-miss .bp-cm-canvas{filter:saturate(.8) brightness(.97)}
 
 /* Palette board with paint daubs */
-.bp-cm .bp-cm-palette{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px 14px 18px;border-radius:40px 46px 42px 48px/44px 40px 48px 42px;background:${wood};
+.bp-cm .bp-cm-palette{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px 14px 18px;border-radius:40px 46px 42px 48px/44px 40px 48px 42px;background:${ wood };
   box-shadow:inset 0 2px 0 rgba(255,255,255,.65),inset 0 -4px 0 rgba(110,70,25,.3),inset 0 0 0 1px rgba(110,70,25,.4),0 8px 16px rgba(60,35,15,.25)}
 .bp-cm .bp-cm-daub{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;min-height:80px;margin:0;padding:10px 8px;border:0;font:inherit;cursor:pointer;
   -webkit-tap-highlight-color:transparent;touch-action:manipulation;
@@ -100,29 +129,48 @@ function _cmNext(container){
   .bp-cm .bp-cm-daub,.bp-cm .bp-cm-canvas,.bp-cm .bp-cm-plaque{transition:none!important;animation:none!important}
   .bp-cm .bp-cm-daub,.bp-cm .bp-cm-daub:hover,.bp-cm .bp-cm-daub:active{transform:none!important}
 }`;
-    let steps='';
-    for(let k=0;k<gs._sq;k++)steps+=`<i class="${k<gs._si?'is-done':k===gs._si?'is-now':''}"></i>`;
-    const brush=`<svg class="bp-cm-brush" viewBox="0 0 92 30" aria-hidden="true" focusable="false"><path d="M4 15c8-6 16-7 24-5v10c-8 2-16 1-24-5z" fill="#6b5a48"/><path d="M4 15c7-3 14-4 22-3" fill="none" stroke="#8d7b66" stroke-width="1.5" stroke-linecap="round"/><rect x="27" y="8.5" width="17" height="13" rx="2" fill="#c9ced3"/><path d="M31 8.5v13M36 8.5v13" stroke="#8f969d" stroke-width="1.5"/><path d="M44 10h40a5 5 0 0 1 0 10H44z" fill="#9c4a2c"/><path d="M46 12.5h36" stroke="#c97a55" stroke-width="2" stroke-linecap="round"/></svg>`;
-
-    let html=`<div class="max-w-xl w-full text-center bp-cm"><style>${css}</style>
-      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2 bp-cm-top"><span class="bp-cm-plaque">${gt('Round', 'סיבוב')} ${gs._si+1}/${gs._sq}</span><span class="text-green-600 bp-cm-plaque">✓ ${gs._ss}</span></div>
-      <div class="bp-cm-steps" aria-hidden="true">${steps}</div>
-      <p class="text-lg text-gray-500 mb-4 font-bold bp-cm-ask">${gt('What COLOR is the word painted in? (not what it says!)', 'באיזה צבע המילה צבועה? (לא מה כתוב!)')}</p>
-      <div class="bp-cm-easel"><div class="bp-cm-canvas" style="color:${ink.hex}">${isHe?word.he:word.en}</div>${brush}</div>
+  let steps = '';
+  for (let k = 0; k < gs._sq; k++)
+    steps += `<i class="${ k < gs._si ? 'is-done' : k === gs._si ? 'is-now' : '' }"></i>`;
+  const brush = `<svg class="bp-cm-brush" viewBox="0 0 92 30" aria-hidden="true" focusable="false"><path d="M4 15c8-6 16-7 24-5v10c-8 2-16 1-24-5z" fill="#6b5a48"/><path d="M4 15c7-3 14-4 22-3" fill="none" stroke="#8d7b66" stroke-width="1.5" stroke-linecap="round"/><rect x="27" y="8.5" width="17" height="13" rx="2" fill="#c9ced3"/><path d="M31 8.5v13M36 8.5v13" stroke="#8f969d" stroke-width="1.5"/><path d="M44 10h40a5 5 0 0 1 0 10H44z" fill="#9c4a2c"/><path d="M46 12.5h36" stroke="#c97a55" stroke-width="2" stroke-linecap="round"/></svg>`;
+  let html = `<div class="max-w-xl w-full text-center bp-cm"><style>${ css }</style>
+      <div class="flex justify-between text-sm font-bold text-gray-400 mb-2 bp-cm-top"><span class="bp-cm-plaque">${ gt('Round') } ${ gs._si + 1 }/${ gs._sq }</span><span class="text-green-600 bp-cm-plaque">✓ ${ gs._ss }</span></div>
+      <div class="bp-cm-steps" aria-hidden="true">${ steps }</div>
+      <p class="text-lg text-gray-500 mb-4 font-bold bp-cm-ask">${ gt('What COLOR is the word painted in? (not what it says!)') }</p>
+      <div class="bp-cm-easel"><div class="bp-cm-canvas" style="color:${ ink.hex }">${ word.en }</div>${ brush }</div>
       <div class="grid grid-cols-2 gap-4 bp-cm-palette">`;
-    shuffle([...palette]).forEach(c=>{
-        html+=`<button onclick="_cmAnswer('${c.id}')" class="bp-cm-daub" data-cm="${c.id}" style="background-color:${c.hex}"><span class="bp-cm-name">${isHe?c.he:c.en}</span></button>`;
-    });
-    container.innerHTML=html+`</div></div>`;
+  shuffle([...palette]).forEach(c => {
+    html += `<button onclick="_cmAnswer('${ c.id }')" class="bp-cm-daub" data-cm="${ c.id }" style="background-color:${ c.hex }"><span class="bp-cm-name">${ c.en }</span></button>`;
+  });
+  container.innerHTML = html + `</div></div>`;
 }
-function _cmAnswer(id){
-    const gs=gameState.colormatch;
-    if(gs._locked)return;gs._locked=true;  // one answer per round
-    const isC=id===gs._answer;
-    if(isC){sfxCorrect();gs._ss++;}else sfxWrong();
-    {const _c=document.querySelector('#gameContent .text-green-600');if(_c)_c.textContent='✓ '+gs._ss;}
-    // Presentation only: glow the right daub, softly dim the rest
-    {const _r=document.querySelector('#gameContent .bp-cm');if(_r){_r.classList.add('bp-cm-locked',isC?'bp-cm-right':'bp-cm-miss');const _p=_r.querySelector('[data-cm="'+id+'"]'),_t=_r.querySelector('[data-cm="'+gs._answer+'"]');if(_p)_p.classList.add('bp-cm-picked');if(_t)_t.classList.add('bp-cm-true');}}
-    gs._si++;
-    setTimeout(()=>_cmNext(document.getElementById('gameContent')),isC?350:800);
+function _cmAnswer(id) {
+  const gs = gameState.colormatch;
+  if (gs._locked)
+    return;
+  gs._locked = true;
+  const isC = id === gs._answer;
+  if (isC) {
+    sfxCorrect();
+    gs._ss++;
+  } else
+    sfxWrong();
+  {
+    const _c = document.querySelector('#gameContent .text-green-600');
+    if (_c)
+      _c.textContent = '\u2713 ' + gs._ss;
+  }
+  {
+    const _r = document.querySelector('#gameContent .bp-cm');
+    if (_r) {
+      _r.classList.add('bp-cm-locked', isC ? 'bp-cm-right' : 'bp-cm-miss');
+      const _p = _r.querySelector('[data-cm="' + id + '"]'), _t = _r.querySelector('[data-cm="' + gs._answer + '"]');
+      if (_p)
+        _p.classList.add('bp-cm-picked');
+      if (_t)
+        _t.classList.add('bp-cm-true');
+    }
+  }
+  gs._si++;
+  setTimeout(() => _cmNext(document.getElementById('gameContent')), isC ? 350 : 800);
 }

@@ -1,124 +1,112 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// STATISTICS & SCOREBOARD  (js/stats.js)
-// Usage: Stats.renderScoreboard(container)  or  Stats.showModal()
-// ═══════════════════════════════════════════════════════════════════════════════
-
 const Stats = (() => {
-  // The list of games is READ FROM `games` in index.html, which is the same
-  // array the homescreen and the router use. It is not copied here.
-  //
-  // It used to be copied, and it went stale exactly as you would expect: nine
-  // games were added after this file was written (klondike, colormatch,
-  // digitspan, clock, counting, category, letters, lifesim, safari) and none of
-  // them ever appeared on the scoreboard. It showed 18 of 27 and reported
-  // "1/18 games" as though the other nine did not exist. Worse, "reset all
-  // scores" walked the same short list, so those nine games' high scores
-  // survived a reset that claimed to clear everything.
-  //
-  // The fallback below is only for the case where this file somehow loads
-  // before index.html's globals; it is not a second source of truth.
   const FALLBACK = [
-    'klondike','memory','oddoneout','math','wordsearch','sequence','sudoku','shapes',
-    'solitaire','trivia','numseq','unscramble','pairs','truefalse','flags',
-    'proverbs','hangman','recall','blocks','colormatch','digitspan','clock',
-    'counting','category','letters','lifesim','safari'
+    'klondike',
+    'memory',
+    'oddoneout',
+    'math',
+    'wordsearch',
+    'sequence',
+    'sudoku',
+    'shapes',
+    'solitaire',
+    'trivia',
+    'numseq',
+    'unscramble',
+    'pairs',
+    'truefalse',
+    'flags',
+    'proverbs',
+    'hangman',
+    'recall',
+    'blocks',
+    'colormatch',
+    'digitspan',
+    'clock',
+    'counting',
+    'category',
+    'letters',
+    'lifesim',
+    'safari'
   ];
-  // window.GAME_IDS is the canonical list, defined once in index.html.
-  // Reading `games` here would not have worked: that name is a local inside
-  // refreshHSBadges(), not a global, so this file could never see it.
   const allGames = () => {
-    const g = (typeof window !== 'undefined') ? window.GAME_IDS : null;
-    return (Array.isArray(g) && g.length) ? g : FALLBACK;
+    const g = typeof window !== 'undefined' ? window.GAME_IDS : null;
+    return Array.isArray(g) && g.length ? g : FALLBACK;
   };
-
-  // Most titles follow game_<id>_title. These four predate that convention and
-  // would silently render as a raw id, so they are named explicitly. Any game
-  // added from here on needs no entry at all.
   const TITLE_OVERRIDES = {
     oddoneout: 'game_odd_title',
     wordsearch: 'game_words_title',
     unscramble: 'game_unscrbl_title',
-    truefalse: 'game_tf_title',
+    truefalse: 'game_tf_title'
   };
-  const titleKey = id => TITLE_OVERRIDES[id] || ('game_' + id + '_title');
-
+  const titleKey = id => TITLE_OVERRIDES[id] || 'game_' + id + '_title';
   function getAllScores() {
     return allGames().map(id => ({
       id,
       hs: parseInt(localStorage.getItem('gg_hs_' + id) || '0'),
-      label: (typeof t === 'function' ? t(titleKey(id)) : null) || id,
+      label: (typeof t === 'function' ? t(titleKey(id)) : null) || id
     }));
   }
-
   function clearScore(id) {
     localStorage.removeItem('gg_hs_' + id);
   }
-
   function clearAll() {
-    // allGames(), not the old short list — this is the line that made "reset
-    // all scores" leave nine games' high scores behind.
     allGames().forEach(clearScore);
     localStorage.removeItem('gg_streak');
     localStorage.removeItem('gg_today_count');
     localStorage.removeItem('gg_total_games');
     localStorage.removeItem('gg_last_date');
   }
-
   function summary() {
     const scores = getAllScores();
-    const played  = scores.filter(s => s.hs > 0).length;
-    const total   = parseInt(localStorage.getItem('gg_total_games') || '0');
-    const streak  = parseInt(localStorage.getItem('gg_streak') || '0');
-    return { played, total, streak, scores };
+    const played = scores.filter(s => s.hs > 0).length;
+    const total = parseInt(localStorage.getItem('gg_total_games') || '0');
+    const streak = parseInt(localStorage.getItem('gg_streak') || '0');
+    return {
+      played,
+      total,
+      streak,
+      scores
+    };
   }
-
   function renderScoreboard(container) {
-    const isHe = (typeof currentLang !== 'undefined') ? currentLang === 'he' : true;
-    const { played, total, streak, scores } = summary();
+    const isHe = false;
+    const {played, total, streak, scores} = summary();
     const sorted = [...scores].sort((a, b) => b.hs - a.hs);
     const hasAny = sorted.some(s => s.hs > 0);
-
     container.innerHTML = `
       <div style="width:100%;max-width:520px;margin:0 auto">
         <h2 style="font-size:1.5rem;font-weight:800;color:#1a365d;margin-bottom:1rem;text-align:center">
-          ${isHe ? '📊 לוח שיאים' : '📊 Scoreboard'}
+          ${ '\uD83D\uDCCA Scoreboard' }
         </h2>
 
         <!-- Summary pills -->
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem">
           <span style="background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;padding:4px 14px;border-radius:9999px;font-size:0.85rem;font-weight:700">
-            🎮 ${isHe ? 'סה״כ' : 'Total'}: ${total}
+            🎮 ${ 'Total' }: ${ total }
           </span>
           <span style="background:#fefce8;border:1px solid #fde68a;color:#92400e;padding:4px 14px;border-radius:9999px;font-size:0.85rem;font-weight:700">
-            🔥 ${streak} ${isHe ? 'ימים' : 'days'}
+            🔥 ${ streak } ${ 'days' }
           </span>
           <span style="background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;padding:4px 14px;border-radius:9999px;font-size:0.85rem;font-weight:700">
-            ✅ ${played}/${allGames().length} ${isHe ? 'משחקים' : 'games'}
+            ✅ ${ played }/${ allGames().length } ${ 'games' }
           </span>
         </div>
 
-        ${!hasAny
-          ? `<p style="text-align:center;color:#94a3b8;font-size:0.95rem">${isHe ? 'שחקו משחק כלשהו כדי להתחיל לצבור שיאים!' : 'Play any game to start earning high scores!'}</p>`
-          : sorted.map(s => `
-            <div class="stats-row" style="margin-bottom:8px;direction:${isHe?'rtl':'ltr'}">
-              <span style="font-weight:600;color:#1e293b;font-size:0.95rem">${s.label}</span>
-              ${s.hs > 0
-                ? `<span class="stats-badge">🏅 ${s.hs}</span>`
-                : `<span style="color:#94a3b8;font-size:0.8rem">${isHe ? '—' : '—'}</span>`
-              }
-            </div>`).join('')
-        }
+        ${ !hasAny ? `<p style="text-align:center;color:#94a3b8;font-size:0.95rem">${ 'Play any game to start earning high scores!' }</p>` : sorted.map(s => `
+            <div class="stats-row" style="margin-bottom:8px;direction:${ 'ltr' }">
+              <span style="font-weight:600;color:#1e293b;font-size:0.95rem">${ s.label }</span>
+              ${ s.hs > 0 ? `<span class="stats-badge">🏅 ${ s.hs }</span>` : `<span style="color:#94a3b8;font-size:0.8rem">${ '\u2014' }</span>` }
+            </div>`).join('') }
 
         <button
           onclick="Stats.clearAll();Stats.renderScoreboard(this.closest('[data-stats]'))"
           style="margin-top:1.5rem;width:100%;background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:0.75rem;padding:0.6rem;font-weight:700;cursor:pointer;font-size:0.85rem">
-          ${isHe ? '🗑️ אפס את כל השיאים' : '🗑️ Reset all scores'}
+          ${ '\uD83D\uDDD1️ Reset all scores' }
         </button>
       </div>
     `;
     container.setAttribute('data-stats', '1');
   }
-
   function showModal() {
     let overlay = document.getElementById('stats-modal');
     if (!overlay) {
@@ -136,6 +124,12 @@ const Stats = (() => {
     overlay.style.display = 'flex';
     renderScoreboard(document.getElementById('stats-content'));
   }
-
-  return { getAllScores, clearScore, clearAll, summary, renderScoreboard, showModal };
+  return {
+    getAllScores,
+    clearScore,
+    clearAll,
+    summary,
+    renderScoreboard,
+    showModal
+  };
 })();

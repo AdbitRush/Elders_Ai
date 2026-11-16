@@ -1,50 +1,106 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 24: MISSING LETTER — complete the word with the right letter
-// ═══════════════════════════════════════════════════════════════════════════════
-const _LTR_POOLS={
-  he:['שולחן','חלון','מטבח','ספרים','משפחה','ירושלים','תפוזים','חברים','שמיים','פרחים','מדינה','שכונה','תמונה','מנורה','ארוחה','שמלה','מכתב','עיתון','רכבת','מספריים','בקבוק','צלחת','שטיח','כרית','מגבת','סבתא','נכדים','חופשה','מוזיקה','טלפון'],
-  en:['TABLE','WINDOW','KITCHEN','FAMILY','FRIENDS','FLOWERS','PICTURE','DINNER','LETTER','TRAIN','BOTTLE','CARPET','PILLOW','TOWEL','HOLIDAY','MUSIC','PHONE','GARDEN','MARKET','BRIDGE','CANDLE','MIRROR','BASKET','ORANGE','SUMMER','WINTER','MORNING','EVENING','COFFEE','BREAD'],
+const _LTR_POOLS = {
+    en: [
+        'TABLE',
+        'WINDOW',
+        'KITCHEN',
+        'FAMILY',
+        'FRIENDS',
+        'FLOWERS',
+        'PICTURE',
+        'DINNER',
+        'LETTER',
+        'TRAIN',
+        'BOTTLE',
+        'CARPET',
+        'PILLOW',
+        'TOWEL',
+        'HOLIDAY',
+        'MUSIC',
+        'PHONE',
+        'GARDEN',
+        'MARKET',
+        'BRIDGE',
+        'CANDLE',
+        'MIRROR',
+        'BASKET',
+        'ORANGE',
+        'SUMMER',
+        'WINTER',
+        'MORNING',
+        'EVENING',
+        'COFFEE',
+        'BREAD'
+    ]
 };
-const _LTR_HE_ALPHA='אבגדהוזחטיכלמנסעפצקרשת';
-const _LTR_EN_ALPHA='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-function initLetters(container){
-    const gs=gameState.letters;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    gs._sq=(typeof Levels!=='undefined')?Levels.count('letters',_d==='easy'?5:_d==='hard'?10:7,0.5,15):7;
-    gs._si=0; gs._ss=0;
-    gs._words=shuffle([..._LTR_POOLS[currentLang==='he'?'he':'en']]);
+const _LTR_HE_ALPHA = {};
+const _LTR_EN_ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+function initLetters(container) {
+    const gs = gameState.letters;
+    const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+    gs._sq = typeof Levels !== 'undefined' ? Levels.count('letters', _d === 'easy' ? 5 : _d === 'hard' ? 10 : 7, 0.5, 15) : 7;
+    gs._si = 0;
+    gs._ss = 0;
+    gs._words = shuffle([..._LTR_POOLS['en']]);
     _ltrNext(container);
 }
-function _ltrNext(container){
-    if(!gameState.active||gameState.currentId!=='letters')return;
-    const gs=gameState.letters; gs._locked=false;
-    if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
-    const isHe=currentLang==='he';
-    const word=gs._words[gs._si%gs._words.length];
-    const chars=[...word];
-    // Levels 1-5: one hole · 6+: two holes
-    const holes=(gs.level||1)<6?1:2;
-    const idxs=shuffle(chars.map((c,i)=>i).filter(i=>chars[i]!==' ')).slice(0,holes).sort((a,b)=>a-b);
-    gs._answer=idxs.map(i=>chars[i]).join('');
-    const shown=chars.map((c,i)=>idxs.includes(i)?'＿':c).join('');
-    const alpha=isHe?_LTR_HE_ALPHA:_LTR_EN_ALPHA;
-    const opts=new Set([gs._answer]);
-    while(opts.size<4){
-        let alt='';
-        for(let k=0;k<holes;k++)alt+=alpha[Math.floor(Math.random()*alpha.length)];
-        if(alt!==gs._answer)opts.add(alt);
+function _ltrNext(container) {
+    if (!gameState.active || gameState.currentId !== 'letters')
+        return;
+    const gs = gameState.letters;
+    gs._locked = false;
+    if (gs._si >= gs._sq) {
+        gs._sessionScore = {
+            correct: gs._ss,
+            total: gs._sq
+        };
+        levelComplete();
+        return;
     }
- 
-    // ── presentation only: typewriter scene (aged paper, stamp blocks, brass labels) ──
-    const wordHtml=chars.map((c,i)=>idxs.includes(i)?'<span class="ltr-ch ltr-hole"></span>':`<span class="ltr-ch">${c===' '?'&nbsp;':c}</span>`).join('');
-    const pipsHtml=Array.from({length:gs._sq},(_,i)=>`<i class="ltr-pip${i<gs._si?' is-done':i===gs._si?' is-now':''}"></i>`).join('');
-    const keysHtml=[40,70,100,130,160,190,220,250,280].map(x=>`<circle cx="${x}" cy="77" r="8.5" fill="#2a2420"/><circle cx="${x}" cy="75.5" r="7" fill="#f6ecd4" stroke="#c9a44e" stroke-width="2"/>`).join('');
-    const barsHtml=[-40,-30,-20,-10,0,10,20,30,40].map(dx=>`<path d="M160 60L${160+dx} ${44+Math.abs(dx)*.14}" stroke="#a79c88" stroke-width="1.6" stroke-linecap="round"/>`).join('');
-    const grain='repeating-linear-gradient(91deg,rgba(40,20,5,0) 0 5px,rgba(40,20,5,.12) 5px 6px,rgba(255,225,175,.06) 6px 11px,rgba(40,20,5,.07) 11px 12px,rgba(40,20,5,0) 12px 19px)';
-    const css=`
+    const isHe = false;
+    const word = gs._words[gs._si % gs._words.length];
+    const chars = [...word];
+    const holes = (gs.level || 1) < 6 ? 1 : 2;
+    const idxs = shuffle(chars.map((c, i) => i).filter(i => chars[i] !== ' ')).slice(0, holes).sort((a, b) => a - b);
+    gs._answer = idxs.map(i => chars[i]).join('');
+    const shown = chars.map((c, i) => idxs.includes(i) ? '＿' : c).join('');
+    const alpha = _LTR_EN_ALPHA;
+    const opts = new Set([gs._answer]);
+    while (opts.size < 4) {
+        let alt = '';
+        for (let k = 0; k < holes; k++)
+            alt += alpha[Math.floor(Math.random() * alpha.length)];
+        if (alt !== gs._answer)
+            opts.add(alt);
+    }
+    const wordHtml = chars.map((c, i) => idxs.includes(i) ? '<span class="ltr-ch ltr-hole"></span>' : `<span class="ltr-ch">${ c === ' ' ? '&nbsp;' : c }</span>`).join('');
+    const pipsHtml = Array.from({ length: gs._sq }, (_, i) => `<i class="ltr-pip${ i < gs._si ? ' is-done' : i === gs._si ? ' is-now' : '' }"></i>`).join('');
+    const keysHtml = [
+        40,
+        70,
+        100,
+        130,
+        160,
+        190,
+        220,
+        250,
+        280
+    ].map(x => `<circle cx="${ x }" cy="77" r="8.5" fill="#2a2420"/><circle cx="${ x }" cy="75.5" r="7" fill="#f6ecd4" stroke="#c9a44e" stroke-width="2"/>`).join('');
+    const barsHtml = [
+        -40,
+        -30,
+        -20,
+        -10,
+        0,
+        10,
+        20,
+        30,
+        40
+    ].map(dx => `<path d="M160 60L${ 160 + dx } ${ 44 + Math.abs(dx) * 0.14 }" stroke="#a79c88" stroke-width="1.6" stroke-linecap="round"/>`).join('');
+    const grain = 'repeating-linear-gradient(91deg,rgba(40,20,5,0) 0 5px,rgba(40,20,5,.12) 5px 6px,rgba(255,225,175,.06) 6px 11px,rgba(40,20,5,.07) 11px 12px,rgba(40,20,5,0) 12px 19px)';
+    const css = `
 .ltr-scene{box-sizing:border-box;width:100%;max-width:36rem;margin:0 auto;padding:.7rem .6rem .8rem;border-radius:1.25rem;text-align:center;
   font-family:Georgia,'Times New Roman','David','Frank Ruehl CLM',serif;color:#fff3d6;-webkit-tap-highlight-color:transparent;
-  background:${grain},linear-gradient(#7d5634,#63401f);
+  background:${ grain },linear-gradient(#7d5634,#63401f);
   box-shadow:inset 0 2px 0 rgba(255,225,170,.3),inset 0 -3px 0 rgba(30,14,2,.4),0 8px 20px rgba(60,36,18,.28)}
 .ltr-scene *{box-sizing:border-box}
 .ltr-top{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin:0 0 .6rem}
@@ -84,7 +140,7 @@ index:1;width:88%;margin:0 auto;padding:1.3rem .4rem 2.3rem;border-radius:3px 3p
   background:rgba(30,14,2,.35);box-shadow:inset 0 3px 9px rgba(15,5,0,.55),0 1px 0 rgba(255,225,170,.2)}
 .ltr-scene .ltr-stamp{position:relative;display:flex;align-items:flex-end;justify-content:center;min-height:5.6rem;margin:0;padding:1.55rem .25rem .3rem;
   border:1px solid #5a3a18;border-radius:1.5rem 1.5rem .5rem .5rem;
-  background:${grain},linear-gradient(#e9c58a,#c99a58 60%,#b5823f);
+  background:${ grain },linear-gradient(#e9c58a,#c99a58 60%,#b5823f);
   box-shadow:inset 0 2px 0 rgba(255,245,215,.7),inset 0 -2px 0 rgba(80,45,10,.35),0 5px 0 #3a2a1c,0 9px 10px rgba(10,4,0,.45);
   color:#2a211a;font-family:inherit;cursor:pointer;transition:transform .14s ease,box-shadow .14s ease,opacity .25s ease}
 .ltr-stamp::before{content:'';position:absolute;top:.95rem;left:18%;right:18%;height:.28rem;border-radius:.2rem;background:rgba(80,45,10,.4);box-shadow:0 1px 0 rgba(255,240,205,.55)}
@@ -111,14 +167,14 @@ a(255,245,215,.7),inset 0 -2px 0 rgba(80,45,10,.35),0 5px 0 #3a2a1c,0 13px 14px 
 @keyframes ltr-ink{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){.ltr-scene *,.ltr-scene *::before,.ltr-scene *::after{animation:none!important;transition:none!important}}
 `;
-    let html=`<style>${css}</style><div class="ltr-scene max-w-xl w-full text-center">
-      <div class="ltr-top"><span class="ltr-brass">${gt('Word', 'מילה')} ${gs._si+1}/${gs._sq}</span><span class="text-green-600 ltr-brass">✓ ${gs._ss}</span></div>
-      <div class="ltr-pips" aria-hidden="true">${pipsHtml}</div>
-      <p class="ltr-prompt">${isHe?(holes>1?'אילו אותיות חסרות?':'איזו אות חסרה?'):(holes>1?'Which letters are missing?':'Which letter is missing?')}</p>
+    let html = `<style>${ css }</style><div class="ltr-scene max-w-xl w-full text-center">
+      <div class="ltr-top"><span class="ltr-brass">${ gt('Word') } ${ gs._si + 1 }/${ gs._sq }</span><span class="text-green-600 ltr-brass">✓ ${ gs._ss }</span></div>
+      <div class="ltr-pips" aria-hidden="true">${ pipsHtml }</div>
+      <p class="ltr-prompt">${ holes > 1 ? 'Which letters are missing?' : 'Which letter is missing?' }</p>
       <div class="ltr-stage">
         <div class="ltr-paper">
-          <div class="ltr-word" dir="${isHe?'rtl':'ltr'}" role="img" aria-label="${shown}">${wordHtml}</div>
-          <div class="ltr-mark" aria-live="polite"><span class="ltr-mark-ok">✓ ${gt('Correct!', 'נכון!')}</span><span class="ltr-mark-no">✕ ${gt('Not this one', 'לא הפעם')}</span></div>
+          <div class="ltr-word" dir="${ 'ltr' }" role="img" aria-label="${ shown }">${ wordHtml }</div>
+          <div class="ltr-mark" aria-live="polite"><span class="ltr-mark-ok">✓ ${ gt('Correct!') }</span><span class="ltr-mark-no">✕ ${ gt('Not this one') }</span></div>
         </div>
         <svg class="ltr-machine" viewBox="0 0 320 92" aria-hidden="true" focusable="false">
           <rect x="2" y="6" width="18" height="26" rx="5" fill="#1f1b18"/><rect x="300" y="6" width="18" height="26" rx="5" fill="#1f1b18"/>
@@ -131,33 +187,42 @@ a(255,245,215,.7),inset 0 -2px 0 rgba(80,45,10,.35),0 5px 0 #3a2a1c,0 13px 14px 
           <path d="M12 44Q12 30 28 30H292Q308 30 308 44L309 48H11Z" fill="#fff" opacity=".14"/>
           <path d="M9 66H311" stroke="#d2b872" stroke-width="1.5" opacity=".8"/>
           <path d="M104 62A56 24 0 0 1 216 62Z" fill="#23201c"/>
-          ${barsHtml}
+          ${ barsHtml }
           <rect x="132" y="60" width="56" height="5" rx="2.5" fill="#d2b872"/>
-          ${keysHtml}
+          ${ keysHtml }
         </svg>
       </div>
       <div class="ltr-tray grid grid-cols-4 gap-3">`;
-    shuffle([...opts]).forEach(o=>{
-        html+=`<button onclick="_ltrAnswer(this,'${o}')" class="ltr-stamp bg-white border-2 border-gray-200 hover:border-[#b7791f] text-3xl font-bold p-4 rounded-xl transition shadow-sm"><span class="ltr-face${holes>1?' is-two':''}">${o}</span></button>`;
+    shuffle([...opts]).forEach(o => {
+        html += `<button onclick="_ltrAnswer(this,'${ o }')" class="ltr-stamp bg-white border-2 border-gray-200 hover:border-[#b7791f] text-3xl font-bold p-4 rounded-xl transition shadow-sm"><span class="ltr-face${ holes > 1 ? ' is-two' : '' }">${ o }</span></button>`;
     });
-    container.innerHTML=html+`</div></div>`;
+    container.innerHTML = html + `</div></div>`;
 }
-function _ltrAnswer(btn,val){
-    const gs=gameState.letters;
-    if(gs._locked)return;gs._locked=true;  // one answer per word
-    const isC=val===gs._answer;
-    if(isC){sfxCorrect();gs._ss++;}else sfxWrong();
-    btn.classList.replace('border-gray-200',isC?'border-green-500':'border-red-500');
-    btn.classList.add(isC?'bg-green-50':'bg-red-50');
-    // visual state only: stamp the chosen letter(s) onto the paper in green / red ink
-    const sc=btn.closest?btn.closest('.ltr-scene'):null;
-    if(sc){
+function _ltrAnswer(btn, val) {
+    const gs = gameState.letters;
+    if (gs._locked)
+        return;
+    gs._locked = true;
+    const isC = val === gs._answer;
+    if (isC) {
+        sfxCorrect();
+        gs._ss++;
+    } else
+        sfxWrong();
+    btn.classList.replace('border-gray-200', isC ? 'border-green-500' : 'border-red-500');
+    btn.classList.add(isC ? 'bg-green-50' : 'bg-red-50');
+    const sc = btn.closest ? btn.closest('.ltr-scene') : null;
+    if (sc) {
         sc.classList.add('ltr-locked');
-        const pp=sc.querySelector('.ltr-paper'); if(pp)pp.classList.add(isC?'is-ok':'is-bad');
-        const vs=[...val];
-        sc.querySelectorAll('.ltr-hole').forEach((h,k)=>{h.textContent=vs[k]||'';h.classList.add(isC?'is-ok':'is-bad');});
+        const pp = sc.querySelector('.ltr-paper');
+        if (pp)
+            pp.classList.add(isC ? 'is-ok' : 'is-bad');
+        const vs = [...val];
+        sc.querySelectorAll('.ltr-hole').forEach((h, k) => {
+            h.textContent = vs[k] || '';
+            h.classList.add(isC ? 'is-ok' : 'is-bad');
+        });
     }
     gs._si++;
-    setTimeout(()=>_ltrNext(document.getElementById('gameContent')),isC?450:1100);
+    setTimeout(() => _ltrNext(document.getElementById('gameContent')), isC ? 450 : 1100);
 }
- 

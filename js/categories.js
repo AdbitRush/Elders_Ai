@@ -1,321 +1,296 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME CATEGORIES & COGNITIVE SKILL TAGS  (js/categories.js)
-// Lets each game card show colored skill badges.
-// Usage: Categories.badgesFor('memory')   → HTML string of pill badges
-//        Categories.filterBySkill('memory') → array of game ids
-// ═══════════════════════════════════════════════════════════════════════════════
-
 const Categories = (() => {
-  // Skill → color mapping
   const SKILL_COLORS = {
-    memory:     { bg: '#ede9fe', color: '#6d28d9', label_he: 'זיכרון',   label_en: 'Memory' },
-    focus:      { bg: '#e0f2fe', color: '#0369a1', label_he: 'מיקוד',    label_en: 'Focus' },
-    perception: { bg: '#fce7f3', color: '#9d174d', label_he: 'תפיסה',    label_en: 'Perception' },
-    attention:  { bg: '#dbeafe', color: '#1e40af', label_he: 'קשב',      label_en: 'Attention' },
-    arithmetic: { bg: '#dcfce7', color: '#166534', label_he: 'חשבון',    label_en: 'Arithmetic' },
-    speed:      { bg: '#fff7ed', color: '#c2410c', label_he: 'מהירות',   label_en: 'Speed' },
-    language:   { bg: '#f0fdf4', color: '#15803d', label_he: 'שפה',      label_en: 'Language' },
-    sequence:   { bg: '#fef9c3', color: '#a16207', label_he: 'רצף',      label_en: 'Sequence' },
-    logic:      { bg: '#f5f3ff', color: '#7c3aed', label_he: 'לוגיקה',   label_en: 'Logic' },
-    planning:   { bg: '#fff1f2', color: '#be123c', label_he: 'תכנון',    label_en: 'Planning' },
-    spatial:    { bg: '#ecfdf5', color: '#065f46', label_he: 'מרחבי',    label_en: 'Spatial' },
-    vocabulary: { bg: '#faf5ff', color: '#6b21a8', label_he: 'אוצר מילים', label_en: 'Vocabulary' },
-    knowledge:  { bg: '#fffbeb', color: '#92400e', label_he: 'ידע',      label_en: 'Knowledge' },
-    geography:  { bg: '#e0f2fe', color: '#0c4a6e', label_he: 'גאוגרפיה', label_en: 'Geography' },
-    recall:     { bg: '#fdf2f8', color: '#9d174d', label_he: 'שחזור',    label_en: 'Recall' },
-    pattern:    { bg: '#ecfdf5', color: '#064e3b', label_he: 'דפוס',     label_en: 'Pattern' },
-    spelling:   { bg: '#fff7ed', color: '#9a3412', label_he: 'כתיב',     label_en: 'Spelling' },
+    memory: {
+      bg: '#ede9fe',
+      color: '#6d28d9',
+      label_en: 'Memory'
+    },
+    focus: {
+      bg: '#e0f2fe',
+      color: '#0369a1',
+      label_en: 'Focus'
+    },
+    perception: {
+      bg: '#fce7f3',
+      color: '#9d174d',
+      label_en: 'Perception'
+    },
+    attention: {
+      bg: '#dbeafe',
+      color: '#1e40af',
+      label_en: 'Attention'
+    },
+    arithmetic: {
+      bg: '#dcfce7',
+      color: '#166534',
+      label_en: 'Arithmetic'
+    },
+    speed: {
+      bg: '#fff7ed',
+      color: '#c2410c',
+      label_en: 'Speed'
+    },
+    language: {
+      bg: '#f0fdf4',
+      color: '#15803d',
+      label_en: 'Language'
+    },
+    sequence: {
+      bg: '#fef9c3',
+      color: '#a16207',
+      label_en: 'Sequence'
+    },
+    logic: {
+      bg: '#f5f3ff',
+      color: '#7c3aed',
+      label_en: 'Logic'
+    },
+    planning: {
+      bg: '#fff1f2',
+      color: '#be123c',
+      label_en: 'Planning'
+    },
+    spatial: {
+      bg: '#ecfdf5',
+      color: '#065f46',
+      label_en: 'Spatial'
+    },
+    vocabulary: {
+      bg: '#faf5ff',
+      color: '#6b21a8',
+      label_en: 'Vocabulary'
+    },
+    knowledge: {
+      bg: '#fffbeb',
+      color: '#92400e',
+      label_en: 'Knowledge'
+    },
+    geography: {
+      bg: '#e0f2fe',
+      color: '#0c4a6e',
+      label_en: 'Geography'
+    },
+    recall: {
+      bg: '#fdf2f8',
+      color: '#9d174d',
+      label_en: 'Recall'
+    },
+    pattern: {
+      bg: '#ecfdf5',
+      color: '#064e3b',
+      label_en: 'Pattern'
+    },
+    spelling: {
+      bg: '#fff7ed',
+      color: '#9a3412',
+      label_en: 'Spelling'
+    }
   };
-
   const MAP = {
-    memory:     ['memory', 'focus'],
-    oddoneout:  ['perception', 'attention'],
-    math:       ['arithmetic', 'speed'],
-    wordsearch: ['language', 'focus'],
-    sequence:      ['memory', 'sequence'],
-    sudoku:     ['logic', 'planning'],
-    shapes:     ['spatial', 'perception'],
-    solitaire:  ['arithmetic', 'planning'],
-    trivia:     ['knowledge', 'recall'],
-    numseq:     ['logic', 'pattern'],
-    unscramble: ['language', 'spelling'],
-    pairs:      ['language', 'vocabulary'],
-    truefalse:  ['knowledge', 'recall'],
-    flags:      ['knowledge', 'geography'],
-    proverbs:   ['language', 'memory'],
-    hangman:    ['language', 'vocabulary'],
-    recall:     ['memory', 'attention'],
-    blocks:     ['spatial', 'planning'],
-    // Added 2026-08-26. These nine games existed for weeks with no entry here,
-    // so their cards showed no skill badges at all — injectAllBadges() iterates
-    // this map, so a missing game is simply skipped in silence. Same drift that
-    // left them off the scoreboard.
-    klondike:   ['planning', 'memory'],
-    colormatch: ['attention', 'speed'],
-    digitspan:  ['memory', 'sequence'],
-    clock:      ['perception', 'logic'],
-    counting:   ['speed', 'attention'],
-    category:   ['language', 'logic'],
-    letters:    ['language', 'spelling'],
-    lifesim:    ['planning', 'sequence'],
-    safari:     ['perception', 'attention'],
+    memory: [
+      'memory',
+      'focus'
+    ],
+    oddoneout: [
+      'perception',
+      'attention'
+    ],
+    math: [
+      'arithmetic',
+      'speed'
+    ],
+    wordsearch: [
+      'language',
+      'focus'
+    ],
+    sequence: [
+      'memory',
+      'sequence'
+    ],
+    sudoku: [
+      'logic',
+      'planning'
+    ],
+    shapes: [
+      'spatial',
+      'perception'
+    ],
+    solitaire: [
+      'arithmetic',
+      'planning'
+    ],
+    trivia: [
+      'knowledge',
+      'recall'
+    ],
+    numseq: [
+      'logic',
+      'pattern'
+    ],
+    unscramble: [
+      'language',
+      'spelling'
+    ],
+    pairs: [
+      'language',
+      'vocabulary'
+    ],
+    truefalse: [
+      'knowledge',
+      'recall'
+    ],
+    flags: [
+      'knowledge',
+      'geography'
+    ],
+    proverbs: [
+      'language',
+      'memory'
+    ],
+    hangman: [
+      'language',
+      'vocabulary'
+    ],
+    recall: [
+      'memory',
+      'attention'
+    ],
+    blocks: [
+      'spatial',
+      'planning'
+    ],
+    klondike: [
+      'planning',
+      'memory'
+    ],
+    colormatch: [
+      'attention',
+      'speed'
+    ],
+    digitspan: [
+      'memory',
+      'sequence'
+    ],
+    clock: [
+      'perception',
+      'logic'
+    ],
+    counting: [
+      'speed',
+      'attention'
+    ],
+    category: [
+      'language',
+      'logic'
+    ],
+    letters: [
+      'language',
+      'spelling'
+    ],
+    lifesim: [
+      'planning',
+      'sequence'
+    ],
+    safari: [
+      'perception',
+      'attention'
+    ]
   };
-
-  // games added from 2026-10 (tools/new_games.json)
-  (window.NEW_GAMES || []).forEach((g) => { MAP[g.id] = g.skills; });
-
-  // ── Why each game is worth playing ────────────────────────────────────────
-  // One line per game, saying what it actually asks your brain to do.
-  //
-  // These describe the DEMAND the game makes — holding a sequence, resisting an
-  // obvious answer, rotating a shape. That is something the game genuinely does
-  // and a player can feel. None of them claims a medical benefit, because
-  // training a skill and protecting against disease are different things and
-  // only the first is true here. See the note under #why-train on the home
-  // screen for the rest of that reasoning.
+  (window.NEW_GAMES || []).forEach(g => {
+    MAP[g.id] = g.skills;
+  });
   const WHY = {
     en: {
-      memory:'Turning cards face down forces you to hold their positions in mind.',
-      oddoneout:'Spotting the one detail that breaks a pattern.',
-      math:'Quick mental arithmetic, under mild time pressure.',
-      wordsearch:'Systematic visual scanning — the skill behind finding things quickly.',
-      sequence:'Holding a sequence in mind and repeating it.',
-      sudoku:'Pure deduction: every number you place rules others out.',
-      shapes:'Matching a shape to its slot uses spatial perception.',
-      solitaire:'Adding to a target while planning which cards to keep.',
-      trivia:'Bringing back facts you already know.',
-      numseq:'Finding the rule behind a sequence is pattern reasoning.',
-      unscramble:'Rearranging letters into a word uses spelling and word-finding.',
-      pairs:'Finding the word with the opposite meaning.',
-      truefalse:'Quick judgement against what you know, with no multiple-choice hints.',
-      flags:'Linking a picture to a name — visual memory plus general knowledge.',
-      proverbs:'Completing a familiar phrase draws on long-stored language.',
-      hangman:'Guessing letters from a partial word is word-finding under constraint.',
-      recall:'Look, then reproduce — short-term visual memory, directly.',
-      blocks:'Rotating shapes to fit is mental rotation plus planning ahead.',
-      klondike:'Holding several possible moves in mind and choosing an order.',
-      colormatch:'Naming the color and not the word.',
-      digitspan:'Remembering a number and typing it back.',
-      clock:'Reading a dial turns a position into a number.',
-      counting:'Counting quickly and accurately under time pressure.',
-      category:'Sorting things into groups is how meaning is organized.',
-      letters:'Finding the missing letter uses spelling and the shape of the word.',
-      lifesim:'Putting steps into a sensible order is everyday planning.',
-      safari:'Searching a busy scene for a target.',
-    },
-    he: {
-      memory:'הפיכת הקלפים מחייבת להחזיק בראש איפה כל אחד נמצא.',
-      oddoneout:'מחפשים את הפרט האחד ששובר את התבנית.',
-      math:'חשבון מהיר בראש, תחת לחץ זמן קל.',
-      wordsearch:'סריקה חזותית שיטתית — המיומנות שמאחורי מציאת דברים מהר.',
-      sequence:'זוכרים רצף וחוזרים עליו.',
-      sudoku:'היסק טהור: כל מספר שמניחים פוסל אחרים.',
-      shapes:'התאמת צורה למקומה מפעילה תפיסה מרחבית.',
-      solitaire:'חיבור לסכום יעד תוך תכנון אילו קלפים לשמור.',
-      trivia:'נזכרים בעובדות שאתם כבר מכירים.',
-      numseq:'מציאת הכלל שמאחורי רצף היא חשיבה תבניתית.',
-      unscramble:'סידור אותיות למילה מפעיל כתיב ומציאת מילים.',
-      pairs:'מוצאים את המילה בעלת המשמעות ההפוכה.',
-      truefalse:'שיפוט מהיר מול הידע שלכם, בלי רמזים של ברירה.',
-      flags:'קישור תמונה לשם — זיכרון חזותי יחד עם ידע כללי.',
-      proverbs:'השלמת ביטוי מוכר שולפת שפה שאוחסנה לאורך שנים.',
-      hangman:'ניחוש אותיות ממילה חלקית הוא מציאת מילים תחת אילוץ.',
-      recall:'מסתכלים ואז משחזרים — זיכרון חזותי לטווח קצר, ישירות.',
-      blocks:'סיבוב צורות כדי שיתאימו הוא סיבוב מנטלי ותכנון קדימה.',
-      klondike:'החזקת כמה מהלכים אפשריים בראש ובחירת סדר ביניהם.',
-      colormatch:'אומרים את הצבע ולא את המילה.',
-      digitspan:'זוכרים מספר ומקלידים אותו בחזרה.',
-      clock:'קריאת מחוגים מתרגמת מיקום למספר.',
-      counting:'לספור מהר ובדיוק תחת לחץ זמן.',
-      category:'מיון לקבוצות הוא האופן שבו משמעות מאורגנת.',
-      letters:'מציאת האות החסרה משתמשת בכתיב ובצורת המילה.',
-      lifesim:'סידור שלבים בסדר הגיוני הוא תכנון יומיומי.',
-      safari:'מחפשים מטרה בתמונה עמוסה.',
-    },
-    es: {
-      memory:'Girar las cartas obliga a retener dónde está cada una.',
-      oddoneout:'Detectar el detalle que rompe el patrón.',
-      math:'Cálculo mental rápido, con algo de presión de tiempo.',
-      wordsearch:'Barrido visual sistemático: la destreza de encontrar rápido.',
-      sequence:'Retener una secuencia y repetirla.',
-      sudoku:'Deducción pura: cada número que colocas descarta otros.',
-      shapes:'Emparejar forma y hueco usa la percepción espacial.',
-      solitaire:'Sumar hasta un objetivo mientras planificas qué cartas guardar.',
-      trivia:'Recordar datos que ya conoces.',
-      numseq:'Hallar la regla de una serie es razonamiento de patrones.',
-      unscramble:'Reordenar letras usa la ortografía y la búsqueda de palabras.',
-      pairs:'Encontrar la palabra de significado opuesto.',
-      truefalse:'Juicio rápido frente a lo que sabes, sin opciones que ayuden.',
-      flags:'Unir imagen y nombre: memoria visual más cultura general.',
-      proverbs:'Completar una frase conocida recurre al lenguaje ya asentado.',
-      hangman:'Adivinar letras de una palabra parcial es búsqueda léxica.',
-      recall:'Mirar y reproducir: memoria visual a corto plazo, directa.',
-      blocks:'Girar piezas para encajar es rotación mental y planificación.',
-      klondike:'Retener varias jugadas posibles y elegir en qué orden.',
-      colormatch:'Decir el color y no la palabra.',
-      digitspan:'Recordar un número y volver a escribirlo.',
-      clock:'Leer las agujas convierte una posición en un número.',
-      counting:'Contar rápido y sin errores con presión de tiempo.',
-      category:'Clasificar en grupos es cómo se organiza el significado.',
-      letters:'Encontrar la letra que falta usa ortografía y forma de palabra.',
-      lifesim:'Ordenar pasos con sentido es planificación cotidiana.',
-      safari:'Buscar un objetivo en una escena cargada.',
-    },
-    fr: {
-      memory:'Retourner les cartes oblige à retenir où se trouve chacune.',
-      oddoneout:'Repérer le détail qui rompt le motif.',
-      math:'Calcul mental rapide, sous une légère pression de temps.',
-      wordsearch:"Balayage visuel méthodique : l'art de trouver vite.",
-      sequence:'Retenir une séquence et la répéter.',
-      sudoku:'Déduction pure : chaque chiffre posé en exclut d’autres.',
-      shapes:'Associer forme et emplacement fait appel à la perception spatiale.',
-      solitaire:'Atteindre un total tout en planifiant les cartes à garder.',
-      trivia:'Retrouver des faits que vous connaissez déjà.',
-      numseq:"Trouver la règle d'une suite, c'est raisonner par motifs.",
-      unscramble:"Remettre les lettres en ordre fait appel à l'orthographe.",
-      pairs:'Trouver le mot de sens contraire.',
-      truefalse:'Jugement rapide face à vos connaissances, sans indices.',
-      flags:'Relier une image à un nom : mémoire visuelle et culture.',
-      proverbs:'Compléter une expression connue puise dans la langue ancrée.',
-      hangman:"Deviner des lettres d'un mot partiel : recherche lexicale.",
-      recall:'Regarder puis reproduire : mémoire visuelle à court terme.',
-      blocks:'Faire pivoter les pièces : rotation mentale et anticipation.',
-      klondike:"Garder plusieurs coups possibles en tête et choisir l'ordre.",
-      colormatch:'Dire la couleur et non le mot.',
-      digitspan:'Retenir un nombre et le retaper.',
-      clock:'Lire les aiguilles transforme une position en nombre.',
-      counting:'Compter vite et juste sous contrainte de temps.',
-      category:"Trier en groupes, c'est ainsi que le sens s'organise.",
-      letters:'Trouver la lettre manquante mobilise orthographe et forme du mot.',
-      lifesim:"Mettre des étapes dans un ordre logique, c'est planifier.",
-      safari:'Chercher une cible dans une scène chargée.',
-    },
-    de: {
-      memory:'Das Umdrehen der Karten zwingt dazu, ihre Positionen zu behalten.',
-      oddoneout:'Das eine Detail finden, das aus dem Muster fällt.',
-      math:'Schnelles Kopfrechnen unter leichtem Zeitdruck.',
-      wordsearch:'Systematisches Absuchen — die Fähigkeit, schnell zu finden.',
-      sequence:'Eine Folge behalten und wiederholen.',
-      sudoku:'Reine Deduktion: Jede gesetzte Zahl schließt andere aus.',
-      shapes:'Formen ihrem Platz zuordnen.',
-      solitaire:'Auf eine Zielsumme addieren und dabei planen, was bleibt.',
-      trivia:'Sich an bekannte Fakten erinnern.',
-      numseq:'Die Regel hinter einer Folge zu finden ist Musterdenken.',
-      unscramble:'Buchstaben zu einem Wort ordnen.',
-      pairs:'Das Wort mit der gegenteiligen Bedeutung finden.',
-      truefalse:'Schnelles Urteil gegen Ihr Wissen, ohne hilfreiche Auswahl.',
-      flags:'Bild und Name verknüpfen: visuelles Gedächtnis plus Wissen.',
-      proverbs:'Eine vertraute Wendung zu ergänzen schöpft aus alter Sprache.',
-      hangman:'Buchstaben aus Wortfragmenten zu raten ist Wortfindung.',
-      recall:'Ansehen, dann wiedergeben — visuelles Kurzzeitgedächtnis.',
-      blocks:'Formen zu drehen ist mentale Rotation und Vorausplanung.',
-      klondike:'Mehrere mögliche Züge im Kopf behalten und ordnen.',
-      colormatch:'Die Farbe nennen und nicht das Wort.',
-      digitspan:'Eine Zahl merken und wieder eintippen.',
-      clock:'Zeiger zu lesen macht aus einer Position eine Zahl.',
-      counting:'Schnell und genau zählen unter Zeitdruck.',
-      category:'Ordnen in Gruppen ist, wie Bedeutung organisiert wird.',
-      letters:'Den fehlenden Buchstaben zu finden nutzt Rechtschreibung und Wortbild.',
-      lifesim:'Schritte sinnvoll zu ordnen ist alltägliche Planung.',
-      safari:'In einer vollen Szene ein Ziel suchen.',
-    },
-    el: {
-      memory:'Το γύρισμα των καρτών σάς αναγκάζει να θυμάστε τις θέσεις τους.',
-      oddoneout:'Εντοπίζετε τη λεπτομέρεια που σπάει το μοτίβο.',
-      math:'Γρήγορη νοερή αριθμητική, με ελαφρά πίεση χρόνου.',
-      wordsearch:'Συστηματική οπτική σάρωση — η ικανότητα να βρίσκεις γρήγορα.',
-      sequence:'Κρατάτε μια ακολουθία στο μυαλό και την επαναλαμβάνετε.',
-      sudoku:'Καθαρή επαγωγή: κάθε αριθμός που βάζετε αποκλείει άλλους.',
-      shapes:'Η αντιστοίχιση σχήματος και θέσης χρησιμοποιεί τη χωρική αντίληψη.',
-      solitaire:'Άθροισμα προς έναν στόχο, με σχεδιασμό ποιες κάρτες κρατάτε.',
-      trivia:'Θυμάστε γεγονότα που ήδη γνωρίζετε.',
-      numseq:'Η εύρεση του κανόνα μιας σειράς είναι συλλογισμός μοτίβων.',
-      unscramble:'Η αναδιάταξη γραμμάτων χρησιμοποιεί ορθογραφία και εύρεση λέξεων.',
-      pairs:'Βρίσκετε τη λέξη με την αντίθετη σημασία.',
-      truefalse:'Γρήγορη κρίση πάνω σε όσα ξέρετε, χωρίς βοηθητικές επιλογές.',
-      flags:'Σύνδεση εικόνας και ονόματος: οπτική μνήμη και γενικές γνώσεις.',
-      proverbs:'Η συμπλήρωση γνωστής φράσης αντλεί από παλιά αποθηκευμένη γλώσσα.',
-      hangman:'Η εικασία γραμμάτων από μισή λέξη είναι εύρεση λέξης.',
-      recall:'Κοιτάτε και μετά αναπαράγετε — οπτική βραχύχρονη μνήμη.',
-      blocks:'Η περιστροφή σχημάτων είναι νοερή περιστροφή και σχεδιασμός.',
-      klondike:'Κρατάτε πολλές πιθανές κινήσεις και επιλέγετε σειρά.',
-      colormatch:'Λέτε το χρώμα κι όχι τη λέξη.',
-      digitspan:'Θυμάστε έναν αριθμό και τον πληκτρολογείτε ξανά.',
-      clock:'Η ανάγνωση δεικτών μετατρέπει μια θέση σε αριθμό.',
-      counting:'Γρήγορη και ακριβής μέτρηση υπό πίεση χρόνου.',
-      category:'Η ταξινόμηση σε ομάδες οργανώνει τη σημασία.',
-      letters:'Η εύρεση του γράμματος που λείπει χρησιμοποιεί ορθογραφία.',
-      lifesim:'Η σωστή σειρά βημάτων είναι καθημερινός σχεδιασμός.',
-      safari:'Αναζητάτε έναν στόχο σε μια γεμάτη σκηνή.',
-    },
+      memory: 'Turning cards face down forces you to hold their positions in mind.',
+      oddoneout: 'Spotting the one detail that breaks a pattern.',
+      math: 'Quick mental arithmetic, under mild time pressure.',
+      wordsearch: 'Systematic visual scanning \u2014 the skill behind finding things quickly.',
+      sequence: 'Holding a sequence in mind and repeating it.',
+      sudoku: 'Pure deduction: every number you place rules others out.',
+      shapes: 'Matching a shape to its slot uses spatial perception.',
+      solitaire: 'Adding to a target while planning which cards to keep.',
+      trivia: 'Bringing back facts you already know.',
+      numseq: 'Finding the rule behind a sequence is pattern reasoning.',
+      unscramble: 'Rearranging letters into a word uses spelling and word-finding.',
+      pairs: 'Finding the word with the opposite meaning.',
+      truefalse: 'Quick judgement against what you know, with no multiple-choice hints.',
+      flags: 'Linking a picture to a name \u2014 visual memory plus general knowledge.',
+      proverbs: 'Completing a familiar phrase draws on long-stored language.',
+      hangman: 'Guessing letters from a partial word is word-finding under constraint.',
+      recall: 'Look, then reproduce \u2014 short-term visual memory, directly.',
+      blocks: 'Rotating shapes to fit is mental rotation plus planning ahead.',
+      klondike: 'Holding several possible moves in mind and choosing an order.',
+      colormatch: 'Naming the color and not the word.',
+      digitspan: 'Remembering a number and typing it back.',
+      clock: 'Reading a dial turns a position into a number.',
+      counting: 'Counting quickly and accurately under time pressure.',
+      category: 'Sorting things into groups is how meaning is organized.',
+      letters: 'Finding the missing letter uses spelling and the shape of the word.',
+      lifesim: 'Putting steps into a sensible order is everyday planning.',
+      safari: 'Searching a busy scene for a target.'
+    }
   };
-  (window.NEW_GAMES || []).forEach((g) => { WHY.en[g.id] = g.why; });
-
+  (window.NEW_GAMES || []).forEach(g => {
+    WHY.en[g.id] = g.why;
+  });
   function whyFor(gameId) {
-    const lang = (typeof currentLang !== 'undefined') ? currentLang : 'he';
-    return (WHY[lang] && WHY[lang][gameId]) || WHY.en[gameId] || '';
+    const lang = typeof currentLang !== 'undefined' ? currentLang : 'he';
+    return WHY[lang] && WHY[lang][gameId] || WHY.en[gameId] || '';
   }
-
-  // Native skill labels for es/fr/de/el (he/en live in SKILL_COLORS)
-  const SKILL_L10N = {
-    es: { memory:'Memoria', focus:'Concentración', perception:'Percepción', attention:'Atención', arithmetic:'Cálculo', speed:'Rapidez', language:'Lenguaje', sequence:'Secuencia', logic:'Lógica', planning:'Planificación', spatial:'Espacial', vocabulary:'Vocabulario', knowledge:'Conocimiento', geography:'Geografía', recall:'Recuerdo', pattern:'Patrones', spelling:'Ortografía' },
-    fr: { memory:'Mémoire', focus:'Concentration', perception:'Perception', attention:'Attention', arithmetic:'Calcul', speed:'Vitesse', language:'Langue', sequence:'Séquence', logic:'Logique', planning:'Planification', spatial:'Spatial', vocabulary:'Vocabulaire', knowledge:'Culture', geography:'Géographie', recall:'Rappel', pattern:'Motifs', spelling:'Orthographe' },
-    de: { memory:'Gedächtnis', focus:'Konzentration', perception:'Wahrnehmung', attention:'Aufmerksamkeit', arithmetic:'Rechnen', speed:'Tempo', language:'Sprache', sequence:'Reihenfolge', logic:'Logik', planning:'Planung', spatial:'Räumlich', vocabulary:'Wortschatz', knowledge:'Wissen', geography:'Geografie', recall:'Erinnern', pattern:'Muster', spelling:'Rechtschreibung' },
-    el: { memory:'Μνήμη', focus:'Συγκέντρωση', perception:'Αντίληψη', attention:'Προσοχή', arithmetic:'Αριθμητική', speed:'Ταχύτητα', language:'Γλώσσα', sequence:'Ακολουθία', logic:'Λογική', planning:'Σχεδιασμός', spatial:'Χωρική', vocabulary:'Λεξιλόγιο', knowledge:'Γνώσεις', geography:'Γεωγραφία', recall:'Ανάκληση', pattern:'Μοτίβα', spelling:'Ορθογραφία' },
-  };
-
+  const SKILL_L10N = {};
   function badgesFor(gameId) {
-    const lang = (typeof currentLang !== 'undefined') ? currentLang : 'he';
+    const lang = typeof currentLang !== 'undefined' ? currentLang : 'he';
     const skills = MAP[gameId] || [];
     return skills.map(sk => {
-      const meta = SKILL_COLORS[sk] || { bg: '#f1f5f9', color: '#475569', label_he: sk, label_en: sk };
-      const label = lang === 'he' ? meta.label_he : ((SKILL_L10N[lang] && SKILL_L10N[lang][sk]) || meta.label_en);
-      return `<span class="skill-tag" style="background:${meta.bg};color:${meta.color}">${label}</span>`;
+      const meta = SKILL_COLORS[sk] || {
+        bg: '#f1f5f9',
+        color: '#475569',
+        label_en: sk
+      };
+      const label = SKILL_L10N[lang] && SKILL_L10N[lang][sk] || meta.label_en;
+      return `<span class="skill-tag" style="background:${ meta.bg };color:${ meta.color }">${ label }</span>`;
     }).join('');
   }
-
   function skillsFor(gameId) {
     return MAP[gameId] || [];
   }
-
   function filterBySkill(skill) {
-    return Object.entries(MAP)
-      .filter(([, skills]) => skills.includes(skill))
-      .map(([id]) => id);
+    return Object.entries(MAP).filter(([, skills]) => skills.includes(skill)).map(([id]) => id);
   }
-
-  // Inject skill badges into all game cards on the home screen
   function injectAllBadges() {
     Object.keys(MAP).forEach(id => {
-      const card = document.querySelector(`.premium-card[onclick="loadGame('${id}')"]`);   // a card, not the hub's Continue / favorite buttons
-      if (!card) return;
+      const card = document.querySelector(`.premium-card[onclick="loadGame('${ id }')"]`);
+      if (!card)
+        return;
       let badgeRow = card.querySelector('.skill-badges');
       if (!badgeRow) {
         badgeRow = document.createElement('div');
         badgeRow.className = 'skill-badges';
         badgeRow.style.cssText = 'padding:0 1.25rem 0.75rem;display:flex;gap:4px;flex-wrap:wrap;';
         const p = card.querySelector('p');
-        if (p && p.parentNode) p.parentNode.insertBefore(badgeRow, p.nextSibling);
+        if (p && p.parentNode)
+          p.parentNode.insertBefore(badgeRow, p.nextSibling);
       }
       badgeRow.innerHTML = badgesFor(id);
-
-      // One line under the badges saying what the game asks of you. Re-rendered
-      // on every language change, same as the badges.
       let whyRow = card.querySelector('.why-line');
       if (!whyRow) {
         whyRow = document.createElement('div');
         whyRow.className = 'why-line';
-        whyRow.style.cssText =
-          'padding:0 1.25rem 1rem;font-size:0.78rem;line-height:1.5;color:#6b7280;' +
-          'border-top:1px solid rgba(0,0,0,0.06);margin-top:2px;padding-top:8px;';
+        whyRow.style.cssText = 'padding:0 1.25rem 1rem;font-size:0.78rem;line-height:1.5;color:#6b7280;' + 'border-top:1px solid rgba(0,0,0,0.06);margin-top:2px;padding-top:8px;';
         badgeRow.parentNode.insertBefore(whyRow, badgeRow.nextSibling);
       }
       const why = whyFor(id);
       whyRow.textContent = why || '';
-      if (why && typeof Icon !== 'undefined') whyRow.insertAdjacentHTML('afterbegin', Icon.ui('brain', {cls: 'lc-ui lc-why'}) + ' ');
+      if (why && typeof Icon !== 'undefined')
+        whyRow.insertAdjacentHTML('afterbegin', Icon.ui('brain', { cls: 'lc-ui lc-why' }) + ' ');
       whyRow.style.display = why ? '' : 'none';
     });
   }
-
-  return { badgesFor, skillsFor, filterBySkill, injectAllBadges, whyFor };
+  return {
+    badgesFor,
+    skillsFor,
+    filterBySkill,
+    injectAllBadges,
+    whyFor
+  };
 })();
