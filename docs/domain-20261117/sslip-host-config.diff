@@ -1,0 +1,16 @@
+--- /root/backups/sslip-host301-20261116-2232/Caddyfile.before	2026-11-16 22:32:07.554499563 +0000
++++ /root/caddy/Caddyfile	2026-11-16 22:32:08.307497939 +0000
+@@ -96,12 +96,7 @@
+ }
+ 
+ games.178-105-148-72.sslip.io {
+-    import /etc/caddy/dearolddays-legacy-301.caddy
+-	import notsite
+-    encode gzip
+-    @nocache path / *.html *.js *.css /sw.js /manifest.json
+-    header @nocache Cache-Control "no-cache, no-store, must-revalidate"
+-    reverse_proxy localhost:8792
++    redir https://dearolddays.com{uri} 301
+ }
+ 
+ fh.178-105-148-72.sslip.io {
