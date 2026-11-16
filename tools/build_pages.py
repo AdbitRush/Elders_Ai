@@ -217,12 +217,13 @@ def page(gid, lang, i18n, why, skills, slabels) -> str:
         or i18n["en"].get(TITLE_OVERRIDE.get(gid, f"game_{gid}_title")) or gid
     desc = d.get(DESC_OVERRIDE.get(gid, f"game_{gid}_desc")) \
         or i18n["en"].get(DESC_OVERRIDE.get(gid, f"game_{gid}_desc")) or ""
+    desc = json.loads((ROOT / "tools/english-landing-descriptions.json").read_text()).get(gid, desc)
     inst = d.get(f"inst_{gid}") or i18n["en"].get(f"inst_{gid}") or ""
     trains = why.get(lang, {}).get(gid) or why.get("en", {}).get(gid) or ""
     sk = [slabels.get(s, {}).get(lang) or slabels.get(s, {}).get("en") or s
           for s in skills.get(gid, [])]
 
-    brand = "BrainPlay"   # one name in every language (Or, 2026-10-10)
+    brand = "Dear Old Days"   # one name in every language (Or, 2026-10-10)
     rtl = lang in RTL
     canon = f"{SITE}/{lang}/{gid}/"
     play = f"{REL}/?lang={lang}#{gid}"
@@ -257,7 +258,10 @@ def page(gid, lang, i18n, why, skills, slabels) -> str:
 <meta property="og:url" content="{canon}">
 <meta property="og:locale" content="{OG_LOCALE[lang]}">
 <meta property="og:image" content="{SITE}/images/cards/{gid}.jpg">
-<link rel="icon" href="{REL}/images/icon-192.png">
+<link rel="apple-touch-icon" href="{REL}/apple-touch-icon.png">
+<link rel="icon" href="{REL}/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="icon" href="{REL}/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="{REL}/favicon-48.png" sizes="48x48" type="image/png">
 <link rel="manifest" href="{REL}/manifest.json">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 <script>/* the visitor's saved theme (same key as the app); light unless they chose dark */
@@ -305,7 +309,7 @@ footer a{{display:inline-flex;align-items:center;min-height:48px;padding:0 6px;f
 </head>
 <body>
 <div class="wrap">
-  <a class="brand" href="{REL}/?lang={lang}"><img src="{REL}/images/logo.svg" alt="" width="46" height="46"><span>BrainPlay</span></a>
+  <a class="brand" href="{REL}/?lang={lang}"><img src="{REL}/images/logo2-round.png" alt="" width="46" height="46"><span>Dear Old Days</span></a>
   <div class="top">
     <span class="free">{e(UI['free'][lang])}</span>
     <button type="button" class="theme" id="themeBtn" data-light="{e(UI['light'][lang])}" data-dark="{e(UI['dark'][lang])}"></button>
