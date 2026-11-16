@@ -4,7 +4,7 @@
     "title": "The family road trip, one mile at a time",
     "deck": "A paper map, a packed station wagon, and the whole summer waiting at the end of the highway.",
     "section": "On the road - 1960s",
-    "hero": "https://upload.wikimedia.org/wikipedia/commons/9/94/Oldsmobile._Route_66._%2825315498519%29.jpg",
+    "hero": "images/roadtrip-hero-oldsmobile-route66.webp",
     "images": 4
   },
   {
@@ -12,7 +12,7 @@
     "title": "A stool waiting at the soda fountain",
     "deck": "Chrome stools, a cherry Coke after school, and the hum of the mixer behind the counter.",
     "section": "Main Street - 1950s",
-    "hero": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Soda_jerker_flipping_ice_cream_into_malted_milk_shakes._Corpus_Christi%2C_Texas.jpg",
+    "hero": "images/sodafountain-hero-soda-jerk-1939.webp",
     "images": 3
   },
   {
@@ -20,7 +20,7 @@
     "title": "When the telephone stayed at home",
     "deck": "One phone, one place in the house, and a ring that the whole family heard.",
     "section": "Home & everyday life - 1960s",
-    "hero": "https://upload.wikimedia.org/wikipedia/commons/0/06/Rotary_dial_telephone.jpg",
+    "hero": "images/telephone-hero-rotary.webp",
     "images": 4
   },
   {
@@ -28,7 +28,7 @@
     "title": "The little post office that kept us close",
     "deck": "Lick-and-stick stamps, brass box doors, and a birthday card that traveled five hundred miles.",
     "section": "Main Street - 1960s",
-    "hero": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Cowarts_Post_Office%2C_Caney_Fork%2C_NC_%2843552719904%29.jpg",
+    "hero": "images/postoffice-hero-cowarts-nc.webp",
     "images": 3
   }
 ]
