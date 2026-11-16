@@ -1,31 +1,32 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 2: ODD ONE OUT — 10-round session
-// ═══════════════════════════════════════════════════════════════════════════════
 function initOddOneOut(container) {
-    const gs=gameState.oddoneout;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    gs._sq=_d==='easy'?6:_d==='hard'?14:10; gs._si=0; gs._ss=0;
-    _oddNext(container);
+  const gs = gameState.oddoneout;
+  const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+  gs._sq = _d === 'easy' ? 6 : _d === 'hard' ? 14 : 10;
+  gs._si = 0;
+  gs._ss = 0;
+  _oddNext(container);
 }
 function _oddNext(container) {
-    if(!gameState.active||gameState.currentId!=='oddoneout')return;
-    const gs=gameState.oddoneout; gs._locked=false;
-    if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
-    const p=ODD_SETS[Math.floor(Math.random()*ODD_SETS.length)];
-    const main=p[0],odd=p[Math.floor(Math.random()*(p.length-1))+1],oi=Math.floor(Math.random()*16);
-    const isHe=currentLang==='he';
- 
-    // ── presentation only (no extra Math.random calls, no new globals) ──
-    // Round progress grows in the planter: finished rounds bloom, the current one sprouts.
-    let bed='';
-    for(let i=0;i<gs._sq;i++){
-        bed+=i<gs._si
-            ? `<svg class="odd-plant" viewBox="0 0 20 30" focusable="false"><path d="M10 29V13" stroke="#3f7d33" stroke-width="2.4" stroke-linecap="round"/><path d="M10 22c-5 0-7-3-7-5c4-1 7 1 7 5z" fill="#5c9a44"/><g fill="#f4bc36" stroke="#a8721a" stroke-width=".8"><circle cx="10" cy="4.2" r="3.4"/><circle cx="15" cy="7.8" r="3.4"/><circle cx="13.1" cy="13.6" r="3.4"/><circle cx="6.9" cy="13.6" r="3.4"/><circle cx="5" cy="7.8" r="3.4"/></g><circle cx="10" cy="9.4" r="3.2" fill="#a8562c"/></svg>`
-            : i===gs._si
-            ? `<svg class="odd-plant odd-plant-now" viewBox="0 0 20 30" focusable="false"><path d="M10 29V14" stroke="#3f7d33" stroke-width="2.6" stroke-linecap="round"/><path d="M10 17C4 17 1.5 13 1.5 9.5C7 8.5 10 12 10 17z" fill="#5c9a44"/><path d="M10 15c6 0 8.5-4 8.5-7.5C13 6.5 10 10 10 15z" fill="#78b356"/></svg>`
-            : `<svg class="odd-plant" viewBox="0 0 20 30" focusable="false"><ellipse cx="10" cy="23.5" rx="3.6" ry="2.6" fill="#e6d3a8" stroke="#8a6a3c" stroke-width="1"/></svg>`;
-    }
-    const css=`
+  if (!gameState.active || gameState.currentId !== 'oddoneout')
+    return;
+  const gs = gameState.oddoneout;
+  gs._locked = false;
+  if (gs._si >= gs._sq) {
+    gs._sessionScore = {
+      correct: gs._ss,
+      total: gs._sq
+    };
+    levelComplete();
+    return;
+  }
+  const p = ODD_SETS[Math.floor(Math.random() * ODD_SETS.length)];
+  const main = p[0], odd = p[Math.floor(Math.random() * (p.length - 1)) + 1], oi = Math.floor(Math.random() * 16);
+  const isHe = false;
+  let bed = '';
+  for (let i = 0; i < gs._sq; i++) {
+    bed += i < gs._si ? `<svg class="odd-plant" viewBox="0 0 20 30" focusable="false"><path d="M10 29V13" stroke="#3f7d33" stroke-width="2.4" stroke-linecap="round"/><path d="M10 22c-5 0-7-3-7-5c4-1 7 1 7 5z" fill="#5c9a44"/><g fill="#f4bc36" stroke="#a8721a" stroke-width=".8"><circle cx="10" cy="4.2" r="3.4"/><circle cx="15" cy="7.8" r="3.4"/><circle cx="13.1" cy="13.6" r="3.4"/><circle cx="6.9" cy="13.6" r="3.4"/><circle cx="5" cy="7.8" r="3.4"/></g><circle cx="10" cy="9.4" r="3.2" fill="#a8562c"/></svg>` : i === gs._si ? `<svg class="odd-plant odd-plant-now" viewBox="0 0 20 30" focusable="false"><path d="M10 29V14" stroke="#3f7d33" stroke-width="2.6" stroke-linecap="round"/><path d="M10 17C4 17 1.5 13 1.5 9.5C7 8.5 10 12 10 17z" fill="#5c9a44"/><path d="M10 15c6 0 8.5-4 8.5-7.5C13 6.5 10 10 10 15z" fill="#78b356"/></svg>` : `<svg class="odd-plant" viewBox="0 0 20 30" focusable="false"><ellipse cx="10" cy="23.5" rx="3.6" ry="2.6" fill="#e6d3a8" stroke="#8a6a3c" stroke-width="1"/></svg>`;
+  }
+  const css = `
 .odd-scene{position:relative;box-sizing:border-box;max-width:960px;--odd-bed-h:clamp(50px,6vw,76px);--odd-soil-h:clamp(15px,1.8vw,22px);padding:clamp(12px,1.6vw,20px) clamp(10px,2vw,24px) clamp(14px,1.8vw,22px);border-radius:clamp(22px,2.4vw,30px);border:clamp(2px,.25vw,3px) solid #7a5230;color:#3b2a1a;background:repeating-linear-gradient(180deg,rgba(0,0,0,0) 0 46px,rgba(70,40,15,.38) 46px 48px),repeating-linear-gradient(91deg,rgba(255,255,255,.07) 0 2px,rgba(0,0,0,0) 2px 13px),linear-gradient(180deg,#d1a068,#b98450);box-shadow:inset 0 2px 0 rgba(255,255,255,.25),0 6px 14px rgba(70,40,10,.25)}
 .odd-scene *{box-sizing:border-box}
 .odd-scene .odd-top{position:relative;z-index:0;display:flex;justify-content:space-between;align-items:flex-start;gap:clamp(10px,1.4vw,18px)}
@@ -55,31 +56,42 @@ function _oddNext(container) {
 @media (max-width:380px){.odd-scene{padding:10px 8px 12px}.odd-scene .odd-cloth{padding:9px}.odd-scene .odd-grid{gap:7px}.odd-scene .odd-marker{padding:6px 11px}}
 @media (prefers-reduced-motion:reduce){.odd-scene .odd-plant-now,.odd-scene .odd-tile.bg-green-100{animation:none}.odd-scene .odd-tile{transition:opacity .25s ease,filter .25s ease}.odd-scene .odd-tile:active,.odd-scene .odd-tile.bg-white:hover{transform:none}}
 `;
- 
-    let html=`<div class="odd-scene w-full mx-auto">
-        <style>${css}</style>
+  let html = `<div class="odd-scene w-full mx-auto">
+        <style>${ css }</style>
         <div class="odd-top">
-            <span class="odd-marker">${gt('Round', 'סיבוב')} ${gs._si+1}/${gs._sq}</span>
-            <span id="oddScore" class="odd-marker text-green-600">✓ ${gs._ss}</span>
+            <span class="odd-marker">${ gt('Round') } ${ gs._si + 1 }/${ gs._sq }</span>
+            <span id="oddScore" class="odd-marker text-green-600">✓ ${ gs._ss }</span>
         </div>
-        <div class="odd-bed" aria-hidden="true">${bed}</div>
+        <div class="odd-bed" aria-hidden="true">${ bed }</div>
 
         <div class="odd-cloth"><div class="odd-grid grid grid-cols-4">`;
-    for(let i=0;i<16;i++){const isOdd=(i===oi);html+=`<div onclick="clickOdd(${isOdd},this)" class="odd-tile bg-white cursor-pointer"><span class="odd-ico">${Icon.sym(isOdd?odd:main,{size:'100%'})}</span></div>`;}
-    container.innerHTML=html+`</div></div></div>`;
+  for (let i = 0; i < 16; i++) {
+    const isOdd = i === oi;
+    html += `<div onclick="clickOdd(${ isOdd },this)" class="odd-tile bg-white cursor-pointer"><span class="odd-ico">${ Icon.sym(isOdd ? odd : main, { size: '100%' }) }</span></div>`;
+  }
+  container.innerHTML = html + `</div></div></div>`;
 }
 function clickOdd(isOdd, el) {
-    if(!gameState.active||gameState.currentId!=='oddoneout')return;
-    const gs=gameState.oddoneout;
-    if(gs._locked)return;   // one answer per round: a double-tap scored twice and skipped a round
-    if(isOdd){
-        gs._locked=true; sfxCorrect(); gs._ss++;
-        const sc=document.getElementById('oddScore'); if(sc)sc.textContent='✓ '+gs._ss;
-        el.classList.replace('bg-white','bg-green-100');
-        setTimeout(()=>{gs._si++;_oddNext(document.getElementById('gameContent'));},500);
-    } else {
-        sfxWrong();
-        el.classList.replace('bg-white','bg-red-100');
-        setTimeout(()=>el.classList.replace('bg-red-100','bg-white'),400);
-    }
+  if (!gameState.active || gameState.currentId !== 'oddoneout')
+    return;
+  const gs = gameState.oddoneout;
+  if (gs._locked)
+    return;
+  if (isOdd) {
+    gs._locked = true;
+    sfxCorrect();
+    gs._ss++;
+    const sc = document.getElementById('oddScore');
+    if (sc)
+      sc.textContent = '\u2713 ' + gs._ss;
+    el.classList.replace('bg-white', 'bg-green-100');
+    setTimeout(() => {
+      gs._si++;
+      _oddNext(document.getElementById('gameContent'));
+    }, 500);
+  } else {
+    sfxWrong();
+    el.classList.replace('bg-white', 'bg-red-100');
+    setTimeout(() => el.classList.replace('bg-red-100', 'bg-white'), 400);
+  }
 }

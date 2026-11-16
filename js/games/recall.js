@@ -1,10 +1,4 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 17: WORD RECALL
-// Presentation: study = cards pinned on a cork board; test = cards laid on a
-// cloth-covered table, picked cards lift; Check = wooden stamp
-// ═══════════════════════════════════════════════════════════════════════════════
-// Scene styles live on the existing function object (no new global name).
-initRecall._css=`<style>
+initRecall._css = `<style>
 .rcl-scene{margin-inline:auto;color:#3b2a1a}
 .rcl-scene .rcl-steps{display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:10px;font-size:1.3rem;font-weight:700;color:#6b5a48}
 .rcl-scene .rcl-step{padding:4px 14px;border:2px solid #cdb891;border-radius:999px;background:#fbf3e0}
@@ -46,103 +40,129 @@ ene .rcl-stamp:active{transform:translateY(5px);box-shadow:0 1px 0 #4e3019}
 @media (prefers-reduced-motion:reduce){.rcl-scene .recall-item,.rcl-scene .rcl-go,.rcl-scene .rcl-stamp{transition:none}.rcl-scene .recall-item.rcl-on{transform:none}.rcl-scene .rcl-go:active,.rcl-scene .rcl-stamp:active{transform:none}.rcl-scene .rcl-drain{display:none}.rcl-scene .rcl-timer{margin-bottom:16px}}
 </style>`;
 function initRecall(c) {
-    if(!gameState.active) return;
-    const gs = gameState.recall;
-    const level = gs.level || 1;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    const _adj=_d==='easy'?-1:_d==='hard'?2:0;
-    const showCount = Math.min(Math.max(2, 3 + level + _adj), _d==='hard'?10:8);
-    const pool = shuffle([...i18nData[currentLang].recall_pool]);
-    gs.targets = pool.slice(0, showCount);
-    gs.distractors = pool.slice(showCount, showCount + showCount + 2);
-    gs.selected = new Set();
-    gs._diff = _d;
-    _recallStudy(c);
+  if (!gameState.active)
+    return;
+  const gs = gameState.recall;
+  const level = gs.level || 1;
+  const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+  const _adj = _d === 'easy' ? -1 : _d === 'hard' ? 2 : 0;
+  const showCount = Math.min(Math.max(2, 3 + level + _adj), _d === 'hard' ? 10 : 8);
+  const pool = shuffle([...i18nData[currentLang].recall_pool]);
+  gs.targets = pool.slice(0, showCount);
+  gs.distractors = pool.slice(showCount, showCount + showCount + 2);
+  gs.selected = new Set();
+  gs._diff = _d;
+  _recallStudy(c);
 }
 function _recallStudy(c) {
-    const gs = gameState.recall;
-    const isHe = currentLang === 'he';
-    const _d = gs._diff || 'normal';
-    const items = gs.targets.map(it => {
-        const [em, ...words] = it.split(' ');
-        return `<div class="rcl-card rcl-pin"><div class="rc-ic">${Icon.sym(em)}</div><div class="rcl-word">${words.join(' ')}</div></div>`;
-    }).join('');
-    // Hard mode: auto-advance after 4 seconds instead of user clicking
-    const autoMs = _d==='hard' ? 4000 : 0;
-    c.innerHTML = `<div class="max-w-xl w-full text-center rcl-scene rcl-study">${initRecall._css}
-        <div class="rcl-steps"><span class="rcl-step rcl-cur">1 · ${gt('Study', 'לימוד')}</span><span class="rcl-dash" aria-hidden="true"></span><span class="rcl-step">2 · ${gt('Recall', 'היזכרות')}</span></div>
-        <div class="rcl-title">${Icon.ui('book-open')} ${gt('Study these items:', 'זכרו את הפריטים האלה:')}</div>
-        <div class="rcl-board"><div class="rcl-grid">${items}</div></div>
-        ${autoMs>0
-          ? `<div><div id="recall-timer" class="rcl-timer" role="timer">${Icon.ui('timer')} ${isHe?`${autoMs/1000} שניות...`:`${autoMs/1000}s...`}</div></div>
-             <div class="rcl-drain" aria-hidden="true"><i style="animation-duration:${autoMs}ms"></i></div>
-             <button id="recall-go-btn" onclick="_recallTest()" class="rcl-go">${Icon.ui('circle-check')} ${gt('Got them! Continue', 'זכרתי! קדימה')}</button>`
-          : `<button onclick="_recallTest()" class="rcl-go">${Icon.ui('circle-check')} ${gt('Got them! Continue', 'זכרתי! קדימה')}</button>`
-        }
+  const gs = gameState.recall;
+  const isHe = false;
+  const _d = gs._diff || 'normal';
+  const items = gs.targets.map(it => {
+    const [em, ...words] = it.split(' ');
+    return `<div class="rcl-card rcl-pin"><div class="rc-ic">${ Icon.sym(em) }</div><div class="rcl-word">${ words.join(' ') }</div></div>`;
+  }).join('');
+  const autoMs = _d === 'hard' ? 4000 : 0;
+  c.innerHTML = `<div class="max-w-xl w-full text-center rcl-scene rcl-study">${ initRecall._css }
+        <div class="rcl-steps"><span class="rcl-step rcl-cur">1 · ${ gt('Study') }</span><span class="rcl-dash" aria-hidden="true"></span><span class="rcl-step">2 · ${ gt('Recall') }</span></div>
+        <div class="rcl-title">${ Icon.ui('book-open') } ${ gt('Study these items:') }</div>
+        <div class="rcl-board"><div class="rcl-grid">${ items }</div></div>
+        ${ autoMs > 0 ? `<div><div id="recall-timer" class="rcl-timer" role="timer">${ Icon.ui('timer') } ${ `${ autoMs / 1000 }s...` }</div></div>
+             <div class="rcl-drain" aria-hidden="true"><i style="animation-duration:${ autoMs }ms"></i></div>
+             <button id="recall-go-btn" onclick="_recallTest()" class="rcl-go">${ Icon.ui('circle-check') } ${ gt('Got them! Continue') }</button>` : `<button onclick="_recallTest()" class="rcl-go">${ Icon.ui('circle-check') } ${ gt('Got them! Continue') }</button>` }
     </div>`;
-    if(autoMs>0) {
-        let secs=autoMs/1000;
-        const timer=document.getElementById('recall-timer');
-        if(gs._iv)clearInterval(gs._iv);
-        const iv=gs._iv=setInterval(()=>{
-            secs--;
-            if(timer)timer.innerHTML=Icon.ui('timer')+' '+(isHe?`${secs} שניות...`:`${secs}s...`);
-            if(secs<=0){clearInterval(iv);gs._iv=null;_recallTest();}
-        },1000);
-    }
+  if (autoMs > 0) {
+    let secs = autoMs / 1000;
+    const timer = document.getElementById('recall-timer');
+    if (gs._iv)
+      clearInterval(gs._iv);
+    const iv = gs._iv = setInterval(() => {
+      secs--;
+      if (timer)
+        timer.innerHTML = Icon.ui('timer') + ' ' + `${ secs }s...`;
+      if (secs <= 0) {
+        clearInterval(iv);
+        gs._iv = null;
+        _recallTest();
+      }
+    }, 1000);
+  }
 }
 function _recallTest() {
-    if(!gameState.active || gameState.currentId !== 'recall') return;   // a countdown left running must not draw into another game
-    const gs = gameState.recall;
-    // Hard mode: pressing "Got them!" early must stop the countdown, or at 0 it redrew the test and wiped the picks
-    if(gs._iv){clearInterval(gs._iv);gs._iv=null;}
-    const isHe = currentLang === 'he';
-    gs.selected = new Set();
-    gs._all = shuffle([...gs.targets, ...gs.distractors]);
-    const itemsHtml = gs._all.map((it, i) => {
-        const [em, ...words] = it.split(' ');
-        return `<div onclick="_toggleRecall(${i},this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" role="button" tabindex="0" aria-pressed="false" class="recall-item rcl-card border-2 border-gray-200"><div class="rc-ic" style="pointer-events:none">${Icon.sym(em)}</div><div class="rcl-word">${words.join(' ')}</div></div>`;
-    }).join('');
-    const c = document.getElementById('gameContent');
-    c.innerHTML = `<div class="max-w-xl w-full text-center rcl-scene rcl-test">${initRecall._css}
-        <div class="rcl-steps"><span class="rcl-step">1 · ${gt('Study', 'לימוד')}</span><span class="rcl-dash" aria-hidden="true"></span><span class="rcl-step rcl-cur">2 · ${gt('Recall', 'היזכרות')}</span></div>
-        <div class="rcl-title">${Icon.ui('search')} ${gt('Select the items you saw:', 'בחרו את הפריטים שראיתם:')}</div>
-        <div class="rcl-table"><div class="rcl-cloth"><div class="rcl-grid">${itemsHtml}</div></div></div>
-        <div class="rcl-count" aria-live="polite">${gt('Selected', 'נבחרו')}: <b id="recall-count">0</b></div>
-        <button onclick="_checkRecall()" class="rcl-stamp">${Icon.ui('circle-check')} ${gt('Check', 'בדיקה')}</button>
+  if (!gameState.active || gameState.currentId !== 'recall')
+    return;
+  const gs = gameState.recall;
+  if (gs._iv) {
+    clearInterval(gs._iv);
+    gs._iv = null;
+  }
+  const isHe = false;
+  gs.selected = new Set();
+  gs._all = shuffle([
+    ...gs.targets,
+    ...gs.distractors
+  ]);
+  const itemsHtml = gs._all.map((it, i) => {
+    const [em, ...words] = it.split(' ');
+    return `<div onclick="_toggleRecall(${ i },this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" role="button" tabindex="0" aria-pressed="false" class="recall-item rcl-card border-2 border-gray-200"><div class="rc-ic" style="pointer-events:none">${ Icon.sym(em) }</div><div class="rcl-word">${ words.join(' ') }</div></div>`;
+  }).join('');
+  const c = document.getElementById('gameContent');
+  c.innerHTML = `<div class="max-w-xl w-full text-center rcl-scene rcl-test">${ initRecall._css }
+        <div class="rcl-steps"><span class="rcl-step">1 · ${ gt('Study') }</span><span class="rcl-dash" aria-hidden="true"></span><span class="rcl-step rcl-cur">2 · ${ gt('Recall') }</span></div>
+        <div class="rcl-title">${ Icon.ui('search') } ${ gt('Select the items you saw:') }</div>
+        <div class="rcl-table"><div class="rcl-cloth"><div class="rcl-grid">${ itemsHtml }</div></div></div>
+        <div class="rcl-count" aria-live="polite">${ gt('Selected') }: <b id="recall-count">0</b></div>
+        <button onclick="_checkRecall()" class="rcl-stamp">${ Icon.ui('circle-check') } ${ gt('Check') }</button>
     </div>`;
 }
 function _toggleRecall(idx, el) {
-    const gs = gameState.recall;
-    if(gs.selected.has(idx)) { gs.selected.delete(idx); el.classList.remove('border-blue-500','bg-blue-100'); el.classList.add('border-gray-200'); }
-    else { gs.selected.add(idx); el.classList.add('border-blue-500','bg-blue-100'); el.classList.remove('border-gray-200'); }
-    // scene state: lifted card with warm border + running count
-    const on
- = gs.selected.has(idx);
-    el.classList.toggle('rcl-on', on);
-    el.setAttribute('aria-pressed', on ? 'true' : 'false');
-    const n = document.getElementById('recall-count'); if(n) n.textContent = gs.selected.size;
+  const gs = gameState.recall;
+  if (gs.selected.has(idx)) {
+    gs.selected.delete(idx);
+    el.classList.remove('border-blue-500', 'bg-blue-100');
+    el.classList.add('border-gray-200');
+  } else {
+    gs.selected.add(idx);
+    el.classList.add('border-blue-500', 'bg-blue-100');
+    el.classList.remove('border-gray-200');
+  }
+  const on = gs.selected.has(idx);
+  el.classList.toggle('rcl-on', on);
+  el.setAttribute('aria-pressed', on ? 'true' : 'false');
+  const n = document.getElementById('recall-count');
+  if (n)
+    n.textContent = gs.selected.size;
 }
 function _checkRecall() {
-    if(!gameState.active) return;
-    const gs = gameState.recall;
-    const isHe = currentLang === 'he';
-    const targetSet = new Set(gs.targets);
-    let correct = 0, wrong = 0;
-    gs.selected.forEach(i => { if(targetSet.has(gs._all[i])) correct++; else wrong++; });
-    const missed = gs.targets.length - correct;
-    if(wrong === 0 && missed === 0) { sfxWin(); setTimeout(()=>levelComplete(), 400); }
-    else if(correct >= Math.ceil(gs.targets.length * 0.7) && wrong <= 1) { sfxCorrect(); setTimeout(()=>levelComplete(), 400); }
-    else {
-        sfxWrong();
-        const c = document.getElementById('gameContent');
-        const msg = isHe ? `מצאתם ${correct} מתוך ${gs.targets.length}` : `Found ${correct} of ${gs.targets.length}`;
-        const old = c.querySelector('.rcl-note'); if(old) old.remove();   // a second Check replaces the note instead of stacking
-        const info = document.createElement('div');
-        info.className = 'mt-4 text-orange-600 font-bold text-lg rcl-note';
-        info.innerHTML = `${msg}<br><button onclick="initRecall(document.getElementById('gameContent'))" class="rcl-again">${Icon.ui('rotate-ccw')} ${gt('Try Again', 'נסו שוב')}</button>`;
-        c.appendChild(info);
-    }
+  if (!gameState.active)
+    return;
+  const gs = gameState.recall;
+  const isHe = false;
+  const targetSet = new Set(gs.targets);
+  let correct = 0, wrong = 0;
+  gs.selected.forEach(i => {
+    if (targetSet.has(gs._all[i]))
+      correct++;
+    else
+      wrong++;
+  });
+  const missed = gs.targets.length - correct;
+  if (wrong === 0 && missed === 0) {
+    sfxWin();
+    setTimeout(() => levelComplete(), 400);
+  } else if (correct >= Math.ceil(gs.targets.length * 0.7) && wrong <= 1) {
+    sfxCorrect();
+    setTimeout(() => levelComplete(), 400);
+  } else {
+    sfxWrong();
+    const c = document.getElementById('gameContent');
+    const msg = `Found ${ correct } of ${ gs.targets.length }`;
+    const old = c.querySelector('.rcl-note');
+    if (old)
+      old.remove();
+    const info = document.createElement('div');
+    info.className = 'mt-4 text-orange-600 font-bold text-lg rcl-note';
+    info.innerHTML = `${ msg }<br><button onclick="initRecall(document.getElementById('gameContent'))" class="rcl-again">${ Icon.ui('rotate-ccw') } ${ gt('Try Again') }</button>`;
+    c.appendChild(info);
+  }
 }
- 
-

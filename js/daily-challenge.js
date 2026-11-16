@@ -1,120 +1,143 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// DAILY CHALLENGE — 3 curated games per day, star reward on completion
-// ═══════════════════════════════════════════════════════════════════════════════
 const DailyChallenge = (() => {
-  const ALL_GAMES = ['memory','oddoneout','math','wordsearch','sequence','sudoku','shapes',
-                     'solitaire','trivia','numseq','unscramble','pairs','truefalse','flags','proverbs',
-                     'hangman','recall','blocks']
-    // games added from 2026-10 join the daily challenge pool
-    .concat((window.NEW_GAMES || []).map((g) => g.id));
-
-  function _today() { return new Date().toISOString().slice(0,10); }
-
-  function _seededRand(seed) {
-    let x = Math.sin(seed)*10000; return x - Math.floor(x);
+  const ALL_GAMES = [
+    'memory',
+    'oddoneout',
+    'math',
+    'wordsearch',
+    'sequence',
+    'sudoku',
+    'shapes',
+    'solitaire',
+    'trivia',
+    'numseq',
+    'unscramble',
+    'pairs',
+    'truefalse',
+    'flags',
+    'proverbs',
+    'hangman',
+    'recall',
+    'blocks'
+  ].concat((window.NEW_GAMES || []).map(g => g.id));
+  function _today() {
+    return new Date().toISOString().slice(0, 10);
   }
-
+  function _seededRand(seed) {
+    let x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  }
   function todayGames() {
     const d = _today();
-    const n = d.replace(/-/g,'');
-    // deterministic: seed from date number
+    const n = d.replace(/-/g, '');
     const seed = parseInt(n) % 997;
     const pool = [...ALL_GAMES];
     const out = [];
-    for (let i=0;i<3;i++) {
-      const idx = Math.floor(_seededRand(seed+i*7)*(pool.length));
-      out.push(pool.splice(idx,1)[0]);
+    for (let i = 0; i < 3; i++) {
+      const idx = Math.floor(_seededRand(seed + i * 7) * pool.length);
+      out.push(pool.splice(idx, 1)[0]);
     }
     return out;
   }
-
   function getProgress() {
-    const key = 'gg_dc_'+_today();
-    try { return new Set(JSON.parse(localStorage.getItem(key)||'[]')); }
-    catch { return new Set(); }
+    const key = 'gg_dc_' + _today();
+    try {
+      return new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+    } catch {
+      return new Set();
+    }
   }
-
   function markDone(gameId) {
-    const key = 'gg_dc_'+_today();
-    const done = getProgress(); done.add(gameId);
+    const key = 'gg_dc_' + _today();
+    const done = getProgress();
+    done.add(gameId);
     localStorage.setItem(key, JSON.stringify([...done]));
     _refreshBanner();
     if (isCompleted()) {
       _celebrate();
-      if (typeof Achievements!=='undefined') Achievements.check();
+      if (typeof Achievements !== 'undefined')
+        Achievements.check();
     }
   }
-
   function isCompleted() {
-    const done = getProgress(); const games = todayGames();
+    const done = getProgress();
+    const games = todayGames();
     return games.every(g => done.has(g));
   }
-
   function _celebrate() {
-    if (localStorage.getItem('gg_dc_cel_'+_today())) return;
-    localStorage.setItem('gg_dc_cel_'+_today(),'1');
-    const isHe = typeof currentLang!=='undefined'?currentLang==='he':true;
+    if (localStorage.getItem('gg_dc_cel_' + _today()))
+      return;
+    localStorage.setItem('gg_dc_cel_' + _today(), '1');
+    const isHe = false;
     const t = document.createElement('div');
     t.style.cssText = 'position:fixed;top:76px;left:50%;transform:translateX(-50%);z-index:5000;background:linear-gradient(135deg,#78350f,#b7791f);border:2px solid #f6c048;border-radius:1.1rem;padding:1.2rem 2rem;text-align:center;box-shadow:0 16px 48px rgba(0,0,0,0.7);min-width:280px;animation:badgeSlideIn 0.45s cubic-bezier(.22,.68,0,1.2) forwards';
-    t.innerHTML = `<div style="font-size:2.2rem;line-height:1">${Icon.ui('star',{fill:true,fillOpacity:1,size:'1em'})}</div>
-      <div style="color:#fef3c7;font-weight:800;font-size:1.15rem">${isHe?'השלמתם את האתגר היומי!':'Daily Challenge Complete!'}</div>
-      <div style="color:rgba(254,243,199,0.75);font-size:0.85rem;margin-top:4px">${Icon.ui('star')} +1 ${isHe?'נקודת כוכב':'star point'}</div>`;
+    t.innerHTML = `<div style="font-size:2.2rem;line-height:1">${ Icon.ui('star', {
+      fill: true,
+      fillOpacity: 1,
+      size: '1em'
+    }) }</div>
+      <div style="color:#fef3c7;font-weight:800;font-size:1.15rem">${ 'Daily Challenge Complete!' }</div>
+      <div style="color:rgba(254,243,199,0.75);font-size:0.85rem;margin-top:4px">${ Icon.ui('star') } +1 ${ 'star point' }</div>`;
     document.body.appendChild(t);
-    if (typeof sfxWin==='function') sfxWin();
-    if (typeof launchConfetti==='function') launchConfetti();
-    setTimeout(()=>{ t.style.transition='opacity 0.5s'; t.style.opacity='0'; setTimeout(()=>t.remove(),550); },3800);
+    if (typeof sfxWin === 'function')
+      sfxWin();
+    if (typeof launchConfetti === 'function')
+      launchConfetti();
+    setTimeout(() => {
+      t.style.transition = 'opacity 0.5s';
+      t.style.opacity = '0';
+      setTimeout(() => t.remove(), 550);
+    }, 3800);
   }
-
   function _gameLabel(id) {
-    // the game's title in the CURRENT language (2026-10-10: the old card lookup matched nothing, so every pill fell back
-    // to the Hebrew names below, whatever the language)
-    if (typeof _menuGameTitles !== 'undefined' && _menuGameTitles[id] && typeof t === 'function') { const v = t(_menuGameTitles[id]); if (v && v !== _menuGameTitles[id]) return v; }
-    const card = document.querySelector(`[data-game="${id}"] h3`);
-    if (card) return card.textContent.trim();
-    const map = { memory:'זיכרון', oddoneout:'יוצא דופן', math:'חשבון', wordsearch:'חיפוש מילים',
-      sequence:'רצף צבעים', sudoku:'סודוקו', shapes:'צורות', trivia:'טריוויה',
-      numseq:'רצף מספרים', unscramble:'פענוח', pairs:'זוגות', truefalse:'נכון/לא נכון',
-      flags:'דגלים', proverbs:'פתגמים', hangman:'בלוני מילים', recall:'זיכרון תמונות', blocks:'בלוקים נופלים' };
-    return map[id]||id;
+    if (typeof _menuGameTitles !== 'undefined' && _menuGameTitles[id] && typeof t === 'function') {
+      const v = t(_menuGameTitles[id]);
+      if (v && v !== _menuGameTitles[id])
+        return v;
+    }
+    const card = document.querySelector(`[data-game="${ id }"] h3`);
+    if (card)
+      return card.textContent.trim();
+    const map = {"memory":"Memory","oddoneout":"Odd One Out","math":"Math","wordsearch":"Word Search","sequence":"Sequence","sudoku":"Sudoku","shapes":"Shapes","trivia":"Trivia","numseq":"Number Sequence","unscramble":"Unscramble","pairs":"Pairs","truefalse":"True or False","flags":"Flags","proverbs":"Proverbs","hangman":"Word Balloons","recall":"Picture Recall","blocks":"Falling Blocks"};
+    return map[id] || id;
   }
-
   function _starStr() {
-    const done = getProgress(); const games = todayGames();
-    const c = games.filter(g=>done.has(g)).length;
-    return [0,1,2].map((i)=>Icon.ui('star',{fill:true,fillOpacity:i<c?1:0,size:'1em'})).join('');
-  }
-
-  function injectBanner(container) {
-    const isHe = typeof currentLang!=='undefined'?currentLang==='he':true;
-    const existing = document.getElementById('daily-challenge-banner');
-    if (existing) existing.remove();
-
+    const done = getProgress();
     const games = todayGames();
-    const done  = getProgress();
-
+    const c = games.filter(g => done.has(g)).length;
+    return [
+      0,
+      1,
+      2
+    ].map(i => Icon.ui('star', {
+      fill: true,
+      fillOpacity: i < c ? 1 : 0,
+      size: '1em'
+    })).join('');
+  }
+  function injectBanner(container) {
+    const isHe = false;
+    const existing = document.getElementById('daily-challenge-banner');
+    if (existing)
+      existing.remove();
+    const games = todayGames();
+    const done = getProgress();
     const banner = document.createElement('div');
     banner.id = 'daily-challenge-banner';
-
-    const pills = games.map(g =>
-      `<span class="dc-game-pill${done.has(g)?' done':''}" onclick="loadGame('${g}',1)" title="${g}">
-        ${done.has(g)?Icon.ui('circle-check'):''} ${_gameLabel(g)}
-      </span>`
-    ).join('');
-
+    const pills = games.map(g => `<span class="dc-game-pill${ done.has(g) ? ' done' : '' }" onclick="loadGame('${ g }',1)" title="${ g }">
+        ${ done.has(g) ? Icon.ui('circle-check') : '' } ${ _gameLabel(g) }
+      </span>`).join('');
     banner.innerHTML = `
       <div>
-        <span style="font-weight:800;color:#f6c048;font-size:0.9rem">${Icon.ui('calendar-days')} ${isHe?'האתגר היומי':'Daily Challenge'}</span>
-        <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">${pills}</div>
+        <span style="font-weight:800;color:#f6c048;font-size:0.9rem">${ Icon.ui('calendar-days') } ${ 'Daily Challenge' }</span>
+        <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">${ pills }</div>
       </div>
       <div style="text-align:center">
-        <div id="dc-stars" style="font-size:1.4rem;letter-spacing:2px">${_starStr()}</div>
-        <div style="font-size:0.7rem;color:rgba(148,163,184,0.7);margin-top:2px">${done.size}/${games.length}</div>
+        <div id="dc-stars" style="font-size:1.4rem;letter-spacing:2px">${ _starStr() }</div>
+        <div style="font-size:0.7rem;color:rgba(148,163,184,0.7);margin-top:2px">${ done.size }/${ games.length }</div>
       </div>`;
-
     container.prepend(banner);
     _highlightCards(games, done);
   }
-
   function _highlightCards(games, done) {
     document.querySelectorAll('.premium-card').forEach(card => {
       const id = card.dataset.game;
@@ -124,25 +147,40 @@ const DailyChallenge = (() => {
         if (!done.has(id)) {
           card.classList.add('dc-highlight');
           const crown = document.createElement('span');
-          crown.className='dc-crown-badge'; crown.innerHTML=Icon.ui('calendar-days');
-          card.style.position='relative'; card.appendChild(crown);
+          crown.className = 'dc-crown-badge';
+          crown.innerHTML = Icon.ui('calendar-days');
+          card.style.position = 'relative';
+          card.appendChild(crown);
         }
       }
     });
   }
-
   function _refreshBanner() {
-    const games = todayGames(); const done = getProgress();
+    const games = todayGames();
+    const done = getProgress();
     const pills = document.querySelectorAll('.dc-game-pill');
-    if (!pills.length) return;
-    pills.forEach((p,i) => {
-      const g = games[i]; if (!g) return;
-      if (done.has(g)) { p.classList.add('done'); p.innerHTML = `${Icon.ui('circle-check')} ${_gameLabel(g)}`; }
+    if (!pills.length)
+      return;
+    pills.forEach((p, i) => {
+      const g = games[i];
+      if (!g)
+        return;
+      if (done.has(g)) {
+        p.classList.add('done');
+        p.innerHTML = `${ Icon.ui('circle-check') } ${ _gameLabel(g) }`;
+      }
     });
     const stars = document.getElementById('dc-stars');
-    if (stars) stars.innerHTML = _starStr();
+    if (stars)
+      stars.innerHTML = _starStr();
     _highlightCards(games, done);
   }
-
-  return { todayGames, getProgress, markDone, isCompleted, injectBanner, _refreshBanner };
+  return {
+    todayGames,
+    getProgress,
+    markDone,
+    isCompleted,
+    injectBanner,
+    _refreshBanner
+  };
 })();

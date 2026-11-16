@@ -1,65 +1,63 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// PROFILE — personal name + avatar + first-visit welcome
-//
-// This is the first screen a new player ever sees, so it is also the screen that
-// decides whether they stay. It is built for the same eyes the games are: nothing
-// under 17px, every control at least 56px, a visible focus ring on all of them,
-// and one clear thing to do per step.
-// ═══════════════════════════════════════════════════════════════════════════════
 const Profile = (() => {
   const K_AV = 'gg_avatar', K_SEEN = 'gg_profile_seen';
-  const AVATARS = ['⭐','🦁','🌺','🦋','🎨','🎵','🌻','🦅','🏡','🕊️','🌈','🎭'];
-
-  // The site runs in six languages. The old modal spoke two, so a Greek or
-  // Spanish player's very first screen was in English.
+  const AVATARS = [
+    '\u2B50',
+    '\uD83E\uDD81',
+    '\uD83C\uDF3A',
+    '\uD83E\uDD8B',
+    '\uD83C\uDFA8',
+    '\uD83C\uDFB5',
+    '\uD83C\uDF3B',
+    '\uD83E\uDD85',
+    '\uD83C\uDFE1',
+    '\uD83D\uDD4A️',
+    '\uD83C\uDF08',
+    '\uD83C\uDFAD'
+  ];
   const L = {
-    he: { title:'ברוכים הבאים!', sub:'רגע אחד, ונכיר אתכם', name:'איך קוראים לכם?',
-          ph:'לדוגמה: דוד, רות…', avatar:'בחרו סמל משלכם', go:'בואו נתחיל',
-          skip:'אפשר גם בלי', chosen:'נבחר', preview:'כך נקבל את פניכם:' },
-    en: { title:'Welcome!', sub:"Let's get to know you", name:'What is your name?',
-          ph:'e.g. David, Ruth…', avatar:'Pick a symbol of your own', go:"Let's begin",
-          skip:'Continue without', chosen:'chosen', preview:'This is how we will greet you:' },
-    es: { title:'¡Bienvenido!', sub:'Vamos a conocernos', name:'¿Cómo se llama?',
-          ph:'p. ej. David, Ruth…', avatar:'Elija un símbolo suyo', go:'Empecemos',
-          skip:'Continuar sin ello', chosen:'elegido', preview:'Así le saludaremos:' },
-    fr: { title:'Bienvenue !', sub:'Faisons connaissance', name:'Quel est votre prénom ?',
-          ph:'ex. David, Ruth…', avatar:'Choisissez votre symbole', go:'Commençons',
-          skip:'Continuer sans', chosen:'choisi', preview:'Voici comment nous vous accueillerons :' },
-    de: { title:'Willkommen!', sub:'Lernen wir uns kennen', name:'Wie heißen Sie?',
-          ph:'z. B. David, Ruth…', avatar:'Wählen Sie Ihr Zeichen', go:'Los geht’s',
-          skip:'Ohne fortfahren', chosen:'gewählt', preview:'So werden wir Sie begrüßen:' },
-    el: { title:'Καλώς ήρθατε!', sub:'Ας γνωριστούμε', name:'Πώς σας λένε;',
-          ph:'π.χ. Δαυίδ, Ρουθ…', avatar:'Διαλέξτε το σύμβολό σας', go:'Ας ξεκινήσουμε',
-          skip:'Συνέχεια χωρίς αυτό', chosen:'επιλέχθηκε', preview:'Έτσι θα σας υποδεχόμαστε:' }
+    en: {
+      title: 'Welcome!',
+      sub: 'Let\'s get to know you',
+      name: 'What is your name?',
+      ph: 'e.g. David, Ruth\u2026',
+      avatar: 'Pick a symbol of your own',
+      go: 'Let\'s begin',
+      skip: 'Continue without',
+      chosen: 'chosen',
+      preview: 'This is how we will greet you:'
+    }
   };
-  const PROFILE_WORD = { he:'פרופיל', en:'Profile', es:'Perfil', fr:'Profil', de:'Profil', el:'Προφίλ' };
-
+  const PROFILE_WORD = { en: 'Profile' };
   function lang() {
-    const l = (typeof currentLang !== 'undefined') ? currentLang : 'he';
+    const l = typeof currentLang !== 'undefined' ? currentLang : 'he';
     return L[l] ? l : 'en';
   }
-  function isRTL(l) { return l === 'he'; }
-
-  function get()   { return { avatar: localStorage.getItem(K_AV)||'⭐' }; }
-  function set(n,a){ localStorage.setItem(K_AV, a); }
-
+  function isRTL(l) {
+    return l === 'he';
+  }
+  function get() {
+    return { avatar: localStorage.getItem(K_AV) || '\u2B50' };
+  }
+  function set(n, a) {
+    localStorage.setItem(K_AV, a);
+  }
   function updateGreetingEl() {
     const el = document.getElementById('greetingText');
-    if (el) el.remove();
-    const { avatar } = get();
+    if (el)
+      el.remove();
+    const {avatar} = get();
     const chip = document.getElementById('profile-chip');
     if (chip) {
       const av = chip.querySelector('.av'), nm = chip.querySelector('.nm');
-      if (av) av.textContent = avatar;
-      if (nm) nm.textContent = PROFILE_WORD[lang()] || 'Profile';
+      if (av)
+        av.textContent = avatar;
+      if (nm)
+        nm.textContent = PROFILE_WORD[lang()] || 'Profile';
     }
   }
-
-  // ── The modal's own stylesheet, injected once ────────────────────────────
-  // Kept here rather than in a css/ file so this module stays self-contained
-  // and the service worker's precache list does not need a new entry.
   function injectStyles() {
-    if (document.getElementById('profile-modal-css')) return;
+    if (document.getElementById('profile-modal-css'))
+      return;
     const st = document.createElement('style');
     st.id = 'profile-modal-css';
     st.textContent = `
@@ -139,66 +137,68 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
 `;
     document.head.appendChild(st);
   }
-
   function showFirstVisitModal(onComplete, full) {
-    if (!full) { onComplete && onComplete(); return; }
-    if (localStorage.getItem(K_SEEN)) { onComplete && onComplete(); return; }
+    if (!full) {
+      onComplete && onComplete();
+      return;
+    }
+    if (localStorage.getItem(K_SEEN)) {
+      onComplete && onComplete();
+      return;
+    }
     injectStyles();
-
     const l = lang(), tx = L[l], rtl = isRTL(l);
     const saved = get();
     let picked = AVATARS.indexOf(saved.avatar) >= 0 ? saved.avatar : AVATARS[0];
-
     const overlay = document.createElement('div');
     overlay.className = 'pm-overlay';
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
     overlay.setAttribute('aria-labelledby', 'pm-title');
-
     overlay.innerHTML = `
-      <div class="pm-card" dir="${rtl ? 'rtl' : 'ltr'}">
+      <div class="pm-card" dir="${ 'ltr' }">
         <span class="pm-mark" aria-hidden="true">🧠</span>
-        <h2 class="pm-title" id="pm-title">${PROFILE_WORD[l]}</h2>
+        <h2 class="pm-title" id="pm-title">${ PROFILE_WORD[l] }</h2>
 
-        <p class="pm-label" id="pm-avlabel" style="text-align:${rtl ? 'right' : 'left'}">${tx.avatar}</p>
+        <p class="pm-label" id="pm-avlabel" style="text-align:${ 'left' }">${ tx.avatar }</p>
         <div class="pm-grid" role="radiogroup" aria-labelledby="pm-avlabel">
-          ${AVATARS.map((a, i) => `<button type="button" class="pm-av" role="radio"
-              aria-checked="${a === picked ? 'true' : 'false'}" tabindex="${a === picked ? '0' : '-1'}"
-              data-av="${a}" data-i="${i}" aria-label="${a} ${a === picked ? tx.chosen : ''}">${a}</button>`).join('')}
+          ${ AVATARS.map((a, i) => `<button type="button" class="pm-av" role="radio"
+              aria-checked="${ a === picked ? 'true' : 'false' }" tabindex="${ a === picked ? '0' : '-1' }"
+              data-av="${ a }" data-i="${ i }" aria-label="${ a } ${ a === picked ? tx.chosen : '' }">${ a }</button>`).join('') }
         </div>
 
-        <button type="button" class="pm-go" id="pm-go">✅ ${tx.go}</button>
-        <button type="button" class="pm-skip" id="pm-skip">${tx.skip}</button>
+        <button type="button" class="pm-go" id="pm-go">✅ ${ tx.go }</button>
+        <button type="button" class="pm-skip" id="pm-skip">${ tx.skip }</button>
       </div>`;
-
     const $ = sel => overlay.querySelector(sel);
     const avButtons = Array.from(overlay.querySelectorAll('.pm-av'));
-
     function pick(av) {
       picked = av;
       avButtons.forEach(b => {
         const on = b.dataset.av === av;
         b.setAttribute('aria-checked', on ? 'true' : 'false');
         b.tabIndex = on ? 0 : -1;
-        b.setAttribute('aria-label', `${b.dataset.av} ${on ? tx.chosen : ''}`.trim());
+        b.setAttribute('aria-label', `${ b.dataset.av } ${ on ? tx.chosen : '' }`.trim());
       });
     }
-
     avButtons.forEach(b => {
       b.addEventListener('click', () => pick(b.dataset.av));
-      // A radiogroup is one tab stop; the arrows move within it.
       b.addEventListener('keydown', e => {
-        const step = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: 6, ArrowUp: -6 }[e.key];
-        if (step === undefined) return;
+        const step = {
+          ArrowRight: 1,
+          ArrowLeft: -1,
+          ArrowDown: 6,
+          ArrowUp: -6
+        }[e.key];
+        if (step === undefined)
+          return;
         e.preventDefault();
-        const dir = rtl && (e.key === 'ArrowRight' || e.key === 'ArrowLeft') ? -step : step;
+        const dir = step;
         const next = avButtons[(Number(b.dataset.i) + dir + avButtons.length) % avButtons.length];
         pick(next.dataset.av);
         next.focus();
       });
     });
-
-
     function close() {
       document.removeEventListener('keydown', onKey, true);
       overlay.remove();
@@ -206,36 +206,55 @@ html[data-theme="light"] .pm-overlay button.pm-skip{color:#4a5f80}
     function save() {
       set('', picked);
       localStorage.setItem(K_SEEN, '1');
-      close(); updateGreetingEl(); onComplete && onComplete();
+      close();
+      updateGreetingEl();
+      onComplete && onComplete();
     }
     function skip() {
       localStorage.setItem(K_SEEN, '1');
-      close(); onComplete && onComplete();
+      close();
+      onComplete && onComplete();
     }
     $('#pm-go').addEventListener('click', save);
     $('#pm-skip').addEventListener('click', skip);
-
-    // Escape leaves, and Tab cannot wander onto the page behind the dialog.
     function onKey(e) {
-      if (e.key === 'Escape') { e.preventDefault(); skip(); return; }
-      if (e.key !== 'Tab') return;
-      const stops = [avButtons.find(b => b.tabIndex === 0), $('#pm-go'), $('#pm-skip')].filter(Boolean);
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        skip();
+        return;
+      }
+      if (e.key !== 'Tab')
+        return;
+      const stops = [
+        avButtons.find(b => b.tabIndex === 0),
+        $('#pm-go'),
+        $('#pm-skip')
+      ].filter(Boolean);
       const i = stops.indexOf(document.activeElement);
-      if (i === -1) return;
+      if (i === -1)
+        return;
       const next = e.shiftKey ? i - 1 : i + 1;
-      if (next < 0 || next >= stops.length) { e.preventDefault(); stops[(next + stops.length) % stops.length].focus(); }
+      if (next < 0 || next >= stops.length) {
+        e.preventDefault();
+        stops[(next + stops.length) % stops.length].focus();
+      }
     }
     document.addEventListener('keydown', onKey, true);
-
     document.body.appendChild(overlay);
     setTimeout(() => avButtons.find(b => b.tabIndex === 0).focus(), 380);
   }
-
   function edit() {
     localStorage.removeItem(K_SEEN);
     showFirstVisitModal(updateGreetingEl, true);
   }
-
-  function relang() {}
-  return { get, set, updateGreetingEl, showFirstVisitModal, edit, relang };
+  function relang() {
+  }
+  return {
+    get,
+    set,
+    updateGreetingEl,
+    showFirstVisitModal,
+    edit,
+    relang
+  };
 })();

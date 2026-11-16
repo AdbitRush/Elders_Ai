@@ -1,28 +1,29 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// TOWER OF HANOI (2026-11, nostalgia batch 3) — the toy-box disk puzzle (published by Édouard Lucas in 1883).
-// Move the whole stack from the left peg to the right peg: one disk at a time, never a bigger disk on a smaller one.
-// Tap a peg to lift its top disk, tap another peg to set it down. Easy 3 disks, normal 4, hard 5. The fewest moves
-// possible is 2^n - 1; any finish counts. Undo, Start over. No clock.
-// Presentation (2026-11 visual pass): a wooden toy - turned pegs on a polished base, painted wooden rings, the lifted
-// ring floats above its peg, walnut plaques for the counts, a warm glow on the win. CSS only, no assets.
-// ═══════════════════════════════════════════════════════════════════════════════
 function initHanoi() {
-    NK.start('hanoi', {
-        setup(gs, diff) {
-            gs.n = diff === 'easy' ? 3 : diff === 'hard' ? 5 : 4;
-            gs.pegs = [Array.from({ length: gs.n }, (_, i) => gs.n - i), [], []];
-            gs.hold = -1; gs.moves = 0; gs.hist = []; gs.over = false; gs.best = 2 ** gs.n - 1;
-            gs.msg = `Move all ${gs.n} disks to the right-hand peg. Tap a peg to lift its top disk.`;
-        },
-        view: _hnView,
-        keys: Object.assign({ KeyU: () => hnUndo() }, NK.digits((k) => hnTap(k - 1), 3)),
-        rules: (gs) => [
-            'Move the whole stack from the <b>left peg</b> to the <b>right peg</b>.',
-            'Move <b>one disk at a time</b>: tap a peg to lift its top disk, then tap the peg to put it on.',
-            'A disk may never sit on a <b>smaller</b> disk.',
-            `The fewest moves possible with ${gs.n} disks is <b>${gs.best}</b>. Any finish counts. Undo and Start over are always there.`,
-            'No clock. Keyboard: 1, 2, 3 pick the pegs, U undoes, or arrow keys and Enter.'],
-        css: `.hn-scene{position:relative;max-width:34rem;margin:0 auto 10px;padding:12px 12px 26px;border-radius:20px;background:radial-gradient(120% 85% at 50% 0%,#fffaf0 0%,#f8ecd4 55%,#ecd8b4 100%);box-shadow:inset 0 0 0 1px rgba(120,80,30,.2),0 2px 10px rgba(90,60,20,.14)}
+  NK.start('hanoi', {
+    setup(gs, diff) {
+      gs.n = diff === 'easy' ? 3 : diff === 'hard' ? 5 : 4;
+      gs.pegs = [
+        Array.from({ length: gs.n }, (_, i) => gs.n - i),
+        [],
+        []
+      ];
+      gs.hold = -1;
+      gs.moves = 0;
+      gs.hist = [];
+      gs.over = false;
+      gs.best = 2 ** gs.n - 1;
+      gs.msg = `Move all ${ gs.n } disks to the right-hand peg. Tap a peg to lift its top disk.`;
+    },
+    view: _hnView,
+    keys: Object.assign({ KeyU: () => hnUndo() }, NK.digits(k => hnTap(k - 1), 3)),
+    rules: gs => [
+      'Move the whole stack from the <b>left peg</b> to the <b>right peg</b>.',
+      'Move <b>one disk at a time</b>: tap a peg to lift its top disk, then tap the peg to put it on.',
+      'A disk may never sit on a <b>smaller</b> disk.',
+      `The fewest moves possible with ${ gs.n } disks is <b>${ gs.best }</b>. Any finish counts. Undo and Start over are always there.`,
+      'No clock. Keyboard: 1, 2, 3 pick the pegs, U undoes, or arrow keys and Enter.'
+    ],
+    css: `.hn-scene{position:relative;max-width:34rem;margin:0 auto 10px;padding:12px 12px 26px;border-radius:20px;background:radial-gradient(120% 85% at 50% 0%,#fffaf0 0%,#f8ecd4 55%,#ecd8b4 100%);box-shadow:inset 0 0 0 1px rgba(120,80,30,.2),0 2px 10px rgba(90,60,20,.14)}
 .nk-top.hn-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin:0 0 8px}
 .nk-top.hn-top span{display:inline-flex;align-items:baseline;gap:.4em;padding:7px 14px;border-radius:10px;font:700 1.05rem/1.2 system-ui,sans-serif;color:#fff4dc;background:repeating-linear-gradient(93deg,rgba(0,0,0,0) 0 9px,rgba(0,0,0,.09) 9px 10px,rgba(0,0,0,0) 10px 17px,rgba(255,220,170,.06) 17px 19px),linear-gradient(180deg,#7d4c23 0%,#5a3415 100%);box-shadow:inset 0 1px 0 rgba(255,220,170,.4),inset 0 -2px 0 rgba(0,0,0,.3),0 2px 4px rgba(60,30,8,.3);text-shadow:0 -1px 0 rgba(40,20,5,.6)}
 .nk-top.hn-top span b{font-size:1.35rem;font-weight:900;color:#ffe2a6}
@@ -49,47 +50,111 @@ function initHanoi() {
 @keyframes hn-rise{from{transform:translateY(34px)}to{transform:none}}
 @keyframes hn-bob{from{transform:translateY(0)}to{transform:translateY(4px)}}
 @keyframes hn-glow{from{box-shadow:inset 0 0 0 1px rgba(120,80,30,.2),0 0 0 3px rgba(245,180,60,.35),0 0 14px rgba(245,170,50,.3)}to{box-shadow:inset 0 0 0 1px rgba(120,80,30,.2),0 0 0 4px rgba(245,180,60,.6),0 0 34px rgba(245,170,50,.6)}}
-@media (prefers-reduced-motion:reduce){.hn-up{animation:none}.hn-win{animation:none;box-shadow:inset 0 0 0 1px rgba(120,80,30,.2),0 0 0 4px rgba(245,180,60,.55),0 0 24px rgba(245,170,50,.45)}}`,
-    });
+@media (prefers-reduced-motion:reduce){.hn-up{animation:none}.hn-win{animation:none;box-shadow:inset 0 0 0 1px rgba(120,80,30,.2),0 0 0 4px rgba(245,180,60,.55),0 0 24px rgba(245,170,50,.45)}}`
+  });
 }
-// Painted wooden rings, warm and graduated: the smallest is the lightest.
-const _HN_COL = ['#f8d98c', '#f0ad4e', '#dc7a3c', '#b94a30', '#8c2f3a', '#5c2a40'];
-const _hnDisk = (d, n) => `<span class="hn-d" style="width:${30 + (d / n) * 62}%;--c:${_HN_COL[d - 1]};color:${d > 3 ? '#fff8ea' : '#3b2208'};text-shadow:${d > 3 ? '0 1px 1px rgba(40,10,0,.6)' : '0 1px 0 rgba(255,255,255,.5)'}" aria-hidden="true">${d}</span>`;
+const _HN_COL = [
+  '#f8d98c',
+  '#f0ad4e',
+  '#dc7a3c',
+  '#b94a30',
+  '#8c2f3a',
+  '#5c2a40'
+];
+const _hnDisk = (d, n) => `<span class="hn-d" style="width:${ 30 + d / n * 62 }%;--c:${ _HN_COL[d - 1] };color:${ d > 3 ? '#fff8ea' : '#3b2208' };text-shadow:${ d > 3 ? '0 1px 1px rgba(40,10,0,.6)' : '0 1px 0 rgba(255,255,255,.5)' }" aria-hidden="true">${ d }</span>`;
 function hnTap(p) {
-    const gs = gameState.hanoi; if (gs.over || p < 0 || p > 2) return;
-    if (gs.hold < 0) {
-        if (!gs.pegs[p].length) { gs.msg = 'That peg is empty. Tap a peg with disks on it.'; return NK.render('hanoi'); }
-        gs.hold = p; gs.msg = `Disk ${gs.pegs[p][gs.pegs[p].length - 1]} lifted. Tap the peg to put it on (or the same peg to put it back).`; return NK.render('hanoi');
+  const gs = gameState.hanoi;
+  if (gs.over || p < 0 || p > 2)
+    return;
+  if (gs.hold < 0) {
+    if (!gs.pegs[p].length) {
+      gs.msg = 'That peg is empty. Tap a peg with disks on it.';
+      return NK.render('hanoi');
     }
-    const from = gs.hold; gs.hold = -1;
-    if (from === p) { gs.msg = 'Put back.'; return NK.render('hanoi'); }
-    const d = gs.pegs[from][gs.pegs[from].length - 1], top = gs.pegs[p][gs.pegs[p].length - 1];
-    if (top && top < d) { gs.msg = `Disk ${d} cannot go on the smaller disk ${top}.`; if (typeof sfxWrong === 'function') sfxWrong(); return NK.render('hanoi'); }
-    gs.hist.push(gs.pegs.map((x) => x.slice())); gs.pegs[from].pop(); gs.pegs[p].push(d); gs.moves++;
-    if (typeof sfxFlip === 'function') sfxFlip();
-    if (gs.pegs[2].length === gs.n) {
-        gs.over = true; gs.msg = `The tower is moved in ${NK.pl(gs.moves, 'move')}${gs.moves === gs.best ? ' - the fewest possible!' : ` (the fewest is ${gs.best}).`}`;
-        NK.render('hanoi'); if (typeof sfxCorrect === 'function') sfxCorrect();
-        return NK.finish('hanoi', true, `Tower moved in ${NK.pl(gs.moves, 'move')}; the fewest possible is ${gs.best}.`);
-    }
-    gs.msg = `Moved disk ${d}.`; NK.render('hanoi');
+    gs.hold = p;
+    gs.msg = `Disk ${ gs.pegs[p][gs.pegs[p].length - 1] } lifted. Tap the peg to put it on (or the same peg to put it back).`;
+    return NK.render('hanoi');
+  }
+  const from = gs.hold;
+  gs.hold = -1;
+  if (from === p) {
+    gs.msg = 'Put back.';
+    return NK.render('hanoi');
+  }
+  const d = gs.pegs[from][gs.pegs[from].length - 1], top = gs.pegs[p][gs.pegs[p].length - 1];
+  if (top && top < d) {
+    gs.msg = `Disk ${ d } cannot go on the smaller disk ${ top }.`;
+    if (typeof sfxWrong === 'function')
+      sfxWrong();
+    return NK.render('hanoi');
+  }
+  gs.hist.push(gs.pegs.map(x => x.slice()));
+  gs.pegs[from].pop();
+  gs.pegs[p].push(d);
+  gs.moves++;
+  if (typeof sfxFlip === 'function')
+    sfxFlip();
+  if (gs.pegs[2].length === gs.n) {
+    gs.over = true;
+    gs.msg = `The tower is moved in ${ NK.pl(gs.moves, 'move') }${ gs.moves === gs.best ? ' - the fewest possible!' : ` (the fewest is ${ gs.best }).` }`;
+    NK.render('hanoi');
+    if (typeof sfxCorrect === 'function')
+      sfxCorrect();
+    return NK.finish('hanoi', true, `Tower moved in ${ NK.pl(gs.moves, 'move') }; the fewest possible is ${ gs.best }.`);
+  }
+  gs.msg = `Moved disk ${ d }.`;
+  NK.render('hanoi');
 }
-function hnUndo() { const gs = gameState.hanoi; if (gs.over || !gs.hist.length) return; gs.pegs = gs.hist.pop(); gs.moves--; gs.hold = -1; gs.msg = 'Move taken back.'; NK.render('hanoi'); }
-function hnReset() { const gs = gameState.hanoi; if (gs.over) return; gs.pegs = [Array.from({ length: gs.n }, (_, i) => gs.n - i), [], []]; gs.hold = -1; gs.moves = 0; gs.hist = []; gs.msg = 'Back to the start.'; NK.render('hanoi'); }
-function hnNew() { initHanoi(); }
+function hnUndo() {
+  const gs = gameState.hanoi;
+  if (gs.over || !gs.hist.length)
+    return;
+  gs.pegs = gs.hist.pop();
+  gs.moves--;
+  gs.hold = -1;
+  gs.msg = 'Move taken back.';
+  NK.render('hanoi');
+}
+function hnReset() {
+  const gs = gameState.hanoi;
+  if (gs.over)
+    return;
+  gs.pegs = [
+    Array.from({ length: gs.n }, (_, i) => gs.n - i),
+    [],
+    []
+  ];
+  gs.hold = -1;
+  gs.moves = 0;
+  gs.hist = [];
+  gs.msg = 'Back to the start.';
+  NK.render('hanoi');
+}
+function hnNew() {
+  initHanoi();
+}
 function _hnView(gs) {
-    const pegs = gs.pegs.map((p, i) => {
-        const up = gs.hold === i, shown = up ? p.slice(0, -1) : p;
-        // the lifted ring stays inside its own peg button, floating above the post
-        const lifted = up ? `<span class="hn-up">${_hnDisk(p[p.length - 1], gs.n)}</span>` : '';
-        return `<div class="hn-col"><button type="button" class="nk-cell hn-peg${up ? ' hn-sel' : ''}" onclick="hnTap(${i})" data-k="p${i}"${i === 0 ? ' data-first' : ''} aria-label="${['left', 'middle', 'right'][i]} peg, ${p.length ? 'disks ' + p.join(', ') + ' from the bottom' : 'empty'}"${gs.over ? ' disabled' : ''}>${shown.map((d) => _hnDisk(d, gs.n)).join('')}${lifted}</button><div class="hn-lab"><span>${i + 1}${i === 2 ? ' (goal)' : ''}</span></div></div>`;
-    }).join('');
-    const held = gs.hold >= 0 ? gs.pegs[gs.hold][gs.pegs[gs.hold].length - 1] : 0;
-    return `<div class="hn-scene${gs.over ? ' hn-win' : ''}" dir="ltr">
-      <div class="nk-top hn-top"><span>Moves: <b>${gs.moves}</b></span><span>Fewest possible: <b>${gs.best}</b></span></div>
-      <div class="hn-hold" aria-live="polite">${held ? `<span aria-hidden="true">Holding disk <b>${held}</b></span>` : `<span>${gs.over ? 'Tower complete' : 'No disk lifted'}</span>`}</div>
-      <div class="hn-row">${pegs}</div>
+  const pegs = gs.pegs.map((p, i) => {
+    const up = gs.hold === i, shown = up ? p.slice(0, -1) : p;
+    const lifted = up ? `<span class="hn-up">${ _hnDisk(p[p.length - 1], gs.n) }</span>` : '';
+    return `<div class="hn-col"><button type="button" class="nk-cell hn-peg${ up ? ' hn-sel' : '' }" onclick="hnTap(${ i })" data-k="p${ i }"${ i === 0 ? ' data-first' : '' } aria-label="${ [
+      'left',
+      'middle',
+      'right'
+    ][i] } peg, ${ p.length ? 'disks ' + p.join(', ') + ' from the bottom' : 'empty' }"${ gs.over ? ' disabled' : '' }>${ shown.map(d => _hnDisk(d, gs.n)).join('') }${ lifted }</button><div class="hn-lab"><span>${ i + 1 }${ i === 2 ? ' (goal)' : '' }</span></div></div>`;
+  }).join('');
+  const held = gs.hold >= 0 ? gs.pegs[gs.hold][gs.pegs[gs.hold].length - 1] : 0;
+  return `<div class="hn-scene${ gs.over ? ' hn-win' : '' }" dir="ltr">
+      <div class="nk-top hn-top"><span>Moves: <b>${ gs.moves }</b></span><span>Fewest possible: <b>${ gs.best }</b></span></div>
+      <div class="hn-hold" aria-live="polite">${ held ? `<span aria-hidden="true">Holding disk <b>${ held }</b></span>` : `<span>${ gs.over ? 'Tower complete' : 'No disk lifted' }</span>` }</div>
+      <div class="hn-row">${ pegs }</div>
       </div>
-      ${NK.msg(gs.msg)}
-      <div class="gk-btns">${NK.btn(NK.icon('undo-2') + 'Undo', 'hnUndo()', { k: 'undo', disabled: gs.over || !gs.hist.length })}${NK.btn('Start over', 'hnReset()', { k: 'reset', disabled: gs.over })}${NK.btn(NK.icon('rotate-ccw') + 'New game', 'hnNew()', { k: 'restart' })}</div>`;
+      ${ NK.msg(gs.msg) }
+      <div class="gk-btns">${ NK.btn(NK.icon('undo-2') + 'Undo', 'hnUndo()', {
+    k: 'undo',
+    disabled: gs.over || !gs.hist.length
+  }) }${ NK.btn('Start over', 'hnReset()', {
+    k: 'reset',
+    disabled: gs.over
+  }) }${ NK.btn(NK.icon('rotate-ccw') + 'New game', 'hnNew()', { k: 'restart' }) }</div>`;
 }

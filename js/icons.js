@@ -1,51 +1,290 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// ICONS — one icon family (Lucide, ISC, self-hosted in js/lucide-icons.js) for every
-// symbol the games draw. Game data keeps its emoji as stable keys (memory matches on
-// them, recall stores "🍎 Apple" in six languages); Icon.sym() draws the icon instead.
-// Symbols are drawn thick, in a deep colour with a soft tint of the same colour, so
-// two different symbols always differ in shape AND colour (odd one out, counting).
-// Every colour here is at least 4.5:1 against white.
-// ═══════════════════════════════════════════════════════════════════════════════
 const Icon = (() => {
   const L = () => window.LUCIDE || {};
   function svg(name, o) {
     o = o || {};
-    const b = L()[name]; if (!b) { console.warn('Icon missing: ' + name); return ''; }  // e2e fails on this
+    const b = L()[name];
+    if (!b) {
+      console.warn('Icon missing: ' + name);
+      return '';
+    }
     const size = o.size || '1em', sw = o.sw || 2.25, fill = o.fill ? 'currentColor' : 'none';
-    const a11y = o.label ? `role="img" aria-label="${o.label}"` : 'aria-hidden="true" focusable="false"';
-    return `<svg class="lc${o.cls ? ' ' + o.cls : ''}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="${fill}"` +
-      `${o.fill ? ' fill-opacity="' + (o.fillOpacity || .16) + '"' : ''} stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" ${a11y}>${b}</svg>`;
+    const a11y = o.label ? `role="img" aria-label="${ o.label }"` : 'aria-hidden="true" focusable="false"';
+    return `<svg class="lc${ o.cls ? ' ' + o.cls : '' }" width="${ size }" height="${ size }" viewBox="0 0 24 24" fill="${ fill }"` + `${ o.fill ? ' fill-opacity="' + (o.fillOpacity || 0.16) + '"' : '' } stroke="currentColor" stroke-width="${ sw }" stroke-linecap="round" stroke-linejoin="round" ${ a11y }>${ b }</svg>`;
   }
-  // emoji key → [lucide icon, colour]
   const SYM = {
-    '🍎': ['apple', '#c62828'], '🍌': ['banana', '#a16207'], '🍇': ['grape', '#6d28d9'], '🍕': ['pizza', '#c2410c'],
-    '🚗': ['car', '#1d4ed8'], '🚲': ['bike', '#c2410c'], '🚌': ['bus', '#15803d'], '🚀': ['rocket', '#1d4ed8'], '⛵': ['sailboat', '#0369a1'],
-    '🌸': ['flower', '#be185d'], '🌻': ['flower-2', '#b45309'], '🌹': ['rose', '#be123c'], '🌺': ['rose', '#be123c'],
-    '🌿': ['leaf', '#15803d'], '🍀': ['clover', '#15803d'], '🌲': ['tree-pine', '#166534'],
-    '🌞': ['sun', '#c2410c'], '☀️': ['sun', '#c2410c'], '☁️': ['cloud', '#0369a1'], '🌙': ['moon', '#4338ca'],
-    '⭐': ['star', '#a16207'], '❤️': ['heart', '#be123c'],
-    '🐱': ['cat', '#92400e'], '🐶': ['dog', '#78350f'], '🐕': ['dog', '#78350f'], '🐟': ['fish', '#0369a1'], '🐠': ['fish', '#0369a1'],
-    '🐦': ['bird', '#0f766e'], '🐢': ['turtle', '#15803d'],
-    '📘': ['book-open', '#1d4ed8'], '📚': ['book-open', '#1d4ed8'], '✏️': ['pencil', '#c2410c'], '🔑': ['key', '#a16207'],
-    '🏠': ['house', '#9a3412'], '⛺': ['tent', '#15803d'], '🎪': ['tent', '#be185d'], '☂️': ['umbrella', '#7e22ce'],
-    '🎵': ['music', '#4338ca'], '🔔': ['bell', '#92400e'], '🎁': ['gift', '#c62828'], '🎂': ['cake', '#db2777'], '🎈': ['balloon', '#7e22ce'],
-    '🎸': ['guitar', '#9a3412'], '🎹': ['piano', '#1f2937'], '🎨': ['palette', '#c2410c'], '🎭': ['drama', '#6d28d9'],
-    '⚽': ['volleyball', '#1f2937'], '☕': ['coffee', '#78350f'], '🏆': ['trophy', '#a16207'],
-    // Time Journey scenario cards
-    '💃': ['music', '#be185d'], '🕺': ['music', '#be185d'], '💌': ['mail', '#be123c'], '🎓': ['graduation-cap', '#1d4ed8'],
-    '🏍️': ['motorbike', '#c2410c'], '🌍': ['globe', '#0369a1'], '👨‍👩‍👧‍👦': ['users', '#15803d'], '📱': ['smartphone', '#1f2937'],
-    '🧓': ['sofa', '#92400e'], '👵': ['hourglass', '#92400e'], '🥣': ['soup', '#c2410c'], '🌅': ['sunrise', '#c2410c'],
+    '\uD83C\uDF4E': [
+      'apple',
+      '#c62828'
+    ],
+    '\uD83C\uDF4C': [
+      'banana',
+      '#a16207'
+    ],
+    '\uD83C\uDF47': [
+      'grape',
+      '#6d28d9'
+    ],
+    '\uD83C\uDF55': [
+      'pizza',
+      '#c2410c'
+    ],
+    '\uD83D\uDE97': [
+      'car',
+      '#1d4ed8'
+    ],
+    '\uD83D\uDEB2': [
+      'bike',
+      '#c2410c'
+    ],
+    '\uD83D\uDE8C': [
+      'bus',
+      '#15803d'
+    ],
+    '\uD83D\uDE80': [
+      'rocket',
+      '#1d4ed8'
+    ],
+    '\u26F5': [
+      'sailboat',
+      '#0369a1'
+    ],
+    '\uD83C\uDF38': [
+      'flower',
+      '#be185d'
+    ],
+    '\uD83C\uDF3B': [
+      'flower-2',
+      '#b45309'
+    ],
+    '\uD83C\uDF39': [
+      'rose',
+      '#be123c'
+    ],
+    '\uD83C\uDF3A': [
+      'rose',
+      '#be123c'
+    ],
+    '\uD83C\uDF3F': [
+      'leaf',
+      '#15803d'
+    ],
+    '\uD83C\uDF40': [
+      'clover',
+      '#15803d'
+    ],
+    '\uD83C\uDF32': [
+      'tree-pine',
+      '#166534'
+    ],
+    '\uD83C\uDF1E': [
+      'sun',
+      '#c2410c'
+    ],
+    '\u2600️': [
+      'sun',
+      '#c2410c'
+    ],
+    '\u2601️': [
+      'cloud',
+      '#0369a1'
+    ],
+    '\uD83C\uDF19': [
+      'moon',
+      '#4338ca'
+    ],
+    '\u2B50': [
+      'star',
+      '#a16207'
+    ],
+    '\u2764️': [
+      'heart',
+      '#be123c'
+    ],
+    '\uD83D\uDC31': [
+      'cat',
+      '#92400e'
+    ],
+    '\uD83D\uDC36': [
+      'dog',
+      '#78350f'
+    ],
+    '\uD83D\uDC15': [
+      'dog',
+      '#78350f'
+    ],
+    '\uD83D\uDC1F': [
+      'fish',
+      '#0369a1'
+    ],
+    '\uD83D\uDC20': [
+      'fish',
+      '#0369a1'
+    ],
+    '\uD83D\uDC26': [
+      'bird',
+      '#0f766e'
+    ],
+    '\uD83D\uDC22': [
+      'turtle',
+      '#15803d'
+    ],
+    '\uD83D\uDCD8': [
+      'book-open',
+      '#1d4ed8'
+    ],
+    '\uD83D\uDCDA': [
+      'book-open',
+      '#1d4ed8'
+    ],
+    '\u270F️': [
+      'pencil',
+      '#c2410c'
+    ],
+    '\uD83D\uDD11': [
+      'key',
+      '#a16207'
+    ],
+    '\uD83C\uDFE0': [
+      'house',
+      '#9a3412'
+    ],
+    '\u26FA': [
+      'tent',
+      '#15803d'
+    ],
+    '\uD83C\uDFAA': [
+      'tent',
+      '#be185d'
+    ],
+    '\u2602️': [
+      'umbrella',
+      '#7e22ce'
+    ],
+    '\uD83C\uDFB5': [
+      'music',
+      '#4338ca'
+    ],
+    '\uD83D\uDD14': [
+      'bell',
+      '#92400e'
+    ],
+    '\uD83C\uDF81': [
+      'gift',
+      '#c62828'
+    ],
+    '\uD83C\uDF82': [
+      'cake',
+      '#db2777'
+    ],
+    '\uD83C\uDF88': [
+      'balloon',
+      '#7e22ce'
+    ],
+    '\uD83C\uDFB8': [
+      'guitar',
+      '#9a3412'
+    ],
+    '\uD83C\uDFB9': [
+      'piano',
+      '#1f2937'
+    ],
+    '\uD83C\uDFA8': [
+      'palette',
+      '#c2410c'
+    ],
+    '\uD83C\uDFAD': [
+      'drama',
+      '#6d28d9'
+    ],
+    '\u26BD': [
+      'volleyball',
+      '#1f2937'
+    ],
+    '\u2615': [
+      'coffee',
+      '#78350f'
+    ],
+    '\uD83C\uDFC6': [
+      'trophy',
+      '#a16207'
+    ],
+    '\uD83D\uDC83': [
+      'music',
+      '#be185d'
+    ],
+    '\uD83D\uDD7A': [
+      'music',
+      '#be185d'
+    ],
+    '\uD83D\uDC8C': [
+      'mail',
+      '#be123c'
+    ],
+    '\uD83C\uDF93': [
+      'graduation-cap',
+      '#1d4ed8'
+    ],
+    '\uD83C\uDFCD️': [
+      'motorbike',
+      '#c2410c'
+    ],
+    '\uD83C\uDF0D': [
+      'globe',
+      '#0369a1'
+    ],
+    '\uD83D\uDC68‍\uD83D\uDC69‍\uD83D\uDC67‍\uD83D\uDC66': [
+      'users',
+      '#15803d'
+    ],
+    '\uD83D\uDCF1': [
+      'smartphone',
+      '#1f2937'
+    ],
+    '\uD83E\uDDD3': [
+      'sofa',
+      '#92400e'
+    ],
+    '\uD83D\uDC75': [
+      'hourglass',
+      '#92400e'
+    ],
+    '\uD83E\uDD63': [
+      'soup',
+      '#c2410c'
+    ],
+    '\uD83C\uDF05': [
+      'sunrise',
+      '#c2410c'
+    ]
   };
-  const has = (e) => !!SYM[e];
-  const name = (e) => (SYM[e] || [])[0];
-  const color = (e) => (SYM[e] || [])[1] || '#1f2937';
-  // A gameplay symbol. Unknown keys fall back to the emoji itself, so nothing can disappear.
+  const has = e => !!SYM[e];
+  const name = e => (SYM[e] || [])[0];
+  const color = e => (SYM[e] || [])[1] || '#1f2937';
   function sym(e, o) {
-    const s = SYM[e]; if (!s || !L()[s[0]]) return e;
+    const s = SYM[e];
+    if (!s || !L()[s[0]])
+      return e;
     o = o || {};
-    return `<span class="lc-sym${o.cls ? ' ' + o.cls : ''}" style="--c:${s[1]}">${svg(s[0], { size: o.size || '1em', sw: o.sw || 2.1, fill: true, fillOpacity: .18, label: o.label })}</span>`;
+    return `<span class="lc-sym${ o.cls ? ' ' + o.cls : '' }" style="--c:${ s[1] }">${ svg(s[0], {
+      size: o.size || '1em',
+      sw: o.sw || 2.1,
+      fill: true,
+      fillOpacity: 0.18,
+      label: o.label
+    }) }</span>`;
   }
-  // Inline icon for button labels and headings: Icon.ui('rotate-ccw') + ' New word'
-  const ui = (name, o) => svg(name, Object.assign({ size: '1.15em', sw: 2.4, cls: 'lc-ui' }, o || {}));
-  return { svg, sym, ui, has, name, color, SYM };
+  const ui = (name, o) => svg(name, Object.assign({
+    size: '1.15em',
+    sw: 2.4,
+    cls: 'lc-ui'
+  }, o || {}));
+  return {
+    svg,
+    sym,
+    ui,
+    has,
+    name,
+    color,
+    SYM
+  };
 })();

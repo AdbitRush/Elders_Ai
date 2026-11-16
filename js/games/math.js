@@ -1,35 +1,51 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// GAME 3: QUICK MATH — 10-question session
-// ═══════════════════════════════════════════════════════════════════════════════
-// Scene: a classroom chalkboard in a wooden frame, wooden number blocks on two shelves below.
-// All styling is scoped under .qm-scene and shipped with each render (no globals, no assets).
-// State classes toggled by answerMath (bg-green-100 / bg-red-100) drive the glow / shake.
 function initMath(container) {
-    const gs=gameState.math;
-    const _d=typeof Difficulty!=='undefined'?Difficulty.get():'normal';
-    gs._sq=_d==='easy'?6:_d==='hard'?15:10; gs._si=0; gs._ss=0; gs._diff=_d;
-    _mathNext(container);
+  const gs = gameState.math;
+  const _d = typeof Difficulty !== 'undefined' ? Difficulty.get() : 'normal';
+  gs._sq = _d === 'easy' ? 6 : _d === 'hard' ? 15 : 10;
+  gs._si = 0;
+  gs._ss = 0;
+  gs._diff = _d;
+  _mathNext(container);
 }
 function _mathNext(container) {
-    if(!gameState.active||gameState.currentId!=='math')return;
-    const gs=gameState.math; gs._locked=false;
-    if(gs._si>=gs._sq){gs._sessionScore={correct:gs._ss,total:gs._sq};levelComplete();return;}
-    const _d=gs._diff||'normal';
-    const maxVal=_d==='easy'?6+(gs.level*2):_d==='hard'?14+(gs.level*4):10+(gs.level*3);
-    const isAdd=Math.random()>(_d==='easy'?0.2:0.4);
-    let a,b,answer;
-    if(isAdd){a=Math.floor(Math.random()*maxVal)+1;b=Math.floor(Math.random()*maxVal)+1;answer=a+b;}
-    else{a=Math.floor(Math.random()*maxVal)+5;b=Math.floor(Math.random()*a);answer=a-b;}
-    let opts=new Set([answer]);
-    const spread=_d==='easy'?3:_d==='hard'?6:4;
-    while(opts.size<4){const f=answer+(Math.floor(Math.random()*spread*2+1)-spread);if(f>=0&&f!==answer)opts.add(f);}
-    const optsArr=shuffle(Array.from(opts));
-    const isHe=currentLang==='he';
-    // ── presentation only below ──
-    const digits=String(a).length+String(b).length;
-    const eqSize=digits>=6?' qm-eq-xs':digits>=5?' qm-eq-s':'';
-    const ticks=Array.from({length:gs._sq},(_,i)=>`<i class="qm-tick${i<gs._si?' qm-done':i===gs._si?' qm-cur':''}"></i>`).join('');
-    const css=`
+  if (!gameState.active || gameState.currentId !== 'math')
+    return;
+  const gs = gameState.math;
+  gs._locked = false;
+  if (gs._si >= gs._sq) {
+    gs._sessionScore = {
+      correct: gs._ss,
+      total: gs._sq
+    };
+    levelComplete();
+    return;
+  }
+  const _d = gs._diff || 'normal';
+  const maxVal = _d === 'easy' ? 6 + gs.level * 2 : _d === 'hard' ? 14 + gs.level * 4 : 10 + gs.level * 3;
+  const isAdd = Math.random() > (_d === 'easy' ? 0.2 : 0.4);
+  let a, b, answer;
+  if (isAdd) {
+    a = Math.floor(Math.random() * maxVal) + 1;
+    b = Math.floor(Math.random() * maxVal) + 1;
+    answer = a + b;
+  } else {
+    a = Math.floor(Math.random() * maxVal) + 5;
+    b = Math.floor(Math.random() * a);
+    answer = a - b;
+  }
+  let opts = new Set([answer]);
+  const spread = _d === 'easy' ? 3 : _d === 'hard' ? 6 : 4;
+  while (opts.size < 4) {
+    const f = answer + (Math.floor(Math.random() * spread * 2 + 1) - spread);
+    if (f >= 0 && f !== answer)
+      opts.add(f);
+  }
+  const optsArr = shuffle(Array.from(opts));
+  const isHe = false;
+  const digits = String(a).length + String(b).length;
+  const eqSize = digits >= 6 ? ' qm-eq-xs' : digits >= 5 ? ' qm-eq-s' : '';
+  const ticks = Array.from({ length: gs._sq }, (_, i) => `<i class="qm-tick${ i < gs._si ? ' qm-done' : i === gs._si ? ' qm-cur' : '' }"></i>`).join('');
+  const css = `
 .qm-scene{box-sizing:border-box;width:100%;max-width:26rem;margin:0 auto;padding:12px 12px 4px;text-align:center;border-radius:22px;
   background:linear-gradient(180deg,#f9f1e2 0%,#f4e8d3 58%,#eadbc0 58%,#e5d4b5 100%);box-shadow:inset 0 0 0 1px rgba(120,84,40,.18);-webkit-tap-highlight-color:transparent}
 .qm-scene *{box-sizing:border-box}
@@ -101,35 +117,46 @@ function _mathNext(container) {
 @keyframes qm-glow{0%{transform:scale(1)}45%{transform:scale(1.06) translateY(-3px)}100%{transform:scale(1.02) translateY(-1px)}}
 @keyframes qm-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
 `;
-    container.innerHTML=`<style>${css}</style><div class="qm-scene">
+  container.innerHTML = `<style>${ css }</style><div class="qm-scene">
         <div class="qm-frame">
             <div class="qm-board">
                 <div class="qm-top">
-                    <span class="qm-count">${gt('Q', 'שאלה')} ${gs._si+1}/${gs._sq}</span>
-                    <span class="qm-score text-green-600">✓ ${gs._ss}</span>
+                    <span class="qm-count">${ gt('Q') } ${ gs._si + 1 }/${ gs._sq }</span>
+                    <span class="qm-score text-green-600">✓ ${ gs._ss }</span>
                 </div>
-                <div class="qm-eq${eqSize}" dir="ltr"><span>${a}</span> <span class="qm-op">${isAdd?'+':'−'}</span> <span>${b}</span> <span class="qm-op">=</span> <span class="qm-q">?</span></div>
-                <div class="qm-ticks" aria-hidden="true">${ticks}</div>
+                <div class="qm-eq${ eqSize }" dir="ltr"><span>${ a }</span> <span class="qm-op">${ isAdd ? '+' : '\u2212' }</span> <span>${ b }</span> <span class="qm-op">=</span> <span class="qm-q">?</span></div>
+                <div class="qm-ticks" aria-hidden="true">${ ticks }</div>
             </div>
             <div class="qm-tray" aria-hidden="true"><i></i><i></i><i></i></div>
         </div>
         <div class="qm-shelf">
-            ${optsArr.map(opt=>`<button onclick="answerMath(${opt},${answer})" class="qm-block bg-blue-50 border-blue-200">${opt}</button>`).join('')}
+            ${ optsArr.map(opt => `<button onclick="answerMath(${ opt },${ answer })" class="qm-block bg-blue-50 border-blue-200">${ opt }</button>`).join('') }
         </div></div>`;
 }
-function answerMath(sel,cor) {
-    if(!gameState.active||gameState.currentId!=='math')return;
-    const gs=gameState.math;
-    if(gs._locked)return;   // one answer per question: a double-tap scored twice and skipped a question
-    const btn=event.target;
-    if(sel===cor){
-        gs._locked=true; sfxCorrect(); gs._ss++;
-        btn.classList.replace('bg-blue-50','bg-green-100'); btn.classList.replace('border-blue-200','border-green-400');
-        setTimeout(()=>{gs._si++;_mathNext(document.getElementById('gameContent'));},500);
-    } else {
-        sfxWrong();
-        btn.classList.replace('bg-blue-50','bg-red-100'); btn.classList.replace('border-blue-200','border-red-300');
-        setTimeout(()=>{btn.classList.replace('bg-red-100','bg-blue-50');btn.classList.replace('border-red-300','border-blue-200');},600);
-    }
+function answerMath(sel, cor) {
+  if (!gameState.active || gameState.currentId !== 'math')
+    return;
+  const gs = gameState.math;
+  if (gs._locked)
+    return;
+  const btn = event.target;
+  if (sel === cor) {
+    gs._locked = true;
+    sfxCorrect();
+    gs._ss++;
+    btn.classList.replace('bg-blue-50', 'bg-green-100');
+    btn.classList.replace('border-blue-200', 'border-green-400');
+    setTimeout(() => {
+      gs._si++;
+      _mathNext(document.getElementById('gameContent'));
+    }, 500);
+  } else {
+    sfxWrong();
+    btn.classList.replace('bg-blue-50', 'bg-red-100');
+    btn.classList.replace('border-blue-200', 'border-red-300');
+    setTimeout(() => {
+      btn.classList.replace('bg-red-100', 'bg-blue-50');
+      btn.classList.replace('border-red-300', 'border-blue-200');
+    }, 600);
+  }
 }
- 
