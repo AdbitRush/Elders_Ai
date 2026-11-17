@@ -5,13 +5,26 @@
   function gtag() {
     window.dataLayer.push(arguments);
   }
+  let gtmLoaded = false;
+  function loadGtm() {
+    if (gtmLoaded || !CookieConsent.acceptedCategory('ads')) return;
+    gtmLoaded = true;
+    window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-M9S2XFNV';
+    script.id = 'dod-consented-gtm';
+    document.head.appendChild(script);
+  }
   function applyAds() {
     const ok = CookieConsent.acceptedCategory('ads');
+    if (!ok && gtmLoaded) { gtmLoaded = false; setTimeout(function () { window.location.reload(); }, 150); }
     gtag('consent', 'update', {
       ad_storage: ok ? 'granted' : 'denied',
       ad_user_data: ok ? 'granted' : 'denied',
       ad_personalization: ok ? 'granted' : 'denied'
     });
+    if (ok) loadGtm();
   }
   const T = {
     en: {
