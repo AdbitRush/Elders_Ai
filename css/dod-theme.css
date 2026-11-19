@@ -160,7 +160,7 @@ html:root:not(#dod) .dod-tab{color:var(--dod-band-ink);border-inline-end:1px sol
 html:root:not(#dod) .dod-tab:first-child{border-inline-start:0}
 html:root:not(#dod) .dod-tab:last-child{border-inline-end:0}
 html:root:not(#dod) .dod-tab-live:hover{background:rgba(255,250,240,.10)}
-html:root:not(#dod) .dod-tab[aria-current]{box-shadow:inset 0 -4px 0 var(--dod-gold)}
+html:root:not(#dod) .dod-tab[aria-current]{box-shadow:none;color:var(--dod-gold)}
 html:root:not(#dod) .dod-tab:focus-visible{outline:3px solid var(--dod-gold)}
 html:root:not(#dod) .dod-tab.ns-nav-pending{color:var(--dod-band-soft)!important;opacity:1;font-weight:400}
 /* toolbar sits under the band, quiet */
