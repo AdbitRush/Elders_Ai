@@ -220,3 +220,6 @@ html:root:not(#dod) .dod-game > .dod-credit{color:var(--dod-band-soft);padding:0
 .dod-lead{border:2px solid var(--dod-green);background:var(--dod-paper);box-shadow:0 2px 7px rgba(0,0,0,.10);overflow:hidden}
 .dod-lead > :not(.dod-img){margin-inline:16px}
 .dod-lead > .dod-btn{margin-bottom:16px}
+
+/* Four-link menus: Games sits alone, centered on the mobile second row. */
+@media(max-width:640px){html:root:not(#dod) .dod-tabs-in>a.dod-tab[href="games.html"]{grid-column:2;grid-row:2}}
