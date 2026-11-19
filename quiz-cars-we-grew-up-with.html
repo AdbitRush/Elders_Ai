@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Cars We Grew Up With - Dear Old Days</title>
+<meta name="description" content="A friendly 13-question nostalgia quiz about the cars America grew up with. One question at a time, no timer, and the story behind every answer.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dear Old Days">
+<meta property="og:title" content="The Cars We Grew Up With - Dear Old Days">
+<meta property="og:description" content="A friendly 13-question nostalgia quiz about the cars America grew up with. One question at a time, no timer, and the story behind every answer.">
+<meta property="og:url" content="https://dearolddays.com/quiz-cars-we-grew-up-with.html">
+<meta property="og:image" content="https://dearolddays.com/images/dod/demo-v1/demo-objects.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Cars We Grew Up With - Dear Old Days">
+<meta name="twitter:description" content="A friendly 13-question nostalgia quiz about the cars America grew up with. One question at a time, no timer, and the story behind every answer.">
+<meta name="twitter:image" content="https://dearolddays.com/images/dod/demo-v1/demo-objects.webp">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+
+<script>try{if(localStorage.getItem('gg-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script>try{if(localStorage.getItem('gg-look')==='refreshed')document.documentElement.setAttribute('data-look','refreshed')}catch(e){}</script>
+<link rel="stylesheet" href="js/vendor/cookieconsent/cookieconsent.css?v=77">
+<link rel="stylesheet" href="css/consent.css?v=20261115fix2">
+<link rel="stylesheet" href="css/info-pages.css?v=77">
+<link rel="stylesheet" href="css/articles.css?v=77">
+<link rel="stylesheet" href="css/refresh.css?v=83">
+<link rel="stylesheet" href="css/memory-post.css?v=16">
+<style>
+.ns-quiz{
+  margin:1.75rem 0 2.25rem;
+  padding:1.5rem 1.25rem 1.75rem;
+  border:2px solid rgba(0,0,0,.15);
+  border-radius:16px;
+  background:rgba(0,0,0,.025);
+  font-size:1.2rem;
+  line-height:1.55;
+}
+[data-theme="dark"] .ns-quiz{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
+.ns-intro p{margin:0 0 1rem}
+.ns-progress{
+  margin:0 0 .5rem;
+  font-size:1.1rem;
+  font-weight:700;
+
+  letter-spacing:.01em;
+  opacity:.85;
+}
+.ns-bar{
+  height:10px;
+  margin:0 0 1.25rem;
+  border-radius:999px;
+  background:rgba(0,0,0,.1);
+  overflow:hidden;
+}
+[data-theme="dark"] .ns-bar{background:rgba(255,255,255,.15)}
+.ns-bar-fill{
+  height:100%;
+  width:0;
+  border-radius:999px;
+  background:#2f6f9f;
+  transition:width .3s ease;
+}
+[data-theme="dark"] .ns-bar-fill{background:#8cc4ee}
+.ns-question{
+  margin:0 0 1.25rem;
+  font-size:1.6rem;
+  line-height:1.35;
+}
+.ns-question:focus{outline:none}
+.ns-question:focus-visible{outline:3px solid #2f6f9f;outline-offset:4px;border-radius:4px}
+.ns-options{
+  list-style:none;
+  margin:0 0 1.25rem;
+  padding:0;
+  display:grid;
+  gap:.85rem;
+
+}
+.ns-option{
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+  width:100%;
+  min-height:64px;
+  padding:1rem 1.15rem;
+  border:2px solid rgba(0,0,0,.3);
+  border-radius:12px;
+  background:#fff;
+  color:#1a1a1a;
+  font:inherit;
+  font-size:1.25rem;
+  text-align:left;
+  cursor:pointer;
+  transition:border-color .15s ease,background-color .15s ease;
+}
+[data-theme="dark"] .ns-option{background:#1f2328;color:#f2f2f2;border-color:rgba(255,255,255,.35)}
+.ns-option:hover:not([disabled]){border-color:#2f6f9f;background:#eef5fb}
+[data-theme="dark"] .ns-option:hover:not([disabled]){border-color:#8cc4ee;background:#25303a}
+.ns-option:focus-visible{outline:3px solid #2f6f9f;outline-offset:3px}
+[data-theme="dark"] .ns-option:focus-visible{outline-color:#8cc4ee}
+.ns-option[disabled]{cursor:default}
+.ns-letter{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:2.2rem;
+  height:2.2rem;
+  border-radius:50%;
+
+  border:2px solid currentColor;
+  font-weight:700;
+  font-size:1.05rem;
+}
+.ns-text{flex:1 1 auto}
+.ns-mark{flex:0 0 auto;font-weight:700;font-size:1.05rem;white-space:nowrap}
+.ns-option.ns-is-correct{border-color:#2e7d32;background:#e8f5e9;color:#14401a}
+[data-theme="dark"] .ns-option.ns-is-correct{border-color:#81c784;background:#1d3320;color:#e6f4e7}
+.ns-option.ns-is-wrong{border-color:#a14a12;background:#fdf0e6;color:#4d2208}
+[data-theme="dark"] .ns-option.ns-is-wrong{border-color:#f0a46c;background:#3a2617;color:#fbe9dc}
+.ns-option.ns-is-other{opacity:.65}
+.ns-feedback{
+  margin:0 0 1.25rem;
+  padding:1rem 1.15rem;
+  border-left:6px solid #2f6f9f;
+  border-radius:8px;
+  background:rgba(47,111,159,.08);
+}
+.ns-feedback[hidden]{display:none}
+.ns-feedback.ns-good{border-left-color:#2e7d32;background:rgba(46,125,50,.09)}
+.ns-feedback.ns-gentle{border-left-color:#a14a12;background:rgba(161,74,18,.08)}
+[data-theme="dark"] .ns-feedback.ns-good{border-left-color:#81c784}
+[data-theme="dark"] .ns-feedback.ns-gentle{border-left-color:#f0a46c}
+.ns-feedback-title{margin:0 0 .35rem;font-weight:700;font-size:1.25rem}
+.ns-feedback-body{margin:0}
+.ns-actions{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+.ns-btn{
+  min-height:56px;
+  padding:.85rem 1.6rem;
+  border:2px solid #2f6f9f;
+  border-radius:12px;
+  background:#2f6f9f;
+
+  color:#fff;
+  font:inherit;
+  font-size:1.2rem;
+  font-weight:700;
+  cursor:pointer;
+}
+.ns-btn:hover{background:#245a82;border-color:#245a82}
+.ns-btn:focus-visible{outline:3px solid #1a1a1a;outline-offset:3px}
+[data-theme="dark"] .ns-btn{background:#8cc4ee;border-color:#8cc4ee;color:#10202c}
+[data-theme="dark"] .ns-btn:hover{background:#a9d4f3;border-color:#a9d4f3}
+[data-theme="dark"] .ns-btn:focus-visible{outline-color:#fff}
+.ns-btn[hidden]{display:none}
+.ns-result{text-align:center}
+.ns-result[hidden]{display:none}
+.ns-result-title{margin:0 0 .75rem;font-size:1.7rem}
+.ns-result-title:focus{outline:none}
+.ns-result-title:focus-visible{outline:3px solid #2f6f9f;outline-offset:4px;border-radius:4px}
+.ns-score{margin:0 0 .75rem;font-size:1.9rem;font-weight:700}
+.ns-result-msg{margin:0 0 1rem}
+.ns-best{margin:0 0 1.5rem;font-size:1.1rem;opacity:.85}
+.ns-best:empty{display:none}
+.ns-result .ns-actions{justify-content:center}
+.ns-link{font-size:1.2rem;font-weight:700}
+.ns-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (max-width:520px){
+  .ns-quiz{padding:1.15rem .9rem 1.4rem}
+  .ns-question{font-size:1.4rem}
+  .ns-option{font-size:1.15rem}
+  .ns-btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  .ns-bar-fill,.ns-option{transition:none}
+
+}
+.ns-question{scroll-margin-top:210px}
+.ns-question-image{margin:0 0 1.25rem;border:1px solid var(--mp-line,#c9c4b8);background:var(--mp-paper,transparent)}
+.ns-question-image img{width:100%;height:auto;display:block}
+.ns-question-image figcaption{font:400 13px/1.5 Arial,sans-serif;padding:10px 12px;overflow-wrap:anywhere}
+.ns-question-image a{color:inherit;text-decoration:underline}
+</style>
+<link rel="stylesheet" href="css/dod-theme.css?v=20261115design">
+<link rel="stylesheet" href="css/dod-quiz-shell.css?v=20261115green">
+<link rel="stylesheet" href="css/dod-nav-dividers-preview.css?v=20261115preview1">
+</head>
+<body class="dod-quiz-page">
+
+<div class="dod-topline" dir="ltr" lang="en"><span>A LITTLE TRIP BACK IN TIME</span></div>
+<div class="dod-masthead" dir="ltr" lang="en"><a href="./"><div class="dod-brand"><img src="/images/logo2-round.png" alt="" style="display:inline-block;width:auto;height:1.35em;vertical-align:-0.32em;margin-right:0.3em">Dear Old Days</div><div class="dod-tagline"><span>GOOD MEMORIES. NEW DISCOVERIES.</span></div></a>
+</div>
+<div class="dod-tabs" dir="ltr" lang="en" role="navigation" aria-label="Sections"><div class="dod-tabs-in">
+<a class="dod-tab dod-tab-live" href="./">Home</a>
+<a class="dod-tab dod-tab-live" href="stories.html">Stories</a>
+<a class="dod-tab dod-tab-live" href="quizzes.html" aria-current="page">Quizzes</a>
+<a class="dod-tab dod-tab-live" href="games.html">Games</a>
+<span class="dod-tab ns-nav-pending" aria-disabled="true">Decades <small>coming soon</small></span>
+<span class="dod-tab ns-nav-pending" aria-disabled="true">Saved <small>coming soon</small></span>
+</div></div>
+<div class="dod-quiz-toolbar" role="group" aria-label="Options"><button type="button" class="theme" id="themeBtn">Dark</button></div>
+<main class="wrap">
+  <p class="crumb"><a href="stories.html">&larr; Stories &amp; quizzes</a></p>
+  <h1>The Cars We Grew Up With</h1>
+  <p class="meta">13 questions. No timer.</p>
+  <p>Slug bugs, wing windows and the 'way back' seat: thirteen questions about the cars America grew up with and the little things we remember about them. After every answer, you get the story behind it.</p>
+
+  <section class="ns-quiz" id="nsQuiz" aria-labelledby="nsQuizLabel">
+    <h2 class="ns-sr" id="nsQuizLabel">Cars we grew up with quiz</h2>
+
+    <div id="nsPlay">
+      <p class="ns-progress" id="nsProgress">Question 1 of 13</p>
+      <div class="ns-bar" aria-hidden="true"><div class="ns-bar-fill" id="nsBarFill"></div></div>
+      <h3 class="ns-question" id="nsQuestion" tabindex="-1"></h3>
+      <figure class="ns-question-image" id="nsQuestionFigure"><img id="nsQuestionImage" width="1200" height="800" alt=""><figcaption id="nsQuestionCredit"></figcaption></figure>
+      <ul class="ns-options" id="nsOptions" aria-labelledby="nsQuestion"></ul>
+      <div class="ns-feedback" id="nsFeedback" hidden>
+        <p class="ns-feedback-title" id="nsFeedbackTitle"></p>
+        <p class="ns-feedback-body" id="nsFeedbackBody"></p>
+      </div>
+      <div class="ns-actions">
+        <button type="button" class="ns-btn" id="nsNext" hidden>Next question</button>
+      </div>
+    </div>
+
+    <div class="ns-result" id="nsResult" hidden>
+
+      <h3 class="ns-result-title" id="nsResultTitle" tabindex="-1">Thanks for taking the trip!</h3>
+      <p class="ns-score" id="nsScore"></p>
+      <p class="ns-result-msg" id="nsResultMsg"></p>
+      <div class="ns-actions">
+        <button type="button" class="ns-btn" id="nsAgain">Take the quiz again</button>
+        <a class="ns-link" href="stories.html">&larr; Back to Stories &amp; quizzes</a>
+      </div>
+      <section class="dod-comments" style="border:2px solid #c9a227;border-radius:12px;padding:1em 1.2em;margin:2em 0"><h2 style="margin-top:0">Your turn</h2><p>What was the family car when you were growing up? Tell someone who rode in it with you, and see how long the answer takes.</p></section>
+    </div>
+
+    <p class="ns-sr" id="nsStatus" aria-live="polite" aria-atomic="true"></p>
+  </section>
+
+  <section class="dod-credits">
+    <h2>Photo credits</h2>
+    <p>All photographs are authentic period and classic-car photos shared by their photographers under free licenses, via Wikimedia Commons. Tap any credit under a picture to see its source page.</p>
+  </section>
+
+  <p class="bottom">There is no prize and no penalty here. Whether you remembered every car or learned something new, the point is to enjoy the trip down memory lane.</p>
+
+  <p class="back"><a href="./">&larr; Back to Dear Old Days</a> &middot; <a href="articles.html">All articles</a> &middot; <a href="about.html">About</a> &middot; <a href="privacy.html">Privacy policy</a> &middot; <a href="credits.html">Photo credits</a> &middot; <a href="#" onclick="if(window.CookieConsent){CookieConsent.showPreferences();}return false">Cookie settings</a></p>
+</main>
+<script src="js/info-pages.js?v=77"></script>
+<script src="js/vendor/cookieconsent/cookieconsent.umd.js?v=77"></script>
+<script src="js/consent.js?v=20261117gtm1"></script>
+<script src="js/look.js?v=83"></script>
+<script>
+(function(){
+  var QUESTIONS = [
+    {
+        "q": "Between 1914 and 1925, every Model T left the Ford factory in one single color. Which one?",
+        "options": [
+            "Black, and only black",
+            "Any color you liked",
+            "Green, blue or gray"
+        ],
+        "correct": 0,
+        "explanation": "The black japan paint dried fastest, which kept the moving assembly line moving - so for those twelve best-selling years black was the only choice. As Ford supposedly put it: any color the customer wanted, so long as it was black."
+    },
+    {
+        "q": "Before GPS and phones, what lived in just about every glove compartment?",
+        "options": [
+            "A stack of folded road maps",
+            "A rolled-up picnic blanket",
+            "A spare fan belt"
+        ],
+        "correct": 0,
+        "explanation": "Gas stations handed road maps out free - Esso, Texaco, Gulf, all of them. Every family had a pile. The real trick was folding one back the way it came, and nobody ever managed that."
+    },
+    {
+        "q": "In 1939, Plymouth offered something no production car had ever had before. What was it?",
+        "options": [
+            "A top that opened at the push of a button",
+            "Air conditioning",
+            "An automatic transmission"
+        ],
+        "correct": 0,
+        "explanation": "The 1939 Plymouth convertible carried the first power-operated top on a production car, raised and lowered from the driver's seat. Until then, putting the top down was a two-person wrestling match."
+    },
+    {
+        "q": "Every front door used to have one of these little triangular windows. What did everyone call them?",
+        "options": [
+            "Wing windows",
+            "Peek-a-boo glass",
+            "Sun catchers"
+        ],
+        "correct": 0,
+        "explanation": "Vent windows - 'wing windows' to most of us - turned to aim the breeze right at your face. They were the air conditioning before cars had air conditioning, and a determined finger could aim one just right."
+    },
+    {
+        "q": "This little knob sat in every dashboard. What happened when you pushed it in?",
+        "options": [
+            "It popped back out glowing hot",
+            "It started the engine",
+            "It opened the glovebox"
+        ],
+        "correct": 0,
+        "explanation": "The cigarette lighter, plus an ashtray in every door, came standard in just about every car. Decades later that same round socket got a second life charging our phones."
+    },
+    {
+        "q": "In the 1970s and 80s, what did careful drivers clamp across the steering wheel before walking away?",
+        "options": [
+            "The Club",
+            "The Anchor",
+            "The Brake Bar"
+        ],
+        "correct": 0,
+        "explanation": "The Club - a bright red steel bar that told thieves to keep walking. Half the cars in the lot had one, and most of us remember it riding around in the footwell the rest of the time."
+    },
+    {
+        "q": "On a family trip in a big station wagon, where did the kids beg to sit?",
+        "options": [
+            "The 'way back', facing the traffic behind",
+            "Up front on Mom's lap",
+            "On the roof rack"
+        ],
+        "correct": 0,
+        "explanation": "The rear-facing third row was the best seat in the house: waving at the drivers behind you, making faces at truckers, and carsickness for the unlucky ones."
+    },
+    {
+        "q": "The Beach Boys sang about their 'little deuce coupe'. What makes a car a 'deuce'?",
+        "options": [
+            "It's a 1932 Ford - 'deuce' for the 2 in '32",
+            "It has two doors",
+            "It runs on two cylinders"
+        ],
+        "correct": 0,
+        "explanation": "The 1932 Ford was the hot-rodder's favorite: cheap, light, and easy to soup up. The Beach Boys' 1963 song made it famous all over again for a new generation."
+    },
+    {
+        "q": "This kind of wagon had a special nickname, right into the surfing songs of the 60s. What did everyone call it?",
+        "options": [
+            "A woodie",
+            "A bread van",
+            "A beach bus"
+        ],
+        "correct": 0,
+        "explanation": "The name came from the real ash and mahogany panels over the steel body - beautiful, pricey to keep varnished, and later the surf wagon of every California daydream."
+    },
+    {
+        "q": "One of the most loved Chevys ever built. Which model year is this Bel Air?",
+        "options": [
+            "1955",
+            "1956",
+            "1957"
+        ],
+        "correct": 2,
+        "explanation": "The '57, with the tallest fins of the three and the gold trim, became the icon of the whole decade. Funny thing: back in 1957, Ford actually outsold it."
+    },
+    {
+        "q": "In 1955 Ford answered the Corvette with this stylish little two-seater. What is it?",
+        "options": [
+            "Thunderbird",
+            "Fairlane",
+            "Falcon"
+        ],
+        "correct": 0,
+        "explanation": "The first Thunderbird was a snug two-seat 'personal car', and it outsold the Corvette by a mile. The little round porthole window in the hardtop became its signature."
+    },
+    {
+        "q": "When the kids in the back seat spotted one of these on the road, what came next?",
+        "options": [
+            "'Punch buggy!' and a poke for your brother or sister",
+            "Total silence until the next stoplight",
+            "A dime from Dad"
+        ],
+        "correct": 0,
+        "explanation": "Punch buggy, slug bug - the name changed by neighborhood and the rules were hotly disputed. In some families a yellow one counted double. Or was that just ours?"
+    },
+    {
+        "q": "Tailfins grew taller every year through the 1950s. Which model year took them to the peak, with the tallest fins Cadillac ever made?",
+        "options": [
+            "1955",
+            "1959",
+            "1963"
+        ],
+        "correct": 1,
+        "explanation": "The 1959 Cadillac's soaring fins and twin bullet taillights were the high-water mark of the whole trend. After that they shrank fast, and by the mid-60s they were gone."
+    }
+];
+  var LETTERS = ["A", "B", "C", "D"];
+
+  var RIGHT_TITLES = ["That's right!"];
+
+  var elPlay = document.getElementById("nsPlay");
+  var elProgress = document.getElementById("nsProgress");
+  var elBar = document.getElementById("nsBarFill");
+  var elQuestion = document.getElementById("nsQuestion");
+  var elOptions = document.getElementById("nsOptions");
+  var elFeedback = document.getElementById("nsFeedback");
+  var elFbTitle = document.getElementById("nsFeedbackTitle");
+  var elFbBody = document.getElementById("nsFeedbackBody");
+  var elNext = document.getElementById("nsNext");
+  var elResult = document.getElementById("nsResult");
+  var elResultTitle = document.getElementById("nsResultTitle");
+  var elScore = document.getElementById("nsScore");
+  var elResultMsg = document.getElementById("nsResultMsg");
+  var elAgain = document.getElementById("nsAgain");
+  var elStatus = document.getElementById("nsStatus");
+
+  var index = 0;
+  var score = 0;
+  var answered = false;
+
+  function announce(text){
+    elStatus.textContent = "";
+    window.setTimeout(function(){ elStatus.textContent = text; }, 50);
+  }
+
+  var QUESTION_IMAGES = [{"file": "q01-modelt-factory.webp", "src": "images/dod/quiz-cars/q01-modelt-factory.webp", "credit": "Photo: Library of Congress, public domain, via Wikimedia Commons.", "source": "https://commons.wikimedia.org/wiki/File:Model_T%27s_coming_off_the_assembly_line_at_the_Highland_Park_plant_LCCN2011661047.jpg", "label": "Period photo: Model T chassis on the Highland Park assembly line.", "alt": "Black-and-white photo of Model T chassis on the Highland Park assembly line"}, {"file": "q02-essomap.webp", "src": "images/dod/quiz-cars/q02-essomap.webp", "credit": "Map: Esso / General Drafting Co., public domain, via Wikimedia Commons.", "source": "https://commons.wikimedia.org/wiki/File:Esso_Northeast_United_States_road_map_-_btv1b531954691_(1_of_2).jpg", "label": "", "alt": "A folded Esso road map of the northeastern United States"}, {"file": "q03-plymouth.webp", "src": "images/dod/quiz-cars/q03-plymouth.webp", "credit": "Photo: Lars-Göran Lindgren, CC BY-SA 3.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by-sa/3.0/", "source": "https://commons.wikimedia.org/wiki/File:Plymouth_P8_De_Luxe_4-Door_Sedan_1939.jpg", "label": "", "alt": "A black 1939 Plymouth four-door sedan"}, {"file": "q04-ventwindow.webp", "src": "images/dod/quiz-cars/q04-ventwindow.webp", "credit": "Photo: CZmarlin, public domain, via Wikimedia Commons.", "source": "https://commons.wikimedia.org/wiki/File:1965_AMC_Ambassador_detail_of_vent_window.jpg", "label": "", "alt": "Close-up of the small triangular vent window on a 1965 car door"}, {"file": "q05-lighter.webp", "src": "images/dod/quiz-cars/q05-lighter.webp", "credit": "Photo: Interiot, CC BY-SA 3.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by-sa/3.0/", "source": "https://commons.wikimedia.org/wiki/File:Car_cigarette_lighter.jpg", "label": "", "alt": "A car cigarette lighter element with its round knob"}, {"file": "q06-club.webp", "src": "images/dod/quiz-cars/q06-club.webp", "credit": "Photo: Bill Abbott, CC BY-SA 2.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by-sa/2.0/", "source": "https://commons.wikimedia.org/wiki/File:A_steering-wheel_lock_is_a_visible_anti-theft_device.jpg", "label": "", "alt": "A red steel bar lock clamped across a steering wheel"}, {"file": "q07-wagon.webp", "src": "images/dod/quiz-cars/q07-wagon.webp", "credit": "Photo: CZmarlin, CC0, via Wikimedia Commons.", "source": "https://commons.wikimedia.org/wiki/File:1975_AMC_Matador_four-door_station_wagon_with_2-way_tailgate_and_3-rows_of_seats_at_2017_AMO_meet_02of11.jpg", "label": "", "alt": "A big 1975 AMC Matador station wagon"}, {"file": "q08-deuce.webp", "src": "images/dod/quiz-cars/q08-deuce.webp", "credit": "Photo: Stephen Foskett, CC BY-SA 3.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by-sa/3.0/", "source": "https://commons.wikimedia.org/wiki/File:1932_Ford_Deuce_Coupe_Hot_Rod.jpg", "label": "", "alt": "A black 1932 Ford coupe hot rod with red wheels"}, {"file": "q09-woodie.webp", "src": "images/dod/quiz-cars/q09-woodie.webp", "credit": "Photo: Daderot, CC0, via Wikimedia Commons.", "source": "https://commons.wikimedia.org/wiki/File:1939_Chevrolet_woodie_station_wagon_-_Automobile_Driving_Museum_-_El_Segundo,_CA_-_DSC01656.jpg", "label": "", "alt": "A 1939 Chevrolet station wagon with wooden body panels"}, {"file": "q10-belair.webp", "src": "images/dod/quiz-cars/q10-belair.webp", "credit": "Photo: Ermell, CC BY-SA 4.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by-sa/4.0/", "source": "https://commons.wikimedia.org/wiki/File:1957_Chevrolet_Bel_Air_Sport_Coupe_P5200937.jpg", "label": "", "alt": "A black 1957 Chevrolet Bel Air Sport Coupe"}, {"file": "q11-thunderbird.webp", "src": "images/dod/quiz-cars/q11-thunderbird.webp", "credit": "Photo: TTTNIS, CC0, via Wikimedia Commons.", "source": "https://commons.wikimedia.org/wiki/File:1955_Ford_Thunderbird_front.jpg", "label": "", "alt": "A red 1955 Ford Thunderbird two-seater"}, {"file": "q12-beetle.webp", "src": "images/dod/quiz-cars/q12-beetle.webp", "credit": "Photo: Niels de Wit, CC BY 2.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by/2.0/", "source": "https://commons.wikimedia.org/wiki/File:1968_Volkswagen_Beetle_1300_(15870726736).jpg", "label": "", "alt": "A beige 1968 Volkswagen Beetle parked on a leaf-covered street"}, {"file": "q13-fins.webp", "src": "images/dod/quiz-cars/q13-fins.webp", "credit": "Photo: Morven, CC BY-SA 3.0, via Wikimedia Commons. License: https://creativecommons.org/licenses/by-sa/3.0/", "source": "https://commons.wikimedia.org/wiki/File:1959_Cadillac_fins.jpg", "label": "", "alt": "The tall chrome tailfins of a 1959 Cadillac"}];
+  function renderQuestion(focusHeading){
+    var item = QUESTIONS[index];
+    answered = false;
+
+    elProgress.textContent = "Question " + (index + 1) + " of " + QUESTIONS.length;
+    elBar.style.width = (index / QUESTIONS.length * 100) + "%";
+    elQuestion.textContent = item.q;
+    var media = QUESTION_IMAGES[index];
+    var image = document.getElementById('nsQuestionImage');
+    image.src = media.src;
+    image.alt = media.alt || media.label || '';
+    var caption = document.getElementById('nsQuestionCredit');
+    caption.textContent = '';
+    if(media.label){var label = document.createElement('strong');label.textContent=media.label;caption.appendChild(label);caption.appendChild(document.createElement('br'));}
+    var source = document.createElement('a');source.href=media.source;var licenseMatch = media.credit.match(/https:\/\/creativecommons\.org\/licenses\/[^ ]+/);
+    source.textContent=licenseMatch ? media.credit.slice(0,licenseMatch.index) : media.credit;caption.appendChild(source);
+    if(licenseMatch){var license=document.createElement('a');license.href=licenseMatch[0];license.textContent=licenseMatch[0];caption.appendChild(license);caption.appendChild(document.createTextNode(media.credit.slice(licenseMatch.index+licenseMatch[0].length)));}
+
+
+    elOptions.innerHTML = "";
+    item.options.forEach(function(text, i){
+      var li = document.createElement("li");
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "ns-option";
+      btn.setAttribute("data-index", String(i));
+
+      var letter = document.createElement("span");
+      letter.className = "ns-letter";
+      letter.setAttribute("aria-hidden", "true");
+      letter.textContent = LETTERS[i];
+
+      var label = document.createElement("span");
+      label.className = "ns-text";
+      label.textContent = text;
+
+      var mark = document.createElement("span");
+
+      mark.className = "ns-mark";
+
+      btn.appendChild(letter);
+      btn.appendChild(label);
+      btn.appendChild(mark);
+      btn.addEventListener("click", function(){ choose(i); });
+      li.appendChild(btn);
+      elOptions.appendChild(li);
+    });
+
+    elFeedback.hidden = true;
+    elFeedback.className = "ns-feedback";
+    elNext.hidden = true;
+
+    if (focusHeading) {
+      elQuestion.focus();
+    }
+  }
+
+  function choose(choice){
+    if (answered) return;
+    answered = true;
+
+    var item = QUESTIONS[index];
+    var isRight = choice === item.correct;
+    if (isRight) score++;
+
+    var buttons = elOptions.querySelectorAll(".ns-option");
+    Array.prototype.forEach.call(buttons, function(btn, i){
+      btn.disabled = true;
+      var mark = btn.querySelector(".ns-mark");
+      if (i === item.correct) {
+
+        btn.classList.add("ns-is-correct");
+        mark.textContent = "\u2713 Correct answer";
+      } else if (i === choice) {
+        btn.classList.add("ns-is-wrong");
+        mark.textContent = "Your choice";
+      } else {
+        btn.classList.add("ns-is-other");
+      }
+    });
+
+    var title, body;
+    if (isRight) {
+      title = RIGHT_TITLES[index % RIGHT_TITLES.length];
+      body = item.explanation;
+      elFeedback.classList.add("ns-good");
+    } else {
+      title = "Not quite - it's \"" + item.options[item.correct] + "\".";
+      body = item.explanation;
+      elFeedback.classList.add("ns-gentle");
+    }
+    elFbTitle.textContent = title;
+    elFbBody.textContent = body;
+    elFeedback.hidden = false;
+
+    elBar.style.width = ((index + 1) / QUESTIONS.length * 100) + "%";
+
+    var last = index === QUESTIONS.length - 1;
+    elNext.textContent = last ? "See my results" : "Next question";
+    elNext.hidden = false;
+
+    announce(title + " " + body);
+    elNext.focus();
+
+  }
+
+  function showResult(){
+    elPlay.hidden = true;
+    elResult.hidden = false;
+
+    var total = QUESTIONS.length;
+    elScore.textContent = "You remembered " + score + " out of " + total;
+
+    var msg;
+    if (score === total) {
+      msg = "A perfect score. You could have run the dealership.";
+    } else if (score >= 10) {
+      msg = "Beautiful driving. The back seat of memory lane is yours.";
+    } else if (score >= 7) {
+      msg = "A nice Sunday drive. A few of these were hiding in the glovebox.";
+    } else if (score >= 4) {
+      msg = "Some of these were before anybody's time. That is half the fun.";
+    } else {
+      msg = "Time for a spin around the block. Play again - the stories are the best part.";
+    }
+    elResultMsg.textContent = msg;
+
+
+
+
+    announce("Quiz complete. You got " + score + " out of " + total + ". " + msg);
+    elResultTitle.focus();
+  }
+
+  function restart(){
+    index = 0;
+    score = 0;
+    elResult.hidden = true;
+    elPlay.hidden = false;
+    renderQuestion(true);
+    announce("New round started. Question 1 of " + QUESTIONS.length + ".");
+  }
+
+  elNext.addEventListener("click", function(){
+    if (index < QUESTIONS.length - 1) {
+      index++;
+      renderQuestion(true);
+    } else {
+      showResult();
+    }
+  });
+
+  elAgain.addEventListener("click", restart);
+
+  renderQuestion(false);
+})();
+</script>
+</body>
+</html>

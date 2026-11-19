@@ -1,511 +1,683 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://dearolddays.com/</loc>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/klondike/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/klondike/"/>
+    <loc>https://dearolddays.com/articles.html</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/memory/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/memory/"/>
+    <loc>https://dearolddays.com/games.html</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/oddoneout/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/oddoneout/"/>
+    <loc>https://dearolddays.com/quizzes.html</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/math/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/math/"/>
+    <loc>https://dearolddays.com/stories.html</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/wordsearch/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/wordsearch/"/>
+    <loc>https://dearolddays.com/story-dishes-we-grew-up-on.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/sequence/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/sequence/"/>
+    <loc>https://dearolddays.com/story-family-tv.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/sudoku/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/sudoku/"/>
+    <loc>https://dearolddays.com/story-grandmas-kitchen.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/shapes/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/shapes/"/>
+    <loc>https://dearolddays.com/story-hairstyles-we-wore-with-pride.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/solitaire/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/solitaire/"/>
+    <loc>https://dearolddays.com/story-mixtape.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/trivia/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/trivia/"/>
+    <loc>https://dearolddays.com/story-saturday-morning-cartoons.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/numseq/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/numseq/"/>
+    <loc>https://dearolddays.com/story-saturday-records.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/unscramble/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/unscramble/"/>
+    <loc>https://dearolddays.com/story-the-car-in-the-driveway.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/pairs/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/pairs/"/>
+    <loc>https://dearolddays.com/story-the-cars-everyone-wanted.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/truefalse/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/truefalse/"/>
+    <loc>https://dearolddays.com/story-the-phone-on-the-wall.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/flags/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/flags/"/>
+    <loc>https://dearolddays.com/story-toys-with-names-that-sound-made-up.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/proverbs/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/proverbs/"/>
+    <loc>https://dearolddays.com/story-toys-with-the-wildest-names-dangerous.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/hangman/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/hangman/"/>
+    <loc>https://dearolddays.com/story-when-the-bathroom-was-pink.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/recall/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/recall/"/>
+    <loc>https://dearolddays.com/food-memories.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/blocks/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/blocks/"/>
+    <loc>https://dearolddays.com/guess-the-year-politics-20.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/colormatch/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/colormatch/"/>
+    <loc>https://dearolddays.com/guess-the-year-sports-entertainment-20.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/digitspan/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/digitspan/"/>
+    <loc>https://dearolddays.com/quiz-cars-we-grew-up-with.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/clock/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/clock/"/>
+    <loc>https://dearolddays.com/quiz-everyday-objects.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/counting/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/counting/"/>
+    <loc>https://dearolddays.com/article-a-game-is-one-part-of-your-day.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/category/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/category/"/>
+    <loc>https://dearolddays.com/article-a-plan-you-can-change.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/letters/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/letters/"/>
+    <loc>https://dearolddays.com/article-a-puzzle-on-a-shelf.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/lifesim/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/lifesim/"/>
+    <loc>https://dearolddays.com/article-a-quieter-screen-for-play.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/safari/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/safari/"/>
+    <loc>https://dearolddays.com/article-a-small-map-to-explore.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/jigsaw/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/jigsaw/"/>
+    <loc>https://dearolddays.com/article-animal-vegetable-mineral.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/freecell/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/freecell/"/>
+    <loc>https://dearolddays.com/article-give-a-new-name-a-connection.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/spider/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/spider/"/>
+    <loc>https://dearolddays.com/article-let-the-player-choose.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/checkers/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/checkers/"/>
+    <loc>https://dearolddays.com/article-make-a-game-an-invitation.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/backgammon/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/backgammon/"/>
+    <loc>https://dearolddays.com/article-painting-by-numbers.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/dominoes/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/dominoes/"/>
+    <loc>https://dearolddays.com/article-play-a-rhythm-not-a-health-promise.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/crazy8/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/crazy8/"/>
+    <loc>https://dearolddays.com/article-the-pleasure-of-being-a-beginner.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/ginrummy/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/ginrummy/"/>
+    <loc>https://dearolddays.com/article-the-research-in-charts.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/gofish/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/gofish/"/>
+    <loc>https://dearolddays.com/article-the-typed-moon-landing.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/hearts/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/hearts/"/>
+    <loc>https://dearolddays.com/article-try-to-remember-then-check.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/crossword/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/crossword/"/>
+    <loc>https://dearolddays.com/article-what-a-crossword-trial-can-tell-us.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/cryptoquote/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/cryptoquote/"/>
+    <loc>https://dearolddays.com/article-what-brain-games-can-and-cannot-do.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/wordladder/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/wordladder/"/>
+    <loc>https://dearolddays.com/article-why-coming-back-can-help-learning.html</loc>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/nonogram/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/nonogram/"/>
+    <loc>https://dearolddays.com/about.html</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/minesweeper/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/minesweeper/"/>
+    <loc>https://dearolddays.com/credits.html</loc>
+    <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/g2048/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/g2048/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/spotdiff/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/spotdiff/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/fifteen/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/fifteen/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/mastermind/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/mastermind/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/mancala/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/mancala/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/dotsboxes/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/dotsboxes/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/pegjump/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/pegjump/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/tabledice/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/tabledice/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/boardwalk/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/boardwalk/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/hanoi/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/hanoi/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/queens/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/queens/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/knightour/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/knightour/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/jugs/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/jugs/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/river/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/river/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/balance/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/balance/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/magicsq/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/magicsq/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/numpyramid/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/numpyramid/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/frogswap/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/frogswap/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/matchfix/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/matchfix/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/cagemath/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/cagemath/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/skyline/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/skyline/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/bridges/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/bridges/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/lamps/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/lamps/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/tents/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/tents/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/dropquote/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/dropquote/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/dotdot/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/dotdot/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/fenceloop/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/fenceloop/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/hose/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/hose/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/parking/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/parking/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/golfsol/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/golfsol/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/cribbage/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/cribbage/"/>
+    <loc>https://dearolddays.com/privacy.html</loc>
+    <priority>0.2</priority>
   </url>
   <url>
     <loc>https://dearolddays.com/en/accordion/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/accordion/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/calculation/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/calculation/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/pokersq/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/pokersq/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/hilo/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/hilo/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/kingscorner/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/kingscorner/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/casino/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/casino/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/spades/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/spades/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/oldmaid/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/oldmaid/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/nim/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/nim/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/foxgeese/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/foxgeese/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/fiverow/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/fiverow/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/hex/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/hex/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/ur/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/ur/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/hotdice/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/hotdice/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/liarsdice/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/liarsdice/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/shipcrew/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/shipcrew/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/mate1/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/mate1/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/starhop/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/starhop/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/crane/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/crane/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/muncher/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/muncher/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/gemswap/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/gemswap/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/bubbles/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/bubbles/"/>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dearolddays.com/en/adventure/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/adventure/"/>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/cavehunt/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/cavehunt/"/>
+    <loc>https://dearolddays.com/en/backgammon/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/wagontrail/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/wagontrail/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/telegraph/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/telegraph/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/crates/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/crates/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/victorygarden/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/victorygarden/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/namegarden/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/namegarden/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/patternworkshop/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/patternworkshop/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/quietshelf/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/quietshelf/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/daytown/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/daytown/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/reversi/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/reversi/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/fourrow/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/fourrow/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/shutbox/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/shutbox/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/lights/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/lights/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/maze/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/maze/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/morris/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/morris/"/>
-  </url>
-  <url>
-    <loc>https://dearolddays.com/en/salvo/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/salvo/"/>
+    <loc>https://dearolddays.com/en/balance/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dearolddays.com/en/bingo/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/bingo/"/>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/moonland/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/moonland/"/>
+    <loc>https://dearolddays.com/en/blocks/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/jellybean/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/jellybean/"/>
+    <loc>https://dearolddays.com/en/boardwalk/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/golf/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/golf/"/>
+    <loc>https://dearolddays.com/en/bridges/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/crosssums/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/crosssums/"/>
+    <loc>https://dearolddays.com/en/bubbles/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/logicgrid/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/logicgrid/"/>
+    <loc>https://dearolddays.com/en/cagemath/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/fillin/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/fillin/"/>
+    <loc>https://dearolddays.com/en/calculation/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/colorbynum/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/colorbynum/"/>
+    <loc>https://dearolddays.com/en/casino/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/category/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/cavehunt/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/checkers/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dearolddays.com/en/chess/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/chess/"/>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/railyard/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/railyard/"/>
+    <loc>https://dearolddays.com/en/clock/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/twentyq/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/twentyq/"/>
+    <loc>https://dearolddays.com/en/colorbynum/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/sticks/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/sticks/"/>
+    <loc>https://dearolddays.com/en/colormatch/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dearolddays.com/en/tilematch/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/tilematch/"/>
+    <loc>https://dearolddays.com/en/counting/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/crane/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/crates/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/crazy8/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/cribbage/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/crosssums/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/crossword/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/cryptoquote/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/daytown/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dearolddays.com/en/digger/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dearolddays.com/en/digger/"/>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/digitspan/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/dominoes/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/dotdot/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/dotsboxes/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/dropquote/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/fenceloop/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/fifteen/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/fillin/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/fiverow/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/flags/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/fourrow/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/foxgeese/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/freecell/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/frogswap/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/g2048/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/gemswap/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/ginrummy/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/gofish/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/golf/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/golfsol/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/hangman/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/hanoi/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/hearts/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/hex/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/hilo/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/hose/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/hotdice/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/jellybean/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/jigsaw/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/jugs/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/kingscorner/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/klondike/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/knightour/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/lamps/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/letters/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/liarsdice/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/lifesim/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/lights/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/logicgrid/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/magicsq/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/mancala/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/mastermind/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/matchfix/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/mate1/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/math/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/maze/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/memory/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/minesweeper/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/moonland/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/morris/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/muncher/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/namegarden/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/nim/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/nonogram/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/numpyramid/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/numseq/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/oddoneout/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/oldmaid/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/pairs/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/parking/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/patternworkshop/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/pegjump/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/pokersq/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/proverbs/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/queens/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/quietshelf/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/railyard/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/recall/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/reversi/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/river/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/safari/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/salvo/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/sequence/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/shapes/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/shipcrew/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/shutbox/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/skyline/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/solitaire/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/spades/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/spider/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/spotdiff/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/starhop/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/sticks/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/sudoku/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/tabledice/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/telegraph/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/tents/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/tilematch/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/trivia/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/truefalse/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/twentyq/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/unscramble/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/ur/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/victorygarden/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/wagontrail/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/wordladder/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dearolddays.com/en/wordsearch/</loc>
+    <priority>0.6</priority>
   </url>
 </urlset>
